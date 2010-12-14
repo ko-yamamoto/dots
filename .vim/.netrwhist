@@ -1,0 +1,6 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =4
+let g:netrw_dirhist_1='/Users/nishikawasasaki/Sites'
+let g:netrw_dirhist_2='/Users/nishikawasasaki'
+let g:netrw_dirhist_3='/Users/nishikawasasaki/.Trash'
+let g:netrw_dirhist_4='/Users/nishikawasasaki'
