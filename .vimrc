@@ -169,8 +169,8 @@ set wildmode=list,full
 "挿入モード時、ステータスラインの色を変更
 augroup InsertHook
 autocmd!
-autocmd InsertEnter * highlight StatusLine guifg=#000000 guibg=#ffffff
-autocmd InsertLeave * highlight StatusLine guifg=#ffffff guibg=#333333
+autocmd InsertEnter * highlight StatusLine guifg=#000000 guibg=#e8c340
+autocmd InsertLeave * highlight StatusLine guifg=#000000 guibg=#dbde68
 augroup END
 
 " function! GetB()
@@ -323,6 +323,12 @@ set hlsearch   " 検索文字をハイライト
 "-------------------------------------------------------------------------------
 " ========== キーマッピング ==========
 "-------------------------------------------------------------------------------
+let mapleader = " "
+
+
+" キーを2つ以上にマッピングする際の待ち時間(ms)
+set timeoutlen=500
+
 "Escの2回押しでハイライト消去
 nmap <ESC><ESC> :nohlsearch<CR><ESC>
 
@@ -378,10 +384,10 @@ set noimcmdline
 inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
 
 " CTRL-hjklでウィンドウ移動
-nnoremap <C-j> :<C-w>j
-nnoremap <C-k> :<C-k>j
-nnoremap <C-l> :<C-l>j
-nnoremap <C-h> :<C-h>j
+"nnoremap <C-j> :<C-w>j
+"nnoremap <C-k> :<C-k>j
+"nnoremap <C-l> :<C-l>j
+"nnoremap <C-h> :<C-h>j
 
 " 矩形選択で自由に移動する
 set virtualedit+=block
@@ -392,6 +398,13 @@ map <F2> <ESC>:bp<CR>
 map <F3> <ESC>:bn<CR>
 " F4でバッファを削除する
 map <F4> <ESC>:bw<CR>
+
+" M-bで前のバッファ
+map <M-b> <ESC>:bp<CR>
+" M-nで次のバッファ
+map <M-n> <ESC>:bn<CR>
+" M-dでバッファを削除する
+map <M-d> <ESC>:bw<CR>
 
 " 0, 9で行頭、行末へ
 nmap 1 0
@@ -434,6 +447,41 @@ inoremap <expr> ,dt strftime('%H:%M:%S')
 "vnoremap ' "zdi'<C-R>z'<ESC>
 
 
+
+" CTRL-hjklでウィンドウ移動
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+nnoremap <C-h> <C-w>h
+
+" <Esc>*3でウィンドウをひとつに
+nnoremap <Esc><Esc><Esc> :only<CR>
+
+if has("win32")
+  " altにキーを割り当てるためメニューバーを消す
+  set guioptions-=m
+endif
+
+if has("mac")
+  " optionキーを使う
+  set macmeta
+endif
+
+" insert mode での移動
+imap <M-e> <END>
+imap <M-a> <HOME>
+
+" インサートモードでもhjklで移動
+imap <M-j> <Down>
+imap <M-k> <Up>
+imap <M-h> <Left>
+imap <M-l> <Right>
+
+" インサートモードでもundo
+imap <M-u> <Esc>:undo<CR> i
+
+" インサートモードでもdd
+imap <M-d><M-d> <Esc>dd i
 
 
 
@@ -499,6 +547,31 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
 inoremap <expr><C-x><C-o> &filetype == 'vim' ? "\<C-x><C-v><C-p>" : neocomplcache#manual_omni_complete()
+
+
+"------------------------------------
+" Nerd_commenter設定 
+"------------------------------------
+" Nerd_Commenter の基本設定
+let g:NERDCreateDefaultMappings = 0
+let NERDSpaceDelims = 1
+
+" Nerd_commenterのキーバインド
+"<Leader>cc でコメントをトグル
+nmap <Leader>/ <Plug>NERDCommenterToggle
+vmap <Leader>/ <Plug>NERDCommenterToggle
+
+"<Leader>/aで行末にコメントを追加して文字列入力
+nmap <Leader>/a <Plug>NERDCommenterAppend
+
+"<Leader>/9で行末までコメント
+nmap <leader>/9 <Plug>NERDCommenterToEOL
+
+"<Leader>/s でsexyなコメント
+vmap <Leader>/s <Plug>NERDCommenterSexy
+
+"<Leader>/b でブロックをコメント
+vmap <Leader>/b <Plug>NERDCommenterMinimal
 
 
 
