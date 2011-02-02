@@ -1,0 +1,29 @@
+
+
+hi Hint             font-size: 12px; font-weight: normal; color: #000; background-color: #afbd2f; border-color: #000;
+hi HintElem     background-color: #eee; color: #000;
+hi HintActive   background-color: #aaa; color: #fff;
+
+
+
+hi GradientRight background-color: #eee;
+
+
+
+
+
+" organize icons of status bar
+style -name statusbar chrome://* <<EOM
+#status-bar statusbarpanel {
+    padding: 1px !important;
+}
+statusbarpanel > * {
+    margin: 0 !important;
+    padding:0 !important;
+    background-color: #000000 !important;
+    border-color: #000 !important;
+    statusbar-color: #000000 !important;
+
+
+}
+

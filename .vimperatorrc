@@ -1,0 +1,381 @@
+command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
+
+" prefs
+" ======================================================================
+" ページのアクセスキーを無効化
+set! ui.key.generalAccessKey=0
+
+" Awesomebarの補完対象にBookmarkletを含める
+set! browser.urlbar.filter.javascript=false
+
+" ポップアップ許可数を拡張 cf.http://la.ma.la/blog/diary_200611171115.htm
+set! dom.popup_maximum=9999
+
+" Gmail/LDR/Fastladder/OpenFL/はてブでは新規タブをバックグラウンドで開く
+autocmd LocationChange ^(?!https?://(mail\\.google\\.com/(mail|a)/|(reader\\.livedoor\\.com|fastladder\\.com|0\\.0\\.0\\.0\:3000)/reader/|b\\.hatena\\.ne\\.jp/(?!(entry|articles|guide)))) :set! browser.tabs.loadDivertedInBackground=false
+autocmd LocationChange ^https?://(mail\\.google\\.com/(mail|a)/|(reader\\.livedoor\\.com|fastladder\\.com|0\\.0\\.0\\.0\:3000)/reader/|b\\.hatena\\.ne\\.jp/(?!(entry|articles|guide))) :set! browser.tabs.loadDivertedInBackground=true
+
+" options
+" ======================================================================
+set defsearch=g
+
+" /,? 検索結果をハイライト
+set hlsearch
+
+" ex mode でインクリメント補完
+set wildoptions=auto
+
+" :[tab]open の補完対象と順番
+set complete=tl
+
+" ブラウザタイトルの変更
+set titlestring=vimp!
+
+" GUI Options
+set go=rb
+
+" タブを非表示
+"set showtabline=0
+
+" リンクのURIをコマンドラインに表示
+set showstatuslinks=2
+
+" ページロード時にテキストボックスにフォーカスするのを防ぐ
+set focuscontent
+
+" migemo_completion
+set hintmatching=custom
+
+" Beep設定
+set visualbell
+hi Bell display: none;
+
+" エディタ設定
+set editor='/usr/local/bin/mvim -f'
+
+"+----------------------------------------------------------------------------------------+
+" キーマップ設定
+"+----------------------------------------------------------------------------------------+
+
+" Uで最近閉じたタブ表示
+map U :u<Space>
+
+
+"yで選択範囲をコピー
+map y :echo 'Yank!'<CR>Y
+
+" Ctr+Bでブックマーク表示
+map <M-b> :dialog bookmarks<CR>
+
+" コマンドライン、テキストエリア内ではC-v,C-xで貼付/切取
+cnoremap <C-p> <S-Insert>
+inoremap <C-p> <S-Insert>
+cnoremap <C-x> <S-Del>
+" inoremap <C-x> <S-Del>
+
+"j/kの移動量を5倍に
+map j 5<C-e>
+map k 5<C-y>
+
+"<BS>で「戻る」
+map <BS> H
+
+"<A-Left>/<A-Right>かh/lでタブ移動
+map <A-Left> <C-p>
+map <A-Right> <C-n>
+map h <C-p>
+map l <C-n>
+
+
+"<A-Up>でその他のタブを閉じる
+map <A-Up> :tabonly<CR>
+
+"<A-Down>で現在のタブを閉じる
+"map <A-Down> d
+
+"現在のタブを閉じる(直前のタブにフォーカスしないことへの暫定対応)
+"for Win
+"map d <C-w>
+"for Mac
+map d <M-w>
+
+
+"<S-Left>/<S-Right>で現在のタブの位置変更
+map <S-Left>  :tabmove! -1<CR>
+map <S-Right> :tabmove! +1<CR>
+
+"sで現在のページを保存
+"map s :saveas<CR>
+
+" 選択文字列のgoogle検索を <C-g> に割り当て
+map <C-g> YP
+
+
+"command+rでFirefoxを再起動
+map <C-r> :restart<CR>
+
+"<A-h>でヘルプを表示
+map <A-h> :help<CR>
+
+" caret-hint.js
+map <C-c> ;c
+
+"twitter用キー
+map ,t :tw<Space>
+map ,T :tw!<CR>
+map ,@ :tw @
+" map ,mt :mr<Space>twitter-search-pcod-no-jp<Space>
+" map ,mT :mr<Space>twitter-search-pcod-no-jp<Space>["nishikawasasaki"]<CR>
+" map ,mf :mr<CR>
+" map ,mF :mr<Space>favotter-new<Space>["nishikawasasaki"]<CR>
+
+" Bではてブ
+map B :bmlhatebu<CR>
+
+
+" plugins
+" ======================================================================
+let g:plugin_loader_roots = "~/Sites/vimperator-plugins/trunk/ ~/.vimperator/load/ ~/Sites/git/littlefolk/"
+let g:plugin_loader_plugins = "_libly,char-hints-mod2,account_switcher,appendAnchor,auto_reload,copy,direct_bookmark,feedSomeKeys_3,gmperator,hatenaStar,hint-tombloo,ldrize_cooperation,maine_coon,migemo_completion,multi_requester,no-reading,pino,pixiv_tools,proxy,sbmcommentsviewer,tombloo,twitter,walk-input,stella,opener,heuristic-search,bitly"
+
+" no-reading.js
+let g:no_reading_on_statusline = 1
+
+" appendAnchor.js
+let g:auto_append_anchor = "true"
+let g:auto_append_anchor_once = "true"
+
+" heuristic-search.js
+noremap ` :hsearch<Space>
+
+"" char-hints-mod2.js
+let g:hintsio="IO"
+let g:hintchars="JKLASDFYUIOPWERT"
+
+
+
+
+
+" ====================================================
+" copy.js
+map c :copy<Space>
+map ,ct :copy<Space>titleAndTinyURL<CR>
+
+javascript <<EOM
+liberator.globalVariables.copy_templates = [
+  { label: 'titleAndBitlyURL', value: '"%TITLE%" %BitlyURL%', custom: function() { var obj = JSON.parse(util.httpGet('http://api.bit.ly/v3/shorten?longUrl=' + encodeURIComponent(buffer.URL) + '&login=nishikawasasaki&apiKey=R_f98fc7f3de321a2511d0b01fa37a3a38&format=json').responseText);  return '"' + buffer.title + '" ' + obj.data.url} }, 
+  { label: 'titleAnd goo.gl', value: 'get goo.gl short url and TITLE',
+   custom: function() {
+              var ret = "";
+              var xhr = util.httpGet(
+                "http://ggl-shortener.appspot.com/?url=" + encodeURIComponent(buffer.URL));
+                if (xhr && xhr.status === 200) {
+                  ret = JSON.parse(xhr.responseText).short_url;
+                }
+              return '"' + buffer.title + '" ' + ret;
+           }
+  },
+  { label: 'titleAndTinyURL', value: '"%TITLE%" %tinyURL%', custom: function() { return '"' + buffer.title + '" ' + util.httpGet('http://tinyurl.com/api-create.php?url=' + encodeURIComponent(buffer.URL)).responseText;} }, 
+  { label: 'titleAndURL',    value: '"%TITLE%" %URL%' },
+  { label: 'title',          value: '%TITLE%' },
+  { label: 'URL',          value: '%URL%' },
+  { label: 'hatena',         value: '[%URL%:title=%TITLE%]' },
+  { label: 'hatenacite',     value: '>%URL%:title=%TITLE%>n%SEL%n<<' },
+  { label: 'markdown',       value: '[%SEL%](%URL% "%TITLE%")' },
+  { label: 'htmlblockquote', value: '<blockquote cite="%URL%" title="%TITLE%">%HTMLSEL%</blockquote>' },
+  { label: 'ASIN',   value: 'copy ASIN code from Amazon', custom: function(){return content.document.getElementById('ASIN').value;} },
+  { label: 'tinyURL', value:  'Get Tiny URL', custom: function() { return util.httpGet('http://tinyurl.com/api-create.php?url=' + encodeURIComponent(buffer.URL)).responseText; }},
+  { label: 'goo.gl', value: 'get goo.gl short url',
+     custom: function() {
+               var ret = "";
+               var xhr = util.httpGet(
+               "http://ggl-shortener.appspot.com/?url=" + encodeURIComponent(buffer.URL));
+               if (xhr && xhr.status === 200) {
+                 ret = JSON.parse(xhr.responseText).short_url;
+               }
+               return ret;
+             }
+  }
+];
+EOM
+
+
+
+
+
+" ==========================================================
+
+
+" " feedSomeKeys_3.js
+" " Gmail
+" lazy fmaps -u='^https?://mail\.google\.com/(mail|a)/' c / j k n p o u e x s r a # [ ] z ? gi gs gt gd ga gc
+" " Tumblr (use: tombloo.xpi, dashboard+tombloo.user.js, reblogcommand.user.js, playontumblr.user.js)
+" lazy fmaps -u='^http://[^\./]*\.tumblr\.com/' i,tj e,tk n,h
+" " favotter (use: twitfavcommandminibuffer.user.js)
+" lazy fmaps -u='^http://favotter\.matope\.com/' e,F
+" " LDR/Fastladder (use: tombloo.xpi, ldr+tombloo.user.js, ldr_relative_rate.user.js)
+" lazy fmaps -u='^http://(reader\.livedoor|fastladder)\.com/reader/' j k s a p v c z Z b,i B,b e r < > o,vj J,<Space> K,<S-Space> q w g u
+" lazy fmaps -u='^http://(reader\.livedoor|fastladder)\.com/reader/' -events=keypress i,Tj T
+" " iview
+" lazy fmaps -u='^chrome://iviewfx/content/iview\.html' j k s a z o i,tj p
+" " はてブ
+" lazy fmaps -u='^http://b\.hatena\.ne\.jp/(?!(entry|articles|guide))' j k o,oj e a,b
+
+" feedSomeKeys_3 {{{
+
+" GMail
+lazy fmaps -u='mail\.google\.com/mail' -events=vkeydown,keypress,vkeyup j k
+lazy fmaps -u='mail\.google\.com/mail' c n p o u x s r a ? gi gs gt gd ga gc I
+lazy fmaps -u='mail\.google\.com/mail' -p=<Leader> d,# s,! e
+lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c j,n k,p n,j p,k o u x s r a ? gi gs gt gd ga gc
+lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' -p=<Leader> d,# s,! e
+
+" GReader
+lazy fmaps -u='www\.google\.co\.jp/reader' -events=vkeypress j k n p m s v A r S N P X O gh ga gs gt gu u / ? J K
+
+" Google Code
+lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/list' o j k
+lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/detail' u
+
+" Remember The Milk
+lazy fmaps -u='https?://www\.rememberthemilk\.com/home/' j k m i c ? G,g S,s Y,y M,m <Del>
+lazy fmaps -u='https?://www\.rememberthemilk\.com/home/' -p=<Leader> 1 2 3 4 f t h l d r
+
+" new Twitter
+" lazy fmaps -urls='^http://twitter\.com/' j k ?
+" lazy fmaps -urls='^http://twitter\.com/' -events=vkeydown n m t r gh gr gp gf gm
+" lazy fmaps -urls='^http://twitter\.com/' -events=keydown c,<Esc>
+
+" }}}
+
+" ステータスバーにブックマークなどのアイコンを表示
+" javascript <<EOM
+"     liberator.globalVariables.migrate_elements = [
+"         {
+"             // star button of awesome bar
+"             id:    'star-button',
+"             dest:  'security-button',
+"             after: true,
+"         },
+"         {
+"             // icon that show the existence of RSS and Atom on current page
+"             id:    'feed-button',
+"             dest:  'security-button',
+"             after: true,
+"         },
+"         {
+"             // favicon of awesome bar
+"             id:    'page-proxy-stack',
+"             dest:  'liberator-statusline',
+"             after: false,
+"         },
+"     ];
+" EOM
+
+
+
+
+" js
+" ======================================================================
+" ステータスバーにfeedボタンを表示
+" js <<EOM
+" (function(){
+"  var feedPanel = document.createElement('statusbarpanel');
+"  var feedButton = document.getElementById('feed-button');
+"  feedPanel.setAttribute('id','feed-panel-clone');
+"  feedPanel.appendChild(feedButton.cloneNode(true));
+"  feedButton.parentNode.removeChild(feedButton);
+"  document.getElementById('status-bar').insertBefore(feedPanel,document.getElementById('security-button'));
+" })();
+" EOM
+
+" Tumblr DashboardでAutoPagerizeのBASE_REMAIN_HEIGHTを変更
+lazy autocmd GMInjectedScript '^http://www\.tumblr\.com/dashboard' :js liberator.eval("ap.remainHeight = 5000", plugins.gmperator.currentSandbox.window.AutoPagerize.addFilter)
+
+" LocalMappings
+" cf.http://vimperator.g.hatena.ne.jp/nokturnalmortum/20100128/1264675483
+js <<EOM
+function addLocalMappings(buffer, maps) {
+  maps.forEach(
+    function (map) {
+      let [cmd, action, extra] = map;
+      let actionFunc = action;
+      extra || (extra = {});
+
+      if (typeof action == "string") {
+        if (action.charAt(0) == ':')
+          actionFunc = extra.open ? function () commandline.open("", action, modes.EX)
+                                  : function () liberator.execute(action);
+        else
+          actionFunc = function () events.feedkeys(action, extra.noremap, true);
+      }
+      extra.matchingUrls = buffer;
+      mappings.addUserMap(
+        [modes.NORMAL],
+        [cmd],
+        "Local mapping for " + buffer,
+        actionFunc,
+        extra
+      );
+    }
+  );
+}
+
+addLocalMappings(
+  /^(http:\/\/(es|www).nicovideo.jp\/watch|http:\/\/(jp|www)\.youtube\.com\/watch)/,
+  [
+    ['p',  ':stplay',          ],
+    ['m',  ':stmute',          ],
+    ['zz', ':stlarge',         ],
+    ['r',  ':strepeat',        ],
+    ['+',  ':stvolume! 10',    ],
+    ['-',  ':stvolume! -10',   ],
+    ['S',  ':stseek! -10',     ],
+    ['s',  ':stseek! 10',      ],
+  ]
+);
+EOM
+
+" highlight/style
+" ======================================================================
+colorscheme RedNs
+
+" [tab]open等で長いタイトルがURIに被るらないように
+hi CompResult widht: 45%; overflow: hidden; max-width; 60%;
+
+" ステータスバーのアイコンの間隔を揃える
+style -name statusbar chrome://* <<EOM
+  #status-bar statusbarpanel { padding: 0 1px !important; }
+  statusbarpanel > * { margin: 0 !important; padding: 0 !important; }
+EOM
+
+" ex mode時IMEをOFF
+style -name commandline-ime chrome://* #liberator-commandline-command input { ime-mode: inactive; }
+
+" タブグループ（パノラマ）の見た目設定
+style -name panorama chrome://browser/content/tabview.html <<EOM
+#bg {
+ background-image: url(file:///Users/nishikawasasaki/Pictures/body01.gif) !important;
+ background-size: auto auto !important;
+ background-position: top right !important;
+}
+.groupItem {
+ background-color: rgba(255,255,255,.4) !important;
+}
+.title-container>.name {
+ color: black !important;
+ font-weight: bold;
+ text-shadow: 1px 1px 2px gray;
+}
+#exit-button,#searchbutton { background-color: rgba(240,240,240,.5) !important; }
+EOM
+
+
+
+
+
+
+" :js CommandLine.Completions.prototype.__defineGetter__('caret', function() commandline._commandWidget.selectionEnd)
+
+
+" vim: set ft=vimperator:

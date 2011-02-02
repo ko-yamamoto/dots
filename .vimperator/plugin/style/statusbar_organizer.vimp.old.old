@@ -1,0 +1,37 @@
+hi StatusLine           color: #333;      background: #eee;
+
+hi Normal               color: #333;      background: #afbd2f;
+hi InfoMsg              color: #333;      background: #afbd2f;
+hi ModeMsg            color: #333;      background: #afbd2f;
+
+hi Hint             font-size: 9px; font-weight: normal; color: #000; background-color: #afbd2f; border-color: #000;
+hi HintElem     background-color: #eee; color: #000;
+hi HintActive   background-color: #aaa; color: #fff;
+
+"hi Search        color: #yellow;    background-color: red;
+
+
+hi CompTitle    color: #ABD31B; background: #000; font-weight: bold;
+"hi CompItem color: #111; background: #ccc;
+hi CompItem[selected] color: #000; background: #f39800;
+hi CompDesc color: #000;
+"hi CompDesc color: #f39800; background: #000;
+hi GradientRight background-color: #eee;
+
+
+
+
+
+" organize icons of status bar
+style -name statusbar chrome://* <<EOM
+#status-bar statusbarpanel {
+    padding: 1px !important;
+}
+statusbarpanel > * {
+    margin: 0 !important;
+    padding:0 !important;
+}
+EOM
+
+
+" vim: sw=4 sts=4 ts=4 et
