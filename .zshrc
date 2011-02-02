@@ -15,20 +15,187 @@ setopt share_history
 # キーバインドをviに
 bindkey -v
 
+# Emacs(Vimを使うのでコメントアウト)
+# export EDITOR=emacsclient
+
+# 履歴検索のショートカット
+autoload history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "^P" history-beginning-search-backward-end
+bindkey "^N" history-beginning-search-forward-end
+
+zstyle :compinstall filename '/Users/nishikawasasaki/.zshrc'
+
+# 環境変数LANG
+export LANG=ja_JP.UTF-8
+
+# 環境変数
+export PATH=$PATH:/bin:/usr/local/bin:/Users/nishikawasasaki/bin:/Users/nishikawasasaki/android/android-sdk-mac_x86/tools:/Users/nishikawasasaki/android/android-sdk-mac_x86/platform-tools
+
+# JAVA
+JAVA_OPTS="-Dfile.encoding=UTF-8"
+export JAVA_OPTS
+
+# Scala
+export SCALA_HOME=/usr/local/scala
+export PATH=$PATH:$SCALA_HOME/bin
+
+
+# Lift
+# liftweb path vars
+# export M2_HOME=/Applications/liftweb-1.0.1/apache-maven
+# export M2=$M2_HOME/bin
+# export MAVEN_OPTS="-noverify"
+# export PATH=$M2:$PATH
+
+# play Framework
+export PLAY_HOME=/Users/nishikawasasaki/bin/play/play-1.1
+export PATH=$PLAY_HOME:$PATH
+
+# Android SDK
+export ANDROID_SDK_HOME=/Users/nishikawasasaki/android/android-sdk-mac_x86
+export PATH=$ANDROID_SDK_HOME:$PATH
+export ANDROID_SWT=/Users/nishikawasasaki/android/android-sdk-mac_x86/tools/lib/x86_64
+
+# プロンプト表示設定
+# case ${UID} in
+# 0)
+#     PROMPT="%B%{[31m%}%/#%{[m%}%b "
+#     PROMPT2="%B%{[31m%}%_#%{[m%}%b "
+#     SPROMPT="%B%{[31m%}%r is correct? [n,y,a,e]:%{[m%}%b "
+#     RPROMPT=["%T"]
+#     [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
+#         PROMPT="%{[37m%}${HOST%%.*} ${PROMPT}"
+#     ;;
+# *)
+#     PROMPT="%{[31m%}%/%%%{[m%} "
+#     PROMPT2="%{[31m%}%_%%%{[m%} "
+#     SPROMPT="%{[31m%}%r is correct? [n,y,a,e]:%{[m%} "
+#     RPROMPT=["%T"]
+#     [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
+#         PROMPT="%{[37m%}${HOST%%.*} ${PROMPT}"
+#     ;;
+# esac
+
+# ログイン時プロンプト（すぐにviモード表示プロンプトで上書き）
+setopt prompt_subst
+PROMPT='%{$fg[red]%}[%{$reset_color%}%n%{$fg[red]%}]%#%{$reset_color%} '
+RPROMPT='%{$fg[red]%}[%{$fg[white]%}%~%{$fg[red]%}]%{$reset_color%}'
+
+
+# プロンプトをカラー表示
+autoload colors && colors
+
+# lsカラー表示
+export LSCOLORS=exfxcxdxbxegedabagacad
+alias ls="ls -G"
+export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+
+# 補完をカラーに
+zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
+
+
+# タイトルの設定
+case "${TERM}" in
+kterm*|xterm)
+    precmd() {
+        echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
+    }
+    ;;
+esac
+
+# C-^で上へcd
+function cdup() {
+echo
+cd ..
+zle reset-prompt
+}
+zle -N cdup
+bindkey '^^' cdup
+
+# 複数ファイル一括リネーム
+autoload -Uz zmv
+alias zmv='noglob zmv -W'
+
+
+# 補完設定
+autoload -zU compinit
+compinit
+
+# 最後の"/"を削除しない
+setopt noautoremoveslash
+
+# 自動cd
+setopt auto_cd
+
+# cd一覧表示
+setopt auto_pushd
+
+# cdしたらls
+function chpwd(){ls}
+
+# コマンド入力ミス指摘
+setopt correct
+
+# 補完を詰めて表示
+setopt list_packed
+
+# Beepオフ
+setopt nolistbeep
+
+# コマンド予測オン
+# autoload predict-on
+# predict-on
+
+
+# エイリアス
+setopt Complete_Aliases
+
+#alias ls='ls -fgh'
+alias ll='ls -alfgh'
+
+# vi
+export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
+alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
+alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
+alias gvim='env LANG=ja_JP.UTF-8 open -a /Applications/MacVim.app "$@"'
+
+# ctags
+alias ctags='/usr/local/Cellar/ctags/5.8/bin/ctags'
+
+
+# Mineファイル読み込み
+# オレオレ設定はこっちに
+[ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
+
+
+
 #zshプロンプトにモード表示####################################
 function zle-line-init zle-keymap-select {
   case $KEYMAP in
     vicmd)
     PROMPT="%{$fg[red]%}[%{$reset_color%}%n/%{$fg_bold[red]%}NOR%{$reset_color%}%{$fg[red]%}]%#%{$reset_color%} "
+    # ssh接続時はホスト名表示
+    [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
+        PROMPT="%{$fg[red]%}[%{$reset_color%}%n/%{$fg_bold[red]%}NOR%{$reset_color%}%{$fg[red]%}]:${HOST%%.*}%#%{$reset_color%} "
     ;;
+
     main|viins)
     PROMPT="%{$fg[red]%}[%{$reset_color%}%n/%{$fg_bold[cyan]%}INS%{$reset_color%}%{$fg[red]%}]%#%{$reset_color%} "
+
+    # ssh接続時はホスト名表示
+    [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
+        PROMPT="%{$fg[red]%}[%{$reset_color%}%n/%{$fg_bold[cyan]%}INS%{$reset_color%}%{$fg[red]%}]:${HOST%%.*}%#%{$reset_color%} "
     ;;
+
   esac
   zle reset-prompt
 }
 zle -N zle-line-init
 zle -N zle-keymap-select
+
+
 
 #zshでvisual mode####################################
 bindkey -a 'v' vi-v
@@ -541,141 +708,9 @@ function vi-vis-reset() {
 	zle vi-cmd-mode
 }
 
-# Emacs(Vimを使うのでコメントアウト)
-# export EDITOR=emacsclient
 
-# 履歴検索のショートカット
-autoload history-search-end
-zle -N history-beginning-search-backward-end history-search-end
-zle -N history-beginning-search-forward-end history-search-end
-bindkey "^P" history-beginning-search-backward-end
-bindkey "^N" history-beginning-search-forward-end
-
-zstyle :compinstall filename '/Users/nishikawasasaki/.zshrc'
-
-# 環境変数LANG
-export LANG=ja_JP.UTF-8
-
-# 環境変数
-export PATH=$PATH:/bin:/usr/local/bin:/Users/nishikawasasaki/bin:/Users/nishikawasasaki/android/android-sdk-mac_86/tools
-
-# JAVA
-JAVA_OPTS="-Dfile.encoding=UTF-8"
-export JAVA_OPTS
-
-# Scala
-export SCALA_HOME=/usr/local/scala
-export PATH=$PATH:$SCALA_HOME/bin
-
-
-# Lift
-# liftweb path vars
-# export M2_HOME=/Applications/liftweb-1.0.1/apache-maven
-# export M2=$M2_HOME/bin
-# export MAVEN_OPTS="-noverify"
-# export PATH=$M2:$PATH
-
-# play Framework
-export PLAY_HOME=/Users/nishikawasasaki/bin/play/play-1.1
-export PATH=$PLAY_HOME:$PATH
-
-
-
-# プロンプト表示設定
-# case ${UID} in
-# 0)
-#     PROMPT="%B%{[31m%}%/#%{[m%}%b "
-#     PROMPT2="%B%{[31m%}%_#%{[m%}%b "
-#     SPROMPT="%B%{[31m%}%r is correct? [n,y,a,e]:%{[m%}%b "
-#     RPROMPT=["%T"]
-#     [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
-#         PROMPT="%{[37m%}${HOST%%.*} ${PROMPT}"
-#     ;;
-# *)
-#     PROMPT="%{[31m%}%/%%%{[m%} "
-#     PROMPT2="%{[31m%}%_%%%{[m%} "
-#     SPROMPT="%{[31m%}%r is correct? [n,y,a,e]:%{[m%} "
-#     RPROMPT=["%T"]
-#     [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
-#         PROMPT="%{[37m%}${HOST%%.*} ${PROMPT}"
-#     ;;
-# esac
-
-setopt prompt_subst
-PROMPT='%{$fg[red]%}[%{$reset_color%}%n%{$fg[red]%}]%#%{$reset_color%} '
-RPROMPT='%{$fg[red]%}[%{$fg[white]%}%~%{$fg[red]%}]%{$reset_color%}'
-
-
-# プロンプトをカラー表示
-autoload colors && colors
-
-# lsカラー表示
-export LSCOLORS=exfxcxdxbxegedabagacad
-alias ls="ls -G"
-export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
-
-# 補完をカラーに
-zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
-
-
-# タイトルの設定
-case "${TERM}" in
-kterm*|xterm)
-    precmd() {
-        echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
-    }
-    ;;
-esac
-
-# C-^で上へcd
-function cdup() {
-echo
-cd ..
-zle reset-prompt
+# 戦闘力
+function scouter() {
+  sed -e '/^\s*$/d' -e '/^\s*#/d' ${ZDOTDIR:-$HOME}/.zshrc | wc -l
 }
-zle -N cdup
-bindkey '^^' cdup
 
-# 補完設定
-autoload -zU compinit
-compinit
-
-# 最後の"/"を削除しない
-setopt noautoremoveslash
-
-# 自動cd
-setopt auto_cd
-
-# cd一覧表示
-setopt auto_pushd
-
-# コマンド入力ミス指摘
-setopt correct
-
-# 補完を詰めて表示
-setopt list_packed
-
-# Beepオフ
-setopt nolistbeep
-
-# コマンド予測オン
-autoload predict-on
-predict-on
-
-
-# エイリアス
-setopt Complete_Aliases
-
-#alias ls='ls -fgh'
-alias ll='ls -alfgh'
-
-# vi
-export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
-alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
-alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
-alias gvim='env LANG=ja_JP.UTF-8 open -a /Applications/MacVim.app "$@"'
-
-
-# Mineファイル読み込み
-# オレオレ設定はこっちに
-[ -f ~/.zshrc.mine ] && source ~/.zshrc.mine

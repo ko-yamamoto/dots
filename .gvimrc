@@ -49,6 +49,6 @@ endif
 " ========== 色の設定 ==========
 "カラースキーマを設定
 " colorscheme murphyNS
-colorscheme murphy
+colorscheme mrkn256
 
 
