@@ -124,6 +124,9 @@ zle reset-prompt
 zle -N cdup
 bindkey '^^' cdup
 
+# C-wで前のパスまでを削除
+WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+
 # 複数ファイル一括リネーム
 autoload -Uz zmv
 alias zmv='noglob zmv -W'
