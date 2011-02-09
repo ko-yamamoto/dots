@@ -27,6 +27,9 @@ bindkey "^N" history-beginning-search-forward-end
 
 zstyle :compinstall filename '/Users/nishikawasasaki/.zshrc'
 
+# 環境変数SHELL -> viewの時/opt/local以下のzshを観に行ってしまうため
+export SHELL=/usr/local/bin/zsh
+
 # 環境変数LANG
 export LANG=ja_JP.UTF-8
 
@@ -57,6 +60,13 @@ export PATH=$PLAY_HOME:$PATH
 export ANDROID_SDK_HOME=/Users/nishikawasasaki/android/android-sdk-mac_x86
 export PATH=$ANDROID_SDK_HOME:$PATH
 export ANDROID_SWT=/Users/nishikawasasaki/android/android-sdk-mac_x86/tools/lib/x86_64
+
+
+# git用の補完設定 -> bashcompinit有効でエラーが起きるためコメントアウト
+# autoload bashcompinit
+# bashcompinit
+# source ~/.git-completion.bash
+
 
 # プロンプト表示設定
 # case ${UID} in
@@ -151,6 +161,8 @@ setopt nolistbeep
 # autoload predict-on
 # predict-on
 
+# 日本語のファイル名表示
+setopt print_eight_bit
 
 # エイリアス
 setopt Complete_Aliases
