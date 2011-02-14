@@ -16,7 +16,7 @@
 
 
 
-(setq my-font "-*-*-medium-r-normal--14-*-*-*-*-*-fontset-hiramaru")
+(setq my-font "-*-*-medium-r-normal--12-*-*-*-*-*-fontset-hiramaru")
 (set-face-attribute 'default nil
 		    :family "Monaco"
 		    :height 120)
@@ -28,10 +28,10 @@
 		  'katakana-jisx0201
 		  '("Osaka" . "iso10646-1"))
 (setq face-font-rescale-alist
-      '((".*Monaco-bold.*" . 1.0)
-	(".*Monaco-medium.*" . 1.0)
-	(".*Osaka-bold.*" . 1.2)
-	(".*Osaka-medium.*" . 1.2)
+      '((".*Monaco-bold.*" . 0.9)
+	(".*Monaco-medium.*" . 0.9)
+	(".*Osaka-bold.*" . 1.0)
+	(".*Osaka-medium.*" . 1.0)
 	("-cdac$" . 1.4)))
 
 ;; Command-Key and Option-Key
@@ -597,7 +597,10 @@ interpreter-mode-alist))
 (add-to-list 'load-path "~/.emacs.d/snippets/scala-mode")
 (require 'scala-mode-auto)
     (add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
-
+(require 'scala-mode-feature-electric)
+    (add-hook 'scala-mode-hook
+	      (lambda ()
+		(scala-electric-mode)))
 
 
 ;;====================
