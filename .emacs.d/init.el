@@ -14,19 +14,31 @@
 (setenv "PATH"
     (concat '"/usr/local/bin:" (getenv "PATH")))
 
+;; ウィンドウサイズ設定
+(setq initial-frame-alist
+      (append (list
+	     '(width . 120) ;; ウィンドウ幅
+	       '(height . 50) ;; ウィンドウ高さ
+;	       '(top . 50) ;; 表示位置
+;	       '(left . 340) ;; 表示位置
+	       )
+	      initial-frame-alist))
+(setq default-frame-alist initial-frame-alist)
 
 
+
+;; フォント設定
 (setq my-font "-*-*-medium-r-normal--12-*-*-*-*-*-fontset-hiramaru")
 (set-face-attribute 'default nil
 		    :family "Monaco"
-		    :height 120)
+		    :height 110)
 		    ;:height 90)
 (set-fontset-font "fontset-default"
 		  'japanese-jisx0208
-		  '("Osaka" . "iso10646-1"))
+		  '("VL_Gothic" . "iso10646-1"))
 (set-fontset-font "fontset-default"
 		  'katakana-jisx0201
-		  '("Osaka" . "iso10646-1"))
+		  '("VL_Gothic" . "iso10646-1"))
 (setq face-font-rescale-alist
       '((".*Monaco-bold.*" . 1.0)
 	(".*Monaco-medium.*" . 1.0)
@@ -40,6 +52,10 @@
 
 (set-language-environment 'Japanese)
 (prefer-coding-system 'utf-8)
+
+; ごみ箱を有効
+(setq delete-by-moving-to-trash t)
+
 
 ;; 起動画面を表示しない
 (setq inhibit-startup-message t)
@@ -88,7 +104,7 @@
 
 ;; multi-term
 (require 'multi-term)
-(setq multi-term-program "/bin/zsh")
+(setq multi-term-program "/usr/local/bin/zsh")
 
 (add-hook 'term-mode-hook '(lambda ()
                  (define-key term-raw-map "\C-y" 'term-paste)
@@ -99,9 +115,22 @@
 ;; (global-set-key "\C-cn" 'multi-term-next)
 ;; (global-set-key "\C-cp" 'multi-term-prev)
 
+
+;; scroll
+;; (require 'smooth-scroll)
+;; (smooth-scroll-mode t)
+;; ;; smooth scroll of the buffer
+;; (set-variable 'smooth-scroll-margin 5)
+;; (setq scroll-step 10
+;; scroll-conservatively 10000)
+;; ;;(require 'smooth-scrolling) 
+
+
+
+
 ;; anything
 (require 'anything-startup)
-(define-key global-map (kbd "C-;") 'anything-recentf)
+(define-key global-map (kbd "C-;") 'anything-filelist+)
 ;; (anything-enable-shortcuts 'alphabet)
 
 ;; dired-x
@@ -202,6 +231,8 @@
 (cua-mode t)
 (setq cua-enable-cua-keys nil) ;; 変なキーバインド禁止
 
+
+;; ビューモード
 (setq view-read-only t)
 (defvar pager-keybind
       `( ;; vi-like
@@ -373,7 +404,13 @@
 (setq ring-bell-function 'ignore)
 
 ;; zshを使う
-(setq shell-file-name "/bin/zsh")
+(setq shell-file-name "/usr/local/bin/zsh")
+;; zshで4mとか出る問題に対応
+;; (setq system-uses-terminfo nil)
+;; lsで色崩れ防ぐ
+(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
 
 ;; 最小の e2wm 設定例
 (require 'e2wm)
@@ -515,7 +552,7 @@
 (transient-mark-mode t)
 
 ;; ウィンドウを透明化
-(add-to-list 'default-frame-alist '(alpha . (0.85 0.85)))
+(add-to-list 'default-frame-alist '(alpha . (0.70 0.70)))
 
 ;; 行数表示
 (global-set-key "\M-n" 'linum-mode)
@@ -601,6 +638,11 @@ interpreter-mode-alist))
     (add-hook 'scala-mode-hook
 	      (lambda ()
 		(scala-electric-mode)))
+
+
+(add-to-list 'load-path "~/.emacs.d/ensime/elisp/")
+    (require 'ensime)
+    (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
 
 
 ;;====================
