@@ -1,7 +1,7 @@
 // ========================== KeySnail Init File =========================== //
 
-// この領域は, GUI により設定ファイルを生成した際にも引き継がれます
-// 特殊キー, キーバインド定義, フック, ブラックリスト以外のコードは, この中に書くようにして下さい
+// You can preserve your code in this area when generating the init file using GUI.
+// Put all your code except special key, set*key, hook, blacklist.
 // ========================================================================= //
 //{{%PRESERVE%
 
@@ -36,6 +36,48 @@ plugins.options["twitter_client.keymap"] = {
 
 plugins.options["twitter_client.lists"] = 
     ["nishikawasasaki/kdl", "nishikawasasaki/list"];
+
+
+// 外部エディタの設定
+plugins.options["K2Emacs.editor"]    = "/usr/bin/emacsclient -n";
+plugins.options["K2Emacs.ext"]    = "txt";
+plugins.options["K2Emacs.encode"] = "UTF-8"
+plugins.options["K2Emacs.sep"] = "/";
+
+
+
+// ヒントの見た目設定
+plugins.options["hok.hint_base_style"] = {
+    "position"       : 'absolute',
+    "z-index"        : '2147483647',
+    "color"          : '#000',
+    "font-family"    : 'VL_Gothic',
+    "font-size"      : '8pt',
+    "font-weight"    : 'bold',
+    "line-height"    : '10pt',
+    "padding"        : '2px',
+    "margin"         : '1px',
+    "text-transform" : 'uppercase'
+};
+
+plugins.options["hok.hint_color_link"]    = 'rgba(210, 210, 210, 0.6)';
+plugins.options["hok.hint_color_form"]    = 'rgba(210, 210, 210, 0.6)';
+plugins.options["hok.hint_color_focused"] = 'rgba(255, 82, 93, 0.6)';
+
+
+
+
+
+// Tombloo連携でGoogleReader
+// local["^http://www.google.(co.jp|com)/reader/view/"] = [
+//     // Your local keybind settings here
+//     ["r", function () {
+//          let link = content.document.querySelector("#current-entry a.entry-title-link");
+//          if (link && plugins.kungfloo)
+//              plugins.kungfloo.reblog(link, false, false, ["FFFFOUND", "Flickr", "Tumblr"]);
+//      }]
+// ];
+
 
 
 // Site local keymap {{ ===================================================== //
@@ -126,6 +168,7 @@ key.suspendKey           = "<f2>";
 
 // ================================= Hooks ================================= //
 
+
 hook.setHook('KeyBoardQuit', function (aEvent) {
     if (key.currentKeySequence.length) {
         return;
@@ -149,6 +192,7 @@ hook.setHook('KeyBoardQuit', function (aEvent) {
         key.generateKey(aEvent.originalTarget, KeyEvent.DOM_VK_ESCAPE, true);
     }
 });
+
 
 
 // ============================= Key bindings ============================== //
@@ -250,22 +294,14 @@ key.setGlobalKey(['C-c', 'c'], function () {
         }
     }
 
-    function getGoogl(long_url){
-	let req=new XMLHttpRequest();
-	
-	req.addEventListener("load",function(){
-            let response=JSON.parse(req.responseText);
-	    liberator.echo(response.short_url);
-	    util.copyToClipboard('"' + buffer.title + '" ' + response.short_url,true);
-	},false);
 
-	req.addEventListener("error",function(){
-	    liberator.echo("Responce errror status from goo.gl. Status Code:" + req.status);
-	},false);
-
-	req.open("POST", "http://goo.gl/api/shorten?url="+encodeURIComponent(long_url));
-	req.setRequestHeader("X-Auth-Google-Url-Shortener","true");
-	req.send();
+    function getGoogl(long_url) {
+        var req = new XMLHttpRequest;
+        req.addEventListener("load", function () {var response = JSON.parse(req.responseText);liberator.echo(response.short_url);util.copyToClipboard("\"" + buffer.title + "\" " + response.short_url, true);}, false);
+        req.addEventListener("error", function () {liberator.echo("Responce errror status from goo.gl. Status Code:" + req.status);}, false);
+        req.open("POST", "http://goo.gl/api/shorten?url=" + encodeURIComponent(long_url));
+        req.setRequestHeader("X-Auth-Google-Url-Shortener", "true");
+        req.send();
     }
 
     var regexp = /\{(\d)\}/g;
@@ -281,27 +317,10 @@ key.setGlobalKey(['C-c', 'c'], function () {
     for (var key in templates) {
         promptList.push([key, templates[key].replace(/\n/g, "\\n")]);
     }
-
     var title = window.content.document.title;
     var url = window.content.location.href;
     var shortUrl = getGoogl(url);
-
-    prompt.selector({
-	message: "copy from: ",
-	flags: [0, 0], 
-	collection: promptList, 
-	header: ["key", "format"], 
-	callback: function (index) {
-	    if (index < 0) {
-		return;
-	    }
-	    var key = promptList[index][0];
-	    var template = templates[key].replace(/\n/g, getLineSeprator());
-	    var text = format(template, title, url, shortUrl);
-	    Cc['@mozilla.org/widget/clipboardhelper;1'].getService(Ci.nsIClipboardHelper).copyString(text);
-	}
-    });
-
+    prompt.selector({message: "copy from: ", flags: [0, 0], collection: promptList, header: ["key", "format"], callback: function (index) {if (index < 0) {return;}var key = promptList[index][0];var template = templates[key].replace(/\n/g, getLineSeprator());var text = format(template, title, url, shortUrl);Cc['@mozilla.org/widget/clipboardhelper;1'].getService(Ci.nsIClipboardHelper).copyString(text);}});
 }, 'URLとタイトルをコピー');
 
 key.setGlobalKey(['C-c', 'l'], function () {
@@ -335,6 +354,26 @@ key.setGlobalKey('C-M-h', function (ev) {
     getBrowser().mTabContainer.advanceSelectedTab(-1, true);
 }, 'ひとつ左のタブへ');
 
+key.setGlobalKey('C-r', function (ev) {
+    command.iSearchBackwardKs(ev);
+}, 'Emacs ライクな逆方向インクリメンタル検索', true);
+
+key.setGlobalKey('C-k', function (ev) {
+    var title = window.content.document.title;
+    var url = window.content.location.href;
+    shortenURL(url);
+
+    function shortenURL(url) {
+        const id = "nishikawasasaki";
+        const key = "R_f98fc7f3de321a2511d0b01fa37a3a38";
+        var endPointUrl = "http://api.bit.ly/v3/shorten?longUrl=" + url + "&login=" + id + "&apiKey=" + key + "&format=json";
+        var obj = JSON.parse(util.httpGet(endPointUrl).responseText);
+        command.setClipboardText("\"" + title + "\" " + obj.data.url);
+        return 0;
+    }
+
+}, '短縮URLをGET', true);
+
 key.setViewKey('f', function (ev, arg) {
     ext.exec("hok-start-foreground-mode", arg, ev);
 }, 'HoK - リンクをフォアグラウンドで開く', true);
@@ -343,7 +382,12 @@ key.setViewKey('F', function (ev, arg) {
     ext.exec("hok-start-background-mode", arg, ev);
 }, 'HoK - リンクをバックグラウンドで開く', true);
 
-key.setViewKey([['C-x', 't'], ['q']], function (ev, arg) {
+key.setViewKey(';', function (aEvent, aArg) {
+    ext.exec("hok-start-extended-mode", aArg);
+}, 'HoK - 拡張ヒントモード', true);
+
+
+key.setViewKey([['C-x', 't'], ['q'], ['T']], function (ev, arg) {
     ext.exec("twitter-client-display-timeline", arg, ev);
 }, 'TL を表示', true);
 
@@ -355,7 +399,7 @@ key.setViewKey('d', function (ev) {
     BrowserCloseTabOrWindow();
 }, 'タブ / ウィンドウを閉じる');
 
-key.setViewKey([['H'], ['B']], function (ev) {
+key.setViewKey('H', function (ev) {
     BrowserBack();
 }, '戻る');
 
@@ -364,13 +408,13 @@ key.setViewKey('L', function (ev) {
 }, '進む');
 
 key.setViewKey([['C-n'], ['j']], function (aEvent) {
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 8; i++) {
         key.generateKey(aEvent.originalTarget, KeyEvent.DOM_VK_DOWN, true);
     }
 }, '一行スクロールダウン');
 
 key.setViewKey([['C-p'], ['k']], function (aEvent) {
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 8; i++) {
         key.generateKey(aEvent.originalTarget, KeyEvent.DOM_VK_UP, true);
     }
 }, '一行スクロールアップ');
@@ -387,7 +431,7 @@ key.setViewKey([['C-b'], [',']], function (ev) {
     key.generateKey(ev.originalTarget, KeyEvent.DOM_VK_LEFT, true);
 }, '左へスクロール');
 
-key.setViewKey([['M-v'], ['b']], function (ev) {
+key.setViewKey('M-v', function (ev) {
     goDoCommand("cmd_scrollPageUp");
 }, '一画面分スクロールアップ');
 
@@ -415,7 +459,7 @@ key.setViewKey(':', function (ev, arg) {
     shell.input(null, arg);
 }, 'コマンドの実行', true);
 
-key.setViewKey('R', function (ev) {
+key.setViewKey('r', function (ev) {
     BrowserReload();
 }, '更新', true);
 
@@ -431,11 +475,11 @@ key.setViewKey('u', function (ev) {
     undoCloseTab();
 }, '閉じたタブを元に戻す');
 
-key.setViewKey(['C-c', 'b'], function (ev, arg) {
-    if (window.loadURI) {
-        loadURI(getShortcutOrURI("hatebu", {}));
-    }
-}, 'hatebu に登録');
+// key.setViewKey(['C-c', 'b'], function (ev, arg) {
+//     if (window.loadURI) {
+//         loadURI(getShortcutOrURI("hatebu", {}));
+//     }
+// }, 'hatebu に登録');
 
 key.setViewKey('t', function (ev, arg) {
     shell.input("tabopen ");
@@ -445,7 +489,7 @@ key.setEditKey(['C-x', 'h'], function (ev) {
     command.selectAll(ev);
 }, '全て選択', true);
 
-key.setEditKey([['C-x', 'u'], ['C-/']], function (ev) {
+key.setEditKey(['C-x', 'u'], function (ev) {
     display.echoStatusBar("Undo!", 2000);
     goDoCommand("cmd_undo");
 }, 'アンドゥ');
@@ -470,6 +514,11 @@ key.setEditKey(['C-x', 'r', 'y'], function (ev) {
     command.yankRectangle(ev.originalTarget, command.kill.buffer);
 }, '矩形ヤンク', true);
 
+key.setEditKey('C-/', function (ev) {
+    display.echoStatusBar("Redo!", 2000);
+    goDoCommand("cmd_redo");
+}, 'リドゥ');
+
 key.setEditKey([['C-SPC'], ['C-@']], function (ev) {
     command.setMark(ev);
 }, 'マークをセット', true);
@@ -477,11 +526,6 @@ key.setEditKey([['C-SPC'], ['C-@']], function (ev) {
 key.setEditKey('C-o', function (ev) {
     command.openLine(ev);
 }, '行を開く (Open line)');
-
-key.setEditKey('C-/', function (ev) {
-    display.echoStatusBar("Redo!", 2000);
-    goDoCommand("cmd_redo");
-}, 'リドゥ');
 
 key.setEditKey('C-a', function (ev) {
     command.beginLine(ev);
@@ -688,32 +732,30 @@ key.setCaretKey('M-n', function (ev) {
     command.walkInputElement(command.elementsRetrieverButton, false, true);
 }, '前のボタンへフォーカスを当てる');
 
-key.setGlobalKey('C-r', function (ev) {
-    command.iSearchBackwardKs(ev);
-}, 'Emacs ライクな逆方向インクリメンタル検索', true);
 
-key.setGlobalKey('C-k', function (ev) {
+// hatebu///////////////////////////////////////////////////
+key.setViewKey("c", function (ev, arg) {
+    ext.exec("list-hateb-comments", arg);
+}, "はてなブックマークのコメントを一覧表示", true);
 
-  var title = window.content.document.title;
-  var url = window.content.location.href;
-  shortenURL(url);
-
-  function shortenURL(url) {
-    // 短縮URL生成サービスのIDとPASSをハードコーディング・・・
-    // TODO:いつか外部にだす
-    const id  = "nishikawasasaki";
-    const key = "R_f98fc7f3de321a2511d0b01fa37a3a38";
-    var endPointUrl = "http://api.bit.ly/v3/shorten?longUrl=" + url + "&login=" + id + "&apiKey=" + key + "&format=json";
-
-    var obj = JSON.parse(util.httpGet(endPointUrl).responseText);
-    command.setClipboardText('"' + title + '" ' + obj.data.url);
-    return 0;
-  };
-
-}, '短縮URLをGET', true);
+key.setViewKey('a', function (ev, arg) {
+    ext.exec("hateb-bookmark-this-page");
+}, 'このページをはてなブックマークに追加', true);
 
 
+// /////////////////////////////////////////////////////////
+key.setEditKey(["C-c", "e"], function (ev, arg) {
+    ext.exec("edit_text", arg);
+}, "外部エディタで編集", true);
 
-key.setViewKey('T', function (ev, arg) {
-   ext.exec("twitter-client-display-timeline", arg, ev);
-}, 'TL を表示', true);
+
+// tanything////////////////////////////////////////////////
+key.setViewKey("b", function (ev, arg) {
+    ext.exec("tanything", arg);
+}, "view all tabs", true);
+
+
+// kungfloo - Tombloo連携////////////////////////////////////
+key.defineKey([key.modes.VIEW, key.modes.CARET], 'R', function (ev, arg) {
+    ext.exec("kungfloo-reblog", arg, ev);
+}, 'kungfloo - Reblog', true); 
