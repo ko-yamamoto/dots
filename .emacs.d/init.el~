@@ -1,4 +1,27 @@
 ;;====================
+;; StartSettings
+;;====================
+;; 環境切り分け用の定義作成
+(defvar is_emacs22 (equal emacs-major-version 22))
+(defvar is_emacs23 (equal emacs-major-version 23))
+(defvar is_window-sys (not (eq (symbol-value 'window-system) nil)))
+;; Mac全般のとき
+(defvar is_mac (or (eq window-system 'mac) (featurep 'ns)))
+;; Carbon Emacsのとき
+(defvar is_carbon (and is_mac is_emacs22 is_window-sys))
+;; Cocoa Emacsのとき
+(defvar is_cocoa (and is_mac is_emacs23 is_window-sys))
+(defvar is_inline-patch (eq (boundp 'mac-input-method-parameters) t))
+(defvar is_darwin (eq system-type 'darwin))
+;; cygwinのとき
+(defvar is_cygwin (eq system-type 'cygwin))
+;; winNTのとき
+(defvar is_winnt  (eq system-type 'windows-nt))
+;; Win全般のとき
+(defvar is_win (or is_cygwin is_winnt))
+
+
+;;====================
 ;; General
 ;;====================
 (load "term/bobcat")
@@ -6,13 +29,6 @@
 ;; ロードパスを通す
 (setq load-path (cons "~/.emacs.d/elisp" load-path))
 
-;; PATH
-;(setq exec-path (cons "/usr/local/bin" exec-path))
-(setq exec-path
-  (append
-    (list "/usr/local/bin" "/usr/local/scala/bin")exec-path)) 
-(setenv "PATH"
-    (concat '"/usr/local/bin:" (getenv "PATH")))
 
 ;; ウィンドウサイズ設定
 (setq initial-frame-alist
@@ -26,35 +42,6 @@
 (setq default-frame-alist initial-frame-alist)
 
 
-;; オートコンパイル
-(require 'auto-async-byte-compile)
-;; オートコンパイル無効にする正規表現
-(setq auto-async-byte-compile-exclude-file-regexp "/junk/")
-(add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
-
-
-;; フォント設定
-(setq my-font "-*-*-medium-r-normal--12-*-*-*-*-*-fontset-hiramaru")
-(set-face-attribute 'default nil
-		    :family "Monaco"
-		    :height 110)
-		    ;:height 90)
-(set-fontset-font "fontset-default"
-		  'japanese-jisx0208
-		  '("VL_Gothic" . "iso10646-1"))
-(set-fontset-font "fontset-default"
-		  'katakana-jisx0201
-		  '("VL_Gothic" . "iso10646-1"))
-(setq face-font-rescale-alist
-      '((".*Monaco-bold.*" . 1.0)
-	(".*Monaco-medium.*" . 1.0)
-	(".*Osaka-bold.*" . 1.0)
-	(".*Osaka-medium.*" . 1.0)
-	("-cdac$" . 1.4)))
-
-;; Command-Key and Option-Key
-(setq ns-command-modifier (quote meta))
-(setq ns-alternate-modifier (quote super))
 
 (set-language-environment 'Japanese)
 (prefer-coding-system 'utf-8)
@@ -62,6 +49,12 @@
 
 ; ごみ箱を有効
 (setq delete-by-moving-to-trash t)
+
+
+
+;; バックアップファイルの場所
+(setq make-backup-files t)
+(setq backup-directory "/Volumes/RamDisk/emacsBackup")
 
 
 ;; 起動画面を表示しない
@@ -83,51 +76,14 @@
 (global-set-key (kbd "C-c r") 'query-replace)
 
 
-;; migemo
-;; (setq migemo-command "migemo")
-;; (setq migemo-options '("-t" "emacs"))
-;; (setq migemo-dictionary (expand-file-name "~/.emacs.d/share/migemo/migemo-dict"))
-;; (setq migemo-user-dictionary nil)
-;; (setq migemo-regex-dictionary nil)
-;; (setenv "RUBYLIB" "~/.emacs.d/lib/ruby/site_ruby/")
 
-;; (require 'migemo)
 
-;; Emacs-w3m
-;; (require 'w3m-load)
+;; オートコンパイル
+;;(require 'auto-async-byte-compile)
+;; オートコンパイル無効にする正規表現
+;;(setq auto-async-byte-compile-exclude-file-regexp "/junk/")
+;;(add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
 
-;; org-mode
-;; Emacsでメモ・TODO管理
-;; (require 'org-install)
-;; (define-key global-map "\C-cl" 'org-store-link)
-;; (define-key global-map "\C-ca" 'org-agenda)
-;; (define-key global-map "\C-cr" 'org-remember)
-;; (setq org-startup-truncated nil)
-;; (setq org-return-follows-link t)
-;; (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-;; (org-remember-insinuate)
-;; (setq org-directory "~/memo/")
-;; (setq org-default-notes-file (concat org-directory "notes.org"))
-;; (setq org-agenda-files '("~/memo/notes.org"))
-;; (setq org-remember-templates
-;;       '(("Todo" ?t "** TODO %?\n   %i\n   %a\n   %t" nil "Inbox")
-;;         ("Bug" ?b "** TODO %?   :bug:\n   %i\n   %a\n   %t" nil "Inbox")
-;;         ("Idea" ?i "** %?\n   %i\n   %a\n   %t" nil "New Ideas")))
-
-;; (require ‘org-babel-init)
-
-;; multi-term
-;; (require 'multi-term)
-;; (setq multi-term-program "/usr/local/bin/zsh")
-
-;; (add-hook 'term-mode-hook '(lambda ()
-;;                  (define-key term-raw-map "\C-y" 'term-paste)
-;;                              (define-key term-raw-map "\C-z"
-;;                                (lookup-key (current-global-map) "\C-z"))))
-
-;; (global-set-key "\C-cc" 'multi-term)
-;; (global-set-key "\C-cn" 'multi-term-next)
-;; (global-set-key "\C-cp" 'multi-term-prev)
 
 
 ;; scroll
@@ -140,7 +96,9 @@
 ;; scroll-conservatively 10000)
 
 
-(global-set-key "\C-\S-v" 'scroll-down)
+;; 1画面戻る(M-v)を"Ctr-Shift-v"にも
+(global-set-key (kbd "C-S-v") 'scroll-down)
+
 
 
 
@@ -312,11 +270,11 @@
         (define-key keymap key cmd))))
   keymap)
 
-(defun view-mode-hook0 ()
-  (define-many-keys view-mode-map pager-keybind)
-  (hl-line-mode 1)
-  (define-key view-mode-map " " 'scroll-up))
-(add-hook 'view-mode-hook 'view-mode-hook0)
+;; (defun view-mode-hook0 ()
+;;   (define-many-keys view-mode-map pager-keybind)
+;;   (hl-line-mode 1)
+;;   (define-key view-mode-map " " 'scroll-up))
+;; (add-hook 'view-mode-hook 'view-mode-hook0)
 
 ;; 書き込み不能なファイルはview-modeで開くように
 (defadvice find-file
@@ -378,6 +336,7 @@
 (key-chord-define-global "mk" 'kill-buffer)
 
 
+
 ;; my window resize
 (defun my-window-resizer ()
   "Control window size and position."
@@ -407,7 +366,8 @@
                (shrink-window dy))
               ;; otherwise
               (t
-               (let ((last-command-char (aref action 0))
+;;               (let ((last-command-char (aref action 0))
+               (let ((last-command-event (aref action 0))
                      (command (key-binding action)))
                  (when command
                    (call-interactively command)))
@@ -448,42 +408,8 @@
 (setq visible-bell t)
 (setq ring-bell-function 'ignore)
 
-;; zshを使う
-(setq shell-file-name "/usr/local/bin/zsh")
-;; zshで4mとか出る問題に対応
-;; (setq system-uses-terminfo nil)
-;; lsで色崩れ防ぐ
-(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
 
-;; 最小の e2wm 設定例
-(require 'e2wm)
-(global-set-key (kbd "M-+") 'e2wm:start-management)
-
-;; (let ((default-directory (expand-file-name "~/.emacs.d/elisp")))
-;;  (add-to-list 'load-path default-directory)
-;;  (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
-;;      (normal-top-level-add-subdirs-to-load-path)))
-
-;; (require 'skk-autoloads)
-;; (global-set-key "\C-x\C-j" 'skk-mode)
-;; (global-set-key "\C-xj" 'skk-auto-fill-mode)
-;; (global-set-key "\C-xt" 'skk-tutorial)
-;; (setq skk-large-jisyo "~/src/SKK-JISYO.L")
-
-;; (add-hook 'isearch-mode-hook
-;; 	  (function (lambda ()
-;; 		      (and (boundp 'skk-mode) skk-mode
-;; 			   (skk-isearch-mode-setup)))))
-
-;; (add-hook 'isearch-mode-end-hook
-;; 	  (function
-;; 	   (lambda ()
-;; 	     (and (boundp 'skk-mode) skk-mode (skk-isearch-mode-cleanup))
-;; 	     (and (boundp 'skk-mode-invoked) skk-mode-invoked
-;; 		  (skk-set-cursor-properly)))))
-;; (setq mac-pass-control-to-system nil)
 
 ;; 起動時のメッセージを非表示
 (setq inhibit-startup-message t)
@@ -522,6 +448,89 @@
 (require 'moccur-edit)
 (setq moccur-split-word t)
 
+
+
+
+
+;; フォント設定
+(setq my-font "-*-*-medium-r-normal--12-*-*-*-*-*-fontset-hiramaru")
+(set-face-attribute 'default nil
+		    :family "Monaco"
+		    :height 110)
+		    ;:height 90)
+(set-fontset-font "fontset-default"
+		  'japanese-jisx0208
+		  '("VL_Gothic" . "iso10646-1"))
+(set-fontset-font "fontset-default"
+		  'katakana-jisx0201
+		  '("VL_Gothic" . "iso10646-1"))
+(setq face-font-rescale-alist
+      '((".*Monaco-bold.*" . 1.0)
+	(".*Monaco-medium.*" . 1.0)
+	(".*Osaka-bold.*" . 1.0)
+	(".*Osaka-medium.*" . 1.0)
+	("-cdac$" . 1.4)))
+
+
+
+;;====================
+;; For Mac
+;;====================
+(when is_mac
+
+
+
+;; PATH
+;(setq exec-path (cons "/usr/local/bin" exec-path))
+(setq exec-path
+  (append
+    (list "/usr/local/bin" "/usr/local/scala/bin")exec-path)) 
+(setenv "PATH"
+    (concat '"/usr/local/bin:" (getenv "PATH")))
+
+
+;; Command-Key and Option-Key
+;; コマンドキーをMetaに、Optionキーをsuperに
+(setq ns-command-modifier (quote meta))
+(setq ns-alternate-modifier (quote super))
+
+;; CmdキーをSuperに、OptionキーをMetaに
+;; (setq mac-option-modifier 'meta)
+;; (setq mac-command-modifier 'super)
+
+;; Cmd+cでコピー、Cmd+xで切り取り、Cmd+vではりつけ
+(global-set-key [(super c)] 'kill-ring-save)
+(global-set-key [(super v)] 'yank)
+(global-set-key [(super x)] 'kill-region)
+
+
+)
+
+
+;;====================
+;; For Win
+;;====================
+(when is_win
+
+
+
+
+
+)
+
+
+
+
+;; zshを使う
+(setq shell-file-name "/usr/local/bin/zsh")
+;; zshで4mとか出る問題に対応
+;; (setq system-uses-terminfo nil)
+;; lsで色崩れ防ぐ
+(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+
+
 ;;====================
 ;; Utilities
 ;;====================
@@ -549,7 +558,7 @@
 ;; C-tでshellをポップアップ
 (require 'shell-pop)
 (shell-pop-set-internal-mode "ansi-term") ;; ansi-termを使うよ
-(shell-pop-set-internal-mode-shell "/bin/zsh") ;; zshを使うよ
+(shell-pop-set-internal-mode-shell "/usr/local/bin/zsh") ;; zshを使うよ
 (defvar ansi-term-after-hook nil)
 (add-hook 'ansi-term-after-hook
           '(lambda ()
@@ -598,12 +607,24 @@
 (transient-mark-mode t)
 
 ;; ウィンドウを透明化
-(add-to-list 'default-frame-alist '(alpha . (0.70 0.70)))
+(add-to-list 'default-frame-alist '(alpha . (0.80 0.80)))
 
 ;; 行数表示
 (global-set-key "\M-n" 'linum-mode)
 
 (blink-cursor-mode t)
+
+
+
+
+
+
+
+
+
+
+
+
 
 ;;====================
 ;; c-mode(c++)
@@ -618,6 +639,9 @@
 
 ;; C-c c で compile コマンドを呼び出す
 (define-key mode-specific-map "c" 'compile)
+
+
+
 
 
 ;;====================
@@ -651,6 +675,9 @@
 ;; 直前/直後の括弧に対応する括弧を光らせます。
 (show-paren-mode t)
 
+
+
+
 ;;====================
 ;; Python
 ;;====================
@@ -674,6 +701,8 @@ interpreter-mode-alist))
 ;; (add-hook 'python-mode-hook (lambda () (pysmell-mode 1)))
 
 
+
+
 ;;====================
 ;; scala-mode
 ;;====================
@@ -685,10 +714,13 @@ interpreter-mode-alist))
 	      (lambda ()
 		(scala-electric-mode)))
 
-
+;; ensime
 (add-to-list 'load-path "~/.emacs.d/ensime/elisp/")
     (require 'ensime)
     (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+
+
+
 
 
 ;;====================
