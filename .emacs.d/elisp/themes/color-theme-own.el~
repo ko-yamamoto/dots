@@ -94,7 +94,7 @@
      (isearch-lazy-highlight-face ((t (:background "paleturquoise4"))))
      (italic ((t (:italic t :slant italic))))
      (menu ((t (nil))))
-     (mode-line ((t (:foreground "black" :background "red" :box (:line-width -1 :style released-button)))))
+     (mode-line ((t (:foreground "white" :background "red" :box (:line-width -1 :style released-button)))))
      (mouse ((t (:background "white"))))
      (region ((t (:background "blue"))))
      (scroll-bar ((t (nil))))
@@ -121,6 +121,7 @@
      (widget-field-face ((t (:background "dim gray"))))
      (widget-inactive-face ((t (:foreground "light gray"))))
      (widget-single-line-field-face ((t (:background "dim gray")))))))
+
 
 
 ;;; color-theme-own.el ends here
