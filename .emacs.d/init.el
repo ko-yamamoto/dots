@@ -26,6 +26,12 @@
 (setq default-frame-alist initial-frame-alist)
 
 
+;; オートコンパイル
+(require 'auto-async-byte-compile)
+;; オートコンパイル無効にする正規表現
+(setq auto-async-byte-compile-exclude-file-regexp "/junk/")
+(add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
+
 
 ;; フォント設定
 (setq my-font "-*-*-medium-r-normal--12-*-*-*-*-*-fontset-hiramaru")
@@ -53,6 +59,7 @@
 (set-language-environment 'Japanese)
 (prefer-coding-system 'utf-8)
 
+
 ; ごみ箱を有効
 (setq delete-by-moving-to-trash t)
 
@@ -60,14 +67,21 @@
 ;; 起動画面を表示しない
 (setq inhibit-startup-message t)
 
+
 ;; Emacs serverを起動
 (server-start)
 (defun iconify-emacs-when-server-is-done ()
   (unless server-clients (iconify-frame)))
 
+
 ;; ターミナルに戻る
 (add-hook 'server-done-hook 'iconify-emacs-when-server-is-done)
 (global-set-key (kbd "C-x c") 'server-edit)
+
+
+;; 置換(M-%)キーバインドを(C-c r)にも
+(global-set-key (kbd "C-c r") 'query-replace)
+
 
 ;; migemo
 ;; (setq migemo-command "migemo")
@@ -84,32 +98,32 @@
 
 ;; org-mode
 ;; Emacsでメモ・TODO管理
-(require 'org-install)
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
-(define-key global-map "\C-cr" 'org-remember)
-(setq org-startup-truncated nil)
-(setq org-return-follows-link t)
-(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-(org-remember-insinuate)
-(setq org-directory "~/memo/")
-(setq org-default-notes-file (concat org-directory "notes.org"))
-(setq org-agenda-files '("~/memo/notes.org"))
-(setq org-remember-templates
-      '(("Todo" ?t "** TODO %?\n   %i\n   %a\n   %t" nil "Inbox")
-        ("Bug" ?b "** TODO %?   :bug:\n   %i\n   %a\n   %t" nil "Inbox")
-        ("Idea" ?i "** %?\n   %i\n   %a\n   %t" nil "New Ideas")))
+;; (require 'org-install)
+;; (define-key global-map "\C-cl" 'org-store-link)
+;; (define-key global-map "\C-ca" 'org-agenda)
+;; (define-key global-map "\C-cr" 'org-remember)
+;; (setq org-startup-truncated nil)
+;; (setq org-return-follows-link t)
+;; (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+;; (org-remember-insinuate)
+;; (setq org-directory "~/memo/")
+;; (setq org-default-notes-file (concat org-directory "notes.org"))
+;; (setq org-agenda-files '("~/memo/notes.org"))
+;; (setq org-remember-templates
+;;       '(("Todo" ?t "** TODO %?\n   %i\n   %a\n   %t" nil "Inbox")
+;;         ("Bug" ?b "** TODO %?   :bug:\n   %i\n   %a\n   %t" nil "Inbox")
+;;         ("Idea" ?i "** %?\n   %i\n   %a\n   %t" nil "New Ideas")))
 
 ;; (require ‘org-babel-init)
 
 ;; multi-term
-(require 'multi-term)
-(setq multi-term-program "/usr/local/bin/zsh")
+;; (require 'multi-term)
+;; (setq multi-term-program "/usr/local/bin/zsh")
 
-(add-hook 'term-mode-hook '(lambda ()
-                 (define-key term-raw-map "\C-y" 'term-paste)
-                             (define-key term-raw-map "\C-z"
-                               (lookup-key (current-global-map) "\C-z"))))
+;; (add-hook 'term-mode-hook '(lambda ()
+;;                  (define-key term-raw-map "\C-y" 'term-paste)
+;;                              (define-key term-raw-map "\C-z"
+;;                                (lookup-key (current-global-map) "\C-z"))))
 
 ;; (global-set-key "\C-cc" 'multi-term)
 ;; (global-set-key "\C-cn" 'multi-term-next)
@@ -117,21 +131,52 @@
 
 
 ;; scroll
-;; (require 'smooth-scroll)
-;; (smooth-scroll-mode t)
-;; ;; smooth scroll of the buffer
-;; (set-variable 'smooth-scroll-margin 5)
-;; (setq scroll-step 10
+(require 'smooth-scroll)
+(smooth-scroll-mode t)
+;; smooth scroll of the buffer
+(set-variable 'smooth-scroll/vscroll-step-size 8)
+(set-variable 'smooth-scroll/hscroll-step-size 8)
+;; (setq scroll-step 1
 ;; scroll-conservatively 10000)
-;; ;;(require 'smooth-scrolling) 
+
+
+;; 1画面戻る(M-v)を"Ctr-Shift-v"にも
+(global-set-key (kbd "C-S-v") 'scroll-down)
 
 
 
 
 ;; anything
 (require 'anything-startup)
-(define-key global-map (kbd "C-;") 'anything-filelist+)
-;; (anything-enable-shortcuts 'alphabet)
+(define-key global-map (kbd "C-;") 'anything)
+(setq
+ ;; ショートカットアルファベット表示
+ anything-enable-shortcuts 'alphabet
+ ;; 候補表示までの時間
+ anything-idle-delay 0.3
+ ;; 候補の多いときに体感速度を上げる
+ anything-quick-update t
+)
+(require 'anything-config)
+(setq anything-sources
+      '(anything-c-source-buffers+
+	anything-c-source-recentf
+	anything-c-source-emacs-commands
+	anything-c-source-emacs-functions
+	anything-c-source-files-in-current-dir
+	))
+
+;; anything-kyr
+(require 'anything-kyr-config)
+;; anything-complete.el があれば読み込む
+(when (require 'anything-complete nil t)
+  ;; 補完を anything でやりたいならば
+(anything-read-string-mode 1))
+
+
+
+
+
 
 ;; dired-x
 (require 'dired-x)
@@ -298,6 +343,8 @@
 (require 'thing-opt)
 (define-thing-commands)
 
+
+;; Keycordの設定
 (require 'key-chord)
 (key-chord-mode 1)
 (setq key-chord-one-keys-delay 0.04)
@@ -306,7 +353,6 @@
   (let ((input-method-function-save input-method-function))
     ad-do-it
     (setq input-method-function input-method-function-save)))
-
 (key-chord-define-global "jk" 'view-mode)
 (key-chord-define-global "dw" 'kill-word*)
 (key-chord-define-global "yw" 'copy-word)
@@ -332,6 +378,7 @@
 ;; (key-chord-define-global "22" 'split-window-vertically)
 ;; (key-chord-define-global "33" 'split-window-horizontally)
 (key-chord-define-global "mk" 'kill-buffer)
+
 
 ;; my window resize
 (defun my-window-resizer ()
@@ -534,7 +581,8 @@
 ;; color-themeの設定
 (require 'color-theme)
 (color-theme-initialize)
-(color-theme-arjen)
+(color-theme-nishikawasasaki)
+
 
 ;; キーワードのカラー表示を有効化
 (global-font-lock-mode t)
@@ -690,3 +738,8 @@ interpreter-mode-alist))
           '(lambda ()
              (make-local-variable 'ac-sources)
              (setq ac-sources (append ac-sources '(ac-source-scheme)))))
+
+
+;; git用プラグイン magit
+(add-to-list 'load-path "~/.emacs.d/elisp/magit/share/emacs/site-lisp/")
+(require 'magit)
