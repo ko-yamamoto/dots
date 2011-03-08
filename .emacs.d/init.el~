@@ -21,6 +21,7 @@
 (defvar is_win (or is_cygwin is_winnt))
 
 
+
 ;;====================
 ;; General
 ;;====================
@@ -53,9 +54,14 @@
 
 
 ;; バックアップファイルの場所
+(when is_mac
 (setq make-backup-files t)
 (setq backup-directory "/Volumes/RamDisk/emacsBackup")
-
+)
+(when is_win 
+(setq make-backup-files t)
+(setq backup-directory "R:/")
+)
 
 ;; 起動画面を表示しない
 (setq inhibit-startup-message t)
@@ -221,6 +227,27 @@
 ;; diredでのファイルコピーを便利に
 (setq dired-dwim-target t)
 
+;;; フォルダを開く時, 新しいバッファを作成しない
+;; バッファを作成したい時にはoやC-u ^を利用する
+(defvar my-dired-before-buffer nil)
+(defadvice dired-advertised-find-file
+  (before kill-dired-buffer activate)
+  (setq my-dired-before-buffer (current-buffer)))
+(defadvice dired-advertised-find-file
+  (after kill-dired-buffer-after activate)
+  (if (eq major-mode 'dired-mode)
+      (kill-buffer my-dired-before-buffer)))
+(defadvice dired-up-directory
+  (before kill-up-dired-buffer activate)
+  (setq my-dired-before-buffer (current-buffer)))
+(defadvice dired-up-directory
+  (after kill-up-dired-buffer-after activate)
+  (if (eq major-mode 'dired-mode)
+      (kill-buffer my-dired-before-buffer)))
+
+
+
+
 ;; Quick Look
 (setq dired-load-hook '(lambda () (load "dired-x"))) 
 (setq dired-guess-shell-alist-user
@@ -329,11 +356,121 @@
 (key-chord-define-global "[]"     "{}\C-b")
 (key-chord-define-global "89"     "()\C-b")
 (key-chord-define-global "w2"     "\"\"\C-b")
-(key-chord-define-global "00" 'delete-window)
+;; (key-chord-define-global "00" 'delete-window)
 ;; (key-chord-define-global "11" 'delete-other-windows)
 ;; (key-chord-define-global "22" 'split-window-vertically)
 ;; (key-chord-define-global "33" 'split-window-horizontally)
 (key-chord-define-global "mk" 'kill-buffer)
+
+
+;; M-Yで今の行を下にコピー
+(defun duplicate-line (&optional numlines)
+  "One line is duplicated wherever there is a cursor."
+  (interactive "p")
+  (let* ((col (current-column))
+         (bol (progn (beginning-of-line) (point)))
+         (eol (progn (end-of-line) (point)))
+         (line (buffer-substring bol eol)))
+    (while (> numlines 0)
+      (insert "\n" line)
+      (setq numlines (- numlines 1)))
+    (move-to-column col)))
+;;(define-key esc-map "Y" 'duplicate-line)
+(global-set-key (kbd "M-Y") 'duplicate-line)
+
+
+;; M-↑などで今の行をコピー
+(defun duplicate-line-backward ()
+  "Duplicate the current line backward."
+  (interactive "*")
+  (save-excursion
+    (let ((contents
+           (buffer-substring
+            (line-beginning-position)
+            (line-end-position))))
+      (beginning-of-line)
+      (insert contents ?\n)))
+  (previous-line 1))
+
+(defun duplicate-region-backward ()
+  "If mark is active duplicates the region backward."
+  (interactive "*")
+  (if mark-active
+
+      (let* (
+             (deactivate-mark nil)
+             (start (region-beginning))
+             (end (region-end))
+             (contents (buffer-substring
+                        start
+                        end)))
+        (save-excursion
+          (goto-char start)
+          (insert contents))
+        (goto-char end)
+        (push-mark (+ end (- end start))))
+    (error
+     "Mark is not active. Region not duplicated.")))
+
+(defun duplicate-line-forward ()
+  "Duplicate the current line forward."
+  (interactive "*")
+  (save-excursion
+    (let ((contents (buffer-substring
+                     (line-beginning-position)
+                     (line-end-position))))
+      (end-of-line)
+      (insert ?\n contents)))
+  (next-line 1))
+
+(defun duplicate-region-forward ()
+  "If mark is active duplicates the region forward."
+  (interactive "*")
+  (if mark-active
+      (let* (
+             (deactivate-mark nil)
+             (start (region-beginning))
+             (end (region-end))
+             (contents (buffer-substring
+                        start
+                        end)))
+        (save-excursion
+          (goto-char end)
+          (insert contents))
+        (goto-char start)
+        (push-mark end)
+        (exchange-point-and-mark))
+    (error "Mark is not active. Region not duplicated.")))
+
+(global-set-key [M-up]    'duplicate-line-backward)
+(global-set-key [M-down]  'duplicate-line-forward)
+(global-set-key [M-right] 'duplicate-region-forward)
+(global-set-key [M-left]  'duplicate-region-backward)
+
+
+
+;; browse-kill-ring
+(require 'browse-kill-ring)
+(global-set-key "\M-y" 'browse-kill-ring)
+;; kill-ring を一行で表示
+ ;;(setq browse-kill-ring-display-style 'one-line)
+;; browse-kill-ring 終了時にバッファを kill する
+(setq browse-kill-ring-quit-action 'kill-and-delete-window)
+;; 必要に応じて browse-kill-ring のウィンドウの大きさを変更する
+(setq browse-kill-ring-resize-window t)
+;; kill-ring の内容を表示する際の区切りを指定する
+(setq browse-kill-ring-separator "-------")
+;; 現在選択中の kill-ring のハイライトする
+(setq browse-kill-ring-highlight-current-entry t)
+;; 区切り文字のフェイスを指定する
+(setq browse-kill-ring-separator-face 'region)
+;; 一覧で表示する文字数を指定する． nil ならすべて表示される．
+(setq browse-kill-ring-maximum-display-length 100)
+
+
+
+
+
 
 
 
@@ -396,13 +533,12 @@
 (key-chord-define-global "qk" 'windmove-up)
 
 ;; C-tでウインドウ分割/移動
-(defun other-window-or-split ()
-  (interactive)
-  (when (one-window-p)
-    (split-window-horizontally))
-  (other-window 1))
-
-(global-set-key (kbd "C-t") 'other-window-or-split)
+;; (defun other-window-or-split ()
+;;   (interactive)
+;;   (when (one-window-p)
+;;     (split-window-horizontally))
+;;   (other-window 1))
+;; (global-set-key (kbd "C-t") 'other-window-or-split)
 
 ;; beepを消す
 (setq visible-bell t)
@@ -452,6 +588,13 @@
 
 
 
+
+;;====================
+;; For Mac
+;;====================
+(when is_mac
+
+
 ;; フォント設定
 (setq my-font "-*-*-medium-r-normal--12-*-*-*-*-*-fontset-hiramaru")
 (set-face-attribute 'default nil
@@ -470,13 +613,6 @@
 	(".*Osaka-bold.*" . 1.0)
 	(".*Osaka-medium.*" . 1.0)
 	("-cdac$" . 1.4)))
-
-
-
-;;====================
-;; For Mac
-;;====================
-(when is_mac
 
 
 
@@ -504,22 +640,6 @@
 (global-set-key [(super x)] 'kill-region)
 
 
-)
-
-
-;;====================
-;; For Win
-;;====================
-(when is_win
-
-
-
-
-
-)
-
-
-
 
 ;; zshを使う
 (setq shell-file-name "/usr/local/bin/zsh")
@@ -528,6 +648,112 @@
 ;; lsで色崩れ防ぐ
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+
+
+
+
+
+;; C-tでshellをポップアップ
+(require 'shell-pop)
+(shell-pop-set-internal-mode "ansi-term") ;; ansi-termを使うよ
+(shell-pop-set-internal-mode-shell "/usr/local/bin/zsh") ;; zshを使うよ
+(defvar ansi-term-after-hook nil)
+(add-hook 'ansi-term-after-hook
+          '(lambda ()
+             (define-key term-raw-map "\C-t" 'shell-pop)))
+(defadvice ansi-term (after ansi-term-after-advice (org))
+  "run hook as after advice"
+  (run-hooks 'ansi-term-after-hook))
+(ad-activate 'ansi-term)
+(global-set-key "\C-t" 'shell-pop)
+;; (defvar my-shell-pop-key (kbd "C-t"))
+;; (defvar my-ansi-term-toggle-mode-key (kbd "<f2>"))
+
+(shell-pop-set-window-height 50)
+(shell-pop-set-internal-mode "ansi-term")
+(shell-pop-set-internal-mode-shell shell-file-name)
+
+
+
+)
+
+
+;;====================
+;; For Win
+;;====================
+
+(when is_win
+
+  ;; ツールバーを消す
+  (tool-bar-mode nil)
+
+  ;; ファイル名の文字コード指定
+  (setq file-name-coding-system 'shift_jis)
+  ;; フォント設定
+  (setq my-font "-*-*-medium-r-normal--14-*-*-*-*-*-fontset-hiramaru")
+  (set-face-attribute 'default nil
+		    :family "VL ゴシック"
+		    ;:height 120)
+		    :height 90)
+  (set-fontset-font "fontset-default"
+		  'japanese-jisx0208
+		  '("VL ゴシック" . "iso10646-1"))
+  ;; プロクシの設定
+  (setq url-proxy-services '(("http" . "192.168.1.8:8080")))
+
+
+(setq mw32-process-wrapper-alist
+      '(("/\\(zsh\\|\\(bash\\|tcsh\\|svn\\|ssh\\|gpg[esvk]?\\)\\.exe" .
+	 (nil . "fakecygpty.exe"))))
+  ;; shell の存在を確認
+  (defun skt:shell ()
+    (or ;;(executable-find "zsh")
+        ;;(executable-find "bash")
+        (executable-find "f_zsh") ;; Emacs + Cygwin を利用する人は Zsh の代りにこれにしてください
+        (executable-find "f_bash") ;; Emacs + Cygwin を利用する人は Bash の代りにこれにしてください
+        (executable-find "cmdproxy")
+        (error "can't find 'shell' command in PATH!!")))
+  ;; Shell 名の設定
+  (setq shell-file-name (skt:shell))
+  (setenv "SHELL" shell-file-name)
+  (setq explicit-shell-file-name shell-file-name)
+  ;; 文字コード設定
+  (set-language-environment  'utf-8)
+  (prefer-coding-system 'utf-8)
+;; ;; ターミナルない文字コード設定
+;; (cond
+;;  (
+;;  (or (eq system-type 'cygwin) (eq system-type 'windows-nt)
+;;   (setq file-name-coding-system 'utf-8)
+;;   (setq locale-coding-system 'utf-8)
+;;   ;; もしコマンドプロンプトを利用するなら sjis にする
+;;   ;; (setq file-name-coding-system 'sjis)
+;;   ;; (setq locale-coding-system 'sjis)
+;;   ;; 古い Cygwin だと EUC-JP にする
+;;   ;; (setq file-name-coding-system 'euc-jp)
+;;   ;; (setq locale-coding-system 'euc-jp)
+;;   )
+;;  (t
+;;   (setq file-name-coding-system 'utf-8)
+;;   (setq locale-coding-system 'utf-8)))
+  ;; Emacs が保持する terminfo を利用する
+  (setq system-uses-terminfo nil)
+  ;; lsなどのエスケープをキレイに
+  (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
+  (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+  ;; ターミナル起動キー
+  (global-set-key (kbd "C-t") '(lambda ()
+                                (interactive)
+                                (term shell-file-name)))
+
+
+)
+
+
+
+
+
 
 
 
@@ -555,26 +781,6 @@
 ;;         ("base.css" . "base.css")
 ;;         (css-mode . "css-template.css")))
 
-;; C-tでshellをポップアップ
-(require 'shell-pop)
-(shell-pop-set-internal-mode "ansi-term") ;; ansi-termを使うよ
-(shell-pop-set-internal-mode-shell "/usr/local/bin/zsh") ;; zshを使うよ
-(defvar ansi-term-after-hook nil)
-(add-hook 'ansi-term-after-hook
-          '(lambda ()
-             (define-key term-raw-map "\C-t" 'shell-pop)))
-(defadvice ansi-term (after ansi-term-after-advice (org))
-  "run hook as after advice"
-  (run-hooks 'ansi-term-after-hook))
-(ad-activate 'ansi-term)
-(global-set-key "\C-t" 'shell-pop)
-
-;; (defvar my-shell-pop-key (kbd "C-t"))
-;; (defvar my-ansi-term-toggle-mode-key (kbd "<f2>"))
-
-(shell-pop-set-window-height 50)
-(shell-pop-set-internal-mode "ansi-term")
-(shell-pop-set-internal-mode-shell shell-file-name)
 
 ;; yasnippet
 (require 'yasnippet)
