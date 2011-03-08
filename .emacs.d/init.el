@@ -152,6 +152,9 @@
 
 
 
+;; kill-ringもanythigで
+(global-set-key (kbd "M-y") 'anything-show-kill-ring)
+
 
 
 
@@ -318,6 +321,7 @@
 ;;   (define-key view-mode-map " " 'scroll-up))
 ;; (add-hook 'view-mode-hook 'view-mode-hook0)
 
+
 ;; 書き込み不能なファイルはview-modeで開くように
 (defadvice find-file
   (around find-file-switch-to-view-file (file &optional wild) activate)
@@ -376,22 +380,28 @@
 ;; (key-chord-define-global "22" 'split-window-vertically)
 ;; (key-chord-define-global "33" 'split-window-horizontally)
 (key-chord-define-global "mk" 'kill-buffer)
+(key-chord-define-global "cv" 'scroll-up)
+(key-chord-define-global "vb" 'scroll-down)
 
 
 ;; M-Yで今の行を下にコピー
-(defun duplicate-line (&optional numlines)
-  "One line is duplicated wherever there is a cursor."
-  (interactive "p")
-  (let* ((col (current-column))
-         (bol (progn (beginning-of-line) (point)))
-         (eol (progn (end-of-line) (point)))
-         (line (buffer-substring bol eol)))
-    (while (> numlines 0)
-      (insert "\n" line)
-      (setq numlines (- numlines 1)))
-    (move-to-column col)))
+;; (defun duplicate-line (&optional numlines)
+;;   "One line is duplicated wherever there is a cursor."
+;;   (interactive "p")
+;;   (let* ((col (current-column))
+;;          (bol (progn (beginning-of-line) (point)))
+;;          (eol (progn (end-of-line) (point)))
+;;          (line (buffer-substring bol eol)))
+;;     (while (> numlines 0)
+;;       (insert "\n" line)
+;;       (setq numlines (- numlines 1)))
+;;     (move-to-column col)))
 ;;(define-key esc-map "Y" 'duplicate-line)
-(global-set-key (kbd "M-Y") 'duplicate-line)
+
+;; M-Yで1行コピー
+(global-set-key (kbd "M-Y") 'copy-line)
+
+
 
 
 ;; M-↑などで今の行をコピー
@@ -463,24 +473,24 @@
 (global-set-key [M-left]  'duplicate-region-backward)
 
 
-
-;; browse-kill-ring
-(require 'browse-kill-ring)
-(global-set-key "\M-y" 'browse-kill-ring)
-;; kill-ring を一行で表示
- ;;(setq browse-kill-ring-display-style 'one-line)
-;; browse-kill-ring 終了時にバッファを kill する
-(setq browse-kill-ring-quit-action 'kill-and-delete-window)
-;; 必要に応じて browse-kill-ring のウィンドウの大きさを変更する
-(setq browse-kill-ring-resize-window t)
-;; kill-ring の内容を表示する際の区切りを指定する
-(setq browse-kill-ring-separator "-------")
-;; 現在選択中の kill-ring のハイライトする
-(setq browse-kill-ring-highlight-current-entry t)
-;; 区切り文字のフェイスを指定する
-(setq browse-kill-ring-separator-face 'region)
-;; 一覧で表示する文字数を指定する． nil ならすべて表示される．
-(setq browse-kill-ring-maximum-display-length 100)
+;; anything-show-kill-ringでやるようにしたのでコメントアウト
+    ;; ;; browse-kill-ring
+    ;; (require 'browse-kill-ring)
+    ;; (global-set-key "\M-y" 'browse-kill-ring)
+    ;; ;; kill-ring を一行で表示
+    ;;  ;;(setq browse-kill-ring-display-style 'one-line)
+    ;; ;; browse-kill-ring 終了時にバッファを kill する
+    ;; (setq browse-kill-ring-quit-action 'kill-and-delete-window)
+    ;; ;; 必要に応じて browse-kill-ring のウィンドウの大きさを変更する
+    ;; (setq browse-kill-ring-resize-window t)
+    ;; ;; kill-ring の内容を表示する際の区切りを指定する
+    ;; (setq browse-kill-ring-separator "-------")
+    ;; ;; 現在選択中の kill-ring のハイライトする
+    ;; (setq browse-kill-ring-highlight-current-entry t)
+    ;; ;; 区切り文字のフェイスを指定する
+    ;; (setq browse-kill-ring-separator-face 'region)
+    ;; ;; 一覧で表示する文字数を指定する． nil ならすべて表示される．
+    ;; (setq browse-kill-ring-maximum-display-length 100)
 
 
 
@@ -635,7 +645,7 @@
 ;(setq exec-path (cons "/usr/local/bin" exec-path))
 (setq exec-path
   (append
-    (list "/usr/local/bin" "/usr/local/scala/bin")exec-path)) 
+    (list "/usr/local/bin" "/usr/local/scala/bin" "~/bin")exec-path)) 
 (setenv "PATH"
     (concat '"/usr/local/bin:" (getenv "PATH")))
 
