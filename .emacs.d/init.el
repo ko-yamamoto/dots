@@ -1,6 +1,7 @@
 ;;====================
 ;; StartSettings
 ;;====================
+
 ;; 環境切り分け用の定義作成
 (defvar is_emacs22 (equal emacs-major-version 22))
 (defvar is_emacs23 (equal emacs-major-version 23))
@@ -21,20 +22,20 @@
 (defvar is_win (or is_cygwin is_winnt))
 
 
-
 ;;====================
 ;; General
 ;;====================
+
 (load "term/bobcat")
 (when (fboundp 'terminal-init-bobcat) (terminal-init-bobcat))
+
 ;; ロードパスを通す
 (setq load-path (cons "~/.emacs.d/elisp" load-path))
-
 
 ;; ウィンドウサイズ設定
 (setq initial-frame-alist
       (append (list
-	     '(width . 120) ;; ウィンドウ幅
+	     '(width . 140) ;; ウィンドウ幅
 	       '(height . 50) ;; ウィンドウ高さ
 ;	       '(top . 50) ;; 表示位置
 ;	       '(left . 340) ;; 表示位置
@@ -42,15 +43,12 @@
 	      initial-frame-alist))
 (setq default-frame-alist initial-frame-alist)
 
-
-
 (set-language-environment 'Japanese)
 (prefer-coding-system 'utf-8)
 
 
 ; ごみ箱を有効
 (setq delete-by-moving-to-trash t)
-
 
 
 ;; バックアップファイルの;; 場所
@@ -68,9 +66,9 @@
 
 ;; オートセーブしない
 ;;(setq make-backup-files nil)
+
 ;; 終了時にオートセーブファイルを消す
 (setq delete-auto-save-files t)
-
 
 
 ;; 前回編集場所を記憶
@@ -97,8 +95,6 @@
 (global-set-key (kbd "C-c r") 'query-replace)
 
 
-
-
 ;; オートコンパイル
 ;;(require 'auto-async-byte-compile)
 ;; オートコンパイル無効にする正規表現
@@ -106,10 +102,10 @@
 ;;(add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
 
 
-
 ;; scroll
 (require 'smooth-scroll)
 (smooth-scroll-mode t)
+
 ;; smooth scroll of the buffer
 (set-variable 'smooth-scroll/vscroll-step-size 8)
 (set-variable 'smooth-scroll/hscroll-step-size 8)
@@ -119,8 +115,6 @@
 
 ;; 1画面戻る(M-v)を"Ctr-Shift-v"にも
 (global-set-key (kbd "C-S-v") 'scroll-down)
-
-
 
 
 ;; anything
@@ -143,6 +137,7 @@
 	anything-c-source-files-in-current-dir
 	))
 
+
 ;; anything-kyr
 (require 'anything-kyr-config)
 ;; anything-complete.el があれば読み込む
@@ -151,11 +146,8 @@
 (anything-read-string-mode 1))
 
 
-
 ;; kill-ringもanythigで
 (global-set-key (kbd "M-y") 'anything-show-kill-ring)
-
-
 
 
 ;; dired-x
@@ -171,6 +163,7 @@
     ("v" . "version")
     ("t" . "date")
     (""  . "name")))
+
 
 ;; dired
 (defun dired-various-sort-change (sort-type-alist &optional prior-pair)
@@ -217,6 +210,7 @@
                                     (dired-various-sort-change dired-various-sort-type candidate)))))
     ))
 
+
 (add-hook 'dired-mode-hook
           '(lambda ()
              (define-key dired-mode-map "s" 'dired-various-sort-change-or-edit)
@@ -225,6 +219,7 @@
                   (interactive)
                   (anything '(anything-c-source-dired-various-sort))))
              ))
+
 
 ;; diredでマークをつけたファイルをfind/view
 (eval-after-load "dired"
@@ -241,6 +236,7 @@
        (interactive "P")
        (let* ((fn-list (dired-get-marked-files nil arg)))
          (mapc 'view-file fn-list)))))
+
 
 ;; diredでのファイルコピーを便利に
 (setq dired-dwim-target t)
@@ -264,14 +260,13 @@
       (kill-buffer my-dired-before-buffer)))
 
 
-
-
 ;; Quick Look
 (setq dired-load-hook '(lambda () (load "dired-x"))) 
 (setq dired-guess-shell-alist-user
       '(("\\.png" "qlmanage -p")
         ("\\.jpg" "qlmanage -p")
         ("\\.pdf" "qlmanage -p")))
+
 
 ;; 矩形処理
 (cua-mode t)
@@ -306,6 +301,7 @@
         ("c" . scroll-other-window-down)
         ("v" . scroll-other-window)
         ))
+
 (defun define-many-keys (keymap key-table &optional includes)
   (let (key cmd)
     (dolist (key-cmd key-table)
@@ -314,6 +310,7 @@
       (if (or (not includes) (member key includes))
         (define-key keymap key cmd))))
   keymap)
+
 
 ;; (defun view-mode-hook0 ()
 ;;   (define-many-keys view-mode-map pager-keybind)
@@ -329,6 +326,7 @@
            (not (file-directory-p file)))
       (view-file file)
     ad-do-it))
+
 ;; 書き込み不能な場合はview-modeを抜けないように
 (defvar view-mode-force-exit nil)
 (defmacro do-not-exit-view-mode-unless-writable-advice (f)
@@ -342,6 +340,7 @@
 (do-not-exit-view-mode-unless-writable-advice view-mode-exit)
 (do-not-exit-view-mode-unless-writable-advice view-mode-disable)
 
+
 (require 'thing-opt)
 (define-thing-commands)
 
@@ -350,6 +349,7 @@
 (require 'key-chord)
 (key-chord-mode 1)
 (setq key-chord-one-keys-delay 0.04)
+
 ;; don't hijack input method!
 (defadvice toggle-input-method (around toggle-input-method-around activate)
   (let ((input-method-function-save input-method-function))
@@ -398,10 +398,9 @@
 ;;     (move-to-column col)))
 ;;(define-key esc-map "Y" 'duplicate-line)
 
+
 ;; M-Yで1行コピー
 (global-set-key (kbd "M-Y") 'copy-line)
-
-
 
 
 ;; M-↑などで今の行をコピー
@@ -417,11 +416,11 @@
       (insert contents ?\n)))
   (previous-line 1))
 
+
 (defun duplicate-region-backward ()
   "If mark is active duplicates the region backward."
   (interactive "*")
   (if mark-active
-
       (let* (
              (deactivate-mark nil)
              (start (region-beginning))
@@ -493,12 +492,6 @@
     ;; (setq browse-kill-ring-maximum-display-length 100)
 
 
-
-
-
-
-
-
 ;; my window resize
 (defun my-window-resizer ()
   "Control window size and position."
@@ -536,6 +529,7 @@
                (message "Quit")
                (throw 'end-flag t)))))))
 
+
 ;; C-q -> pre-fix key
 (define-key global-map "\C-q" (make-sparse-keymap))
 
@@ -551,6 +545,7 @@
 (global-set-key "\C-qj" 'windmove-down)
 (global-set-key "\C-qk" 'windmove-up)
 
+
 ;; key-chordにも登録
 (key-chord-define-global "ql" 'windmove-right)
 (key-chord-define-global "qh" 'windmove-left)
@@ -565,46 +560,55 @@
 ;;   (other-window 1))
 ;; (global-set-key (kbd "C-t") 'other-window-or-split)
 
+
 ;; beepを消す
 (setq visible-bell t)
 (setq ring-bell-function 'ignore)
 
 
-
-
 ;; 起動時のメッセージを非表示
 (setq inhibit-startup-message t)
+
 
 ;; ヘルプコマンドをC-^に割り当てる
 (global-set-key "\C-^" 'help-command)
 
+
 ;; "yes or no"を"y or n"に
 (fset 'yes-or-no-p 'y-or-n-p)
+
 
 ;; 現在位置のファイルを開く
 (ffap-bindings)
 
+
 ;; twittering-mode
 (require 'twittering-mode)
 
+
 ;; 最近のファイル500個を保存する
 (setq recentf-max-saved-items 1000)
+
 ;; 最近使ったファイルに加えないファイルを正規表現で指定する
 (setq recentf-exclude '("/TAGS$" "/var/tmp/"))
 (require 'recentf-ext)
+
 
 ;; point-undo 
 (require 'point-undo)
 (define-key global-map (kbd "<f7>") 'point-undo)
 (define-key global-map (kbd "S-<f7>") 'point-redo)
 
+
 ;; 最後の変更箇所にジャンプ
 (require 'goto-chg)
 (define-key global-map (kbd "<f8>") 'goto-last-change)
 (define-key global-map (kbd "S-<f8>") 'goto-last-change-reverse)
 
+
 (require 'color-moccur)
 (setq moccur-split-word t)
+
 
 (require 'moccur-edit)
 (setq moccur-split-word t)
@@ -612,13 +616,11 @@
 
 
 
-
-
 ;;====================
 ;; For Mac
 ;;====================
-(when is_mac
 
+(when is_mac
 
 ;; フォント設定
 (setq my-font "-*-*-medium-r-normal--12-*-*-*-*-*-fontset-hiramaru")
@@ -640,7 +642,6 @@
 	("-cdac$" . 1.4)))
 
 
-
 ;; PATH
 ;(setq exec-path (cons "/usr/local/bin" exec-path))
 (setq exec-path
@@ -655,15 +656,16 @@
 (setq ns-command-modifier (quote meta))
 (setq ns-alternate-modifier (quote super))
 
+
 ;; CmdキーをSuperに、OptionキーをMetaに
 ;; (setq mac-option-modifier 'meta)
 ;; (setq mac-command-modifier 'super)
+
 
 ;; Cmd+cでコピー、Cmd+xで切り取り、Cmd+vではりつけ
 (global-set-key [(super c)] 'kill-ring-save)
 (global-set-key [(super v)] 'yank)
 (global-set-key [(super x)] 'kill-region)
-
 
 
 ;; zshを使う
@@ -673,10 +675,6 @@
 ;; lsで色崩れ防ぐ
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-
-
-
-
 
 
 ;; C-tでshellをポップアップ
@@ -704,17 +702,34 @@
 )
 
 
+
 ;;====================
 ;; For Win
 ;;====================
 
 (when is_win
 
+  ;; PATH
+  ;(setq exec-path (cons "/usr/local/bin" exec-path))
+  (setq exec-path
+    (append
+      (list "C:/scala/scala-2.8.1.final/bin"
+	    "C:/Python27"
+	    "C:/cygwin/bin"
+	    "C:/Windows/system32/"
+	    "C:/Windows/"
+      )exec-path)) 
+  (setenv "PATH"
+      (concat '"C:/cygwin/bin:C:/scala/scala-2.8.1.final/bin:C:/Python27" (getenv "PATH")))
+
+
   ;; ツールバーを消す
   (tool-bar-mode nil)
 
+
   ;; ファイル名の文字コード指定
   (setq file-name-coding-system 'shift_jis)
+
   ;; フォント設定
   (setq my-font "-*-*-medium-r-normal--14-*-*-*-*-*-fontset-hiramaru")
   (set-face-attribute 'default nil
@@ -724,53 +739,72 @@
   (set-fontset-font "fontset-default"
 		  'japanese-jisx0208
 		  '("VL ゴシック" . "iso10646-1"))
+
+
   ;; プロクシの設定
   (setq url-proxy-services '(("http" . "192.168.1.8:8080")))
 
 
-(setq mw32-process-wrapper-alist
-      '(("/\\(zsh\\|\\(bash\\|tcsh\\|svn\\|ssh\\|gpg[esvk]?\\)\\.exe" .
-	 (nil . "fakecygpty.exe"))))
-  ;; shell の存在を確認
-  (defun skt:shell ()
-    (or ;;(executable-find "zsh")
-        ;;(executable-find "bash")
-        (executable-find "f_zsh") ;; Emacs + Cygwin を利用する人は Zsh の代りにこれにしてください
-        (executable-find "f_bash") ;; Emacs + Cygwin を利用する人は Bash の代りにこれにしてください
-        (executable-find "cmdproxy")
-        (error "can't find 'shell' command in PATH!!")))
-  ;; Shell 名の設定
-  (setq shell-file-name (skt:shell))
-  (setenv "SHELL" shell-file-name)
-  (setq explicit-shell-file-name shell-file-name)
-  ;; 文字コード設定
-  (set-language-environment  'utf-8)
-  (prefer-coding-system 'utf-8)
-;; ;; ターミナルない文字コード設定
-;; (cond
-;;  (
-;;  (or (eq system-type 'cygwin) (eq system-type 'windows-nt)
-;;   (setq file-name-coding-system 'utf-8)
-;;   (setq locale-coding-system 'utf-8)
-;;   ;; もしコマンドプロンプトを利用するなら sjis にする
-;;   ;; (setq file-name-coding-system 'sjis)
-;;   ;; (setq locale-coding-system 'sjis)
-;;   ;; 古い Cygwin だと EUC-JP にする
-;;   ;; (setq file-name-coding-system 'euc-jp)
-;;   ;; (setq locale-coding-system 'euc-jp)
-;;   )
-;;  (t
-;;   (setq file-name-coding-system 'utf-8)
-;;   (setq locale-coding-system 'utf-8)))
-  ;; Emacs が保持する terminfo を利用する
-  (setq system-uses-terminfo nil)
-  ;; lsなどのエスケープをキレイに
-  (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
-  (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-  ;; ターミナル起動キー
-  (global-set-key (kbd "C-t") '(lambda ()
-                                (interactive)
-                                (term shell-file-name)))
+;; (setq mw32-process-wrapper-alist
+;;       '(("/\\(zsh\\|\\(bash\\|tcsh\\|svn\\|ssh\\|gpg[esvk]?\\)\\.exe" .
+;; 	 (nil . "fakecygpty.exe"))))
+;;   ;; shell の存在を確認
+;;   (defun skt:shell ()
+;;     (or ;;(executable-find "zsh")
+;;         ;;(executable-find "bash")
+;;         (executable-find "f_zsh") ;; Emacs + Cygwin を利用する人は Zsh の代りにこれにしてください
+;;         (executable-find "f_bash") ;; Emacs + Cygwin を利用する人は Bash の代りにこれにしてください
+;;         (executable-find "cmdproxy")
+;;         (error "can't find 'shell' command in PATH!!")))
+;;   ;; Shell 名の設定
+;;   (setq shell-file-name (skt:shell))
+;;   (setenv "SHELL" shell-file-name)
+;;   (setq explicit-shell-file-name shell-file-name)
+;;   ;; 文字コード設定
+;;   (set-language-environment  'utf-8)
+;;   (prefer-coding-system 'utf-8)
+;; ;; ;; ターミナルない文字コード設定
+;; ;; (cond
+;; ;;  (
+;; ;;  (or (eq system-type 'cygwin) (eq system-type 'windows-nt)
+;; ;;   (setq file-name-coding-system 'utf-8)
+;; ;;   (setq locale-coding-system 'utf-8)
+;; ;;   ;; もしコマンドプロンプトを利用するなら sjis にする
+;; ;;   ;; (setq file-name-coding-system 'sjis)
+;; ;;   ;; (setq locale-coding-system 'sjis)
+;; ;;   ;; 古い Cygwin だと EUC-JP にする
+;; ;;   ;; (setq file-name-coding-system 'euc-jp)
+;; ;;   ;; (setq locale-coding-system 'euc-jp)
+;; ;;   )
+;; ;;  (t
+;; ;;   (setq file-name-coding-system 'utf-8)
+;; ;;   (setq locale-coding-system 'utf-8)))
+;;   ;; Emacs が保持する terminfo を利用する
+;;   (setq system-uses-terminfo nil)
+;;   ;; lsなどのエスケープをキレイに
+;;   (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
+;;   (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+;;   ;; ターミナル起動キー
+;;   (global-set-key (kbd "C-t") '(lambda ()
+;;                                 (interactive)
+;;                                 (term shell-file-name)))
+(global-set-key (kbd "C-t") 'shell)
+
+
+;; C-tでcmd.exeをポップアップ
+(require 'shell-pop)
+(shell-pop-set-internal-mode "shell")
+(defvar ansi-term-after-hook nil)
+(add-hook 'ansi-term-after-hook
+          '(lambda ()
+             (define-key term-raw-map "\C-t" 'shell-pop)))
+(defadvice ansi-term (after ansi-term-after-advice (org))
+  "run hook as after advice"
+  (run-hooks 'ansi-term-after-hook))
+(ad-activate 'ansi-term)
+(global-set-key "\C-t" 'shell-pop)
+
+
 
 
 )
@@ -779,22 +813,23 @@
 
 
 
-
-
-
 ;;====================
 ;; Utilities
 ;;====================
+
 ;; install-elispの設定
 (require 'install-elisp)
+
 ;; インストール場所
 (setq install-elisp-repository-directory "~/.emacs.d/elisp/")
+
 
 ;; auto-install
 (require 'auto-install)
 (setq auto-install-directory "~/.emacs.d/elisp/")
 (auto-install-update-emacswiki-package-name t)
 (auto-install-compatibility-setup)
+
 
 ;; auto-insert
 ;; ファイル形式に応じて自動でテンプレート挿入
@@ -813,9 +848,11 @@
 (yas/load-directory "~/.emacs.d/snippets")
 ;(yas/load-directory "~/.emacs.d/elisp/snippets")
 
+
 ;;====================
 ;; Visual
 ;;====================
+
 ;; color-themeの設定
 (require 'color-theme)
 (color-theme-initialize)
@@ -825,33 +862,32 @@
 ;; キーワードのカラー表示を有効化
 (global-font-lock-mode t)
 
+
 ;; 選択範囲をハイライト
 (setq-default transient-mark-mode t)
+
 
 ;; バッファ一覧をまともに
 (global-set-key "\C-x\C-b" 'bs-show)
 
+
 ;; 対応するカッコをハイライト
 (show-paren-mode 1)
+
 
 ;; ハイライト
 (transient-mark-mode t)
 
+
 ;; ウィンドウを透明化
 (add-to-list 'default-frame-alist '(alpha . (0.80 0.80)))
+
 
 ;; 行数表示
 (global-set-key "\M-n" 'linum-mode)
 
+
 (blink-cursor-mode t)
-
-
-
-
-
-
-
-
 
 
 
@@ -860,6 +896,7 @@
 ;;====================
 ;; c-mode(c++)
 ;;====================
+
 (add-hook 'c-mode-common-hook
           '(lambda ()
              ;; センテンスの終了である ';' を入力したら、自動改行+インデント
@@ -868,16 +905,16 @@
              (define-key c-mode-base-map "\C-m" 'newline-and-indent)
 ))
 
+
 ;; C-c c で compile コマンドを呼び出す
 (define-key mode-specific-map "c" 'compile)
-
-
 
 
 
 ;;====================
 ;; Scheme
 ;;====================
+
 (setq process-coding-system-alist
       (cons '("gosh" utf-8 . utf-8) process-coding-system-alist))
 
@@ -885,13 +922,17 @@
 (autoload 'scheme-mode "cmuscheme" "Major mode for Scheme." t)
 (autoload 'run-scheme "cmuscheme" "Run an inferior Scheme process." t)
 
+
 (setq process-coding-system-alist
       (cons '("gosh" utf-8 . utf-8) process-coding-system-alist))
+
 ;; goshインタプリタのパスに合わせます。-iは対話モードを意味します。
 (setq gosh-program-name "/usr/local/bin/gosh -i")
+
 ;; schemeモードとrun-schemeモードにcmuscheme.elを使用します。
 (autoload 'scheme-mode "cmuscheme" "Major mode for Scheme." t)
 (autoload 'run-scheme "cmuscheme" "Run an inferior Scheme process." t)
+
 ;; ウィンドウを2つに分け、一方でgoshインタプリタを実行するコマンドを定義します。
 (defun scheme-other-window ()
   "Run scheme on other window"
@@ -899,24 +940,27 @@
   (switch-to-buffer-other-window
    (get-buffer-create "*scheme*"))
   (run-scheme gosh-program-name))
+
 ;; そのコマンドをCtrl-cSで呼び出します。
 (define-key global-map
   "\C-cS" 'scheme-other-window)
+
 
 ;; 直前/直後の括弧に対応する括弧を光らせます。
 (show-paren-mode t)
 
 
 
-
 ;;====================
 ;; Python
 ;;====================
+
 ;; Python-mode
 (setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
 (setq interpreter-mode-alist (cons '("Python" . python-mode)
 interpreter-mode-alist))
 (autoload 'python-mode "python-mode" "Python editing mode." t)
+
 
 ;; Pymacs
 (autoload 'pymacs-apply "pymacs")
@@ -927,16 +971,17 @@ interpreter-mode-alist))
 (eval-after-load "pymacs"
   '(add-to-list 'pymacs-load-path "~/app/emacs/elisp"))
 
+
 ;; 補完
 ;; (require 'pysmell)
 ;; (add-hook 'python-mode-hook (lambda () (pysmell-mode 1)))
 
 
 
-
 ;;====================
 ;; scala-mode
 ;;====================
+
 (add-to-list 'load-path "~/.emacs.d/snippets/scala-mode")
 (require 'scala-mode-auto)
     (add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
@@ -952,11 +997,10 @@ interpreter-mode-alist))
 
 
 
-
-
 ;;====================
 ;; Syntax
 ;;====================
+
 ;; 自動でchmod+x
 (defun make-file-executable ()
   "Make the file of this buffer executable, when it is a script source."
@@ -971,15 +1015,19 @@ interpreter-mode-alist))
 (add-hook 'after-save-hook 'make-file-executable)
 
 
+
 ;;====================
 ;; midi
 ;;====================
+
 (require 'mi)
 (setq mi-use-dls-synth t) ;; OSXの内蔵シンセを使う場合
+
 
 ;; -----------------------------------------------------------
 ;; auto-complete
 ;; -----------------------------------------------------------
+
 (require 'auto-complete)
 (global-auto-complete-mode t)
 
@@ -987,6 +1035,7 @@ interpreter-mode-alist))
   (global-auto-complete-mode t)
   (define-key ac-complete-mode-map "\C-n" 'ac-next)
   (define-key ac-complete-mode-map "\C-p" 'ac-previous))
+
 
 ;; scheme-mode-hook
 (defvar ac-source-scheme
@@ -1004,3 +1053,4 @@ interpreter-mode-alist))
 ;; git用プラグイン magit
 (add-to-list 'load-path "~/.emacs.d/elisp/magit/share/emacs/site-lisp/")
 (require 'magit)
+
