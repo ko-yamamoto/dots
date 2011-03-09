@@ -34,7 +34,7 @@
 ;; ウィンドウサイズ設定
 (setq initial-frame-alist
       (append (list
-	     '(width . 120) ;; ウィンドウ幅
+	     '(width . 140) ;; ウィンドウ幅
 	       '(height . 50) ;; ウィンドウ高さ
 ;	       '(top . 50) ;; 表示位置
 ;	       '(left . 340) ;; 表示位置
@@ -64,7 +64,7 @@
 ;; )
 
 ;; バックアップファイルを作らない
-(setq backup-inhibited t)
+;;(setq backup-inhibited t)
 
 ;; オートセーブしない
 ;;(setq make-backup-files nil)
@@ -710,6 +710,23 @@
 
 (when is_win
 
+
+  ;; PATH
+  ;(setq exec-path (cons "/usr/local/bin" exec-path))
+  (setq exec-path
+    (append
+      (list "C:/scala/scala-2.8.1.final/bin"
+	    "C:/Python27"
+	    "C:/cygwin/bin"
+	    "C:/Windows/system32/"
+	    "C:/Windows/"
+      )exec-path)) 
+  (setenv "PATH"
+      (concat '"C:/cygwin/bin:C:/scala/scala-2.8.1.final/bin:C:/Python27" (getenv "PATH")))
+
+
+
+
   ;; ツールバーを消す
   (tool-bar-mode nil)
 
@@ -728,50 +745,64 @@
   (setq url-proxy-services '(("http" . "192.168.1.8:8080")))
 
 
-(setq mw32-process-wrapper-alist
-      '(("/\\(zsh\\|\\(bash\\|tcsh\\|svn\\|ssh\\|gpg[esvk]?\\)\\.exe" .
-	 (nil . "fakecygpty.exe"))))
-  ;; shell の存在を確認
-  (defun skt:shell ()
-    (or ;;(executable-find "zsh")
-        ;;(executable-find "bash")
-        (executable-find "f_zsh") ;; Emacs + Cygwin を利用する人は Zsh の代りにこれにしてください
-        (executable-find "f_bash") ;; Emacs + Cygwin を利用する人は Bash の代りにこれにしてください
-        (executable-find "cmdproxy")
-        (error "can't find 'shell' command in PATH!!")))
-  ;; Shell 名の設定
-  (setq shell-file-name (skt:shell))
-  (setenv "SHELL" shell-file-name)
-  (setq explicit-shell-file-name shell-file-name)
-  ;; 文字コード設定
-  (set-language-environment  'utf-8)
-  (prefer-coding-system 'utf-8)
-;; ;; ターミナルない文字コード設定
-;; (cond
-;;  (
-;;  (or (eq system-type 'cygwin) (eq system-type 'windows-nt)
-;;   (setq file-name-coding-system 'utf-8)
-;;   (setq locale-coding-system 'utf-8)
-;;   ;; もしコマンドプロンプトを利用するなら sjis にする
-;;   ;; (setq file-name-coding-system 'sjis)
-;;   ;; (setq locale-coding-system 'sjis)
-;;   ;; 古い Cygwin だと EUC-JP にする
-;;   ;; (setq file-name-coding-system 'euc-jp)
-;;   ;; (setq locale-coding-system 'euc-jp)
-;;   )
-;;  (t
-;;   (setq file-name-coding-system 'utf-8)
-;;   (setq locale-coding-system 'utf-8)))
-  ;; Emacs が保持する terminfo を利用する
-  (setq system-uses-terminfo nil)
-  ;; lsなどのエスケープをキレイに
-  (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
-  (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-  ;; ターミナル起動キー
-  (global-set-key (kbd "C-t") '(lambda ()
-                                (interactive)
-                                (term shell-file-name)))
+;; (setq mw32-process-wrapper-alist
+;;       '(("/\\(zsh\\|\\(bash\\|tcsh\\|svn\\|ssh\\|gpg[esvk]?\\)\\.exe" .
+;; 	 (nil . "fakecygpty.exe"))))
+;;   ;; shell の存在を確認
+;;   (defun skt:shell ()
+;;     (or ;;(executable-find "zsh")
+;;         ;;(executable-find "bash")
+;;         (executable-find "f_zsh") ;; Emacs + Cygwin を利用する人は Zsh の代りにこれにしてください
+;;         (executable-find "f_bash") ;; Emacs + Cygwin を利用する人は Bash の代りにこれにしてください
+;;         (executable-find "cmdproxy")
+;;         (error "can't find 'shell' command in PATH!!")))
+;;   ;; Shell 名の設定
+;;   (setq shell-file-name (skt:shell))
+;;   (setenv "SHELL" shell-file-name)
+;;   (setq explicit-shell-file-name shell-file-name)
+;;   ;; 文字コード設定
+;;   (set-language-environment  'utf-8)
+;;   (prefer-coding-system 'utf-8)
+;; ;; ;; ターミナルない文字コード設定
+;; ;; (cond
+;; ;;  (
+;; ;;  (or (eq system-type 'cygwin) (eq system-type 'windows-nt)
+;; ;;   (setq file-name-coding-system 'utf-8)
+;; ;;   (setq locale-coding-system 'utf-8)
+;; ;;   ;; もしコマンドプロンプトを利用するなら sjis にする
+;; ;;   ;; (setq file-name-coding-system 'sjis)
+;; ;;   ;; (setq locale-coding-system 'sjis)
+;; ;;   ;; 古い Cygwin だと EUC-JP にする
+;; ;;   ;; (setq file-name-coding-system 'euc-jp)
+;; ;;   ;; (setq locale-coding-system 'euc-jp)
+;; ;;   )
+;; ;;  (t
+;; ;;   (setq file-name-coding-system 'utf-8)
+;; ;;   (setq locale-coding-system 'utf-8)))
+;;   ;; Emacs が保持する terminfo を利用する
+;;   (setq system-uses-terminfo nil)
+;;   ;; lsなどのエスケープをキレイに
+;;   (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
+;;   (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+;;   ;; ターミナル起動キー
+;;   (global-set-key (kbd "C-t") '(lambda ()
+;;                                 (interactive)
+;;                                 (term shell-file-name)))
+(global-set-key (kbd "C-t") 'shell)
 
+
+;; C-tでcmd.exeをポップアップ
+(require 'shell-pop)
+(shell-pop-set-internal-mode "shell") ;; ansi-termを使うよ
+(defvar ansi-term-after-hook nil)
+(add-hook 'ansi-term-after-hook
+          '(lambda ()
+             (define-key term-raw-map "\C-t" 'shell-pop)))
+(defadvice ansi-term (after ansi-term-after-advice (org))
+  "run hook as after advice"
+  (run-hooks 'ansi-term-after-hook))
+(ad-activate 'ansi-term)
+(global-set-key "\C-t" 'shell-pop)
 
 )
 
