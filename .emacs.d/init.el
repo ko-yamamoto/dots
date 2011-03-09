@@ -615,6 +615,20 @@
 
 
 
+;; git用プラグイン magit
+(add-to-list 'load-path "~/.emacs.d/elisp/magit/share/emacs/site-lisp/")
+(require 'magit)
+
+
+
+
+;; twittering-mode twittering-numbering.el
+;; https://github.com/pft/elisp-assorted/blob/master/twittering-numbering.el
+(autoload 'twittering-numbering "twittering-numbering" t)
+(add-hook 'twittering-mode-hook 'twittering-numbering)
+(setq twittering-use-master-password t)
+
+
 
 ;;====================
 ;; For Mac
@@ -1048,9 +1062,4 @@ interpreter-mode-alist))
           '(lambda ()
              (make-local-variable 'ac-sources)
              (setq ac-sources (append ac-sources '(ac-source-scheme)))))
-
-
-;; git用プラグイン magit
-(add-to-list 'load-path "~/.emacs.d/elisp/magit/share/emacs/site-lisp/")
-(require 'magit)
 
