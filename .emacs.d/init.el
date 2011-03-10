@@ -627,6 +627,23 @@
 (autoload 'twittering-numbering "twittering-numbering" t)
 (add-hook 'twittering-mode-hook 'twittering-numbering)
 (setq twittering-use-master-password t)
+(setq twittering-status-format "%i %S(%s)  %@:\n  %t // from %f%L %p \n\n")
+;; %s - screen_name
+;; %S - name
+;; %i - profile_image
+;; %d - description
+;; %l - location
+;; %L - " [location]"
+;; %u - url
+;; %j - user.id
+;; %p - protected?
+;; %c - created_at (raw UTC string)
+;; %C{time-format-str} - created_at (formatted with time-format-str)
+;; %@ - X seconds ago
+;; %t - text
+;; %' - truncated
+;; %f - source
+;; %# - id
 
 
 
@@ -826,6 +843,14 @@
 
 
 
+;; Twittering-modeのプロクシ
+(setq twittering-proxy-use t)
+(setq twittering-proxy-server "192.168.1.8")
+(setq twittering-proxy-port 8080)
+
+
+
+
 )
 
 
@@ -905,7 +930,7 @@
 ;; 行数表示
 (global-set-key "\M-n" 'linum-mode)
 
-
+;; カーソル点滅
 (blink-cursor-mode t)
 
 
