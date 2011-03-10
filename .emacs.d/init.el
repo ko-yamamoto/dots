@@ -65,7 +65,7 @@
 (setq backup-inhibited t)
 
 ;; オートセーブしない
-;;(setq make-backup-files nil)
+(setq make-backup-files nil)
 
 ;; 終了時にオートセーブファイルを消す
 (setq delete-auto-save-files t)
@@ -805,9 +805,14 @@
 (global-set-key (kbd "C-t") 'shell)
 
 
+;; shellでzshを使う(指定しない場合はcmd.exe)
+;; (setq explicit-shell-file-name "c:\\cygwin\\bin\\zsh.exe")
+
 ;; C-tでcmd.exeをポップアップ
 (require 'shell-pop)
-(shell-pop-set-internal-mode "shell")
+(shell-pop-set-internal-mode "shell") ;; shellを使う
+;;(shell-pop-set-internal-mode "ansi-term") ;; ansi-termを使う
+;;(shell-pop-set-internal-mode-shell "c:\\cygwin\\bin\\zsh.exe")
 (defvar ansi-term-after-hook nil)
 (add-hook 'ansi-term-after-hook
           '(lambda ()
@@ -902,6 +907,27 @@
 
 
 (blink-cursor-mode t)
+
+
+
+;; カーソル行ハイライト
+(defface hlline-face
+  '((((class color)
+      (background dark))
+     (:background "gray15"))
+    (((class color)
+      (background light))
+     (:background "ForestGreen"))
+    (t
+     ()))
+  "*Face used by hl-line.")
+(setq hl-line-face 'hlline-face)
+;; (setq hl-line-face 'underline) ; 下線
+(global-hl-line-mode)
+
+
+;; 1画面スクロールで前の表示を何行分残すか
+(setq next-screen-context-lines 5)
 
 
 
