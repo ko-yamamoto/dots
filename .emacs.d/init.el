@@ -673,13 +673,24 @@
 	("-cdac$" . 1.4)))
 
 
-;; PATH
-;(setq exec-path (cons "/usr/local/bin" exec-path))
-(setq exec-path
-  (append
-    (list "/usr/local/bin" "/usr/local/scala/bin" "~/bin")exec-path)) 
-(setenv "PATH"
-    (concat '"/usr/local/bin:" (getenv "PATH")))
+;; exec-pathとPATHに設定したいパスのリストを設定
+(dolist (dir (list
+	      "/usr/local/bin"
+	      "/usr/local/scala/bin"
+	      "~/bin"
+              "/sbin"
+              "/usr/sbin"
+              "/bin"
+              "/usr/bin"
+              (expand-file-name "~/bin")
+              (expand-file-name "~/.emacs.d/bin")
+              ))
+;; PATH と exec-path に同じ物を追加
+(when (and (file-exists-p dir) (not (member dir exec-path)))
+  (setenv "PATH" (concat dir ":" (getenv "PATH")))
+  (setq exec-path (append (list dir) exec-path))))
+
+
 
 
 ;; Command-Key and Option-Key
@@ -740,18 +751,40 @@
 
 (when is_win
 
-  ;; PATH
-  ;(setq exec-path (cons "/usr/local/bin" exec-path))
-  (setq exec-path
-    (append
-      (list "C:/scala/scala-2.8.1.final/bin"
-	    "C:/Python27"
-	    "C:/cygwin/bin"
-	    "C:/Windows/system32/"
-	    "C:/Windows/"
-      )exec-path)) 
-  (setenv "PATH"
-      (concat '"C:/cygwin/bin:C:/scala/scala-2.8.1.final/bin:C:/Python27" (getenv "PATH")))
+  ;; ;; PATH
+  ;; ;(setq exec-path (cons "/usr/local/bin" exec-path))
+  ;; (setq exec-path
+  ;;   (append
+  ;;     (list "C:/scala/scala-2.8.1.final/bin"
+  ;; 	    "C:/Python27"
+  ;; 	    "C:/cygwin/bin"
+  ;; 	    "C:/Windows/system32/"
+  ;; 	    "C:/Windows/"
+  ;;     )exec-path)) 
+  ;; (setenv "PATH"
+  ;;     (concat '"C:/cygwin/bin:C:/scala/scala-2.8.1.final/bin:C:/Python27" (getenv "PATH")))
+
+;; exec-pathとPATHに設定したいパスのリストを設定
+(dolist (dir (list
+	      "C:/scala/scala-2.8.1.final/bin"
+	      "C:/Python27"
+	      "C:/cygwin/bin"
+	      "C:/Windows/system32/"
+	      "C:/Windows/"
+	      "C:/scala/scala-2.8.1.final/bin"
+	      "C:/Python27"
+              (expand-file-name "~/bin")
+              (expand-file-name "~/.emacs.d/bin")
+              ))
+;; PATH と exec-path に同じ物を追加
+(when (and (file-exists-p dir) (not (member dir exec-path)))
+  (setenv "PATH" (concat dir ":" (getenv "PATH")))
+  (setq exec-path (append (list dir) exec-path))))
+
+
+
+
+
 
 
   ;; ツールバーを消す
@@ -849,6 +882,20 @@
 (setq twittering-proxy-port 8080)
 
 
+;; IMEの制御（yes/noをタイプするところでは IME をオフにする）
+(wrap-function-to-control-ime 'universal-argument t nil)
+(wrap-function-to-control-ime 'read-string nil nil)
+(wrap-function-to-control-ime 'read-char nil nil)
+(wrap-function-to-control-ime 'read-from-minibuffer nil nil)
+(wrap-function-to-control-ime 'y-or-n-p nil nil)
+(wrap-function-to-control-ime 'yes-or-no-p nil nil)
+(wrap-function-to-control-ime 'map-y-or-n-p nil nil)
+(eval-after-load "ange-ftp"
+  '(wrap-function-to-control-ime 'ange-ftp-get-passwd nil nil)
+)
+
+
+
 
 
 )
@@ -890,7 +937,6 @@
 (require 'yasnippet)
 (yas/initialize)
 (yas/load-directory "~/.emacs.d/snippets")
-;(yas/load-directory "~/.emacs.d/elisp/snippets")
 
 
 ;;====================
@@ -913,6 +959,51 @@
 
 ;; バッファ一覧をまともに
 (global-set-key "\C-x\C-b" 'bs-show)
+
+
+;; 同一名の buffer があったとき、開いているファイルのパスの一部を表示して区別する
+(when (locate-library "uniquify")
+  (require 'uniquify)
+  (setq uniquify-buffer-name-style 'post-forward-angle-brackets))
+
+
+;; モードライン (mode-line-format)での書式記号
+;; %b -- print buffer name.      
+;; %f -- print visited file name.
+;; %F -- print frame name.
+;; %* -- print %, * or hyphen.   
+;; %+ -- print *, % or hyphen.
+;;       %& is like %*, but ignore read-only-ness.
+;;       % means buffer is read-only and * means it is modified.
+;;       For a modified read-only buffer, %* gives % and %+ gives *.
+;; %s -- print process status.   %l -- print the current line number.
+;; %c -- print the current column number (this makes editing slower).
+;;       To make the column number update correctly in all cases,`column-number-mode' must be non-nil.
+;; %i -- print the size of the buffer.
+;; %I -- like %i, but use k, M, G, etc., to abbreviate.
+;; %p -- print percent of buffer above top of window, or Top, Bot or All.
+;; %P -- print percent of buffer above bottom of window, perhaps plus Top, or print Bottom or All.
+;; %n -- print Narrow if appropriate.
+;; %t -- visited file is text or binary (if OS supports this distinction).
+;; %z -- print mnemonics of keyboard, terminal, and buffer coding systems.
+;; %Z -- like %z, but including the end-of-line format.
+;; %e -- print error message about full memory.
+;; %@ -- print @ or hyphen.  @ means that default-directory is on a remote machine.
+;; %[ -- print one [ for each recursive editing level.  %] similar.
+;; %% -- print %.   
+;; %- -- print infinitely many dashes.	
+;; モードライン
+(setq-default mode-line-format 
+  (list "%*["
+	'mode-line-mule-info
+	"] L%l:C%c %P   [%b] %f (%m"
+	'minor-mode-alist
+	")"
+  )
+)
+
+;; タイトルバー
+(setq frame-title-format (format "%%f - Emacs@%s" (system-name)))
 
 
 ;; 対応するカッコをハイライト
