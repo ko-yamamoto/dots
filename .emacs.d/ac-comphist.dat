@@ -1,7 +1,19 @@
-((("anything" .
+((("load" .
+   [1 0 0 0])
+  ("ENSIME" .
+   [0 0 0 1 0 0])
+  ("is" .
+   [1 0])
+  ("occur-by-moccur" .
+   [0 0 0 0 0 0 0 0 1 0 0 0 0 0 0])
+  ("text-mode" .
+   [0 0 0 0 1 0 0 0 0])
+  ("emacsclient" .
+   [0 0 0 0 0 0 0 1 0 0 0])
+  ("anything" .
    [0 0 0 1 0 0 0 0])
   ("require" .
-   [0 0 1 0 0 0 0])
+   [0 0 1 1 1 0 0])
   ("setq" .
    [0 0 0 1])
   ("auto-async-byte-compile" .
@@ -9,7 +21,7 @@
   ("add-hook" .
    [1 0 0 0 0 0 0 0])
   ("emacs" .
-   [0 0 0 1 0])
+   [0 0 0 2 0])
   ("super" .
    [1 0 0 0 0])
   ("defvar" .
@@ -19,4 +31,22 @@
   ("when" .
    [1 0 0 0])
   ("is_mac" .
-   [0 0 0 1 0 0])))
+   [0 0 0 1 0 0])
+  ("mode-line-eol-desc" .
+   [0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0])
+  ("set" .
+   [1 0 0])
+  ("global-set-key" .
+   [0 0 0 1 0 0 0 0 0 0 0 0 0 0])
+  ("kbd" .
+   [0 0 1])
+  ("kill-whole-line" .
+   [0 0 0 0 0 0 1 1 1 0 0 0 0 0 0])
+  ("scala-mode" .
+   [0 0 0 0 0 1 0 0 0 0])
+  ("elscreen" .
+   [0 0 0 0 1 1 0 0])
+  ("elscreen-dired" .
+   [0 0 0 0 0 0 0 0 0 0 0 1 0 0])
+  ("elscreen-color-theme" .
+   [0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0])))
