@@ -1026,8 +1026,8 @@ interpreter-mode-alist))
 ;; magit
 ;;====================
 ;; git用プラグイン magit
-;; (add-to-list 'load-path "~/.emacs.d/elisp/magit/share/emacs/site-lisp/")
-;; (require 'magit)
+(add-to-list 'load-path "~/.emacs.d/elisp/magit/share/emacs/site-lisp/")
+(require 'magit)
 
 
 
