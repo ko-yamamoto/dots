@@ -266,7 +266,7 @@
                     perl-mode cperl-mode python-mode ruby-mode
                     ecmascript-mode javascript-mode js2-mode php-mode css-mode
                     makefile-mode sh-mode fortran-mode f90-mode ada-mode
-                    xml-mode sgml-mode scheme-mode gauche-mode)
+                    xml-mode sgml-mode)
   "Major modes `auto-complete-mode' can run on."
   :type '(list symbol)
   :group 'auto-complete)
@@ -1135,5 +1135,4 @@ This is useful if you just want to define a dictionary/keywords source."
   (mapcar 'delete-overlay (ac-menu-overlays menu)))
 
 (provide 'auto-complete)
-
 ;;; auto-complete.el ends here
