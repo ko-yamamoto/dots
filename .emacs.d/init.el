@@ -77,6 +77,14 @@
 (ffap-bindings)
 
 
+;; タブは4
+(setq-default tab-width 4)
+(setq default-tab-width 4)
+(setq tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60
+                      64 68 72 76 80 84 88 92 96 100 104 108 112 116 120))
+;; タブはスペースで
+(setq-default tab-width 4 indent-tabs-mode nil)
+
 ;; バッファ一覧をまともに
 (global-set-key "\C-x\C-b" 'bs-show)
 
@@ -522,8 +530,16 @@
 
 
 
-
-
+;----------------------------------
+;; etags の追加関数(タグファイルの作成)
+;----------------------------------
+;; (defadvice find-tag (before c-tag-file activate)
+;;   "Automatically create tags file."
+;;   (let ((tag-file (concat default-directory "TAGS")))
+;;     (unless (file-exists-p tag-file)
+;;       (shell-command "etags *.[ch] *.el .*.el -o TAGS 2>/dev/null"))
+;;     (visit-tags-table tag-file)))
+;; find . -name "*.java" -print | /cygdrive/c/my/programs/emacs/emacs-23.3/bin/etags -
 
 
 ;; ---------------------------------------------------------------------------------
@@ -1050,7 +1066,7 @@ interpreter-mode-alist))
 ;; 補完の情報源
 (setq-default ac-sources '(ac-source-words-in-same-mode-buffers ac-source-filename ac-source-symbols))
 ;; 補完するモードの追加
-(setq ac-modes (append ac-modes '(text-mode)))
+(setq ac-modes (append ac-modes '(text-mode sql-mode)))
 
 
 ;; scheme-mode-hook
@@ -1175,7 +1191,7 @@ interpreter-mode-alist))
 ;; undo redoを木構造で保存
 (require 'undo-tree)
 (global-undo-tree-mode)
-
+(global-set-key (kbd "M-/") 'undo-tree-redo)
 
 
 ;;====================
