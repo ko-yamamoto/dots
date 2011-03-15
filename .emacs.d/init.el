@@ -26,6 +26,15 @@
 ;; General Settings
 ;; ---------------------------------------------------------------------------------
 
+
+;; マウスの右クリックの割り当て(押しながらの操作)をはずす
+(if window-system (progn
+	    (global-unset-key [down-mouse-3])
+;; マウスの右クリックメニューを使えるようにする
+(defun bingalls-edit-menu (event)  (interactive "e")
+	(popup-menu menu-bar-edit-menu))
+	(global-set-key [mouse-3] 'bingalls-edit-menu)))
+
 ;; C-hをヘルプから外すための設定
 (load "term/bobcat")
 (when (fboundp 'terminal-init-bobcat) (terminal-init-bobcat))
@@ -124,7 +133,7 @@
 ;; オートセーブしない
 (setq make-backup-files nil)
 
-;; 終了時にオートセーブファイルを消す
+;; 保存時にオートセーブファイルを消す
 (setq delete-auto-save-files t)
 
 
@@ -1062,7 +1071,7 @@ interpreter-mode-alist))
 (setq ac-auto-start 2) ; 2文字以上で補完開始
 ;; 手動補完するならこっち
 ;; (setq ac-auto-start nil) ; 自動的に開始しない
-;; (ac-set-trigger-key "TAB") ; コンテキストに応じてTABで補完
+(ac-set-trigger-key "TAB") ; コンテキストに応じてTABで補完
 ;; 補完の情報源
 (setq-default ac-sources '(ac-source-words-in-same-mode-buffers ac-source-filename ac-source-symbols))
 ;; 補完するモードの追加
