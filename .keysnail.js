@@ -39,11 +39,13 @@ plugins.options["twitter_client.lists"] =
 
 
 // 外部エディタの設定
-plugins.options["K2Emacs.editor"]    = "/usr/bin/emacsclient -n";
-plugins.options["K2Emacs.ext"]    = "txt";
+key.setEditKey(["C-c", "e"], function (ev, arg) {
+        ext.exec("edit_text", arg);
+}, "外部エディタで編集", true);
+plugins.options["K2Emacs.editor"] = "/Applications/Emacs.app";
+plugins.options["K2Emacs.ext"] = "html";
 plugins.options["K2Emacs.encode"] = "UTF-8"
 plugins.options["K2Emacs.sep"] = "/";
-
 
 
 // ヒントの見た目設定
@@ -168,7 +170,6 @@ key.suspendKey           = "<f2>";
 
 // ================================= Hooks ================================= //
 
-
 hook.setHook('KeyBoardQuit', function (aEvent) {
     if (key.currentKeySequence.length) {
         return;
@@ -265,7 +266,7 @@ key.setGlobalKey(['C-x', 'C-s'], function (ev) {
     saveDocument(window.content.document);
 }, 'ファイルを保存', true);
 
-key.setGlobalKey([['C-x', 'u'], ['C-c', 'u'], ['C-/']], function (ev) {
+key.setGlobalKey([['C-x', 'u'], ['C-c', 'u']], function (ev) {
     undoCloseTab();
 }, '閉じたタブを元に戻す');
 
@@ -282,7 +283,13 @@ key.setGlobalKey(['C-c', 'C-c', 'C-c'], function (ev) {
 }, 'Javascript コンソールの表示をクリア', true);
 
 key.setGlobalKey(['C-c', 'c'], function () {
-    var templates = {titleAndGoogle: "{0} {2}", titleAndUrl: "{0} {1}", title: "{0}", URL: "{1}", hatena: "[{1}:title={0}]"};
+    var templates = {
+        titleAndGoogle: "{0} {2}",
+        titleAndUrl: "{0} {1}",
+        title: "{0}",
+        URL: "{1}",
+        hatena: "[{1}:title={0}]"
+    };
 
     function getLineSeprator() {
         var sysInfo = Cc['@mozilla.org/system-info;1'].getService(Ci.nsIPropertyBag2);
@@ -297,8 +304,16 @@ key.setGlobalKey(['C-c', 'c'], function () {
 
     function getGoogl(long_url) {
         var req = new XMLHttpRequest;
-        req.addEventListener("load", function () {var response = JSON.parse(req.responseText);liberator.echo(response.short_url);util.copyToClipboard("\"" + buffer.title + "\" " + response.short_url, true);}, false);
-        req.addEventListener("error", function () {liberator.echo("Responce errror status from goo.gl. Status Code:" + req.status);}, false);
+        req.addEventListener("load", function () {
+            var response = JSON.parse(req.responseText);
+            liberator.echo(response.short_url);
+            util.copyToClipboard("\"" + buffer.title + "\" " + response.short_url, true);
+        },
+        false);
+        req.addEventListener("error", function () {
+            liberator.echo("Responce errror status from goo.gl. Status Code:" + req.status);
+        },
+        false);
         req.open("POST", "http://goo.gl/api/shorten?url=" + encodeURIComponent(long_url));
         req.setRequestHeader("X-Auth-Google-Url-Shortener", "true");
         req.send();
@@ -309,8 +324,9 @@ key.setGlobalKey(['C-c', 'c'], function () {
     function format() {
         var args = Array.prototype.slice.apply(arguments);
         var format = args.shift();
-        return format &&
-            format.replace(regexp, function () {return args[arguments[1]] || "";});
+        return format && format.replace(regexp, function () {
+            return args[arguments[1]] || "";
+        });
     }
 
     var promptList = [];
@@ -320,18 +336,47 @@ key.setGlobalKey(['C-c', 'c'], function () {
     var title = window.content.document.title;
     var url = window.content.location.href;
     var shortUrl = getGoogl(url);
-    prompt.selector({message: "copy from: ", flags: [0, 0], collection: promptList, header: ["key", "format"], callback: function (index) {if (index < 0) {return;}var key = promptList[index][0];var template = templates[key].replace(/\n/g, getLineSeprator());var text = format(template, title, url, shortUrl);Cc['@mozilla.org/widget/clipboardhelper;1'].getService(Ci.nsIClipboardHelper).copyString(text);}});
+    prompt.selector({
+        message: "copy from: ",
+        flags: [0, 0],
+        collection: promptList,
+        header: ["key", "format"],
+        callback: function (index) {
+            if (index < 0) {
+                return;
+            }
+            var key = promptList[index][0];
+            var template = templates[key].replace(/\n/g, getLineSeprator());
+            var text = format(template, title, url, shortUrl);
+            Cc['@mozilla.org/widget/clipboardhelper;1'].getService(Ci.nsIClipboardHelper).copyString(text);
+        }
+    });
 }, 'URLとタイトルをコピー');
 
 key.setGlobalKey(['C-c', 'l'], function () {
     var promptList = [];
     var w = Application.activeWindow;
     var tabs = Array.apply(null, w.tabs);
-    for each (var tab in tabs) {
+    for each(var tab in tabs) {
         promptList.push([tab.document.title, tab.uri.spec]);
     }
-    prompt.selector({message: "select tab: ", flags: [0, 0], collection: promptList, header: ["title", "url"], callback: function (index) {if (index < 0 || tabs.length < index) {return;}tabs[index].focus();}});
+    prompt.selector({
+        message: "select tab: ",
+        flags: [0, 0],
+        collection: promptList,
+        header: ["title", "url"],
+        callback: function (index) {
+            if (index < 0 || tabs.length < index) {
+                return;
+            }
+            tabs[index].focus();
+        }
+    });
 }, 'タブを検索する');
+
+key.setViewKey([['C-/'], ['u']], function (ev) {
+    undoCloseTab();
+}, '閉じたタブを元に戻す');
 
 key.setGlobalKey('M-w', function (ev) {
     command.copyRegion(ev);
@@ -385,7 +430,6 @@ key.setViewKey('F', function (ev, arg) {
 key.setViewKey(';', function (aEvent, aArg) {
     ext.exec("hok-start-extended-mode", aArg);
 }, 'HoK - 拡張ヒントモード', true);
-
 
 key.setViewKey([['C-x', 't'], ['q'], ['T']], function (ev, arg) {
     ext.exec("twitter-client-display-timeline", arg, ev);
@@ -471,19 +515,29 @@ key.setViewKey('M-n', function (ev) {
     command.walkInputElement(command.elementsRetrieverButton, false, true);
 }, '前のボタンへフォーカスを当てる');
 
-key.setViewKey('u', function (ev) {
-    undoCloseTab();
-}, '閉じたタブを元に戻す');
-
-// key.setViewKey(['C-c', 'b'], function (ev, arg) {
-//     if (window.loadURI) {
-//         loadURI(getShortcutOrURI("hatebu", {}));
-//     }
-// }, 'hatebu に登録');
-
 key.setViewKey('t', function (ev, arg) {
     shell.input("tabopen ");
 }, 'Googleで検索');
+
+key.setViewKey('c', function (ev, arg) {
+    ext.exec("list-hateb-comments", arg);
+}, 'はてなブックマークのコメントを一覧表示', true);
+
+key.setViewKey('a', function (ev, arg) {
+    ext.exec("hateb-bookmark-this-page");
+}, 'このページをはてなブックマークに追加', true);
+
+key.setViewKey('b', function (ev, arg) {
+    ext.exec("tanything", arg);
+}, 'view all tabs', true);
+
+key.setViewKey('R', function (ev, arg) {
+    ext.exec("kungfloo-reblog", arg, ev);
+}, 'kungfloo - Reblog', true);
+
+key.setEditKey(['C-c', 'e'], function (ev, arg) {
+    ext.exec("edit_text", arg);
+}, '外部エディタで編集', true);
 
 key.setEditKey(['C-x', 'h'], function (ev) {
     command.selectAll(ev);
@@ -499,7 +553,10 @@ key.setEditKey(['C-x', 'r', 'd'], function (ev, arg) {
 }, '矩形削除', true);
 
 key.setEditKey(['C-x', 'r', 't'], function (ev) {
-    prompt.read("String rectangle: ", function (aStr, aInput) {command.replaceRectangle(aInput, aStr);}, ev.originalTarget);
+    prompt.read("String rectangle: ", function (aStr, aInput) {
+        command.replaceRectangle(aInput, aStr);
+    },
+    ev.originalTarget);
 }, '矩形置換', true);
 
 key.setEditKey(['C-x', 'r', 'o'], function (ev) {
@@ -615,9 +672,16 @@ key.setEditKey('C-M-y', function (ev) {
     if (!command.kill.ring.length) {
         return;
     }
-    let (ct = command.getClipboardText()) (!command.kill.ring.length || ct != command.kill.ring[0]) &&
-        command.pushKillRing(ct);
-    prompt.selector({message: "Paste:", collection: command.kill.ring, callback: function (i) {if (i >= 0) {key.insertText(command.kill.ring[i]);}}});
+    let(ct = command.getClipboardText())(!command.kill.ring.length || ct != command.kill.ring[0]) && command.pushKillRing(ct);
+    prompt.selector({
+        message: "Paste:",
+        collection: command.kill.ring,
+        callback: function (i) {
+            if (i >= 0) {
+                key.insertText(command.kill.ring[i]);
+            }
+        }
+    });
 }, '以前にコピーしたテキスト一覧から選択して貼り付け', true);
 
 key.setEditKey('C-w', function (ev) {
@@ -708,9 +772,9 @@ key.setCaretKey(':', function (ev, arg) {
     shell.input(null, arg);
 }, 'コマンドの実行', true);
 
-key.setCaretKey('R', function (ev) {
-    BrowserReload();
-}, '更新', true);
+key.setCaretKey('R', function (ev, arg) {
+    ext.exec("kungfloo-reblog", arg, ev);
+}, 'kungfloo - Reblog', true);
 
 key.setCaretKey('B', function (ev) {
     BrowserBack();
@@ -732,30 +796,79 @@ key.setCaretKey('M-n', function (ev) {
     command.walkInputElement(command.elementsRetrieverButton, false, true);
 }, '前のボタンへフォーカスを当てる');
 
+key.setEditKey('C-/', function (ev) {
+    display.echoStatusBar("Undo!", 2000);
+    goDoCommand("cmd_undo");
+}, 'Undo');
 
-// hatebu///////////////////////////////////////////////////
-key.setViewKey("c", function (ev, arg) {
-    ext.exec("list-hateb-comments", arg);
-}, "はてなブックマークのコメントを一覧表示", true);
+key.setEditKey('M-/', function (ev) {
+    display.echoStatusBar("Redo!", 2000);
+    goDoCommand("cmd_redo");
+}, 'Redo');
 
-key.setViewKey('a', function (ev, arg) {
-    ext.exec("hateb-bookmark-this-page");
-}, 'このページをはてなブックマークに追加', true);
-
-
-// /////////////////////////////////////////////////////////
-key.setEditKey(["C-c", "e"], function (ev, arg) {
-    ext.exec("edit_text", arg);
-}, "外部エディタで編集", true);
-
-
-// tanything////////////////////////////////////////////////
-key.setViewKey("b", function (ev, arg) {
-    ext.exec("tanything", arg);
-}, "view all tabs", true);
+// 辞書引き goo
+key.defineKey([key.modes.VIEW, key.modes.CARET], 'm', function (ev, arg) {
+    shell.input("goodic " + (content.getSelection() || ""));
+}, 'Lookup the meaning of the word');
+// 辞書引き urban dictionary
+key.defineKey([key.modes.VIEW, key.modes.CARET], 'M', function (ev, arg) {
+    shell.input("weblio " + (content.getSelection() || ""));
+}, 'Lookup the meaning of the word');
 
 
-// kungfloo - Tombloo連携////////////////////////////////////
-key.defineKey([key.modes.VIEW, key.modes.CARET], 'R', function (ev, arg) {
-    ext.exec("kungfloo-reblog", arg, ev);
-}, 'kungfloo - Reblog', true); 
+// 辞書引き
+(function () {
+    function googleSuggest(word) {
+        const domain = "com";
+        const base = "http://www.google.%s/complete/search?output=toolbar&q=%s";
+
+        let ep  = util.format(base, domain, encodeURIComponent(word));
+        let res = util.httpGet(ep);
+
+        let matched = res.responseText.match("(<toplevel>.*</toplevel>)");
+
+        if (!matched)
+            return null;
+
+        let xml = new XML(matched[1]);
+
+        return [cs.suggestion.@data for each (cs in xml.CompleteSuggestion)];
+    }
+
+    function googleCompleter(args, extra) {
+        let suggestions = googleSuggest(extra.query || "");
+
+        return { collection : suggestions, origin : extra.whole.indexOf(extra.left) };
+    }
+
+    shell.add("udic", "Urban dictionary", function (args, extra) {
+        const base = "http://www.urbandictionary.com/define.php?term=%s";
+
+        util.setBoolPref("accessibility.browsewithcaret", false);
+        gBrowser.loadOneTab(util.format(base, encodeURIComponent(args[0])),
+                            null, null, null, extra.bang);
+    }, { bang: true, completer: googleCompleter });
+
+    shell.add("goodic", M({ja: "Goo 辞書", en: "Goo dic"}), function (args, extra) {
+        const base = "http://dictionary.goo.ne.jp/search.php?MT=%s&kind=all&mode=0&IE=UTF-8";
+
+        util.setBoolPref("accessibility.browsewithcaret", false);
+        gBrowser.loadOneTab(util.format(base, encodeURIComponent(args[0])),
+                            null, null, null, extra.bang);
+    }, { bang: true, completer: googleCompleter });
+
+    shell.add("weblio", M({ja: "Weblio", en: "Weblio"}), function (args, extra) {
+        const base = "http://ejje.weblio.jp/content/%s";
+
+        util.setBoolPref("accessibility.browsewithcaret", false);
+        gBrowser.loadOneTab(util.format(base, encodeURIComponent(args[0])),
+                            null, null, null, extra.bang);
+    }, { bang: true, completer: googleCompleter });
+
+
+
+
+
+
+
+})();
