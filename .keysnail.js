@@ -151,6 +151,74 @@ local["^https?://mail.google.com/mail/"] = [
 
 
 
+// 辞書引き
+(function () {
+    function googleSuggest(word) {
+        const domain = "com";
+        const base = "http://www.google.%s/complete/search?output=toolbar&q=%s";
+
+        let ep  = util.format(base, domain, encodeURIComponent(word));
+        let res = util.httpGet(ep);
+
+        let matched = res.responseText.match("(<toplevel>.*</toplevel>)");
+
+        if (!matched)
+            return null;
+
+        let xml = new XML(matched[1]);
+
+        return [cs.suggestion.@data for each (cs in xml.CompleteSuggestion)];
+    }
+
+    function googleCompleter(args, extra) {
+        let suggestions = googleSuggest(extra.query || "");
+
+        return { collection : suggestions, origin : extra.whole.indexOf(extra.left) };
+    }
+
+    shell.add("udic", "Urban dictionary", function (args, extra) {
+        const base = "http://www.urbandictionary.com/define.php?term=%s";
+
+        util.setBoolPref("accessibility.browsewithcaret", false);
+        gBrowser.loadOneTab(util.format(base, encodeURIComponent(args[0])),
+                            null, null, null, extra.bang);
+    }, { bang: true, completer: googleCompleter });
+
+    shell.add("goodic", M({ja: "Goo 辞書", en: "Goo dic"}), function (args, extra) {
+        const base = "http://dictionary.goo.ne.jp/search.php?MT=%s&kind=all&mode=0&IE=UTF-8";
+
+        util.setBoolPref("accessibility.browsewithcaret", false);
+        gBrowser.loadOneTab(util.format(base, encodeURIComponent(args[0])),
+                            null, null, null, extra.bang);
+    }, { bang: true, completer: googleCompleter });
+
+    shell.add("weblio", M({ja: "Weblio", en: "Weblio"}), function (args, extra) {
+        const base = "http://ejje.weblio.jp/content/%s";
+
+        util.setBoolPref("accessibility.browsewithcaret", false);
+        gBrowser.loadOneTab(util.format(base, encodeURIComponent(args[0])),
+                            null, null, null, extra.bang);
+    }, { bang: true, completer: googleCompleter });
+
+
+
+
+
+
+
+})();
+
+
+
+// promptで自動日本語入力オフ
+style.register(<><![CDATA[
+    #keysnail-prompt-textbox *|input {
+        ime-mode : inactive !important;
+    }
+]]></>);
+
+
+
 
 //}}%PRESERVE%
 // ========================================================================= //
@@ -374,10 +442,6 @@ key.setGlobalKey(['C-c', 'l'], function () {
     });
 }, 'タブを検索する');
 
-key.setViewKey([['C-/'], ['u']], function (ev) {
-    undoCloseTab();
-}, '閉じたタブを元に戻す');
-
 key.setGlobalKey('M-w', function (ev) {
     command.copyRegion(ev);
 }, '選択中のテキストをコピー', true);
@@ -419,6 +483,10 @@ key.setGlobalKey('C-k', function (ev) {
 
 }, '短縮URLをGET', true);
 
+key.setViewKey([['C-/'], ['u']], function (ev) {
+    undoCloseTab();
+}, '閉じたタブを元に戻す');
+
 key.setViewKey('f', function (ev, arg) {
     ext.exec("hok-start-foreground-mode", arg, ev);
 }, 'HoK - リンクをフォアグラウンドで開く', true);
@@ -431,7 +499,7 @@ key.setViewKey(';', function (aEvent, aArg) {
     ext.exec("hok-start-extended-mode", aArg);
 }, 'HoK - 拡張ヒントモード', true);
 
-key.setViewKey([['C-x', 't'], ['q'], ['T']], function (ev, arg) {
+key.setViewKey([['C-x', 't'], ['q']], function (ev, arg) {
     ext.exec("twitter-client-display-timeline", arg, ev);
 }, 'TL を表示', true);
 
@@ -517,7 +585,7 @@ key.setViewKey('M-n', function (ev) {
 
 key.setViewKey('t', function (ev, arg) {
     shell.input("tabopen ");
-}, 'Googleで検索');
+}, 'tabopen');
 
 key.setViewKey('c', function (ev, arg) {
     ext.exec("list-hateb-comments", arg);
@@ -534,6 +602,18 @@ key.setViewKey('b', function (ev, arg) {
 key.setViewKey('R', function (ev, arg) {
     ext.exec("kungfloo-reblog", arg, ev);
 }, 'kungfloo - Reblog', true);
+
+key.setViewKey('m', function (ev, arg) {
+    shell.input("goodic " + (content.getSelection() || ""));
+}, 'Lookup the meaning of the word');
+
+key.setViewKey('M', function (ev, arg) {
+    shell.input("weblio " + (content.getSelection() || ""));
+}, 'Lookup the meaning of the word');
+
+key.setViewKey('T', function (ev, arg) {
+    shell.input("tabopen go ");
+}, 'google検索');
 
 key.setEditKey(['C-c', 'e'], function (ev, arg) {
     ext.exec("edit_text", arg);
@@ -572,9 +652,9 @@ key.setEditKey(['C-x', 'r', 'y'], function (ev) {
 }, '矩形ヤンク', true);
 
 key.setEditKey('C-/', function (ev) {
-    display.echoStatusBar("Redo!", 2000);
-    goDoCommand("cmd_redo");
-}, 'リドゥ');
+    display.echoStatusBar("Undo!", 2000);
+    goDoCommand("cmd_undo");
+}, 'Undo');
 
 key.setEditKey([['C-SPC'], ['C-@']], function (ev) {
     command.setMark(ev);
@@ -698,6 +778,11 @@ key.setEditKey('M-p', function (ev) {
     command.walkInputElement(command.elementsRetrieverTextarea, false, true);
 }, '前のテキストエリアへフォーカス');
 
+key.setEditKey('M-/', function (ev) {
+    display.echoStatusBar("Redo!", 2000);
+    goDoCommand("cmd_redo");
+}, 'Redo');
+
 key.setCaretKey([['C-a'], ['^']], function (ev) {
     ev.target.ksMarked ? goDoCommand("cmd_selectBeginLine") : goDoCommand("cmd_beginLine");
 }, 'キャレットを行頭へ移動');
@@ -796,79 +881,19 @@ key.setCaretKey('M-n', function (ev) {
     command.walkInputElement(command.elementsRetrieverButton, false, true);
 }, '前のボタンへフォーカスを当てる');
 
-key.setEditKey('C-/', function (ev) {
-    display.echoStatusBar("Undo!", 2000);
-    goDoCommand("cmd_undo");
-}, 'Undo');
-
-key.setEditKey('M-/', function (ev) {
-    display.echoStatusBar("Redo!", 2000);
-    goDoCommand("cmd_redo");
-}, 'Redo');
-
-// 辞書引き goo
-key.defineKey([key.modes.VIEW, key.modes.CARET], 'm', function (ev, arg) {
+key.setCaretKey('m', function (ev, arg) {
     shell.input("goodic " + (content.getSelection() || ""));
 }, 'Lookup the meaning of the word');
-// 辞書引き urban dictionary
-key.defineKey([key.modes.VIEW, key.modes.CARET], 'M', function (ev, arg) {
+
+key.setCaretKey('M', function (ev, arg) {
     shell.input("weblio " + (content.getSelection() || ""));
 }, 'Lookup the meaning of the word');
 
+key.setViewKey('o', function (ev, arg) {
+    shell.input("open ");
+}, 'このタブで開く');
 
-// 辞書引き
-(function () {
-    function googleSuggest(word) {
-        const domain = "com";
-        const base = "http://www.google.%s/complete/search?output=toolbar&q=%s";
+key.setViewKey('O', function (ev, arg) {
+    shell.input("tabopen go ");
+}, 'このタブでgoogle検索');
 
-        let ep  = util.format(base, domain, encodeURIComponent(word));
-        let res = util.httpGet(ep);
-
-        let matched = res.responseText.match("(<toplevel>.*</toplevel>)");
-
-        if (!matched)
-            return null;
-
-        let xml = new XML(matched[1]);
-
-        return [cs.suggestion.@data for each (cs in xml.CompleteSuggestion)];
-    }
-
-    function googleCompleter(args, extra) {
-        let suggestions = googleSuggest(extra.query || "");
-
-        return { collection : suggestions, origin : extra.whole.indexOf(extra.left) };
-    }
-
-    shell.add("udic", "Urban dictionary", function (args, extra) {
-        const base = "http://www.urbandictionary.com/define.php?term=%s";
-
-        util.setBoolPref("accessibility.browsewithcaret", false);
-        gBrowser.loadOneTab(util.format(base, encodeURIComponent(args[0])),
-                            null, null, null, extra.bang);
-    }, { bang: true, completer: googleCompleter });
-
-    shell.add("goodic", M({ja: "Goo 辞書", en: "Goo dic"}), function (args, extra) {
-        const base = "http://dictionary.goo.ne.jp/search.php?MT=%s&kind=all&mode=0&IE=UTF-8";
-
-        util.setBoolPref("accessibility.browsewithcaret", false);
-        gBrowser.loadOneTab(util.format(base, encodeURIComponent(args[0])),
-                            null, null, null, extra.bang);
-    }, { bang: true, completer: googleCompleter });
-
-    shell.add("weblio", M({ja: "Weblio", en: "Weblio"}), function (args, extra) {
-        const base = "http://ejje.weblio.jp/content/%s";
-
-        util.setBoolPref("accessibility.browsewithcaret", false);
-        gBrowser.loadOneTab(util.format(base, encodeURIComponent(args[0])),
-                            null, null, null, extra.bang);
-    }, { bang: true, completer: googleCompleter });
-
-
-
-
-
-
-
-})();
