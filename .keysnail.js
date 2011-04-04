@@ -67,6 +67,20 @@ plugins.options["hok.hint_color_form"]    = 'rgba(210, 210, 210, 0.6)';
 plugins.options["hok.hint_color_focused"] = 'rgba(255, 82, 93, 0.6)';
 
 
+plugins.options["hitsory.keymap"] = {
+    "C-z"   : "prompt-toggle-edit-mode",
+    //"SPC"   : "prompt-next-page",
+    //"b"     : "prompt-previous-page",
+    "j"     : "prompt-next-completion",
+    "k"     : "prompt-previous-completion",
+    "g"     : "prompt-beginning-of-candidates",
+    "G"     : "prompt-end-of-candidates",
+    "q"     : "prompt-cancel",
+    // history specific actions
+    "/"     : "search",
+    "o"     : "open"
+};
+
 
 
 
