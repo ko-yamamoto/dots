@@ -616,38 +616,70 @@
     (global-set-key [(super c)] 'kill-ring-save)
     (global-set-key [(super v)] 'yank)
     (global-set-key [(super x)] 'kill-region)
-  
-  
-    ;; zshを使う
-    (setq shell-file-name "/usr/local/bin/zsh")
-    ;; zshで4mとか出る問題に対応
-    ;; (setq system-uses-terminfo nil)
-    ;; lsで色崩れ防ぐ
-    (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
-    (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-  
-  
-    ;; C-tでshellをポップアップ
-    (require 'shell-pop)
-    (shell-pop-set-internal-mode "ansi-term") ;; ansi-term
-    (shell-pop-set-internal-mode-shell "/usr/local/bin/zsh") ;; zsh
-    (defvar ansi-term-after-hook nil)
-    (add-hook 'ansi-term-after-hook
-       '(lambda ()
-	  (define-key term-raw-map "\C-t" 'shell-pop)))
-    (defadvice ansi-term (after ansi-term-after-advice (org))
-      "run hook as after advice"
-      (run-hooks 'ansi-term-after-hook))
-    (ad-activate 'ansi-term)
-    (global-set-key "\C-t" 'shell-pop)
-    ;; (defvar my-shell-pop-key (kbd "C-t"))
-    ;; (defvar my-ansi-term-toggle-mode-key (kbd "<f2>"))
-  
-    (shell-pop-set-window-height 50)
-    (shell-pop-set-internal-mode "ansi-term")
-    (shell-pop-set-internal-mode-shell shell-file-name)
-  
 
+  
+  
+     
+    ;; ============================================================
+    ;; ansi-term
+    ;; ============================================================
+(defvar my-shell-pop-key (kbd "C-t"))
+(defvar my-ansi-term-toggle-mode-key (kbd "C-c c"))
+
+(defadvice ansi-term (after ansi-term-after-advice (arg))
+  "run hook as after advice"
+  (run-hooks 'ansi-term-after-hook))
+(ad-activate 'ansi-term)
+
+(defun my-term-switch-line-char ()
+  "Switch `term-in-line-mode' and `term-in-char-mode' in `ansi-term'"
+  (interactive)
+  (cond
+   ((term-in-line-mode)
+    (term-char-mode)
+    (hl-line-mode -1))
+   ((term-in-char-mode)
+    (term-line-mode)
+    (hl-line-mode 1))))
+
+(defadvice anything-c-kill-ring-action (around my-anything-kill-ring-term-advice activate)
+  "In term-mode, use `term-send-raw-string' instead of `insert-for-yank'"
+  (if (eq major-mode 'term-mode)
+      (letf (((symbol-function 'insert-for-yank) (symbol-function 'term-send-raw-string)))
+        ad-do-it)
+    ad-do-it))
+
+(defvar ansi-term-after-hook nil)
+(add-hook 'ansi-term-after-hook
+          (lambda ()
+            ;; shell-pop
+            (define-key term-raw-map my-shell-pop-key 'shell-pop)
+            ;; M-xできるように
+            (define-key term-raw-map (kbd "M-x") 'nil)
+            ;; コピーと貼り付け
+            (define-key term-raw-map (kbd "C-k")
+              (lambda (&optional arg) (interactive "P") (funcall 'kill-line arg) (term-send-raw)))
+            (define-key term-raw-map (kbd "C-y") 'term-paste)
+            (define-key term-raw-map (kbd "M-y") 'anything-show-kill-ring)
+            ;; F2でline-mode/char-modeを切替
+            (define-key term-raw-map  my-ansi-term-toggle-mode-key 'my-term-switch-line-char)
+            (define-key term-mode-map my-ansi-term-toggle-mode-key 'my-term-switch-line-char)
+))
+
+;; ============================================================
+;; shell-pop
+;; ============================================================
+(require 'shell-pop)
+(shell-pop-set-window-height 30)
+(shell-pop-set-internal-mode "ansi-term")
+(shell-pop-set-internal-mode-shell shell-file-name)
+(global-set-key my-shell-pop-key 'shell-pop)
+
+
+
+
+
+    (define-key global-map [?¥] [?\\])  ;; ¥の代わりにバックスラッシュを入力する
 
 )
 
@@ -1299,6 +1331,19 @@ interpreter-mode-alist))
 ;; %# - id
 
 
+
+
+
+
+;;====================
+;; keisen-mule
+;;====================
+;; 罫線を簡単に引くモード
+;; srefをarefに置き換えて動かすための設定(ソースを修正したためコメントアウト)
+;; (unless (fboundp 'sref) (defalias 'sref 'aref))
+(if window-system
+    (autoload 'keisen-mode "keisen-mouse" "MULE 版罫線モード + マウス" t)
+  (autoload 'keisen-mode "keisen-mule" "MULE 版罫線モード" t))
 
 
 
