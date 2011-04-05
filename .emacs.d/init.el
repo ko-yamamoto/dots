@@ -454,6 +454,16 @@
 (global-set-key [M-left]  'duplicate-region-backward)
 
 
+;; 折り返し表示をトグル
+(defun toggle-truncate-lines ()
+  "折り返し表示をトグル動作します."
+  (interactive)
+  (if truncate-lines
+      (setq truncate-lines nil)
+    (setq truncate-lines t))
+  (recenter))
+(global-set-key (kbd "C-c C-l") 'toggle-truncate-lines) ; 折り返し表示ON/OFF
+
 
 ;; my window resize
 (defun my-window-resizer ()
