@@ -1428,11 +1428,11 @@ interpreter-mode-alist))
 (add-hook 'eshell-mode-hook
           '(lambda ()
              (progn
-               (define-key eshell-mode-map "\C-a" 'eshell-bol)
-               (define-key eshell-mode-map "\C-p" 'eshell-previous-matching-input-from-input)
-               (define-key eshell-mode-map "\C-n" 'eshell-next-matching-input-from-input)
-               (define-key eshell-mode-map [up] 'previous-line)
-               (define-key eshell-mode-map [down] 'next-line)
+               (define-key eshell-mode-map (kbd "C-a") 'eshell-bol)
+               (define-key eshell-mode-map [up] 'eshell-previous-matching-input-from-input)
+               (define-key eshell-mode-map [down] 'eshell-next-matching-input-from-input)
+               (define-key eshell-mode-map (kbd "C-p") 'previous-line)
+               (define-key eshell-mode-map (kbd "C-n") 'next-line)
                )
              ))
 
