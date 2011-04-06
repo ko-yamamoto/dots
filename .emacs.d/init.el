@@ -633,57 +633,57 @@
     ;; ============================================================
     ;; ansi-term
     ;; ============================================================
-(defvar my-shell-pop-key (kbd "C-t"))
-(defvar my-ansi-term-toggle-mode-key (kbd "C-c c"))
-
-(defadvice ansi-term (after ansi-term-after-advice (arg))
-  "run hook as after advice"
-  (run-hooks 'ansi-term-after-hook))
-(ad-activate 'ansi-term)
-
-(defun my-term-switch-line-char ()
-  "Switch `term-in-line-mode' and `term-in-char-mode' in `ansi-term'"
-  (interactive)
-  (cond
-   ((term-in-line-mode)
-    (term-char-mode)
-    (hl-line-mode -1))
-   ((term-in-char-mode)
-    (term-line-mode)
-    (hl-line-mode 1))))
-
-(defadvice anything-c-kill-ring-action (around my-anything-kill-ring-term-advice activate)
-  "In term-mode, use `term-send-raw-string' instead of `insert-for-yank'"
-  (if (eq major-mode 'term-mode)
-      (letf (((symbol-function 'insert-for-yank) (symbol-function 'term-send-raw-string)))
-        ad-do-it)
-    ad-do-it))
-
-(defvar ansi-term-after-hook nil)
-(add-hook 'ansi-term-after-hook
-          (lambda ()
-            ;; shell-pop
-            (define-key term-raw-map my-shell-pop-key 'shell-pop)
-            ;; M-xできるように
-            (define-key term-raw-map (kbd "M-x") 'nil)
-            ;; コピーと貼り付け
-            (define-key term-raw-map (kbd "C-k")
-              (lambda (&optional arg) (interactive "P") (funcall 'kill-line arg) (term-send-raw)))
-            (define-key term-raw-map (kbd "C-y") 'term-paste)
-            (define-key term-raw-map (kbd "M-y") 'anything-show-kill-ring)
-            ;; F2でline-mode/char-modeを切替
-            (define-key term-raw-map  my-ansi-term-toggle-mode-key 'my-term-switch-line-char)
-            (define-key term-mode-map my-ansi-term-toggle-mode-key 'my-term-switch-line-char)
-))
+;(defvar my-shell-pop-key (kbd "C-t"))
+;(defvar my-ansi-term-toggle-mode-key (kbd "C-c c"))
+; 
+;(defadvice ansi-term (after ansi-term-after-advice (arg))
+;  "run hook as after advice"
+;  (run-hooks 'ansi-term-after-hook))
+;(ad-activate 'ansi-term)
+; 
+;(defun my-term-switch-line-char ()
+;  "Switch `term-in-line-mode' and `term-in-char-mode' in `ansi-term'"
+;  (interactive)
+;  (cond
+;   ((term-in-line-mode)
+;    (term-char-mode)
+;    (hl-line-mode -1))
+;   ((term-in-char-mode)
+;    (term-line-mode)
+;    (hl-line-mode 1))))
+; 
+;(defadvice anything-c-kill-ring-action (around my-anything-kill-ring-term-advice activate)
+;  "In term-mode, use `term-send-raw-string' instead of `insert-for-yank'"
+;  (if (eq major-mode 'term-mode)
+;      (letf (((symbol-function 'insert-for-yank) (symbol-function 'term-send-raw-string)))
+;        ad-do-it)
+;    ad-do-it))
+; 
+;(defvar ansi-term-after-hook nil)
+;(add-hook 'ansi-term-after-hook
+;          (lambda ()
+;            ;; shell-pop
+;            (define-key term-raw-map my-shell-pop-key 'shell-pop)
+;            ;; M-xできるように
+;            (define-key term-raw-map (kbd "M-x") 'nil)
+;            ;; コピーと貼り付け
+;            (define-key term-raw-map (kbd "C-k")
+;              (lambda (&optional arg) (interactive "P") (funcall 'kill-line arg) (term-send-raw)))
+;            (define-key term-raw-map (kbd "C-y") 'term-paste)
+;            (define-key term-raw-map (kbd "M-y") 'anything-show-kill-ring)
+;            ;; F2でline-mode/char-modeを切替
+;            (define-key term-raw-map  my-ansi-term-toggle-mode-key 'my-term-switch-line-char)
+;            (define-key term-mode-map my-ansi-term-toggle-mode-key 'my-term-switch-line-char)
+;))
 
 ;; ============================================================
 ;; shell-pop
 ;; ============================================================
 (require 'shell-pop)
 (shell-pop-set-window-height 30)
-(shell-pop-set-internal-mode "ansi-term")
+(shell-pop-set-internal-mode "eshell")
 (shell-pop-set-internal-mode-shell shell-file-name)
-(global-set-key my-shell-pop-key 'shell-pop)
+;(global-set-key my-shell-pop-key 'shell-pop)
 
 
 
@@ -1354,6 +1354,102 @@ interpreter-mode-alist))
 (if window-system
     (autoload 'keisen-mode "keisen-mouse" "MULE 版罫線モード + マウス" t)
   (autoload 'keisen-mode "keisen-mule" "MULE 版罫線モード" t))
+
+
+;;====================
+;; Eshell
+;;====================
+;; emacs起動時にeshell起動
+(add-hook 'after-init-hook
+          (lambda()
+            (eshell)
+            (switch-to-buffer "*scratch*")))
+
+;; 補完時に大文字小文字を区別しない
+(setq eshell-cmpl-ignore-case t)
+;; 確認なしでヒストリ保存
+(setq eshell-ask-to-save-history (quote always))
+;; 補完時にサイクルする
+(setq eshell-cmpl-cycle-completions t)
+;;(setq eshell-cmpl-cycle-completions nil)
+;;補完候補がこの数値以下だとサイクルせずに候補表示
+;(setq eshell-cmpl-cycle-cutoff-length 5)
+;; 履歴で重複を無視する
+(setq eshell-hist-ignoredups t)
+;; prompt 文字列の変更
+(defun my-eshell-prompt ()
+(concat (eshell/pwd) "\n→ " ))
+(setq eshell-prompt-function 'my-eshell-prompt)
+(setq eshell-prompt-regexp "^[^#$\n]*[#→] ")
+
+;; sudoのあとも補完可能に
+(defun pcomplete/sudo ()
+  "Completion rules for the `sudo' command."
+  (let ((pcomplete-help "complete after sudo"))
+    (pcomplete-here (pcomplete-here (eshell-complete-commands-list)))))
+
+;; トグルする設定
+(defun my-toggle-term ()
+  "eshell と直前のバッファを行き来する。C-u 付きで呼ぶと 今いるバッファと同じディレクトリに cd して開く"
+  (interactive)
+  (let ((ignore-list '("*Help*" "*Minibuf-1*" "*Messages*"
+                       "*terminal<1>*" "*terminal<2>*" "*terminal<3>*"))
+        (dir default-directory))
+    (labels
+        ((_my-toggle-term (target)
+           (if (null (member (buffer-name (second target)) ignore-list))
+               (if (equal "*eshell*" (buffer-name (window-buffer)))
+                   (switch-to-buffer (second target))
+                 (switch-to-buffer "*eshell*")
+                 (when current-prefix-arg
+                   (cd dir)
+                   (eshell-interactive-print (concat "cd " dir "\n"))
+                   (eshell-emit-prompt)))
+             (_my-toggle-term (cdr target)))))
+      (_my-toggle-term (buffer-list)))))
+(global-set-key (kbd "C-t") 'my-toggle-term)
+
+;; eshell での補完に auto-complete.el を使う
+(require 'pcomplete)
+(add-to-list 'ac-modes 'eshell-mode)
+(ac-define-source pcomplete
+  '((candidates . pcomplete-completions)))
+(defun my-ac-eshell-mode ()
+  (setq ac-sources
+        '(ac-source-pcomplete
+          ac-source-words-in-buffer
+          ac-source-dictionary)))
+(add-hook 'eshell-mode-hook
+          (lambda ()
+            (my-ac-eshell-mode)
+            (define-key eshell-mode-map (kbd "C-i") 'auto-complete)))
+
+;; キーバインドの変更
+(add-hook 'eshell-mode-hook
+          '(lambda ()
+             (progn
+               (define-key eshell-mode-map "\C-a" 'eshell-bol)
+               (define-key eshell-mode-map "\C-p" 'eshell-previous-matching-input-from-input)
+               (define-key eshell-mode-map "\C-n" 'eshell-next-matching-input-from-input)
+               (define-key eshell-mode-map [up] 'previous-line)
+               (define-key eshell-mode-map [down] 'next-line)
+               )
+             ))
+
+;; エスケープシーケンスを処理
+;; http://d.hatena.ne.jp/hiboma/20061031/1162277851
+(autoload 'ansi-color-for-comint-mode-on "ansi-color"
+          "Set `ansi-color-for-comint-mode' to t." t)
+(add-hook 'eshell-load-hook 'ansi-color-for-comint-mode-on)
+
+;; http://www.emacswiki.org/emacs-ja/EshellColor
+(require 'ansi-color)
+(require 'eshell)
+(defun eshell-handle-ansi-color ()
+  (ansi-color-apply-on-region eshell-last-output-start
+                              eshell-last-output-end))
+(add-to-list 'eshell-output-filter-functions 'eshell-handle-ansi-color)
+
 
 
 
