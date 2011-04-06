@@ -1501,7 +1501,7 @@ interpreter-mode-alist))
 (setq-default mode-line-format 
   (list "%*["
 	'mode-line-mule-info
-	"] L%l:C%c %P   [%b] %f (%m"
+	"] L%l:C%c %P   %b   (%m"
 	'minor-mode-alist
 	")"
   )
