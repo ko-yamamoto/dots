@@ -169,8 +169,8 @@ set wildmode=list,full
 "挿入モード時、ステータスラインの色を変更
 augroup InsertHook
 autocmd!
-autocmd InsertEnter * highlight StatusLine guifg=#000000 guibg=#e8c340
-autocmd InsertLeave * highlight StatusLine guifg=#000000 guibg=#dbde68
+autocmd InsertEnter * highlight StatusLine guifg=Red guibg=#ffffff
+autocmd InsertLeave * highlight StatusLine guifg=#ffffff guibg=#333333
 augroup END
 
 " function! GetB()
@@ -321,7 +321,7 @@ set hlsearch   " 検索文字をハイライト
 
 
 "-------------------------------------------------------------------------------
-" ========== キーマッピング ==========
+" キーマッピング
 "-------------------------------------------------------------------------------
 let mapleader = " "
 
@@ -601,7 +601,7 @@ nnoremap    [unite]   <Nop>
 nmap    <Space> [unite]
 
 nnoremap [unite]u  :<C-u>Unite<Space>
-nnoremap <silent> [unite]a  :<C-u>UniteWithCurrentDir -buffer-name=files buffer file_mru bookmark file<CR>
+nnoremap <silent> [unite];  :<C-u>UniteWithCurrentDir -buffer-name=files buffer file_mru bookmark file<CR>
 nnoremap <silent> [unite]f  :<C-u>Unite -buffer-name=files file<CR>
 nnoremap <silent> [unite]b  :<C-u>Unite buffer<CR>
 nnoremap <silent> [unite]m  :<C-u>Unite file_mru<CR>
@@ -665,6 +665,45 @@ hi scalaNew gui=underline
 hi scalaMethodCall gui=italic
 hi scalaValName gui=underline
 hi scalaVarName gui=underline
+
+
+
+
+"------------------------------------
+" vimshell
+"------------------------------------
+" ,is: シェルを起動
+nnoremap <silent> <Space>s :VimShell<CR>
+" ,ipy: pythonを非同期で起動
+nnoremap <silent> <Space>sp :VimShellInteractive python<CR>
+" ,irb: irbを非同期で起動
+nnoremap <silent> <Space>si :VimShellInteractive irb<CR>
+" ,ss: 非同期で開いたインタプリタに現在の行を評価させる
+vmap <silent> <Space>ss :VimShellSendString<CR>
+" 選択中に,ss: 非同期で開いたインタプリタに選択行を評価させる
+nnoremap <silent> <Space>ss <S-v>:VimShellSendString<CR>
+
+
+
+
+"------------------------------------
+" twit-vim via basyura
+"------------------------------------
+let twitvim_count = 40
+nnoremap <Space>tp :<C-u>PosttoTwitter<CR>
+nnoremap <Space>tf :<C-u>FriendsTwitter<CR><C-w>j
+nnoremap <Space>tu :<C-u>UserTwitter<CR><C-w>j
+nnoremap <Space>tr :<C-u>RepliesTwitter<CR><C-w>j
+nnoremap <Space>tn :<C-u>NextTwitter<CR>
+
+autocmd FileType twitvim call s:twitvim_my_settings()
+function! s:twitvim_my_settings()
+  set nowrap
+endfunction
+
+
+
+
 
 
 
