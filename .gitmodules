@@ -1,0 +1,3 @@
+[submodule ".vim/bundle/TwitVim"]
+	path = .vim/bundle/TwitVim
+	url = https://github.com/basyura/TwitVim.git
