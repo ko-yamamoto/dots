@@ -1544,7 +1544,8 @@ interpreter-mode-alist))
 ;; color-themeの設定
 (require 'color-theme)
 (color-theme-initialize)
-(color-theme-nishikawasasaki)
+;;(color-theme-nishikawasasaki)
+(color-theme-tangotango)
 
 
 ;; キーワードのカラー表示を有効化
