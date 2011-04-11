@@ -2,7 +2,7 @@
  * The MIT License
  *
  * Copyright (c) 2010 teramako
- * Copyright (c) 2010 anekos
+ * Copyright (c) 2010-2011 anekos
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,7 @@ let PLUGIN_INFO =
   <name>Twittperator</name>
   <description>Twitter Client using OAuth and Streaming API</description>
   <description lang="ja">OAuth/StreamingAPI対応Twitterクライアント</description>
-  <version>1.13.1</version>
+  <version>1.14.0</version>
   <minVersion>2.3</minVersion>
   <maxVersion>3.0</maxVersion>
   <author mail="teramako@gmail.com" homepage="http://d.hatena.ne.jp/teramako/">teramako</author>
@@ -54,6 +54,8 @@ let PLUGIN_INFO =
         Show @user's tweets.
     :tw[ittperator] {TweetText}
         Tweets {TweetText}.
+    :tw[ittperator] @user#id {TweetText}
+        Tweets a reply to @user.
     :tw[ittperator] RT @user#id: {refTweet}
         Does official retweet.
     :tw[ittperator] {TweetText} RT @user#id: {refTweet}
@@ -113,6 +115,8 @@ let PLUGIN_INFO =
         @user のタイムラインを表示します。
     :tw[ittperator] {TweetText}
         {TweetText}をポストします。
+    :tw[ittperator] @user#id {TweetText}
+        @user への返信になります。
     :tw[ittperator] RT @user#id: {refTweet}
         公式RTになるはずです。
     :tw[ittperator] {TweetText} RT @user#id: {refTweet}
@@ -1222,7 +1226,7 @@ let PLUGIN_INFO =
     };
     return p;
   })();
-  {
+  {//jsonGet jsonPost jsonDelete の動的定義
     'get post delete'.split(' ').forEach(function (name) {
       let newName =
         'json' + name.replace(/^(.)(.*)/ , function(_, a, b) (a.toUpperCase() + b));
@@ -1364,7 +1368,7 @@ let PLUGIN_INFO =
       stop();
       if (restartCount > 13)
         return liberator.echoerr("Twittperator: Gave up to connect to " + name + "...");
-      liberator.echoerr("Twittperator: " + name + " will be restared...");
+      liberator.echoerr("Twittperator: " + name + " will be restarted...");
       // 試行済み回数^2 秒後にリトライ
       setTimeout(function() start(lastParams), Math.pow(2, restartCount) * 1000);
       restartCount++;
@@ -1513,7 +1517,7 @@ let PLUGIN_INFO =
   }; // }}}
   let Utils = { // {{{
     anchorLink: function(str) { // {{{
-      let m = str.match(/https?:\/\/\S+|@\S+/);
+      let m = str.match(/https?:\/\/\S+|@[a-zA-Z0-9_]+/);
       if (m) {
         let left = str.substr(0, m.index);
         let center = m[0];
@@ -1815,9 +1819,16 @@ let PLUGIN_INFO =
 
       let ugly = {
         __noSuchMethod__: function (name, args) originalPath[name].apply(originalPath, args),
-        toString:
-          function()
-            (parseInt(Error().stack.match(/io.js:(\d+)/)[1], 10) < 100 ? originalPath : hackedPath)
+        toString: function() {
+          function isFile (caller) {
+            if (!caller)
+              return false;
+            if (caller === io.File)
+              return true;
+            return isFile(caller.caller);
+          }
+          return isFile(arguments.callee.caller) ? originalPath : hackedPath;
+        }
       };
 
       try {
@@ -1911,14 +1922,27 @@ let PLUGIN_INFO =
       function rt(st)
         ("retweeted_status" in st ? st.retweeted_status : st);
 
-      function removeNewLine (text)
+      function removeNewLine(text)
         text.replace(/\r\n|[\r\n]/g, ' ');
 
-      function completer(generator)
-        function(filter)
-          makeTimelineCompleter(
-            filter ? function(context, args) context.completions = history.map(rt).filter(filter).map(generator)
-                   : function(context, args) context.completions = history.map(rt).map(generator));
+      function completer(generator, nort) {
+        let getHistory = nort ? function() history
+                              : function() history.map(rt);
+        return function(filter) {
+          function completer(context, args) {
+            let cs = [];
+            for (let [, it] in Iterator(getHistory())) {
+              if (filter && !filter(it))
+                continue;
+              let item = generator(it);
+              if (item[0])
+                cs.push(item);
+            }
+            context.completions = cs;
+          }
+          return makeTimelineCompleter(completer);
+        }
+      }
 
       return {
         name:
@@ -1929,12 +1953,16 @@ let PLUGIN_INFO =
           completer(function(s) [removeNewLine(s.text), s]),
         id:
           completer(function(s) [s.id, s]),
+        rawid:
+          completer(function(s) [s.id, s], true),
         name_id:
           completer(function(s) ["@" + s.user.screen_name + "#" + s.id, s]),
         name_id_text:
           completer(function(s) ["@" + s.user.screen_name + "#" + s.id + ": " + removeNewLine(s.text), s]),
         screenName:
           completer(function(s) [s.user.screen_name, s]),
+        statusPage:
+          completer(function(s) [s.user.screen_name + '/status/' + s.id , s]),
         hashtag:
           function(filter) {
             return makeTimelineCompleter(function(context, args){
@@ -2061,7 +2089,7 @@ let PLUGIN_INFO =
           history.filter(function(st) st.id === id).map(dtdd).forEach(liberator.echo);
         },
         timelineCompleter: true,
-        completer: Completers.id()
+        completer: Completers.rawid(function(st) st.id)
       }),
       SubCommand({
         command: ["track"],
@@ -2089,6 +2117,13 @@ let PLUGIN_INFO =
         action: function(arg) liberator.open("http://twitter.com/" + arg, liberator.NEW_TAB),
         timelineCompleter: true,
         completer: Completers.screenName(rejectMine)
+      }),
+      SubCommand({
+        command: ["status"],
+        description: "Open status page.",
+        action: function(arg) liberator.open("http://twitter.com/" + arg, liberator.NEW_TAB),
+        timelineCompleter: true,
+        completer: Completers.statusPage(function (s) s.id)
       }),
       SubCommand({
         command: ["thread"],
@@ -2277,6 +2312,7 @@ let PLUGIN_INFO =
   let setting =
     let (gv = liberator.globalVariables) ({
       useChirp: !!gv.twittperator_use_chirp,
+      allReplies: !!gv.twittperator_all_replies,
       autoStatusUpdate: !!parseInt(gv.twittperator_auto_status_update || 0),
       statusValidDuration: parseInt(gv.twitperator_status_valid_duration || 90),
       historyLimit: let (v = gv.twittperator_history_limit) (v === 0 ? 0 : (v || 1000)),
@@ -2312,8 +2348,12 @@ let PLUGIN_INFO =
 
   Twittperator.loadPlugins();
 
-  if (setting.useChirp)
-    ChirpUserStream.start();
+  if (setting.useChirp){
+    if(setting.allReplies)
+      ChirpUserStream.start({"replies":"all"});
+    else 
+      ChirpUserStream.start();
+  }
 
   let trackWords = setting.trackWords || Store.get("trackWords");
   if (trackWords)
