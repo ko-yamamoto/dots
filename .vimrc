@@ -5,8 +5,6 @@
 "-------------------------------------------------------------------------------
 " 基本設定 Basics
 "-------------------------------------------------------------------------------
-" Vimballのインストール先設定
-let g:vimball_home=$HOME."/vimfiles"
 
 "ファイルタイプ別セッティングON
 filetype plugin indent on 
@@ -80,7 +78,7 @@ if exists('&ambiwidth')
 endif
 
 
-
+" 各種設定
 set nocompatible                 " vi互換なし
 set scrolloff=5                  " スクロール時の余白確保
 set textwidth=0                  " 一行に長い文章を書いていても自動折り返しをしない
@@ -117,10 +115,11 @@ filetype plugin on
 
 
 "-------------------------------------------------------------------------------
-" ========== 表示設定 ==========
+" 表示設定
 "-------------------------------------------------------------------------------
 "カラースキーマを設定→gvimrcへ
 "colorscheme murphy
+
 "hilight
 syntax on
 "行番号を表示する
@@ -323,7 +322,7 @@ set hlsearch   " 検索文字をハイライト
 "-------------------------------------------------------------------------------
 " キーマッピング
 "-------------------------------------------------------------------------------
-let mapleader = " "
+let mapleader = ","
 
 
 " キーを2つ以上にマッピングする際の待ち時間(ms)
@@ -331,6 +330,9 @@ set timeoutlen=500
 
 "Escの2回押しでハイライト消去
 nmap <ESC><ESC> :nohlsearch<CR><ESC>
+
+" <Esc>*3でウィンドウをひとつに
+nnoremap <Esc><Esc><Esc> :only<CR>
 
 "選択した文字列を検索
 vnoremap <silent> // y/<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
@@ -341,11 +343,11 @@ vnoremap /r "xy:%s/<C-R>=escape(@x, '\\/.*$^~[]')<CR>//gc<Left><Left><Left>
 "s*置換後文字列/g<Cr>でカーソル下のキーワードを置換
 nnoremap <expr> s* ':%substitute/\<' . expand('<cword>') . '\>/'
 
-" Ctrl-iでヘルプ
-nnoremap <C-h>  :<C-u>help<Space>
+" Ctrl-^でヘルプ
+nnoremap <C-^>  :<C-u>help<Space>
 
 " カーソル下のキーワードをヘルプでひく
-nnoremap <C-h><C-h> :<C-u>help<Space><C-r><C-w><Enter>
+nnoremap <C-^><C-^> :<C-u>help<Space><C-r><C-w><Enter>
 
 
 " gj gk とj kを入れ替え
@@ -359,14 +361,8 @@ nnoremap gc `[v`]
 vnoremap gc :<C-u>normal gc<Enter>
 onoremap gc :<C-u>normal gc<Enter>
 
-" y9で行末までヤンク
-nmap y9 y$
-
-" y0で行頭までヤンク
-nmap y0 y^
-
 " コンマの後に自動的にスペースを挿入
-inoremap , ,<Space>
+" inoremap , ,<Space>
 
 " XMLの閉タグを自動挿入
 augroup MyXML
@@ -411,12 +407,10 @@ nmap 1 0
 nmap 0 ^
 nmap 9 $
 
-
-" タブを開く
-noremap <Space>t :tabnew<CR>
-" タブを閉じる
-noremap <Space>T :tabclose<CR>
-
+" y9で行末までヤンク
+nmap y9 y$
+" y0で行頭までヤンク
+nmap y0 y^
 
 
 " 挿入モードでCtrl+kを押すとクリップボードの内容を貼り付けられるように
@@ -430,9 +424,9 @@ command! Rgv source $MYGVIMRC
 
 
 " 日時の自動入力
-inoremap <expr> ,df strftime('%Y/%m/%d %H:%M:%S')
-inoremap <expr> ,dd strftime('%Y/%m/%d')
-inoremap <expr> ,dt strftime('%H:%M:%S')
+inoremap <expr> <Leader>df strftime('%Y/%m/%d %H:%M:%S')
+inoremap <expr> <Leader>dd strftime('%Y/%m/%d')
+inoremap <expr> <Leader>dt strftime('%H:%M:%S')
 
 " 括弧を自動補完
 "inoremap { {}<LEFT>
@@ -453,9 +447,6 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <C-h> <C-w>h
-
-" <Esc>*3でウィンドウをひとつに
-nnoremap <Esc><Esc><Esc> :only<CR>
 
 if has("win32")
   " altにキーを割り当てるためメニューバーを消す
@@ -483,6 +474,8 @@ imap <M-u> <Esc>:undo<CR> i
 " インサートモードでもdd
 imap <M-d><M-d> <Esc>dd i
 
+" mkでバッファを殺す
+nmap mk :bd<CR>
 
 
 "-------------------------------------------------------------------------------
@@ -493,7 +486,7 @@ imap <M-d><M-d> <Esc>dd i
 " YankRing.vim
 "------------------------------------
 " Yankの履歴参照
-nmap <Space>y :YRShow<CR>
+nmap <Leader>p :YRShow<CR>
 
 "------------------------------------
 " neocomplecache.vim
@@ -598,10 +591,10 @@ function! s:ExecPy()
 "------------------------------------
 " The prefix key.
 nnoremap    [unite]   <Nop>
-nmap    <Space> [unite]
+nmap    <Leader> [unite]
 
 nnoremap [unite]u  :<C-u>Unite<Space>
-nnoremap <silent> [unite];  :<C-u>UniteWithCurrentDir -buffer-name=files buffer file_mru bookmark file<CR>
+nnoremap <silent> [unite];  :<C-u>Unite -buffer-name=files buffer file_mru bookmark file<CR>
 nnoremap <silent> [unite]f  :<C-u>Unite -buffer-name=files file<CR>
 nnoremap <silent> [unite]b  :<C-u>Unite buffer<CR>
 nnoremap <silent> [unite]m  :<C-u>Unite file_mru<CR>
@@ -674,15 +667,15 @@ hi scalaVarName gui=underline
 " vimshell
 "------------------------------------
 " ,is: シェルを起動
-nnoremap <silent> <Space>s :VimShell<CR>
-" ,ipy: pythonを非同期で起動
-nnoremap <silent> <Space>sp :VimShellInteractive python<CR>
-" ,irb: irbを非同期で起動
-nnoremap <silent> <Space>si :VimShellInteractive irb<CR>
-" ,ss: 非同期で開いたインタプリタに現在の行を評価させる
-vmap <silent> <Space>ss :VimShellSendString<CR>
-" 選択中に,ss: 非同期で開いたインタプリタに選択行を評価させる
-nnoremap <silent> <Space>ss <S-v>:VimShellSendString<CR>
+nnoremap <silent> <Leader>s :VimShell<CR>
+" <Leader>ipy: pythonを非同期で起動
+nnoremap <silent> <Leader>sp :VimShellInteractive python<CR>
+" <Leader>irb: irbを非同期で起動
+nnoremap <silent> <Leader>si :VimShellInteractive irb<CR>
+" <Leader>ss: 非同期で開いたインタプリタに現在の行を評価させる
+vmap <silent> <Leader>ss :VimShellSendString<CR>
+" 選択中に<Leader>ss: 非同期で開いたインタプリタに選択行を評価させる
+nnoremap <silent> <Leader>ss <S-v>:VimShellSendString<CR>
 
 
 
@@ -691,11 +684,10 @@ nnoremap <silent> <Space>ss <S-v>:VimShellSendString<CR>
 " twit-vim via basyura
 "------------------------------------
 let twitvim_count = 40
-nnoremap <Space>tp :<C-u>PosttoTwitter<CR>
-nnoremap <Space>tf :<C-u>FriendsTwitter<CR><C-w>j
-nnoremap <Space>tu :<C-u>UserTwitter<CR><C-w>j
-nnoremap <Space>tr :<C-u>RepliesTwitter<CR><C-w>j
-nnoremap <Space>tn :<C-u>NextTwitter<CR>
+nnoremap <Leader>tp :<C-u>PosttoTwitter<CR>
+nnoremap <Leader>tf :<C-u>FriendsTwitter<CR><C-w>j
+nnoremap <Leader>tu :<C-u>UserTwitter<CR><C-w>j
+nnoremap <Leader>tr :<C-u>RepliesTwitter<CR><C-w>j
 
 autocmd FileType twitvim call s:twitvim_my_settings()
 function! s:twitvim_my_settings()
@@ -718,5 +710,4 @@ function! Scouter(file, ...)
   return len(filter(lines,'v:val !~ pat'))
 endfunction
 command! -bar -bang -nargs=? -complete=file Scouter
-\        echo Scouter(empty(<q-args>) ? $MYVIMRC : expand(<q-args>), <bang>0)
-
+\        echo Scouter(empty(<q-args>) ? $MYVIMRC :

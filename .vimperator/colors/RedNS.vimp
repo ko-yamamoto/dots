@@ -7,11 +7,7 @@ hi HintElem		background-color: rgba(34,34,34,0.2);		color: black;
 hi HintActive   background-color: rgba(0,0,0,1);		color: White;
 " hi HintActive		background-color: Red;	color: white;
 
-hi StatusLine 		color: #ffffff;	background: rgba(0,0,0,1);	font-weight: normal; font-size: 8pt;
-hi StatusLineBroken   color:  black; background: #ffa0a0; font-weight: normal; font-size: 8pt;
-hi StatusLineExtended color:  black; background: #a0ffa0; font-weight: normal; font-size: 8pt;
-hi StatusLineSecure   color:  black; background: #a0a0ff; font-weight: normal; font-size: 8pt;
-
+" hi StatusLine 		color: #ffffff;	background: rgba(0,0,0,1);	font-weight: normal; font-size: 8pt;
 
 hi Normal 		color: White;	background: rgba(51,51,51,1);	font-size: 8pt;
 hi InfoMsg		color: LightYellow;	background: #333;	font-size: 8pt;
@@ -27,7 +23,6 @@ hi Tag			color: CornflowerBlue;
 hi CompTitle		color: #ffffff;		background: Black;	font-weight: bold;
 hi CompItem[selected]	color: Red;	background: rgba(34,34,34,0.3)
 hi CompDesc		color: White;
-hi GradientRight	background-color: Black;
 
 hi Title		color: white;
 hi Indicator		color: DodgerBlue;
