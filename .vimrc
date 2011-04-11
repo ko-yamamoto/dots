@@ -96,6 +96,9 @@ set showmode                     " 現在のモードを表示
 set viminfo='50,<1000,s100,\"50  " viminfoファイルの設定
 set modelines=0                  " モードラインは無効
 
+set title
+set titlestring=Vim:\ %f\ %h%r%m
+
 " ターミナルでマウスを使用できるようにする
 set mouse=a
 set guioptions+=a
@@ -409,6 +412,7 @@ nmap 9 $
 
 " y9で行末までヤンク
 nmap y9 y$
+nnoremap Y y$
 " y0で行頭までヤンク
 nmap y0 y^
 
@@ -699,8 +703,33 @@ endfunction
 
 
 
+"------------------------------------
+" コマンド定義類
+"------------------------------------
+" キーマップ全表示
+" 全てのマッピングを表示
+" :AllMaps
+" 冒頭で言った1のケースのように現在のバッファで定義されたマッピングのみ表示
+" :AllMaps <buffer>
+" どのスクリプトで定義されたかの情報も含め表示
+" :verbose AllMaps <buffer>
+command!
+\   -nargs=* -complete=mapping
+\   AllMaps
+\   map <args> | map! <args> | lmap <args>
 
-" ========== 戦闘力計測 ==========
+command! -nargs=+ Allnoremap
+\ execute 'noremap' <q-args>
+\ | execute 'noremap!' <q-args>
+
+command! -nargs=+ Allunmap
+\ execute 'unmap' <q-args>
+\ | execute 'unmap!' <q-args>
+
+
+
+
+" 戦闘力計測
 function! Scouter(file, ...)
   let pat = '^\s*$\|^\s*"'
   let lines = readfile(a:file)
@@ -711,3 +740,4 @@ function! Scouter(file, ...)
 endfunction
 command! -bar -bang -nargs=? -complete=file Scouter
 \        echo Scouter(empty(<q-args>) ? $MYVIMRC :
+
