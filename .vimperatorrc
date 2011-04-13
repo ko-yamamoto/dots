@@ -23,7 +23,9 @@ set! dom.popup_maximum=9999
 set hlsearch
 
 " :[tab]open の補完対象と順番
-set complete=thb
+set complete=tbh
+" 自動補完しない　タブで補完開始
+set autocomplete=false
 
 " ブラウザタイトルの変更
 set titlestring=vimp!
@@ -32,7 +34,7 @@ set titlestring=vimp!
 set toolbars=nomenu,noaddons,nobookmarks,nonavigation
 
 " ヒントではアルファベット使用
-set hintchars="dfghjkvbnmrtyui"
+set hintchars="dfghjkvbnmrtui"
 
 " ステータスラインに表示する内容
 set status=input,location,position
