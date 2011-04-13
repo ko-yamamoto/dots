@@ -463,8 +463,10 @@ if has("mac")
 endif
 
 " insert mode での移動
-imap <M-e> <END>
-imap <M-a> <HOME>
+map <C-e> <END>
+imap <C-e> <END>
+map <C-a> <HOME>
+imap <C-a> <HOME>
 
 " インサートモードでもhjklで移動
 imap <M-j> <Down>
@@ -481,6 +483,8 @@ imap <M-d><M-d> <Esc>dd i
 " mkでバッファを殺す
 nmap mk :bd<CR>
 
+" Exploreを開く
+map <C-x><C-f> :Explore<CR>
 
 "-------------------------------------------------------------------------------
 " ========== プラグインの設定類 ==========
@@ -490,7 +494,7 @@ nmap mk :bd<CR>
 " YankRing.vim
 "------------------------------------
 " Yankの履歴参照
-nmap <Leader>p :YRShow<CR>
+nmap <Leader>y :YRShow<CR>
 
 "------------------------------------
 " neocomplecache.vim
@@ -520,7 +524,7 @@ let g:neocomplcache_dictionary_filetype_lists = {
 " 補完を選択しpopupを閉じる
 inoremap <expr><C-y> neocomplcache#close_popup()
 " 補完をキャンセルしpopupを閉じる
-inoremap <expr><C-e> neocomplcache#cancel_popup()
+" inoremap <expr><C-e> neocomplcache#cancel_popup()
 " TABで補完できるようにする
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 " undo
@@ -595,12 +599,14 @@ function! s:ExecPy()
 "------------------------------------
 " The prefix key.
 nnoremap    [unite]   <Nop>
-nmap    <Leader> [unite]
+nmap    , [unite]
 
 nnoremap [unite]u  :<C-u>Unite<Space>
 nnoremap <silent> [unite];  :<C-u>Unite -buffer-name=files buffer file_mru bookmark file<CR>
+nnoremap <silent> <C-u>  :<C-u>Unite -buffer-name=files buffer file_mru bookmark file<CR>
 nnoremap <silent> [unite]f  :<C-u>Unite -buffer-name=files file<CR>
 nnoremap <silent> [unite]b  :<C-u>Unite buffer<CR>
+nnoremap <silent> <C-x><C-b>  :<C-u>Unite buffer<CR>
 nnoremap <silent> [unite]m  :<C-u>Unite file_mru<CR>
 nnoremap <silent> [unite]g  :<C-u>Unite grep<CR>
 " nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
@@ -699,6 +705,9 @@ function! s:twitvim_my_settings()
 endfunction
 
 
+if has('win32')
+  let twitvim_proxy = "192.168.1.8:8080" 
+endif
 
 
 
