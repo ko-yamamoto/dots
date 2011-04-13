@@ -36,6 +36,9 @@ set toolbars=nomenu,noaddons,nobookmarks,nonavigation
 " ヒントではアルファベット使用
 set hintchars="dfghjkvbnmrtui"
 
+" ヒントのタイムアウト時間(ms)
+set hinttimeout=700
+
 " ステータスラインに表示する内容
 set status=input,location,position
 
@@ -118,11 +121,8 @@ map <C-h> :help<CR>
 " caret-hint.js
 map <C-c> ;c
 
-" Bではてブ
-map B :bmlhatebu<CR>
-
-map t :tabopen<Space>go<Space>
-map o :open<Space>go<Space>
+map t :tabopen<Space>g<Space>
+map o :open<Space>g<Space>
 
 " ======================================================================
 " plugins
@@ -132,14 +132,16 @@ let g:auto_append_anchor = "true"
 let g:auto_append_anchor_once = "true"
 
 " twittperator.js
+" ChirpUserStream を使う？
 let g:twittperator_use_chirp = 1
+" コマンドラインに tweet をリアルタイム(?)に表示
+let g:twittperator_plugin_echo_tweet = 1
 let g:twittperator_screen_name = "nishikawasasaki"
 let g:twittperator_history_limit = 1000
-
 "twitter用キー
-map <Leader>t :tw<CR>
-map <Leader>T :tw<Space>
-map <Leader>@ :tw @
+map <Leader>tf :tw<CR>
+map <Leader>tp :tw<Space>
+map <Leader>tr :tw @
 
 " ime_controller.js
 " let g:textarea_ime_mode = "inactive"
@@ -185,6 +187,27 @@ lazy fmaps -u='^https?://mail\.google\.com/(mail|a)/' c j k n p o u e x s r a # 
 lazy fmaps -u='^http://b\.hatena\.ne\.jp/(?!(entry|articles|guide))' j k o,oj e a,b
 
 
+"" hatenabookmark
+" https://github.com/hatena/hatena-bookmark-xul/wiki/Vimperator-%E3%81%A7%E3%81%AF%E3%81%A6%E3%81%AA%E3%83%96%E3%83%83%E3%82%AF%E3%83%9E%E3%83%BC%E3%82%AF%E6%8B%A1%E5%BC%B5%E3%82%92%E4%BD%BF%E3%81%86
+javascript <<EOF
+// キーボードショートカットの指定
+// 空(null)を指定すれば hints や nnoremap を上書きしなくなる
+liberator.globalVariables.hBookmark_shortcuts = {
+    hintsAdd     : 'A',
+    hintsComment : 'X',
+    add          : ['A'],
+    comment      : ['X'],
+};
+EOF
+
+javascript if (typeof hBookmark != 'undefined') liberator.loadScript('chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js', {__proto__: this});
+nnoremap s :hbt<Space>
+nnoremap S :hbtc<Space>
+set complete+=H
+
+
+" tombloo.js
+nnoremap x :tombloo! Link<CR>
 
 " ======================================================================
 " みためのせってい
