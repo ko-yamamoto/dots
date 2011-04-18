@@ -9,7 +9,7 @@ hi HintActive   background-color: rgba(0,0,0,1);		color: White;
 
 " hi StatusLine 		color: #ffffff;	background: rgba(0,0,0,1);	font-weight: normal; font-size: 8pt;
 
-hi Normal 		color: White;	background: rgba(51,51,51,1);	font-size: 8pt;
+hi Normal 		color: White;	background: rgba(51,51,51,0.9);	font-size: 8pt;
 hi InfoMsg		color: LightYellow;	background: #333;	font-size: 8pt;
 hi ModeMsg		color: LightYellow;	background: #333;	font-size: 8pt;
 hi MoreMsg		color: LimeGreen;	background: #333;
