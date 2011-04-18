@@ -17,6 +17,7 @@ set guioptions-=R
 set guioptions-=l "左スクロールバーなし
 set guioptions-=L
 set guioptions-=b "下スクロールバーなし
+set guioptions-=r "右カーソルバー
 
 
 " ========== 環境別の設定 ==========
@@ -49,6 +50,6 @@ endif
 " ========== 色の設定 ==========
 "カラースキーマを設定
 " colorscheme murphyNS
-colorscheme mrkn256
+colorscheme wombat
 
 
