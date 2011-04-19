@@ -210,7 +210,7 @@ set complete+=H
 nnoremap x :tombloo! Link<CR>
 
 " piyo-ui.js
-nnoremap <C-u> :piyo tab history<CR>
+nnoremap <C-u> :piyo tab closetab-mru history -input=
 
 " ======================================================================
 " みためのせってい
