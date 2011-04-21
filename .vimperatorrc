@@ -67,6 +67,9 @@ set! browser.sessionstore.max_tabs_undo=50
 " Cache位置変更
 set! browser.cache.disk.parent_directory=/Volumes/RamDisk/FirefoxCache/
 
+" ポップアップウィンドウは新窓で
+set popups=resized
+
 
 "+----------------------------------------------------------------------------------------+
 " キーマップ設定
@@ -157,7 +160,7 @@ liberator.globalVariables.copy_templates = [
 { label: 'ggl', value: 'Copy title & goo.gl', custom: function() { return '「' +  buffer.title + '」 ' + getShortUrl();} },
 { label: 'titleAndURL',    value: '"%TITLE%" %URL%' },
 { label: 'title',          value: '%TITLE%' },
-{ label: 'tDiary',         value: '{{a \'%TITLE%|%URL%\'}}' }
+{ label: 'URL',            value: '%URL%' }
 ];
 
 var getShortUrl = function() {
