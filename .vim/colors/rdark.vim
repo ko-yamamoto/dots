@@ -80,7 +80,8 @@ hi MatchParen guifg=#2e3436 guibg=#fcaf3e
 hi Directory guifg=#ffffff
 
 " Syntax
-hi Comment guifg=#656763
+" hi Comment guifg=#656763
+hi Comment guifg=#888888
 hi Constant guifg=#8ae234
 hi Number guifg=#8ae234
 hi Statement guifg=#729fcf gui=none
