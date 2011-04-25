@@ -37,3 +37,6 @@
 [submodule ".vim/bundle/vim-operator-replace"]
 	path = .vim/bundle/vim-operator-replace
 	url = git://github.com/kana/vim-operator-replace.git
+[submodule ".vim/bundle/vim-coffee-script"]
+	path = .vim/bundle/vim-coffee-script
+	url = git://github.com/kchmck/vim-coffee-script.git

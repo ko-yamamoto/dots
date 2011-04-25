@@ -288,9 +288,6 @@ let g:Align_xstrlen = 3
 
 " ========== その他設定 ==========
 
-"for yankring
-set viminfo+=!
-
 " for MRU
 let MRU_Max_Entries=50
 
@@ -504,12 +501,6 @@ vnoremap ( t(
 "-------------------------------------------------------------------------------
 
 "------------------------------------
-" YankRing.vim
-"------------------------------------
-" Yankの履歴参照
-nmap <Leader>y :YRShow<CR>
-
-"------------------------------------
 " neocomplecache.vim
 "------------------------------------
 " NeoComplCacheを有効にする
@@ -625,7 +616,7 @@ nnoremap <silent> [unite]m  :<C-u>Unite file_mru<CR>
 nnoremap <silent> [unite]g  :<C-u>Unite grep<CR>
 " nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
 " レジスタ一覧
-nnoremap <silent> [unite]p :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent> <C-p> :<C-u>Unite -buffer-name=register register<CR>
 
 
 autocmd FileType unite call s:unite_my_settings()
