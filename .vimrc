@@ -617,12 +617,16 @@ nmap    , [unite]
 nnoremap [unite]u  :<C-u>Unite<Space>
 nnoremap <silent> [unite];  :<C-u>Unite -buffer-name=files buffer file_mru bookmark file<CR>
 nnoremap <silent> <C-u>  :<C-u>Unite -buffer-name=files buffer file_mru bookmark file<CR>
-nnoremap <silent> [unite]f  :<C-u>Unite -buffer-name=files file<CR>
+nnoremap <silent> [unite]f  :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+nnoremap <silent> <C-x><C-f>  :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 nnoremap <silent> [unite]b  :<C-u>Unite buffer<CR>
 nnoremap <silent> <C-x><C-b>  :<C-u>Unite buffer<CR>
 nnoremap <silent> [unite]m  :<C-u>Unite file_mru<CR>
 nnoremap <silent> [unite]g  :<C-u>Unite grep<CR>
 " nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+" レジスタ一覧
+nnoremap <silent> [unite]p :<C-u>Unite -buffer-name=register register<CR>
+
 
 autocmd FileType unite call s:unite_my_settings()
 
