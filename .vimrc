@@ -686,14 +686,14 @@ hi scalaVarName gui=underline
 "------------------------------------
 " ,is: シェルを起動
 nnoremap <silent> <Leader>s :VimShell<CR>
-" <Leader>ipy: pythonを非同期で起動
+" pythonを非同期で起動
 nnoremap <silent> <Leader>sp :VimShellInteractive python<CR>
-" <Leader>irb: irbを非同期で起動
-nnoremap <silent> <Leader>si :VimShellInteractive irb<CR>
+" scalaを非同期で起動
+nnoremap <silent> <Leader>ss :VimShellInteractive scala<CR>
 " <Leader>ss: 非同期で開いたインタプリタに現在の行を評価させる
-vmap <silent> <Leader>ss :VimShellSendString<CR>
+vmap <silent> <Leader>sr :VimShellSendString<CR>
 " 選択中に<Leader>ss: 非同期で開いたインタプリタに選択行を評価させる
-nnoremap <silent> <Leader>ss <S-v>:VimShellSendString<CR>
+nnoremap <silent> <Leader>sr <S-v>:VimShellSendString<CR>
 
 
 
