@@ -226,11 +226,10 @@ hi PmenuSel ctermbg=blue ctermfg=white
 hi PmenuSbar ctermbg=0 ctermfg=9
 
 "背景色は黒っぽい
-set background=light
+" set background=light
 
 
 " ========== インデント設定 ==========
-
 "新しい行のインデントを現在行と同じにする
 set autoindent
 "タブの代わりに空白文字を挿入する
@@ -247,7 +246,6 @@ set tabstop=2
 set smartindent
 
 " ========== ファイル保存設定 ==========
-
 "スワップファイル＆バックアップファイルを作るディレクトリ
 set noswapfile
 "バックアップファイルも作らない
@@ -258,12 +256,10 @@ set browsedir=buffer
 set hidden
 
 " ========== yank設定 ==========
-
 "クリップボードをOSと連携
 set clipboard=unnamed
 
 " ========== search設定 ==========
-
 "インクリメンタルサーチを行う
 set incsearch
 "マッチした文字列をハイライト
@@ -272,30 +268,18 @@ set hlsearch
 set ignorecase smartcase
 
 " ========== grep設定 ==========
-
 " vimgrep時に自動でQuickFixを開く設定
 au QuickfixCmdPost vimgrep cw
 
-" ========== move設定 ==========
-
-"カーソルを行頭、行末で止まらないようにする
-set whichwrap=b,s,h,l,<,>,[,]
-
 " ========== Align設定 ==========
-
 " Alignを日本語環境で使用するための設定
 let g:Align_xstrlen = 3
 
 " ========== その他設定 ==========
-
 " for MRU
 let MRU_Max_Entries=50
 
-" ベルは嫌い
-set visualbell t_vb=
-
 " ========== マルチバイトを使ううえで ==========
-
 " 記号文字の表示がおかしくならないように
 set ambiwidth=double
 
@@ -412,6 +396,8 @@ nmap y9 y$
 nnoremap Y y$
 " y0で行頭までヤンク
 nmap y0 y^
+" v9で行末まで選択
+nmap v9 v$
 
 
 " 挿入モードでCtrl+kを押すとクリップボードの内容を貼り付けられるように
@@ -479,9 +465,10 @@ imap <M-d><M-d> <Esc>dd i
 
 " mkでバッファを殺す
 nmap mk :bd<CR>
+nmap MK :bd!<CR>
 
 " Exploreを開く
-map <C-x><C-f> :Explore<CR>
+" map <C-x><C-f> :Explore<CR>
 
 " 保存
 map <C-x><C-s> :w<CR>
@@ -518,7 +505,7 @@ let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
 " -入力による候補番号の表示
 let g:neocomplcache_enable_quick_match = 1
 " 補完候補の一番先頭を選択状態にする(AutoComplPopと似た動作)
-let g:neocomplcache_enable_auto_select = 1
+let g:neocomplcache_enable_auto_select = 0
 " dict
 let g:neocomplcache_dictionary_filetype_lists = {
   \ 'default' : '',
@@ -608,6 +595,7 @@ nmap    , [unite]
 nnoremap [unite]u  :<C-u>Unite<Space>
 nnoremap <silent> [unite];  :<C-u>Unite -buffer-name=files buffer file_mru bookmark file<CR>
 nnoremap <silent> <C-u>  :<C-u>Unite -buffer-name=files buffer file_mru bookmark file<CR>
+inoremap <silent> <C-u>  <Esc>:<C-u>Unite -buffer-name=files buffer file_mru bookmark file<CR>
 nnoremap <silent> [unite]f  :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 nnoremap <silent> <C-x><C-f>  :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 nnoremap <silent> [unite]b  :<C-u>Unite buffer<CR>
