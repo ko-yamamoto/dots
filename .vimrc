@@ -1,7 +1,4 @@
 " ########## vimrc ##########
-
-
-
 "-------------------------------------------------------------------------------
 " 基本設定 Basics
 "-------------------------------------------------------------------------------
@@ -9,13 +6,9 @@
 "ファイルタイプ別セッティングON
 filetype plugin indent on 
 
-"日本語入力設定
-set imsearch=0
-set iminsert=0
 " エンコーディング関連 Encoding
 set ffs=unix,dos,mac " 改行文字
 set fileencodings=utf-8,cp932,euc-jp,iso-2022-jp,ucs-2,latin1
-set fileformats=unix,dos,mac
 set encoding=utf-8 " デフォルトエンコーディング
 
 " 文字コード関連
@@ -116,6 +109,14 @@ set helpfile=$VIMRUNTIME/doc/help.txt
 " ファイルタイプ判定をon
 filetype plugin on
 
+" insertモードを抜けるとIMEオフ
+set noimdisable
+set iminsert=0 imsearch=0
+set noimcmdline
+inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
+
+" 矩形選択で自由に移動する
+set virtualedit+=block
 
 "-------------------------------------------------------------------------------
 " 表示設定
@@ -217,9 +218,6 @@ hi Pmenu guibg=#666666
 hi PmenuSel guibg=#8cd0d3 guifg=#666666
 hi PmenuSbar guibg=#333333
 
-" ハイライト on
-syntax enable
-
 " 補完候補の色づけ for vim7
 hi Pmenu ctermbg=white ctermfg=darkgray
 hi PmenuSel ctermbg=blue ctermfg=white
@@ -245,27 +243,9 @@ set tabstop=2
 "新しい行を作ったときに高度な自動インデントを行う
 set smartindent
 
-" ========== ファイル保存設定 ==========
-"スワップファイル＆バックアップファイルを作るディレクトリ
-set noswapfile
-"バックアップファイルも作らない
-set nobackup
-"ファイル保存ダイアログの初期ディレクトリをバッファファイル位置に設定
-set browsedir=buffer 
-"変更中のファイルでも、保存しないで他のファイルを表示
-set hidden
-
 " ========== yank設定 ==========
 "クリップボードをOSと連携
 set clipboard=unnamed
-
-" ========== search設定 ==========
-"インクリメンタルサーチを行う
-set incsearch
-"マッチした文字列をハイライト
-set hlsearch
-"検索時に大文字を含んでいたら大/小を区別
-set ignorecase smartcase
 
 " ========== grep設定 ==========
 " vimgrep時に自動でQuickFixを開く設定
@@ -277,7 +257,7 @@ let g:Align_xstrlen = 3
 
 " ========== その他設定 ==========
 " for MRU
-let MRU_Max_Entries=50
+let MRU_Max_Entries=100
 
 " ========== マルチバイトを使ううえで ==========
 " 記号文字の表示がおかしくならないように
@@ -324,12 +304,11 @@ vnoremap <silent> // y/<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
 "選択した文字列を置換
 vnoremap /r "xy:%s/<C-R>=escape(@x, '\\/.*$^~[]')<CR>//gc<Left><Left><Left>
 
-"s*置換後文字列/g<Cr>でカーソル下のキーワードを置換
+"s*でカーソル下のキーワードを置換
 nnoremap <expr> s* ':%substitute/\<' . expand('<cword>') . '\>/'
 
 " Ctrl-^でヘルプ
 nnoremap <C-^>  :<C-u>help<Space>
-
 " カーソル下のキーワードをヘルプでひく
 nnoremap <C-^><C-^> :<C-u>help<Space><C-r><C-w><Enter>
 
@@ -357,20 +336,6 @@ augroup END
 " Visualモードでのpで選択範囲をレジスタの内容に置き換える
 vnoremap p <Esc>:let current_reg = @"<CR>gvdi<C-R>=current_reg<CR><Esc>
 
-" insertモードを抜けるとIMEオフ
-set noimdisable
-set iminsert=0 imsearch=0
-set noimcmdline
-inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
-
-" CTRL-hjklでウィンドウ移動
-"nnoremap <C-j> :<C-w>j
-"nnoremap <C-k> :<C-k>j
-"nnoremap <C-l> :<C-l>j
-"nnoremap <C-h> :<C-h>j
-
-" 矩形選択で自由に移動する
-set virtualedit+=block
 
 " F2で前のバッファ
 map <F2> <ESC>:bp<CR>
@@ -484,7 +449,7 @@ vnoremap ( t(
 
 
 "-------------------------------------------------------------------------------
-" ========== プラグインの設定類 ==========
+" プラグインの設定類
 "-------------------------------------------------------------------------------
 
 "------------------------------------
@@ -550,20 +515,20 @@ let NERDSpaceDelims = 1
 
 " Nerd_commenterのキーバインド
 "<Leader>cc でコメントをトグル
-nmap <Leader>/ <Plug>NERDCommenterToggle
-vmap <Leader>/ <Plug>NERDCommenterToggle
+nmap <Leader>cc <Plug>NERDCommenterToggle
+vmap <Leader>cc <Plug>NERDCommenterToggle
 
 "<Leader>/aで行末にコメントを追加して文字列入力
-nmap <Leader>/a <Plug>NERDCommenterAppend
+nmap <Leader>ca <Plug>NERDCommenterAppend
 
 "<Leader>/9で行末までコメント
-nmap <leader>/9 <Plug>NERDCommenterToEOL
+nmap <leader>c9 <Plug>NERDCommenterToEOL
 
 "<Leader>/s でsexyなコメント
-vmap <Leader>/s <Plug>NERDCommenterSexy
+vmap <Leader>cs <Plug>NERDCommenterSexy
 
 "<Leader>/b でブロックをコメント
-vmap <Leader>/b <Plug>NERDCommenterMinimal
+vmap <Leader>cb <Plug>NERDCommenterMinimal
 
 
 
@@ -711,9 +676,9 @@ endif
 map R <Plug>(operator-replace)
 
 
-"------------------------------------
+"-------------------------------------------------------------------------------
 " コマンド定義類
-"------------------------------------
+"-------------------------------------------------------------------------------
 " キーマップ全表示
 " 全てのマッピングを表示
 " :AllMaps
