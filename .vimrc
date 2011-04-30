@@ -1,4 +1,32 @@
 " ########## vimrc ##########
+"
+"------------------------------------
+" vundle
+"------------------------------------
+set rtp+=~/.vim/vundle.git/ 
+call vundle#rc()
+
+" 使用するプラグインの指定
+"" vim-scriptから
+Bundle 'unite-colorscheme'
+"" githubから
+Bundle 'basyura/TwitVim'
+Bundle 'Shougo/neocomplcache'
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'Sixeight/unite-grep'
+Bundle 'Shougo/unite.vim'
+Bundle 'Shougo/vimproc'
+Bundle 'Shougo/vimshell'
+Bundle 'mattn/webapi-vim'
+Bundle 'tyru/vim-altercmd'
+Bundle 'kana/vim-operator-user'
+Bundle 'kana/vim-operator-replace'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'tpope/vim-surround'
+Bundle 'fholgado/minibufexpl.vim'
+
+
+
 "-------------------------------------------------------------------------------
 " 基本設定 Basics
 "-------------------------------------------------------------------------------
@@ -96,18 +124,6 @@ set titlestring=Vim:\ %f\ %h%r%m
 set mouse=a
 set guioptions+=a
 set ttymouse=xterm2
-
-
-" pathogenでftdetectなどをloadさせるために一度ファイルタイプ判定をoff
-filetype off
-syntax off
-filetype indent off
-" pathogen.vimによってbundle配下のpluginをpathに加える
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
-set helpfile=$VIMRUNTIME/doc/help.txt
-" ファイルタイプ判定をon
-filetype plugin on
 
 " insertモードを抜けるとIMEオフ
 set noimdisable
