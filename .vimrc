@@ -146,6 +146,8 @@ set virtualedit+=block
 
 "hilight
 syntax on
+" ファイルタイプ
+filetype on
 "行番号を表示する
 set number
 "閉じ括弧が入力されたとき、対応する括弧を表示する
