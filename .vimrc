@@ -3,18 +3,21 @@
 "------------------------------------
 " vundle
 "------------------------------------
-set rtp+=~/.vim/vundle.git/ 
+set rtp+=~/.vim/vundle.git/
 call vundle#rc()
 
 " 使用するプラグインの指定
 "" vim-scriptから
 Bundle 'unite-colorscheme'
+Bundle 'VimClojure'
 "" githubから
+Bundle 'thinca/vim-quickrun'
 Bundle 'basyura/TwitVim'
 Bundle 'Shougo/neocomplcache'
 Bundle 'scrooloose/nerdcommenter'
-Bundle 'Sixeight/unite-grep'
 Bundle 'Shougo/unite.vim'
+Bundle 'Sixeight/unite-grep'
+Bundle 'unite-font'
 Bundle 'Shougo/vimproc'
 Bundle 'Shougo/vimshell'
 Bundle 'mattn/webapi-vim'
@@ -25,6 +28,7 @@ Bundle 'kchmck/vim-coffee-script'
 Bundle 'tpope/vim-surround'
 Bundle 'fholgado/minibufexpl.vim'
 
+Bundle 'ewiplayer/vim-scala'
 
 
 "-------------------------------------------------------------------------------
@@ -32,7 +36,7 @@ Bundle 'fholgado/minibufexpl.vim'
 "-------------------------------------------------------------------------------
 
 "ファイルタイプ別セッティングON
-filetype plugin indent on 
+filetype plugin indent on
 
 " エンコーディング関連 Encoding
 set ffs=unix,dos,mac " 改行文字
@@ -150,6 +154,8 @@ set showmatch
 set laststatus=2
 " ステータスラインに表示する情報の指定
 set statusline=%n\:\ %y\[%{(&fenc!=''?&fenc:&enc).'\:'.&ff.'\]'}%m\ %F%r%=<%l/%L:%p%%>
+" ステータスライン下の行数
+set cmdheight=1
 " 一定時間放置するとカーソル行ハイライト
 augroup vimrc-auto-cursorline
   autocmd!
@@ -199,9 +205,14 @@ augroup END
 " endfunction
 
 
-" 全角スペースの表示
-highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
-match ZenkakuSpace /　/
+" 全角空白と行末の空白の色を変える
+highlight WideSpace ctermbg=blue guibg=blue
+highlight EOLSpace ctermbg=red guibg=red
+function! s:HighlightSpaces()
+  match WideSpace /　/
+  match EOLSpace /\s\+$/
+endf
+call s:HighlightSpaces()
 
 
 " カーソル行をハイライト
@@ -453,6 +464,7 @@ nmap MK :bd!<CR>
 
 " 保存
 map <C-x><C-s> :w<CR>
+imap <C-x><C-s> <Esc>:w<CR>i
 
 " xのヤンクは使わないのでxレジスタへ
 nnoremap x "xx
@@ -462,6 +474,7 @@ onoremap ) t)
 onoremap ( t(
 vnoremap ) t)
 vnoremap ( t(
+
 
 
 "-------------------------------------------------------------------------------
@@ -523,7 +536,7 @@ inoremap <expr><C-x><C-o> &filetype == 'vim' ? "\<C-x><C-v><C-p>" : neocomplcach
 
 
 "------------------------------------
-" Nerd_commenter設定 
+" Nerd_commenter設定
 "------------------------------------
 " Nerd_Commenter の基本設定
 let g:NERDCreateDefaultMappings = 0
@@ -642,7 +655,7 @@ command! Mt :TMiniBufExplorer
 " scala
 "------------------------------------
 " scala用色
-hi scalaNew gui=underline    
+hi scalaNew gui=underline
 hi scalaMethodCall gui=italic
 hi scalaValName gui=underline
 hi scalaVarName gui=underline
@@ -683,7 +696,7 @@ endfunction
 
 
 if has('win32')
-  let twitvim_proxy = "192.168.1.8:8080" 
+  let twitvim_proxy = "192.168.1.8:8080"
 endif
 
 "------------------------------------
@@ -716,6 +729,14 @@ command! -nargs=+ Allunmap
 \ | execute 'unmap!' <q-args>
 
 
+" Cr in Insert Mode always means newline
+function! CrInInsertModeAlwaysMeansNewline()
+  "let a = (exists('b:did_indent') ? "\<C-f>" : "") . "\<CR>X\<BS>"
+  let a = "\<CR>X\<BS>"
+  return pumvisible() ? neocomplcache#close_popup() . a : a
+endfunction
+"inoremap <expr> <CR> pumvisible() ? neocomplcache#close_popup()."\<C-f>\<CR>X\<BS>" : "\<C-f>\<CR>X\<BS>"
+inoremap <expr> <CR> CrInInsertModeAlwaysMeansNewline()
 
 
 " 戦闘力計測
