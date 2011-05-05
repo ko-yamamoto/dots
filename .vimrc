@@ -190,7 +190,7 @@ augroup vimrc-auto-cursorline
 augroup END
 
 " コマンドのタブ補完モード
-set nowildmenu
+set wildmenu
 set wildmode=list,full
 
 "挿入モード時、ステータスラインの色を変更
