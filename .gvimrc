@@ -2,7 +2,9 @@
 
 " ウィンドウを大きくして起動
 if has("win32")
-    au GUIEnter * simalt ~x
+    " au GUIEnter * simalt ~x
+    au GUIEnter * set lines=55
+    au GUIEnter * set columns=180
 else
     au GUIEnter * set lines=45
     au GUIEnter * set columns=150
@@ -25,6 +27,7 @@ set guioptions-=r "右カーソルバー
 if has("win32")
     " Windows用設定
     set guifont=MS_Gothic:h10:cSHIFTJIS 
+    set transparency=240 " 透明度を指定
 
 elseif has("mac")
     " Mac用設定
@@ -50,6 +53,7 @@ endif
 " ========== 色の設定 ==========
 "カラースキーマを設定
 " colorscheme murphyNS
-colorscheme wombat
+colorscheme wombat-noItalic
+
 
 
