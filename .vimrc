@@ -9,6 +9,7 @@ call vundle#rc()
 " 使用するプラグインの指定
 "" vim-scriptから
 Bundle 'unite-colorscheme'
+Bundle 'unite-font'
 Bundle 'VimClojure'
 "" githubから
 Bundle 'thinca/vim-quickrun'
@@ -17,7 +18,6 @@ Bundle 'Shougo/neocomplcache'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'Shougo/unite.vim'
 Bundle 'Sixeight/unite-grep'
-Bundle 'unite-font'
 Bundle 'Shougo/vimproc'
 Bundle 'Shougo/vimshell'
 Bundle 'mattn/webapi-vim'
@@ -27,9 +27,10 @@ Bundle 'kana/vim-operator-replace'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'tpope/vim-surround'
 Bundle 'fholgado/minibufexpl.vim'
-
 Bundle 'ewiplayer/vim-scala'
-
+Bundle 'tsukkee/lingr-vim'
+Bundle 'thinca/vim-poslist'
+Bundle 'h1mesuke/unite-outline'
 
 "-------------------------------------------------------------------------------
 " 基本設定 Basics
@@ -589,18 +590,27 @@ nnoremap    [unite]   <Nop>
 nmap    , [unite]
 
 nnoremap [unite]u  :<C-u>Unite<Space>
+
 nnoremap <silent> [unite];  :<C-u>Unite -buffer-name=files buffer file_mru bookmark file<CR>
-nnoremap <silent> <C-u>  :<C-u>Unite -buffer-name=files buffer file_mru bookmark file<CR>
-inoremap <silent> <C-u>  <Esc>:<C-u>Unite -buffer-name=files buffer file_mru bookmark file<CR>
+nnoremap <silent> <C-u>  :<C-u>Unite -buffer-name=files buffer file_mru bookmark file_rec<CR>
+inoremap <silent> <C-u>  <Esc>:<C-u>Unite -buffer-name=files buffer file_mru bookmark file_rec<CR>
+
 nnoremap <silent> [unite]f  :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 nnoremap <silent> <C-x><C-f>  :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+
 nnoremap <silent> [unite]b  :<C-u>Unite buffer<CR>
 nnoremap <silent> <C-x><C-b>  :<C-u>Unite buffer<CR>
+
 nnoremap <silent> [unite]m  :<C-u>Unite file_mru<CR>
+
 nnoremap <silent> [unite]g  :<C-u>Unite grep<CR>
-" nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+
 " レジスタ一覧
 nnoremap <silent> <C-p> :<C-u>Unite -buffer-name=register register<CR>
+" 位置一覧
+nnoremap <silent> <C-i> :<C-u>Unite -auto-preview poslist<CR>
+" アウトライン
+nnoremap <silent> <C-o> :<C-u>Unite -auto-preview outline<CR>
 
 
 autocmd FileType unite call s:unite_my_settings()
@@ -705,6 +715,14 @@ endif
 " kana-vim-operator-replace
 "------------------------------------
 map R <Plug>(operator-replace)
+
+
+"------------------------------------
+" vim-poslist
+"------------------------------------
+" nmap <C-o> <Plug>(poslist-prev_pos)
+" nmap <C-i> <Plug>(poslist-next-pos)
+
 
 
 "-------------------------------------------------------------------------------
