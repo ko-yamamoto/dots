@@ -769,5 +769,7 @@ function! Scouter(file, ...)
   return len(filter(lines,'v:val !~ pat'))
 endfunction
 command! -bar -bang -nargs=? -complete=file Scouter
-\        echo Scouter(empty(<q-args>) ? $MYVIMRC :
+\        echo Scouter(empty(<q-args>) ? $MYVIMRC : expand(<q-args>), <bang>0)
+command! -bar -bang -nargs=? -complete=file GScouter
+\        echo Scouter(empty(<q-args>) ? $MYGVIMRC : expand(<q-args>), <bang>0)
 
