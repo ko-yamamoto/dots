@@ -106,9 +106,9 @@ map l <C-n>
 
 "現在のタブを閉じる(直前のタブにフォーカスしないことへの暫定対応)
 "for Win
-"map d <C-w>
+"map mk <C-w>
 "for Mac
-map d <M-w>
+map mk <M-w>
 
 
 "<S-Left>/<S-Right>で現在のタブの位置変更
@@ -126,6 +126,10 @@ map <C-c> ;c
 
 map t :tabopen<Space>g<Space>
 map o :open<Space>g<Space>
+
+" 一気に戻る進む
+map <C-b> :back <Tab>
+map <C-f> :forward <Tab>
 
 " ======================================================================
 " plugins
