@@ -19,7 +19,7 @@ TERM=xterm-color
 [[ $TERM = "eterm-color" ]] && TERM=xterm-color
 
 # Emacs
-export EDITOR=emacsclient
+# export EDITOR=emacsclient
 
 # 履歴検索のショートカット
 autoload history-search-end
@@ -182,7 +182,7 @@ setopt Complete_Aliases
 alias ll='ls -alfgh'
 
 # vi
-# export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
+export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
 alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
 alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
 alias gvim='env LANG=ja_JP.UTF-8 open -a /Applications/MacVim.app "$@"'
