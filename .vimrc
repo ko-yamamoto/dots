@@ -598,8 +598,8 @@ inoremap <silent> <C-u>  <Esc>:<C-u>Unite -buffer-name=files buffer file_mru boo
 nnoremap <silent> [unite]f  :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 nnoremap <silent> <C-x><C-f>  :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 
-nnoremap <silent> [unite]b  :<C-u>Unite buffer<CR>
-nnoremap <silent> <C-x><C-b>  :<C-u>Unite buffer<CR>
+nnoremap <silent> [unite]b  :<C-u>Unite -auto-preview buffer<CR>
+nnoremap <silent> <C-x><C-b>  :<C-u>Unite -auto-preview buffer<CR>
 
 nnoremap <silent> [unite]m  :<C-u>Unite file_mru<CR>
 
@@ -684,9 +684,11 @@ nnoremap <silent> <Leader>s :VimShell<CR>
 nnoremap <silent> <Leader>sp :VimShellInteractive python<CR>
 " scalaを非同期で起動
 nnoremap <silent> <Leader>ss :VimShellInteractive scala<CR>
-" <Leader>ss: 非同期で開いたインタプリタに現在の行を評価させる
+" clojureを非同期で起動
+nnoremap <silent> <Leader>sc :VimShellInteractive clj<CR>
+" <Leader>sr: 非同期で開いたインタプリタに現在の行を評価させる
 vmap <silent> <Leader>sr :VimShellSendString<CR>
-" 選択中に<Leader>ss: 非同期で開いたインタプリタに選択行を評価させる
+" 選択中に<Leader>sr: 非同期で開いたインタプリタに選択行を評価させる
 nnoremap <silent> <Leader>sr <S-v>:VimShellSendString<CR>
 
 
