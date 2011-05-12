@@ -31,6 +31,8 @@ Bundle 'ewiplayer/vim-scala'
 Bundle 'tsukkee/lingr-vim'
 Bundle 'thinca/vim-poslist'
 Bundle 'h1mesuke/unite-outline'
+Bundle 'mattn/googletasks-vim' 
+
 
 "-------------------------------------------------------------------------------
 " 基本設定 Basics
@@ -691,6 +693,8 @@ nnoremap <silent> <Leader>sc :VimShellInteractive clj<CR>
 vmap <silent> <Leader>sr :VimShellSendString<CR>
 " 選択中に<Leader>sr: 非同期で開いたインタプリタに選択行を評価させる
 nnoremap <silent> <Leader>sr <S-v>:VimShellSendString<CR>
+nnoremap <silent> <C-s><C-r> <S-v>:VimShellSendString<CR>
+inoremap <silent> <C-s><C-r> <Esc><S-v>:VimShellSendString<CR>
 
 " 左プロンプト表示
 let g:vimshell_prompt = '% '
