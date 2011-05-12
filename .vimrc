@@ -692,6 +692,11 @@ vmap <silent> <Leader>sr :VimShellSendString<CR>
 " 選択中に<Leader>sr: 非同期で開いたインタプリタに選択行を評価させる
 nnoremap <silent> <Leader>sr <S-v>:VimShellSendString<CR>
 
+" 左プロンプト表示
+let g:vimshell_prompt = '% '
+" 右プロンプト表示
+let g:vimshell_right_prompt = 'getcwd()'
+
 
 
 
