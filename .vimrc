@@ -33,6 +33,7 @@ Bundle 'thinca/vim-poslist'
 Bundle 'h1mesuke/unite-outline'
 Bundle 'mattn/googletasks-vim' 
 
+Bundle 'smoothPageScroll.vim'
 
 "-------------------------------------------------------------------------------
 " 基本設定 Basics
@@ -734,6 +735,14 @@ map R <Plug>(operator-replace)
 "------------------------------------
 " nmap <C-o> <Plug>(poslist-prev_pos)
 " nmap <C-i> <Plug>(poslist-next-pos)
+
+
+"------------------------------------
+" smoothPageScroll.vim
+"------------------------------------
+map <C-f> :call SmoothPageScrollDown()<CR>
+map <C-b> :call SmoothPageScrollUp()<CR> 
+let g:smooth_page_scroll_delay = 1
 
 
 
