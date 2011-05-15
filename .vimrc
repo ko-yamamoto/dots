@@ -32,8 +32,9 @@ Bundle 'tsukkee/lingr-vim'
 Bundle 'thinca/vim-poslist'
 Bundle 'h1mesuke/unite-outline'
 Bundle 'mattn/googletasks-vim' 
-
 Bundle 'smoothPageScroll.vim'
+Bundle 'Processing'
+" BUndle 'ujihisa/vital.vim'
 
 "-------------------------------------------------------------------------------
 " 基本設定 Basics
