@@ -40,6 +40,10 @@ Bundle 'Processing'
 " 基本設定 Basics
 "-------------------------------------------------------------------------------
 
+" キーマップリーダー
+let mapleader = ","
+
+
 "ファイルタイプ別セッティングON
 filetype plugin indent on
 
@@ -318,171 +322,6 @@ set incsearch  " インクリメンタルサーチ
 set hlsearch   " 検索文字をハイライト
 
 
-"-------------------------------------------------------------------------------
-" キーマッピング
-"-------------------------------------------------------------------------------
-let mapleader = ","
-
-
-" キーを2つ以上にマッピングする際の待ち時間(ms)
-set timeoutlen=500
-
-"Escの2回押しでハイライト消去
-nmap <ESC><ESC> :nohlsearch<CR><ESC>
-
-" <Esc>*3でウィンドウをひとつに
-nnoremap <Esc><Esc><Esc> :only<CR>
-
-"選択した文字列を検索
-vnoremap <silent> // y/<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
-
-"選択した文字列を置換
-vnoremap /r "xy:%s/<C-R>=escape(@x, '\\/.*$^~[]')<CR>//gc<Left><Left><Left>
-
-"s*でカーソル下のキーワードを置換
-nnoremap <expr> s* ':%substitute/\<' . expand('<cword>') . '\>/'
-
-" Ctrl-^でヘルプ
-nnoremap <C-^>  :<C-u>help<Space>
-" カーソル下のキーワードをヘルプでひく
-nnoremap <C-^><C-^> :<C-u>help<Space><C-r><C-w><Enter>
-
-
-" gj gk とj kを入れ替え
-noremap j gj
-noremap k gk
-noremap gj j
-noremap gk k
-
-" 最後に変更したテキストの選択
-nnoremap gc `[v`]
-vnoremap gc :<C-u>normal gc<Enter>
-onoremap gc :<C-u>normal gc<Enter>
-
-" コンマの後に自動的にスペースを挿入
-" inoremap , ,<Space>
-
-" XMLの閉タグを自動挿入
-augroup MyXML
-  autocmd!
-  autocmd Filetype xml inoremap <buffer> </ </<C-x><C-o>
-augroup END
-
-" Visualモードでのpで選択範囲をレジスタの内容に置き換える
-vnoremap p <Esc>:let current_reg = @"<CR>gvdi<C-R>=current_reg<CR><Esc>
-
-
-" F2で前のバッファ
-map <F2> <ESC>:bp<CR>
-" F3で次のバッファ
-map <F3> <ESC>:bn<CR>
-" F4でバッファを削除する
-map <F4> <ESC>:bw<CR>
-
-" M-bで前のバッファ
-map <M-b> <ESC>:bp<CR>
-" M-nで次のバッファ
-map <M-n> <ESC>:bn<CR>
-" M-dでバッファを削除する
-map <M-d> <ESC>:bw<CR>
-
-" 0, 9で行頭、行末へ
-nmap 1 0
-nmap 0 ^
-nmap 9 $
-
-" y9で行末までヤンク
-nmap y9 y$
-nnoremap Y y$
-" y0で行頭までヤンク
-nmap y0 y^
-" v9で行末まで選択
-nmap v9 v$
-
-
-" 挿入モードでCtrl+kを押すとクリップボードの内容を貼り付けられるように
-imap <C-K>  <ESC>"*pa
-
-
-" Ev/Rvでvimrcの編集と反映
-command! Ev edit $MYVIMRC
-command! Rv source $MYVIMRC
-command! Rgv source $MYGVIMRC
-
-
-" 日時の自動入力
-inoremap <expr> <Leader>df strftime('%Y/%m/%d %H:%M:%S')
-inoremap <expr> <Leader>dd strftime('%Y/%m/%d')
-inoremap <expr> <Leader>dt strftime('%H:%M:%S')
-
-" 括弧を自動補完
-"inoremap { {}<LEFT>
-"inoremap [ []<LEFT>
-"inoremap ( ()<LEFT>
-"inoremap " ""<LEFT>
-"inoremap ' ''<LEFT>
-"vnoremap { "zdi^V{<C-R>z}<ESC>
-"vnoremap [ "zdi^V[<C-R>z]<ESC>
-"vnoremap ( "zdi^V(<C-R>z)<ESC>
-"vnoremap " "zdi^V"<C-R>z^V"<ESC>
-"vnoremap ' "zdi'<C-R>z'<ESC>
-
-
-
-" CTRL-hjklでウィンドウ移動
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-nnoremap <C-h> <C-w>h
-
-if has("win32")
-  " altにキーを割り当てるためメニューバーを消す
-  set guioptions-=m
-endif
-
-if has("mac")
-  " optionキーを使う
-  set macmeta
-endif
-
-" insert mode での移動
-map <C-e> <END>
-imap <C-e> <END>
-map <C-a> <HOME>
-imap <C-a> <HOME>
-
-" インサートモードでもhjklで移動
-imap <M-j> <Down>
-imap <M-k> <Up>
-imap <M-h> <Left>
-imap <M-l> <Right>
-
-" インサートモードでもundo
-imap <M-u> <Esc>:undo<CR> i
-
-" インサートモードでもdd
-imap <M-d><M-d> <Esc>dd i
-
-" mkでバッファを殺す
-nmap mk :bd<CR>
-nmap MK :bd!<CR>
-
-" Exploreを開く
-" map <C-x><C-f> :Explore<CR>
-
-" 保存
-map <C-x><C-s> :w<CR>
-imap <C-x><C-s> <Esc>:w<CR>i
-
-" xのヤンクは使わないのでxレジスタへ
-nnoremap x "xx
-
-" カッコ移動を楽に
-onoremap ) t)
-onoremap ( t(
-vnoremap ) t)
-vnoremap ( t(
-
 
 
 "-------------------------------------------------------------------------------
@@ -743,7 +582,174 @@ map R <Plug>(operator-replace)
 "------------------------------------
 map <C-f> :call SmoothPageScrollDown()<CR>
 map <C-b> :call SmoothPageScrollUp()<CR> 
-let g:smooth_page_scroll_delay = 1
+let g:smooth_page_scroll_delay = 0.5
+
+
+"-------------------------------------------------------------------------------
+" キーマッピング
+"-------------------------------------------------------------------------------
+
+" キーを2つ以上にマッピングする際の待ち時間(ms)
+set timeoutlen=500
+
+"Escの2回押しでハイライト消去
+nmap <ESC><ESC> :nohlsearch<CR><ESC>
+
+" <Esc>*3でウィンドウをひとつに
+nnoremap <Esc><Esc><Esc> :only<CR>
+
+"選択した文字列を検索
+vnoremap <silent> // y/<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
+
+"選択した文字列を置換
+vnoremap /r "xy:%s/<C-R>=escape(@x, '\\/.*$^~[]')<CR>//gc<Left><Left><Left>
+
+"s*でカーソル下のキーワードを置換
+nnoremap <expr> s* ':%substitute/\<' . expand('<cword>') . '\>/'
+
+" Ctrl-^でヘルプ
+nnoremap <C-^>  :<C-u>help<Space>
+" カーソル下のキーワードをヘルプでひく
+nnoremap <C-^><C-^> :<C-u>help<Space><C-r><C-w><Enter>
+
+
+" gj gk とj kを入れ替え
+noremap j gj
+noremap k gk
+noremap gj j
+noremap gk k
+
+" 最後に変更したテキストの選択
+nnoremap gc `[v`]
+vnoremap gc :<C-u>normal gc<Enter>
+onoremap gc :<C-u>normal gc<Enter>
+
+" コンマの後に自動的にスペースを挿入
+" inoremap , ,<Space>
+
+" XMLの閉タグを自動挿入
+augroup MyXML
+  autocmd!
+  autocmd Filetype xml inoremap <buffer> </ </<C-x><C-o>
+augroup END
+
+" Visualモードでのpで選択範囲をレジスタの内容に置き換える
+vnoremap p <Esc>:let current_reg = @"<CR>gvdi<C-R>=current_reg<CR><Esc>
+
+
+" F2で前のバッファ
+map <F2> <ESC>:bp<CR>
+" F3で次のバッファ
+map <F3> <ESC>:bn<CR>
+" F4でバッファを削除する
+map <F4> <ESC>:bw<CR>
+
+" M-bで前のバッファ
+map <M-b> <ESC>:bp<CR>
+" M-nで次のバッファ
+map <M-n> <ESC>:bn<CR>
+" M-dでバッファを削除する
+map <M-d> <ESC>:bw<CR>
+
+" 0, 9で行頭、行末へ
+nmap 1 0
+nmap 0 ^
+nmap 9 $
+
+" y9で行末までヤンク
+nmap y9 y$
+nnoremap Y y$
+" y0で行頭までヤンク
+nmap y0 y^
+" v9で行末まで選択
+nmap v9 v$
+
+
+" 挿入モードでCtrl+kを押すとクリップボードの内容を貼り付けられるように
+imap <C-K>  <ESC>"*pa
+
+
+" Ev/Rvでvimrcの編集と反映
+command! Ev edit $MYVIMRC
+command! Rv source $MYVIMRC
+command! Rgv source $MYGVIMRC
+
+
+" 日時の自動入力
+inoremap <expr> <Leader>df strftime('%Y/%m/%d %H:%M:%S')
+inoremap <expr> <Leader>dd strftime('%Y/%m/%d')
+inoremap <expr> <Leader>dt strftime('%H:%M:%S')
+
+" 括弧を自動補完
+"inoremap { {}<LEFT>
+"inoremap [ []<LEFT>
+"inoremap ( ()<LEFT>
+"inoremap " ""<LEFT>
+"inoremap ' ''<LEFT>
+"vnoremap { "zdi^V{<C-R>z}<ESC>
+"vnoremap [ "zdi^V[<C-R>z]<ESC>
+"vnoremap ( "zdi^V(<C-R>z)<ESC>
+"vnoremap " "zdi^V"<C-R>z^V"<ESC>
+"vnoremap ' "zdi'<C-R>z'<ESC>
+
+
+
+" CTRL-hjklでウィンドウ移動
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+nnoremap <C-h> <C-w>h
+
+if has("win32")
+  " altにキーを割り当てるためメニューバーを消す
+  set guioptions-=m
+endif
+
+if has("mac")
+  " optionキーを使う
+  set macmeta
+endif
+
+" insert mode での移動
+map <C-e> <END>
+imap <C-e> <END>
+map <C-a> <HOME>
+imap <C-a> <HOME>
+
+" インサートモードでもhjklで移動
+imap <M-j> <Down>
+imap <M-k> <Up>
+imap <M-h> <Left>
+imap <M-l> <Right>
+
+" インサートモードでもundo
+imap <M-u> <Esc>:undo<CR> i
+
+" インサートモードでもdd
+imap <M-d><M-d> <Esc>dd i
+
+" mkでバッファを殺す
+nmap mk :bd<CR>
+nmap MK :bd!<CR>
+
+" Exploreを開く
+" map <C-x><C-f> :Explore<CR>
+
+" 保存
+map <C-x><C-s> :w<CR>
+imap <C-x><C-s> <Esc>:w<CR>i
+
+" xのヤンクは使わないのでxレジスタへ
+nnoremap x "xx
+
+" カッコ移動を楽に
+onoremap ) t)
+onoremap ( t(
+vnoremap ) t)
+vnoremap ( t(
+
+" tabで分割移動
+nnoremap <Tab> <C-w>w
 
 
 
