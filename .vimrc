@@ -34,7 +34,7 @@ Bundle 'h1mesuke/unite-outline'
 Bundle 'mattn/googletasks-vim' 
 Bundle 'smoothPageScroll.vim'
 Bundle 'Processing'
-" BUndle 'ujihisa/vital.vim'
+Bundle 'JSON.vim'
 
 "-------------------------------------------------------------------------------
 " 基本設定 Basics
@@ -356,7 +356,7 @@ let g:neocomplcache_dictionary_filetype_lists = {
 " 補完を選択しpopupを閉じる
 inoremap <expr><C-y> neocomplcache#close_popup()
 " 補完をキャンセルしpopupを閉じる
-" inoremap <expr><C-e> neocomplcache#cancel_popup()
+inoremap <expr><C-d> neocomplcache#cancel_popup()
 " TABで補完できるようにする
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 " undo
