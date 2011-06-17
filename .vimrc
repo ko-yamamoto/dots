@@ -35,7 +35,6 @@ Bundle 'mattn/googletasks-vim'
 Bundle 'smoothPageScroll.vim'
 Bundle 'Processing'
 Bundle 'JSON.vim'
-Bundle 'plasticboy/vim-markdown'
 
 "-------------------------------------------------------------------------------
 " 基本設定 Basics
