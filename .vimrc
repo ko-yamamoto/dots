@@ -35,6 +35,7 @@ Bundle 'mattn/googletasks-vim'
 Bundle 'smoothPageScroll.vim'
 Bundle 'Processing'
 Bundle 'JSON.vim'
+Bundle 'tpope/vim-fugitive'
 
 "-------------------------------------------------------------------------------
 " 基本設定 Basics
@@ -447,7 +448,7 @@ nnoremap <silent> <C-x><C-b>  :<C-u>Unite -auto-preview buffer<CR>
 
 nnoremap <silent> [unite]m  :<C-u>Unite file_mru<CR>
 
-nnoremap <silent> [unite]g  :<C-u>Unite grep<CR>
+" nnoremap <silent> [unite]g  :<C-u>Unite grep<CR>
 
 " レジスタ一覧
 nnoremap <silent> <C-p> :<C-u>Unite -buffer-name=register register<CR>
@@ -582,8 +583,15 @@ map R <Plug>(operator-replace)
 "------------------------------------
 map <C-f> :call SmoothPageScrollDown()<CR>
 map <C-b> :call SmoothPageScrollUp()<CR> 
-let g:smooth_page_scroll_delay = 0.5
+let g:smooth_page_scroll_delay = 1
 
+"------------------------------------
+" fugitive
+"------------------------------------
+nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gd :Gdiff<CR>
+nnoremap <Leader>gb :Gblame<CR>
+nnoremap <Leader>ga :Gwrite<CR>
 
 "-------------------------------------------------------------------------------
 " キーマッピング
