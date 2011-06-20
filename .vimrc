@@ -574,8 +574,10 @@ map R <Plug>(operator-replace)
 "------------------------------------
 " vim-poslist
 "------------------------------------
-" nmap <C-o> <Plug>(poslist-prev_pos)
+" nmap <C-o> <Plug>(poslist-prev-pos)
 " nmap <C-i> <Plug>(poslist-next-pos)
+nmap b <Plug>(poslist-prev-pos)
+nmap B <Plug>(poslist-next-pos)
 
 
 "------------------------------------
