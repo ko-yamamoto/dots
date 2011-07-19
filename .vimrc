@@ -7,11 +7,10 @@ set rtp+=~/.vim/vundle.git/
 call vundle#rc()
 
 " 使用するプラグインの指定
-"" vim-scriptから
 Bundle 'unite-colorscheme'
 Bundle 'unite-font'
 Bundle 'VimClojure'
-"" githubから
+Bundle 'textmanip.vim'
 Bundle 'thinca/vim-quickrun'
 Bundle 'basyura/TwitVim'
 Bundle 'Shougo/neocomplcache'
@@ -593,6 +592,19 @@ nnoremap <Leader>gd :Gdiff<CR>
 nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>ga :Gwrite<CR>
 
+
+"------------------------------------
+" textmanip.vim
+"------------------------------------
+vmap <M-j> <Plug>(Textmanip.move_selection_down)
+vmap <M-h> <Plug>(Textmanip.move_selection_left)
+vmap <M-k> <Plug>(Textmanip.move_selection_up)
+vmap <M-l> <Plug>(Textmanip.move_selection_right)
+" 選択したテキストの移動
+nmap <M-d> <Plug>(Textmanip.duplicate_selection_n)
+vmap <M-d> <Plug>(Textmanip.duplicate_selection_v)
+
+
 "-------------------------------------------------------------------------------
 " キーマッピング
 "-------------------------------------------------------------------------------
@@ -653,11 +665,12 @@ map <F3> <ESC>:bn<CR>
 map <F4> <ESC>:bw<CR>
 
 " M-bで前のバッファ
-map <M-b> <ESC>:bp<CR>
+" map <M-b> <ESC>:bp<CR>
 " M-nで次のバッファ
-map <M-n> <ESC>:bn<CR>
+" map <M-n> <ESC>:bn<CR>
+" 行の複製
 " M-dでバッファを削除する
-map <M-d> <ESC>:bw<CR>
+" map <M-d> <ESC>:bw<CR>
 
 " 0, 9で行頭、行末へ
 nmap 1 0
@@ -734,7 +747,7 @@ imap <M-l> <Right>
 imap <M-u> <Esc>:undo<CR> i
 
 " インサートモードでもdd
-imap <M-d><M-d> <Esc>dd i
+" imap <M-d><M-d> <Esc>dd i
 
 " mkでバッファを殺す
 nmap mk :bd<CR>
