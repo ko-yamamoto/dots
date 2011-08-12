@@ -4,7 +4,7 @@
 if has("win32")
     " au GUIEnter * simalt ~x
     au GUIEnter * set lines=55
-    au GUIEnter * set columns=180
+    au GUIEnter * set columns=150
 else
     au GUIEnter * set lines=45
     au GUIEnter * set columns=150
@@ -22,12 +22,16 @@ set guioptions-=b "下スクロールバーなし
 set guioptions-=r "右カーソルバー
 
 
+" ステータスライン下の行数
+set cmdheight=1
+
 " ========== 環境別の設定 ==========
 
 if has("win32")
     " Windows用設定
-    set guifont=MS_Gothic:h10:cSHIFTJIS 
-    set transparency=240 " 透明度を指定
+    " set guifont=MS_Gothic:h10:cSHIFTJIS 
+    set guifont=VL_Gothic:h9:cSHIFTJIS 
+    set transparency=220 " 透明度を指定
 
 elseif has("mac")
     " Mac用設定

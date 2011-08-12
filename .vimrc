@@ -11,6 +11,10 @@ call vundle#rc()
 Bundle 'unite-colorscheme'
 Bundle 'unite-font'
 Bundle 'VimClojure'
+Bundle 'VST'
+Bundle 'Processing'
+Bundle 'JSON.vim'
+Bundle 'smoothPageScroll.vim'
 "" githubから
 Bundle 'thinca/vim-quickrun'
 Bundle 'basyura/TwitVim'
@@ -27,15 +31,13 @@ Bundle 'kana/vim-operator-replace'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'tpope/vim-surround'
 Bundle 'fholgado/minibufexpl.vim'
-Bundle 'ewiplayer/vim-scala'
-Bundle 'tsukkee/lingr-vim'
+" Bundle 'ewiplayer/vim-scala'
+" Bundle 'tsukkee/lingr-vim'
 Bundle 'thinca/vim-poslist'
 Bundle 'h1mesuke/unite-outline'
-Bundle 'mattn/googletasks-vim' 
-Bundle 'smoothPageScroll.vim'
-Bundle 'Processing'
-Bundle 'JSON.vim'
+" Bundle 'mattn/googletasks-vim'
 Bundle 'tpope/vim-fugitive'
+Bundle 'riobard/scala.vim'
 
 "-------------------------------------------------------------------------------
 " 基本設定 Basics
@@ -324,7 +326,6 @@ set hlsearch   " 検索文字をハイライト
 
 
 
-
 "-------------------------------------------------------------------------------
 " プラグインの設定類
 "-------------------------------------------------------------------------------
@@ -545,7 +546,6 @@ let g:vimshell_right_prompt = 'getcwd()'
 
 
 
-
 "------------------------------------
 " twit-vim via basyura
 "------------------------------------
@@ -561,14 +561,14 @@ function! s:twitvim_my_settings()
 endfunction
 
 
-if has('win32')
-  let twitvim_proxy = "192.168.1.8:8080"
-endif
+" if has('win32')
+  " let twitvim_proxy = "192.168.1.8:8080"
+" endif
 
 "------------------------------------
 " kana-vim-operator-replace
 "------------------------------------
-map R <Plug>(operator-replace)
+nmap R <Plug>(operator-replace)
 
 
 "------------------------------------
@@ -585,7 +585,7 @@ nmap B <Plug>(poslist-next-pos)
 "------------------------------------
 map <C-f> :call SmoothPageScrollDown()<CR>
 map <C-b> :call SmoothPageScrollUp()<CR> 
-let g:smooth_page_scroll_delay = 1
+let g:smooth_page_scroll_delay = 0.5
 
 "------------------------------------
 " fugitive
@@ -797,7 +797,21 @@ endfunction
 inoremap <expr> <CR> CrInInsertModeAlwaysMeansNewline()
 
 
+"-------------------------------------------------------------------------------
+" ファイルタイプ定義
+"-------------------------------------------------------------------------------
+autocmd BufNewFile,BufRead *.scala  set filetype=scala
+autocmd BufNewFile,BufRead *.clj    set filetype clojure
+
+
+
+
+
+
+
+"-------------------------------------------------------------------------------
 " 戦闘力計測
+"-------------------------------------------------------------------------------
 function! Scouter(file, ...)
   let pat = '^\s*$\|^\s*"'
   let lines = readfile(a:file)
