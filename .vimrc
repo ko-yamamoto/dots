@@ -10,9 +10,9 @@ call vundle#rc()
 "" vim-scriptから
 Bundle 'unite-colorscheme'
 Bundle 'unite-font'
-Bundle 'VimClojure'
+" Bundle 'VimClojure'
 Bundle 'VST'
-Bundle 'Processing'
+" Bundle 'Processing'
 Bundle 'JSON.vim'
 Bundle 'smoothPageScroll.vim'
 "" githubから
@@ -28,7 +28,7 @@ Bundle 'mattn/webapi-vim'
 Bundle 'tyru/vim-altercmd'
 Bundle 'kana/vim-operator-user'
 Bundle 'kana/vim-operator-replace'
-Bundle 'kchmck/vim-coffee-script'
+" Bundle 'kchmck/vim-coffee-script'
 Bundle 'tpope/vim-surround'
 Bundle 'fholgado/minibufexpl.vim'
 " Bundle 'ewiplayer/vim-scala'
@@ -540,7 +540,7 @@ nnoremap <silent> <C-s><C-r> <S-v>:VimShellSendString<CR>
 inoremap <silent> <C-s><C-r> <Esc><S-v>:VimShellSendString<CR>
 
 " 左プロンプト表示
-let g:vimshell_prompt = '% '
+let g:vimshell_prompt = '♪ '
 " 右プロンプト表示
 let g:vimshell_right_prompt = 'getcwd()'
 
@@ -796,11 +796,13 @@ endfunction
 "inoremap <expr> <CR> pumvisible() ? neocomplcache#close_popup()."\<C-f>\<CR>X\<BS>" : "\<C-f>\<CR>X\<BS>"
 inoremap <expr> <CR> CrInInsertModeAlwaysMeansNewline()
 
+
 " メモ書き用ジャンクファイル作成
 " Open junk file."{{{
 command! -nargs=0 JunkFile call s:open_junk_file()
 function! s:open_junk_file()
-  let l:junk_dir = $HOME . '/.vim_junk'. strftime('/%Y/%m')
+  " let l:junk_dir = $HOME . '/Desktop'. strftime('/%Y/%m')
+  let l:junk_dir = $HOME . '/Desktop'. strftime('')
   if !isdirectory(l:junk_dir)
     call mkdir(l:junk_dir, 'p')
   endif
@@ -809,7 +811,8 @@ function! s:open_junk_file()
   if l:filename != ''
     execute 'edit ' . l:filename
   endif
-endfunction"}}}
+endfunction
+"}}}
 
 
 "-------------------------------------------------------------------------------
@@ -839,4 +842,5 @@ command! -bar -bang -nargs=? -complete=file Scouter
 \        echo Scouter(empty(<q-args>) ? $MYVIMRC : expand(<q-args>), <bang>0)
 command! -bar -bang -nargs=? -complete=file GScouter
 \        echo Scouter(empty(<q-args>) ? $MYGVIMRC : expand(<q-args>), <bang>0)
+
 
