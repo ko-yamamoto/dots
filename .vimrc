@@ -825,16 +825,6 @@ command! -nargs=+ Allunmap
 \ | execute 'unmap!' <q-args>
 
 
-" Cr in Insert Mode always means newline
-function! CrInInsertModeAlwaysMeansNewline()
-  "let a = (exists('b:did_indent') ? "\<C-f>" : "") . "\<CR>X\<BS>"
-  let a = "\<CR>X\<BS>"
-  return pumvisible() ? neocomplcache#close_popup() . a : a
-endfunction
-"inoremap <expr> <CR> pumvisible() ? neocomplcache#close_popup()."\<C-f>\<CR>X\<BS>" : "\<C-f>\<CR>X\<BS>"
-inoremap <expr> <CR> CrInInsertModeAlwaysMeansNewline()
-
-
 " メモ書き用ジャンクファイル作成
 " Open junk file."{{{
 command! -nargs=0 JunkFile call s:open_junk_file()
