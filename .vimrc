@@ -9,8 +9,12 @@ call vundle#rc()
 " 使用するプラグインの指定
 Bundle 'unite-colorscheme'
 Bundle 'unite-font'
-Bundle 'VimClojure'
-Bundle 'textmanip.vim'
+" Bundle 'VimClojure'
+Bundle 'VST'
+" Bundle 'Processing'
+Bundle 'JSON.vim'
+Bundle 'smoothPageScroll.vim'
+"" githubから
 Bundle 'thinca/vim-quickrun'
 Bundle 'basyura/TwitVim'
 Bundle 'Shougo/neocomplcache'
@@ -23,18 +27,16 @@ Bundle 'mattn/webapi-vim'
 Bundle 'tyru/vim-altercmd'
 Bundle 'kana/vim-operator-user'
 Bundle 'kana/vim-operator-replace'
-Bundle 'kchmck/vim-coffee-script'
+" Bundle 'kchmck/vim-coffee-script'
 Bundle 'tpope/vim-surround'
 Bundle 'fholgado/minibufexpl.vim'
-Bundle 'ewiplayer/vim-scala'
-Bundle 'tsukkee/lingr-vim'
+" Bundle 'ewiplayer/vim-scala'
+" Bundle 'tsukkee/lingr-vim'
 Bundle 'thinca/vim-poslist'
 Bundle 'h1mesuke/unite-outline'
-Bundle 'mattn/googletasks-vim' 
-Bundle 'smoothPageScroll.vim'
-Bundle 'Processing'
-Bundle 'JSON.vim'
+" Bundle 'mattn/googletasks-vim'
 Bundle 'tpope/vim-fugitive'
+Bundle 'riobard/scala.vim'
 
 "-------------------------------------------------------------------------------
 " 基本設定 Basics
@@ -323,7 +325,6 @@ set hlsearch   " 検索文字をハイライト
 
 
 
-
 "-------------------------------------------------------------------------------
 " プラグインの設定類
 "-------------------------------------------------------------------------------
@@ -331,55 +332,81 @@ set hlsearch   " 検索文字をハイライト
 "------------------------------------
 " neocomplecache.vim
 "------------------------------------
-" NeoComplCacheを有効にする
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplcache.
 let g:neocomplcache_enable_at_startup = 1
-" smarrt case有効化。 大文字が入力されるまで大文字小文字の区別を無視する
+" Use smartcase.
 let g:neocomplcache_enable_smart_case = 1
-" camle caseを有効化。大文字を区切りとしたワイルドカードのように振る舞う
+" Use camel case completion.
 let g:neocomplcache_enable_camel_case_completion = 1
-" _(アンダーバー)区切りの補完を有効化
+" Use underbar completion.
 let g:neocomplcache_enable_underbar_completion = 1
-" シンタックスをキャッシュするときの最小文字長を3に
+" Set minimum syntax keyword length.
 let g:neocomplcache_min_syntax_length = 3
-" neocomplcacheを自動的にロックするバッファ名のパターン
 let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-" -入力による候補番号の表示
-let g:neocomplcache_enable_quick_match = 1
-" 補完候補の一番先頭を選択状態にする(AutoComplPopと似た動作)
-let g:neocomplcache_enable_auto_select = 0
-" dict
+
+" Define dictionary.
 let g:neocomplcache_dictionary_filetype_lists = {
-  \ 'default' : '',
-  \ 'scala' : $HOME . '/.vim/dict/scala.dict',
-  \ }
+\ 'default' : '',
+\ 'vimshell' : $HOME.'/.vimshell_hist',
+\ 'scala' : $HOME . '/.vim/dict/scala.dict'
+\ }
 
-" 補完を選択しpopupを閉じる
-inoremap <expr><C-y> neocomplcache#close_popup()
-" 補完をキャンセルしpopupを閉じる
-inoremap <expr><C-d> neocomplcache#cancel_popup()
-" TABで補完できるようにする
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-" undo
-inoremap <expr><C-g>     neocomplcache#undo_completion()
-" 補完候補の共通部分までを補完する
+" Define keyword.
+if !exists('g:neocomplcache_keyword_patterns')
+let g:neocomplcache_keyword_patterns = {}
+endif
+let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+" imap <C-k> <Plug>(neocomplcache_snippets_expand)
+" smap <C-k> <Plug>(neocomplcache_snippets_expand)
+inoremap <expr><C-g> neocomplcache#undo_completion()
 inoremap <expr><C-l> neocomplcache#complete_common_string()
-" SuperTab like snippets behavior.
-imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-" C-kを押すと行末まで削除
-inoremap <C-k> <C-o>D
-" C-nでneocomplcache補完
-inoremap <expr><C-n>  pumvisible() ? "\<C-n>" : "\<C-x>\<C-u>\<C-p>"
-" C-pでkeyword補完
-inoremap <expr><C-p> pumvisible() ? "\<C-p>" : "\<C-p>\<C-n>"
-" 補完候補が出ていたら確定、なければ改行
-inoremap <expr><CR>  pumvisible() ? neocomplcache#close_popup() : "<CR>"
 
+" SuperTab like snippets behavior.
+"imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+" inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
+inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() : "\<CR>"
 " <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 " <C-h>, <BS>: close popup and delete backword char.
 inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><C-x><C-o> &filetype == 'vim' ? "\<C-x><C-v><C-p>" : neocomplcache#manual_omni_complete()
+inoremap <expr><C-y> neocomplcache#close_popup()
+inoremap <expr><C-e> neocomplcache#cancel_popup()
+
+" AutoComplPop like behavior.
+"let g:neocomplcache_enable_auto_select = 1
+
+" Shell like behavior(not recommended).
+"set completeopt+=longest
+"let g:neocomplcache_enable_auto_select = 1
+"let g:neocomplcache_disable_auto_complete = 1
+"inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+"inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
+
+" Enable omni completion.
+" autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+" autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+" autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+" if !exists('g:neocomplcache_omni_patterns')
+" let g:neocomplcache_omni_patterns = {}
+" endif
+" let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+" "autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+" let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+" let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
+" let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+
 
 
 "------------------------------------
@@ -435,7 +462,6 @@ nmap    , [unite]
 
 nnoremap [unite]u  :<C-u>Unite<Space>
 
-nnoremap <silent> [unite];  :<C-u>Unite -buffer-name=files buffer file_mru bookmark file<CR>
 nnoremap <silent> <C-u>  :<C-u>Unite -buffer-name=files buffer file_mru bookmark file_rec<CR>
 inoremap <silent> <C-u>  <Esc>:<C-u>Unite -buffer-name=files buffer file_mru bookmark file_rec<CR>
 
@@ -538,10 +564,9 @@ nnoremap <silent> <C-s><C-r> <S-v>:VimShellSendString<CR>
 inoremap <silent> <C-s><C-r> <Esc><S-v>:VimShellSendString<CR>
 
 " 左プロンプト表示
-let g:vimshell_prompt = '% '
+let g:vimshell_prompt = '♪ '
 " 右プロンプト表示
 let g:vimshell_right_prompt = 'getcwd()'
-
 
 
 
@@ -560,14 +585,14 @@ function! s:twitvim_my_settings()
 endfunction
 
 
-if has('win32')
-  let twitvim_proxy = "192.168.1.8:8080"
-endif
+" if has('win32')
+  " let twitvim_proxy = "192.168.1.8:8080"
+" endif
 
 "------------------------------------
 " kana-vim-operator-replace
 "------------------------------------
-map R <Plug>(operator-replace)
+nmap R <Plug>(operator-replace)
 
 
 "------------------------------------
@@ -584,7 +609,7 @@ nmap B <Plug>(poslist-next-pos)
 "------------------------------------
 map <C-f> :call SmoothPageScrollDown()<CR>
 map <C-b> :call SmoothPageScrollUp()<CR> 
-let g:smooth_page_scroll_delay = 1
+let g:smooth_page_scroll_delay = 0.5
 
 "------------------------------------
 " fugitive
@@ -810,7 +835,39 @@ endfunction
 inoremap <expr> <CR> CrInInsertModeAlwaysMeansNewline()
 
 
+" メモ書き用ジャンクファイル作成
+" Open junk file."{{{
+command! -nargs=0 JunkFile call s:open_junk_file()
+function! s:open_junk_file()
+  " let l:junk_dir = $HOME . '/Desktop'. strftime('/%Y/%m')
+  let l:junk_dir = $HOME . '/Desktop'. strftime('')
+  if !isdirectory(l:junk_dir)
+    call mkdir(l:junk_dir, 'p')
+  endif
+
+  let l:filename = input('Junk Code: ', l:junk_dir.strftime('/%Y-%m-%d-%H%M%S.'))
+  if l:filename != ''
+    execute 'edit ' . l:filename
+  endif
+endfunction
+"}}}
+
+
+"-------------------------------------------------------------------------------
+" ファイルタイプ定義
+"-------------------------------------------------------------------------------
+autocmd BufNewFile,BufRead *.scala  set filetype=scala
+autocmd BufNewFile,BufRead *.clj    set filetype clojure
+
+
+
+
+
+
+
+"-------------------------------------------------------------------------------
 " 戦闘力計測
+"-------------------------------------------------------------------------------
 function! Scouter(file, ...)
   let pat = '^\s*$\|^\s*"'
   let lines = readfile(a:file)
@@ -823,4 +880,5 @@ command! -bar -bang -nargs=? -complete=file Scouter
 \        echo Scouter(empty(<q-args>) ? $MYVIMRC : expand(<q-args>), <bang>0)
 command! -bar -bang -nargs=? -complete=file GScouter
 \        echo Scouter(empty(<q-args>) ? $MYGVIMRC : expand(<q-args>), <bang>0)
+
 
