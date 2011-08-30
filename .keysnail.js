@@ -941,3 +941,12 @@ key.setGlobalKey('C-s', function (ev) {
 key.setGlobalKey('U', function (ev) {
     ext.exec("list-closed-tabs");
 }, '閉じたタブリスト表示');
+
+key.setGlobalKey('B', function (ev) {
+    ext.exec("list-tab-history");
+}, 'このタブの履歴リスト表示');
+
+key.setGlobalKey(['C-x', 'C-b'], function (ev) {
+    ext.exec("history-show");
+}, '全履歴リスト表示');
+
