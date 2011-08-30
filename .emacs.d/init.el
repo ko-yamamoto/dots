@@ -800,9 +800,9 @@
      
      
     ;; Twittering-modeのプロクシ
-    (setq twittering-proxy-use t)
-    (setq twittering-proxy-server "192.168.1.8")
-    (setq twittering-proxy-port 8080)
+    ;; (setq twittering-proxy-use t)
+    ;; (setq twittering-proxy-server "192.168.1.8")
+    ;; (setq twittering-proxy-port 8080)
      
      
     ;; IMEの制御（yes/noをタイプするところでは IME をオフにする）
