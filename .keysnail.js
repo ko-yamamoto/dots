@@ -939,5 +939,5 @@ key.setGlobalKey('C-s', function (ev) {
 }, 'このタブから検索');
 
 key.setGlobalKey('U', function (ev) {
-    ext.exec("history-show");
-}, '履歴リスト表示');
+    ext.exec("list-closed-tabs");
+}, '閉じたタブリスト表示');
