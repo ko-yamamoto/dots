@@ -16,20 +16,21 @@ Bundle 'JSON.vim'
 Bundle 'smoothPageScroll.vim'
 "" githubから
 Bundle 'thinca/vim-quickrun'
-Bundle 'basyura/TwitVim'
+" Bundle 'basyura/TwitVim'
+Bundle 'TwitVim'
 Bundle 'Shougo/neocomplcache'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'Shougo/unite.vim'
-Bundle 'Sixeight/unite-grep'
 Bundle 'Shougo/vimproc'
 Bundle 'Shougo/vimshell'
+Bundle 'Shougo/vimfiler'
 Bundle 'mattn/webapi-vim'
 Bundle 'tyru/vim-altercmd'
 Bundle 'kana/vim-operator-user'
 Bundle 'kana/vim-operator-replace'
 " Bundle 'kchmck/vim-coffee-script'
 Bundle 'tpope/vim-surround'
-Bundle 'fholgado/minibufexpl.vim'
+" Bundle 'fholgado/minibufexpl.vim'
 " Bundle 'ewiplayer/vim-scala'
 " Bundle 'tsukkee/lingr-vim'
 Bundle 'thinca/vim-poslist'
@@ -37,6 +38,7 @@ Bundle 'h1mesuke/unite-outline'
 " Bundle 'mattn/googletasks-vim'
 Bundle 'tpope/vim-fugitive'
 Bundle 'riobard/scala.vim'
+Bundle 'open-browser.vim'
 
 "-------------------------------------------------------------------------------
 " 基本設定 Basics
@@ -473,7 +475,7 @@ nnoremap <silent> <C-x><C-b>  :<C-u>Unite -auto-preview buffer<CR>
 
 nnoremap <silent> [unite]m  :<C-u>Unite file_mru<CR>
 
-" nnoremap <silent> [unite]g  :<C-u>Unite grep<CR>
+nnoremap <silent> [unite]g  :<C-u>Unite -auto-preview grep<CR>
 
 " レジスタ一覧
 nnoremap <silent> <C-p> :<C-u>Unite -buffer-name=register register<CR>
@@ -631,6 +633,13 @@ vmap <M-l> <Plug>(Textmanip.move_selection_right)
 nmap <M-d> <Plug>(Textmanip.duplicate_selection_n)
 vmap <M-d> <Plug>(Textmanip.duplicate_selection_v)
 
+
+"------------------------------------
+" open-browser.vim
+"------------------------------------
+let g:netrw_nogx = 1 " disable netrw's gx mapping.
+nmap gx <Plug>(openbrowser-smart-search)
+vmap gx <Plug>(openbrowser-smart-search)
 
 "-------------------------------------------------------------------------------
 " キーマッピング
