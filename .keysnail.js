@@ -81,6 +81,16 @@ plugins.options["hitsory.keymap"] = {
     "o"     : "open"
 };
 
+plugins.options['find.keymap'] = {
+    "C-z"   : "prompt-toggle-edit-mode",
+    "SPC"   : "prompt-next-page",
+    "b"     : "prompt-previous-page",
+    "j"     : "prompt-next-completion",
+    "k"     : "prompt-previous-completion",
+    "g"     : "prompt-beginning-of-candidates",
+    "G"     : "prompt-end-of-candidates",
+    "q"     : "prompt-cancel",
+};
 
 
 
@@ -460,9 +470,9 @@ key.setGlobalKey('M-w', function (ev) {
     command.copyRegion(ev);
 }, '選択中のテキストをコピー', true);
 
-key.setGlobalKey('C-s', function (ev) {
-    command.iSearchForwardKs(ev);
-}, 'Emacs ライクなインクリメンタル検索', true);
+// key.setGlobalKey('C-s', function (ev) {
+//     command.iSearchForwardKs(ev);
+// }, 'Emacs ライクなインクリメンタル検索', true);
 
 key.setGlobalKey('M-r', function (ev) {
     var appStartup = Cc['@mozilla.org/toolkit/app-startup;1'].getService(Ci.nsIAppStartup);
@@ -600,6 +610,10 @@ key.setViewKey('M-n', function (ev) {
 key.setViewKey('t', function (ev, arg) {
     shell.input("tabopen ");
 }, 'tabopen');
+
+key.setGlobalKey("x", function (ev, arg) {
+    ext.exec("list-hateb-items", arg);
+}, "はてなブックマークのアイテムを一覧表示", true);
 
 key.setViewKey('c', function (ev, arg) {
     ext.exec("list-hateb-comments", arg);
@@ -911,3 +925,10 @@ key.setViewKey('O', function (ev, arg) {
     shell.input("open go ");
 }, 'このタブでgoogle検索');
 
+key.setGlobalKey('C-s', function (ev) {
+    ext.exec("find-current-tab");
+}, 'このタブから検索');
+
+key.setGlobalKey('U', function (ev) {
+    ext.exec("history-show");
+}, '履歴リスト表示');
