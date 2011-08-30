@@ -242,7 +242,75 @@ style.register(<><![CDATA[
 ]]></>);
 
 
+// ===== Add exts =====
 
+//最近閉じたタブ
+ext.add("list-closed-tabs", function () {
+    const fav = "chrome://mozapps/skin/places/defaultFavicon.png";
+    var ss = Cc["@mozilla.org/browser/sessionstore;1"].getService(Ci.nsISessionStore);
+    var json = Cc["@mozilla.org/dom/json;1"].createInstance(Ci.nsIJSON);
+    var closedTabs = [[tab.image || fav, tab.title] for each (tab in json.decode(ss.getClosedTabData(window)))];
+    if (!closedTabs.length)
+        return void display.echoStatusBar("最近閉じたタブが見つかりませんでした", 2000);
+    prompt.selector({
+        message : "select tab to undo:",
+        collection : closedTabs,
+        keymap : plugins.options['default.keymap'],
+        flags : [ICON | IGNORE, 0],
+        callback : function (i) { if (i >= 0) window.undoCloseTab(i); }
+    });
+}, "List closed tabs");
+
+//ブラウザの戻る履歴
+ext.add("list-tab-history", function () {
+    var tabHistory = [];
+    var sessionHistory = gBrowser.webNavigation.sessionHistory;
+    if (sessionHistory.count < 1)
+        return void display.echoStatusBar("Tab history not exist", 2000);
+    var curIdx = sessionHistory.index;
+    for (var i = 0; i < sessionHistory.count; i++) {
+        var entry = sessionHistory.getEntryAtIndex(i, false);
+        if (!entry)
+            continue;
+        tabHistory.push([util.getFaviconPath(entry.URI.spec), entry.title, entry.URI.spec, i]);
+    }
+    for (var thIdx = 0; thIdx < tabHistory.length; thIdx++) {
+        if (tabHistory[thIdx][3] == curIdx) break;
+    }
+    prompt.selector({
+        message : "select history in tab",
+        collection : tabHistory,
+        flags : [ICON | IGNORE, 0, 0, IGNORE | HIDDEN],
+        header : ["Title", "URL"],
+        initialIndex: thIdx,
+        callback : function(i) { if (i >= 0) gBrowser.webNavigation.gotoIndex(tabHistory[i][3]); },
+        keymap : plugins.options['default.keymap'],
+        stylist : function (args, n, current) {
+            let style = '';
+            if (args[3]== thIdx) style += 'font-weight:bold;';
+            return style;
+        }
+    });
+}, 'List tab history');
+
+
+
+// ===== plugins.lib extends =====
+plugins.lib = _.extend(plugins.lib, {
+    shortenURL: function (longURL, callback) {
+        let url = 'https://www.googleapis.com/urlshortener/v1/url';
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                let url = JSON.parse(xhr.responseText).id;
+                callback(url);
+            }
+        };
+        xhr.send(JSON.stringify({ longUrl: longURL }));
+    }
+});
 
 //}}%PRESERVE%
 // ========================================================================= //
@@ -374,97 +442,54 @@ key.setGlobalKey(['C-c', 'C-c', 'C-c'], function (ev) {
     command.clearConsole();
 }, 'Javascript コンソールの表示をクリア', true);
 
-key.setGlobalKey(['C-c', 'c'], function () {
-    var templates = {
-        titleAndGoogle: "{0} {2}",
-        titleAndUrl: "{0} {1}",
-        title: "{0}",
-        URL: "{1}",
-        hatena: "[{1}:title={0}]"
+key.setViewKey(['C-c', 'c'], function (ev) {
+    // via http://www.pshared.net/diary/20091004.html
+    const templates = {
+        title_short_url: function(title, url, callback) plugins.lib.shortenURL(url, callback),
+        title : "{0}",
+        url : "{1}",
+        title_url: "{0} - {1}",
     };
 
     function getLineSeprator() {
-        var sysInfo = Cc['@mozilla.org/system-info;1'].getService(Ci.nsIPropertyBag2);
-        var platform = sysInfo.getProperty("name");
-        if (platform.indexOf("Windows") >= 0) {
+        let platform = Cc['@mozilla.org/system-info;1'].getService(Ci.nsIPropertyBag2).getProperty('name');
+        if (platform.indexOf("Windows") >= 0)
             return "\r\n";
-        } else {
+        else
             return "\n";
-        }
     }
-
-
-    function getGoogl(long_url) {
-        var req = new XMLHttpRequest;
-        req.addEventListener("load", function () {
-            var response = JSON.parse(req.responseText);
-            liberator.echo(response.short_url);
-            util.copyToClipboard("\"" + buffer.title + "\" " + response.short_url, true);
-        },
-        false);
-        req.addEventListener("error", function () {
-            liberator.echo("Responce errror status from goo.gl. Status Code:" + req.status);
-        },
-        false);
-        req.open("POST", "http://goo.gl/api/shorten?url=" + encodeURIComponent(long_url));
-        req.setRequestHeader("X-Auth-Google-Url-Shortener", "true");
-        req.send();
-    }
-
-    var regexp = /\{(\d)\}/g;
 
     function format() {
-        var args = Array.prototype.slice.apply(arguments);
-        var format = args.shift();
-        return format && format.replace(regexp, function () {
-            return args[arguments[1]] || "";
-        });
+        let args = Array.prototype.slice.apply(arguments);
+        let format = args.shift();
+        return format && format.replace(/\{(\d)\}/g, function() args[arguments[1]] || "");
     }
 
-    var promptList = [];
-    for (var key in templates) {
-        promptList.push([key, templates[key].replace(/\n/g, "\\n")]);
-    }
-    var title = window.content.document.title;
-    var url = window.content.location.href;
-    var shortUrl = getGoogl(url);
-    prompt.selector({
-        message: "copy from: ",
-        flags: [0, 0],
-        collection: promptList,
-        header: ["key", "format"],
-        callback: function (index) {
-            if (index < 0) {
-                return;
-            }
-            var key = promptList[index][0];
-            var template = templates[key].replace(/\n/g, getLineSeprator());
-            var text = format(template, title, url, shortUrl);
-            Cc['@mozilla.org/widget/clipboardhelper;1'].getService(Ci.nsIClipboardHelper).copyString(text);
-        }
-    });
-}, 'URLとタイトルをコピー');
+    let promptList = [];
+    for (let key in templates) promptList.push(key);
 
-key.setGlobalKey(['C-c', 'l'], function () {
-    var promptList = [];
-    var w = Application.activeWindow;
-    var tabs = Array.apply(null, w.tabs);
-    for each(var tab in tabs) {
-        promptList.push([tab.document.title, tab.uri.spec]);
-    }
     prompt.selector({
-        message: "select tab: ",
-        flags: [0, 0],
-        collection: promptList,
-        header: ["title", "url"],
-        callback: function (index) {
-            if (index < 0 || tabs.length < index) {
-                return;
+        message : "copy from :",
+        collection : promptList,
+        keymap : plugins.options['default.keymap'],
+        callback : function (aIndex) {
+            if (aIndex < 0) return;
+            let key = promptList[aIndex];
+            if (typeof (templates[key]) == 'string') {
+                let template = templates[key].replace(/\n/g, getLineSeprator());
+                let text = format(template, window.content.document.title, window.content.location.href);
+                command.setClipboardText(text);
+                display.echoStatusBar('Yanked: ' + text);
+            } else {
+                templates[key](window.content.document.title, window.content.location.href, function(text) {
+                    command.setClipboardText(window.content.document.title + ' - ' + text);
+                    display.echoStatusBar('Yanked: '+ window.content.document.title + ' - ' + text);
+                });
             }
-            tabs[index].focus();
         }
     });
-}, 'タブを検索する');
+}, 'タイトルやURLをコピー');
+
 
 key.setGlobalKey('M-w', function (ev) {
     command.copyRegion(ev);
@@ -490,22 +515,6 @@ key.setGlobalKey('C-M-h', function (ev) {
 key.setGlobalKey('C-r', function (ev) {
     command.iSearchBackwardKs(ev);
 }, 'Emacs ライクな逆方向インクリメンタル検索', true);
-
-key.setGlobalKey('C-k', function (ev) {
-    var title = window.content.document.title;
-    var url = window.content.location.href;
-    shortenURL(url);
-
-    function shortenURL(url) {
-        const id = "nishikawasasaki";
-        const key = "R_f98fc7f3de321a2511d0b01fa37a3a38";
-        var endPointUrl = "http://api.bit.ly/v3/shorten?longUrl=" + url + "&login=" + id + "&apiKey=" + key + "&format=json";
-        var obj = JSON.parse(util.httpGet(endPointUrl).responseText);
-        command.setClipboardText("\"" + title + "\" " + obj.data.url);
-        return 0;
-    }
-
-}, '短縮URLをGET', true);
 
 key.setViewKey([['C-/'], ['u']], function (ev) {
     undoCloseTab();
