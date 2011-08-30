@@ -52,7 +52,7 @@
 (setq initial-frame-alist
       (append (list
 	     '(width . 140) ;; ウィンドウ幅
-	       '(height . 50) ;; ウィンドウ高さ
+	       '(height . 40) ;; ウィンドウ高さ
 ;	       '(top . 50) ;; 表示位置
 ;	       '(left . 340) ;; 表示位置
 	       )
@@ -701,28 +701,13 @@
 
 (when is_win
 
-   ;; ;; PATH
-   ;; ;(setq exec-path (cons "/usr/local/bin" exec-path))
-   ;; (setq exec-path
-   ;;	(append
-   ;;	  (list "C:/scala/scala-2.8.1.final/bin"
-   ;;	    "C:/Python27"
-   ;;	    "C:/cygwin/bin"
-   ;;	    "C:/Windows/system32/"
-   ;;	    "C:/Windows/"
-   ;;	  )exec-path)) 
-   ;; (setenv "PATH"
-    ;;     (concat '"C:/cygwin/bin:C:/scala/scala-2.8.1.final/bin:C:/Python27" (getenv "PATH")))
-     
     ;; exec-pathとPATHに設定したいパスのリストを設定
     (dolist (dir (list
-     	      "C:/scala/scala-2.8.1.final/bin"
+     	      "C:/scala/scala/bin"
      	      "C:/Python27"
      	      "C:/cygwin/bin"
      	      "C:/Windows/system32/"
      	      "C:/Windows/"
-     	      "C:/scala/scala-2.8.1.final/bin"
-     	      "C:/Python27"
                   (expand-file-name "~/bin")
                   (expand-file-name "~/.emacs.d/bin")
                   ))
@@ -731,32 +716,20 @@
       (setenv "PATH" (concat dir ":" (getenv "PATH")))
       (setq exec-path (append (list dir) exec-path))))
      
-     
-
-
-
-
-
     ;; ツールバーを消す
     (tool-bar-mode nil)
-   
    
     ;; ファイル名の文字コード指定
     (setq file-name-coding-system 'shift_jis)
    
     ;; フォント設定
-    (setq my-font "-*-*-medium-r-normal--14-*-*-*-*-*-fontset-hiramaru")
-    (set-face-attribute 'default nil
-   		    :family "VL ゴシック"
-   		    ;:height 120)
-   		    :height 90)
-    (set-fontset-font "fontset-default"
-   		  'japanese-jisx0208
-   		  '("VL ゴシック" . "iso10646-1"))
-   
+    (when window-system
+      (set-default-font "VL Gothic:pixelsize=13" t)
+      (add-to-list 'default-frame-alist '(font . "VL Gothic:pixelsize=13"))
+      (set-default-coding-systems 'utf-8))
    
     ;; プロクシの設定
-    (setq url-proxy-services '(("http" . "192.168.1.8:8080")))
+    ;; (setq url-proxy-services '(("http" . "192.168.1.8:8080"))) 
 
 
     ;; (setq mw32-process-wrapper-alist
@@ -959,8 +932,8 @@ interpreter-mode-alist))
 
 ;; ensime
 (add-to-list 'load-path "~/.emacs.d/ensime/elisp/")
-(require 'ensime)
-(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+;; (require 'ensime)
+;; (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
 
 
 
@@ -1106,19 +1079,21 @@ interpreter-mode-alist))
 ;; auto-complete
 ;;====================
 (require 'auto-complete)
-;;(require 'auto-complete-config)
+(require 'auto-complete-config)
 (global-auto-complete-mode t)
 (setq ac-dwim t)
+;; ;; 辞書ファイルの位置
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/dict")
+(ac-config-default)
 ;; 自動補完
 (setq ac-auto-start 2) ; 2文字以上で補完開始
 ;; 手動補完するならこっち
 ;; (setq ac-auto-start nil) ; 自動的に開始しない
 (ac-set-trigger-key "TAB") ; コンテキストに応じてTABで補完
 ;; 補完の情報源
-(setq-default ac-sources '(ac-source-words-in-same-mode-buffers ac-source-filename ac-source-symbols))
+;; (setq-default ac-sources '(ac-source-words-in-same-mode-buffers ac-source-filename ac-source-symbols)) 
 ;; 補完するモードの追加
-(setq ac-modes (append ac-modes '(text-mode sql-mode)))
-
+(setq ac-modes (append ac-modes '(text-mode sql-mode scala-mode)))
 
 ;; scheme-mode-hook
 (defvar ac-source-scheme
@@ -1461,7 +1436,7 @@ interpreter-mode-alist))
 (setq eshell-hist-ignoredups t)
 ;; prompt 文字列の変更
 (defun my-eshell-prompt ()
-(concat (eshell/pwd) "\n→ " ))
+(concat (eshell/pwd) "\n♪ " ))
 (setq eshell-prompt-function 'my-eshell-prompt)
 (setq eshell-prompt-regexp "^[^#$\n]*[#→] ")
 
