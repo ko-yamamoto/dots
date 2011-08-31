@@ -1,7 +1,7 @@
 // ========================== KeySnail Init File =========================== //
 
-// You can preserve your code in this area when generating the init file using GUI.
-// Put all your code except special key, set*key, hook, blacklist.
+// この領域は, GUI により設定ファイルを生成した際にも引き継がれます
+// 特殊キー, キーバインド定義, フック, ブラックリスト以外のコードは, この中に書くようにして下さい
 // ========================================================================= //
 //{{%PRESERVE%
 
@@ -456,6 +456,10 @@ key.setGlobalKey(['C-x', 'T'], function (ev, arg) {
     ext.exec("twitter-client-tweet-this-page", arg, ev);
 }, 'このページのタイトルと URL を使ってつぶやく', true);
 
+key.setGlobalKey(['C-x', 'C-b'], function (ev) {
+    ext.exec("history-show");
+}, '全履歴リスト表示');
+
 key.setGlobalKey(['C-c', 'C-c', 'C-v'], function (ev) {
     toJavaScriptConsole();
 }, 'Javascript コンソールを表示', true);
@@ -464,62 +468,9 @@ key.setGlobalKey(['C-c', 'C-c', 'C-c'], function (ev) {
     command.clearConsole();
 }, 'Javascript コンソールの表示をクリア', true);
 
-key.setViewKey(['C-c', 'c'], function (ev) {
-    // via http://www.pshared.net/diary/20091004.html
-    const templates = {
-        title_short_url: function(title, url, callback) plugins.lib.shortenURL(url, callback),
-        title : "{0}",
-        url : "{1}",
-        title_url: "{0} - {1}",
-    };
-
-    function getLineSeprator() {
-        let platform = Cc['@mozilla.org/system-info;1'].getService(Ci.nsIPropertyBag2).getProperty('name');
-        if (platform.indexOf("Windows") >= 0)
-            return "\r\n";
-        else
-            return "\n";
-    }
-
-    function format() {
-        let args = Array.prototype.slice.apply(arguments);
-        let format = args.shift();
-        return format && format.replace(/\{(\d)\}/g, function() args[arguments[1]] || "");
-    }
-
-    let promptList = [];
-    for (let key in templates) promptList.push(key);
-
-    prompt.selector({
-        message : "copy from :",
-        collection : promptList,
-        keymap : plugins.options['default.keymap'],
-        callback : function (aIndex) {
-            if (aIndex < 0) return;
-            let key = promptList[aIndex];
-            if (typeof (templates[key]) == 'string') {
-                let template = templates[key].replace(/\n/g, getLineSeprator());
-                let text = format(template, window.content.document.title, window.content.location.href);
-                command.setClipboardText(text);
-                display.echoStatusBar('Yanked: ' + text);
-            } else {
-                templates[key](window.content.document.title, window.content.location.href, function(text) {
-                    command.setClipboardText(window.content.document.title + ' - ' + text);
-                    display.echoStatusBar('Yanked: '+ window.content.document.title + ' - ' + text);
-                });
-            }
-        }
-    });
-}, 'タイトルやURLをコピー');
-
-
 key.setGlobalKey('M-w', function (ev) {
     command.copyRegion(ev);
 }, '選択中のテキストをコピー', true);
-
-// key.setGlobalKey('C-s', function (ev) {
-//     command.iSearchForwardKs(ev);
-// }, 'Emacs ライクなインクリメンタル検索', true);
 
 key.setGlobalKey('M-r', function (ev) {
     var appStartup = Cc['@mozilla.org/toolkit/app-startup;1'].getService(Ci.nsIAppStartup);
@@ -537,6 +488,49 @@ key.setGlobalKey('C-M-h', function (ev) {
 key.setGlobalKey('C-r', function (ev) {
     command.iSearchBackwardKs(ev);
 }, 'Emacs ライクな逆方向インクリメンタル検索', true);
+
+key.setGlobalKey('x', function (ev, arg) {
+    ext.exec("list-hateb-items", arg);
+}, 'はてなブックマークのアイテムを一覧表示', true);
+
+key.setGlobalKey('C-s', function (ev) {
+    ext.exec("find-current-tab");
+}, 'このタブから検索');
+
+key.setGlobalKey('U', function (ev) {
+    ext.exec("list-closed-tabs");
+}, '閉じたタブリスト表示');
+
+key.setGlobalKey('B', function (ev) {
+    ext.exec("list-tab-history");
+}, 'このタブの履歴リスト表示');
+
+key.setViewKey(['C-c', 'c'], function (ev) {
+    const templates = {title_short_url: (function (title, url, callback) plugins.lib.shortenURL(url, callback)), title: "{0}", url: "{1}", title_url: "{0} - {1}"};
+
+    function getLineSeprator() {
+        var platform = Cc['@mozilla.org/system-info;1'].getService(Ci.nsIPropertyBag2).getProperty("name");
+        if (platform.indexOf("Windows") >= 0) {
+            return "\r\n";
+        } else {
+            return "\n";
+        }
+    }
+
+
+    function format() {
+        var args = Array.prototype.slice.apply(arguments);
+        var format = args.shift();
+        return format &&
+            format.replace(/\{(\d)\}/g, (function () args[arguments[1]] || ""));
+    }
+
+    var promptList = [];
+    for (let key in templates) {
+        promptList.push(key);
+    }
+    prompt.selector({message: "copy from :", collection: promptList, keymap: plugins.options['default.keymap'], callback: function (aIndex) {if (aIndex < 0) {return;}var key = promptList[aIndex];if (typeof templates[key] == "string") {let template = templates[key].replace(/\n/g, getLineSeprator());let text = format(template, window.content.document.title, window.content.location.href);command.setClipboardText(text);display.echoStatusBar("Yanked: " + text);} else {templates[key](window.content.document.title, window.content.location.href, function (text) {command.setClipboardText(window.content.document.title + " - " + text);display.echoStatusBar("Yanked: " + window.content.document.title + " - " + text);});}}});
+}, 'タイトルやURLをコピー');
 
 key.setViewKey([['C-/'], ['u']], function (ev) {
     undoCloseTab();
@@ -642,10 +636,6 @@ key.setViewKey('t', function (ev, arg) {
     shell.input("tabopen ");
 }, 'tabopen');
 
-key.setGlobalKey("x", function (ev, arg) {
-    ext.exec("list-hateb-items", arg);
-}, "はてなブックマークのアイテムを一覧表示", true);
-
 key.setViewKey('c', function (ev, arg) {
     ext.exec("list-hateb-comments", arg);
 }, 'はてなブックマークのコメントを一覧表示', true);
@@ -674,6 +664,14 @@ key.setViewKey('T', function (ev, arg) {
     shell.input("tabopen go ");
 }, 'google検索');
 
+key.setViewKey('o', function (ev, arg) {
+    shell.input("open ");
+}, 'このタブで開く');
+
+key.setViewKey('O', function (ev, arg) {
+    shell.input("open go ");
+}, 'このタブでgoogle検索');
+
 key.setEditKey(['C-c', 'e'], function (ev, arg) {
     ext.exec("edit_text", arg);
 }, '外部エディタで編集', true);
@@ -692,10 +690,7 @@ key.setEditKey(['C-x', 'r', 'd'], function (ev, arg) {
 }, '矩形削除', true);
 
 key.setEditKey(['C-x', 'r', 't'], function (ev) {
-    prompt.read("String rectangle: ", function (aStr, aInput) {
-        command.replaceRectangle(aInput, aStr);
-    },
-    ev.originalTarget);
+    prompt.read("String rectangle: ", function (aStr, aInput) {command.replaceRectangle(aInput, aStr);}, ev.originalTarget);
 }, '矩形置換', true);
 
 key.setEditKey(['C-x', 'r', 'o'], function (ev) {
@@ -811,16 +806,9 @@ key.setEditKey('C-M-y', function (ev) {
     if (!command.kill.ring.length) {
         return;
     }
-    let(ct = command.getClipboardText())(!command.kill.ring.length || ct != command.kill.ring[0]) && command.pushKillRing(ct);
-    prompt.selector({
-        message: "Paste:",
-        collection: command.kill.ring,
-        callback: function (i) {
-            if (i >= 0) {
-                key.insertText(command.kill.ring[i]);
-            }
-        }
-    });
+    let (ct = command.getClipboardText()) (!command.kill.ring.length || ct != command.kill.ring[0]) &&
+        command.pushKillRing(ct);
+    prompt.selector({message: "Paste:", collection: command.kill.ring, callback: function (i) {if (i >= 0) {key.insertText(command.kill.ring[i]);}}});
 }, '以前にコピーしたテキスト一覧から選択して貼り付け', true);
 
 key.setEditKey('C-w', function (ev) {
@@ -916,7 +904,7 @@ key.setCaretKey(':', function (ev, arg) {
     shell.input(null, arg);
 }, 'コマンドの実行', true);
 
-key.setCaretKey('R', function (ev, arg) {
+key.setCaretKey('A', function (ev, arg) {
     ext.exec("kungfloo-reblog", arg, ev);
 }, 'kungfloo - Reblog', true);
 
@@ -948,27 +936,6 @@ key.setCaretKey('M', function (ev, arg) {
     shell.input("weblio " + (content.getSelection() || ""));
 }, 'Lookup the meaning of the word');
 
-key.setViewKey('o', function (ev, arg) {
-    shell.input("open ");
-}, 'このタブで開く');
-
-key.setViewKey('O', function (ev, arg) {
-    shell.input("open go ");
-}, 'このタブでgoogle検索');
-
-key.setGlobalKey('C-s', function (ev) {
-    ext.exec("find-current-tab");
-}, 'このタブから検索');
-
-key.setGlobalKey('U', function (ev) {
-    ext.exec("list-closed-tabs");
-}, '閉じたタブリスト表示');
-
-key.setGlobalKey('B', function (ev) {
-    ext.exec("list-tab-history");
-}, 'このタブの履歴リスト表示');
-
-key.setGlobalKey(['C-x', 'C-b'], function (ev) {
-    ext.exec("history-show");
-}, '全履歴リスト表示');
-
+key.setViewKey('R', function (ev) {
+    BrowserReloadSkipCache();
+}, '更新(キャッシュを無視)');
