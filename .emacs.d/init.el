@@ -1046,6 +1046,10 @@ interpreter-mode-alist))
 (require 'color-moccur)
 (setq moccur-split-word t)
 
+(global-set-key (kbd "M-o") 'occur-by-moccur)
+(global-set-key (kbd "C-M-o") 'moccur-grep-find)
+
+
 ;;====================
 ;; moccur-edit
 ;;====================
@@ -1158,8 +1162,8 @@ interpreter-mode-alist))
       anything-c-moccur-enable-initial-pattern t) ; `anything-c-moccur-occur-by-moccur'の起動時にポイントの位置の単語を初期パターンにする
 
 ;;; キーバインドの割当(好みに合わせて設定してください)
-(global-set-key (kbd "M-o") 'anything-c-moccur-occur-by-moccur) ;バッファ内検索
-(global-set-key (kbd "C-M-o") 'anything-c-moccur-dmoccur) ;ディレクトリ
+;; (global-set-key (kbd "M-o") 'anything-c-moccur-occur-by-moccur) ;バッファ内検索
+;; (global-set-key (kbd "C-M-o") 'anything-c-moccur-dmoccur) ;ディレクトリ
 (add-hook 'dired-mode-hook ;dired
           '(lambda ()
              (local-set-key (kbd "O") 'anything-c-moccur-dired-do-moccur-by-moccur)))
