@@ -493,7 +493,7 @@ key.setGlobalKey('x', function (ev, arg) {
     ext.exec("list-hateb-items", arg);
 }, 'はてなブックマークのアイテムを一覧表示', true);
 
-key.setGlobalKey('C-s', function (ev) {
+key.setGlobalKey('M-o', function (ev) {
     ext.exec("find-current-tab");
 }, 'このタブから検索');
 
