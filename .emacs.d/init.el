@@ -48,17 +48,6 @@
      (normal-top-level-add-subdirs-to-load-path)))
 
 
-;; ウィンドウサイズ設定
-(setq initial-frame-alist
-      (append (list
-	     '(width . 140) ;; ウィンドウ幅
-	       '(height . 40) ;; ウィンドウ高さ
-;	       '(top . 50) ;; 表示位置
-;	       '(left . 340) ;; 表示位置
-	       )
-	      initial-frame-alist))
-(setq default-frame-alist initial-frame-alist)
-
 
 ;; language & code
 (set-language-environment 'Japanese)
@@ -562,6 +551,20 @@
 
 (when is_mac
 
+
+
+    ;; ウィンドウサイズ設定
+    (setq initial-frame-alist
+          (append (list
+             '(width . 140) ;; ウィンドウ幅
+               '(height . 60) ;; ウィンドウ高さ
+    	       '(top . 500) ;; 表示位置
+    	       '(left . 340) ;; 表示位置
+               )
+              initial-frame-alist))
+    (setq default-frame-alist initial-frame-alist)
+
+
     ;; フォント設定
     (setq my-font "-*-*-medium-r-normal--12-*-*-*-*-*-fontset-hiramaru")
     (set-face-attribute 'default nil
@@ -712,6 +715,20 @@
    
     ;; ファイル名の文字コード指定
     (setq file-name-coding-system 'shift_jis)
+
+
+    ;; ウィンドウサイズ設定
+    (setq initial-frame-alist
+          (append (list
+             '(width . 140) ;; ウィンドウ幅
+               '(height . 40) ;; ウィンドウ高さ
+    	       '(top . 50) ;; 表示位置
+    	       '(left . 50) ;; 表示位置
+               )
+              initial-frame-alist))
+    (setq default-frame-alist initial-frame-alist)
+
+
    
     ;; フォント設定
     (when window-system
