@@ -34,8 +34,15 @@ plugins.options["twitter_client.keymap"] = {
     "s"     : "switch-to"
 };
 
+// リスト設定
 plugins.options["twitter_client.lists"] = 
     ["nishikawasasaki/kdl", "nishikawasasaki/list"];
+
+// 日本語のつぶやきを対象に
+plugins.options["twitter_client.tracking_langage"] = "ja";
+
+
+
 
 
 // 外部エディタの設定
@@ -489,10 +496,6 @@ key.setGlobalKey('C-r', function (ev) {
     command.iSearchBackwardKs(ev);
 }, 'Emacs ライクな逆方向インクリメンタル検索', true);
 
-key.setGlobalKey('x', function (ev, arg) {
-    ext.exec("list-hateb-items", arg);
-}, 'はてなブックマークのアイテムを一覧表示', true);
-
 key.setGlobalKey('M-o', function (ev) {
     ext.exec("find-current-tab");
 }, 'このタブから検索');
@@ -504,6 +507,10 @@ key.setGlobalKey('U', function (ev) {
 key.setGlobalKey('B', function (ev) {
     ext.exec("list-tab-history");
 }, 'このタブの履歴リスト表示');
+
+key.setViewKey('x', function (ev, arg) {
+    ext.exec("list-hateb-items", arg);
+}, 'はてなブックマークのアイテムを一覧表示', true);
 
 key.setViewKey(['C-c', 'c'], function (ev) {
     const templates = {title_short_url: (function (title, url, callback) plugins.lib.shortenURL(url, callback)), title: "{0}", url: "{1}", title_url: "{0} - {1}"};
@@ -648,9 +655,9 @@ key.setViewKey('b', function (ev, arg) {
     ext.exec("tanything", arg);
 }, 'view all tabs', true);
 
-key.setViewKey('R', function (ev, arg) {
-    ext.exec("kungfloo-reblog", arg, ev);
-}, 'kungfloo - Reblog', true);
+key.setViewKey('R', function (ev) {
+    BrowserReloadSkipCache();
+}, '更新(キャッシュを無視)');
 
 key.setViewKey('m', function (ev, arg) {
     shell.input("goodic " + (content.getSelection() || ""));
@@ -661,7 +668,7 @@ key.setViewKey('M', function (ev, arg) {
 }, 'Lookup the meaning of the word');
 
 key.setViewKey('T', function (ev, arg) {
-    shell.input("tabopen go ");
+    shell.input("tabopen google ");
 }, 'google検索');
 
 key.setViewKey('o', function (ev, arg) {
@@ -669,7 +676,7 @@ key.setViewKey('o', function (ev, arg) {
 }, 'このタブで開く');
 
 key.setViewKey('O', function (ev, arg) {
-    shell.input("open go ");
+    shell.input("open google ");
 }, 'このタブでgoogle検索');
 
 key.setEditKey(['C-c', 'e'], function (ev, arg) {
@@ -936,6 +943,14 @@ key.setCaretKey('M', function (ev, arg) {
     shell.input("weblio " + (content.getSelection() || ""));
 }, 'Lookup the meaning of the word');
 
-key.setViewKey('R', function (ev) {
-    BrowserReloadSkipCache();
-}, '更新(キャッシュを無視)');
+key.setViewKey('C-s', function (ev) {
+    command.iSearchForwardKs(ev);
+}, 'Emacs ライクなインクリメンタル検索', true);
+
+key.setGlobalKey("M-j", function () {
+    plugins.twitterClient.switchTo();
+}, "Twitter Client Select Action");
+
+key.defineKey([key.modes.VIEW, key.modes.CARET], 'A', function (ev, arg) {
+    ext.exec("kungfloo-reblog", arg, ev);
+}, 'kungfloo - Reblog', true);
