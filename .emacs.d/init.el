@@ -100,7 +100,7 @@
 
 ;; 最近のファイル500個を保存する
 (setq recentf-max-saved-items 500)
-
+(setq recentf-max-menu-items 30)
 
 
 ;; 行のどこにカーソルがあっても行全体削除
@@ -116,17 +116,6 @@
 ; ごみ箱を有効
 (setq delete-by-moving-to-trash t)
 
-
-;; バックアップファイルの;; 場所
-;; (when is_mac
-;; (setq make-backup-files t)
-;; (setq backup-directory "/Volumes/RamDisk/emacsBackup")
-;; )
-;; (when is_win 
-;; (setq make-backup-files t)
-;; (setq backup-directory "R:/")
-;; )
-
 ;; バックアップファイルを作らない
 (setq backup-inhibited t)
 
@@ -136,6 +125,8 @@
 ;; 保存時にオートセーブファイルを消す
 (setq delete-auto-save-files t)
 
+;; バックアップファイルの場所
+(setq backup-directory-alist '(("" . "~/.emacs.d/backup")))
 
 ;; 前回編集場所を記憶
 (load "saveplace")
