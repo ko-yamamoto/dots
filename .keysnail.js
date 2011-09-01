@@ -468,6 +468,14 @@ key.setGlobalKey(['C-x', 'C-b'], function (ev) {
     ext.exec("history-show");
 }, '全履歴リスト表示');
 
+key.setGlobalKey(['C-x', 't'], function (ev, arg) {
+    ext.exec("twitter-client-display-timeline", arg, ev);
+}, 'TL を表示', true);
+
+key.setGlobalKey(['C-x', 'h'], function (ev) {
+    goDoCommand("cmd_selectAll");
+}, 'すべて選択', true);
+
 key.setGlobalKey(['C-c', 'C-c', 'C-v'], function (ev) {
     toJavaScriptConsole();
 }, 'Javascript コンソールを表示', true);
@@ -528,11 +536,11 @@ key.setGlobalKey('M-o', function (ev) {
     ext.exec("find-current-tab");
 }, 'このタブから検索');
 
-key.setGlobalKey('U', function (ev) {
+key.setViewKey('U', function (ev) {
     ext.exec("list-closed-tabs");
 }, '閉じたタブリスト表示');
 
-key.setGlobalKey('B', function (ev) {
+key.setViewKey('B', function (ev) {
     ext.exec("list-tab-history");
 }, 'このタブの履歴リスト表示');
 
@@ -846,8 +854,6 @@ key.setEditKey('C-k', function (ev) {
 }, 'カーソルから先を一行カット (Kill line)');
 
 key.setEditKey('C-y', command.yank, '貼り付け (Yank)');
-
-key.setEditKey('M-y', command.yankPop, '古いクリップボードの中身を順に貼り付け (Yank pop)', true);
 
 key.setEditKey('M-y', function (ev) {
     if (!command.kill.ring.length) {
