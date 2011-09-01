@@ -385,6 +385,7 @@ hook.setHook('KeyBoardQuit', function (aEvent) {
 
 
 
+
 // ============================= Key bindings ============================== //
 
 key.setGlobalKey('C-M-r', function (ev) {
@@ -475,6 +476,33 @@ key.setGlobalKey(['C-c', 'C-c', 'C-c'], function (ev) {
     command.clearConsole();
 }, 'Javascript コンソールの表示をクリア', true);
 
+key.setGlobalKey(['C-c', 'c'], function (ev) {
+    const templates = {title_short_url: (function (title, url, callback) plugins.lib.shortenURL(url, callback)), title: "{0}", url: "{1}", title_url: "{0} - {1}"};
+
+    function getLineSeprator() {
+        var platform = Cc['@mozilla.org/system-info;1'].getService(Ci.nsIPropertyBag2).getProperty("name");
+        if (platform.indexOf("Windows") >= 0) {
+            return "\r\n";
+        } else {
+            return "\n";
+        }
+    }
+
+
+    function format() {
+        var args = Array.prototype.slice.apply(arguments);
+        var format = args.shift();
+        return format &&
+            format.replace(/\{(\d)\}/g, (function () args[arguments[1]] || ""));
+    }
+
+    var promptList = [];
+    for (let key in templates) {
+        promptList.push(key);
+    }
+    prompt.selector({message: "copy from :", collection: promptList, keymap: plugins.options['default.keymap'], callback: function (aIndex) {if (aIndex < 0) {return;}var key = promptList[aIndex];if (typeof templates[key] == "string") {let template = templates[key].replace(/\n/g, getLineSeprator());let text = format(template, window.content.document.title, window.content.location.href);command.setClipboardText(text);display.echoStatusBar("Yanked: " + text);} else {templates[key](window.content.document.title, window.content.location.href, function (text) {command.setClipboardText(window.content.document.title + " - " + text);display.echoStatusBar("Yanked: " + window.content.document.title + " - " + text);});}}});
+}, 'タイトルやURLをコピー');
+
 key.setGlobalKey('M-w', function (ev) {
     command.copyRegion(ev);
 }, '選択中のテキストをコピー', true);
@@ -507,6 +535,10 @@ key.setGlobalKey('U', function (ev) {
 key.setGlobalKey('B', function (ev) {
     ext.exec("list-tab-history");
 }, 'このタブの履歴リスト表示');
+
+key.setGlobalKey('M-j', function () {
+    plugins.twitterClient.switchTo();
+}, 'Twitter Client Select Action');
 
 key.setViewKey('x', function (ev, arg) {
     ext.exec("list-hateb-items", arg);
@@ -679,6 +711,14 @@ key.setViewKey('O', function (ev, arg) {
     shell.input("open google ");
 }, 'このタブでgoogle検索');
 
+key.setViewKey('A', function (ev, arg) {
+    ext.exec("kungfloo-reblog", arg, ev);
+}, 'kungfloo - Reblog', true);
+
+key.setViewKey('C-s', function (ev) {
+    command.iSearchForward();
+}, 'インクリメンタル検索', true);
+
 key.setEditKey(['C-c', 'e'], function (ev, arg) {
     ext.exec("edit_text", arg);
 }, '外部エディタで編集', true);
@@ -809,7 +849,7 @@ key.setEditKey('C-y', command.yank, '貼り付け (Yank)');
 
 key.setEditKey('M-y', command.yankPop, '古いクリップボードの中身を順に貼り付け (Yank pop)', true);
 
-key.setEditKey('C-M-y', function (ev) {
+key.setEditKey('M-y', function (ev) {
     if (!command.kill.ring.length) {
         return;
     }
@@ -942,15 +982,3 @@ key.setCaretKey('m', function (ev, arg) {
 key.setCaretKey('M', function (ev, arg) {
     shell.input("weblio " + (content.getSelection() || ""));
 }, 'Lookup the meaning of the word');
-
-key.setViewKey('C-s', function (ev) {
-    command.iSearchForwardKs(ev);
-}, 'Emacs ライクなインクリメンタル検索', true);
-
-key.setGlobalKey("M-j", function () {
-    plugins.twitterClient.switchTo();
-}, "Twitter Client Select Action");
-
-key.defineKey([key.modes.VIEW, key.modes.CARET], 'A', function (ev, arg) {
-    ext.exec("kungfloo-reblog", arg, ev);
-}, 'kungfloo - Reblog', true);
