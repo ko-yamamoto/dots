@@ -1102,6 +1102,8 @@ interpreter-mode-alist))
 ;; 手動補完するならこっち
 ;; (setq ac-auto-start nil) ; 自動的に開始しない
 (ac-set-trigger-key "TAB") ; コンテキストに応じてTABで補完
+;; ;で補完確定
+(define-key ac-complete-mode-map "RET" 'ac-complete)
 ;; 補完の情報源
 ;; (setq-default ac-sources '(ac-source-words-in-same-mode-buffers ac-source-filename ac-source-symbols)) 
 ;; 補完するモードの追加
