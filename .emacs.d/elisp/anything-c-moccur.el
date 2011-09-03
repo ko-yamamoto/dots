@@ -173,6 +173,9 @@ nilなら使用しない"
       ;; anything
       (define-key map (kbd "C-n")  'anything-c-moccur-next-line)
       (define-key map (kbd "C-p")  'anything-c-moccur-previous-line)
+      (define-key map (kbd "<down>")  'anything-c-moccur-next-line)
+      (define-key map (kbd "<up>")  'anything-c-moccur-previous-line)
+
 
       (define-key map (kbd "C-M-f")  'anything-c-moccur-anything-next-file-matches)
       (define-key map (kbd "C-M-b")  'anything-c-moccur-anything-previous-file-matches)

@@ -1000,17 +1000,6 @@ interpreter-mode-alist))
 (define-key global-map (kbd "S-<f8>") 'goto-last-change-reverse)
 
 
-
-
-
-;;====================
-;; e2wm
-;;====================
-;; 最小の e2wm 設定例
-(require 'e2wm)
-(global-set-key (kbd "M-+") 'e2wm:start-management)
-
-
 ;;====================
 ;; ElScreen
 ;;====================
@@ -1063,8 +1052,12 @@ interpreter-mode-alist))
 (require 'color-moccur)
 (setq moccur-split-word t)
 
-(global-set-key (kbd "M-o") 'occur-by-moccur)
-(global-set-key (kbd "C-M-o") 'moccur-grep-find)
+;; migemoがrequireできる環境ならmigemoを使う
+;; (when (require 'migemo nil t) ;第三引数がnon-nilだとloadできなかった場合にエラーではなくnilを返す
+;; (setq moccur-use-migemo t))
+
+;; (global-set-key (kbd "M-o") 'occur-by-moccur)
+;; (global-set-key (kbd "C-M-o") 'moccur-grep-find)
 
 
 ;;====================
@@ -1096,14 +1089,23 @@ interpreter-mode-alist))
 (setq ac-dwim t)
 ;; ;; 辞書ファイルの位置
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/dict")
-(ac-config-default)
+
+;; デフォルト設定有効
+;;(ac-config-default)
+
 ;; 自動補完
 (setq ac-auto-start 2) ; 2文字以上で補完開始
 ;; 手動補完するならこっち
 ;; (setq ac-auto-start nil) ; 自動的に開始しない
-(ac-set-trigger-key "TAB") ; コンテキストに応じてTABで補完
+
+;; コンテキストに応じてTABで補完
+(ac-set-trigger-key "TAB") 
 ;; ;で補完確定
 (define-key ac-complete-mode-map "RET" 'ac-complete)
+;; 候補選択
+(define-key ac-complete-mode-map "\C-n" 'ac-next-or-next-line)
+(define-key ac-complete-mode-map "\C-p" 'ac-previous-or-previous-line)
+
 ;; 補完の情報源
 ;; (setq-default ac-sources '(ac-source-words-in-same-mode-buffers ac-source-filename ac-source-symbols)) 
 ;; 補完するモードの追加
@@ -1178,11 +1180,13 @@ interpreter-mode-alist))
 (setq anything-c-moccur-anything-idle-delay 0.2 ;`anything-idle-delay'
       anything-c-moccur-higligt-info-line-flag t ; `anything-c-moccur-dmoccur'などのコマンドでバッファの情報をハイライトする
       anything-c-moccur-enable-auto-look-flag t ; 現在選択中の候補の位置を他のwindowに表示する
-      anything-c-moccur-enable-initial-pattern t) ; `anything-c-moccur-occur-by-moccur'の起動時にポイントの位置の単語を初期パターンにする
+      anything-c-moccur-enable-initial-pattern t ; `anything-c-moccur-occur-by-moccur'の起動時にポイントの位置の単語を初期パターンにする
+;      anything-c-moccur-use-moccur-anything-map-flag nil ; non-nilならanything-c-moccurのデフォルトのキーバインドを使用する
+      )
 
 ;;; キーバインドの割当(好みに合わせて設定してください)
-;; (global-set-key (kbd "M-o") 'anything-c-moccur-occur-by-moccur) ;バッファ内検索
-;; (global-set-key (kbd "C-M-o") 'anything-c-moccur-dmoccur) ;ディレクトリ
+(global-set-key (kbd "M-o") 'anything-c-moccur-occur-by-moccur) ;バッファ内検索
+(global-set-key (kbd "C-M-o") 'anything-c-moccur-dmoccur) ;ディレクトリ
 (add-hook 'dired-mode-hook ;dired
           '(lambda ()
              (local-set-key (kbd "O") 'anything-c-moccur-dired-do-moccur-by-moccur)))
@@ -1526,6 +1530,7 @@ interpreter-mode-alist))
 
 
 
+
 ;; ---------------------------------------------------------------------------------
 ;; Visual Settings 
 ;; ---------------------------------------------------------------------------------
@@ -1622,7 +1627,3 @@ interpreter-mode-alist))
 
 ;; 1画面スクロールで前の表示を何行分残すか
 (setq next-screen-context-lines 5)
-
-
-
-
