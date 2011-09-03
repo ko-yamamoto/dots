@@ -9,3 +9,4 @@ init.elc
 auto-save-kist
 kill-ring-saved.el
 .vim/bundle/*
+ac-comphist.dat
