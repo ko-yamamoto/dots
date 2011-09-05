@@ -721,8 +721,8 @@
     (setq initial-frame-alist
           (append (list
              '(width . 140) ;; ウィンドウ幅
-               '(height . 40) ;; ウィンドウ高さ
-    	       '(top . 50) ;; 表示位置
+               '(height . 50) ;; ウィンドウ高さ
+    	       '(top . 60) ;; 表示位置
     	       '(left . 50) ;; 表示位置
                )
               initial-frame-alist))
@@ -733,7 +733,8 @@
     ;; フォント設定
     (when window-system
       (set-default-font "VL Gothic:pixelsize=13" t)
-      (add-to-list 'default-frame-alist '(font . "VL Gothic:pixelsize=13"))
+      ;; (add-to-list 'default-frame-alist '(font . "VL Gothic:pixelsize=13")) 
+      (add-to-list 'default-frame-alist '(font . "MeiryoKe_Console:pixelsize=13"))
       (set-default-coding-systems 'utf-8))
    
     ;; プロクシの設定
@@ -939,7 +940,7 @@ interpreter-mode-alist))
 		(scala-electric-mode)))
 
 ;; ensime
-(add-to-list 'load-path "~/.emacs.d/ensime/elisp/")
+;; (add-to-list 'load-path "~/.emacs.d/ensime/elisp/")
 ;; (require 'ensime)
 ;; (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
 
@@ -1526,6 +1527,9 @@ interpreter-mode-alist))
                               eshell-last-output-end))
 (add-to-list 'eshell-output-filter-functions 'eshell-handle-ansi-color)
 
+;; aliasの設定
+(eval-after-load "em-alias"
+  '(progn (eshell/alias "ll" "ls -alhF")))
 
 
 
