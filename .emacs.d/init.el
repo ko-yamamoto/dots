@@ -152,7 +152,6 @@
 (global-set-key (kbd "C-S-v") 'scroll-down)
 
 
-
 ;;====================
 ;; Dired
 ;;====================
@@ -1339,10 +1338,10 @@ interpreter-mode-alist))
 (setq howm-view-summary-persistent nil)
 
 ;; メニューの予定表の表示範囲
-;; 10 日前から
+;; ? 日前から
 (setq howm-menu-schedule-days-before 10)
-;; 3 日後まで
-(setq howm-menu-schedule-days 3)
+;; ? 日後まで
+(setq howm-menu-schedule-days 10)
 
 ;; howm のファイル名
 ;; 以下のスタイルのうちどれかを選んでください
