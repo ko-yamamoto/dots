@@ -607,7 +607,86 @@
     (global-set-key [(super v)] 'yank)
     (global-set-key [(super x)] 'kill-region)
 
-  
+ 
+ 
+;; Macではansi-term
+;; ============================================================
+;; ansi-term
+;; ============================================================
+(defvar my-shell-pop-key (kbd "C-t"))
+(defvar my-ansi-term-toggle-mode-key (kbd "C-c c"))
+ 
+(defadvice ansi-term (after ansi-term-after-advice (arg))
+ "run hook as after advice"
+ (run-hooks 'ansi-term-after-hook))
+(ad-activate 'ansi-term)
+ 
+(defun my-term-switch-line-char ()
+ "Switch `term-in-line-mode' and `term-in-char-mode' in `ansi-term'"
+ (interactive)
+ (cond
+  ((term-in-line-mode)
+   (term-char-mode)
+   (hl-line-mode -1))
+  ((term-in-char-mode)
+   (term-line-mode)
+   (hl-line-mode 1))))
+ 
+(defadvice anything-c-kill-ring-action (around my-anything-kill-ring-term-advice activate)
+ "In term-mode, use `term-send-raw-string' instead of `insert-for-yank'"
+ (if (eq major-mode 'term-mode)
+     (letf (((symbol-function 'insert-for-yank) (symbol-function 'term-send-raw-string)))
+       ad-do-it)
+   ad-do-it))
+ 
+(defvar ansi-term-after-hook nil)
+(add-hook 'ansi-term-after-hook
+      (lambda ()
+        ;; shell-pop
+        (define-key term-raw-map my-shell-pop-key 'shell-pop)
+        ;; これがないと M-x できなかったり
+        (define-key term-raw-map (kbd "M-x") 'nil)
+        ;; コピー, 貼り付け
+        (define-key term-raw-map (kbd "C-k")
+          (lambda (&optional arg) (interactive "P") (funcall 'kill-line arg) (term-send-raw)))
+        (define-key term-raw-map (kbd "C-y") 'term-paste)
+        (define-key term-raw-map (kbd "M-y") 'anything-show-kill-ring)
+        ;; C-t で line-mode と char-mode を切り替える
+        (define-key term-raw-map  my-ansi-term-toggle-mode-key 'my-term-switch-line-char)
+        (define-key term-mode-map my-ansi-term-toggle-mode-key 'my-term-switch-line-char)
+        ;; Tango!
+        (setq ansi-term-color-vector
+              [unspecified
+               "#000000"           ; black
+               "#ff3c3c"           ; red
+               "#84dd27"           ; green
+               "#eab93d"           ; yellow
+               "#135ecc"           ; blue
+               "#f47006"           ; magenta
+               "#89b6e2"           ; cyan
+               "#ffffff"]          ; white
+              )
+        ))
+
+(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+
+;; ============================================================
+;; shell-pop
+;; ============================================================
+(require 'shell-pop)
+(shell-pop-set-window-height 70)
+;(shell-pop-set-internal-mode "eshell")
+(shell-pop-set-internal-mode "ansi-term")
+(shell-pop-set-internal-mode-shell shell-file-name)
+(global-set-key my-shell-pop-key 'shell-pop)
+
+(define-key global-map [?¥] [?\\])  ;; ¥の代わりにバックスラッシュを入力する
+
+
+
+
   
 
 )
@@ -622,6 +701,7 @@
 
     ;; exec-pathとPATHに設定したいパスのリストを設定
     (dolist (dir (list
+     	      "C:/MinGW/1.0/bin"
      	      "C:/scala/scala/bin"
      	      "C:/Python27"
      	      "C:/cygwin/bin"
@@ -709,28 +789,32 @@
     ;;   (global-set-key (kbd "C-t") '(lambda ()
     ;;                                 (interactive)
     ;;                                 (term shell-file-name)))
-    (global-set-key (kbd "C-t") 'shell)
+;;    (global-set-key (kbd "C-t") 'shell)
      
      
+
+    ;; ============================================================
+    ;; shell-pop
+    ;; ============================================================
     ;; shellでzshを使う(指定しない場合はcmd.exe)
-    ;; (setq explicit-shell-file-name "c:\\cygwin\\bin\\zsh.exe")
-     
-    ;; C-tでcmd.exeをポップアップ
+;    (setq explicit-shell-file-name "C:\\my\\programs\\nyaos-3.1.8_0-win\\nyaos.exe")
+;    (setq explicit-shell-file-name "nyaos")     
+    ;; ;; C-tでcmd.exeをポップアップ
     (require 'shell-pop)
     (shell-pop-set-internal-mode "shell") ;; shellを使う
     ;;(shell-pop-set-internal-mode "ansi-term") ;; ansi-termを使う
     ;;(shell-pop-set-internal-mode-shell "c:\\cygwin\\bin\\zsh.exe")
-    (defvar ansi-term-after-hook nil)
-    (add-hook 'ansi-term-after-hook
-              '(lambda ()
-                 (define-key term-raw-map "\C-t" 'shell-pop)))
-    (defadvice ansi-term (after ansi-term-after-advice (org))
-      "run hook as after advice"
-      (run-hooks 'ansi-term-after-hook))
-    (ad-activate 'ansi-term)
+    ;; (defvar ansi-term-after-hook nil)
+    ;; (add-hook 'ansi-term-after-hook
+    ;;           '(lambda ()
+    ;;              (define-key term-raw-map "\C-t" 'shell-pop)))
+    ;; (defadvice ansi-term (after ansi-term-after-advice (org))
+    ;;   "run hook as after advice"
+    ;;   (run-hooks 'ansi-term-after-hook))
+    ;; (ad-activate 'ansi-term)
     (global-set-key "\C-t" 'shell-pop)
-     
-     
+    (shell-pop-set-window-height 60)
+    (shell-pop-set-internal-mode-shell shell-file-name)
      
      
     ;; Twittering-modeのプロクシ
@@ -1457,81 +1541,6 @@ interpreter-mode-alist))
 ;;   '(progn (eshell/alias "ll" "ls -alhF")))
 
      
-;; ============================================================
-;; ansi-term
-;; ============================================================
-(defvar my-shell-pop-key (kbd "C-t"))
-(defvar my-ansi-term-toggle-mode-key (kbd "C-c c"))
- 
-(defadvice ansi-term (after ansi-term-after-advice (arg))
- "run hook as after advice"
- (run-hooks 'ansi-term-after-hook))
-(ad-activate 'ansi-term)
- 
-(defun my-term-switch-line-char ()
- "Switch `term-in-line-mode' and `term-in-char-mode' in `ansi-term'"
- (interactive)
- (cond
-  ((term-in-line-mode)
-   (term-char-mode)
-   (hl-line-mode -1))
-  ((term-in-char-mode)
-   (term-line-mode)
-   (hl-line-mode 1))))
- 
-(defadvice anything-c-kill-ring-action (around my-anything-kill-ring-term-advice activate)
- "In term-mode, use `term-send-raw-string' instead of `insert-for-yank'"
- (if (eq major-mode 'term-mode)
-     (letf (((symbol-function 'insert-for-yank) (symbol-function 'term-send-raw-string)))
-       ad-do-it)
-   ad-do-it))
- 
-(defvar ansi-term-after-hook nil)
-(add-hook 'ansi-term-after-hook
-      (lambda ()
-        ;; shell-pop
-        (define-key term-raw-map my-shell-pop-key 'shell-pop)
-        ;; これがないと M-x できなかったり
-        (define-key term-raw-map (kbd "M-x") 'nil)
-        ;; コピー, 貼り付け
-        (define-key term-raw-map (kbd "C-k")
-          (lambda (&optional arg) (interactive "P") (funcall 'kill-line arg) (term-send-raw)))
-        (define-key term-raw-map (kbd "C-y") 'term-paste)
-        (define-key term-raw-map (kbd "M-y") 'anything-show-kill-ring)
-        ;; C-t で line-mode と char-mode を切り替える
-        (define-key term-raw-map  my-ansi-term-toggle-mode-key 'my-term-switch-line-char)
-        (define-key term-mode-map my-ansi-term-toggle-mode-key 'my-term-switch-line-char)
-        ;; Tango!
-        (setq ansi-term-color-vector
-              [unspecified
-               "#000000"           ; black
-               "#ff3c3c"           ; red
-               "#84dd27"           ; green
-               "#eab93d"           ; yellow
-               "#135ecc"           ; blue
-               "#f47006"           ; magenta
-               "#89b6e2"           ; cyan
-               "#ffffff"]          ; white
-              )
-        ))
-
-(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-
-
-;; ============================================================
-;; shell-pop
-;; ============================================================
-(require 'shell-pop)
-(shell-pop-set-window-height 40)
-;(shell-pop-set-internal-mode "eshell")
-(shell-pop-set-internal-mode "ansi-term")
-(shell-pop-set-internal-mode-shell shell-file-name)
-(global-set-key my-shell-pop-key 'shell-pop)
-
-(define-key global-map [?¥] [?\\])  ;; ¥の代わりにバックスラッシュを入力する
-
-
 
 
 ;; ---------------------------------------------------------------------------------
