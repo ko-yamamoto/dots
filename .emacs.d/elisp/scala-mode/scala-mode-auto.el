@@ -1,7 +1,7 @@
 ;;; -*-Emacs-Lisp-*-
-;;; scala-mode-feature-speedbar.el - 
+;;; scala-mode-auto.el - Autoloads file for the scala mode
 
-;; Copyright (C) 2009 Scala Dev Team at EPFL
+;; Copyright (C) 2009-2011 Scala Dev Team at EPFL
 ;; Authors: See AUTHORS file
 ;; Keywords: scala languages oop
 
@@ -9,7 +9,7 @@
 
 ;; SCALA LICENSE
 ;;  
-;; Copyright (c) 2002-2010 EPFL, Lausanne, unless otherwise specified.
+;; Copyright (c) 2002-2011 EPFL, Lausanne, unless otherwise specified.
 ;; All rights reserved.
 ;;  
 ;; This software was developed by the Programming Methods Laboratory of the
@@ -46,44 +46,42 @@
 ;;; Code
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(provide 'scala-mode-feature-speedbar)
+;; We now depend on font-locking features only in emacs 21.x and newer
+(unless (<= 21 emacs-major-version)
+  (error
+   (format "The Scala mode require Emacs version 21.x (and not your Emacs version %s.%s)"  emacs-major-version  emacs-minor-version)))
 
-(eval-when-compile 
-  (require 'scala-mode-feature-tags))
-
-(require 'speedbar)
-
-;; Customization
- 
-(defgroup scala-mode-feature:speedbar nil
-  "Options how the speedbar works under Scala mode"
-  :group 'scala)
+;; TODO insert check for correct version of speedbar
 
 
-(defcustom scala-mode-feature:speedbar-open nil
-  "Normally scala-mode starts with the speedbar closed.\
-Turning this on will open it whenever scala-mode is loaded."
-  :type 'boolean
-  :set (lambda (sym val)
-         (set-default sym val)
-         (when val
-             (speedbar 1)))
-  :group 'scala-mode-feature:speedbar)
+;; Attach .scala files to the scala-mode
+(add-to-list 'auto-mode-alist '("\\.scala\\'" . scala-mode))
+(modify-coding-system-alist 'file "\\.scala$"     'utf-8)
 
 
-(defun scala-mode-feature-speedbar-install () 
-  (define-key speedbar-file-key-map "\C-t" '(lambda () (interactive) 
-					      (speedbar-flush-expand-line)))
+;; Autoload from scala-mode.el
+(autoload (quote scala-mode) "scala-mode" "\
+Major mode for editing Scala code.
 
-  (add-hook 'speedbar-mode-hook 
-	    (lambda() 
-	      (speedbar-add-supported-extension "\\.scala")))
+When started, run `scala-mode-hook'.
 
-  (setq speedbar-fetch-etags-command scala-mode-feature:tags-command)
+\\{scala-mode-map}" t nil)
 
-  (setq speedbar-fetch-etags-arguments '("-e" "-f -"))
 
-  (add-to-list 'speedbar-fetch-etags-parse-list
-		'("\\.scala" . speedbar-parse-c-or-c++tag))
+;; Autoload from scala-mode-inf.el
+(autoload (quote scala-interpreter-running-p-1) "scala-mode-inf" nil t nil)
 
-  t)
+(autoload (quote scala-run-scala) "scala-mode-inf" "Run a Scala interpreter in an Emacs buffer" t nil)
+
+(autoload (quote scala-switch-to-interpreter) "scala-mode-inf" "Switch to buffer containing the interpreter" t nil)
+
+(autoload (quote scala-eval-region) "scala-mode-inf" "Send current region to Scala interpreter." t nil)
+
+(autoload (quote scala-eval-buffer) "scala-mode-inf" "Send whole buffer to Scala interpreter." t nil)
+
+(autoload (quote scala-load-file) "scala-mode-inf" "Load a file in the Scala interpreter." t nil)
+
+(autoload (quote scala-quit-interpreter) "scala-mode-inf" "Quit Scala interpreter." t nil)
+
+
+(provide 'scala-mode-auto)
