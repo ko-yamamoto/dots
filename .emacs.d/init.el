@@ -102,6 +102,17 @@
 (global-set-key (kbd "M-k") 'kill-whole-line)
 
 
+;; "フォーマット"
+(defun format-line-indent ()
+  "バッファ全体のインデントを整える"
+  (interactive)
+  (indent-region (point-min) (point-max)))
+
+
+
+
+
+
 ; ごみ箱を有効
 (setq delete-by-moving-to-trash t)
 
