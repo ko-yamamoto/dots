@@ -1237,7 +1237,7 @@ interpreter-mode-alist))
 		("*anything*" :height 20)
 ;		("*Moccur*" :height 20)
 		("*Directory*" :height 20)
-;		("*undo-tree*" :height 20)
+		("*undo-tree*" :height 20)
 	       )
               popwin:special-display-config))
 ;; 最後に表示したpopwinを再表示
@@ -1650,7 +1650,8 @@ interpreter-mode-alist))
 ;; タブ, 全角スペース, 行末空白表示
 (defface my-face-b-1 '((t (:background "NavajoWhite4"))) nil) ; 全角スペース
 (defface my-face-b-2 '((t (:background "gray10"))) nil) ; タブ
-(defface my-face-u-1 '((t (:background "SteelBlue" :underline t))) nil) ; 行末空白
+;;(defface my-face-u-1 '((t (:background "SteelBlue" :underline t))) nil) ; 行末空白
+(defface my-face-u-1 '((t (:background "SteelBlue"))) nil) ; 行末空白
 (defvar my-face-b-1 'my-face-b-1)
 (defvar my-face-b-2 'my-face-b-2)
 (defvar my-face-u-1 'my-face-u-1)
