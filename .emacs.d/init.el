@@ -157,6 +157,22 @@
 ;;====================
 ;; dired-x
 (require 'dired-x)
+;; Cygwin 利用時
+(setq dired-guess-shell-gnutar "tar")
+;; 以下，各ファイル別の設定
+(setq dired-guess-shell-alist-user
+      '(("\\.tar\\.gz\\'"  "tar ztvf")
+        ("\\.taz\\'" "tar ztvf")
+        ("\\.tar\\.bz2\\'" "tar Itvf")
+        ("\\.zip\\'" "unzip -l")
+        ("\\.\\(g\\|\\) z\\'" "zcat")
+        ("\\.\\(jpg\\|JPG\\|gif\\|GIF\\)\\'"
+         (if (eq system-type 'windows-nt)
+             "fiber" "xv"))
+        ("\\.ps\\'"
+         (if (eq system-type 'windows-nt)
+             "fiber" "ghostview"))
+        ))
 
 ;; wdired
 (require 'wdired)
