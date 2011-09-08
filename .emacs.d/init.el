@@ -265,14 +265,17 @@
   (if (eq major-mode 'dired-mode)
       (kill-buffer my-dired-before-buffer)))
 
-
-
 ;; Quick Look
 (setq dired-load-hook '(lambda () (load "dired-x"))) 
 (setq dired-guess-shell-alist-user
       '(("\\.png" "qlmanage -p")
         ("\\.jpg" "qlmanage -p")
         ("\\.pdf" "qlmanage -p")))
+
+;; popwinでdiredを開くときのキー
+(global-set-key (kbd "C-x j") 'dired-jump-other-window)
+
+;; ----dired end ----------------------------------------------------------------
 
 
 
@@ -1226,19 +1229,24 @@ interpreter-mode-alist))
 (setq display-buffer-function 'popwin:display-buffer)
 ;; anythingをpopwinで行うため
 (setq anything-samewindow nil)
+;; popwinのデフォルトサイズ
+(setq popwin:popup-window-height 0.4)
 ;; popwinを使う表示を設定
 (setq popwin:special-display-config
       (append '(("*Remember*" :stick t)
 		("*Backtrace*")
 		("*Messages*")
 		("*Compile-Log*")
-                ("*sdic*" :noselect t)
+        ("*sdic*" :noselect t)
 		("*anything*" :height 20)
-;		("*Moccur*" :height 20)
+		;("*Moccur*" :height 20)
 		("*Directory*" :height 20)
 		("*undo-tree*" :height 20)
+		("*magit :dots*" :height 30)
+        (dired-mode :position top :height 0.6)
 	       )
               popwin:special-display-config))
+
 ;; 最後に表示したpopwinを再表示
 (define-key global-map (kbd "C-x p") 'popwin:display-last-buffer)
 
