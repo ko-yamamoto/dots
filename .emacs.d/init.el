@@ -1066,8 +1066,11 @@ interpreter-mode-alist))
 ;; (when (require 'migemo nil t) ;第三引数がnon-nilだとloadできなかった場合にエラーではなくnilを返す
 ;; (setq moccur-use-migemo t))
 
-;; (global-set-key (kbd "M-o") 'occur-by-moccur)
-;; (global-set-key (kbd "C-M-o") 'moccur-grep-find)
+(global-set-key (kbd "M-o") 'occur-by-moccur)
+(global-set-key (kbd "C-M-o") 'moccur-grep-find)
+(add-hook 'dired-mode-hook ;dired
+          '(lambda ()
+             (local-set-key (kbd "O") 'dired-do-moccur)))
 
 
 ;;====================
@@ -1195,11 +1198,11 @@ interpreter-mode-alist))
       )
 
 ;;; キーバインドの割当(好みに合わせて設定してください)
-(global-set-key (kbd "M-o") 'anything-c-moccur-occur-by-moccur) ;バッファ内検索
-(global-set-key (kbd "C-M-o") 'anything-c-moccur-dmoccur) ;ディレクトリ
-(add-hook 'dired-mode-hook ;dired
-          '(lambda ()
-             (local-set-key (kbd "O") 'anything-c-moccur-dired-do-moccur-by-moccur)))
+;; (global-set-key (kbd "M-o") 'anything-c-moccur-occur-by-moccur) ;バッファ内検索
+;; (global-set-key (kbd "C-M-o") 'anything-c-moccur-dmoccur) ;ディレクトリ
+;; (add-hook 'dired-mode-hook ;dired
+;;           '(lambda ()
+;;              (local-set-key (kbd "O") 'anything-c-moccur-dired-do-moccur-by-moccur)))
 
 
 
@@ -1231,7 +1234,7 @@ interpreter-mode-alist))
 		("*anything*" :height 20)
 ;		("*Moccur*" :height 20)
 		("*Directory*" :height 20)
-		("*undo-tree*" :height 20)
+;		("*undo-tree*" :height 20)
 	       )
               popwin:special-display-config))
 ;; 最後に表示したpopwinを再表示
@@ -1639,3 +1642,22 @@ interpreter-mode-alist))
 
 ;; 1画面スクロールで前の表示を何行分残すか
 (setq next-screen-context-lines 5)
+
+
+;; タブ, 全角スペース, 行末空白表示
+(defface my-face-b-1 '((t (:background "NavajoWhite4"))) nil) ; 全角スペース
+(defface my-face-b-2 '((t (:background "gray10"))) nil) ; タブ
+(defface my-face-u-1 '((t (:background "SteelBlue" :underline t))) nil) ; 行末空白
+(defvar my-face-b-1 'my-face-b-1)
+(defvar my-face-b-2 'my-face-b-2)
+(defvar my-face-u-1 'my-face-u-1)
+
+(defadvice font-lock-mode (before my-font-lock-mode ())
+  (font-lock-add-keywords
+   major-mode
+   '(("\t" 0 my-face-b-2 append)
+     ("　" 0 my-face-b-1 append)
+     ("[ \t]+$" 0 my-face-u-1 append)
+     )))
+(ad-enable-advice 'font-lock-mode 'before 'my-font-lock-mode)
+(ad-activate 'font-lock-mode)
