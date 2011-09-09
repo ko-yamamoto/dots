@@ -107,6 +107,8 @@
   "バッファ全体のインデントを整える"
   (interactive)
   (indent-region (point-min) (point-max)))
+(global-set-key (kbd "C-S-f") 'kill-whole-line)
+
 
 
 
