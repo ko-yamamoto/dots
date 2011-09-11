@@ -47,6 +47,12 @@
  (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
      (normal-top-level-add-subdirs-to-load-path)))
 
+;; emacs.d/elpa以下を再帰的にload-pathへ追加
+(let ((default-directory (expand-file-name "~/.emacs.d/elpa")))
+ (add-to-list 'load-path default-directory)
+ (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
+     (normal-top-level-add-subdirs-to-load-path)))
+
 
 
 ;; language & code
@@ -856,16 +862,16 @@
      
      
     ;; IMEの制御（yes/noをタイプするところでは IME をオフにする）
-    (wrap-function-to-control-ime 'universal-argument t nil)
-    (wrap-function-to-control-ime 'read-string nil nil)
-    (wrap-function-to-control-ime 'read-char nil nil)
-    (wrap-function-to-control-ime 'read-from-minibuffer nil nil)
-    (wrap-function-to-control-ime 'y-or-n-p nil nil)
-    (wrap-function-to-control-ime 'yes-or-no-p nil nil)
-    (wrap-function-to-control-ime 'map-y-or-n-p nil nil)
-    (eval-after-load "ange-ftp"
-      '(wrap-function-to-control-ime 'ange-ftp-get-passwd nil nil)
-    )
+    ;; (wrap-function-to-control-ime 'universal-argument t nil)
+    ;; (wrap-function-to-control-ime 'read-string nil nil)
+    ;; (wrap-function-to-control-ime 'read-char nil nil)
+    ;; (wrap-function-to-control-ime 'read-from-minibuffer nil nil)
+    ;; (wrap-function-to-control-ime 'y-or-n-p nil nil)
+    ;; (wrap-function-to-control-ime 'yes-or-no-p nil nil)
+    ;; (wrap-function-to-control-ime 'map-y-or-n-p nil nil)
+    ;; (eval-after-load "ange-ftp"
+    ;;   '(wrap-function-to-control-ime 'ange-ftp-get-passwd nil nil)
+    ;; )
 
 
 
@@ -971,7 +977,6 @@ interpreter-mode-alist))
 ;;====================
 ;; scala-mode
 ;;====================
-
 (add-to-list 'load-path "~/.emacs.d/snippets/scala-mode")
 (require 'scala-mode-auto)
     (add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
@@ -991,24 +996,41 @@ interpreter-mode-alist))
 
 
 
-
-
-
 ;; ---------------------------------------------------------------------------------
 ;; elisp Settings
 ;; ---------------------------------------------------------------------------------
 
-;; install-elispの設定
+;;====================
+;; install-lisp
+;;====================
 (require 'install-elisp)
 ;; インストール場所
 (setq install-elisp-repository-directory "~/.emacs.d/elisp/")
 
 
+;;====================
 ;; auto-install
+;;====================
 (require 'auto-install)
 (setq auto-install-directory "~/.emacs.d/elisp/")
 (auto-install-update-emacswiki-package-name t)
 (auto-install-compatibility-setup)
+
+
+;;====================
+;; package-install.el
+;;====================
+;;; This was installed by package-install.el.
+;;; This provides support for the package system and
+;;; interfacing with ELPA, the package archive.
+;;; Move this code earlier if you want to reference
+;;; packages in your .emacs.
+(when
+    (load
+     (expand-file-name "~/.emacs.d/elpa/package.el"))
+  (package-initialize))
+
+
 
 
 ;; auto-insert
@@ -1171,8 +1193,6 @@ interpreter-mode-alist))
              (setq ac-sources (append ac-sources '(ac-source-scheme)))))
 
 
-
-
 ;;====================
 ;; smooth-scroll
 ;;====================
@@ -1273,6 +1293,15 @@ interpreter-mode-alist))
 		("*undo-tree*" :height 20)
 		("\\*magit*" :regexp t :height 30)
         (dired-mode :position top :height 0.6)
+        ;; slime
+        ("*slime-apropos*")
+        ("*slime-macroexpansion*")
+        ("*slime-description*")
+        ("*slime-compilation*" :noselect t)
+        ("*slime-xref*")
+        (sldb-mode :stick t)
+        (slime-repl-mode)
+        (slime-connection-list-mode)
 	       )
               popwin:special-display-config))
 
@@ -1582,7 +1611,56 @@ interpreter-mode-alist))
 ;; (eval-after-load "em-alias"
 ;;   '(progn (eshell/alias "ll" "ls -alhF")))
 
-     
+
+;;====================
+;; slime
+;;====================
+;; Clozure CLをデフォルトのCommon Lisp処理系に設定
+(setq inferior-lisp-program "ccl.bat")
+;; ~/.emacs.d/slimeをload-pathに追加
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/slime"))
+;; SLIMEのロード
+(require 'slime)
+(slime-setup '(slime-repl slime-fancy slime-banner))
+;; SLIMEからの入力をUTF-8に設定
+(setq slime-net-coding-system 'utf-8-unix)
+
+;; slime キーバインドを設定
+(add-hook 'slime-mode-hook
+   '(lambda ()
+      (define-key slime-mode-map [(tab)]     'slime-indent-and-complete-symbol)))
+
+;; slime-repl再起動
+(add-hook 'slime-repl-mode-hook
+   '(lambda ()
+      (define-key slime-repl-mode-map "\C-c\M-r" 'slime-restart-inferior-lisp)))
+
+
+;;====================
+;; ac-sime
+;;====================
+(require 'ac-slime)
+(add-hook 'slime-mode-hook      'set-up-slime-ac)
+(add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
+
+(define-globalized-minor-mode real-global-auto-complete-mode
+  auto-complete-mode (lambda ()
+         (if (not (minibufferp (current-buffer)))
+      (auto-complete-mode 1))))
+(real-global-auto-complete-mode t)
+
+
+;;====================
+;; cl-indent-patches
+;;====================
+(when (require 'cl-indent-patches nil t)
+  ;; emacs-lispのインデントと混同しないように
+  (setq lisp-indent-function
+        (lambda (&rest args)
+          (apply (if (memq major-mode '(emacs-lisp-mode lisp-interaction-mode))
+                     'lisp-indent-function
+                     'common-lisp-indent-function)
+                 args))))
 
 
 ;; ---------------------------------------------------------------------------------
