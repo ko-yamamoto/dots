@@ -36,13 +36,13 @@ bindkey '^S' history-incremental-pattern-search-forward
 zstyle :compinstall filename '/Users/nishikawasasaki/.zshrc'
 
 # 環境変数SHELL -> viewの時/opt/local以下のzshを観に行ってしまうため
-export SHELL=/usr/local/bin/zsh
+# export SHELL=/usr/local/bin/zsh
 
 # 環境変数LANG
 export LANG=ja_JP.UTF-8
 
 # 環境変数
-export PATH=$PATH:/bin:/usr/local/bin:/Users/nishikawasasaki/bin:/Users/nishikawasasaki/android/android-sdk-mac_x86/tools:/Users/nishikawasasaki/android/android-sdk-mac_x86/platform-tools
+# export PATH=$PATH:/bin:/usr/local/bin:/Users/nishikawasasaki/bin:/Users/nishikawasasaki/android/android-sdk-mac_x86/tools:/Users/nishikawasasaki/android/android-sdk-mac_x86/platform-tools
 
 #Python
 alias python='python2.7'
@@ -182,20 +182,20 @@ setopt Complete_Aliases
 alias ll='ls -alfgh'
 
 # vi
-export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
-alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
-alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
-alias gvim='env LANG=ja_JP.UTF-8 open -a /Applications/MacVim.app "$@"'
+# export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
+# alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
+# alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
+# alias gvim='env LANG=ja_JP.UTF-8 open -a /Applications/MacVim.app "$@"'
 
 # emacs
-alias emacsclient='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -n'
-alias emacs='/Applications/Emacs.app/Contents/MacOS/emacs'
-alias ec='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -n'
-alias em='/Applications/Emacs.app/Contents/MacOS/emacs'
-
+# alias emacsclient='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -n'
+# alias emacs='/Applications/Emacs.app/Contents/MacOS/emacs'
+# alias ec='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -n'
+# alias em='/Applications/Emacs.app/Contents/MacOS/emacs'
+alias ec='emacsclient -n'
 
 # ctags
-alias ctags='/usr/local/Cellar/ctags/5.8/bin/ctags'
+# alias ctags='/usr/local/Cellar/ctags/5.8/bin/ctags'
 
 
 # Mineファイル読み込み
