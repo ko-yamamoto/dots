@@ -618,6 +618,7 @@
 	   "/usr/sbin"
 	   "/bin"
 	   "/usr/bin"
+       "/usr/local/ccl"
 	   (expand-file-name "~/bin")
 	   (expand-file-name "~/.emacs.d/bin")
 	   ))
@@ -1167,20 +1168,35 @@ interpreter-mode-alist))
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/dict")
 
 ;; デフォルト設定有効
-;;(ac-config-default)
+(ac-config-default)
+;; 補完を高度に
+(define-key ac-mode-map (kbd "TAB") 'auto-complete)
 
 ;; 自動補完
-(setq ac-auto-start 2) ; 2文字以上で補完開始
+(setq ac-auto-start 3) ; ?文字以上で補完開始
 ;; 手動補完するならこっち
-;; (setq ac-auto-start nil) ; 自動的に開始しない
+(setq ac-auto-start nil) ; 自動的に開始しない
 
 ;; コンテキストに応じてTABで補完
 (ac-set-trigger-key "TAB") 
-;; ;で補完確定
+;; 補完確定
 (define-key ac-complete-mode-map "RET" 'ac-complete)
-;; 候補選択
-(define-key ac-complete-mode-map "\C-n" 'ac-next-or-next-line)
-(define-key ac-complete-mode-map "\C-p" 'ac-previous-or-previous-line)
+
+(setq ac-use-menu-map t)
+;; デフォルトで設定済み
+;; (define-key ac-menu-map "\C-n" 'ac-next)
+;; (define-key ac-menu-map "\C-p" 'ac-previous)
+
+
+;; 補完時大文字小文字の区別
+;; 大文字・小文字を区別しない
+(setq ac-ignore-case t) ;区別無し
+
+;; 補完の色
+(set-face-background 'ac-candidate-face "OliveDrab1")
+(set-face-underline 'ac-candidate-face "OliveDrab1")
+(set-face-background 'ac-selection-face "DarkOrange")
+
 
 ;; 補完の情報源
 ;; (setq-default ac-sources '(ac-source-words-in-same-mode-buffers ac-source-filename ac-source-symbols)) 
@@ -1623,7 +1639,13 @@ interpreter-mode-alist))
 ;; slime
 ;;====================
 ;; Clozure CLをデフォルトのCommon Lisp処理系に設定
-(setq inferior-lisp-program "ccl.bat")
+
+(when is_win
+  (setq inferior-lisp-program "ccl.bat"))
+(when is_mac
+  (setq inferior-lisp-program "dx86cl64"))
+
+
 ;; ~/.emacs.d/slimeをload-pathに追加
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/slime"))
 ;; SLIMEのロード
