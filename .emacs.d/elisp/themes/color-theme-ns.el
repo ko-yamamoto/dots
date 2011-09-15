@@ -1,33 +1,3 @@
-;;; Emacs Color theme based on the Tango Palette colors. 
-;;; First derived from color-theme-tango.el,  created by danranx@gmail.com :
-;;; http://www.emacswiki.org/emacs/color-theme-tango.el
-
-;; Copyright (C) 2010 Julien Barnier <julien@nozav.org>
-
-;; Project homepage : http://blog.nozav.org/post/2010/07/12/Updated-tangotango-emacs-color-theme
-
-;; This file is NOT part of GNU Emacs.
-
-;; This is free software; you can redistribute it and/or modify it under
-;; the terms of the GNU General Public License as published by the Free
-;; Software Foundation; either version 2, or (at your option) any later
-;; version.
-
-;; This file is distributed in the hope that it will be useful, but
-;; WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-;; General Public License for more details.
-
-;; You should have received a copy of the GNU General Public License
-;; along with Emacs; see the file COPYING, or type `C-h C-c'. If not,
-;; write to the Free Software Foundation at this address:
-
-;;   Free Software Foundation
-;;   51 Franklin Street, Fifth Floor
-;;   Boston, MA 02110-1301
-;;   USA
-
-;;; Code:
 
 (eval-when-compile
   (require 'color-theme))
@@ -41,7 +11,7 @@
   ;; - orange/red : "tomato"
   (interactive)
   (color-theme-install
-   '(color-theme-tangotango
+   '(color-theme-ns
 ;;     ((background-color . "#2e3434")
      ((background-color . "#000000")
       (background-mode . dark)
@@ -57,13 +27,15 @@
       (ibuffer-read-only-buffer-face . font-lock-type-face)
       (ibuffer-special-buffer-face . font-lock-keyword-face)
       (ibuffer-title-face . font-lock-type-face))
-     (highlight ((t (:background "brown4" :foreground nil))))
+
+     (highlight ((t (:background "DarkOliveGreen1" :foreground "black"))))
      (border ((t (:background "#888a85"))))
      (fringe ((t (:background "grey10"))))
      (mode-line ((t (:foreground "#bbbbbc" :background "#222222" :box (:line-width 1 :color nil :style released-button)))))
      (mode-line-inactive ((t (:foreground "#bbbbbc" :background "#555753"))))
      (mode-line-buffer-id ((t (:bold t :foreground "orange" :background nil))))
-     (region ((t (:background "SkyBlue" :foreground "black"))))
+     ;; (region ((t (:background "SkyBlue" :foreground nil))))
+     (region ((t (:background "firebrick4" :foreground nil))))
      (link ((t (:underline t :foreground "dodger blue"))))
      (custom-link ((t (:inherit 'link))))
      (match ((t (:bold t :background "#e9b96e" :foreground "#2e3436"))))
@@ -71,12 +43,12 @@
      (tooltip ((t (:inherit 'variable-pitch :foreground "black" :background "lightyellow"))))
      (bold ((t (:bold t :underline nil :background nil))))
      (italic ((t (:italic t :underline nil :background nil))))
-     (font-lock-builtin-face ((t (:foreground "#729fcf"))))
+     (font-lock-builtin-face ((t (:foreground "SteelBlue1"))))
      (font-lock-comment-face ((t (:foreground "#888a85"))))
      (font-lock-constant-face ((t (:foreground "#8ae234"))))
      (font-lock-doc-face ((t (:foreground "#888a85"))))
-     (font-lock-keyword-face ((t (:foreground "#729fcf" :bold t))))
-     (font-lock-string-face ((t (:foreground "#ad7fa8" :italic t))))
+     (font-lock-keyword-face ((t (:foreground "DeepSkyBlue" :bold t))))
+     (font-lock-string-face ((t (:foreground "DarkOliveGreen2" :italic t))))
      (font-lock-type-face ((t (:foreground "#8ae234" :bold t))))
      (font-lock-variable-name-face ((t (:foreground "tomato"))))
      (font-lock-warning-face ((t (:bold t :foreground "#f57900"))))
@@ -85,7 +57,7 @@
      (comint-highlight-prompt ((t (:foreground "#8ae234"))))
      (isearch ((t (:background "#f57900" :foreground "#2e3436"))))
      (isearch-lazy-highlight-face ((t (:foreground "#2e3436" :background "#e9b96e"))))
-     (show-paren-match-face ((t (:background "DodgerBlue1" :foreground "white"))))
+     (show-paren-match-face ((t (:background "orange" :foreground "white"))))
      (show-paren-mismatch-face ((t (:background "red" :foreground "#2e3436"))))
      (minibuffer-prompt ((t (:foreground "#729fcf" :bold t))))
      (info-xref ((t (:foreground "#729fcf"))))
@@ -97,7 +69,7 @@
      (eshell-ls-special-face ((t (:bold t :foreground "Gold"))))
      (eshell-ls-symlink-face ((t (:bold t :foreground "White"))))
      (widget-button ((t (:bold t))))
-     (widget-mouse-face ((t (:bold t :foreground "white" :background "brown4"))))
+     (widget-mouse-face ((t (:background "OliveDrab1" :foreground "black" :weight bold))))
      (widget-field ((t (:foreground "orange" :background "gray30"))))
      (widget-single-line-field ((t (:foreground "orange" :background "gray30"))))
      (custom-group-tag ((t (:bold t :foreground "#edd400" :height 1.3))))
