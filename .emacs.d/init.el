@@ -1816,3 +1816,9 @@ interpreter-mode-alist))
 (ad-activate 'font-lock-mode)
 
 (add-to-list 'default-frame-alist '(cursor-type 'hollow-rectangle))
+
+;; カーソル位置のフェースを調べる関数
+(defun describe-face-at-point ()
+  "Return face used at point."
+  (interactive)
+  (message "%s" (get-char-property (point) 'face)))
