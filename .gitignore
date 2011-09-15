@@ -11,3 +11,5 @@ kill-ring-saved.el
 .vim/bundle/*
 ac-comphist.dat
 */*.elc
+.emacs.d/server/server
+

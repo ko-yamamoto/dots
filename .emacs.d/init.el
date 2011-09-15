@@ -1814,3 +1814,5 @@ interpreter-mode-alist))
      )))
 (ad-enable-advice 'font-lock-mode 'before 'my-font-lock-mode)
 (ad-activate 'font-lock-mode)
+
+(add-to-list 'default-frame-alist '(cursor-type 'hollow-rectangle))
