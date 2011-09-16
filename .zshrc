@@ -119,6 +119,11 @@ export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46
 # 補完をカラーに
 zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
 
+# 補完パターン 大文字小文字区別なしなど
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
+
+# プロセス補完でメニュー内にカーソル移動
+zstyle ':completion:*:processes' menu yes select=2
 
 # タイトルの設定
 case "${TERM}" in
