@@ -1,4 +1,6 @@
-;;;; anything.el --- open anything / QuickSilver-like candidate-selection framework
+;;; anything.el --- open anything / QuickSilver-like candidate-selection framework
+;; Adding to marmalade Jan 18, 2011:
+;; Version: 1.287
 
 ;; Copyright (C) 2007              Tamas Patrovics
 ;;               2008, 2009, 2010  rubikitch <rubikitch@ruby-lang.org>
@@ -141,7 +143,7 @@
 ;;  `anything-scroll-other-window-down'
 ;;    Scroll other window (not *Anything* window) downward.
 ;;  `anything-toggle-visible-mark'
-;;    Toggle anything visible bookmark at point.
+;;    Toggle anything visible mark at point.
 ;;  `anything-display-all-visible-marks'
 ;;    Show all `anything' visible marks strings.
 ;;  `anything-next-visible-mark'
@@ -1211,7 +1213,8 @@ If FORCE-DISPLAY-PART is non-nil, return the display string."
           selection)))))
 
 (defun anything-get-action ()
-  "Return the associated action for the selected candidate."
+  "Return the associated action for the selected candidate.
+It is a function symbol (sole action) or list of (action-display . function)."
   (unless (anything-empty-buffer-p (anything-buffer-get))
     (anything-aif (anything-attr 'action-transformer)
         (anything-composed-funcall-with-source
@@ -1236,7 +1239,7 @@ If FORCE-DISPLAY-PART is non-nil, return the display string."
                    (source-name
                     (save-excursion
                       (unless header-pos
-                        (message "No candidates")
+                        ;(message "No candidates")
                         (return-from exit nil))
                       (goto-char header-pos)
                       (anything-current-line-contents))))
@@ -2264,7 +2267,12 @@ the real value in a text property."
                        (split-string string "\n")
                        (assoc 'incomplete-line source))
                       source t))
-    (anything-insert-match candidate 'insert-before-markers source)
+    (if (not (assq 'multiline source))
+        (anything-insert-match candidate 'insert-before-markers source)
+      (let ((start (point)))
+        (anything-insert-candidate-separator)
+        (anything-insert-match candidate 'insert-before-markers source)
+        (put-text-property start (point) 'anything-multiline t)))
     (incf (cdr (assoc 'item-count source)))
     (when (>= (assoc-default 'item-count source) limit)
       (anything-kill-async-process process)
@@ -3055,8 +3063,19 @@ Acceptable values of CREATE-OR-BUFFER:
   (setq anything-saved-selection (anything-get-selection))
   (unless anything-saved-selection
     (error "Nothing is selected."))
-  (setq anything-saved-action (cdr (elt (anything-get-action) n)))
+  (setq anything-saved-action (anything-get-nth-action n (anything-get-action)))
   (anything-exit-minibuffer))
+
+(defun anything-get-nth-action (n action)
+  (cond ((and (zerop n) (functionp action))
+         action)
+        ((listp action)
+         (or (cdr (elt action n))
+             (error "No such action")))
+        ((and (functionp action) (< 0 n))
+         (error "Sole action."))
+        (t
+         (error "Error in `anything-select-nth-action'."))))
 
 (defun anything-select-2nd-action ()
   "Select the 2nd action for the currently selected candidate."
@@ -3193,7 +3212,7 @@ Otherwise ignores `special-display-buffer-names' and `special-display-regexps'."
         anything-marked-candidates))
 
 (defun anything-toggle-visible-mark ()
-  "Toggle anything visible bookmark at point."
+  "Toggle anything visible mark at point."
   (interactive)
   (with-anything-window
     (anything-aif (anything-this-visible-mark)
@@ -3204,11 +3223,12 @@ Otherwise ignores `special-display-buffer-names' and `special-display-regexps'."
 (defun anything-display-all-visible-marks ()
   "Show all `anything' visible marks strings."
   (interactive)
-  (lexical-let ((overlays (reverse anything-visible-mark-overlays)))
-    (anything-run-after-quit
-     (lambda ()
-       (with-output-to-temp-buffer "*anything visible marks*"
-         (dolist (o overlays) (princ (overlay-get o 'string))))))))
+  (with-anything-window
+    (lexical-let ((overlays (reverse anything-visible-mark-overlays)))
+      (anything-run-after-quit
+       (lambda ()
+         (with-output-to-temp-buffer "*anything visible marks*"
+           (dolist (o overlays) (princ (overlay-get o 'string)))))))))
 
 (defun anything-marked-candidates ()
   "Marked candidates (real value) of current source if any,
@@ -5171,6 +5191,11 @@ Given pseudo `anything-sources' and `anything-pattern', returns list like
         (stub anything-get-current-source => '((name . "test")
                                                (action ("identity" . identity))))
         (anything-get-action))
+      (expect 'identity
+        (stub buffer-size => 1)
+        (stub anything-get-current-source => '((name . "test")
+                                               (action . identity)))
+        (anything-get-action))
       (expect '((("identity" . identity)) "action-transformer is called")
         (stub buffer-size => 1)
         (stub anything-get-current-source
@@ -5182,19 +5207,22 @@ Given pseudo `anything-sources' and `anything-pattern', returns list like
         (stub anything-get-selection => "action-transformer is called")
         (anything-get-action))
       (desc "anything-select-nth-action")
-      (expect "selection"
-        (stub anything-get-selection => "selection")
-        (stub anything-exit-minibuffer)
-        (let (anything-saved-selection)
-          (anything-select-nth-action 1)
-          anything-saved-selection))
+      (expect (error error *)
+        (stub anything-get-selection => nil)
+        (anything-select-nth-action 0))
+      (desc "anything-get-nth-action")
       (expect 'cadr
-        (stub anything-get-action => '(("0" . car) ("1" . cdr) ("2" . cadr)))
-        (stub anything-exit-minibuffer)
-        (stub anything-get-selection => "selection")
-        (let (anything-saved-action)
-          (anything-select-nth-action 2)
-          anything-saved-action))
+        (anything-get-nth-action 2 '(("0" . car) ("1" . cdr) ("2" . cadr))))
+      (expect (error error *)
+        (anything-get-nth-action 2 '(("0" . car))))
+      (expect 'identity
+        (anything-get-nth-action 0 'identity))
+      (expect (error error *)
+        (anything-get-nth-action 1 'identity))
+      (expect (error error *)
+        (anything-get-nth-action 0 'unbound-function-xxx))
+      (expect (error error *)
+        (anything-get-nth-action 0 "invalid data"))
       (desc "anything-funcall-foreach")
       (expect (mock (upcase "foo"))
         (stub anything-get-sources => '(((init . (lambda () (upcase "foo"))))))

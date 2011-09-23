@@ -1,14 +1,23 @@
+;;; Emacs Color Theme 'ns'
+;; https://gist.github.com/1236790
+;; This file is NOT part of GNU Emacs.
+;; ver. 1.0
+;; 2011/09/23(yyyy/mm/dd)
+;;
+;; This Emacs Color theme based on 'color-theme-tangotango.el'.
+;; The 'color-theme-tangotango.el' is created by Julien Barnier.
+;; http://blog.nozav.org/post/2010/07/12/Updated-tangotango-emacs-color-theme 
+;;
+;; This is free software; you can redistribute it and/or modify it under
+;; the terms of the GNU General Public License as published by the Free
+;; Software Foundation; either version 2, or (at your option) any later
+;; version.
+
 
 (eval-when-compile
   (require 'color-theme))
 
 (defun color-theme-ns ()
-  "A color theme based on Tango Palette colors."
-  ;; Color codes :
-  ;; - blue :       "dodger blue"
-  ;; - yellow :     "#edd400"
-  ;; - green :      "#6ac214"
-  ;; - orange/red : "tomato"
   (interactive)
   (color-theme-install
    '(color-theme-ns
@@ -57,7 +66,7 @@
      (comint-highlight-input ((t (:italic t :bold t))))
      (comint-highlight-prompt ((t (:foreground "#8ae234"))))
      (isearch ((t (:background "#f57900" :foreground "#2e3436"))))
-     (isearch-lazy-highlight-face ((t (:foreground "#2e3436" :background "#e9b96e"))))
+     (isearch-lazy-highlight-face ((t (:foreground "#2e3436" :background "#dbe96e"))))
      (show-paren-match-face ((t (:background "orange" :foreground "white"))))
      (show-paren-mismatch-face ((t (:background "red" :foreground "#2e3436"))))
      (minibuffer-prompt ((t (:foreground "#729fcf" :bold t))))
@@ -162,18 +171,7 @@
      (magit-header ((t (:foreground "#edd400"))))
      (magit-diff-add ((t (:foreground "#729fcf"))))
      (magit-item-highlight ((t (:weight extra-bold :inverse-video t))))
-     ;; anything
      (anything-header ((t (:bold t :background "grey15" :foreground "#edd400"))))
-     ;; under test
-     ;; (anything-bookmarks-su-face ((t (:foreground "red"))))
-     ;; (anything-dir-heading ((t (:foreground "blue" :background "pink"))))
-     ;; (anything-dir-priv ((t (:foreground "dark red" :background "light grey"))))
-     ;; (anything-file-name ((t (:foreground "blue"))))
-     ;; (anything-gentoo-match-face ((t (:foreground "red"))))
-     ;; (anything-isearch-match ((t (:background "yellow"))))
-     (anything-overlay-line-face ((t (:underline t :foreground "white" :background "chartreuse4"))))
-     ;; (anything-visible-mark ((t (:foreground "black" :background "green1"))))
-     ;; (anything-w3m-bookmarks-face ((t (:underline t :foreground "cyan1"))))
 )))
 
 (provide 'color-theme-ns)
