@@ -1,10 +1,11 @@
 ;;; cygwin-mount.el --- Teach EMACS about cygwin styles and mount points.
 
-;; Copyright (C) 1997 Michael Cook <mcook@cognex.com>.
+;; Copyright (C) 1997 Michael Cook <mcook@xemacs.org>.
 ;;               2001 Klaus Berndl <berndl@sdm.de>
 
-;; Author: Michael Cook <mcook@cognex.com>
+;; Author: Michael Cook <mcook@xemacs.org>
 ;; Keywords: files, mount, cygwin
+;; Version: 2001
 
 ;; This file is *NOT* (yet?) part of GNU Emacs.
 ;;
@@ -131,8 +132,8 @@ determined at activation-time of cygwin-mount \(see
   "*The directory where the cygwin binaries reside.
 If nil then the cygwin-binary-directory must be into the PATH."
   :group 'cygwin-mount
-  :type '(radio	(const :tag "Cygwin is into PATH" :value nil)
-		(directory :tag "Cygwin-Binary-Dir" :value "")))
+  :type '(radio (const :tag "Cygwin is into PATH" :value nil)
+                (directory :tag "Cygwin-Binary-Dir" :value "")))
 
 (defcustom cygwin-mount-build-mount-table-asynch nil
   "*When non-nil, `cygwin-mount-table' is built at load-time.
@@ -155,7 +156,7 @@ e.g.  \(\"D:\\\\programs\\\\cygwin\\\\bin\" . \"/usr/bin/\") or
                        (cygwin-mount-build-table-internal)
                      (setq cygwin-mount-table--internal value))))
   :initialize 'custom-initialize-default
-  :type '(radio	(const :tag "Automatic"
+  :type '(radio (const :tag "Automatic"
                        :value t)
                 (repeat :tag "Custom mounts"
                         (cons (directory :tag "Mounted device")
@@ -171,23 +172,23 @@ e.g.  \(\"D:\\\\programs\\\\cygwin\\\\bin\" . \"/usr/bin/\") or
   "Search for COMMAND in `exec-path' and return the absolute file name.
 Return nil if COMMAND is not found anywhere in `exec-path'."
   (let ((list exec-path)
-	file)
+        file)
     (while list
       (setq list
-	    (if (and (setq file (expand-file-name command (car list)))
-		     (let ((suffixes cygwin-mount-executable-binary-suffixes)
-			   candidate)
-		       (while suffixes
-			 (setq candidate (concat file (car suffixes)))
-			 (if (and (file-executable-p candidate)
-				  (not (file-directory-p candidate)))
-			     (setq suffixes nil)
-			   (setq suffixes (cdr suffixes))
-			   (setq candidate nil)))
-		       (setq file candidate)))
-		nil
-	      (setq file nil)
-	      (cdr list))))
+            (if (and (setq file (expand-file-name command (car list)))
+                     (let ((suffixes cygwin-mount-executable-binary-suffixes)
+                           candidate)
+                       (while suffixes
+                         (setq candidate (concat file (car suffixes)))
+                         (if (and (file-executable-p candidate)
+                                  (not (file-directory-p candidate)))
+                             (setq suffixes nil)
+                           (setq suffixes (cdr suffixes))
+                           (setq candidate nil)))
+                       (setq file candidate)))
+                nil
+              (setq file nil)
+              (cdr list))))
     file))
 
 ;; functions
@@ -218,13 +219,13 @@ The result is either \"/\" or \"/<string>/\"."
         (set-buffer buf)
         
         (or
-	 (progn
-	   (erase-buffer)
-	   (zerop (call-process fullname nil buf nil "--show-cygdrive-prefix")))
-	 (progn
-	   (erase-buffer)
-	   (zerop (call-process fullname nil buf nil "--show-cygdrive-prefixes")))
-	 (error "Cannot run %s" fullname))
+         (progn
+           (erase-buffer)
+           (zerop (call-process fullname nil buf nil "--show-cygdrive-prefix")))
+         (progn
+           (erase-buffer)
+           (zerop (call-process fullname nil buf nil "--show-cygdrive-prefixes")))
+         (error "Cannot run %s" fullname))
         (goto-char (point-min))
         (prog1
             (let ((regexp-prefix "\\(/[^ \t]*\\)[ \t]+")
@@ -238,7 +239,7 @@ The result is either \"/\" or \"/<string>/\"."
                     (if (string= cygdrive-prefix "/")
                         cygdrive-prefix
                       (concat cygdrive-prefix "/")))
-		"/cygdrive/"))
+                "/cygdrive/"))
           (kill-buffer buf))))))
 
 (defun trim-trailing-whitespace (str)
@@ -249,12 +250,12 @@ The result is either \"/\" or \"/<string>/\"."
   "Parse the output from one line of the Cygwin `mount' command;
   return a pair containing the windows directory and the corresponding
   Cygwin path."
-
+  
   ;; can't use non-greedy regular expressions because versions of
   ;; Emacs older than 21.1 lack them.
   (if (or (string-match "\\(.*\\) on \\(/.*\\) type .* (.*)" line)
-          (string-match "\\(.*\\)\\s-+\\(/.*\\)\\s-+\\(user\\|system\\)\\s-+\\(textmode\\|binmode\\)" line))
-
+          (string-match "\\(.*\\)\\s-+\\(/.*\\)\\s-+\\(user\\|system\\|vfat\\)\\s-+\\(textmode\\|binmode\\)" line))
+      
       (let ((win (match-string 1 line))
             (cyg (match-string 2 line)))
         (setq win (trim-trailing-whitespace win))
@@ -283,7 +284,7 @@ function is current buffer must be the buffer named
                                      (file-name-as-directory direct))
                                mounts))
             (forward-line 1)))
-
+        
         ;; now sort the alist so that the longest directories come first.
         (setq mounts (sort mounts (function (lambda (pair1 pair2)
                                               (> (length (cdr pair1))
@@ -293,13 +294,13 @@ function is current buffer must be the buffer named
 (defun cygwin-mount-sentinel (proc msg)
   "Process sentinel for PROC with MSG."
   (if (or (eq (process-status proc) 'exit)
-	  (eq (process-status proc) 'signal))
+          (eq (process-status proc) 'signal))
       (let ((buf (get-buffer-create cygwin-mount-buffername)))
-	(save-excursion
-	  (set-buffer buf)
+        (save-excursion
+          (set-buffer buf)
           (setq cygwin-mount-table--internal (cygwin-mount-parse-mount)))
-	(kill-buffer buf)
-	(message "Build of mount table completed"))))
+        (kill-buffer buf)
+        (message "Build of mount table completed"))))
 
 (defun cygwin-mount-build-table-internal ()
   "Determine cygwin mount points.
@@ -341,9 +342,9 @@ really done by `cygwin-mount-sentinel'."
   "Run OPERATION with ARGS."
   (let ((inhibit-file-name-handlers
          (append '(cygwin-mount-name-hook-function
-		   cygwin-mount-map-drive-hook-function)
-		 (and (eq inhibit-file-name-operation operation)
-		      inhibit-file-name-handlers)))
+                   cygwin-mount-map-drive-hook-function)
+                 (and (eq inhibit-file-name-operation operation)
+                      inhibit-file-name-handlers)))
         (inhibit-file-name-operation operation))
     (apply operation args)))
 
@@ -352,7 +353,7 @@ really done by `cygwin-mount-sentinel'."
   "Run OPERATION NAME with ARGS.
  first ARG is either nil or a file name"
   (when (and args (car args))
-    (setq args (copy-sequence args))	; TODO: determine if this call is really necessary
+    (setq args (copy-sequence args))    ; TODO: determine if this call is really necessary
     (setcar args (cygwin-mount-substitute-longest-mount-name (car args))))
   (cygwin-mount-run-real-handler
    operation
@@ -361,34 +362,34 @@ really done by `cygwin-mount-sentinel'."
 (defun cygwin-mount-substitute-longest-mount-name (name)
   "Substitute NAME with mount device or return NAME."
   (and name
-      (save-match-data
-        (if (or (string-match "^//.+" name) (string-match "/\\[.+\\]" name))
-            ;; Added by Klaus: if name beginns with "//" then it can never contain
-            ;; a cygwin mount point! Therefore we must not check for contained
-            ;; mount points because if / is mounted then this will always match
-            ;; and we get an incorrect substitution for network devices like
-            ;; //Host/path
-            name
-          (let ((mounts cygwin-mount-table--internal)
-                (len (length (file-name-as-directory name)))
-                match)
-            (while mounts
-              (let ((mount (file-name-as-directory (cdar mounts))))
-                (and (>= len (length mount))
-                     (string= mount
-                              (file-name-as-directory
-                               (substring (file-name-as-directory name)
-                                          0 (length mount))))
-                     (or (null match)
-                         (> (length (cdar mounts)) (length (cdr match))))
-                     (setq match (car mounts))))
-              (setq mounts (cdr mounts)))
-            (if match
-                (concat (file-name-as-directory (car match))
-                        (if (>= (length (file-name-as-directory (cdr match))) len)
-                            ""
-                          (substring name (length (file-name-as-directory (cdr match))))))
-              name))))))
+       (save-match-data
+         (if (or (string-match "^//.+" name) (string-match "/\\[.+\\]" name))
+             ;; Added by Klaus: if name beginns with "//" then it can never contain
+             ;; a cygwin mount point! Therefore we must not check for contained
+             ;; mount points because if / is mounted then this will always match
+             ;; and we get an incorrect substitution for network devices like
+             ;; //Host/path
+             name
+           (let ((mounts cygwin-mount-table--internal)
+                 (len (length (file-name-as-directory name)))
+                 match)
+             (while mounts
+               (let ((mount (file-name-as-directory (cdar mounts))))
+                 (and (>= len (length mount))
+                      (string= mount
+                               (file-name-as-directory
+                                (substring (file-name-as-directory name)
+                                           0 (length mount))))
+                      (or (null match)
+                          (> (length (cdar mounts)) (length (cdr match))))
+                      (setq match (car mounts))))
+               (setq mounts (cdr mounts)))
+             (if match
+                 (concat (file-name-as-directory (car match))
+                         (if (>= (length (file-name-as-directory (cdr match))) len)
+                             ""
+                           (substring name (length (file-name-as-directory (cdr match))))))
+               name))))))
 
 ;; Added by Klaus
 (defconst cygwin-mount-cygwin-style1-regexp "^/[^:@]*$\\|^/|/[^/:]+\\(\\'\\|/\\)")
@@ -436,10 +437,10 @@ NOTE: \"/cygdrive/\" is only an example for the cygdrive-prefix \(see
   (cygwin-mount-run-real-handler
    operation
    (cons (cygwin-mount-convert-file-name name)
-	 (if (stringp (car args))
- 	     (cons (cygwin-mount-convert-file-name (car args))
-		   (cdr args))
-	   args))))
+         (if (stringp (car args))
+             (cons (cygwin-mount-convert-file-name (car args))
+                   (cdr args))
+           args))))
 
 ;;; TODO -- see if we need to do stuff for Tramp that is similar to
 ;;; what we're about to do for ange-ftp.  If so, perhaps we can use
@@ -465,12 +466,12 @@ NOTE: \"/cygdrive/\" is only an example for the cygdrive-prefix \(see
   "Run OPERATION with ARGS."
   (let ((inhibit-file-name-handlers
          (append '(ange-ftp-hook-function
-		   ange-ftp-completion-hook-function
-		   cygwin-mount-name-hook-function
-		   cygwin-mount-map-drive-hook-function)
-		 (and (eq inhibit-file-name-operation
-			  operation)
-		      inhibit-file-name-handlers)))
+                   ange-ftp-completion-hook-function
+                   cygwin-mount-name-hook-function
+                   cygwin-mount-map-drive-hook-function)
+                 (and (eq inhibit-file-name-operation
+                          operation)
+                      inhibit-file-name-handlers)))
         (inhibit-file-name-operation operation))
     (apply operation args)))
 
@@ -481,7 +482,7 @@ NOTE: \"/cygdrive/\" is only an example for the cygdrive-prefix \(see
   (interactive)
   (if (not (eq system-type 'windows-nt))
       (message "cygwin-mount is only available for Emacs for NT!")
-
+    
     (unless cygwin-mount-activated
       ;; initialize the internal variables
       
@@ -492,14 +493,14 @@ NOTE: \"/cygdrive/\" is only an example for the cygdrive-prefix \(see
             (cygwin-mount-get-cygdrive-prefix))
       (setq cygwin-mount-cygwin-style3-regexp
             (concat "^" cygwin-mount-cygdrive-prefix--internal "[A-Za-z]/"))
-
+      
       ;; add the cygwin-filehandlers
       (or (assoc cygwin-mount-cygwin-style1-regexp file-name-handler-alist)
           (setq file-name-handler-alist
                 (cons `(,cygwin-mount-cygwin-style1-regexp
                         . cygwin-mount-name-hook-function)
                       file-name-handler-alist)))
-
+      
       (or (assoc cygwin-mount-cygwin-style2-regexp file-name-handler-alist)
           (setq file-name-handler-alist
                 (cons `(,cygwin-mount-cygwin-style2-regexp
@@ -521,7 +522,7 @@ NOTE: \"/cygdrive/\" is only an example for the cygdrive-prefix \(see
            'cygwin-mount-map-drive)
       ;; rebind ange-ftp-run-real-handler to our version
       (if (featurep 'ange-ftp)
-	  (fset 'ange-ftp-run-real-handler 'cygwin-mount-ange-ftp-run-real-handler))
+          (fset 'ange-ftp-run-real-handler 'cygwin-mount-ange-ftp-run-real-handler))
 
       (setq cygwin-mount-activated t))))
 
@@ -554,7 +555,7 @@ NOTE: \"/cygdrive/\" is only an example for the cygdrive-prefix \(see
       (put 'expand-file-name 'cygwin-mount-map-drive nil)
       ;; rebind ange-ftp-run-real-handler to its original definition.
       (if (featurep 'ange-ftp)
-	  (fset 'ange-ftp-run-real-handler cygwin-mount-original-ange-ftp-handler))
+          (fset 'ange-ftp-run-real-handler cygwin-mount-original-ange-ftp-handler))
       (setq cygwin-mount-activated nil))))
 
 (provide 'cygwin-mount)
