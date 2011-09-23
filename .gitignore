@@ -5,11 +5,9 @@
 init.elc
 *~
 #*#
-*.elc
 auto-save-kist
 kill-ring-saved.el
 .vim/bundle/*
 ac-comphist.dat
-*/*.elc
 .emacs.d/server/server
 
