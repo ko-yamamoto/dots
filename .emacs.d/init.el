@@ -5,6 +5,7 @@
 ;; 環境切り分け用の定義作成
 (defvar is_emacs22 (equal emacs-major-version 22))
 (defvar is_emacs23 (equal emacs-major-version 23))
+(defvar is_emacs24 (equal emacs-major-version 24))
 (defvar is_window-sys (not (eq (symbol-value 'window-system) nil)))
 ;; Mac全般のとき
 (defvar is_mac (or (eq window-system 'mac) (featurep 'ns)))
@@ -47,7 +48,7 @@
  (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
      (normal-top-level-add-subdirs-to-load-path)))
 
-;; emacs.d/elpa以下を再帰的にload-pathへ追加
+;; package.elでインストールしたelispをload-pathへ追加
 (let ((default-directory (expand-file-name "~/.emacs.d/elpa")))
  (add-to-list 'load-path default-directory)
  (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
@@ -654,12 +655,12 @@
 ;; ============================================================
 (defvar my-shell-pop-key (kbd "C-t"))
 (defvar my-ansi-term-toggle-mode-key (kbd "C-c c"))
- 
+
 (defadvice ansi-term (after ansi-term-after-advice (arg))
  "run hook as after advice"
  (run-hooks 'ansi-term-after-hook))
 (ad-activate 'ansi-term)
- 
+
 (defun my-term-switch-line-char ()
  "Switch `term-in-line-mode' and `term-in-char-mode' in `ansi-term'"
  (interactive)
@@ -670,14 +671,14 @@
   ((term-in-char-mode)
    (term-line-mode)
    (hl-line-mode 1))))
- 
+
 (defadvice anything-c-kill-ring-action (around my-anything-kill-ring-term-advice activate)
  "In term-mode, use `term-send-raw-string' instead of `insert-for-yank'"
  (if (eq major-mode 'term-mode)
      (letf (((symbol-function 'insert-for-yank) (symbol-function 'term-send-raw-string)))
        ad-do-it)
    ad-do-it))
- 
+
 (defvar ansi-term-after-hook nil)
 (add-hook 'ansi-term-after-hook
       (lambda ()
@@ -753,10 +754,7 @@
     (when (and (file-exists-p dir) (not (member dir exec-path)))
       (setenv "PATH" (concat dir ":" (getenv "PATH")))
       (setq exec-path (append (list dir) exec-path))))
-     
-    ;; ツールバーを消す
-    (tool-bar-mode nil)
-   
+
     ;; ファイル名の文字コード指定
     (setq file-name-coding-system 'shift_jis)
 
@@ -1033,13 +1031,20 @@ interpreter-mode-alist))
 ;;; interfacing with ELPA, the package archive.
 ;;; Move this code earlier if you want to reference
 ;;; packages in your .emacs.
-(when
-    (load
-     (expand-file-name "~/.emacs.d/elpa/package.el"))
-  (package-initialize))
+;; (when
+;;     (load
+;;      (expand-file-name "~/.emacs.d/elpa/package.el"))
+;;   (package-initialize))
 
+(require 'package)
 
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 
+;; インストールする場所
+(setq package-user-dir (concat user-emacs-directory "elpa"))
+
+;;インストールしたパッケージにロードパスを通してロードする
+(package-initialize)
 
 ;; auto-insert
 ;; ファイル形式に応じて自動でテンプレート挿入
@@ -1298,7 +1303,8 @@ interpreter-mode-alist))
 ;; popwin
 ;;====================
 (require 'popwin)
-(setq display-buffer-function 'popwin:display-buffer)
+;;(setq display-buffer-function 'popwin:display-buffer)
+(setq special-display-function 'popwin:special-display-popup-window)
 ;; anythingをpopwinで行うため
 (setq anything-samewindow nil)
 ;; popwinのデフォルトサイズ
@@ -1837,3 +1843,11 @@ interpreter-mode-alist))
   "Return face used at point."
   (interactive)
   (message "%s" (get-char-property (point) 'face)))
+
+;; ツールバーを消す
+(cond
+ (is_emacs23
+  (tool-bar-mode nil))
+ (is_emacs24
+  (tool-bar-mode 0)))
+
