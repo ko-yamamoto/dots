@@ -1310,35 +1310,30 @@ interpreter-mode-alist))
 ;; popwinを使う表示を設定
 (setq popwin:special-display-config
       (append '(("*Remember*" :stick t)
-		("*Backtrace*")
-		("*Messages*")
-		("*Compile-Log*")
-        ("*sdic*" :noselect t)
-        ("*anything*" :regexp t :height 20)
-		;("*Moccur*" :height 20)
-		("*Directory*" :height 20)
-		("*undo-tree*" :height 20)
-		("\\*magit*" :regexp t :height 30)
-		("\\*slime-repl *" :regexp t :height 30)
-        (dired-mode :position top :height 0.6)
-        )
+                ("*Backtrace*")
+                ("*Messages*")
+                ("*Compile-Log*")
+                ("*sdic*" :noselect t)
+                ("*anything*" :height 20)
+                                        ;("*Moccur*" :height 20)
+                ("*Directory*" :height 20)
+                ("*undo-tree*" :height 20)
+                ("\\*magit*" :regexp t :height 30)
+                (dired-mode :position top :height 0.6)
+                ;; slime
+                ("*slime-apropos*")
+                ("*slime-macroexpansion*")
+                ("*slime-description*")
+                ("*slime-compilation*" :noselect t)
+                ("*slime-xref*")
+                ("*slime-repl clojure*" :height 30)
+                ("*slime-repl ccl*" :height 30)
+                ("\\*sldb clojure*" :regexp t :height 30)
+                (sldb-mode :stick t)
+                (slime-repl-mode)
+                (slime-connection-list-mode)
+                )
               popwin:special-display-config))
-;; Apropos
-(push '("*slime-apropos*") popwin:special-display-config)
-;; Macroexpand
-(push '("*slime-macroexpansion*") popwin:special-display-config)
-;; Help
-(push '("*slime-description*") popwin:special-display-config)
-;; Compilation
-(push '("*slime-compilation*" :noselect t) popwin:special-display-config)
-;; Cross-reference
-(push '("*slime-xref*") popwin:special-display-config)
-;; Debugger
-(push '(sldb-mode :stick t) popwin:special-display-config)
-;; REPL
-(push '(slime-repl-mode) popwin:special-display-config)
-;; Connections
-(push '(slime-connection-list-mode) popwin:special-display-config)
 
 ;; 最後に表示したpopwinを再表示
 (define-key global-map (kbd "C-x p") 'popwin:display-last-buffer)
