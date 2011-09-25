@@ -1178,12 +1178,12 @@ interpreter-mode-alist))
 (define-key ac-mode-map (kbd "TAB") 'auto-complete)
 
 ;; 自動補完
-(setq ac-auto-start 3) ; ?文字以上で補完開始
+;; (setq ac-auto-start 3) ; ?文字以上で補完開始
 ;; 手動補完するならこっち
 (setq ac-auto-start nil) ; 自動的に開始しない
 
 ;; コンテキストに応じてTABで補完
-(ac-set-trigger-key "TAB") 
+(ac-set-trigger-key "TAB")
 ;; 補完確定
 (define-key ac-complete-mode-map "RET" 'ac-complete)
 
@@ -1191,7 +1191,8 @@ interpreter-mode-alist))
 ;; デフォルトで設定済み
 ;; (define-key ac-menu-map "\C-n" 'ac-next)
 ;; (define-key ac-menu-map "\C-p" 'ac-previous)
-
+;; tab補完で候補が選択されないようにする
+(define-key ac-menu-map "\t" 'ac-next)
 
 ;; 補完時大文字小文字の区別
 ;; 大文字・小文字を区別しない
@@ -1328,6 +1329,8 @@ interpreter-mode-alist))
         ("*slime-description*")
         ("*slime-compilation*" :noselect t)
         ("*slime-xref*")
+		("*slime-repl clojure*" :height 30)
+		("\\*sldb clojure*" :regexp t :height 30)
         (sldb-mode :stick t)
         (slime-repl-mode)
         (slime-connection-list-mode)
@@ -1653,10 +1656,11 @@ interpreter-mode-alist))
 
 
 ;; ~/.emacs.d/slimeをload-pathに追加
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/slime"))
+;; (add-to-list 'load-path (expand-file-name "~/.emacs.d/slime"))
 ;; SLIMEのロード
 (require 'slime)
-(slime-setup '(slime-repl slime-fancy slime-banner))
+;;(slime-setup '(slime-repl slime-fancy slime-banner))
+(slime-setup '(slime-repl))
 ;; SLIMEからの入力をUTF-8に設定
 (setq slime-net-coding-system 'utf-8-unix)
 
