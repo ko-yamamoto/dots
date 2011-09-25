@@ -1181,6 +1181,8 @@ interpreter-mode-alist))
 ;; (setq ac-auto-start 3) ; ?文字以上で補完開始
 ;; 手動補完するならこっち
 (setq ac-auto-start nil) ; 自動的に開始しない
+;; x.x秒後に自動で表示
+;; (setq ac-auto-show-menu 1.0)
 
 ;; コンテキストに応じてTABで補完
 (ac-set-trigger-key "TAB")
@@ -1191,8 +1193,10 @@ interpreter-mode-alist))
 ;; デフォルトで設定済み
 ;; (define-key ac-menu-map "\C-n" 'ac-next)
 ;; (define-key ac-menu-map "\C-p" 'ac-previous)
+
 ;; tab補完で候補が選択されないようにする
-(define-key ac-menu-map "\t" 'ac-next)
+(define-key ac-menu-map [(tab)] 'ac-next)
+(define-key ac-menu-map [(S-tab)] 'ac-previous)
 
 ;; 補完時大文字小文字の区別
 ;; 大文字・小文字を区別しない
@@ -1323,19 +1327,26 @@ interpreter-mode-alist))
 		("*undo-tree*" :height 20)
 		("\\*magit*" :regexp t :height 30)
         (dired-mode :position top :height 0.6)
-        ;; slime
-        ("*slime-apropos*")
-        ("*slime-macroexpansion*")
-        ("*slime-description*")
-        ("*slime-compilation*" :noselect t)
-        ("*slime-xref*")
-		("*slime-repl clojure*" :height 30)
-		("\\*sldb clojure*" :regexp t :height 30)
-        (sldb-mode :stick t)
-        (slime-repl-mode)
-        (slime-connection-list-mode)
-	       )
+        )
               popwin:special-display-config))
+;; Apropos
+(push '("*slime-apropos*") popwin:special-display-config)
+;; Macroexpand
+(push '("*slime-macroexpansion*") popwin:special-display-config)
+;; Help
+(push '("*slime-description*") popwin:special-display-config)
+;; Compilation
+(push '("*slime-compilation*" :noselect t) popwin:special-display-config)
+;; Cross-reference
+(push '("*slime-xref*") popwin:special-display-config)
+;; Debugger
+(push '(sldb-mode :stick t) popwin:special-display-config)
+;; REPL
+(push '(slime-repl-mode) popwin:special-display-config)
+;; Connections
+(push '(slime-connection-list-mode) popwin:special-display-config)
+
+
 
 ;; 最後に表示したpopwinを再表示
 (define-key global-map (kbd "C-x p") 'popwin:display-last-buffer)
@@ -1656,11 +1667,11 @@ interpreter-mode-alist))
 
 
 ;; ~/.emacs.d/slimeをload-pathに追加
-;; (add-to-list 'load-path (expand-file-name "~/.emacs.d/slime"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/slime"))
 ;; SLIMEのロード
 (require 'slime)
-;;(slime-setup '(slime-repl slime-fancy slime-banner))
-(slime-setup '(slime-repl))
+(slime-setup '(slime-repl slime-fancy slime-banner))
+;;(slime-setup '(slime-repl))
 ;; SLIMEからの入力をUTF-8に設定
 (setq slime-net-coding-system 'utf-8-unix)
 
@@ -1682,11 +1693,11 @@ interpreter-mode-alist))
 (add-hook 'slime-mode-hook      'set-up-slime-ac)
 (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
 
-(define-globalized-minor-mode real-global-auto-complete-mode
-  auto-complete-mode (lambda ()
-         (if (not (minibufferp (current-buffer)))
-      (auto-complete-mode 1))))
-(real-global-auto-complete-mode t)
+;; (define-globalized-minor-mode real-global-auto-complete-mode
+;;   auto-complete-mode (lambda ()
+;;          (if (not (minibufferp (current-buffer)))
+;;       (auto-complete-mode 1))))
+;; (real-global-auto-complete-mode t)
 
 
 ;;====================
