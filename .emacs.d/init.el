@@ -1024,27 +1024,21 @@ interpreter-mode-alist))
 
 
 ;;====================
-;; package-install.el
+;; package.el
 ;;====================
-;;; This was installed by package-install.el.
-;;; This provides support for the package system and
-;;; interfacing with ELPA, the package archive.
-;;; Move this code earlier if you want to reference
-;;; packages in your .emacs.
-;; (when
-;;     (load
-;;      (expand-file-name "~/.emacs.d/elpa/package.el"))
-;;   (package-initialize))
 
-(require 'package)
+(when is_emacs24
+  (require 'package)
+  (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+  ;; インストールする場所
+  (setq package-user-dir (concat user-emacs-directory "elpa"))
 
-;; インストールする場所
-(setq package-user-dir (concat user-emacs-directory "elpa"))
+  ;;インストールしたパッケージにロードパスを通してロードする
+  (package-initialize)
+)
 
-;;インストールしたパッケージにロードパスを通してロードする
-(package-initialize)
+
 
 ;; auto-insert
 ;; ファイル形式に応じて自動でテンプレート挿入
@@ -1055,7 +1049,6 @@ interpreter-mode-alist))
 ;;         (html-mode . "html-template.html")
 ;;         ("base.css" . "base.css")
 ;;         (css-mode . "css-template.css")))
-
 
 ;; yasnippet
 (require 'yasnippet)
@@ -1308,8 +1301,8 @@ interpreter-mode-alist))
 ;; popwin
 ;;====================
 (require 'popwin)
-;;(setq display-buffer-function 'popwin:display-buffer)
-(setq special-display-function 'popwin:special-display-popup-window)
+(setq display-buffer-function 'popwin:display-buffer)
+;; (setq special-display-function 'popwin:special-display-popup-window)
 ;; anythingをpopwinで行うため
 (setq anything-samewindow nil)
 ;; popwinのデフォルトサイズ
@@ -1321,11 +1314,12 @@ interpreter-mode-alist))
 		("*Messages*")
 		("*Compile-Log*")
         ("*sdic*" :noselect t)
-		("*anything*" :height 20)
+        ("*anything*" :regexp t :height 20)
 		;("*Moccur*" :height 20)
 		("*Directory*" :height 20)
 		("*undo-tree*" :height 20)
 		("\\*magit*" :regexp t :height 30)
+		("\\*slime-repl *" :regexp t :height 30)
         (dired-mode :position top :height 0.6)
         )
               popwin:special-display-config))
@@ -1345,8 +1339,6 @@ interpreter-mode-alist))
 (push '(slime-repl-mode) popwin:special-display-config)
 ;; Connections
 (push '(slime-connection-list-mode) popwin:special-display-config)
-
-
 
 ;; 最後に表示したpopwinを再表示
 (define-key global-map (kbd "C-x p") 'popwin:display-last-buffer)
@@ -1862,7 +1854,7 @@ interpreter-mode-alist))
 ;; ツールバーを消す
 (cond
  (is_emacs23
-  (tool-bar-mode nil))
+  (menu-bar-mode nil))
  (is_emacs24
   (tool-bar-mode 0)))
 
