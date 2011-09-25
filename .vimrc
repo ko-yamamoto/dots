@@ -3,8 +3,11 @@
 "------------------------------------
 " vundle
 "------------------------------------
-set rtp+=~/.vim/vundle.git/
+set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
+" let Vundle manage Vundle
+" required! 
+Bundle 'gmarik/vundle'
 
 " 使用するプラグインの指定
 Bundle 'unite-colorscheme'
@@ -14,6 +17,7 @@ Bundle 'VST'
 " Bundle 'Processing'
 Bundle 'JSON.vim'
 Bundle 'smoothPageScroll.vim'
+Bundle 'VimClojure'
 "" githubから
 Bundle 'thinca/vim-quickrun'
 " Bundle 'basyura/TwitVim'
@@ -30,7 +34,7 @@ Bundle 'kana/vim-operator-user'
 Bundle 'kana/vim-operator-replace'
 " Bundle 'kchmck/vim-coffee-script'
 Bundle 'tpope/vim-surround'
-" Bundle 'fholgado/minibufexpl.vim'
+Bundle 'fholgado/minibufexpl.vim'
 " Bundle 'ewiplayer/vim-scala'
 " Bundle 'tsukkee/lingr-vim'
 Bundle 'thinca/vim-poslist'
@@ -39,6 +43,9 @@ Bundle 'h1mesuke/unite-outline'
 Bundle 'tpope/vim-fugitive'
 Bundle 'riobard/scala.vim'
 Bundle 'open-browser.vim'
+
+filetype plugin indent on     " required! 
+
 
 "-------------------------------------------------------------------------------
 " 基本設定 Basics
@@ -856,7 +863,7 @@ endfunction
 " ファイルタイプ定義
 "-------------------------------------------------------------------------------
 autocmd BufNewFile,BufRead *.scala  set filetype=scala
-autocmd BufNewFile,BufRead *.clj    set filetype clojure
+autocmd BufNewFile,BufRead *.clj    set filetype=clojure
 
 
 
