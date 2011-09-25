@@ -648,6 +648,15 @@ let g:netrw_nogx = 1 " disable netrw's gx mapping.
 nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
 
+
+"------------------------------------
+" VimFiler
+"------------------------------------
+:let g:vimfiler_as_default_explorer = 1
+
+
+
+
 "-------------------------------------------------------------------------------
 " キーマッピング
 "-------------------------------------------------------------------------------
