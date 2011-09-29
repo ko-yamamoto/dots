@@ -3727,9 +3727,8 @@ Perform completion more similar to Emacs' complete-symbol."
                    (slime-complete-restore-window-configuration))
                   ;; Incomplete
                   (t
-                   (when (member partial completions)
-                     (slime-minibuffer-respecting-message
-                      "Complete but not unique"))
+                   (slime-minibuffer-respecting-message
+                    "Complete but not unique")
                    (slime-display-or-scroll-completions completions
                                                         partial))))))))
 
