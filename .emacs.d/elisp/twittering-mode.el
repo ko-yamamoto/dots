@@ -350,10 +350,23 @@ Items:
  %# - id
 ")
 
-(defvar twittering-retweet-format "RT: %t (via @%s)"
-  "Format string for retweet.
+(defvar twittering-retweet-format '(nil _ " RT: %t (via @%s)")
+  "*A format string or a skeleton for retweet.
+If the value is a string, it means a format string for generating an initial
+string of a retweet. The format string is converted with the below replacement
+table. And then, the cursor is placed on the next of the initial string.
+It is equivalent to the skeleton '(nil STRING _).
+Note that this string is inserted before the edit skeleton specified by
+`twittering-edit-skeleton' is performed.
 
-Items:
+If the value is a list, it is treated as a skeleton used with
+`skeleton-insert'. The strings included in the list are converted with the
+following replacement table. And then, the list with converted strings is
+inserted by `skeleton-insert'.
+Note that this skeleton is performed before the edit skeleton specified by
+`twittering-edit-skeleton' is performed.
+
+Replacement table:
  %s - screen_name
  %t - text
  %% - %
@@ -471,14 +484,12 @@ which is a lambda expression without being compiled.")
 (defvar twittering-update-status-function
   'twittering-update-status-from-pop-up-buffer
   "The function used to posting a tweet. It takes 5 arguments,
-INIT-STR, REPLY-TO-ID, USERNAME, TWEET-TYPE-AS-SPEC, CURRENT-SPEC.
+INIT-STR, REPLY-TO-ID, USERNAME, TWEET-TYPE, CURRENT-SPEC.
 The first argument INIT-STR is nil or an initial text to be edited.
 REPLY-TO-ID and USERNAME are an ID and a user-screen-name of a tweet to
 which you are going to reply. If the tweet is not a reply, they are nil.
-TWEET-TYPE-AS-SPEC is a timeline spec specifying a type of a tweet being
-edited. Now, only `(direct-messages)' and nil are available as
-TWEET-TYPE-AS-SPEC. If TWEET-TYPE-AS-SPEC is nil, it means that a tweet is
-edited as a normal tweet.
+TWEET-TYPE is a symbol specifying a type of a tweet being edited. It must
+be one of 'direct-message, 'normal, 'organic-retweet and 'reply.
 CURRENT-SPEC means on which timeline the function is called.
 
 Twittering-mode provides two functions for updating status:
@@ -3349,7 +3360,7 @@ Before calling this, you have to configure `twittering-bitly-login' and
 ;;; - (public): public timeline.
 ;;; - (replies): replies.
 ;;; - (retweeted_by_me): retweets posted by the authenticating user.
-;;; - (retweeted_by_user): retweets posted by the user.
+;;; - (retweeted_by_user USER): retweets posted by the user.
 ;;; - (retweeted_to_me): retweets posted by the authenticating user's friends.
 ;;; - (retweeted_to_user USER): retweets posted to the user.
 ;;; - (retweets_of_me):
@@ -4113,16 +4124,19 @@ get-service-configuration -- Get the configuration of the server.
 	   (parameters
 	    (cond
 	     ((eq spec-type 'favorites)
-	      `(,@(when page `(("page" . ,page)))))
+	      `(("include_entities" . "true")
+		,@(when page `(("page" . ,page)))))
 	     ((eq spec-type 'retweeted_by_user)
 	      (let ((username (elt spec 1)))
 		`(("count" . ,number-str)
 		  ,@(when max_id `(("max_id" . ,max_id)))
+		  ("include_entities" . "true")
 		  ("screen_name" . ,username)
 		  ,@(when since_id `(("since_id" . ,since_id))))))
 	     ((eq spec-type 'retweeted_to_user)
 	      (let ((username (elt spec 1)))
 		`(("count" . ,number-str)
+		  ("include_entities" . "true")
 		  ,@(when max_id `(("max_id" . ,max_id)))
 		  ("screen_name" . ,username)
 		  ,@(when since_id `(("since_id" . ,since_id))))))
@@ -4136,20 +4150,31 @@ get-service-configuration -- Get the configuration of the server.
 		   ((eq spec-type 'list)
 		    (let ((username (elt spec 1))
 			  (list-name (elt spec 2)))
-		      `(("include_rts" . "true")
+		      `(("include_entities" . "true")
+			("include_rts" . "true")
 			("owner_screen_name" . ,username)
 			("per_page" . ,number-str)
 			("slug" . ,list-name))))
 		   ((eq spec-type 'user)
 		    (let ((username (elt spec 1)))
 		      `(("count" . ,number-str)
+			("include_entities" . "true")
 			("include_rts" . "true")
 			("screen_name" . ,username))))
 		   ((memq spec-type '(friends mentions public))
-		    `(("count" . ,number-str)
+		    `(("include_entities" . "true")
+		      ("count" . ,number-str)
 		      ("include_rts" . "true")))
 		   (t
-		    `(("count" . ,number-str))))))))
+		    ;; direct_messages
+		    ;; direct_messages_sent
+		    ;; home
+		    ;; replies
+		    ;; retweeted_by_me
+		    ;; retweeted_to_me
+		    ;; retweets_of_me
+		    `(("include_entities" . "true")
+		      ("count" . ,number-str))))))))
 	   (format (if (eq spec-type 'search)
 		       "atom"
 		     "xml"))
@@ -4761,6 +4786,40 @@ If the authorization failed, return nil."
     (mapcar 'twittering-atom-xmltree-to-status-datum
 	    entry-list)))
 
+(eval-and-compile
+  (defsubst twittering-make-gap-list (text)
+    "Return a list representing index gaps between TEXT and the encoded text.
+Indices included in entities in XML response from Twitter mean the positions
+of characters in the encoded text, where \"<\" and \">\" are encoded as
+\"&lt;\" and \"&gt;\" respectively.
+Therefore, the indices differ from the positions in the decoded text.
+
+This function calculates the gaps from TEXT, which is assumed to be decoded.
+This function returns a list of pairs representing the gaps.
+For each pair, the car means the position in the encoded text and the cdr
+means the gap. The (car pair)-th character in the encoded text corresponds
+to the (- (car pair) (cdr pair))-th character in the decoded text."
+    (let ((result nil)
+	  (pos 0)
+	  (gap 0))
+      (while (string-match "[<>]" text pos)
+	(let ((shift 3))
+	  (setq result
+		(cons `(,(+ gap (match-end 0)) . ,(+ gap shift)) result))
+	  (setq gap (+ shift gap)))
+	(setq pos (match-end 0)))
+      (reverse result)))
+
+  (defun twittering-get-gap (pos gap-list)
+    "Return the gap at the specific position.
+GAP-LIST must be generated by `twittering-make-gap-list'."
+    (let ((rest-gaps gap-list)
+	  (gap 0))
+      (while (and rest-gaps (< (caar rest-gaps) pos))
+	(setq gap (cdar rest-gaps))
+	(setq rest-gaps (cdr rest-gaps)))
+      gap)))
+
 (defun twittering-normalize-raw-status (raw-status &optional ignore-retweet)
   (let* ((status-data (cddr raw-status))
 	 (raw-retweeted-status (assq 'retweeted_status status-data)))
@@ -4809,18 +4868,101 @@ If the authorization failed, return nil."
 		      (encoded (elt entry 2))
 		      (data (assq-get sym-in-data status-data)))
 		 `(,sym . ,(if encoded
-			       (twittering-decode-html-entities data)
+			       (twittering-decode-entities-after-parsing-xml
+				data)
 			     data))))
 	     '(;; Raw entries.
 	       (created-at created_at)
 	       (id id)
+	       (in-reply-to-screen-name in_reply_to_screen_name)
+	       (in-reply-to-status-id in_reply_to_status_id)
 	       (recipient-screen-name recipient_screen_name)
 	       (truncated truncated)
 	       ;; Encoded entries.
-	       (in-reply-to-screen-name in_reply_to_screen_name t)
-	       (in-reply-to-status-id in_reply_to_status_id t)
 	       (text text t)
 	       ))
+	  ;; Entities.
+	  ,(let* ((entity-data (cddr (assq 'entities status-data)))
+		  (encoded-text (assq-get 'text status-data))
+		  (text
+		   (twittering-decode-entities-after-parsing-xml encoded-text))
+		  (gap-list (twittering-make-gap-list text)))
+	     (list
+	      'entity
+	      ;; hashtags
+	      (cons
+	       'hashtags
+	       (remove nil
+		       (mapcar
+			(lambda (entry)
+			  (when (and (consp entry)
+				     (eq 'hashtag (car entry)))
+			    (let* ((data (cdr entry))
+				   (start-str (cdr (assq 'start (car data))))
+				   (end-str (cdr (assq 'end (car data))))
+				   (start (if (stringp start-str)
+					      (string-to-number start-str)
+					    0))
+				   (end (if (stringp end-str)
+					    (string-to-number end-str)
+					  0))
+				   (gap (twittering-get-gap start gap-list)))
+			      `((start . ,(- start gap))
+				(end . ,(- end gap))
+				(text . ,(elt (assq 'text data) 2))))))
+			(assq 'hashtags entity-data))))
+	      ;; mentions
+	      (cons
+	       'mentions
+	       (remove nil
+		       (mapcar
+			(lambda (entry)
+			  (when (and (consp entry)
+				     (eq 'user_mention (car entry)))
+			    (let* ((data (cdr entry))
+				   (start-str (cdr (assq 'start (car data))))
+				   (end-str (cdr (assq 'end (car data))))
+				   (start (if (stringp start-str)
+					      (string-to-number start-str)
+					    0))
+				   (end (if (stringp end-str)
+					    (string-to-number end-str)
+					  0))
+				   (gap (twittering-get-gap start gap-list)))
+			      `((start . ,(- start gap))
+				(end . ,(- end gap))
+				(id . ,(elt (assq 'id data) 2))
+				(screen-name
+				 . ,(elt (assq 'screen_name data) 2))
+				(name
+				 . ,(elt (assq 'name data) 2))))))
+			(assq 'user_mentions entity-data))))
+	      ;; urls
+	      (cons
+	       'urls
+	       (remove nil
+		       (mapcar
+			(lambda (entry)
+			  (when (and (consp entry)
+				     (eq 'url (car entry)))
+			    (let* ((data (cdr entry))
+				   (start-str (cdr (assq 'start (car data))))
+				   (end-str (cdr (assq 'end (car data))))
+				   (start (if (stringp start-str)
+					      (string-to-number start-str)
+					    0))
+				   (end (if (stringp end-str)
+					    (string-to-number end-str)
+					  0))
+				   (gap (twittering-get-gap start gap-list)))
+			      `((start . ,(- start gap))
+				(end . ,(- end gap))
+				(url . ,(elt (assq 'url data) 2))
+				(display-url
+				 . ,(elt (assq 'display_url data) 2))
+				(expanded-url
+				 . ,(elt (assq 'expanded_url data) 2))))))
+			(assq 'urls entity-data))))))
 	  ;; Source.
 	  ,@(let ((source (twittering-decode-html-entities
 			   (assq-get 'source status-data))))
@@ -4874,7 +5016,8 @@ If the authorization failed, return nil."
 			  (favorited nil "false")
 			  (recipient_screen_name
 			   nil ,(caddr (assq 'recipient_screen_name c-node)))
-			  (user nil ,@(cdddr (assq 'sender c-node)))))
+			  (user nil ,@(cdddr (assq 'sender c-node)))
+			  (entities nil ,@(cdddr (assq 'entities c-node)))))
 	       (remove nil
 		       (mapcar
 			(lambda (node)
@@ -4893,6 +5036,40 @@ If the authorization failed, return nil."
 	  (remove nil (mapcar (lambda (x)
 				(if (consp x) x))
 			      xmltree))))
+
+(defun twittering-decode-entities-after-parsing-xml (encoded-str)
+  "Decode ENCODED-STR retrieved by parsing XML and return the result.
+On Emacs 22 and later, `xml-parse-region' resolves numeric character
+references. It is redundant to resolve numeric character references
+again. However, in a XML response from Twitter, the two characters,
+\"<\" and \">\", are doubly escaped as \"&amp;lt;\" and \"&amp;gt;\",
+respectively. Then, they are represented as \"&lt;\" and \"&gt;\" in
+the result of `xml-parse-region'. This function decodes them.
+
+On Emacs 21, `xml-parse-region' does not resolve numeric character
+references. This function decodes them."
+  (cond
+   ((null encoded-str)
+    "")
+   ((> 22 emacs-major-version)
+    (replace-regexp-in-string
+     "&#\\([0-9]+\\);"
+     (lambda (str)
+       (let ((number-entity
+	      (progn
+		(string-match "&#\\([0-9]+\\);" str)
+		(match-string 1 str))))
+	 (char-to-string
+	  (twittering-ucs-to-char (string-to-number number-entity)))))
+     encoded-str))
+   (t
+    (replace-regexp-in-string
+     "&\\(?:\\(gt\\)\\|\\(lt\\)\\);"
+     (lambda (str)
+       (if (match-beginning 1)
+	   ">"
+	 "<"))
+     encoded-str))))
 
 (defun twittering-decode-html-entities (encoded-str)
   (if encoded-str
@@ -5879,7 +6056,9 @@ following symbols;
 		      'uri uri
 		      'screen-name-in-text user-screen-name
 		      'goto-spec spec
-		      'face 'twittering-username-face))
+		      'face 'twittering-username-face
+		      'front-sticky nil
+		      'rear-nonsticky t))
       ""))
 
   (defsubst twittering-make-string-with-source-property (str status)
@@ -5890,7 +6069,9 @@ following symbols;
 		      'keymap twittering-mode-on-uri-map
 		      'uri uri
 		      'face 'twittering-uri-face
-		      'source str))
+		      'source str
+		      'front-sticky nil
+		      'rear-nonsticky t))
       ""))
 
   (defsubst twittering-make-string-with-uri-property (str status)
@@ -5907,7 +6088,9 @@ following symbols;
 		      'mouse-face 'highlight
 		      'keymap twittering-mode-on-uri-map
 		      'uri uri
-		      'face 'twittering-uri-face))
+		      'face 'twittering-uri-face
+		      'front-sticky nil
+		      'rear-nonsticky t))
       "")))
 
 (defun twittering-make-fontified-tweet-text (str-expr regexp-hash regexp-atmark)
@@ -5932,6 +6115,11 @@ following symbols;
 		(end (match-end 0))
 		(range-and-properties
 		 (cond
+		  ((get-text-property beg 'face str)
+		   ;; The matched substring has been already fontified.
+		   ;; The fontification with entities must fontify the
+		   ;; head of the matched string.
+		   nil)
 		  ((match-string 1 str)
 		   ;; hashtag
 		   (let* ((hashtag (match-string 1 str))
@@ -5990,12 +6178,95 @@ following symbols;
 		      'uri uri
 		      'uri-origin 'explicit-uri-in-tweet
 		      'face 'twittering-uri-face)))))
-		(beg (car range-and-properties))
-		(end (cadr range-and-properties))
-		(properties (cddr range-and-properties)))
-	   (add-text-properties beg end properties str)
+		(beg (if range-and-properties
+			 (car range-and-properties)
+		       beg))
+		(end (if range-and-properties
+			 (cadr range-and-properties)
+		       end))
+		(properties
+		 `(,@(cddr range-and-properties)
+		   front-sticky nil
+		   rear-nonsticky t)))
+	   (when range-and-properties
+	     (add-text-properties beg end properties str))
 	   (setq pos end)))
        str)))
+
+(eval-and-compile
+  (defsubst twittering-make-fontified-tweet-text-with-entity (status)
+    (let* ((text (copy-sequence (cdr (assq 'text status))))
+	   (text-length (length text))
+	   (entities (cdr (assq 'entity status))))
+      ;; hashtags
+      (mapc (lambda (hashtag)
+	      (let* ((start (cdr (assq 'start hashtag)))
+		     (end (min (cdr (assq 'end hashtag)) text-length))
+		     (tag (cdr (assq 'text hashtag)))
+		     (spec-string
+		      (twittering-make-hashtag-timeline-spec-string-direct tag)))
+		(set-text-properties
+		 start end
+		 `(mouse-face
+		   highlight
+		   keymap ,twittering-mode-on-uri-map
+		   uri ,(twittering-get-search-url (concat "#" tag))
+		   goto-spec ,spec-string
+		   face twittering-username-face
+		   front-sticky nil
+		   rear-nonsticky t)
+		 text)))
+	    (cdr (assq 'hashtags entities)))
+      ;; mentions
+      (mapc (lambda (mention)
+	      (let ((start (cdr (assq 'start mention)))
+		    (end (min (cdr (assq 'end mention)) text-length))
+		    (screen-name (cdr (assq 'screen-name mention))))
+		(set-text-properties
+		 start end
+		 `(mouse-face
+		   highlight
+		   keymap ,twittering-mode-on-uri-map
+		   uri ,(twittering-get-status-url screen-name)
+		   screen-name-in-text ,screen-name
+		   goto-spec
+		   ,(twittering-make-user-timeline-spec-direct screen-name)
+		   face twittering-uri-face
+		   front-sticky nil
+		   rear-nonsticky t)
+		 text)))
+	    (cdr (assq 'mentions entities)))
+      ;; urls
+      (let ((offset 0))
+	(mapc (lambda (url-info)
+		(let* ((text-length (length text))
+		       (start (cdr (assq 'start url-info)))
+		       (end (cdr (assq 'end url-info)))
+		       (url (cdr (assq 'url url-info)))
+		       (expanded-url
+			;; If the `url' is short and not wrapped,
+			;; `expanded-url' is nil.
+			(or (cdr (assq 'expanded-url url-info))
+			    url))
+		       (replacement
+			(propertize
+			 expanded-url
+			 'mouse-face 'highlight
+			 'keymap twittering-mode-on-uri-map
+			 'uri url
+			 'uri-origin 'explicit-uri-in-tweet
+			 'face 'twittering-uri-face
+			 'front-sticky nil
+			 'rear-nonsticky t)))
+		  (setq text
+			(concat
+			 (substring text 0 (min (+ offset start) text-length))
+			 replacement
+			 (substring text (min (+ offset end) text-length))))
+		  (setq offset
+			(+ offset (- (length expanded-url) (- end start))))))
+	      (cdr (assq 'urls entities))))
+      text)))
 
 (defun twittering-generate-format-table (status-sym prefix-sym)
   `(("%" . "%")
@@ -6056,7 +6327,9 @@ following symbols;
 	      (properties
 	       (list 'mouse-face 'highlight 'face 'twittering-uri-face
 		     'keymap twittering-mode-on-uri-map
-		     'uri url)))
+		     'uri url
+		     'front-sticky nil
+		     'rear-nonsticky t)))
 	 (when (and str url)
 	   (concat " " (apply 'propertize str properties))))))
     ("R" .
@@ -6072,11 +6345,11 @@ following symbols;
       (cdr (assq 'user-screen-name ,status-sym)) ,status-sym))
     ("T" .
      ,(twittering-make-fontified-tweet-text
-       `(cdr (assq 'text ,status-sym))
+       `(twittering-make-fontified-tweet-text-with-entity ,status-sym)
        twittering-regexp-hash twittering-regexp-atmark))
     ("t" .
      ,(twittering-make-fontified-tweet-text
-       `(cdr (assq 'text ,status-sym))
+       `(twittering-make-fontified-tweet-text-with-entity ,status-sym)
        twittering-regexp-hash twittering-regexp-atmark))
     ("u" . (cdr (assq 'user-url ,status-sym)))))
 
@@ -6110,7 +6383,9 @@ following symbols;
 		   (properties
 		    (list 'mouse-face 'highlight 'face 'twittering-uri-face
 			  'keymap twittering-mode-on-uri-map
-			  'uri url)))
+			  'uri url
+			  'front-sticky nil
+			  'rear-nonsticky t)))
 	      (twittering-make-passed-time-string
 	       nil nil created-at ,time-format properties))
 	    . ,rest)))
@@ -7093,6 +7368,25 @@ been initialized yet."
        (t
 	(setq twittering-use-icon-storage nil)
 	(error "Disabled icon-storage because it failed to load jka-compr."))))
+    (cond
+     ((and
+       (boundp 'twittering-sign-simple-string)
+       twittering-sign-simple-string
+       (or (not (boundp 'twittering-sign-string-function))
+	   (null twittering-sign-string-function))
+       (eq twittering-edit-skeleton 'none)
+       (or (null twittering-edit-skeleton-footer)
+	   (string= twittering-edit-skeleton-footer "")))
+      ;; Configure `twittering-edit-skeleton' as an alternative of
+      ;; `twittering-sign-simple-string'.
+      (twittering-edit-skeleton-change-footer
+       (format " [%s]" twittering-sign-simple-string))
+      (setq twittering-edit-skeleton 'footer)
+      (message "Warning: `twittering-sign-simple-string' is obsolete. Use `twittering-edit-skeleton-footer' instead."))
+     ((or (boundp 'twittering-sign-simple-string)
+	  (boundp 'twittering-sign-string-function))
+      (message "Warning: `twittering-sign-simple-string' and `twittering-sign-string-function' are obsolete. Use the new feature `twittering-edit-skeleton'.")
+      ))
     (setq twittering-initialized t)))
 
 (defun twittering-mode-setup (spec-string)
@@ -7145,23 +7439,6 @@ been initialized yet."
       (mapc 'twittering-visit-timeline (cdr timeline-spec-list)))))
 
 ;;;;
-;;;; Sign
-;;;;
-
-(defvar twittering-sign-simple-string nil)
-(defvar twittering-sign-string-function 'twittering-sign-string-default-function)
-
-(defun twittering-sign-string-default-function ()
-  "Append sign string to tweet."
-  (if twittering-sign-simple-string
-      (format " [%s]" twittering-sign-simple-string)
-    ""))
-
-(defun twittering-sign-string ()
-  "Return Tweet sign string."
-  (funcall twittering-sign-string-function))
-
-;;;;
 ;;;; Edit mode skeleton
 ;;;;
 
@@ -7193,13 +7470,13 @@ current context matches with PRED.
 PRED is nil, a symbol or a function.
 If PRED is nil, the value is unconditionally performed.
 If PRED is a symbol, the value is performed only when it equals to the
-type of the tweet being edited. The type is one of 'normal, 'reply and
-'direct-message.
+type of the tweet being edited. The type is one of 'direct-message, 'normal,
+'organic-retweet and 'reply.
 If PRED is a function, the value is performed only when the predicate
 function PRED returns non-nil. PRED is invoked with three arguments
 TWEET-TYPE, IN-REPLY-TO-ID and CURRENT-SPEC.
-TWEET-TYPE is a symbol, which is one of 'normal, 'reply, and 'direct-message,
-specifying which type of tweet will be edited.
+TWEET-TYPE is a symbol, which is one of 'direct-message, 'normal,
+'organic-retweet and 'reply, specifying which type of tweet will be edited.
 If the tweet will not be edited as a reply, IN-REPLY-TO-ID is nil.
 If the tweet will be edited as a reply, IN-REPLY-TO-ID is a string specifying
 the replied tweet.
@@ -7425,11 +7702,10 @@ instead."
 
 (defun twittering-edit-length-check (&optional beg end len)
   (let* ((status (twittering-edit-extract-status))
-	 (sign-str (twittering-sign-string))
-	 (maxlen (- 140 (length sign-str)))
+	 (maxlen 140)
 	 (length (twittering-effective-length status)))
     (setq mode-name
-	  (format "twmode-status-edit[%d/%d/140]" length maxlen))
+	  (format "twmode-status-edit[%d/%d]" length maxlen))
     (force-mode-line-update)
     (unless twittering-disable-overlay-on-too-long-string
       (if (< maxlen length)
@@ -7442,8 +7718,8 @@ instead."
       (buffer-substring-no-properties (point-min) (point-max))
     ""))
 
-(defun twittering-edit-setup-help (&optional username spec)
-  (let* ((item (if (twittering-timeline-spec-is-direct-messages-p spec)
+(defun twittering-edit-setup-help (&optional username tweet-type)
+  (let* ((item (if (eq tweet-type 'direct-message)
 		   (format "a direct message to %s" username)
 		 "a tweet"))
 	 (help-str (format (substitute-command-keys "Keymap:
@@ -7484,7 +7760,7 @@ instead."
 	    (when (< (window-end window t) current-tail)
 	      (twittering-set-window-end window current-tail))))))))
 
-(defun twittering-update-status-from-pop-up-buffer (&optional init-str reply-to-id username tweet-type-as-spec current-spec)
+(defun twittering-update-status-from-pop-up-buffer (&optional init-string-or-skeleton reply-to-id username tweet-type current-spec)
   (interactive)
   (let ((buf (generate-new-buffer twittering-edit-buffer)))
     (setq twittering-pre-edit-window-configuration
@@ -7495,29 +7771,28 @@ instead."
       (pop-to-buffer buf)
       (twittering-ensure-whole-of-status-is-visible win))
     (twittering-edit-mode)
-    (twittering-edit-setup-help username tweet-type-as-spec)
-    (if (twittering-timeline-spec-is-direct-messages-p tweet-type-as-spec)
+    (twittering-edit-setup-help username tweet-type)
+    (if (eq tweet-type 'direct-message)
 	(message "C-c C-c to send, C-c C-k to cancel")
-      (and (null init-str)
+      (and (null init-string-or-skeleton)
 	   twittering-current-hashtag
-	   (setq init-str (format " #%s " twittering-current-hashtag)))
+	   (setq init-string-or-skeleton
+		 (format " #%s " twittering-current-hashtag)))
       (message "C-c C-c to post, C-c C-k to cancel"))
-    (when init-str
-      (insert init-str)
+    (when init-string-or-skeleton
+      (require 'skeleton)
+      (cond
+       ((stringp init-string-or-skeleton)
+	(insert init-string-or-skeleton))
+       ((listp init-string-or-skeleton)
+	(skeleton-insert init-string-or-skeleton)))
       (set-buffer-modified-p nil))
     (make-local-variable 'twittering-reply-recipient)
     (setq twittering-reply-recipient
-	  `(,reply-to-id ,username ,tweet-type-as-spec))
-    (let ((tweet-type
-	   (cond
-	    ((twittering-timeline-spec-is-direct-messages-p tweet-type-as-spec)
-	     'direct-message)
-	    (reply-to-id
-	     'reply)
-	    (t
-	     'normal))))
-      (twittering-edit-skeleton-insert tweet-type reply-to-id
-				       current-spec))))
+	  `(,reply-to-id ,username ,(when (eq tweet-type 'direct-message)
+				      '(direct_messages))))
+    (twittering-edit-skeleton-insert tweet-type reply-to-id
+				     current-spec)))
 
 (defun twittering-edit-post-status ()
   (interactive)
@@ -7526,7 +7801,7 @@ instead."
 	(username (nth 1 twittering-reply-recipient))
 	(spec (nth 2 twittering-reply-recipient)))
     (cond
-     ((not (twittering-status-not-blank-p status))
+     ((string-match "\\` *\\'" status)
       (message "Empty tweet!"))
      ((< 140 (twittering-effective-length status))
       (message "Tweet is too long!"))
@@ -7614,11 +7889,7 @@ instead."
     (let* ((deactivate-mark deactivate-mark)
 	   (status-len (- (twittering-effective-length (buffer-string))
 			  (minibuffer-prompt-width)))
-	   (sign-len (length (twittering-sign-string)))
-	   (mes (if (< 0 sign-len)
-		    (format "%d=%d+%d"
-			    (+ status-len sign-len) status-len sign-len)
-		  (format "%d" status-len))))
+	   (mes (format "%d" status-len)))
       (if (<= 23 emacs-major-version)
 	  (minibuffer-message mes) ;; Emacs23 or later
 	(minibuffer-message (concat " (" mes ")")))
@@ -7640,31 +7911,24 @@ instead."
       (re-search-forward "\\`[[:space:]]*@[a-zA-Z0-9_-]+\\([[:space:]]+@[a-zA-Z0-9_-]+\\)*" nil t)
       (re-search-forward "[^[:space:]]" nil t))))
 
-(defun twittering-update-status-from-minibuffer (&optional init-str reply-to-id username tweet-type-as-spec current-spec)
-  (and (not (twittering-timeline-spec-is-direct-messages-p tweet-type-as-spec))
-       (null init-str)
+(defun twittering-update-status-from-minibuffer (&optional init-string-or-skeleton reply-to-id username tweet-type current-spec)
+  (and (not (eq tweet-type 'direct-message))
+       (null init-string-or-skeleton)
        twittering-current-hashtag
-       (setq init-str (format " #%s " twittering-current-hashtag)))
+       (setq init-string-or-skeleton
+	     (format " #%s " twittering-current-hashtag)))
   (let ((status
 	 (with-temp-buffer
-	   (when init-str
-	     (insert init-str))
-	   (let ((tweet-type
-		  (cond
-		   ((twittering-timeline-spec-is-direct-messages-p
-		     tweet-type-as-spec)
-		    'direct-message)
-		   (reply-to-id
-		    'reply)
-		   (t
-		    'normal))))
-	     (twittering-edit-skeleton-insert tweet-type reply-to-id
-					      current-spec))
+	   (when init-string-or-skeleton
+	     (require 'skeleton)
+	     (cond
+	      ((stringp init-string-or-skeleton)
+	       (insert init-string-or-skeleton))
+	      ((listp init-string-or-skeleton)
+	       (skeleton-insert init-string-or-skeleton))))
+	   (twittering-edit-skeleton-insert tweet-type reply-to-id
+					    current-spec)
 	   `(,(buffer-string) . ,(point))))
-	(sign-str (if (twittering-timeline-spec-is-direct-messages-p
-		       tweet-type-as-spec)
-		      nil
-		    (twittering-sign-string)))
 	(not-posted-p t)
 	(prompt "status: ")
 	(map minibuffer-local-map)
@@ -7676,21 +7940,20 @@ instead."
     (unwind-protect
 	(while not-posted-p
 	  (setq status (read-from-minibuffer prompt status map nil 'twittering-tweet-history nil t))
-	  (let ((status-with-sign (concat status sign-str)))
-	    (if (< 140 (length status-with-sign))
+	  (let ((status status))
+	    (if (< 140 (length status))
 		(setq prompt "status (too long): ")
 	      (setq prompt "status: ")
 	      (when (twittering-status-not-blank-p status)
 		(cond
-		 ((twittering-timeline-spec-is-direct-messages-p
-		   tweet-type-as-spec)
+		 ((eq tweet-type 'direct-message)
 		  (if username
 		      (twittering-call-api 'send-direct-message
 					   `((username . ,username)
 					     (status . ,status)))
 		    (message "No username specified")))
 		 (t
-		  (let ((parameters `(("status" . ,status-with-sign)))
+		  (let ((parameters `(("status" . ,status)))
 			(as-reply
 			 (and reply-to-id
 			      username
@@ -7701,7 +7964,7 @@ instead."
 		    ;; status begins with @username.
 		    (twittering-call-api
 		     'update-status
-		     `((status . ,status-with-sign)
+		     `((status . ,status)
 		       ,@(when as-reply
 			   `((in-reply-to-status-id
 			      . ,(format "%s" reply-to-id))))))
@@ -8029,23 +8292,26 @@ instead."
 
 ;;;; Commands for posting a status
 
-(defun twittering-update-status (&optional init-str reply-to-id username tweet-type-as-spec ignore-current-spec)
+(defun twittering-update-status (&optional init-string-or-skeleton reply-to-id username tweet-type ignore-current-spec)
   "Post a tweet.
-The first argument INIT-STR is nil or an initial text to be edited.
+The first argument INIT-STRING-OR-SKELETON is nil, an initial text or a
+skeleton to be inserted with `skeleton-insert'.
 REPLY-TO-ID and USERNAME are an ID and a user-screen-name of a tweet to
 which you are going to reply. If the tweet is not a reply, they are nil.
-TWEET-TYPE-AS-SPEC is a timeline spec specifying a type of a tweet being
-edited. Now, only `(direct-messages)' and nil are available as
-TWEET-TYPE-AS-SPEC. If TWEET-TYPE-AS-SPEC is nil, it means that a tweet is
-edited as a normal tweet.
+TWEET-TYPE is a symbol meaning the type of the tweet being edited. It must
+be one of 'direct-message, 'normal, 'organic-retweet and 'reply.
+If TWEET-TYPE is nil, it is equivalent to 'normal, which means that a tweet
+is edited as a normal tweet.
 If IGNORE-CURRENT-SPEC is non-nil, the timeline spec of the current buffer
 is sent to the function specified by `twittering-update-status-function'.
 
 How to edit a tweet is determined by `twittering-update-status-funcion'."
   (let ((current-spec (unless ignore-current-spec
-			(twittering-current-timeline-spec))))
-    (funcall twittering-update-status-function init-str reply-to-id username
-	     tweet-type-as-spec current-spec)))
+			(twittering-current-timeline-spec)))
+	(tweet-type (or tweet-type 'normal)))
+    (funcall twittering-update-status-function init-string-or-skeleton
+	     reply-to-id username
+	     tweet-type current-spec)))
 
 (defun twittering-update-status-interactive ()
   (interactive)
@@ -8091,7 +8357,7 @@ How to edit a tweet is determined by `twittering-update-status-funcion'."
 		   'twittering-user-history)))
     (if (string= "" username)
 	(message "No user selected")
-      (twittering-update-status nil nil username '(direct_messages)))))
+      (twittering-update-status nil nil username 'direct-message))))
 
 (defun twittering-reply-to-user ()
   (interactive)
@@ -8157,8 +8423,16 @@ How to edit a tweet is determined by `twittering-update-status-funcion'."
 	(text (get-text-property (point) 'text))
 	(id (get-text-property (point) 'id))
 	(retweet-time (current-time))
-	(format-str (or twittering-retweet-format
-			"RT: %t (via @%s)")))
+	(skeleton-with-format-string
+	 (cond
+	  ((null twittering-retweet-format)
+	   '(nil _ " RT: %t (via @%s)"))
+	  ((stringp twittering-retweet-format)
+	   `(nil ,twittering-retweet-format _))
+	  ((listp twittering-retweet-format)
+	   twittering-retweet-format)
+	  (t
+	   nil))))
     (when username
       (let ((prefix "%")
 	    (replace-table
@@ -8175,7 +8449,12 @@ How to edit a tweet is determined by `twittering-update-status-funcion'."
 	       ))
 	    )
 	(twittering-update-status
-	 (twittering-format-string format-str prefix replace-table))
+	 (mapcar (lambda (element)
+		   (if (stringp element)
+		       (twittering-format-string element prefix replace-table)
+		     element))
+		 skeleton-with-format-string)
+	 nil nil 'organic-retweet)
 	))))
 
 (defun twittering-native-retweet ()
@@ -8215,26 +8494,29 @@ How to edit a tweet is determined by `twittering-update-status-funcion'."
 
 (defun twittering-enter ()
   (interactive)
-  (let ((username (get-text-property (point) 'username))
-	(id (twittering-get-id-at (point)))
-	(uri (get-text-property (point) 'uri))
-	(spec (get-text-property (point) 'source-spec))
-	(screen-name-in-text
-	 (get-text-property (point) 'screen-name-in-text)))
+  (let* ((username (get-text-property (point) 'username))
+	 (id (twittering-get-id-at (point)))
+	 (uri (get-text-property (point) 'uri))
+	 (tweet-type
+	  (cond
+	   ((twittering-timeline-spec-is-direct-messages-p
+	     (get-text-property (point) 'source-spec))
+	    'direct-message)
+	   (t
+	    'reply)))
+	 (screen-name-in-text
+	  (get-text-property (point) 'screen-name-in-text))
+	 (initial-str
+	  (when (and (not (eq tweet-type 'direct-message))
+		     (or screen-name-in-text username))
+	    (concat "@" (or screen-name-in-text username) " "))))
     (cond (screen-name-in-text
-	   (twittering-update-status
-	    (if (twittering-timeline-spec-is-direct-messages-p spec)
-		nil
-	      (concat "@" screen-name-in-text " "))
-	    id screen-name-in-text spec))
+	   (twittering-update-status initial-str
+				     id screen-name-in-text tweet-type))
 	  (uri
 	   (browse-url uri))
 	  (username
-	   (twittering-update-status
-	    (if (twittering-timeline-spec-is-direct-messages-p spec)
-		nil
-	      (concat "@" username " "))
-	    id username spec)))))
+	   (twittering-update-status initial-str id username tweet-type)))))
 
 (defun twittering-view-user-page ()
   (interactive)
@@ -8721,6 +9003,65 @@ and a tweet is pointed, the URI to the tweet is insteadly pushed."
   "Suspend twittering-mode then switch to another buffer."
   (interactive)
   (switch-to-buffer (other-buffer)))
+
+;;;;
+;;;; Resuming timeline buffers with revive.el
+;;;;
+(eval-when-compile
+  (if (require 'revive nil t)
+      (defmacro twittering-revive:prop-get-value (x y)
+	(macroexpand-all `(revive:prop-get-value ,x ,y)))
+    ;; If `revive.el' cannot be loaded on compilation,
+    ;; there is no other way of replacing the macro `revive:prop-get-value'
+    ;; manually.
+    ;; The current implementation assumes the `revive.el' 2.19.
+    (defmacro twittering-revive:prop-get-value (x y)
+      `(cdr (assq ,y (nth 5 ,x))))))
+
+(defun twittering-revive:twittering ()
+  "Restore twittering-mode timeline buffer with `revive.el'.
+The Emacs LISP program `revive.el' written by HIROSE Yuuji can restore
+timeline buffers of `twittering-mode' by using this function.
+There are two ways of configurations as follows;
+1.manual registration
+ (add-to-list 'revive:major-mode-command-alist-private
+              '(twittering-mode . twittering-revive:twittering))
+ (add-to-list 'revive:save-variables-local-private
+              '(twittering-mode twittering-timeline-spec-string))
+ (require 'revive)
+
+2.automatic registration (for revive.el 2.19)
+ (require 'revive)
+ (twittering-setup-revive)
+
+Note that (add-to-list ...) of the manual configuration must be evaluated
+before loading `revive.el' and (twittering-setup-revive) of the automatic one
+must be evaluated after loading `revive.el'.
+Since the Emacs LISP program `windows.el' written by HIROSE Yuuji
+implicitly loads `revive.el' if possible, you should also take care
+of the order of `windows.el' and the configuration."
+  (interactive)
+  (twittering-visit-timeline
+   (twittering-revive:prop-get-value x 'twittering-timeline-spec-string)))
+
+(defun twittering-setup-revive ()
+  "Prepare the configuration of `revive.el' for twittering-mode.
+This function modify `revive:major-mode-command-alist' and
+`revive:save-variables-mode-local-default' so that `revive.el' can restore
+the timeline buffers of twittering-mode.
+
+This function must be invoked after loading `revive.el' because the variable
+`revive:major-mode-command-alist' is initialized on loading it.
+Note that the current implementation assumes `revive.el' 2.19 ."
+  (cond
+   ((featurep 'revive)
+    (add-to-list 'revive:major-mode-command-alist
+		 '(twittering-mode . twittering-revive:twittering) t)
+    (add-to-list 'revive:save-variables-mode-local-default
+		 '(twittering-mode twittering-timeline-spec-string) t))
+   (t
+    (error "`revive' has not been loaded yet")
+    nil)))
 
 ;;;###autoload
 (defun twit ()
