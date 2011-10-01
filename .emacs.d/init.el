@@ -1339,24 +1339,49 @@
 (autoload 'twittering-numbering "twittering-numbering" t)
 (add-hook 'twittering-mode-hook 'twittering-numbering)
 (setq twittering-use-master-password t)
-(setq twittering-status-format "%i %S(%s)  %@:\n  %t // from %f%L %p \n\n")
-;; %s - screen_name
-;; %S - name
-;; %i - profile_image
-;; %d - description
-;; %l - location
-;; %L - " [location]"
-;; %u - url
-;; %j - user.id
-;; %p - protected?
-;; %c - created_at (raw UTC string)
-;; %C{time-format-str} - created_at (formatted with time-format-str)
-;; %@ - X seconds ago
-;; %t - text
-;; %' - truncated
-;; %f - source
-;; %# - id
+(setq twittering-status-format "%i %S(%s)    %C{%m/%d %H:%M:%S}(%@):\n  %t // %R from %f%L %p \n\n")
+;;%s - screen_name
+;;%S - name
+;;%i - profile_image
+;;%d - description
+;;%l - location
+;;%L - \" [location]\"
+;;%r - \" sent to user\" (use on direct_messages{,_sent})
+;;%r - \" in reply to user\" (use on other standard timeline)
+;;%R - \" (retweeted by user)\"
+;;%RT{...} - strings rendered only when the tweet is a retweet.
+;;           The braced strings are rendered with the information of the
+;;           retweet itself instead of that of the retweeted original tweet.
+;;           For example, %s for a retweet means who posted the original
+;;           tweet, but %RT{%s} means who retweeted it.
+;;%u - url
+;;%j - user.id
+;;%p - protected?
+;;%c - created_at (raw UTC string)
+;;%C{time-format-str} - created_at (formatted with time-format-str)
+;;%@ - X seconds ago
+;;%T - raw text
+;;%t - text filled as one paragraph
+;;%' - truncated
+;;%FACE[face-name]{...} - strings decorated with the specified face.
+;;%FILL[prefix]{...} - strings filled as a paragraph. The prefix is optional.
+;;                     You can use any other specifiers in braces.
+;;%FOLD[prefix]{...} - strings folded within the frame width.
+;;                     The prefix is optional. This keeps newlines and does not
+;;                     squeeze a series of white spaces.
+;;                     You can use any other specifiers in braces.
+;;%f - source
+;;%# - id
 
+(setq twittering-retweet-format " RT @%s: %t")
+;; "F"でお気に入り
+(define-key twittering-mode-map (kbd "F") 'twittering-favorite)
+;; "R"で公式,"Q"で非公式リツイートできるようにする
+(define-key twittering-mode-map (kbd "R") 'twittering-native-retweet)
+(define-key twittering-mode-map (kbd "Q") 'twittering-organic-retweet)
+;; "<"">"で先頭、最後尾へ移動
+(define-key twittering-mode-map (kbd "<") (lambda () (interactive) (goto-char (point-min))))
+(define-key twittering-mode-map (kbd ">") (lambda () (interactive) (goto-char (point-max))))
 
 
 
