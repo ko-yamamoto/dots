@@ -1374,17 +1374,29 @@
 ;;%# - id
 
 (setq twittering-retweet-format " RT @%s: %t")
-;; "F"でお気に入り
-(define-key twittering-mode-map (kbd "F") 'twittering-favorite)
-;; "R"で公式,"Q"で非公式リツイートできるようにする
-(define-key twittering-mode-map (kbd "R") 'twittering-native-retweet)
-(define-key twittering-mode-map (kbd "Q") 'twittering-organic-retweet)
-;; "<"">"で先頭、最後尾へ移動
-(define-key twittering-mode-map (kbd "<") (lambda () (interactive) (goto-char (point-min))))
-(define-key twittering-mode-map (kbd ">") (lambda () (interactive) (goto-char (point-max))))
 
+(add-hook 'twittering-mode-hook
+          '(lambda ()
+             ;; TwitterのWebっぽく
+             (define-key twittering-mode-map (kbd "F") 'twittering-favorite)
+             (define-key twittering-mode-map (kbd "R") 'twittering-reply-to-user)
+             (define-key twittering-mode-map (kbd "Q") 'twittering-organic-retweet)
+             (define-key twittering-mode-map (kbd "T") 'twittering-native-retweet)
+             (define-key twittering-mode-map (kbd "M") 'twittering-direct-message)
+             (define-key twittering-mode-map (kbd "N") 'twittering-update-status-interactive)
+             (define-key twittering-mode-map (kbd "C-c C-f") 'twittering-home-timeline)
+             (define-key twittering-mode-map (kbd "C-c C-r") 'twittering-replies-timeline)
+             (define-key twittering-mode-map (kbd "C-c C-m") 'twittering-direct-messages-timeline)
+             ;; "<"">"で先頭、最後尾へ移動
+             (define-key twittering-mode-map (kbd "<") (lambda () (interactive) (goto-char (point-min))))
+             (define-key twittering-mode-map (kbd ">") (lambda () (interactive) (goto-char (point-max))))))
 
-
+;; 自動スクロールしない
+(setq twittering-scroll-mode nil)
+;; 起動時に読み込むタイムライン
+(setq twittering-initial-timeline-spec-string
+      '(":replies"
+        ":home"))
 
 
 ;;====================
