@@ -1339,7 +1339,7 @@
 (autoload 'twittering-numbering "twittering-numbering" t)
 (add-hook 'twittering-mode-hook 'twittering-numbering)
 (setq twittering-use-master-password t)
-(setq twittering-status-format "%i %S(%s)    %C{%m/%d %H:%M:%S}(%@):\n  %t // %R from %f%L %p \n\n")
+(setq twittering-status-format "%i %S(%s) %R    %C{%m/%d %H:%M:%S}(%@) from %f%L %p \n  %t \n\n")
 ;;%s - screen_name
 ;;%S - name
 ;;%i - profile_image
