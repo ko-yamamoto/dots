@@ -12,16 +12,16 @@
 
 (defface jaunte-hint-face
   '((t
-     (:foreground "white"
-      :background "gray15"
+     (:foreground "black"
+      :background "SkyBlue"
       :italic nil
       :bold nil)))
   nil)
 
 (defface jaunte-hint-face2
   '((t
-     (:foreground "white"
-      :background "gray15"
+     (:foreground "black"
+      :background "SkyBlue"
       :italic nil
       :bold nil)))
   nil)
