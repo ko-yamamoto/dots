@@ -1343,8 +1343,8 @@
 ;; https://github.com/pft/elisp-assorted/blob/master/twittering-numbering.el
 ;; twittering-mode
 (require 'twittering-mode)
-(autoload 'twittering-numbering "twittering-numbering" t)
-(add-hook 'twittering-mode-hook 'twittering-numbering)
+;; (autoload 'twittering-numbering "twittering-numbering" t)
+;; (add-hook 'twittering-mode-hook 'twittering-numbering)
 (setq twittering-use-master-password t)
 (setq twittering-status-format "%i %S(%s) %R    %C{%m/%d %H:%M:%S}(%@) from %f%L %p \n  %t \n\n")
 ;;%s - screen_name
