@@ -695,14 +695,14 @@
   (setq default-frame-alist initial-frame-alist)
 
 
-  
+
   ;; フォント設定
   (when window-system
-    (set-default-font "VL Gothic:pixelsize=13" t)
-    ;; (add-to-list 'default-frame-alist '(font . "VL Gothic:pixelsize=13")) 
-    (add-to-list 'default-frame-alist '(font . "MeiryoKe_Console:pixelsize=13"))
+    (set-default-font "VL Gothic:pixelsize=12" t)
+    ;; (add-to-list 'default-frame-alist '(font . "VL Gothic:pixelsize=12"))
+    (add-to-list 'default-frame-alist '(font . "MeiryoKe_Console:pixelsize=12"))
     (set-default-coding-systems 'utf-8))
-  
+
   ;; プロクシの設定
   ;; (setq url-proxy-services '(("http" . "192.168.1.8:8080"))) 
 
@@ -842,6 +842,24 @@
 (require 'clojure-mode)
 (add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
 (autoload 'clojure-mode "clojure-mode" "A major mode for Clojure" t)
+
+
+
+
+
+;;====================
+;; bat-mode
+;;====================
+(setq auto-mode-alist 
+       (append 
+        (list (cons "\\.[bB][aA][tT]$" 'bat-mode))
+        ;; For DOS init files
+        (list (cons "CONFIG\\."   'bat-mode))
+        (list (cons "AUTOEXEC\\." 'bat-mode))
+        auto-mode-alist))
+
+(autoload 'bat-mode "bat-mode"
+      "DOS and Windows BAT files" t)
 
 
 ;; ---------------------------------------------------------------------------------
