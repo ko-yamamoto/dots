@@ -45,7 +45,7 @@ export LANG=ja_JP.UTF-8
 # export PATH=$PATH:/bin:/usr/local/bin:/Users/nishikawasasaki/bin:/Users/nishikawasasaki/android/android-sdk-mac_x86/tools:/Users/nishikawasasaki/android/android-sdk-mac_x86/platform-tools
 
 #Python
-alias python='python2.7'
+# alias python='python2.7'
 
 
 # JAVA

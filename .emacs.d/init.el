@@ -859,6 +859,29 @@
 (autoload 'bat-mode "bat-mode"
       "DOS and Windows BAT files" t)
 
+;;====================
+;; js2-mode
+;;====================
+(autoload 'js2-mode "js2" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+
+(setq-default c-basic-offset 4)
+
+(when (load "js2" t)
+  (setq ;js2-cleanup-whitespace nil
+        js2-mirror-mode nil
+        js2-bounce-indent-flag nil)
+
+  (defun indent-and-back-to-indentation ()
+    (interactive)
+    (indent-for-tab-command)
+    (let ((point-of-indentation
+           (save-excursion
+             (back-to-indentation)
+             (point))))
+      (skip-chars-forward "\s " point-of-indentation)))
+  (define-key js2-mode-map "\C-i" 'indent-and-back-to-indentation))
+
 
 ;; ---------------------------------------------------------------------------------
 ;; elisp Settings
@@ -1035,7 +1058,7 @@
 (setq ac-auto-start nil) ; 自動的に開始しない
 
 ;; コンテキストに応じてTABで補完
-(ac-set-trigger-key "TAB") 
+(ac-set-trigger-key "TAB")
 ;; 補完確定
 (define-key ac-complete-mode-map "RET" 'ac-complete)
 
@@ -1060,7 +1083,7 @@
 
 
 ;; 補完の情報源
-(setq-default ac-sources '(ac-source-words-in-same-mode-buffers ac-source-filename ac-source-symbols)) 
+(setq-default ac-sources '(ac-source-filename ac-source-words-in-same-mode-buffers ac-source-symbols))
 ;; 補完するモードの追加
 (setq ac-modes (append ac-modes '(text-mode sql-mode scala-mode)))
 
@@ -1708,6 +1731,14 @@
 
 
 
+;;====================
+;; popup-select-window.el
+;;====================
+(require 'popup)
+(require 'popup-select-window)
+(global-set-key "\C-xo" 'popup-select-window)
+;; モードラインハイライトをオフ
+(setq popup-select-window-use-modeline-highlight nil)
 
 
 
@@ -1722,6 +1753,10 @@
 (color-theme-ns-w2)
 ;; (color-theme-ns)
 ;; (color-theme-tangotango)
+
+;; ウィンドウを透明化
+;; (add-to-list 'default-frame-alist '(alpha . (0.75 0.75)))
+
 ;; キーワードのカラー表示を有効化
 (global-font-lock-mode t)
 
@@ -1771,14 +1806,8 @@
 ;; 対応するカッコをハイライト
 (show-paren-mode 1)
 
-
 ;; ハイライト
 (transient-mark-mode t)
-
-
-;; ウィンドウを透明化
-;;(add-to-list 'default-frame-alist '(alpha . (0.95 0.95)))
-
 
 ;; 行数表示
 (global-set-key "\M-n" 'linum-mode)
