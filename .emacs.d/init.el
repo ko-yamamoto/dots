@@ -5,6 +5,7 @@
 ;; 環境切り分け用の定義作成
 (defvar is_emacs22 (equal emacs-major-version 22))
 (defvar is_emacs23 (equal emacs-major-version 23))
+(defvar is_emacs24 (equal emacs-major-version 24))
 (defvar is_window-sys (not (eq (symbol-value 'window-system) nil)))
 ;; Mac全般のとき
 (defvar is_mac (or (eq window-system 'mac) (featurep 'ns)))
@@ -29,11 +30,11 @@
 
 ;; マウスの右クリックの割り当て(押しながらの操作)をはずす
 (if window-system (progn
-                    (global-unset-key [down-mouse-3])
-                    ;; マウスの右クリックメニューを使えるようにする
-                    (defun bingalls-edit-menu (event)  (interactive "e")
-                      (popup-menu menu-bar-edit-menu))
-                    (global-set-key [mouse-3] 'bingalls-edit-menu)))
+	    (global-unset-key [down-mouse-3])
+;; マウスの右クリックメニューを使えるようにする
+(defun bingalls-edit-menu (event)  (interactive "e")
+	(popup-menu menu-bar-edit-menu))
+	(global-set-key [mouse-3] 'bingalls-edit-menu)))
 
 ;; C-hをヘルプから外すための設定
 (load "term/bobcat")
@@ -47,7 +48,7 @@
   (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
       (normal-top-level-add-subdirs-to-load-path)))
 
-;; emacs.d/elpa以下を再帰的にload-pathへ追加
+;; package.elでインストールしたelispをload-pathへ追加
 (let ((default-directory (expand-file-name "~/.emacs.d/elpa")))
   (add-to-list 'load-path default-directory)
   (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
@@ -553,9 +554,9 @@
 
 
 
-                                        ;----------------------------------
+;----------------------------------
 ;; etags の追加関数(タグファイルの作成)
-                                        ;----------------------------------
+;----------------------------------
 ;; (defadvice find-tag (before c-tag-file activate)
 ;;   "Automatically create tags file."
 ;;   (let ((tag-file (concat default-directory "TAGS")))
@@ -645,7 +646,7 @@
   ;; (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
 
-  ;; (define-key global-map [?¥] [?\\])  ;; ¥の代わりにバックスラッシュを入力する
+  ;; (define-key global-map [?\] [?\\])  ;; \の代わりにバックスラッシュを入力する
 
 
 
@@ -675,20 +676,16 @@
     (when (and (file-exists-p dir) (not (member dir exec-path)))
       (setenv "PATH" (concat dir ":" (getenv "PATH")))
       (setq exec-path (append (list dir) exec-path))))
-  
-  ;; ツールバーを消す
-  (tool-bar-mode nil)
-  
-  ;; ファイル名の文字コード指定
-  (setq file-name-coding-system 'shift_jis)
 
+    ;; ファイル名の文字コード指定
+    (setq file-name-coding-system 'shift_jis)
 
   ;; ウィンドウサイズ設定
   (setq initial-frame-alist
         (append (list
-                 '(width . 140) ;; ウィンドウ幅
-                 '(height . 50) ;; ウィンドウ高さ
-                 '(top . 60) ;; 表示位置
+                 '(width . 130) ;; ウィンドウ幅
+                 '(height . 40) ;; ウィンドウ高さ
+                 '(top . 50) ;; 表示位置
                  '(left . 50) ;; 表示位置
                  )
                 initial-frame-alist))
@@ -699,8 +696,9 @@
   ;; フォント設定
   (when window-system
     (set-default-font "VL Gothic:pixelsize=12" t)
-    ;; (add-to-list 'default-frame-alist '(font . "VL Gothic:pixelsize=12"))
-    (add-to-list 'default-frame-alist '(font . "MeiryoKe_Console:pixelsize=12"))
+    (add-to-list 'default-frame-alist '(font . "VL Gothic:pixelsize=12"))
+    ;; (add-to-list 'default-frame-alist '(font . "MeiryoKe_Console:pixelsize=12"))
+    ;; (add-to-list 'default-frame-alist '(font . "ShinGoPro-Medium:pixelsize=11"))
     (set-default-coding-systems 'utf-8))
 
   ;; プロクシの設定
@@ -884,18 +882,19 @@
 
 
 ;;====================
-;; package-install.el
+;; package.el
 ;;====================
-;;; This was installed by package-install.el.
-;;; This provides support for the package system and
-;;; interfacing with ELPA, the package archive.
-;;; Move this code earlier if you want to reference
-;;; packages in your .emacs.
-(when
-    (load
-     (expand-file-name "~/.emacs.d/elpa/package.el"))
-  (package-initialize))
 
+(when is_emacs24
+  (require 'package)
+  (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+
+  ;; インストールする場所
+  (setq package-user-dir (concat user-emacs-directory "elpa"))
+
+  ;;インストールしたパッケージにロードパスを通してロードする
+  (package-initialize)
+)
 
 
 
@@ -1184,6 +1183,9 @@
                 ("*slime-description*")
                 ("*slime-compilation*" :noselect t)
                 ("*slime-xref*")
+                ("*slime-repl clojure*" :height 30)
+                ("*slime-repl ccl*" :height 30)
+                ("\\*sldb clojure*" :regexp t :height 30)
                 (sldb-mode :stick t)
                 (slime-repl-mode)
                 (slime-connection-list-mode)
@@ -1658,29 +1660,80 @@
 (add-hook 'rst-mode-hook '(lambda() (setq indent-tabs-mode nil)))
 
 
+;;====================
+;; scratch-log.el
+;;====================
+(require 'scratch-log)
+;; (setq sl-scratch-log-file "~/.emacs.d/.scratch-log")
+;; (setq sl-prev-scratch-string-file "~/.emacs.d/.scratch-log-prev")
+
+;; nil なら emacs 起動時に，最後に終了したときの スクラッチバッファの内容を復元しない。初期値は t です。
+;; (setq sl-restore-scratch-p nil)
+;; nil なら スクラッチバッファを削除できるままにする。初期値は t です。
+;; (setq sl-prohibit-kill-scratch-buffer-p nil)
+
+;;====================
+;; dial-scroll.el
+;;====================
+(require 'dial-scroll)
+
+
+;;====================
+;; gtags
+;;====================
+(when (locate-library "gtags")
+  (require 'gtags)
+)
+
+(global-set-key "\M-t" 'gtags-find-tag)     ;関数の定義元へ
+(global-set-key "\M-r" 'gtags-find-rtag)    ;関数の参照先へ
+(global-set-key "\M-s" 'gtags-find-symbol)  ;変数の定義元/参照先へ
+(global-set-key "\M-p" 'gtags-find-pattern)
+(global-set-key "\M-f" 'gtags-find-file)    ;ファイルにジャンプ
+(global-set-key [?\C-,] 'gtags-pop-stack)   ;前のバッファに戻る
+
+(setq gtags-mode-hook
+      '(lambda ()
+         (setq gtags-select-buffer-single t)
+         ))
+
+
+;;====================
+;; smartchr.el
+;;====================
+(require 'smartchr)
+(global-set-key (kbd ">") (smartchr '(">" " -> " " => " " -> '`!!''" " -> \"`!!'\"" " => '`!!''" " => \"`!!'\"" "")))
+(global-set-key (kbd "\"") (smartchr '("\"" "\"`!!'\"" "'" "'`!!''" "")))
+(global-set-key (kbd "G") (smartchr '("G" "ありがとうございます" "`!!'ありがとうございます" "")))
+
+
+
+
+
 
 ;; ---------------------------------------------------------------------------------
-;; Visual Settings 
+;; Visual Settings
 ;; ---------------------------------------------------------------------------------
 
 ;; color-themeの設定
 (require 'color-theme)
 (color-theme-initialize)
-(color-theme-ns)
-;; (color-theme-tangotango) 
+;; (color-theme-andreas)
+(color-theme-ns-w2)
+;; (color-theme-ns)
+;; (color-theme-tangotango)
 ;; キーワードのカラー表示を有効化
 (global-font-lock-mode t)
-
 
 ;; 選択範囲をハイライト
 (setq-default transient-mark-mode t)
 
 
 ;; モードライン (mode-line-format)での書式記号
-;; %b -- print buffer name.      
+;; %b -- print buffer name.
 ;; %f -- print visited file name.
 ;; %F -- print frame name.
-;; %* -- print %, * or hyphen.   
+;; %* -- print %, * or hyphen.
 ;; %+ -- print *, % or hyphen.
 ;;       %& is like %*, but ignore read-only-ness.
 ;;       % means buffer is read-only and * means it is modified.
@@ -1699,10 +1752,10 @@
 ;; %e -- print error message about full memory.
 ;; %@ -- print @ or hyphen.  @ means that default-directory is on a remote machine.
 ;; %[ -- print one [ for each recursive editing level.  %] similar.
-;; %% -- print %.   
-;; %- -- print infinitely many dashes.	
+;; %% -- print %.
+;; %- -- print infinitely many dashes.
 ;; モードライン
-(setq-default mode-line-format 
+(setq-default mode-line-format
               (list "%*["
                     'mode-line-mule-info
                     "] L%l:C%c %P   %b   (%m"
@@ -1724,7 +1777,7 @@
 
 
 ;; ウィンドウを透明化
-(add-to-list 'default-frame-alist '(alpha . (0.80 0.80)))
+;;(add-to-list 'default-frame-alist '(alpha . (0.95 0.95)))
 
 
 ;; 行数表示
@@ -1742,7 +1795,8 @@
      (:background "grey15"))
     (((class color)
       (background light))
-     (:background "DarkOliveGreen1"))
+;;     (:background "lemon chiffon"))
+     (:background "#e8ff9e"))
     (t
      ()))
   "*Face used by hl-line.")
@@ -1756,10 +1810,10 @@
 
 
 ;; タブ, 全角スペース, 行末空白表示
-(defface my-face-b-1 '((t (:background "NavajoWhite4"))) nil) ; 全角スペース
-(defface my-face-b-2 '((t (:background "gray10"))) nil) ; タブ
+(defface my-face-b-1 '((t (:background "#FFFF99"))) nil) ; 全角スペース
+(defface my-face-b-2 '((t (:background "#FFFF99"))) nil) ; タブ
 ;;(defface my-face-u-1 '((t (:background "SteelBlue" :underline t))) nil) ; 行末空白
-(defface my-face-u-1 '((t (:background "SteelBlue"))) nil) ; 行末空白
+(defface my-face-u-1 '((t (:background "#FFFF99"))) nil) ; 行末空白
 (defvar my-face-b-1 'my-face-b-1)
 (defvar my-face-b-2 'my-face-b-2)
 (defvar my-face-u-1 'my-face-u-1)
@@ -1781,3 +1835,11 @@
   "Return face used at point."
   (interactive)
   (message "%s" (get-char-property (point) 'face)))
+
+;; ツールバーを消す
+(cond
+ (is_emacs23
+  (menu-bar-mode nil))
+ (is_emacs24
+  (tool-bar-mode 0)))
+

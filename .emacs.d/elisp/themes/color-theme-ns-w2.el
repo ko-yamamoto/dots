@@ -1,17 +1,26 @@
+;;; Emacs Color Theme 'ns-w2'
+;; https://gist.github.com/1273803
+;; This file is NOT part of GNU Emacs.
+;; ver. 1.0
+;; 2011/10/10(yyyy/mm/dd)
+
 
 (eval-when-compile
   (require 'color-theme))
 
-(defun color-theme-ns-w ()
+(defun color-theme-ns-w2 ()
   (interactive)
   (color-theme-install
    '(color-theme-andreas
      ((background-mode . light)
-      (background-color . "#FFFFFF")
+;;       (background-color . "#000000")
+      (background-color . "#fffde6")
+;;      (background-color . "#fff0f0") ; sweets-mode
       (background-toolbar-color . "#cccccccccccc")
       (border-color . "#000000000000")
       (bottom-toolbar-shadow-color . "#7a7a7a7a7a7a")
       (foreground-color . "black")
+      (cursor-color . "DarkOrange")
       (top-toolbar-shadow-color . "#f5f5f5f5f5f5"))
      ((gnus-mouse-face . highlight)
       (ispell-highlight-face . highlight))
@@ -31,6 +40,44 @@
      (color-mode-face-f ((t (:background "blue" :foreground "yellow"))))
      (color-mode-face-g ((t (:background "lightblue" :foreground "brown"))))
      (color-mode-face-h ((t (:background "brown" :foreground "white"))))
+
+     (font-lock-comment-face ((t (:foreground "grey50"))))
+     (font-lock-doc-string-face ((t (:foreground "orange3"))))
+     (font-lock-function-name-face ((t (:foreground "OrangeRed"))))
+;;     (font-lock-keyword-face ((t (:foreground "red1"))))
+     (font-lock-keyword-face ((t (:foreground "DodgerBlue3"))))
+     (font-lock-preprocessor-face ((t (:foreground "#9999FF"))))
+     (font-lock-reference-face ((t (:foreground "#FF9999"))))
+     (font-lock-string-face ((t (:foreground "chartreuse3"))))
+     (font-lock-type-face ((t (:foreground "#CC99FF"))))
+     (font-lock-variable-name-face ((t (:foreground "orange1"))))
+     (font-lock-warning-face ((t (:bold t :foreground "Red"))))
+     (font-lock-builtin-face ((t (:foreground "SteelBlue1"))))
+     (font-lock-constant-face ((t (:foreground "OrangeRed3"))))
+
+     (region ((t (:background "#ffe59e"))))
+
+     (fringe ((t (:background "#fffde6"))))
+
+     (modeline ((t (:background "#99CCFF" :foreground "Black"))))
+     (modeline-buffer-id ((t (:background "#99CCFF" :foreground "Black"))))
+     (modeline-mousable ((t (:background "#99CCFF" :foreground "firebrick"))))
+     (modeline-mousable-minor-mode ((t (:background "#99CCFF" :foreground "green4"))))
+
+     (isearch ((t (:background "#ffe59e"))))
+     (isearch-lazy-highlight-face ((t (:background "#CCFF99"))))
+     (match ((t (:bold t :background "#CCFF99" :foreground "#2e3436"))))
+
+     (show-paren-match-face ((t (:background "#99CCFF"))))
+     (show-paren-mismatch-face ((t (:background "OrangeRed" :foreground "#FFFFFF"))))
+
+     (eshell-prompt ((t (:foreground "SteelBlue1"))))
+     (eshell-ls-directory ((t (:foreground "chartreuse3"))))
+     (eshell-ls-executable ((t (:foreground "OrangeRed"))))
+     (eshell-ls-archive ((t (:foreground "#CC99FF"))))
+
+     (twittering-uri-face ((t (:foreground "OrangeRed"))))
+
      (custom-button-face ((t (:bold t))))
      (custom-changed-face ((t (:background "blue" :foreground "white"))))
      (custom-documentation-face ((t (nil))))
@@ -51,19 +98,6 @@
      (display-time-time-balloon-face ((t (:foreground "red"))))
      (emacs-wiki-bad-link-face ((t (:bold t :foreground "red"))))
      (emacs-wiki-link-face ((t (:bold t :foreground "green"))))
-     (font-lock-comment-face ((t (:foreground "orange1"))))
-     (font-lock-doc-string-face ((t (:foreground "orange3"))))
-     (font-lock-function-name-face ((t (:foreground "#edd400"))))
-;;     (font-lock-keyword-face ((t (:foreground "red1"))))
-     (font-lock-keyword-face ((t (:foreground "DodgerBlue3"))))
-     (font-lock-preprocessor-face ((t (:foreground "blue3"))))
-     (font-lock-reference-face ((t (:foreground "red3"))))
-     (font-lock-string-face ((t (:foreground "chartreuse3"))))
-     (font-lock-type-face ((t (:foreground "#6920ac"))))
-     (font-lock-variable-name-face ((t (:foreground "OrangeRed"))))
-     (font-lock-warning-face ((t (:bold t :foreground "Red"))))
-     (font-lock-builtin-face ((t (:foreground "SteelBlue1"))))
-     (font-lock-constant-face ((t (:foreground "OrangeRed3"))))
      (gnu-cite-face-3 ((t (nil))))
      (gnu-cite-face-4 ((t (nil))))
      (gnus-cite-attribution-face ((t (:underline t))))
@@ -142,7 +176,6 @@
      (hyper-apropos-warning ((t (:bold t :foreground "red"))))
      (info-node ((t (:italic t :bold t))))
      (info-xref ((t (:bold t))))
-     (isearch ((t (:background "yellow" :foreground "red"))))
      (italic ((t (:italic t))))
      (kai-gnus-cite-face-1 ((t (:foreground "LightCyan4"))))
      (kai-gnus-cite-face-2 ((t (:foreground "LightSkyBlue2"))))
@@ -166,17 +199,9 @@
      (message-highlighted-header-contents ((t (:italic t :bold t))))
      (message-mml-face ((t (:foreground "ForestGreen"))))
      (message-separator-face ((t (:foreground "brown"))))
-     (modeline ((t (:background "chartreuse1" :foreground "Black"))))
-     (modeline-buffer-id ((t (:background "chartreuse1" :foreground "Black"))))
-     (modeline-mousable ((t (:background "chartreuse1" :foreground "firebrick"))))
-     (modeline-mousable-minor-mode ((t (:background "chartreuse1" :foreground "green4"))))
-     (paren-blink-off ((t (:foreground "gray80"))))
-     (paren-match ((t (:background "red" :foreground "white"))))
-     (paren-mismatch ((t (:background "DeepPink"))))
      (pointer ((t (:foreground "blue"))))
      (primary-selection ((t (:background "gray65"))))
      (red ((t (:foreground "red"))))
-     (region ((t (:background "gray75"))))
      (right-margin ((t (nil))))
      (secondary-selection ((t (:background "paleturquoise"))))
      (text-cursor ((t (:background "red" :foreground "LightYellow1"))))
@@ -192,4 +217,4 @@
      (yellow ((t (:foreground "yellow"))))
      (zmacs-region ((t (:background "gray65" :foreground "yellow")))))))
 
-(provide 'color-theme-ns-w)
+(provide 'color-theme-ns-w2)
