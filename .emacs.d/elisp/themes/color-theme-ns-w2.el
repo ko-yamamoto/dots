@@ -49,7 +49,7 @@
      (font-lock-preprocessor-face ((t (:foreground "#9999FF"))))
      (font-lock-reference-face ((t (:foreground "#FF9999"))))
      (font-lock-string-face ((t (:foreground "chartreuse3"))))
-     (font-lock-type-face ((t (:foreground "#CC99FF"))))
+     (font-lock-type-face ((t (:foreground "DarkViolet"))))
      (font-lock-variable-name-face ((t (:foreground "orange1"))))
      (font-lock-warning-face ((t (:bold t :foreground "Red"))))
      (font-lock-builtin-face ((t (:foreground "SteelBlue1"))))

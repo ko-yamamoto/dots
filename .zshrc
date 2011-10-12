@@ -162,7 +162,7 @@ setopt auto_cd
 setopt auto_pushd
 
 # cdしたらls
-function chpwd(){ls}
+function chpwd(){ls --color}
 
 # コマンド入力ミス指摘
 setopt correct
