@@ -1,4 +1,6 @@
-;;;; anything.el --- open anything / QuickSilver-like candidate-selection framework
+;;; anything.el --- open anything / QuickSilver-like candidate-selection framework
+;; Adding to marmalade Jan 18, 2011:
+;; Version: 1.287
 
 ;; Copyright (C) 2007              Tamas Patrovics
 ;;               2008, 2009, 2010  rubikitch <rubikitch@ruby-lang.org>
@@ -116,8 +118,6 @@
 ;;    Invoke default action with digit/alphabet shortcut.
 ;;  `anything-exit-minibuffer'
 ;;    Select the current candidate by exiting the minibuffer.
-;;  `anything-keyboard-quit'
-;;    Quit minibuffer in anything.
 ;;  `anything-help'
 ;;    Help of `anything'.
 ;;  `anything-debug-output'
@@ -625,7 +625,6 @@ See also `anything-set-source-filter'.")
     (define-key map (kbd "C-v")     'anything-next-page)
     (define-key map (kbd "M-<")     'anything-beginning-of-buffer)
     (define-key map (kbd "M->")     'anything-end-of-buffer)
-    (define-key map (kbd "C-g")     'anything-keyboard-quit)
     (define-key map (kbd "<right>") 'anything-next-source)
     (define-key map (kbd "<left>") 'anything-previous-source)
     (define-key map (kbd "<RET>") 'anything-exit-minibuffer)
@@ -1272,15 +1271,11 @@ The action is to call FUNCTION with arguments ARGS."
   (apply 'run-with-idle-timer 0 nil function args)
   (anything-exit-minibuffer))
 
-
 (defun define-anything-type-attribute (type definition &optional doc)
   "Register type attribute of TYPE as DEFINITION with DOC.
 DOC is displayed in `anything-type-attributes' docstring.
 
 Use this function is better than setting `anything-type-attributes' directly."
-  (loop for i in definition do
-        ;; without `ignore-errors', error at emacs22
-        (ignore-errors (setf i (delete nil i))))
   (anything-add-type-attribute type definition)
   (and doc (anything-document-type-attribute type doc))
   nil)
@@ -1701,32 +1696,29 @@ It is needed because restoring position when `anything' is keyboard-quitted.")
   (anything-create-anything-buffer)
   (anything-log-run-hook 'anything-after-initialize-hook))
 
-(defvar anything-reading-pattern nil
-  "Whether in `read-string' in anything or not.")
 (defun anything-read-pattern-maybe (any-prompt any-input any-preselect any-resume any-keymap)
   (if (anything-resume-p any-resume)
       (anything-mark-current-line)
     (anything-update))
   (select-frame-set-input-focus (window-frame (minibuffer-window)))
   (anything-preselect any-preselect)
-  (with-current-buffer (anything-buffer-get)
-    (and any-keymap (set (make-local-variable 'anything-map) any-keymap))
-    (let ((minibuffer-local-map
-           anything-map))
-      (anything-log-eval (anything-approximate-candidate-number)
-                         anything-execute-action-at-once-if-one
-                         anything-quit-if-no-candidate)
-      (cond ((and anything-execute-action-at-once-if-one
-                  (= (anything-approximate-candidate-number) 1))
-             (ignore))
-            ((and anything-quit-if-no-candidate
-                  (= (anything-approximate-candidate-number) 0))
-             (setq anything-quit t)
-             (and (functionp anything-quit-if-no-candidate)
-                  (funcall anything-quit-if-no-candidate)))
-            (t
-             (let ((anything-reading-pattern t))
-               (read-string (or any-prompt "pattern: ") any-input)))))))
+  (let ((minibuffer-local-map
+         (with-current-buffer (anything-buffer-get)
+           (and any-keymap (set (make-local-variable 'anything-map) any-keymap))
+           anything-map)))
+    (anything-log-eval (anything-approximate-candidate-number)
+                       anything-execute-action-at-once-if-one
+                       anything-quit-if-no-candidate)
+    (cond ((and anything-execute-action-at-once-if-one
+                (= (anything-approximate-candidate-number) 1))
+           (ignore))
+          ((and anything-quit-if-no-candidate
+                (= (anything-approximate-candidate-number) 0))
+           (setq anything-quit t)
+           (and (functionp anything-quit-if-no-candidate)
+                (funcall anything-quit-if-no-candidate)))
+          (t
+           (read-string (or any-prompt "pattern: ") any-input)))))
 
 (defun anything-create-anything-buffer (&optional test-mode)
   "Create newly created `anything-buffer'.
@@ -1736,14 +1728,12 @@ If TEST-MODE is non-nil, clear `anything-candidate-cache'."
   (with-current-buffer (get-buffer-create anything-buffer)
     (anything-log "kill local variables: %S" (buffer-local-variables))
     (kill-all-local-variables)
-    (set (make-local-variable 'inhibit-read-only) t)
     (buffer-disable-undo)
     (erase-buffer)
     (set (make-local-variable 'inhibit-read-only) t)
     (set (make-local-variable 'anything-last-sources-local) anything-sources)
     (set (make-local-variable 'anything-follow-mode) nil)
     (set (make-local-variable 'anything-display-function) anything-display-function)
-    (anything-initialize-persistent-action)
     (anything-log-eval anything-display-function anything-let-variables)
     (loop for (var . val) in anything-let-variables
           do (set (make-local-variable var) val))
@@ -2012,19 +2002,18 @@ if ITEM-COUNT reaches LIMIT, exit from inner loop."
     matches))
 
 (defun anything-compute-matches-internal (source)
-  (save-current-buffer
-    (let ((matchfns (anything-match-functions source))
-          (anything-source-name (assoc-default 'name source))
-          (limit (anything-candidate-number-limit source))
-          (anything-pattern (anything-process-pattern-transformer
-                             anything-pattern source)))
-      (anything-process-filtered-candidate-transformer
-       (if (or (equal anything-pattern "") (equal matchfns '(identity)))
-           (anything-take-first-elements
-            (anything-get-cached-candidates source) limit)
-         (anything-match-from-candidates
-          (anything-get-cached-candidates source) matchfns limit))
-       source))))
+  (let ((matchfns (anything-match-functions source))
+        (anything-source-name (assoc-default 'name source))
+        (limit (anything-candidate-number-limit source))
+        (anything-pattern (anything-process-pattern-transformer
+                           anything-pattern source)))
+    (anything-process-filtered-candidate-transformer
+     (if (or (equal anything-pattern "") (equal matchfns '(identity)))
+         (anything-take-first-elements
+          (anything-get-cached-candidates source) limit)
+       (anything-match-from-candidates
+        (anything-get-cached-candidates source) matchfns limit))
+     source)))
 
 ;; (anything '(((name . "error")(candidates . (lambda () (hage))) (action . identity))))
 
@@ -2303,11 +2292,10 @@ the real value in a text property."
 (defun anything-output-filter--post-process ()
   (anything-maybe-fit-frame)
   (anything-log-run-hook 'anything-update-hook)
-  (anything-aif (get-buffer-window anything-buffer 'visible)
-      (save-selected-window
-        (select-window it)
-        (anything-skip-noncandidate-line 'next)
-        (anything-mark-current-line))))
+  (save-selected-window
+    (select-window (get-buffer-window anything-buffer 'visible))
+    (anything-skip-noncandidate-line 'next)
+    (anything-mark-current-line)))
 
 
 (defun anything-kill-async-processes ()
@@ -2603,14 +2591,6 @@ UNIT and DIRECTION."
   (setq anything-iswitchb-candidate-selected (anything-get-selection))
   (exit-minibuffer))
 
-(defun anything-keyboard-quit ()
-  "Quit minibuffer in anything.
-
-If action buffer is displayed, kill it."
-  (interactive)
-  (when (get-buffer-window anything-action-buffer 'visible)
-    (kill-buffer anything-action-buffer))
-  (abort-recursive-edit))
 
 (defun anything-get-next-header-pos ()
   "Return the position of the next header from point."
@@ -3127,16 +3107,15 @@ Otherwise goto the end of minibuffer."
      ,@body))
 (put 'with-anything-display-same-window 'lisp-indent-function 0)
 
-(defvar anything-persistent-action-display-window nil)
-(defun anything-initialize-persistent-action ()
-  (set (make-local-variable 'anything-persistent-action-display-window) nil))
-
 (defun* anything-execute-persistent-action (&optional (attr 'persistent-action))
   "If a candidate is selected then perform the associated action without quitting anything."
   (interactive)
   (anything-log "executing persistent-action")
   (save-selected-window
-    (anything-select-persistent-action-window)
+    (select-window (get-buffer-window (anything-buffer-get)))
+    (select-window (setq minibuffer-scroll-window
+                         (if (one-window-p t) (split-window)
+                           (next-window (selected-window) 1))))
     (anything-log-eval (current-buffer))
     (let ((anything-in-persistent-action t))
       (with-anything-display-same-window
@@ -3146,22 +3125,6 @@ Otherwise goto the end of minibuffer."
              (anything-get-action))
          t)
         (anything-log-run-hook 'anything-after-persistent-action-hook)))))
-
-(defun anything-persistent-action-display-window ()
-  (with-current-buffer anything-buffer
-    (setq anything-persistent-action-display-window
-          (cond ((window-live-p anything-persistent-action-display-window)
-                 anything-persistent-action-display-window)
-                ((and anything-samewindow (one-window-p t))
-                 (split-window))
-                ((get-buffer-window anything-current-buffer))
-                (t
-                 (next-window (selected-window) 1))))))
-
-(defun anything-select-persistent-action-window ()
-  (select-window (get-buffer-window (anything-buffer-get)))
-  (select-window
-   (setq minibuffer-scroll-window (anything-persistent-action-display-window))))
 
 (defun anything-persistent-action-display-buffer (buf &optional not-this-window)
   "Make `pop-to-buffer' and `display-buffer' display in the same window in persistent action.
@@ -3183,7 +3146,11 @@ Otherwise ignores `special-display-buffer-names' and `special-display-regexps'."
 
 ;; scroll-other-window(-down)? for persistent-action
 (defun anything-scroll-other-window-base (command)
-  (with-selected-window (anything-persistent-action-display-window)
+  (save-selected-window
+    (select-window
+     (some-window
+      (lambda (w) (not (string= anything-buffer (buffer-name (window-buffer w)))))
+      'no-minibuffer 'current-frame))
     (funcall command anything-scroll-amount)))
 
 (defun anything-scroll-other-window ()
@@ -6106,7 +6073,4 @@ Given pseudo `anything-sources' and `anything-pattern', returns list like
 (provide 'anything)
 ;; How to save (DO NOT REMOVE!!)
 ;; (progn (magit-push) (emacswiki-post "anything.el"))
-;; Local Variables:
-;; coding: utf-8
-;; End:
 ;;; anything.el ends here
