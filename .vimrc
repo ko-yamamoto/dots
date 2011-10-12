@@ -43,6 +43,8 @@ Bundle 'h1mesuke/unite-outline'
 Bundle 'tpope/vim-fugitive'
 Bundle 'riobard/scala.vim'
 Bundle 'open-browser.vim'
+" Bundle 'fuenor/qfixhowm'
+
 
 filetype plugin indent on     " required! 
 
@@ -371,7 +373,7 @@ let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
 " Plugin key-mappings.
 " imap <C-k> <Plug>(neocomplcache_snippets_expand)
 " smap <C-k> <Plug>(neocomplcache_snippets_expand)
-inoremap <expr><C-g> neocomplcache#undo_completion()
+" inoremap <expr><C-g> neocomplcache#undo_completion()
 inoremap <expr><C-l> neocomplcache#complete_common_string()
 
 " SuperTab like snippets behavior.
@@ -520,9 +522,9 @@ nmap ss <Plug>Yssurround
 " grep.vim
 "------------------------------------
 " :Gb <args> でGrepBufferする
-command! -nargs=1 Gb :GrepBuffer <args>
+" command! -nargs=1 Gb :GrepBuffer <args>
 " カーソル下の単語をGrepBufferする
-nnoremap <C-g><C-b> :<C-u>GrepBuffer<Space><C-r><C-w><Enter>
+" nnoremap <C-g><C-b> :<C-u>GrepBuffer<Space><C-r><C-w><Enter>
 
 
 
@@ -655,6 +657,14 @@ vmap gx <Plug>(openbrowser-smart-search)
 :let g:vimfiler_as_default_explorer = 1
 
 
+
+"------------------------------------
+" QfixHowm
+"------------------------------------
+"Howmコマンドキーマップ
+let QFixHowm_Key = 'g'
+"Howmコマンドの2ストローク目キーマップ
+let QFixHowm_KeyB = ','
 
 
 "-------------------------------------------------------------------------------

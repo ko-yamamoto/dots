@@ -45,7 +45,7 @@ export LANG=ja_JP.UTF-8
 # export PATH=$PATH:/bin:/usr/local/bin:/Users/nishikawasasaki/bin:/Users/nishikawasasaki/android/android-sdk-mac_x86/tools:/Users/nishikawasasaki/android/android-sdk-mac_x86/platform-tools
 
 #Python
-alias python='python2.7'
+# alias python='python2.7'
 
 
 # JAVA
@@ -162,7 +162,7 @@ setopt auto_cd
 setopt auto_pushd
 
 # cdしたらls
-function chpwd(){ls}
+function chpwd(){ls --color}
 
 # コマンド入力ミス指摘
 setopt correct
