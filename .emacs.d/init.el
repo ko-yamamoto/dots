@@ -17,6 +17,8 @@
 (defvar is_darwin (eq system-type 'darwin))
 ;; cygwinのとき
 (defvar is_cygwin (eq system-type 'cygwin))
+;; gnu/linuxの時
+(defvar is_linux (eq system-type 'gnu/linux))
 ;; winNTのとき
 (defvar is_winnt  (eq system-type 'windows-nt))
 ;; Win全般のとき
@@ -666,7 +668,6 @@
   (dolist (dir (list
                 "C:/scala/scala/bin"
                 "C:/Python27"
-                "C:/cygwin/bin"
                 "C:/java/jdk1.7.0/bin"
                 "C:/Program Files (x86)/Git/bin"
                 (expand-file-name "~/bin")
@@ -683,23 +684,13 @@
   ;; ウィンドウサイズ設定
   (setq initial-frame-alist
         (append (list
-                 '(width . 130) ;; ウィンドウ幅
+                 '(width . 80) ;; ウィンドウ幅
                  '(height . 40) ;; ウィンドウ高さ
                  '(top . 50) ;; 表示位置
                  '(left . 50) ;; 表示位置
                  )
                 initial-frame-alist))
   (setq default-frame-alist initial-frame-alist)
-
-
-
-  ;; フォント設定
-  (when window-system
-    (set-default-font "VL Gothic:pixelsize=12" t)
-    (add-to-list 'default-frame-alist '(font . "VL Gothic:pixelsize=12"))
-    ;; (add-to-list 'default-frame-alist '(font . "MeiryoKe_Console:pixelsize=12"))
-    ;; (add-to-list 'default-frame-alist '(font . "ShinGoPro-Medium:pixelsize=11"))
-    (set-default-coding-systems 'utf-8))
 
   ;; プロクシの設定
   ;; (setq url-proxy-services '(("http" . "192.168.1.8:8080"))) 
@@ -831,7 +822,6 @@
 ;; (add-to-list 'load-path "~/.emacs.d/ensime/elisp/")
 ;; (require 'ensime)
 ;; (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
-
 
 
 ;;====================
@@ -989,6 +979,7 @@
 (global-set-key (kbd "C-z C-k") 'elscreen-kill-screen-and-buffers) ; スクリーンとバッファをkill
 (global-set-key [(C-tab)] 'elscreen-next) ; ブラウザみたいに
 (global-set-key [(C-S-tab)] 'elscreen-previous) ; ブラウザみたいに　その2
+(global-set-key [(C-S-iso-lefttab)] 'elscreen-previous) ; ブラウザみたいに　その2 (for linux)
 
 ;; elscreen-server
 (require 'elscreen-server)
@@ -1664,8 +1655,8 @@
 ;; cyg-mount
 ;;====================
 ;; Cygwin のドライブ・プレフィックスを有効に
-(require 'cygwin-mount)
-(cygwin-mount-activate)
+;; (require 'cygwin-mount)
+;; (cygwin-mount-activate)
 
 
 
@@ -1745,6 +1736,14 @@
 ;; ---------------------------------------------------------------------------------
 ;; Visual Settings
 ;; ---------------------------------------------------------------------------------
+
+;; フォント
+(when is_linux
+  (add-to-list 'default-frame-alist '(font . "ricty-14"))
+)
+(when is_win
+  (add-to-list 'default-frame-alist '(font . "ricty-10.5"))
+)
 
 ;; color-themeの設定
 (require 'color-theme)
