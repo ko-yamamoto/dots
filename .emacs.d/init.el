@@ -1544,7 +1544,8 @@
 
 ;; aliasの設定
 (eval-after-load "em-alias"
-  '(progn (eshell/alias "ll" "ls -alh")))
+  '(progn (eshell/alias "ll" "ls -alh")
+          (eshell/alias "ec" "emacsclient -n")))
 
 
 ;; lsのリストからディレクトリを開く
@@ -1739,7 +1740,7 @@
 
 ;; フォント
 (when is_linux
-  (add-to-list 'default-frame-alist '(font . "ricty-14"))
+  (add-to-list 'default-frame-alist '(font . "ricty-13"))
 )
 (when is_win
   (add-to-list 'default-frame-alist '(font . "ricty-10.5"))
