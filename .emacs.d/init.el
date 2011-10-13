@@ -538,6 +538,31 @@
 (global-set-key "\C-qj" 'windmove-down)
 (global-set-key "\C-qk" 'windmove-up)
 
+;; window split
+(global-set-key "\C-q1" 'delete-other-windows)
+(global-set-key "\C-q2" 'split-window-vertically)
+(global-set-key "\C-q3" 'split-window-horizontally)
+(defun split-for-twmode ()
+
+  "現在のウィンドウを3等分する関数"
+  (interactive)
+  (progn
+    (split-window-horizontally)
+    (other-window 1)
+    (split-window-vertically)
+    (enlarge-window 10)
+    (windmove-left)
+    (twit)
+    (windmove-right)
+    (twit)
+    (windmove-down)
+    (twittering-replies-timeline)
+    (windmove-up)
+))
+(global-set-key "\C-q4" 'split-for-twmode)
+
+
+
 
 ;; 自動でchmod+x
 (defun make-file-executable ()
@@ -871,6 +896,17 @@
              (point))))
       (skip-chars-forward "\s " point-of-indentation)))
   (define-key js2-mode-map "\C-i" 'indent-and-back-to-indentation))
+
+
+
+;;====================
+;; js2-mode
+;;====================
+(load "~/.emacs.d/elisp/nxhtml/autostart.el")
+(add-hook 'nxml-mode-hook
+          '(lambda ()
+             (local-set-key (kbd "C-c C-c") 'nxml-complete)))
+
 
 
 ;; ---------------------------------------------------------------------------------
