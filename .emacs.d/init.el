@@ -873,6 +873,17 @@
   (define-key js2-mode-map "\C-i" 'indent-and-back-to-indentation))
 
 
+
+;;====================
+;; js2-mode
+;;====================
+(load "~/.emacs.d/elisp/nxhtml/autostart.el")
+(add-hook 'nxml-mode-hook
+          '(lambda ()
+             (local-set-key (kbd "C-c C-c") 'nxml-complete)))
+
+
+
 ;; ---------------------------------------------------------------------------------
 ;; elisp Settings
 ;; ---------------------------------------------------------------------------------
