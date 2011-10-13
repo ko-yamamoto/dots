@@ -552,6 +552,12 @@
     (split-window-vertically)
     (enlarge-window 10)
     (windmove-left)
+    (twit)
+    (windmove-right)
+    (twit)
+    (windmove-down)
+    (twittering-replies-timeline)
+    (windmove-up)
 ))
 (global-set-key "\C-q4" 'split-for-twmode)
 
