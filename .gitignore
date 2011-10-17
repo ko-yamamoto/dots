@@ -10,4 +10,5 @@ kill-ring-saved.el
 .vim/bundle/*
 ac-comphist.dat
 .emacs.d/server/server
-.scratch-log*
+.scratch-log
+.scratch-log-prev
