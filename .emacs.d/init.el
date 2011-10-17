@@ -23,6 +23,8 @@
 (defvar is_winnt  (eq system-type 'windows-nt))
 ;; Win全般のとき
 (defvar is_win (or is_cygwin is_winnt))
+;; Winでない場合
+(defvar is_not_win (or is_mac is_linux))
 
 
 ;; ---------------------------------------------------------------------------------
@@ -550,7 +552,7 @@
     (split-window-horizontally)
     (other-window 1)
     (split-window-vertically)
-    (enlarge-window 10)
+    (enlarge-window 7)
     (windmove-left)
     (twit)
     (windmove-right)
@@ -900,12 +902,13 @@
 
 
 ;;====================
-;; js2-mode
+;; nxhtml
 ;;====================
-(load "~/.emacs.d/elisp/nxhtml/autostart.el")
-(add-hook 'nxml-mode-hook
-          '(lambda ()
-             (local-set-key (kbd "C-c C-c") 'nxml-complete)))
+;; 重いので普段は使わない -> html-modeで十分
+;; (load "~/.emacs.d/elisp/nxhtml/autostart.el")
+;; (add-hook 'nxml-mode-hook
+;;           '(lambda ()
+;;              (local-set-key (kbd "C-c C-c") 'nxml-complete)))
 
 
 
@@ -1753,7 +1756,8 @@
 ;; smartchr.el
 ;;====================
 (require 'smartchr)
-(global-set-key (kbd ">") (smartchr '(">" " -> " " => " " -> '`!!''" " -> \"`!!'\"" " => '`!!''" " => \"`!!'\"" "")))
+(global-set-key (kbd ">")
+ (smartchr '(">" "-> " "=> " "-> '`!!''" "-> \"`!!'\"" "=> '`!!''" "=> \"`!!'\"" "")))
 (global-set-key (kbd "\"") (smartchr '("\"" "\"`!!'\"" "'" "'`!!''" "")))
 (global-set-key (kbd "G") (smartchr '("G" "ありがとうございます" "`!!'ありがとうございます" "")))
 
@@ -1769,6 +1773,33 @@
 (setq popup-select-window-use-modeline-highlight nil)
 
 
+(when is_linux
+  ;;====================
+  ;; emacs-skype
+  ;;====================
+  (require 'skype)
+  (setq skype--my-user-handle "nishikawasasaki")
+  (global-set-key (kbd "M-9") 'skype--anything-command))
+
+
+(when is_not_win
+  ;;====================
+  ;; emacs-evernote-mode
+  ;;====================
+  ;; (add-to-list 'load-path "<your load path>")
+  (require 'evernote-mode)
+  (setq evernote-username "momijishimeji") ; optional: you can use this username as default.
+  ;; (setq evernote-enml-formatter-command '("w3m" "-dump" "-I" "UTF8" "-O" "UTF8")) ; optional
+  (global-set-key "\C-cec" 'evernote-create-note)
+  (global-set-key "\C-ceo" 'evernote-open-note)
+  (global-set-key "\C-ces" 'evernote-search-notes)
+  (global-set-key "\C-ceS" 'evernote-do-saved-search)
+  (global-set-key "\C-cew" 'evernote-write-note)
+  (global-set-key "\C-cep" 'evernote-post-region)
+  (global-set-key "\C-ceb" 'evernote-browser))
+
+
+
 
 ;; ---------------------------------------------------------------------------------
 ;; Visual Settings
@@ -1776,10 +1807,11 @@
 
 ;; フォント
 (when is_linux
-  (add-to-list 'default-frame-alist '(font . "ricty-13"))
+  (add-to-list 'default-frame-alist '(font . "ricty-11.5"))
 )
 (when is_win
   (add-to-list 'default-frame-alist '(font . "ricty-10.5"))
+
 )
 
 ;; color-themeの設定
@@ -1791,7 +1823,7 @@
 ;; (color-theme-tangotango)
 
 ;; ウィンドウを透明化
-;; (add-to-list 'default-frame-alist '(alpha . (0.75 0.75)))
+(add-to-list 'default-frame-alist '(alpha . (0.95 0.95)))
 
 ;; キーワードのカラー表示を有効化
 (global-font-lock-mode t)

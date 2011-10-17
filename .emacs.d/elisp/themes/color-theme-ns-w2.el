@@ -14,7 +14,8 @@
    '(color-theme-andreas
      ((background-mode . light)
 ;;       (background-color . "#000000")
-      (background-color . "#fffde6")
+;;      (background-color . "#fffef4")
+      (background-color . "#ffffff")
 ;;      (background-color . "#fff0f0") ; sweets-mode
       (background-toolbar-color . "#cccccccccccc")
       (border-color . "#000000000000")
@@ -57,7 +58,8 @@
 
      (region ((t (:background "#ffe59e"))))
 
-     (fringe ((t (:background "#fffde6"))))
+;;     (fringe ((t (:background "#fffde6"))))
+     (fringe ((t (:background "#e8ff9e"))))
 
      (modeline ((t (:background "#99CCFF" :foreground "Black"))))
      (modeline-buffer-id ((t (:background "#99CCFF" :foreground "Black"))))
