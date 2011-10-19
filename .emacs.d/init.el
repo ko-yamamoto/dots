@@ -1759,6 +1759,7 @@
 (global-set-key (kbd ">")
  (smartchr '(">" "-> " "=> " "-> '`!!''" "-> \"`!!'\"" "=> '`!!''" "=> \"`!!'\"" "")))
 (global-set-key (kbd "\"") (smartchr '("\"" "\"`!!'\"" "'" "'`!!''" "")))
+(global-set-key (kbd "(") (smartchr '("(" "(`!!')" "((" "")))
 (global-set-key (kbd "G") (smartchr '("G" "ありがとうございます" "`!!'ありがとうございます" "")))
 
 
