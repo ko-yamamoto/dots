@@ -80,6 +80,10 @@
 
      (twittering-uri-face ((t (:foreground "OrangeRed"))))
 
+
+     (moccur-edit-face ((t (:foreground "OrangeRed"))))
+
+
      (custom-button-face ((t (:bold t))))
      (custom-changed-face ((t (:background "blue" :foreground "white"))))
      (custom-documentation-face ((t (nil))))
