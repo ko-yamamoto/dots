@@ -563,6 +563,7 @@
 ))
 (global-set-key "\C-q4" 'split-for-twmode)
 
+(global-set-key "\C-qt" 'twit)
 
 
 
@@ -731,6 +732,29 @@
 
 
 
+;;====================
+;; For Linux
+;;====================
+
+(when is_linux
+
+  ;; exec-pathとPATHに設定したいパスのリストを設定
+  (dolist (dir (list
+                "/usr/local/bin"
+                "/usr/local/scala/bin"
+                "~/bin"
+                "/sbin"
+                "/usr/sbin"
+                "/bin"
+                "/usr/bin"
+                (expand-file-name "~/bin")
+                (expand-file-name "~/.emacs.d/bin")
+                ))
+    ;; PATH と exec-path に同じ物を追加
+    (when (and (file-exists-p dir) (not (member dir exec-path)))
+      (setenv "PATH" (concat dir ":" (getenv "PATH")))
+      (setq exec-path (append (list dir) exec-path))))
+)
 
 
 
@@ -879,36 +903,94 @@
 ;;====================
 ;; js2-mode
 ;;====================
-(autoload 'js2-mode "js2" nil t)
+(autoload 'js2-mode "js2-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
-(setq-default c-basic-offset 4)
+;; (autoload 'js-mode "js")
+;; (defun my-js2-indent-function ()
+;;   (interactive)
+;;   (save-restriction
+;;     (widen)
+;;     (let* ((inhibit-point-motion-hooks t)
+;;            (parse-status (save-excursion (syntax-ppss (point-at-bol))))
+;;            (offset (- (current-column) (current-indentation)))
+;;            (indentation (js--proper-indentation parse-status))
+;;            node)
+;;       (save-excursion
+;;         ;; I like to indent case and labels to half of the tab width
+;;         (back-to-indentation)
+;;         (if (looking-at "case\\s-")
+;;             (setq indentation (+ indentation (/ js-indent-level 2))))
+;;         ;; consecutive declarations in a var statement are nice if
+;;         ;; properly aligned, i.e:
+;;         ;; var foo = "bar",
+;;         ;;     bar = "foo";
+;;         (setq node (js2-node-at-point))
+;;         (when (and node
+;;                    (= js2-NAME (js2-node-type node))
+;;                    (= js2-VAR (js2-node-type (js2-node-parent node))))
+;;           (setq indentation (+ 4 indentation))))
+;;       (indent-line-to indentation)
+;;       (when (> offset 0) (forward-char offset)))))
 
-(when (load "js2" t)
-  (setq ;js2-cleanup-whitespace nil
-        js2-mirror-mode nil
-        js2-bounce-indent-flag nil)
+;; (defun my-indent-sexp ()
+;;   (interactive)
+;;   (save-restriction
+;;     (save-excursion
+;;       (widen)
+;;       (let* ((inhibit-point-motion-hooks t)
+;;              (parse-status (syntax-ppss (point)))
+;;              (beg (nth 1 parse-status))
+;;              (end-marker (make-marker))
+;;              (end (progn (goto-char beg) (forward-list) (point)))
+;;              (ovl (make-overlay beg end)))
+;;         (set-marker end-marker end)
+;;         (overlay-put ovl 'face 'highlight)
+;;         (goto-char beg)
+;;         (while (< (point) (marker-position end-marker))
+;;           ;; don't reindent blank lines so we don't set the "buffer
+;;           ;; modified" property for nothing
+;;           (beginning-of-line)
+;;           (unless (looking-at "\\s-*$")
+;;             (indent-according-to-mode))
+;;           (forward-line))
+;;         (run-with-timer 0.5 nil '(lambda(ovl)
+;;                                    (delete-overlay ovl)) ovl)))))
+;; (defun my-js2-mode-hook ()
+;;   (require 'js)
+;;   (setq js-indent-level 2
+;;         indent-tabs-mode nil
+;;         c-basic-offset 2)
+;;   (c-toggle-auto-state 0)
+;;   (c-toggle-hungry-state 1)
+;;   (set (make-local-variable 'indent-line-function) 'my-js2-indent-function)
+;; ;  (define-key js2-mode-map [(meta control |)] 'cperl-lineup)
+;;   (define-key js2-mode-map [(meta control \;)]
+;;     '(lambda()
+;;        (interactive)
+;;        (insert "/* -----[ ")
+;;        (save-excursion
+;;          (insert " ]----- */"))
+;;        ))
+;;   (define-key js2-mode-map [(return)] 'newline-and-indent)
+;;   (define-key js2-mode-map [(backspace)] 'c-electric-backspace)
+;;   (define-key js2-mode-map [(control d)] 'c-electric-delete-forward)
+;;   (define-key js2-mode-map [(control meta q)] 'my-indent-sexp)
+;;   (if (featurep 'js2-highlight-vars)
+;;     (js2-highlight-vars-mode))
+;;   (message "My JS2 hook"))
 
-  (defun indent-and-back-to-indentation ()
-    (interactive)
-    (indent-for-tab-command)
-    (let ((point-of-indentation
-           (save-excursion
-             (back-to-indentation)
-             (point))))
-      (skip-chars-forward "\s " point-of-indentation)))
-  (define-key js2-mode-map "\C-i" 'indent-and-back-to-indentation))
-
+;; (add-hook 'js2-mode-hook 'my-js2-mode-hook)
 
 
 ;;====================
 ;; nxhtml
 ;;====================
 ;; 重いので普段は使わない -> html-modeで十分
-;; (load "~/.emacs.d/elisp/nxhtml/autostart.el")
-;; (add-hook 'nxml-mode-hook
-;;           '(lambda ()
-;;              (local-set-key (kbd "C-c C-c") 'nxml-complete)))
+;;(load "~/.emacs.d/elisp/nxhtml/autostart.el")
+;;(add-hook 'nxml-mode-hook
+;;          '(lambda ()
+;;             (local-set-key (kbd "C-c C-c") 'nxml-complete)))
 
 
 
@@ -927,10 +1009,10 @@
 ;;====================
 ;; auto-install
 ;;====================
-(require 'auto-install)
-(setq auto-install-directory "~/.emacs.d/elisp/")
-(auto-install-update-emacswiki-package-name t)
-(auto-install-compatibility-setup)
+;; (require 'auto-install)
+;; (setq auto-install-directory "~/.emacs.d/elisp/")
+;; (auto-install-update-emacswiki-package-name t)
+;; (auto-install-compatibility-setup)
 
 
 ;;====================
@@ -1222,6 +1304,7 @@
       (append '(("*Remember*" :stick t)
                 ("*Backtrace*")
                 ("*Messages*")
+                ("*Completion*" :height 0.2)
                 ("*Compile-Log*")
                 ("*sdic*" :noselect t)
                 ("*anything*" :height 20)
@@ -1545,28 +1628,28 @@
 (global-set-key (kbd "C-t") 'my-toggle-term)
 
 ;; eshell での補完に auto-complete.el を使う
-(ac-define-source pcomplete
-  '((candidates . pcomplete-completions)))
-(defun nm-eshell-pcomplete ()
-  (interactive)
-  (let ((ac-sources '(ac-source-pcomplete
-                      ac-source-filename)))
-    (auto-complete)))
-(defun nm-eshell-auto-complete ()
-  (interactive)
-  (let ((ac-sources '(ac-source-functions
-                      ac-source-variables
-                      ac-source-features
-                      ac-source-symbols
-                      ac-source-words-in-same-mode-buffers)))
-    (auto-complete)))
-(defun nm-eshell-mode-hook ()
-  (local-unset-key (kbd "M-?"))
-  (local-set-key (kbd "TAB") 'nm-eshell-pcomplete)
-  (local-set-key [tab] 'nm-eshell-pcomplete)
-  (local-set-key (kbd "M-TAB") 'nm-eshell-auto-complete)
-  (local-set-key [M-tab] 'nm-eshell-auto-complete))
-(add-hook 'eshell-mode-hook 'nm-eshell-mode-hook)
+;; (ac-define-source pcomplete
+;;   '((candidates . pcomplete-completions)))
+;; (defun nm-eshell-pcomplete ()
+;;   (interactive)
+;;   (let ((ac-sources '(ac-source-pcomplete
+;;                       ac-source-filename)))
+;;     (auto-complete)))
+;; (defun nm-eshell-auto-complete ()
+;;   (interactive)
+;;   (let ((ac-sources '(ac-source-functions
+;;                       ac-source-variables
+;;                       ac-source-features
+;;                       ac-source-symbols
+;;                       ac-source-words-in-same-mode-buffers)))
+;;     (auto-complete)))
+;; (defun nm-eshell-mode-hook ()
+;;   (local-unset-key (kbd "M-?"))
+;;   (local-set-key (kbd "TAB") 'nm-eshell-pcomplete)
+;;   (local-set-key [tab] 'nm-eshell-pcomplete)
+;;   (local-set-key (kbd "M-TAB") 'nm-eshell-auto-complete)
+;;   (local-set-key [M-tab] 'nm-eshell-auto-complete))
+;; (add-hook 'eshell-mode-hook 'nm-eshell-mode-hook)
 
 
 ;; キーバインドの変更
@@ -1643,6 +1726,8 @@
   (setq inferior-lisp-program "ccl.bat"))
 (when is_mac
   (setq inferior-lisp-program "dx86cl64"))
+(when is_linux
+  (setq inferior-lisp-program "ccl"))
 
 
 ;; ~/.emacs.d/slimeをload-pathに追加
@@ -1774,13 +1859,13 @@
 (setq popup-select-window-use-modeline-highlight nil)
 
 
-(when is_linux
+;(when is_linux
   ;;====================
   ;; emacs-skype
   ;;====================
-  (require 'skype)
-  (setq skype--my-user-handle "nishikawasasaki")
-  (global-set-key (kbd "M-9") 'skype--anything-command))
+  ;(require 'skype)
+  ;(setq skype--my-user-handle "nishikawasasaki")
+  ;(global-set-key (kbd "M-9") 'skype--anything-command))
 
 
 (when is_not_win
@@ -1819,12 +1904,12 @@
 (require 'color-theme)
 (color-theme-initialize)
 ;; (color-theme-andreas)
-(color-theme-ns-w2)
-;; (color-theme-ns)
+;; (color-theme-ns-w2)
+(color-theme-ns)
 ;; (color-theme-tangotango)
 
 ;; ウィンドウを透明化
-(add-to-list 'default-frame-alist '(alpha . (0.95 0.95)))
+(add-to-list 'default-frame-alist '(alpha . (0.85 0.85)))
 
 ;; キーワードのカラー表示を有効化
 (global-font-lock-mode t)
