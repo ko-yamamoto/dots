@@ -11,10 +11,10 @@ let PLUGIN_INFO =
 <description>convert bookmarklets to commands</description>
 <description lang="ja">ブックマークレットをコマンドにする</description>
 <author mail="halt.feits@gmail.com">halt feits</author>
-<version>0.6.4</version>
+<version>0.6.6</version>
 <minVersion>2.0pre</minVersion>
 <maxVersion>2.1pre</maxVersion>
-<updateURL>http://svn.coderepos.org/share/lang/javascript/vimperator-plugins/trunk/commandBookmarklet.js</updateURL>
+<updateURL>https://github.com/vimpr/vimperator-plugins/raw/master/commandBookmarklet.js</updateURL>
 <detail><![CDATA[
 == SYNOPSIS ==
   This plugin automatically converts bookmarklets to valid commands for Vimperator.
@@ -75,8 +75,11 @@ if (!items.length) {
 }
 
 items.forEach(function (item) {
+  let name = toValidCommandName(item.title);
+  if (commands.get(name))
+    return;
   commands.addUserCommand(
-    [toValidCommandName(item.title)],
+    [name],
     'bookmarklet : ' + item.title,
     function () evalScript(item.url),
     { shortHelp: 'Bookmarklet' },
@@ -84,22 +87,28 @@ items.forEach(function (item) {
   );
 });
 
-function stringToBoolean(str, defaultValue) {
-  return !str                            ? defaultValue
-         : str.toLowerCase() === 'false' ? false
-         : /^\d+$/.test(str)             ? parseInt(str)
-         :                                 true;
+function toBoolean (value, def) {
+  switch (typeof value) {
+    case 'undefined':
+      return def;
+    case 'number':
+      return !!value;
+    case 'string':
+      return !/^(\d+|false)$/i.test(value) || parseInt(value);
+    default:
+      return !!value;
+  }
 }
 
 function evalInSandbox (str) {
-  let sandbox = new Components.utils.Sandbox(buffer.URL);
+  let sandbox = new Components.utils.Sandbox("about:blank");
   sandbox.__proto__ = content.window.wrappedJSObject;
   return Components.utils.evalInSandbox(str, sandbox);
 }
 
 function evalScript (url) {
-  if (stringToBoolean(liberator.globalVariables.command_bookmarklet_use_sandbox, false)) {
-    evalInSandbox(url.replace(/^\s*javascript:/i, ''));
+  if (toBoolean(liberator.globalVariables.command_bookmarklet_use_sandbox, false)) {
+    evalInSandbox(decodeURIComponent(url.replace(/^\s*javascript:/i, '')));
   } else {
     liberator.open(url);
   }
