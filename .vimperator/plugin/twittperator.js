@@ -28,11 +28,10 @@ let PLUGIN_INFO =
   <name>Twittperator</name>
   <description>Twitter Client using OAuth and Streaming API</description>
   <description lang="ja">OAuth/StreamingAPI対応Twitterクライアント</description>
-  <version>1.14.0</version>
+  <version>1.16.2</version>
   <minVersion>2.3</minVersion>
-  <maxVersion>3.0</maxVersion>
-  <author mail="teramako@gmail.com" homepage="http://d.hatena.ne.jp/teramako/">teramako</author>
-  <author mail="anekos@snca.net" homepage="http://d.hatena.ne.jp/nokturnalmortum/">anekos</author>
+  <author email="teramako@gmail.com" homepage="http://d.hatena.ne.jp/teramako/">teramako</author>
+  <author email="anekos@snca.net" homepage="http://d.hatena.ne.jp/nokturnalmortum/">anekos</author>
   <license>MIT License</license>
   <updateURL>https://github.com/vimpr/vimperator-plugins/raw/master/twittperator.js</updateURL>
   <detail><![CDATA[
@@ -1048,7 +1047,7 @@ let PLUGIN_INFO =
                 callback(self.accessor);
               }
             }else{
-              alert(d.statusText);
+              window.alert(d.statusText);
             }
           },
         };
@@ -1237,8 +1236,9 @@ let PLUGIN_INFO =
             url + '.json',
             query,
             function (text) {
+              let json;
               try {
-                return callback(JSON.parse(text));
+                json = JSON.parse(text);
               } catch (e) {
                 (onError
                  ||
@@ -1248,6 +1248,7 @@ let PLUGIN_INFO =
                    throw e;
                  })(e);
               }
+              return callback(json);
             }
           );
         };
@@ -1273,7 +1274,7 @@ let PLUGIN_INFO =
       }
 
       for (let [n, v] in Iterator(options)) {
-        if (/^on[A-Z]/(n) && (v instanceof Function))
+        if (/^on[A-Z]/.test(n) && (v instanceof Function))
           this.events[n.toLowerCase()] = v;
       }
 
@@ -1409,7 +1410,7 @@ let PLUGIN_INFO =
             lines[0] = buf + lines[0];
             for (let [, line] in Iterator(lines.slice(0, -1))) {
               try {
-                if (/^\s*\{/(line))
+                if (/^\s*\{/.test(line))
                   onMsg(Utils.fixStatusObject(JSON.parse(line)), line);
               } catch (e) { liberator.log(e); }
             }
@@ -1439,6 +1440,9 @@ let PLUGIN_INFO =
 
       if (msg.text)
         Twittperator.onMessage(msg);
+
+      if (msg.friends)
+        Twittperator.onFriends(msg);
     }
 
     function clearPluginData() {
@@ -1467,8 +1471,8 @@ let PLUGIN_INFO =
       });
     }, // }}}
     getUserTimeline: function(target, onload) { // {{{
-      let [api, query] = target ? ["statuses/user_timeline", {screen_name: target}]
-                                : ["statuses/home_timeline", {}];
+      let [api, query] = target ? ["statuses/user_timeline", {screen_name: target, count: setting.count}]
+                                : ["statuses/home_timeline", {count: setting.count}];
 
       tw.jsonGet(
         api,
@@ -1488,6 +1492,9 @@ let PLUGIN_INFO =
           onload(result);
         }
       );
+    }, // }}}
+    lookupUser: function({screenNames, ids}, callback) { // {{{
+      tw.jsonGet("users/lookup", { user_id: String(ids || []), screen_name: String(screenNames || []) }, callback);
     }, // }}}
     say: function(status, inReplyToStatusId) { // {{{
       let sendData = {status: status, source: "Twittperator"};
@@ -1543,6 +1550,12 @@ let PLUGIN_INFO =
       function unescapeBrakets(str)
         str.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 
+      function fixId (obj, name) {
+        let nameStr = name + "_str";
+        if (obj.hasOwnProperty(name) && obj.hasOwnProperty(nameStr) && typeof obj[name] === "number")
+          obj.__defineGetter__(name, function () this[nameStr]);
+      }
+
       let result = {};
       for (let [n, v] in Iterator(st)) {
         result[n] = v && typeof v === "object" ? Utils.fixStatusObject(v) :
@@ -1550,8 +1563,10 @@ let PLUGIN_INFO =
                     v;
       }
 
-      if (result.hasOwnProperty("id") && result.hasOwnProperty("id_str") && typeof result.id === "number")
-        result.__defineGetter__("id", function () this.id_str);
+      for (let [n, v] in Iterator(st)) {
+        if (/(^|_)id$/.test(n))
+          fixId(result, n);
+      }
 
       return result;
     }, // }}}
@@ -1625,7 +1640,7 @@ let PLUGIN_INFO =
       function loadPluginFromDir(checkGV) {
         return function(dir) {
           dir.readDirectory().forEach(function(file) {
-            if (/\.tw$/(file.path) && (!checkGV || isEnabled(file)))
+            if (/\.tw$/.test(file.path) && (!checkGV || isEnabled(file)))
               Twittperator.sourceScriptFile(file);
           });
         }
@@ -1636,6 +1651,61 @@ let PLUGIN_INFO =
 
       io.getRuntimeDirectories("plugin/twittperator").forEach(loadPluginFromDir(true));
       io.getRuntimeDirectories("twittperator").forEach(loadPluginFromDir(false));
+    }, // }}}
+    lookupUser: function(users) { // {{{
+      function showUsersInfo(json) { // {{{
+        let xml = modules.template.map(json, function(user) {
+          return <>
+            <tr>
+              <td class="twittperator lookup-user photo">
+                <img src={user.profile_image_url} />
+              </td>
+              <td class="twittperator lookup-user screen-name">
+                <a href={"https://twitter.com/#!/" + user.screen_name}>
+                  {user.name}
+                </a>
+              </td>
+              <td class="twittperator lookup-user attributes">
+                {user.location} -
+                id {user.id_str} -
+                {user.following ? '' : 'not'} following -
+                {user.friends_count}/{user.followers_count} ee/er -
+                {user.statuses_count} tweets -
+                {user.favourites_count} favs -
+                {user.listed_count} listed -
+                from {new Date(user.created_at).toLocaleString()}
+              </td>
+            </tr>
+            <tr>
+              <td class="twittperator lookup-user description" colspan="3">
+                {user.description}
+              </td>
+            </tr>
+          </>;
+        });
+        liberator.echo(
+          <>
+            <style type="text/css"><![CDATA[
+              .twittperator.lookup-user.photo { vertical-align: top; width: 28px; }
+              .twittperator.lookup-user.photo img { border: 0px; width: 24px; height: 24px; vertical-align: baseline; margin: 1px; }
+              .twittperator.lookup-user.attributes { white-space: normal !important; }
+              .twittperator.lookup-user.description { white-space: normal !important; }
+              .twittperator.lookup-user.description a { text-decoration: none; }
+            ]]></style>
+            <table>{xml}</table>
+          </>
+        );
+      } // }}}
+
+      let ids = [], screenNames = [];
+      for (let [, v] in Iterator(users))
+        (/^\d+$/.test(v) ? ids : screenNames).push(v);
+      Twitter.lookupUser({ids: ids, screenNames: screenNames}, function(json) {
+        showUsersInfo(json);
+      });
+    }, // }}}
+    onFriends: function(msg) { // {{{
+      __context__.Friends = friends = msg.friends;
     }, // }}}
     onMessage: function(msg) { // {{{
       history.unshift(msg);
@@ -1706,11 +1776,11 @@ let PLUGIN_INFO =
         ("window.parent.liberator.modules.plugins.twittperator.Twittperator.showStatusMenu(" + parseInt(st.id) + ")");
 
       let html = <style type="text/css"><![CDATA[
-          .twitter.user { vertical-align: top; }
-          .twitter.entry-content { white-space: normal !important; }
-          .twitter.entry-content a { text-decoration: none; }
-          .twitter.entry-content.rt:before { content: "RT "; color: silver; }
-          img.twitter.photo { border: 0px; width: 16px; height: 16px; vertical-align: baseline; margin: 1px; }
+          .twittperator.timeline.user { vertical-align: top; }
+          .twittperator.timeline.entry-content { white-space: normal !important; }
+          .twittperator.timeline.entry-content a { text-decoration: none; }
+          .twittperator.timeline.entry-content.rt:before { content: "RT "; color: silver; }
+          img.twittperator.timeline.photo { border: 0px; width: 24px; height: 24px; vertical-align: baseline; margin: 1px; }
       ]]></style>.toSource()
                  .replace(/(?:\r\n|[\r\n])[ \t]*/g, " ") +
           s.reduce(function(table, status) {
@@ -1718,35 +1788,35 @@ let PLUGIN_INFO =
               ("retweeted_status" in status) ?
               let (rt = status.retweeted_status)
               <tr>
-                <td class="twitter user">
+                <td class="twittperator timeline user">
                   <a href={userURL(rt.user.screen_name)}>
-                    <img src={rt.user.profile_image_url} alt={rt.user.screen_name} class="twitter photo"/>
+                    <img src={rt.user.profile_image_url} alt={rt.user.screen_name} class="twittperator timeline photo"/>
                     <strong>{rt.user.screen_name}&#x202C;</strong>
                   </a>
                   <a href={userURL(status.user.screen_name)}>
-                    <img src={status.user.profile_image_url} alt={status.user.screen_name} class="twitter photo"/>
+                    <img src={status.user.profile_image_url} alt={status.user.screen_name} class="twittperator timeline photo"/>
                   </a>
                 </td>
-                <td class="twitter entry-content rt">
+                <td class="twittperator timeline entry-content rt">
                   {Utils.anchorLink(rt.text)}
                 </td>
-                <td class="twitter menu">
+                <td class="twittperator timeline menu">
                   <a href="javascript: void 0" onclick={menuEvent(status)}>
                    &#1758;
                   </a>
                 </td>
               </tr> :
               <tr>
-                <td class="twitter user">
+                <td class="twittperator timeline user">
                   <a href={userURL(status.user.screen_name)}>
-                    <img src={status.user.profile_image_url} alt={status.user.screen_name} class="twitter photo"/>
+                    <img src={status.user.profile_image_url} alt={status.user.screen_name} class="twittperator timeline photo"/>
                     <strong title={status.user.name}>{status.user.screen_name}&#x202C;</strong>
                   </a>
                 </td>
-                <td class="twitter entry-content">
+                <td class="twittperator timeline entry-content">
                   {Utils.anchorLink(status.text)}
                 </td>
-                <td class="twitter menu">
+                <td class="twittperator timeline menu">
                   <a href="javascript: void 0" onclick={menuEvent(status)}>
                    &#1758;
                   </a>
@@ -1779,7 +1849,7 @@ let PLUGIN_INFO =
 
       Utils.xmlhttpRequest({
         method: 'GET',
-        url: "http://search.twitter.com/search.json?" + tw.buildQuery({ q: word }),
+        url: "http://search.twitter.com/search.json?" + tw.buildQuery({ q: word, rpp: setting.count, lang: setting.lang }),
         onload: function(xhr) {
           let res = JSON.parse(xhr.responseText);
           if (res.results.length > 0) {
@@ -1839,10 +1909,9 @@ let PLUGIN_INFO =
       }
     }, // }}}
     withProtectedUserConfirmation: function(check, actionName, action) { // {{{
-      let protectedUserName = Twittperator.isProtected(check);
-      if (protectedUserName) {
+      if (Twittperator.isProtected(check)) {
         Twittperator.confirm(
-          protectedUserName + " is protected user! Do you really want to " + actionName + '?',
+          check.screenName + " is protected user! Do you really want to " + actionName + '?',
           action
         );
       } else {
@@ -1891,24 +1960,31 @@ let PLUGIN_INFO =
 
       context.compare = void 0;
       context.createRow = function(item, highlightGroup) {
-        let desc = item[1] || this.process[1].call(this, item, item.description);
-
-        if (desc && desc.user) {
-          return <div highlight={highlightGroup || "CompItem"} style="white-space: nowrap">
-              <li highlight="CompDesc">
-                <img src={desc.user.profile_image_url} style="max-width: 24px; max-height: 24px"/>
-                &#160;{desc.user.screen_name}: {desc.text}
-              </li>
+        if (highlightGroup === "CompTitle") {
+          return <div highlight="CompTitle" style="white-space: nowrap">
+              <li highlight="CompDesc">{item}&#160;</li>
           </div>;
         }
 
-        return <div highlight={highlightGroup || "CompItem"} style="white-space: nowrap">
-            <li highlight="CompDesc">{desc}&#160;</li>
-        </div>;
+        let [value, st] = item.item;
+        if (st.user) {
+          return <div highlight="CompItem" style="white-space: nowrap">
+              <li highlight="CompDesc">
+                <img src={st.user.profile_image_url} style="max-width: 24px; max-height: 24px"/>
+                &#160;{st.user.screen_name}: {st.text}
+              </li>
+          </div>;
+        } else {
+          return <div highlight="CompItem" style="white-space: nowrap">
+              <li highlight="CompDesc">
+                {st.text}
+              </li>
+          </div>;
+        }
       };
 
       context.filters = [statusObjectFilter];
-      context.title = ["Hidden", "Entry"];
+      context.title = "Entry";
     } // }}}
 
     function makeTimelineCompleter(completer) { // {{{
@@ -1990,7 +2066,7 @@ let PLUGIN_INFO =
             "^" +
             this.command.map(function(c)
               let (r = util.escapeRegex(c))
-                (/^\W$/(c) ? r : r + "( |$)")
+                (/^\W$/.test(c) ? r : r + "( |$)")
             ).join("|")
           );
         },
@@ -2055,7 +2131,7 @@ let PLUGIN_INFO =
         description: "Open link",
         action: function(arg) Twittperator.openLink(arg),
         timelineCompleter: true,
-        completer: Completers.text(function(s) /https?:\/\//(s.text))
+        completer: Completers.text(function(s) /https?:\/\//.test(s.text))
       }),
       SubCommand({
         command: ["delete"],
@@ -2066,7 +2142,7 @@ let PLUGIN_INFO =
             Twitter.destroy(m[0]);
         },
         timelineCompleter: true,
-        completer: Completers.id(seleceMine)
+        completer: Completers.rawid(seleceMine)
       }),
       SubCommand({
         command: ["info"],
@@ -2090,6 +2166,15 @@ let PLUGIN_INFO =
         },
         timelineCompleter: true,
         completer: Completers.rawid(function(st) st.id)
+      }),
+      SubCommand({
+        command: ["lookupuser"],
+        description: "Lookup users",
+        action: function(arg) {
+          Twittperator.lookupUser(arg.split(/\s+/));
+        },
+        timelineCompleter: true,
+        completer: Completers.screenName()
       }),
       SubCommand({
         command: ["track"],
@@ -2129,18 +2214,23 @@ let PLUGIN_INFO =
         command: ["thread"],
         description: "Show tweets thread.",
         action: function(arg) {
+          function showThread () {
+            Twittperator.showTL(thread);
+          }
           function getStatus(id, next) {
             let result;
-            if (history.some(function (it) (it.id == id && (result = it))))
+            if (history.some(function (it) (it.id == id && (result = it)))) {
               return next(result);
-            tw.jsonGet("statuses/show/" + id, null, function(res) next(res))
+            }
+            // XXX エラーの時はなにか表示しておくべき？
+            tw.jsonGet("statuses/show/" + id, null, function(res) next(res), showThread);
           }
           function trace(st) {
             thread.push(st);
             if (st.in_reply_to_status_id) {
               getStatus(st.in_reply_to_status_id, trace);
             } else {
-              Twittperator.showTL(thread);
+              showThread();
             }
           }
 
@@ -2202,7 +2292,7 @@ let PLUGIN_INFO =
 
     function subCommandCompleter(context, args) { // {{{
       if (!args.literalArg.match(/^(\W|\S+\s)/)) {
-        context.title = ["Sub command", "Description"];
+        context.title = ["Sub Command", "Description"];
         context.completions = SubCommands.map(function({ command, description }) [command[0], description]);
         return;
       }
@@ -2230,7 +2320,12 @@ let PLUGIN_INFO =
 
       let arg = args.literalArg.slice(0, context.caret);
       let m;
-      if (m = arg.match(/(RT\s+)@.*$/)) {
+      if (m = arg.match(/^D\s+/)) {
+        context.title = "Entry";
+        context.advance(m[0].length);
+        Completers.name(rejectMine)(context, args);
+        return;
+      } else if (m = arg.match(/(RT\s+)@.*$/)) {
         (m.index === 0 ? Completers.name_id
                        : Completers.name_id_text)(m.index === 0 && rejectMine)(context, args);
       } else if (m = tailMatch(/(^|\b|\s)#[^#\s]*$/, arg)) {
@@ -2242,7 +2337,7 @@ let PLUGIN_INFO =
       if (m)
         len = m.index + m[1].length;
 
-      context.title = ["Name#ID", "Entry"];
+      context.title = "Entry";
       context.offset += len;
       // XXX 本文でも検索できるように、@ はなかったことにする
       context.filter = context.filter.replace(/^[@#]/, "");
@@ -2280,7 +2375,7 @@ let PLUGIN_INFO =
             (!lastTime || ((lastTime + setting.statusValidDuration * 1000) < now));
 
           let completer = args.bang ? subCommandCompleter : commandCompelter;
-          let matches = args.bang || args.literalArg.match(/(RT\s+|)@|#/);
+          let matches = args.bang || args.literalArg.match(/(RT\s+|)@|#|^D\s+/);
 
           if (!matches)
             return;
@@ -2323,6 +2418,8 @@ let PLUGIN_INFO =
       apiURLBase: "http" + (!!gv.twittperator_use_ssl_connection_for_api_ep ? "s" : "") +
                   "://api.twitter.com/" + (gv.twittperator_twitter_api_version || 1)  + "/",
       trackWords: gv.twittperator_track_words,
+      count: (gv.twittperator_count || 20),
+      lang: (gv.twittperator_lang || ''),
     });
 
   let statusRefreshTimer;
@@ -2331,11 +2428,15 @@ let PLUGIN_INFO =
   if (!history)
     history = __context__.Tweets = Store.get("history", []);
 
+  let friends = __context__.Friends;
+  if (!friends)
+    friends = __context__.Friends = Store.get("friends", []);
+
   let tw = new TwitterOauth(Store);
 
   // ストリーム
   let ChirpUserStream = Stream({ name: 'chirp stream', url: "https://userstream.twitter.com/2/user.json" });
-  let TrackingStream = Stream({ name: 'tracking stream', url: "http://stream.twitter.com/1/statuses/filter.json" });
+  let TrackingStream = Stream({ name: 'tracking stream', url: "https://stream.twitter.com/1/statuses/filter.json" });
 
   // 公開オブジェクト
   __context__.OAuth = tw;
@@ -2351,7 +2452,7 @@ let PLUGIN_INFO =
   if (setting.useChirp){
     if(setting.allReplies)
       ChirpUserStream.start({"replies":"all"});
-    else 
+    else
       ChirpUserStream.start();
   }
 
@@ -2361,6 +2462,7 @@ let PLUGIN_INFO =
 
   __context__.onUnload = function() {
     Store.set("history", history);
+    Store.set("friends", friends);
     ChirpUserStream.stop();
     TrackingStream.stop();
   };
