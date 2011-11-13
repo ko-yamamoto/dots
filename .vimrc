@@ -1,53 +1,55 @@
 " ########## vimrc ##########
 "
 "------------------------------------
-" vundle
+" neovundle
 "------------------------------------
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-" let Vundle manage Vundle
-" required! 
-Bundle 'gmarik/vundle'
+filetype off
+
+if has('vim_starting')
+  set runtimepath+=~/.vim/bundle/neobundle.vim
+  call neobundle#rc(expand('~/.vim/bundle'))
+endif
+
+NeoBundle 'git://github.com/Shougo/neobundle.vim.git'
 
 " 使用するプラグインの指定
-Bundle 'unite-colorscheme'
-Bundle 'unite-font'
-" Bundle 'VimClojure'
-Bundle 'VST'
-" Bundle 'Processing'
-Bundle 'JSON.vim'
-Bundle 'smoothPageScroll.vim'
-Bundle 'VimClojure'
-"" githubから
-Bundle 'thinca/vim-quickrun'
-" Bundle 'basyura/TwitVim'
-Bundle 'TwitVim'
-Bundle 'Shougo/neocomplcache'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'Shougo/unite.vim'
-Bundle 'Shougo/vimproc'
-Bundle 'Shougo/vimshell'
-Bundle 'Shougo/vimfiler'
-Bundle 'mattn/webapi-vim'
-Bundle 'tyru/vim-altercmd'
-Bundle 'kana/vim-operator-user'
-Bundle 'kana/vim-operator-replace'
-" Bundle 'kchmck/vim-coffee-script'
-Bundle 'tpope/vim-surround'
-Bundle 'fholgado/minibufexpl.vim'
-" Bundle 'ewiplayer/vim-scala'
-" Bundle 'tsukkee/lingr-vim'
-Bundle 'thinca/vim-poslist'
-Bundle 'h1mesuke/unite-outline'
-" Bundle 'mattn/googletasks-vim'
-Bundle 'tpope/vim-fugitive'
-Bundle 'riobard/scala.vim'
-Bundle 'open-browser.vim'
-" Bundle 'fuenor/qfixhowm'
+NeoBundle 'ujihisa/unite-colorscheme'
+NeoBundle 'git://github.com/ujihisa/unite-font.git'
+" NeoBundle 'VimClojure'
+NeoBundle 'git://github.com/vim-scripts/VST.git'
+" NeoBundle 'Processing'
+NeoBundle 'git://github.com/vim-scripts/JSON.vim.git'
+NeoBundle 'git://github.com/vim-scripts/smoothPageScroll.vim.git'
+NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'git://github.com/vim-scripts/TwitVim.git'
+NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'scrooloose/nerdcommenter'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/vimproc'
+NeoBundle 'Shougo/vimshell'
+NeoBundle 'Shougo/vimfiler'
+NeoBundle 'mattn/webapi-vim'
+NeoBundle 'tyru/vim-altercmd'
+NeoBundle 'kana/vim-operator-user'
+NeoBundle 'kana/vim-operator-replace'
+" NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'tpope/vim-surround'
+" NeoBundle 'fholgado/minibufexpl.vim'
+" NeoBundle 'tsukkee/lingr-vim'
+NeoBundle 'thinca/vim-poslist'
+NeoBundle 'h1mesuke/unite-outline'
+" NeoBundle 'mattn/googletasks-vim'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'git://github.com/derekwyatt/vim-scala.git'
+NeoBundle 'git://github.com/tyru/open-browser.vim.git'
+NeoBundle 'fuenor/qfixhowm'
+NeoBundle 'git://github.com/godlygeek/csapprox.git'
+NeoBundle 'git://github.com/thinca/vim-fontzoom.git'
+NeoBundle 'git://github.com/nathanaelkane/vim-indent-guides.git'
+NeoBundle 'git://github.com/vim-scripts/occur.vim.git'
 
-
-filetype plugin indent on     " required! 
-
+filetype plugin on
+filetype indent on
 
 "-------------------------------------------------------------------------------
 " 基本設定 Basics
@@ -147,9 +149,9 @@ set title
 set titlestring=Vim:\ %f\ %h%r%m
 
 " ターミナルでマウスを使用できるようにする
-set mouse=a
-set guioptions+=a
-set ttymouse=xterm2
+" set mouse=a
+" set guioptions+=a
+" set ttymouse=xterm2
 
 " insertモードを抜けるとIMEオフ
 set noimdisable
@@ -160,11 +162,15 @@ inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
 " 矩形選択で自由に移動する
 set virtualedit+=block
 
+" 常に開いているファイルのディレクトリをカレントリディレクトリにする
+au   BufEnter *   execute ":lcd " . expand("%:p:h")
+
+" ％拡張のmatchhit.vimを利用
+:source $VIMRUNTIME/macros/matchit.vim
+
 "-------------------------------------------------------------------------------
 " 表示設定
 "-------------------------------------------------------------------------------
-"カラースキーマを設定→gvimrcへ
-"colorscheme murphy
 
 "hilight
 syntax on
@@ -248,6 +254,13 @@ augroup cch
   autocmd WinEnter,BufRead * set cursorline
 augroup END
 
+if has("autocmd")
+    " カーソル位置を記憶する
+    autocmd BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \   exe "normal g`\"" |
+        \ endif
+endif
 
 "-------------------------------------------------------------------------------
 " カラー関連 Colors
@@ -260,7 +273,7 @@ if &term =~ "xterm-debian" || &term =~ "xterm-xfree86" || &term =~ "xterm-256col
  set t_Sf=[3%dm
  set t_Sb=[4%dm
 elseif &term =~ "xterm-color"
- set t_Co=8
+ set t_Co=256
  set t_Sf=[3%dm
  set t_Sb=[4%dm
 endif
@@ -278,20 +291,29 @@ hi PmenuSbar ctermbg=0 ctermfg=9
 "背景色は黒っぽい
 " set background=light
 
+"カラースキーマを設定→gvimrcへ
+"colorscheme murphy
+
+if has("unix")
+  " unix(linux)の場合256色モードでカラースキーマ指定
+  set t_Co=256
+  colorscheme wombat256mod
+endif
+
 
 " ========== インデント設定 ==========
 "新しい行のインデントを現在行と同じにする
 set autoindent
 "タブの代わりに空白文字を挿入する
 set expandtab
+"ファイル内の <Tab> が対応する空白の数
+set tabstop=4
 "シフト移動幅
-set shiftwidth=2
+set shiftwidth=4
 " オートインデント時の空白の数
-set softtabstop=2
+set softtabstop=4
 "行頭の余白内で Tab を打ち込むと、'shiftwidth' の数だけインデントする
 set smarttab
-"ファイル内の <Tab> が対応する空白の数
-set tabstop=2
 "新しい行を作ったときに高度な自動インデントを行う
 set smartindent
 
@@ -467,17 +489,24 @@ function! s:ExecPy()
 "------------------------------------
 " unite.vim
 "------------------------------------
+"
+" Uniteを開く時、垂直分割で開く
+" if has("unix") 
+  " let g:unite_enable_split_vertically=1
+" endif
+
 " The prefix key.
 nnoremap    [unite]   <Nop>
 nmap    , [unite]
 
 nnoremap [unite]u  :<C-u>Unite<Space>
 
-nnoremap <silent> <C-u>  :<C-u>Unite -buffer-name=files buffer file_mru bookmark file_rec<CR>
-inoremap <silent> <C-u>  <Esc>:<C-u>Unite -buffer-name=files buffer file_mru bookmark file_rec<CR>
+" nnoremap <silent> <C-u>  :<C-u>Unite -buffer-name=buffer file_mru<CR>
+nnoremap <silent> <C-u>  :<C-u>Unite buffer file_mru<CR>
+inoremap <silent> <C-u>  <Esc>:<C-u>Unite -buffer-name=buffer file_mru<CR>
 
-nnoremap <silent> [unite]f  :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-nnoremap <silent> <C-x><C-f>  :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+" nnoremap <silent> [unite]f  :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+" nnoremap <silent> <C-x><C-f>  :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 
 nnoremap <silent> [unite]b  :<C-u>Unite -auto-preview buffer<CR>
 nnoremap <silent> <C-x><C-b>  :<C-u>Unite -auto-preview buffer<CR>
@@ -532,16 +561,16 @@ nmap ss <Plug>Yssurround
 " MiniBufExplorer
 "------------------------------------
 "set minibfexp
-let g:miniBufExplMapWindowNavVim=1 "hjklで移動
-let g:miniBufExplSplitBelow=0  " Put new window above
-let g:miniBufExplMapWindowNavArrows=1
-let g:miniBufExplMapCTabSwitchBufs=1
-let g:miniBufExplModSelTarget=1
-let g:miniBufExplSplitToEdge=1
-let g:miniBufExplMaxSize = 10
+" let g:miniBufExplMapWindowNavVim=1 "hjklで移動
+" let g:miniBufExplSplitBelow=0  " Put new window above
+" let g:miniBufExplMapWindowNavArrows=1
+" let g:miniBufExplMapCTabSwitchBufs=1
+" let g:miniBufExplModSelTarget=1
+" let g:miniBufExplSplitToEdge=1
+" let g:miniBufExplMaxSize = 10
 
 ":TmでMiniBufExplorerの表示トグル
-command! Mt :TMiniBufExplorer
+" command! Mt :TMiniBufExplorer
 
 
 "------------------------------------
@@ -582,7 +611,7 @@ let g:vimshell_right_prompt = 'getcwd()'
 
 
 "------------------------------------
-" twit-vim via basyura
+" twit-vim
 "------------------------------------
 let twitvim_count = 40
 nnoremap <Leader>tp :<C-u>PosttoTwitter<CR>
@@ -654,7 +683,15 @@ vmap gx <Plug>(openbrowser-smart-search)
 "------------------------------------
 " VimFiler
 "------------------------------------
+" vimfilerをデフォルトのファイラにする
 :let g:vimfiler_as_default_explorer = 1
+" セーフモード無効化
+:let g:vimfiler_safe_mode_by_default = 0
+
+" nnoremap <silent> <C-x><C-j>  :VimFilerSimple<CR>
+nnoremap <silent> <C-x><C-j>  :VimFiler<CR>
+nnoremap <Leader>f  :VimFilerSimple<CR>
+
 
 
 
@@ -665,6 +702,45 @@ vmap gx <Plug>(openbrowser-smart-search)
 let QFixHowm_Key = 'g'
 "Howmコマンドの2ストローク目キーマップ
 let QFixHowm_KeyB = ','
+"howmのファイルタイプ
+let QFixHowm_FileType = 'qfix_memo'
+"メニュー画面のプレビューを常に表示
+let QFixHowm_MenuPreview = 1
+" メニュー画面の分割方法指定  垂直分割して左側
+let QFixHowm_MenuCmd = 'vertical split'
+"メニュー画面の予定表示日数
+let QFixHowm_ShowScheduleMenu = 10
+"メニュー画面の予定・TODO表示に使われる識別子
+let QFixHowm_ListReminder_MenuExt = '[-@+!~.]'
+"メニュー画面で表示する最近のメモの数
+let QFixHowm_MenuRecent = 20
+"メニュー画面で表示するランダムメモの数
+let QFixHowm_RandomWalkColumns = 15
+
+
+"------------------------------------
+" indent_guides
+"------------------------------------
+" vim起動時に1だと有効
+let g:indent_guides_enable_on_vim_startup = 0
+" インデント強調表示の濃度
+let g:indent_guides_color_change_percent = 10
+" インデント強調表示の幅
+let g:indent_guides_guide_size = 1
+" 有効とするインデントの幅
+let g:indent_guides_start_level = 2
+
+
+
+
+"------------------------------------
+" occur.vim
+"------------------------------------
+" nmap  <Leader>oc :Occur<CR>
+" nmap  <Leader>mo :Moccur<CR>
+" nmap  <Leader>* :StarOccur<CR>
+" デフォルト定義済み
+
 
 
 "-------------------------------------------------------------------------------
@@ -834,7 +910,17 @@ vnoremap ( t(
 " tabで分割移動
 nnoremap <Tab> <C-w>w
 
+" yankした内容と単語や選択中の文字を置き換える。
+" "n."で次の同じ文字も置き換える。
+nnoremap <silent> cp ce<C-r>0<Esc>:let@/=@1<CR>:noh<CR>
+vnoremap <silent> cp c<C-r>0<Esc>:let@/=@1<CR>:noh<CR>
+nnoremap <silent> cip ciw<C-r>0<Esc>:let@/=@1<CR>:noh<CR>
 
+
+" エディタのタブ操作系
+nmap <Tab> :tabn<CR>
+nmap <C-T> :tabnew<CR>
+nmap <C-W> :tabclose<CR>
 
 "-------------------------------------------------------------------------------
 " コマンド定義類
