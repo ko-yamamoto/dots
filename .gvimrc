@@ -28,8 +28,8 @@ set cmdheight=1
 " ========== 色の設定 ==========
 "カラースキーマを設定
 " colorscheme murphyNS
-colorscheme wombat-noItalic
-
+" colorscheme wombat-noItalic
+colorscheme Tomorrow-Night-Bright
 
 
 " ========== 環境別の設定 ==========
