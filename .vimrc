@@ -10,43 +10,59 @@ if has('vim_starting')
   call neobundle#rc(expand('~/.vim/bundle'))
 endif
 
+" NeoBundle自身
 NeoBundle 'git://github.com/Shougo/neobundle.vim.git'
 
-" 使用するプラグインの指定
+" プラグインのプラグイン
+NeoBundle 'Shougo/vimproc'
+NeoBundle 'mattn/webapi-vim'
+
+" unite.vim
+NeoBundle 'Shougo/unite.vim'
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'git://github.com/ujihisa/unite-font.git'
-" NeoBundle 'VimClojure'
-NeoBundle 'git://github.com/vim-scripts/VST.git'
-" NeoBundle 'Processing'
-NeoBundle 'git://github.com/vim-scripts/JSON.vim.git'
-NeoBundle 'git://github.com/vim-scripts/smoothPageScroll.vim.git'
-NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'git://github.com/vim-scripts/TwitVim.git'
-NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'scrooloose/nerdcommenter'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/vimproc'
+NeoBundle 'h1mesuke/unite-outline'
+
+" shell/filer
 NeoBundle 'Shougo/vimshell'
 NeoBundle 'Shougo/vimfiler'
-NeoBundle 'mattn/webapi-vim'
+
+" 入力/開発補助
+NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'scrooloose/nerdcommenter'
+NeoBundle 'thinca/vim-poslist'
+NeoBundle 'tpope/vim-surround'
 NeoBundle 'tyru/vim-altercmd'
 NeoBundle 'kana/vim-operator-user'
 NeoBundle 'kana/vim-operator-replace'
-" NeoBundle 'kchmck/vim-coffee-script'
-NeoBundle 'tpope/vim-surround'
-" NeoBundle 'fholgado/minibufexpl.vim'
-" NeoBundle 'tsukkee/lingr-vim'
-NeoBundle 'thinca/vim-poslist'
-NeoBundle 'h1mesuke/unite-outline'
-" NeoBundle 'mattn/googletasks-vim'
+NeoBundle 'git://github.com/kana/vim-smartword.git'
+NeoBundle 'git://github.com/vim-scripts/occur.vim.git'
+NeoBundle 'git://github.com/vim-scripts/Align.git'
 NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'git://github.com/derekwyatt/vim-scala.git'
-NeoBundle 'git://github.com/tyru/open-browser.vim.git'
-NeoBundle 'fuenor/qfixhowm'
-NeoBundle 'git://github.com/godlygeek/csapprox.git'
+NeoBundle 'git://github.com/kana/vim-smartword.git'
+NeoBundle 'git://github.com/vim-scripts/regreplop.vim.git'
+
+" 見た目に影響
+NeoBundle 'git://github.com/vim-scripts/smoothPageScroll.vim.git'
 NeoBundle 'git://github.com/thinca/vim-fontzoom.git'
 NeoBundle 'git://github.com/nathanaelkane/vim-indent-guides.git'
-NeoBundle 'git://github.com/vim-scripts/occur.vim.git'
+" NeoBundle 'fholgado/minibufexpl.vim'
+NeoBundle 'git://github.com/godlygeek/csapprox.git'
+
+" 言語関連
+NeoBundle 'git://github.com/derekwyatt/vim-scala.git'
+NeoBundle 'git://github.com/vim-scripts/VST.git'
+NeoBundle 'git://github.com/vim-scripts/JSON.vim.git'
+" NeoBundle 'VimClojure'
+" NeoBundle 'Processing'
+" NeoBundle 'kchmck/vim-coffee-script'
+
+" その他
+NeoBundle 'git://github.com/tyru/open-browser.vim.git'
+NeoBundle 'git://github.com/vim-scripts/TwitVim.git'
+NeoBundle 'fuenor/qfixhowm'
+
 
 filetype plugin on
 filetype indent on
@@ -56,7 +72,8 @@ filetype indent on
 "-------------------------------------------------------------------------------
 
 " キーマップリーダー
-let mapleader = ","
+" let mapleader = ","
+let mapleader = " "
 
 
 "ファイルタイプ別セッティングON
@@ -424,11 +441,11 @@ inoremap <expr><C-e> neocomplcache#cancel_popup()
 "inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
 
 " Enable omni completion.
-" autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-" autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-" autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " Enable heavy omni completion.
 " if !exists('g:neocomplcache_omni_patterns')
@@ -497,7 +514,8 @@ function! s:ExecPy()
 
 " The prefix key.
 nnoremap    [unite]   <Nop>
-nmap    , [unite]
+" nmap    , [unite]
+nmap    <Space> [unite]
 
 nnoremap [unite]u  :<C-u>Unite<Space>
 
@@ -513,7 +531,8 @@ nnoremap <silent> <C-x><C-b>  :<C-u>Unite -auto-preview buffer<CR>
 
 nnoremap <silent> [unite]m  :<C-u>Unite file_mru<CR>
 
-nnoremap <silent> [unite]g  :<C-u>Unite -auto-preview grep<CR>
+" nnoremap <silent> [unite]g  :<C-u>Unite -auto-preview grep<CR>
+nnoremap <silent> [unite]g :Unite grep:%:-iHRn<CR>
 
 " レジスタ一覧
 nnoremap <silent> <C-p> :<C-u>Unite -buffer-name=register register<CR>
@@ -545,15 +564,6 @@ nmap s <Plug>Ysurround
 nmap ss <Plug>Yssurround
 
 
-
-
-"------------------------------------
-" grep.vim
-"------------------------------------
-" :Gb <args> でGrepBufferする
-" command! -nargs=1 Gb :GrepBuffer <args>
-" カーソル下の単語をGrepBufferする
-" nnoremap <C-g><C-b> :<C-u>GrepBuffer<Space><C-r><C-w><Enter>
 
 
 
@@ -615,9 +625,10 @@ let g:vimshell_right_prompt = 'getcwd()'
 "------------------------------------
 let twitvim_count = 40
 nnoremap <Leader>tp :<C-u>PosttoTwitter<CR>
-nnoremap <Leader>tf :<C-u>FriendsTwitter<CR><C-w>j
-nnoremap <Leader>tu :<C-u>UserTwitter<CR><C-w>j
-nnoremap <Leader>tr :<C-u>RepliesTwitter<CR><C-w>j
+nnoremap <Leader>tf :<C-u>FriendsTwitter<CR>
+nnoremap <Leader>tu :<C-u>UserTwitter<CR>
+nnoremap <Leader>tr :<C-u>RepliesTwitter<CR>
+nnoremap <Leader>td :<C-u>DMTwitter<CR>
 
 autocmd FileType twitvim call s:twitvim_my_settings()
 function! s:twitvim_my_settings()
@@ -655,6 +666,7 @@ let g:smooth_page_scroll_delay = 0.5
 " fugitive
 "------------------------------------
 nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gl :Glog 
 nnoremap <Leader>gd :Gdiff<CR>
 nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>ga :Gwrite<CR>
@@ -709,17 +721,23 @@ let QFixHowm_MenuPreview = 1
 " メニュー画面の分割方法指定  垂直分割して左側
 let QFixHowm_MenuCmd = 'vertical split'
 "メニュー画面の予定表示日数
-let QFixHowm_ShowScheduleMenu = 10
+let QFixHowm_ShowScheduleMenu = 15
 "メニュー画面の予定・TODO表示に使われる識別子
 let QFixHowm_ListReminder_MenuExt = '[-@+!~.]'
 "メニュー画面で表示する最近のメモの数
-let QFixHowm_MenuRecent = 20
+let QFixHowm_MenuRecent = 25
 "メニュー画面で表示するランダムメモの数
 let QFixHowm_RandomWalkColumns = 15
 
 
 "------------------------------------
-" indent_guides
+" QfixGrep
+"------------------------------------
+" 検索ディレクトリはカレントディレクトリを基点にする
+let MyGrep_CurrentDirMode = 0
+
+"------------------------------------
+" indent guides
 "------------------------------------
 " vim起動時に1だと有効
 let g:indent_guides_enable_on_vim_startup = 0
@@ -740,6 +758,23 @@ let g:indent_guides_start_level = 2
 " nmap  <Leader>mo :Moccur<CR>
 " nmap  <Leader>* :StarOccur<CR>
 " デフォルト定義済み
+
+
+
+"------------------------------------
+" vim-smartword
+"------------------------------------
+map w  <Plug>(smartword-w)
+map gw  <Plug>(smartword-b)
+map e  <Plug>(smartword-e)
+map ge  <Plug>(smartword-ge)
+
+
+"------------------------------------
+" regreplop.vim
+"------------------------------------
+" visualの範囲をレジスタの内容と置き換える
+vnoremap p <Plug>ReplaceVisual
 
 
 
@@ -791,9 +826,6 @@ augroup MyXML
   autocmd Filetype xml inoremap <buffer> </ </<C-x><C-o>
 augroup END
 
-" Visualモードでのpで選択範囲をレジスタの内容に置き換える
-vnoremap p <Esc>:let current_reg = @"<CR>gvdi<C-R>=current_reg<CR><Esc>
-
 
 " F2で前のバッファ
 map <F2> <ESC>:bp<CR>
@@ -821,7 +853,7 @@ nnoremap Y y$
 " y0で行頭までヤンク
 nmap y0 y^
 " v9で行末まで選択
-nmap v9 v$
+nmap v9 v$h
 
 
 " 挿入モードでCtrl+kを押すとクリップボードの内容を貼り付けられるように
@@ -961,7 +993,23 @@ function! s:open_junk_file()
     execute 'edit ' . l:filename
   endif
 endfunction
-"}}}
+
+
+
+"------------------------------------
+" vim-toggle-wrap
+"------------------------------------
+" set wrapとnowrapをトグルする
+function ToggleWrap()
+ if (&wrap == 1)
+ set nowrap
+ else
+ set wrap
+ set nolinebreak
+ endif
+endfunction
+
+nnoremap <C-L><C-L> :call ToggleWrap()<CR>
 
 
 "-------------------------------------------------------------------------------
@@ -969,6 +1017,7 @@ endfunction
 "-------------------------------------------------------------------------------
 autocmd BufNewFile,BufRead *.scala  set filetype=scala
 autocmd BufNewFile,BufRead *.clj    set filetype=clojure
+autocmd BufNewFile,BufRead *.ejs    set filetype=html
 
 
 
