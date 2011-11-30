@@ -41,7 +41,10 @@ NeoBundle 'git://github.com/vim-scripts/occur.vim.git'
 NeoBundle 'git://github.com/vim-scripts/Align.git'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'git://github.com/kana/vim-smartword.git'
-NeoBundle 'git://github.com/vim-scripts/regreplop.vim.git'
+NeoBundle 'git://github.com/kana/vim-smartchr.git'
+NeoBundle 'git://github.com/kana/vim-arpeggio.git'
+
+
 
 " 見た目に影響
 NeoBundle 'git://github.com/vim-scripts/smoothPageScroll.vim.git'
@@ -56,12 +59,22 @@ NeoBundle 'git://github.com/vim-scripts/VST.git'
 NeoBundle 'git://github.com/vim-scripts/JSON.vim.git'
 " NeoBundle 'VimClojure'
 " NeoBundle 'Processing'
-" NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'kchmck/vim-coffee-script'
 
 " その他
 NeoBundle 'git://github.com/tyru/open-browser.vim.git'
 NeoBundle 'git://github.com/vim-scripts/TwitVim.git'
 NeoBundle 'fuenor/qfixhowm'
+NeoBundle 'git://github.com/mattn/learn-vimscript.git'
+NeoBundle 'git://github.com/mattn/lisper-vim'
+" NeoBundle 'git://github.com/choplin/unite-vim_hacks.git'
+" NeoBundle 'git://github.com/basyura/twibill.vim.git'
+" NeoBundle 'git://github.com/basyura/unite-twitter.git'
+NeoBundle 'git://github.com/mattn/hahhah-vim.git'
+
+
+
+
 
 
 filetype plugin on
@@ -161,6 +174,7 @@ set whichwrap=b,s,h,l,<,>,[,]    " カーソルを行頭、行末で止まらな
 set showmode                     " 現在のモードを表示
 set viminfo='50,<1000,s100,\"50  " viminfoファイルの設定
 set modelines=0                  " モードラインは無効
+set history=100
 
 set title
 set titlestring=Vim:\ %f\ %h%r%m
@@ -200,7 +214,7 @@ set showmatch
 "ステータスラインを常に表示
 set laststatus=2
 " ステータスラインに表示する情報の指定
-set statusline=%n\:\ %y\[%{(&fenc!=''?&fenc:&enc).'\:'.&ff.'\]'}%m\ %F%r%=<%l/%L:%p%%>
+set statusline=%n\:\ %y\[%{(&fenc!=''?&fenc:&enc).'\:'.&ff.'\]'}%m\ %F%r%=<%l/%L:%p%%>%=%{g:HahHah()}
 " ステータスライン下の行数
 set cmdheight=1
 " 一定時間放置するとカーソル行ハイライト
@@ -506,6 +520,8 @@ function! s:ExecPy()
 "------------------------------------
 " unite.vim
 "------------------------------------
+"mruの保存件数
+let g:unite_source_file_mru_limit = 200
 "
 " Uniteを開く時、垂直分割で開く
 " if has("unix") 
@@ -520,8 +536,8 @@ nmap    <Space> [unite]
 nnoremap [unite]u  :<C-u>Unite<Space>
 
 " nnoremap <silent> <C-u>  :<C-u>Unite -buffer-name=buffer file_mru<CR>
-nnoremap <silent> <C-u>  :<C-u>Unite buffer file_mru<CR>
-inoremap <silent> <C-u>  <Esc>:<C-u>Unite -buffer-name=buffer file_mru<CR>
+nnoremap <silent> <C-u>  :<C-u>Unite buffer tab file_mru directory_mru<CR>
+inoremap <silent> <C-u>  <Esc>:<C-u>Unite -buffer-name=buffer tab file_mru directory_mru<CR>
 
 " nnoremap <silent> [unite]f  :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 " nnoremap <silent> <C-x><C-f>  :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
@@ -535,12 +551,17 @@ nnoremap <silent> [unite]m  :<C-u>Unite file_mru<CR>
 nnoremap <silent> [unite]g :Unite grep:%:-iHRn<CR>
 
 " レジスタ一覧
-nnoremap <silent> <C-p> :<C-u>Unite -buffer-name=register register<CR>
+"nnoremap <silent> <C-p> :<C-u>Unite -buffer-name=register register<CR>
+"history/yankの有効化
+let g:unite_source_history_yank_enable = 1
+nnoremap <silent> <C-p> :<C-u>Unite history/yank<CR>
+xnoremap <silent> <C-p> dh:<C-u>Unite -buffer-name=register history/yank<CR>
+
 " 位置一覧
-nnoremap <silent> <C-i> :<C-u>Unite -auto-preview poslist<CR>
+" nnoremap <silent> <C-p> :<C-u>Unite -auto-preview poslist<CR>
+
 " アウトライン
 nnoremap <silent> <C-o> :<C-u>Unite -auto-preview outline<CR>
-
 
 autocmd FileType unite call s:unite_my_settings()
 
@@ -702,7 +723,7 @@ vmap gx <Plug>(openbrowser-smart-search)
 
 " nnoremap <silent> <C-x><C-j>  :VimFilerSimple<CR>
 nnoremap <silent> <C-x><C-j>  :VimFiler<CR>
-nnoremap <Leader>f  :VimFilerSimple<CR>
+nnoremap <Leader>f  :VimFiler<CR>
 
 
 
@@ -711,7 +732,7 @@ nnoremap <Leader>f  :VimFilerSimple<CR>
 " QfixHowm
 "------------------------------------
 "Howmコマンドキーマップ
-let QFixHowm_Key = 'g'
+let QFixHowm_Key = ' '
 "Howmコマンドの2ストローク目キーマップ
 let QFixHowm_KeyB = ','
 "howmのファイルタイプ
@@ -771,10 +792,27 @@ map ge  <Plug>(smartword-ge)
 
 
 "------------------------------------
-" regreplop.vim
+" smartchr.vim
 "------------------------------------
-" visualの範囲をレジスタの内容と置き換える
-vnoremap p <Plug>ReplaceVisual
+inoremap <buffer><expr> = smartchr#one_of('=', ' == ', '')
+inoremap <buffer><expr> > smartchr#one_of('>', '->', '=>', '')
+inoremap <buffer><expr> ( smartchr#one_of('(', '()', '')
+
+
+"------------------------------------
+" arpeggio.vim
+"------------------------------------
+"キー同時押しマッピング
+call arpeggio#load()
+Arpeggionmap jk <Esc>
+Arpeggioimap jk <Esc>
+Arpeggiocmap jk <Esc>
+Arpeggiovmap jk <Esc>
+Arpeggionmap fj <Esc>
+Arpeggioimap fj <Esc>
+Arpeggiocmap fj <Esc>
+Arpeggiovmap fj <Esc>
+
 
 
 
@@ -821,10 +859,10 @@ onoremap gc :<C-u>normal gc<Enter>
 " inoremap , ,<Space>
 
 " XMLの閉タグを自動挿入
-augroup MyXML
-  autocmd!
-  autocmd Filetype xml inoremap <buffer> </ </<C-x><C-o>
-augroup END
+" augroup MyXML
+  " autocmd!
+  " autocmd Filetype xml inoremap <buffer> </ </<C-x><C-o>
+" augroup END
 
 
 " F2で前のバッファ
@@ -845,15 +883,16 @@ map <F4> <ESC>:bw<CR>
 " 0, 9で行頭、行末へ
 nmap 1 0
 nmap 0 ^
-nmap 9 $
+nnoremap 9 g$
 
 " y9で行末までヤンク
-nmap y9 y$
+nnoremap y9 y$
 nnoremap Y y$
 " y0で行頭までヤンク
-nmap y0 y^
+nnoremap y0 y^
 " v9で行末まで選択
-nmap v9 v$h
+nnoremap v9 v$h
+nnoremap vv v$h
 
 
 " 挿入モードでCtrl+kを押すとクリップボードの内容を貼り付けられるように
@@ -932,15 +971,16 @@ imap <C-x><C-s> <Esc>:w<CR>i
 
 " xのヤンクは使わないのでxレジスタへ
 nnoremap x "xx
+vnoremap x "xx
 
 " カッコ移動を楽に
-onoremap ) t)
-onoremap ( t(
-vnoremap ) t)
-vnoremap ( t(
+" onoremap ) f)
+" onoremap ( f(
+" vnoremap ) f)
+" vnoremap ( f(
 
 " tabで分割移動
-nnoremap <Tab> <C-w>w
+" nnoremap <Tab> <C-w>w
 
 " yankした内容と単語や選択中の文字を置き換える。
 " "n."で次の同じ文字も置き換える。
@@ -951,8 +991,13 @@ nnoremap <silent> cip ciw<C-r>0<Esc>:let@/=@1<CR>:noh<CR>
 
 " エディタのタブ操作系
 nmap <Tab> :tabn<CR>
-nmap <C-T> :tabnew<CR>
-nmap <C-W> :tabclose<CR>
+nnoremap <Leader><C-T> :tabnew<CR>
+
+" *での検索時は次候補ではなくカーソル下結果から動かないように
+nnoremap * *N
+
+" ヤンクした文字を貼り付け
+" vmap p xP
 
 "-------------------------------------------------------------------------------
 " コマンド定義類
@@ -988,7 +1033,7 @@ function! s:open_junk_file()
     call mkdir(l:junk_dir, 'p')
   endif
 
-  let l:filename = input('Junk Code: ', l:junk_dir.strftime('/%Y-%m-%d-%H%M%S.'))
+  let l:filename = input('Junk Code: ', l:junk_dir.strftime('/junk-%Y-%m-%d-%H%M%S.'))
   if l:filename != ''
     execute 'edit ' . l:filename
   endif
@@ -1000,7 +1045,7 @@ endfunction
 " vim-toggle-wrap
 "------------------------------------
 " set wrapとnowrapをトグルする
-function ToggleWrap()
+function! ToggleWrap()
  if (&wrap == 1)
  set nowrap
  else
