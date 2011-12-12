@@ -21,7 +21,7 @@ NeoBundle 'mattn/webapi-vim'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'git://github.com/ujihisa/unite-font.git'
-NeoBundle 'h1mesuke/unite-outline'
+NeoBundle 'git://github.com/h1mesuke/unite-outline.git'
 
 " shell/filer
 NeoBundle 'Shougo/vimshell'
@@ -52,6 +52,9 @@ NeoBundle 'git://github.com/thinca/vim-fontzoom.git'
 NeoBundle 'git://github.com/nathanaelkane/vim-indent-guides.git'
 " NeoBundle 'fholgado/minibufexpl.vim'
 NeoBundle 'git://github.com/godlygeek/csapprox.git'
+NeoBundle 'git://github.com/kien/rainbow_parentheses.vim.git'
+
+
 
 " 言語関連
 NeoBundle 'git://github.com/derekwyatt/vim-scala.git'
@@ -814,6 +817,36 @@ Arpeggiocmap fj <Esc>
 Arpeggiovmap fj <Esc>
 
 
+"------------------------------------
+" rainbow_parentheses.vim
+"------------------------------------
+" 色の指定
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['black',       'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+" 色をつける最大数
+let g:rbpt_max = 16
+" 起動時にオンにする設定
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound " ()
+au Syntax * RainbowParenthesesLoadSquare "[]
+au Syntax * RainbowParenthesesLoadBraces " {}
+au Syntax * RainbowParenthesesLoadChevrons " <>
 
 
 "-------------------------------------------------------------------------------
@@ -881,7 +914,7 @@ map <F4> <ESC>:bw<CR>
 " map <M-d> <ESC>:bw<CR>
 
 " 0, 9で行頭、行末へ
-nmap 1 0
+" nmap 1 0
 nmap 0 ^
 nnoremap 9 g$
 
@@ -941,10 +974,10 @@ if has("mac")
 endif
 
 " insert mode での移動
-map <C-e> <END>
-imap <C-e> <END>
-map <C-a> <HOME>
-imap <C-a> <HOME>
+" map <C-e> <END>
+" imap <C-e> <END>
+" map <C-a> <HOME>
+" imap <C-a> <HOME>
 
 " インサートモードでもhjklで移動
 imap <M-j> <Down>
@@ -1054,7 +1087,7 @@ function! ToggleWrap()
  endif
 endfunction
 
-nnoremap <C-L><C-L> :call ToggleWrap()<CR>
+nnoremap <C-J><C-J> :call ToggleWrap()<CR>
 
 
 "-------------------------------------------------------------------------------
