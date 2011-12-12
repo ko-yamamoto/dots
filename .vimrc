@@ -417,6 +417,7 @@ let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
 let g:neocomplcache_dictionary_filetype_lists = {
 \ 'default' : '',
 \ 'vimshell' : $HOME.'/.vimshell_hist',
+\ 'ruby' : $HOME.'/.vim/dict/ruby.dict',
 \ 'scala' : $HOME . '/.vim/dict/scala.dict'
 \ }
 
@@ -463,6 +464,7 @@ autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+" autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 
 " Enable heavy omni completion.
 " if !exists('g:neocomplcache_omni_patterns')
@@ -1096,6 +1098,7 @@ nnoremap <C-J><C-J> :call ToggleWrap()<CR>
 autocmd BufNewFile,BufRead *.scala  set filetype=scala
 autocmd BufNewFile,BufRead *.clj    set filetype=clojure
 autocmd BufNewFile,BufRead *.ejs    set filetype=html
+autocmd BufNewFile,BufRead *.rb     set filetype=ruby
 
 
 
