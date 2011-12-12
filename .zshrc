@@ -39,7 +39,8 @@ zstyle :compinstall filename '/Users/nishikawasasaki/.zshrc'
 # export SHELL=/usr/local/bin/zsh
 
 # 環境変数LANG
-export LANG=ja_JP.UTF-8
+# export LANG=ja_JP.UTF-8
+export LANG=ja_JP.utf8
 
 # 環境変数
 # export PATH=$PATH:/bin:/usr/local/bin:/Users/nishikawasasaki/bin:/Users/nishikawasasaki/android/android-sdk-mac_x86/tools:/Users/nishikawasasaki/android/android-sdk-mac_x86/platform-tools
