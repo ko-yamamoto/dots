@@ -63,6 +63,7 @@ NeoBundle 'git://github.com/vim-scripts/JSON.vim.git'
 " NeoBundle 'VimClojure'
 " NeoBundle 'Processing'
 NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'git://github.com/vim-ruby/vim-ruby.git'
 
 " その他
 NeoBundle 'git://github.com/tyru/open-browser.vim.git'
@@ -1100,7 +1101,7 @@ autocmd BufNewFile,BufRead *.clj    set filetype=clojure
 autocmd BufNewFile,BufRead *.ejs    set filetype=html
 autocmd BufNewFile,BufRead *.rb     set filetype=ruby
 
-
+autocmd FileType ruby set tabstop=2 shiftwidth=2 softtabstop=2
 
 
 
