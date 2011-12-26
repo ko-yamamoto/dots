@@ -43,6 +43,8 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'git://github.com/kana/vim-smartword.git'
 NeoBundle 'git://github.com/kana/vim-smartchr.git'
 NeoBundle 'git://github.com/kana/vim-arpeggio.git'
+NeoBundle 'git://github.com/vimtaku/vim-mlh.git'
+NeoBundle 'git@github.com:nishikawasasaki/taglist.vim.git'
 
 
 
@@ -851,6 +853,18 @@ au Syntax * RainbowParenthesesLoadSquare "[]
 au Syntax * RainbowParenthesesLoadBraces " {}
 au Syntax * RainbowParenthesesLoadChevrons " <>
 
+
+
+"------------------------------------
+" taglist.vim
+"------------------------------------
+" ctags の位置を指定
+if has("mac")
+    Tlist_Ctags_Cmd = "/usr/local/Cellar/ctags/5.8/bin/ctags"
+endif
+if has("win32")
+    " Tlist_Ctags_Cmd = ""
+endif
 
 "-------------------------------------------------------------------------------
 " キーマッピング
