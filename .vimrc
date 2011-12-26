@@ -1026,8 +1026,9 @@ nnoremap <silent> cip ciw<C-r>0<Esc>:let@/=@1<CR>:noh<CR>
 
 
 " エディタのタブ操作系
-nmap <Tab> :tabn<CR>
 nnoremap <Leader><C-T> :tabnew<CR>
+nnoremap <C-Tab>   gt
+nnoremap <C-S-Tab> gT
 
 " *での検索時は次候補ではなくカーソル下結果から動かないように
 nnoremap * *N
