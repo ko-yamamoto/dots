@@ -44,8 +44,8 @@ NeoBundle 'git://github.com/kana/vim-smartword.git'
 NeoBundle 'git://github.com/kana/vim-smartchr.git'
 NeoBundle 'git://github.com/kana/vim-arpeggio.git'
 NeoBundle 'git://github.com/vimtaku/vim-mlh.git'
-NeoBundle 'git@github.com:nishikawasasaki/taglist.vim.git'
-
+" NeoBundle 'git@github.com:nishikawasasaki/taglist.vim.git'
+NeoBundle 'git://github.com/majutsushi/tagbar.git'
 
 
 " 見た目に影響
@@ -860,11 +860,44 @@ au Syntax * RainbowParenthesesLoadChevrons " <>
 "------------------------------------
 " ctags の位置を指定
 if has("mac")
-    Tlist_Ctags_Cmd = "/usr/local/Cellar/ctags/5.8/bin/ctags"
+    Tlist_Ctags_Cmd = "/usr/local/bin/ctags"
 endif
 if has("win32")
     " Tlist_Ctags_Cmd = ""
 endif
+
+" nnoremap <silent> <leader>o :TlistToggle<CR>
+
+
+"------------------------------------
+" tagbar
+"------------------------------------
+" ctags の位置を指定
+if has("mac")
+	let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
+endif
+if has("win32")
+	" let g:tagbar_ctags_bin = 'C:\Ctags5.8\ctags.exe'
+endif
+
+" Scala 用定義
+let g:tagbar_type_scala = {
+    \ 'ctagstype' : 'Scala',
+    \ 'kinds'     : [
+        \ 'p:packages:1',
+        \ 'V:values',
+        \ 'v:variables',
+        \ 'T:types',
+        \ 't:traits',
+        \ 'o:objects',
+        \ 'a:aclasses',
+        \ 'c:classes',
+        \ 'r:cclasses',
+        \ 'm:methods'
+    \ ]
+\ }
+
+nnoremap <silent> <leader>o :TagbarToggle<CR>
 
 "-------------------------------------------------------------------------------
 " キーマッピング
