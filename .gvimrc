@@ -148,8 +148,8 @@ endif
 
 if has('gui_macvim')
     " MacVim用設定
-    " set showtabline=2 " タブを常に表示
-    set showtabline=0 " タブを非表示
+    set showtabline=2 " タブを常に表示
+    " set showtabline=0 " タブを非表示
     set imdisable " IMを無効化
     au GUIEnter * set transparency=20 " 透明度を指定
     set antialias
