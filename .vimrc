@@ -43,7 +43,9 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'git://github.com/kana/vim-smartword.git'
 NeoBundle 'git://github.com/kana/vim-smartchr.git'
 NeoBundle 'git://github.com/kana/vim-arpeggio.git'
-
+NeoBundle 'git://github.com/vimtaku/vim-mlh.git'
+" NeoBundle 'git@github.com:nishikawasasaki/taglist.vim.git'
+NeoBundle 'git://github.com/majutsushi/tagbar.git'
 
 
 " 見た目に影響
@@ -63,6 +65,7 @@ NeoBundle 'git://github.com/vim-scripts/JSON.vim.git'
 " NeoBundle 'VimClojure'
 " NeoBundle 'Processing'
 NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'git://github.com/vim-ruby/vim-ruby.git'
 
 " その他
 NeoBundle 'git://github.com/tyru/open-browser.vim.git'
@@ -850,6 +853,51 @@ Arpeggiovmap fj <Esc>
 " au Syntax * RainbowParenthesesLoadChevrons " <>
 
 
+
+"------------------------------------
+" taglist.vim
+"------------------------------------
+" ctags の位置を指定
+if has("mac")
+    Tlist_Ctags_Cmd = "/usr/local/bin/ctags"
+endif
+if has("win32")
+    " Tlist_Ctags_Cmd = ""
+endif
+
+" nnoremap <silent> <leader>o :TlistToggle<CR>
+
+
+"------------------------------------
+" tagbar
+"------------------------------------
+" ctags の位置を指定
+if has("mac")
+	let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
+endif
+if has("win32")
+	" let g:tagbar_ctags_bin = 'C:\Ctags5.8\ctags.exe'
+endif
+
+" Scala 用定義
+let g:tagbar_type_scala = {
+    \ 'ctagstype' : 'Scala',
+    \ 'kinds'     : [
+        \ 'p:packages:1',
+        \ 'V:values',
+        \ 'v:variables',
+        \ 'T:types',
+        \ 't:traits',
+        \ 'o:objects',
+        \ 'a:aclasses',
+        \ 'c:classes',
+        \ 'r:cclasses',
+        \ 'm:methods'
+    \ ]
+\ }
+
+nnoremap <silent> <leader>o :TagbarToggle<CR>
+
 "-------------------------------------------------------------------------------
 " キーマッピング
 "-------------------------------------------------------------------------------
@@ -1024,8 +1072,9 @@ nnoremap <silent> cip ciw<C-r>0<Esc>:let@/=@1<CR>:noh<CR>
 
 
 " エディタのタブ操作系
-nmap <Tab> :tabn<CR>
 nnoremap <Leader><C-T> :tabnew<CR>
+nnoremap <C-Tab>   gt
+nnoremap <C-S-Tab> gT
 
 " *での検索時は次候補ではなくカーソル下結果から動かないように
 nnoremap * *N
@@ -1099,7 +1148,7 @@ autocmd BufNewFile,BufRead *.clj    set filetype=clojure
 autocmd BufNewFile,BufRead *.ejs    set filetype=html
 autocmd BufNewFile,BufRead *.rb     set filetype=ruby
 
-
+autocmd FileType ruby set tabstop=2 shiftwidth=2 softtabstop=2
 
 
 
