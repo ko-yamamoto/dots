@@ -876,7 +876,7 @@ if has("mac")
 	let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
 endif
 if has("win32")
-	" let g:tagbar_ctags_bin = 'C:\Ctags5.8\ctags.exe'
+	let g:tagbar_ctags_bin = 'C:\my\programs\vim73-kaoriya-win64-20110728\vim73-kaoriya-win64\ctags.exe'
 endif
 
 " Scala 用定義
