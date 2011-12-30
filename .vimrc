@@ -516,8 +516,7 @@ filetype plugin on
 autocmd FileType python let g:pydiction_location = '~/vim/pydiction/complete-dict'
 autocmd FileType python setl autoindent
 autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-autocmd FileType python setl expandtab tabstop=4 shiftwidth=4 softtabstop=4
-
+autocmd FileType python setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
 "Ctr+Pで編集中のpython実行
 function! s:ExecPy()
@@ -828,32 +827,32 @@ Arpeggiovmap fj <Esc>
 " rainbow_parentheses.vim
 "------------------------------------
 " 色の指定
-let g:rbpt_colorpairs = [
-    \ ['brown',       'RoyalBlue3'],
-    \ ['Darkblue',    'SeaGreen3'],
-    \ ['darkgray',    'DarkOrchid3'],
-    \ ['darkgreen',   'firebrick3'],
-    \ ['darkcyan',    'RoyalBlue3'],
-    \ ['darkred',     'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['brown',       'firebrick3'],
-    \ ['gray',        'RoyalBlue3'],
-    \ ['black',       'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['Darkblue',    'firebrick3'],
-    \ ['darkgreen',   'RoyalBlue3'],
-    \ ['darkcyan',    'SeaGreen3'],
-    \ ['darkred',     'DarkOrchid3'],
-    \ ['red',         'firebrick3'],
-    \ ]
+" let g:rbpt_colorpairs = [
+    " \ ['brown',       'RoyalBlue3'],
+    " \ ['Darkblue',    'SeaGreen3'],
+    " \ ['darkgray',    'DarkOrchid3'],
+    " \ ['darkgreen',   'firebrick3'],
+    " \ ['darkcyan',    'RoyalBlue3'],
+    " \ ['darkred',     'SeaGreen3'],
+    " \ ['darkmagenta', 'DarkOrchid3'],
+    " \ ['brown',       'firebrick3'],
+    " \ ['gray',        'RoyalBlue3'],
+    " \ ['black',       'SeaGreen3'],
+    " \ ['darkmagenta', 'DarkOrchid3'],
+    " \ ['Darkblue',    'firebrick3'],
+    " \ ['darkgreen',   'RoyalBlue3'],
+    " \ ['darkcyan',    'SeaGreen3'],
+    " \ ['darkred',     'DarkOrchid3'],
+    " \ ['red',         'firebrick3'],
+    " \ ]
 " 色をつける最大数
-let g:rbpt_max = 16
+" let g:rbpt_max = 16
 " 起動時にオンにする設定
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound " ()
-au Syntax * RainbowParenthesesLoadSquare "[]
-au Syntax * RainbowParenthesesLoadBraces " {}
-au Syntax * RainbowParenthesesLoadChevrons " <>
+" au VimEnter * RainbowParenthesesToggle
+" au Syntax * RainbowParenthesesLoadRound " ()
+" au Syntax * RainbowParenthesesLoadSquare "[]
+" au Syntax * RainbowParenthesesLoadBraces " {}
+" au Syntax * RainbowParenthesesLoadChevrons " <>
 
 
 
@@ -879,7 +878,7 @@ if has("mac")
 	let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
 endif
 if has("win32")
-	" let g:tagbar_ctags_bin = 'C:\Ctags5.8\ctags.exe'
+	let g:tagbar_ctags_bin = 'C:\my\programs\vim73-kaoriya-win64-20110728\vim73-kaoriya-win64\ctags.exe'
 endif
 
 " Scala 用定義
