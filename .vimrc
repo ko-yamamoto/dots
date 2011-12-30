@@ -77,6 +77,8 @@ NeoBundle 'git://github.com/mattn/lisper-vim'
 " NeoBundle 'git://github.com/basyura/twibill.vim.git'
 " NeoBundle 'git://github.com/basyura/unite-twitter.git'
 NeoBundle 'git://github.com/mattn/hahhah-vim.git'
+NeoBundle 'git://github.com/basyura/twibill.vim.git'
+NeoBundle 'git://github.com/basyura/TweetVim.git'
 
 
 
@@ -652,17 +654,17 @@ let g:vimshell_right_prompt = 'getcwd()'
 "------------------------------------
 " twit-vim
 "------------------------------------
-let twitvim_count = 40
-nnoremap <Leader>tp :<C-u>PosttoTwitter<CR>
-nnoremap <Leader>tf :<C-u>FriendsTwitter<CR>
-nnoremap <Leader>tu :<C-u>UserTwitter<CR>
-nnoremap <Leader>tr :<C-u>RepliesTwitter<CR>
-nnoremap <Leader>td :<C-u>DMTwitter<CR>
+" let twitvim_count = 40
+" nnoremap <Leader>tp :<C-u>PosttoTwitter<CR>
+" nnoremap <Leader>tf :<C-u>FriendsTwitter<CR>
+" nnoremap <Leader>tu :<C-u>UserTwitter<CR>
+" nnoremap <Leader>tr :<C-u>RepliesTwitter<CR>
+" nnoremap <Leader>td :<C-u>DMTwitter<CR>
 
-autocmd FileType twitvim call s:twitvim_my_settings()
-function! s:twitvim_my_settings()
-  set nowrap
-endfunction
+" autocmd FileType twitvim call s:twitvim_my_settings()
+" function! s:twitvim_my_settings()
+  " set nowrap
+" endfunction
 
 
 " if has('win32')
@@ -860,7 +862,7 @@ au Syntax * RainbowParenthesesLoadChevrons " <>
 "------------------------------------
 " ctags の位置を指定
 if has("mac")
-    Tlist_Ctags_Cmd = "/usr/local/bin/ctags"
+    " Tlist_Ctags_Cmd = "/usr/local/bin/ctags"
 endif
 if has("win32")
     " Tlist_Ctags_Cmd = ""
@@ -898,6 +900,33 @@ let g:tagbar_type_scala = {
 \ }
 
 nnoremap <silent> <leader>o :TagbarToggle<CR>
+
+
+
+
+"------------------------------------
+" TweetVim
+"------------------------------------
+" 発言用バッファを表示する
+nnoremap <Leader>tp :TweetVimSay<CR>
+" タイムライン選択用の Unite を起動する
+nnoremap <Leader>tf :Unite tweetvim<CR>
+" @
+nnoremap <Leader>tr :TweetVimMentions<CR>
+" リスト表示用
+nnoremap <Leader>tl :TweetVimListStatuses 
+" 検索用
+nnoremap <Leader>ts :TweetVimSearch 
+
+" スクリーン名のキャッシュを利用して、neocomplcache で補完する
+if !exists('g:neocomplcache_dictionary_filetype_lists')
+  let g:neocomplcache_dictionary_filetype_lists = {}
+endif
+let neco_dic = g:neocomplcache_dictionary_filetype_lists
+let neco_dic.tweetvim_say = $HOME . '/.tweetvim/screen_name'
+
+
+
 
 "-------------------------------------------------------------------------------
 " キーマッピング
