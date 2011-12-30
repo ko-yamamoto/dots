@@ -17,11 +17,14 @@ NeoBundle 'git://github.com/Shougo/neobundle.vim.git'
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'mattn/webapi-vim'
 
+" ファイルセレクタ・移動系
 " unite.vim
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'git://github.com/ujihisa/unite-font.git'
 NeoBundle 'git://github.com/h1mesuke/unite-outline.git'
+
+NeoBundle 'git://github.com/kien/ctrlp.vim.git'
 
 " shell/filer
 NeoBundle 'Shougo/vimshell'
