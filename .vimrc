@@ -82,7 +82,7 @@ NeoBundle 'git://github.com/mattn/lisper-vim'
 NeoBundle 'git://github.com/mattn/hahhah-vim.git'
 NeoBundle 'git://github.com/basyura/twibill.vim.git'
 NeoBundle 'git://github.com/basyura/TweetVim.git'
-
+NeoBundle 'git://github.com/pasela/unite-webcolorname.git'
 
 
 
