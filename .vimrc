@@ -586,7 +586,8 @@ function! s:unite_my_settings()"{{{
   let g:unite_source_file_mru_limit = 200
 endfunction"}}}
 
-
+" unite で neocomplcache の補完
+imap <C-k>  <Plug>(neocomplcache_start_unite_complete)
 
 
 "------------------------------------
