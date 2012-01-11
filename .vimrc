@@ -82,7 +82,7 @@ NeoBundle 'git://github.com/mattn/lisper-vim'
 NeoBundle 'git://github.com/mattn/hahhah-vim.git'
 NeoBundle 'git://github.com/basyura/twibill.vim.git'
 NeoBundle 'git://github.com/basyura/TweetVim.git'
-
+NeoBundle 'git://github.com/pasela/unite-webcolorname.git'
 
 
 
@@ -107,6 +107,11 @@ filetype plugin indent on
 set ffs=unix,dos,mac " 改行文字
 set fileencodings=utf-8,cp932,euc-jp,iso-2022-jp,ucs-2,latin1
 set encoding=utf-8 " デフォルトエンコーディング
+if has("win32")
+    set termencoding=cp932
+else
+    set termencoding=utf-8
+endif
 
 " 文字コード関連
 " from ずんWiki http://www.kawaz.jp/pukiwiki/?vim#content_1_7
