@@ -27,8 +27,8 @@ NeoBundle 'git://github.com/h1mesuke/unite-outline.git'
 NeoBundle 'git://github.com/kien/ctrlp.vim.git'
 
 " shell/filer
-NeoBundle 'Shougo/vimshell'
-NeoBundle 'Shougo/vimfiler'
+NeoBundle 'git://github.com/Shougo/vimshell.git'
+NeoBundle 'git://github.com/Shougo/vimfiler.git'
 
 " 入力/開発補助
 NeoBundle 'Shougo/neocomplcache'
@@ -739,6 +739,9 @@ vmap gx <Plug>(openbrowser-smart-search)
 :let g:vimfiler_as_default_explorer = 1
 " セーフモード無効化
 :let g:vimfiler_safe_mode_by_default = 0
+" 編集時はタブで開く
+let g:vimfiler_edit_action = 'tabopen'
+
 
 " nnoremap <silent> <C-x><C-j>  :VimFilerSimple<CR>
 nnoremap <silent> <C-x><C-j>  :VimFiler<CR>
