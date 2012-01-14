@@ -58,6 +58,7 @@ NeoBundle 'git://github.com/nathanaelkane/vim-indent-guides.git'
 " NeoBundle 'fholgado/minibufexpl.vim'
 NeoBundle 'git://github.com/godlygeek/csapprox.git'
 NeoBundle 'git://github.com/kien/rainbow_parentheses.vim.git'
+NeoBundle 'git://github.com/Lokaltog/vim-powerline.git'
 
 
 
