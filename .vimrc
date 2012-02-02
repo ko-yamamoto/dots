@@ -24,8 +24,6 @@ NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'git://github.com/ujihisa/unite-font.git'
 NeoBundle 'git://github.com/h1mesuke/unite-outline.git'
 
-NeoBundle 'git://github.com/kien/ctrlp.vim.git'
-
 " shell/filer
 NeoBundle 'git://github.com/Shougo/vimshell.git'
 NeoBundle 'git://github.com/Shougo/vimfiler.git'
@@ -80,11 +78,10 @@ NeoBundle 'git://github.com/mattn/lisper-vim'
 " NeoBundle 'git://github.com/choplin/unite-vim_hacks.git'
 " NeoBundle 'git://github.com/basyura/twibill.vim.git'
 " NeoBundle 'git://github.com/basyura/unite-twitter.git'
-NeoBundle 'git://github.com/mattn/hahhah-vim.git'
+" NeoBundle 'git://github.com/mattn/hahhah-vim.git'
 NeoBundle 'git://github.com/basyura/twibill.vim.git'
 NeoBundle 'git://github.com/basyura/TweetVim.git'
 NeoBundle 'git://github.com/pasela/unite-webcolorname.git'
-
 
 
 
@@ -231,7 +228,9 @@ set showmatch
 "ステータスラインを常に表示
 set laststatus=2
 " ステータスラインに表示する情報の指定
-set statusline=%n\:\ %y\[%{(&fenc!=''?&fenc:&enc).'\:'.&ff.'\]'}%m\ %F%r%=<%l/%L:%p%%>%=%{g:HahHah()}
+set statusline=%n\:\ %y\[%{(&fenc!=''?&fenc:&enc).'\:'.&ff.'\]'}%m\ %F%r%=<%l/%L:%p%%>
+" hahah を使う場合は下
+" set statusline=%n\:\ %y\[%{(&fenc!=''?&fenc:&enc).'\:'.&ff.'\]'}%m\ %F%r%=<%l/%L:%p%%>%=%{g:HahHah()}
 " ステータスライン下の行数
 set cmdheight=1
 " 一定時間放置するとカーソル行ハイライト
@@ -740,12 +739,12 @@ vmap gx <Plug>(openbrowser-smart-search)
 " セーフモード無効化
 :let g:vimfiler_safe_mode_by_default = 0
 " 編集時はタブで開く
-let g:vimfiler_edit_action = 'tabopen'
+" let g:vimfiler_edit_action = 'tabopen'
 
 
 " nnoremap <silent> <C-x><C-j>  :VimFilerSimple<CR>
-nnoremap <silent> <C-x><C-j>  :VimFiler<CR>
-nnoremap <Leader>f  :VimFiler<CR>
+nnoremap <silent> <C-x><C-j>  :VimFilerTab<CR>
+nnoremap <Leader>f  :VimFilerTab<CR>
 
 " Like Textmate icons.
 let g:vimfiler_tree_leaf_icon = ' '
@@ -845,31 +844,31 @@ Arpeggiovmap fj <Esc>
 " rainbow_parentheses.vim
 "------------------------------------
 " 色の指定
-" let g:rbpt_colorpairs = [
-    " \ ['brown',       'RoyalBlue3'],
-    " \ ['Darkblue',    'SeaGreen3'],
-    " \ ['darkgray',    'DarkOrchid3'],
-    " \ ['darkgreen',   'firebrick3'],
-    " \ ['darkcyan',    'RoyalBlue3'],
-    " \ ['darkred',     'SeaGreen3'],
-    " \ ['darkmagenta', 'DarkOrchid3'],
-    " \ ['brown',       'firebrick3'],
-    " \ ['gray',        'RoyalBlue3'],
-    " \ ['black',       'SeaGreen3'],
-    " \ ['darkmagenta', 'DarkOrchid3'],
-    " \ ['Darkblue',    'firebrick3'],
-    " \ ['darkgreen',   'RoyalBlue3'],
-    " \ ['darkcyan',    'SeaGreen3'],
-    " \ ['darkred',     'DarkOrchid3'],
-    " \ ['red',         'firebrick3'],
-    " \ ]
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['black',       'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
 " 色をつける最大数
-" let g:rbpt_max = 16
+let g:rbpt_max = 16
 " 起動時にオンにする設定
-" au VimEnter * RainbowParenthesesToggle
-" au Syntax * RainbowParenthesesLoadRound " ()
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound " ()
 " au Syntax * RainbowParenthesesLoadSquare "[]
-" au Syntax * RainbowParenthesesLoadBraces " {}
+au Syntax * RainbowParenthesesLoadBraces " {}
 " au Syntax * RainbowParenthesesLoadChevrons " <>
 
 
@@ -996,8 +995,10 @@ onoremap gc :<C-u>normal gc<Enter>
 
 " F2で前のバッファ
 map <F2> <ESC>:bp<CR>
+nnoremap H <ESC>:bp<CR>
 " F3で次のバッファ
 map <F3> <ESC>:bn<CR>
+nnoremap L <ESC>:bn<CR>
 " F4でバッファを削除する
 map <F4> <ESC>:bw<CR>
 
