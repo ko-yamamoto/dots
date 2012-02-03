@@ -57,6 +57,7 @@ NeoBundle 'git://github.com/nathanaelkane/vim-indent-guides.git'
 NeoBundle 'git://github.com/godlygeek/csapprox.git'
 NeoBundle 'git://github.com/kien/rainbow_parentheses.vim.git'
 NeoBundle 'git://github.com/Lokaltog/vim-powerline.git'
+NeoBundle 'https://github.com/rgarver/Kwbd.vim.git' " 指定ウィンドウのバッファを、 ウィンドウのレイアウトを崩す事無く閉じる
 
 
 
@@ -68,6 +69,7 @@ NeoBundle 'git://github.com/vim-scripts/JSON.vim.git'
 " NeoBundle 'Processing'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'git://github.com/vim-ruby/vim-ruby.git'
+NeoBundle 'git://github.com/MarcWeber/ensime.git'
 
 " その他
 NeoBundle 'git://github.com/tyru/open-browser.vim.git'
