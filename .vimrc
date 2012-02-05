@@ -14,12 +14,12 @@ endif
 NeoBundle 'git://github.com/Shougo/neobundle.vim.git'
 
 " プラグインのプラグイン
-NeoBundle 'Shougo/vimproc'
-NeoBundle 'mattn/webapi-vim'
+NeoBundle 'git://github.com/Shougo/vimproc.git'
+NeoBundle 'git://github.com/mattn/webapi-vim.git'
 
 " ファイルセレクタ・移動系
 " unite.vim
-NeoBundle 'Shougo/unite.vim'
+NeoBundle 'git://github.com/Shougo/unite.vim.git'
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'git://github.com/ujihisa/unite-font.git'
 NeoBundle 'git://github.com/h1mesuke/unite-outline.git'
@@ -29,18 +29,18 @@ NeoBundle 'git://github.com/Shougo/vimshell.git'
 NeoBundle 'git://github.com/Shougo/vimfiler.git'
 
 " 入力/開発補助
-NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'scrooloose/nerdcommenter'
-NeoBundle 'thinca/vim-poslist'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'tyru/vim-altercmd'
-NeoBundle 'kana/vim-operator-user'
-NeoBundle 'kana/vim-operator-replace'
+NeoBundle 'git://github.com/Shougo/neocomplcache.git', 'ver.7'
+NeoBundle 'git://github.com/thinca/vim-quickrun.git'
+NeoBundle 'git://github.com/scrooloose/nerdcommenter.git'
+NeoBundle 'git://github.com/thinca/vim-poslist.git'
+NeoBundle 'git://github.com/tpope/vim-surround.git'
+NeoBundle 'git://github.com/tyru/vim-altercmd.git'
+NeoBundle 'git://github.com/kana/vim-operator-user.git'
+NeoBundle 'git://github.com/kana/vim-operator-replace.git'
 NeoBundle 'git://github.com/kana/vim-smartword.git'
 NeoBundle 'git://github.com/vim-scripts/occur.vim.git'
 NeoBundle 'git://github.com/vim-scripts/Align.git'
-NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'git://github.com/tpope/vim-fugitive.git'
 NeoBundle 'git://github.com/kana/vim-smartword.git'
 NeoBundle 'git://github.com/kana/vim-smartchr.git'
 NeoBundle 'git://github.com/kana/vim-arpeggio.git'
@@ -69,7 +69,8 @@ NeoBundle 'git://github.com/vim-scripts/JSON.vim.git'
 " NeoBundle 'Processing'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'git://github.com/vim-ruby/vim-ruby.git'
-NeoBundle 'git://github.com/MarcWeber/ensime.git'
+NeoBundle 'git://github.com/rosstimson/scala-vim-support.git'
+
 
 " その他
 NeoBundle 'git://github.com/tyru/open-browser.vim.git'
@@ -135,7 +136,7 @@ if has('iconv')
 " fileencodingsを構築
   if &encoding ==# 'utf-8'
     let s:fileencodings_default = &fileencodings
-    let &fileencodings = s:enc_jis .','. s:enc_euc .',cp932'
+    let &fileencodings = s:enc_jis .','. s:enc_euc .',cp931'
     let &fileencodings = &fileencodings .','. s:fileencodings_default
     unlet s:fileencodings_default
   else
@@ -348,6 +349,10 @@ if has("unix")
   set t_Co=256
   colorscheme wombat256mod
 endif
+
+" カラー確認
+nnoremap <Leader>co <Esc>:so $VIMRUNTIME/syntax/hitest.vim<CR>
+
 
 
 " ========== インデント設定 ==========
@@ -925,6 +930,9 @@ nnoremap <silent> <leader>o :TagbarToggle<CR>
 "------------------------------------
 " TweetVim
 "------------------------------------
+" 取得件数
+let g:tweetvim_tweet_per_page = 50
+
 " 発言用バッファを表示する
 nnoremap <Leader>tp :TweetVimSay<CR>
 " タイムライン選択用の Unite を起動する
