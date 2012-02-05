@@ -1905,8 +1905,9 @@
 (color-theme-initialize)
 ;; (color-theme-andreas)
 ;; (color-theme-ns-w2)
-(color-theme-ns)
+;; (color-theme-ns)
 ;; (color-theme-tangotango)
+(color-theme-tomorrow-night-bright)
 
 ;; ウィンドウを透明化
 (add-to-list 'default-frame-alist '(alpha . (0.85 0.85)))
