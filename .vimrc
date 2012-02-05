@@ -14,35 +14,33 @@ endif
 NeoBundle 'git://github.com/Shougo/neobundle.vim.git'
 
 " プラグインのプラグイン
-NeoBundle 'Shougo/vimproc'
-NeoBundle 'mattn/webapi-vim'
+NeoBundle 'git://github.com/Shougo/vimproc.git'
+NeoBundle 'git://github.com/mattn/webapi-vim.git'
 
 " ファイルセレクタ・移動系
 " unite.vim
-NeoBundle 'Shougo/unite.vim'
+NeoBundle 'git://github.com/Shougo/unite.vim.git'
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'git://github.com/ujihisa/unite-font.git'
 NeoBundle 'git://github.com/h1mesuke/unite-outline.git'
-
-NeoBundle 'git://github.com/kien/ctrlp.vim.git'
 
 " shell/filer
 NeoBundle 'git://github.com/Shougo/vimshell.git'
 NeoBundle 'git://github.com/Shougo/vimfiler.git'
 
 " 入力/開発補助
-NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'scrooloose/nerdcommenter'
-NeoBundle 'thinca/vim-poslist'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'tyru/vim-altercmd'
-NeoBundle 'kana/vim-operator-user'
-NeoBundle 'kana/vim-operator-replace'
+NeoBundle 'git://github.com/Shougo/neocomplcache.git', 'ver.7'
+NeoBundle 'git://github.com/thinca/vim-quickrun.git'
+NeoBundle 'git://github.com/scrooloose/nerdcommenter.git'
+NeoBundle 'git://github.com/thinca/vim-poslist.git'
+NeoBundle 'git://github.com/tpope/vim-surround.git'
+NeoBundle 'git://github.com/tyru/vim-altercmd.git'
+NeoBundle 'git://github.com/kana/vim-operator-user.git'
+NeoBundle 'git://github.com/kana/vim-operator-replace.git'
 NeoBundle 'git://github.com/kana/vim-smartword.git'
 NeoBundle 'git://github.com/vim-scripts/occur.vim.git'
 NeoBundle 'git://github.com/vim-scripts/Align.git'
-NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'git://github.com/tpope/vim-fugitive.git'
 NeoBundle 'git://github.com/kana/vim-smartword.git'
 NeoBundle 'git://github.com/kana/vim-smartchr.git'
 NeoBundle 'git://github.com/kana/vim-arpeggio.git'
@@ -59,6 +57,7 @@ NeoBundle 'git://github.com/nathanaelkane/vim-indent-guides.git'
 NeoBundle 'git://github.com/godlygeek/csapprox.git'
 NeoBundle 'git://github.com/kien/rainbow_parentheses.vim.git'
 NeoBundle 'git://github.com/Lokaltog/vim-powerline.git'
+NeoBundle 'https://github.com/rgarver/Kwbd.vim.git' " 指定ウィンドウのバッファを、 ウィンドウのレイアウトを崩す事無く閉じる
 
 
 
@@ -70,6 +69,8 @@ NeoBundle 'git://github.com/vim-scripts/JSON.vim.git'
 " NeoBundle 'Processing'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'git://github.com/vim-ruby/vim-ruby.git'
+NeoBundle 'git://github.com/rosstimson/scala-vim-support.git'
+
 
 " その他
 NeoBundle 'git://github.com/tyru/open-browser.vim.git'
@@ -80,11 +81,10 @@ NeoBundle 'git://github.com/mattn/lisper-vim'
 " NeoBundle 'git://github.com/choplin/unite-vim_hacks.git'
 " NeoBundle 'git://github.com/basyura/twibill.vim.git'
 " NeoBundle 'git://github.com/basyura/unite-twitter.git'
-NeoBundle 'git://github.com/mattn/hahhah-vim.git'
+" NeoBundle 'git://github.com/mattn/hahhah-vim.git'
 NeoBundle 'git://github.com/basyura/twibill.vim.git'
 NeoBundle 'git://github.com/basyura/TweetVim.git'
 NeoBundle 'git://github.com/pasela/unite-webcolorname.git'
-
 
 
 
@@ -136,7 +136,7 @@ if has('iconv')
 " fileencodingsを構築
   if &encoding ==# 'utf-8'
     let s:fileencodings_default = &fileencodings
-    let &fileencodings = s:enc_jis .','. s:enc_euc .',cp932'
+    let &fileencodings = s:enc_jis .','. s:enc_euc .',cp931'
     let &fileencodings = &fileencodings .','. s:fileencodings_default
     unlet s:fileencodings_default
   else
@@ -231,7 +231,9 @@ set showmatch
 "ステータスラインを常に表示
 set laststatus=2
 " ステータスラインに表示する情報の指定
-set statusline=%n\:\ %y\[%{(&fenc!=''?&fenc:&enc).'\:'.&ff.'\]'}%m\ %F%r%=<%l/%L:%p%%>%=%{g:HahHah()}
+set statusline=%n\:\ %y\[%{(&fenc!=''?&fenc:&enc).'\:'.&ff.'\]'}%m\ %F%r%=<%l/%L:%p%%>
+" hahah を使う場合は下
+" set statusline=%n\:\ %y\[%{(&fenc!=''?&fenc:&enc).'\:'.&ff.'\]'}%m\ %F%r%=<%l/%L:%p%%>%=%{g:HahHah()}
 " ステータスライン下の行数
 set cmdheight=1
 " 一定時間放置するとカーソル行ハイライト
@@ -347,6 +349,10 @@ if has("unix")
   set t_Co=256
   colorscheme wombat256mod
 endif
+
+" カラー確認
+nnoremap <Leader>co <Esc>:so $VIMRUNTIME/syntax/hitest.vim<CR>
+
 
 
 " ========== インデント設定 ==========
@@ -740,12 +746,12 @@ vmap gx <Plug>(openbrowser-smart-search)
 " セーフモード無効化
 :let g:vimfiler_safe_mode_by_default = 0
 " 編集時はタブで開く
-let g:vimfiler_edit_action = 'tabopen'
+" let g:vimfiler_edit_action = 'tabopen'
 
 
 " nnoremap <silent> <C-x><C-j>  :VimFilerSimple<CR>
-nnoremap <silent> <C-x><C-j>  :VimFiler<CR>
-nnoremap <Leader>f  :VimFiler<CR>
+nnoremap <silent> <C-x><C-j>  :VimFilerTab<CR>
+nnoremap <Leader>f  :VimFilerTab<CR>
 
 " Like Textmate icons.
 let g:vimfiler_tree_leaf_icon = ' '
@@ -845,31 +851,31 @@ Arpeggiovmap fj <Esc>
 " rainbow_parentheses.vim
 "------------------------------------
 " 色の指定
-" let g:rbpt_colorpairs = [
-    " \ ['brown',       'RoyalBlue3'],
-    " \ ['Darkblue',    'SeaGreen3'],
-    " \ ['darkgray',    'DarkOrchid3'],
-    " \ ['darkgreen',   'firebrick3'],
-    " \ ['darkcyan',    'RoyalBlue3'],
-    " \ ['darkred',     'SeaGreen3'],
-    " \ ['darkmagenta', 'DarkOrchid3'],
-    " \ ['brown',       'firebrick3'],
-    " \ ['gray',        'RoyalBlue3'],
-    " \ ['black',       'SeaGreen3'],
-    " \ ['darkmagenta', 'DarkOrchid3'],
-    " \ ['Darkblue',    'firebrick3'],
-    " \ ['darkgreen',   'RoyalBlue3'],
-    " \ ['darkcyan',    'SeaGreen3'],
-    " \ ['darkred',     'DarkOrchid3'],
-    " \ ['red',         'firebrick3'],
-    " \ ]
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['black',       'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
 " 色をつける最大数
-" let g:rbpt_max = 16
+let g:rbpt_max = 16
 " 起動時にオンにする設定
-" au VimEnter * RainbowParenthesesToggle
-" au Syntax * RainbowParenthesesLoadRound " ()
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound " ()
 " au Syntax * RainbowParenthesesLoadSquare "[]
-" au Syntax * RainbowParenthesesLoadBraces " {}
+au Syntax * RainbowParenthesesLoadBraces " {}
 " au Syntax * RainbowParenthesesLoadChevrons " <>
 
 
@@ -924,6 +930,9 @@ nnoremap <silent> <leader>o :TagbarToggle<CR>
 "------------------------------------
 " TweetVim
 "------------------------------------
+" 取得件数
+let g:tweetvim_tweet_per_page = 50
+
 " 発言用バッファを表示する
 nnoremap <Leader>tp :TweetVimSay<CR>
 " タイムライン選択用の Unite を起動する
@@ -996,8 +1005,10 @@ onoremap gc :<C-u>normal gc<Enter>
 
 " F2で前のバッファ
 map <F2> <ESC>:bp<CR>
+nnoremap H <ESC>:bp<CR>
 " F3で次のバッファ
 map <F3> <ESC>:bn<CR>
+nnoremap L <ESC>:bn<CR>
 " F4でバッファを削除する
 map <F4> <ESC>:bw<CR>
 
