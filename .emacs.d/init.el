@@ -611,9 +611,9 @@
   ;; ウィンドウサイズ設定
   (setq initial-frame-alist
         (append (list
-                 '(width . 140) ;; ウィンドウ幅
+                 '(width . 160) ;; ウィンドウ幅
                  '(height . 60) ;; ウィンドウ高さ
-                 '(top . 500) ;; 表示位置
+                 '(top . 300) ;; 表示位置
                  '(left . 340) ;; 表示位置
                  )
                 initial-frame-alist))
@@ -624,7 +624,7 @@
   (setq my-font "-*-*-medium-r-normal--12-*-*-*-*-*-fontset-hiramaru")
   (set-face-attribute 'default nil
                       :family "Monaco"
-                      :height 110)
+                      :height 140)
                                         ;:height 90)
   (set-fontset-font "fontset-default"
                     'japanese-jisx0208
@@ -1555,7 +1555,7 @@
              (define-key twittering-mode-map (kbd ">") (lambda () (interactive) (goto-char (point-max))))))
 
 ;; 自動スクロールしない
-(setq twittering-scroll-mode nil)
+;; (setq twittering-scroll-mode nil)
 ;; 起動時に読み込むタイムライン
 (setq twittering-initial-timeline-spec-string
       '(":replies"
@@ -1786,7 +1786,7 @@
 
 
 ;;====================
-;; cyg-mount
+;; rst
 ;;====================
 (require 'rst)
 ;; 拡張子の*.rst, *.restのファイルをrst-modeで開く
@@ -1884,6 +1884,14 @@
   (global-set-key "\C-cep" 'evernote-post-region)
   (global-set-key "\C-ceb" 'evernote-browser))
 
+
+;;====================
+;; expand-region
+;;====================
+(add-to-list 'load-path "~/.emacs.d/elisp/expand-region.el")
+(require 'expand-region)
+(global-set-key (kbd "C-@") 'er/expand-region)
+(global-set-key (kbd "C-M-@") 'er/contract-region) ;; リージョンを狭める
 
 
 
