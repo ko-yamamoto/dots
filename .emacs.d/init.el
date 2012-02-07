@@ -618,26 +618,6 @@
                  )
                 initial-frame-alist))
   (setq default-frame-alist initial-frame-alist)
-
-
-  ;; フォント設定
-  (setq my-font "-*-*-medium-r-normal--12-*-*-*-*-*-fontset-hiramaru")
-  (set-face-attribute 'default nil
-                      :family "Monaco"
-                      :height 140)
-                                        ;:height 90)
-  (set-fontset-font "fontset-default"
-                    'japanese-jisx0208
-                    '("VL_Gothic" . "iso10646-1"))
-  (set-fontset-font "fontset-default"
-                    'katakana-jisx0201
-                    '("VL_Gothic" . "iso10646-1"))
-  (setq face-font-rescale-alist
-        '((".*Monaco-bold.*" . 1.0)
-          (".*Monaco-medium.*" . 1.0)
-          (".*Osaka-bold.*" . 1.0)
-          (".*Osaka-medium.*" . 1.0)
-          ("-cdac$" . 1.4)))
   
   
   ;; exec-pathとPATHに設定したいパスのリストを設定
@@ -1961,6 +1941,27 @@
   ;; (add-to-list 'default-frame-alist '(font . "MeiryoKe_Console-10.5"))
 )
 
+(when is_mac
+  ;; フォント設定
+  (setq my-font "-*-*-medium-r-normal--12-*-*-*-*-*-fontset-hiramaru")
+  (set-face-attribute 'default nil
+                      :family "Monaco"
+                      :height 140)
+                                        ;:height 90)
+  (set-fontset-font "fontset-default"
+                    'japanese-jisx0208
+                    '("VL_Gothic" . "iso10646-1"))
+  (set-fontset-font "fontset-default"
+                    'katakana-jisx0201
+                    '("VL_Gothic" . "iso10646-1"))
+  (setq face-font-rescale-alist
+        '((".*Monaco-bold.*" . 1.0)
+          (".*Monaco-medium.*" . 1.0)
+          (".*Osaka-bold.*" . 1.0)
+          (".*Osaka-medium.*" . 1.0)
+          ("-cdac$" . 1.4)))
+)
+
 
 
 ;; color-themeの設定
@@ -2039,7 +2040,7 @@
 (defface hlline-face
   '((((class color)
       (background dark))
-     (:background "grey15"))
+     (:background "grey5"))
     (((class color)
       (background light))
 ;;     (:background "lemon chiffon"))
