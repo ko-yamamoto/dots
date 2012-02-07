@@ -1290,6 +1290,7 @@
 ;;====================
 ;; popwin
 ;;====================
+(add-to-list 'load-path "~/.emacs.d/bundle/popwin-el")
 (require 'popwin)
 (setq display-buffer-function 'popwin:display-buffer)
 ;; anythingをpopwinで行うため
@@ -1322,6 +1323,7 @@
                 (sldb-mode :stick t)
                 (slime-repl-mode)
                 (slime-connection-list-mode)
+                (direx:direx-mode :position left :width 25 :dedicated t)
                 )
               popwin:special-display-config))
 
