@@ -131,6 +131,18 @@ theme will be used."
        (org-link ((t (:foreground ,blue))))
        (org-todo ((t (:foreground ,red))))
 
+       ;; ;; rst-mode
+       ;; (rst-level-1-face ((t (:foreground ,red))))
+       (rst-level-1-face ((t (:background ,red))))
+       (rst-level-2-face ((t (:background ,green))))
+       (rst-level-3-face ((t (:background ,aqua))))
+       ;; (rst-level-2-face ((t (:foreground ,blue))))
+       ;; (rst-level-3-face ((t (:foreground purple))))
+
+       ;; ;; anything
+       ;; (anything-header ((t (:background ,green :foreground ,background))))
+       ;; (anything-overlay-line-face ((t (:foreground ,red :background ,blue))))
+
        ;; show-paren-mode
        (show-paren-match-face ((t (:background ,blue :foreground ,current-line))))
        (show-paren-mismatch-face ((t (:background ,orange :foreground ,current-line))))))))
