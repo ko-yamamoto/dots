@@ -1894,6 +1894,40 @@
 (global-set-key (kbd "C-M-@") 'er/contract-region) ;; リージョンを狭める
 
 
+;;====================
+;; emacs-historyf
+;;====================
+(add-to-list 'load-path "~/.emacs.d/bundle/emacs-historyf")
+(require 'historyf)
+(define-key global-map (kbd "C-q l") 'historyf-forward)
+(define-key global-map (kbd "C-q h") 'historyf-back)
+
+
+;;====================
+;; malabar-mode
+;;====================
+(require 'malabar-mode nil t)
+(setq malabar-groovy-lib-dir (expand-file-name "~/.emacs.d/elisp/malabar-1.5/malabar-lib")) ; お好みで
+(add-to-list 'auto-mode-alist '("\\.java\\'" . malabar-mode))
+
+;; 普段使わないパッケージを import 候補から除外
+(add-to-list 'malabar-import-excluded-classes-regexp-list
+             "^java\\.awt\\..*$")
+(add-to-list 'malabar-import-excluded-classes-regexp-list
+             "^com\\.sun\\..*$")
+(add-to-list 'malabar-import-excluded-classes-regexp-list
+             "^org\\.omg\\..*$")
+
+;; コンパイル前に保存する
+(add-hook 'malabar-mode-hook
+          (lambda ()
+            (add-hook 'after-save-hook 'malabar-compile-file-silently
+                      nil t)))
+; 日本語だとコンパイルエラーメッセージが化けるので
+(setq malabar-groovy-java-options '("-Duser.language=en")) 
+
+
+
 ;; ---------------------------------------------------------------------------------
 ;; Visual Settings
 ;; ---------------------------------------------------------------------------------
@@ -1919,7 +1953,7 @@
 
 (when is_win
   ;; (add-to-list 'default-frame-alist '(font . "ricty-10.5"))
-  (add-to-list 'default-frame-alist '(font . "MeiryoKe_Console-9.0"))
+  (add-to-list 'default-frame-alist '(font . "MeiryoKe_Console-10.0"))
 )
 
 
