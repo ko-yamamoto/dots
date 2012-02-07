@@ -1037,7 +1037,9 @@
 ;; point-undo 
 (require 'point-undo)
 (define-key global-map (kbd "<f7>") 'point-undo)
+(define-key global-map (kbd "C-q b") 'point-undo)
 (define-key global-map (kbd "S-<f7>") 'point-redo)
+(define-key global-map (kbd "C-q f") 'point-redo)
 
 
 ;; 最後の変更箇所にジャンプ
