@@ -1494,6 +1494,7 @@
 ;;====================
 ;; twittering-mode
 ;;====================
+(add-to-list 'load-path "~/.emacs.d/bundle/twittering-mode")
 ;; twittering-mode twittering-numbering.el
 ;; https://github.com/pft/elisp-assorted/blob/master/twittering-numbering.el
 ;; twittering-mode
@@ -1553,8 +1554,6 @@
              (define-key twittering-mode-map (kbd "<") (lambda () (interactive) (goto-char (point-min))))
              (define-key twittering-mode-map (kbd ">") (lambda () (interactive) (goto-char (point-max))))))
 
-;; 自動スクロールしない
-;; (setq twittering-scroll-mode nil)
 ;; 起動時に読み込むタイムライン
 (setq twittering-initial-timeline-spec-string
       '(":replies"
