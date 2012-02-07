@@ -1814,7 +1814,7 @@
 ;;====================
 ;; dial-scroll.el
 ;;====================
-(require 'dial-scroll)
+;; (require 'dial-scroll)
 
 
 ;;====================
@@ -1888,11 +1888,43 @@
 ;;====================
 ;; expand-region
 ;;====================
-(add-to-list 'load-path "~/.emacs.d/elisp/expand-region.el")
+(add-to-list 'load-path "~/.emacs.d/bundle/expand-region.el")
 (require 'expand-region)
 (global-set-key (kbd "C-@") 'er/expand-region)
 (global-set-key (kbd "C-M-@") 'er/contract-region) ;; リージョンを狭める
 
+
+;;====================
+;; emacs-historyf
+;;====================
+(add-to-list 'load-path "~/.emacs.d/bundle/emacs-historyf")
+(require 'historyf)
+(define-key global-map (kbd "C-q l") 'historyf-forward)
+(define-key global-map (kbd "C-q h") 'historyf-back)
+
+
+;;====================
+;; malabar-mode
+;;====================
+(require 'malabar-mode nil t)
+(setq malabar-groovy-lib-dir (expand-file-name "~/.emacs.d/elisp/malabar-1.5/malabar-lib")) ; お好みで
+(add-to-list 'auto-mode-alist '("\\.java\\'" . malabar-mode))
+
+;; 普段使わないパッケージを import 候補から除外
+(add-to-list 'malabar-import-excluded-classes-regexp-list
+             "^java\\.awt\\..*$")
+(add-to-list 'malabar-import-excluded-classes-regexp-list
+             "^com\\.sun\\..*$")
+(add-to-list 'malabar-import-excluded-classes-regexp-list
+             "^org\\.omg\\..*$")
+
+;; コンパイル前に保存する
+(add-hook 'malabar-mode-hook
+          (lambda ()
+            (add-hook 'after-save-hook 'malabar-compile-file-silently
+                      nil t)))
+; 日本語だとコンパイルエラーメッセージが化けるので
+(setq malabar-groovy-java-options '("-Duser.language=en")) 
 
 
 ;; ---------------------------------------------------------------------------------
@@ -1901,12 +1933,29 @@
 
 ;; フォント
 (when is_linux
-  (add-to-list 'default-frame-alist '(font . "ricty-11.5"))
-)
-(when is_win
-  (add-to-list 'default-frame-alist '(font . "ricty-10.5"))
+;;  (add-to-list 'default-frame-alist '(font . "A-OTF 新ゴ Pro-11"))
 
+  ;; (set-face-attribute 'default nil
+  ;;                     ;; :family "Takaoゴシック"
+  ;;                     ;; :family "Inconsolata"
+  ;;                     ;; :family "VL ゴシック"
+  ;;                     :family "ricty"
+  ;;                     ;; :family "MeiryoKe_Console"
+  ;;                     :height 115)
+
+(set-default-font "MeiryoKe_Console-11.0")
+(set-face-font 'variable-pitch "MeiryoKe_Console-11.0")
+(set-fontset-font (frame-parameter nil 'font)
+                 'japanese-jisx0208
+                 '("MeiryoKe_Console" . "unicode-bmp"))
 )
+
+(when is_win
+  ;; (add-to-list 'default-frame-alist '(font . "ricty-10.5"))
+  (add-to-list 'default-frame-alist '(font . "MeiryoKe_Console-10.0"))
+)
+
+
 
 ;; color-themeの設定
 (require 'color-theme)
@@ -1918,7 +1967,7 @@
 (color-theme-tomorrow-night-bright)
 
 ;; ウィンドウを透明化
-(add-to-list 'default-frame-alist '(alpha . (0.85 0.85)))
+(add-to-list 'default-frame-alist '(alpha . (0.80 0.80)))
 
 ;; キーワードのカラー表示を有効化
 (global-font-lock-mode t)
@@ -2035,3 +2084,43 @@
  (is_emacs24
   (tool-bar-mode 0)))
 
+
+
+(require 'cl)  ; loop, delete-duplicates
+
+(defun anything-font-families ()
+  "Preconfigured `anything' for font family."
+  (interactive)
+  (flet ((anything-mp-highlight-match () nil))
+    (anything-other-buffer
+     '(anything-c-source-font-families)
+     "*anything font families*")))
+
+(defun anything-font-families-create-buffer ()
+  (with-current-buffer
+      (get-buffer-create "*Fonts*")
+    (loop for family in (sort (delete-duplicates (font-family-list)) 'string<)
+          do (insert
+              (propertize (concat family "\n")
+                          'font-lock-face
+                          (list :family family :height 2.0 :weight 'bold))))
+    (font-lock-mode 1)))
+
+(defvar anything-c-source-font-families
+      '((name . "Fonts")
+        (init lambda ()
+              (unless (anything-candidate-buffer)
+                (save-window-excursion
+                  (anything-font-families-create-buffer))
+                (anything-candidate-buffer
+                 (get-buffer "*Fonts*"))))
+        (candidates-in-buffer)
+        (get-line . buffer-substring)
+        (action
+         ("Copy Name" lambda
+          (candidate)
+          (kill-new candidate))
+         ("Insert Name" lambda
+          (candidate)
+          (with-current-buffer anything-current-buffer
+            (insert candidate))))))
