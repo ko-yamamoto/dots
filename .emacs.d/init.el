@@ -1129,12 +1129,13 @@
 ;;====================
 ;; auto-complete
 ;;====================
+(add-to-list 'load-path "~/.emacs.d/bundle/auto-complete")
 (require 'auto-complete)
 (require 'auto-complete-config)
 (global-auto-complete-mode t)
 (setq ac-dwim t)
 ;; ;; 辞書ファイルの位置
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/dict")
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/bundle/auto-complete/dict")
 
 ;; デフォルト設定有効
 (ac-config-default)

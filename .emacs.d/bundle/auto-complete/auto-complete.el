@@ -182,11 +182,12 @@
     c-mode cc-mode c++-mode
     java-mode malabar-mode clojure-mode scala-mode
     scheme-mode
-    ocaml-mode tuareg-mode haskell-mode
+    ocaml-mode tuareg-mode coq-mode haskell-mode agda-mode agda2-mode
     perl-mode cperl-mode python-mode ruby-mode
     ecmascript-mode javascript-mode js-mode js2-mode php-mode css-mode
     makefile-mode sh-mode fortran-mode f90-mode ada-mode
-    xml-mode sgml-mode)
+    xml-mode sgml-mode
+    ts-mode)
   "Major modes `auto-complete-mode' can run on."
   :type '(repeat symbol)
   :group 'auto-complete)
@@ -753,18 +754,15 @@ You can not use it in source definition like (prefix . `NAME')."
     (popup-delete ac-menu)
     (setq ac-menu)))
 
-(defsubst ac-inline-marker ()
-  (nth 0 ac-inline))
-
 (defsubst ac-inline-overlay ()
-  (nth 1 ac-inline))
+  (nth 0 ac-inline))
 
 (defsubst ac-inline-live-p ()
   (and ac-inline (ac-inline-overlay) t))
 
 (defun ac-inline-show (point string)
   (unless ac-inline
-    (setq ac-inline (list (make-marker) nil)))
+    (setq ac-inline (list nil)))
   (save-excursion
     (let ((overlay (ac-inline-overlay))
           (width 0)
@@ -786,11 +784,9 @@ You can not use it in source definition like (prefix . `NAME')."
       (goto-char point)
       (cond
        ((= width 0)
-        (set-marker (ac-inline-marker) point)
-        (let ((buffer-undo-list t))
-          (insert " "))
-        (setq width 1
-              length 1))
+        ;; End-of-line
+        ;; Do nothing
+        )
        ((<= width string-width)
         ;; No space to show
         ;; Do nothing
@@ -804,13 +800,20 @@ You can not use it in source definition like (prefix . `NAME')."
             (move-overlay overlay point (+ point length))
             (overlay-put overlay 'invisible nil))
         (setq overlay (make-overlay point (+ point length)))
-        (setf (nth 1 ac-inline)  overlay)
+        (setf (nth 0 ac-inline)  overlay)
         (overlay-put overlay 'priority 9999)
         ;; Help prefix-overlay in some cases
         (overlay-put overlay 'keymap ac-current-map))
-      (overlay-put overlay 'display (substring string 0 1))
       ;; TODO no width but char
-      (overlay-put overlay 'after-string (substring string 1))
+      (if (eq length 0)
+          ;; Case: End-of-line
+          (progn
+            (put-text-property 0 1 'cursor t string)
+            (overlay-put overlay 'after-string string))
+        (let ((display (substring string 0 1))
+              (after-string (substring string 1)))
+          (overlay-put overlay 'display display)
+          (overlay-put overlay 'after-string after-string)))
       (overlay-put overlay 'string original-string))))
 
 (defun ac-inline-delete ()
@@ -822,14 +825,8 @@ You can not use it in source definition like (prefix . `NAME')."
 (defun ac-inline-hide ()
   (when (ac-inline-live-p)
     (let ((overlay (ac-inline-overlay))
-          (marker (ac-inline-marker))
           (buffer-undo-list t))
       (when overlay
-        (when (marker-position marker)
-          (save-excursion
-            (goto-char marker)
-            (delete-char 1)
-            (set-marker marker nil)))
         (move-overlay overlay (point-min) (point-min))
         (overlay-put overlay 'invisible t)
         (overlay-put overlay 'display nil)
@@ -1258,7 +1255,11 @@ that have been made before in this function."
 
 (defun ac-quick-help (&optional force)
   (interactive)
-  (when (and (or force (null this-command))
+  ;; TODO don't use FORCE
+  (when (and (or force
+                 (called-interactively-p)
+                 ;; ac-isearch'ing
+                 (null this-command))
              (ac-menu-live-p)
              (null ac-quick-help))
       (setq ac-quick-help
@@ -1788,7 +1789,8 @@ completion menu. This workaround stops that annoying behavior."
          ((fboundp symbol)
           ;; import help-xref-following
           (require 'help-mode)
-          (let ((help-xref-following t))
+          (let ((help-xref-following t)
+                (major-mode 'help-mode)) ; avoid error in Emacs 24
             (describe-function-1 symbol))
           (buffer-string))
          ((boundp symbol)
@@ -1912,18 +1914,19 @@ completion menu. This workaround stops that annoying behavior."
 (defvar ac-filename-cache nil)
 
 (defun ac-filename-candidate ()
-  (unless (file-regular-p ac-prefix)
-    (ignore-errors
-      (loop with dir = (file-name-directory ac-prefix)
-            with files = (or (assoc-default dir ac-filename-cache)
-                             (let ((files (directory-files dir nil "^[^.]")))
-                               (push (cons dir files) ac-filename-cache)
-                               files))
-            for file in files
-            for path = (concat dir file)
-            collect (if (file-directory-p path)
-                        (concat path "/")
-                      path)))))
+  (let (file-name-handler-alist)
+    (unless (file-regular-p ac-prefix)
+      (ignore-errors
+        (loop with dir = (file-name-directory ac-prefix)
+              with files = (or (assoc-default dir ac-filename-cache)
+                               (let ((files (directory-files dir nil "^[^.]")))
+                                 (push (cons dir files) ac-filename-cache)
+                                 files))
+              for file in files
+              for path = (concat dir file)
+              collect (if (file-directory-p path)
+                          (concat path "/")
+                        path))))))
 
 (ac-define-source filename
   '((init . (setq ac-filename-cache nil))
