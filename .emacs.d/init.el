@@ -1557,13 +1557,7 @@
 ;;====================
 ;; Eshell
 ;;====================
-;; emacs起動時にeshell起動
-(add-hook 'after-init-hook
-          (lambda()
-            (eshell)
-            (switch-to-buffer "*scratch*")
-            (rst-mode)
-))
+;; @see launch setting
 
 ;; 補完時に大文字小文字を区別しない
 (setq eshell-cmpl-ignore-case t)
@@ -1771,6 +1765,8 @@
 ;;====================
 ;; rst
 ;;====================
+;; @see launch setting
+
 (require 'rst)
 ;; 拡張子の*.rst, *.restのファイルをrst-modeで開く
 (setq auto-mode-alist
@@ -1827,7 +1823,7 @@
 (global-set-key (kbd ">")
  (smartchr '(">" "-> " "=> " "-> '`!!''" "-> \"`!!'\"" "=> '`!!''" "=> \"`!!'\"" "")))
 (global-set-key (kbd "\"") (smartchr '("\"" "\"`!!'\"" "'" "'`!!''" "")))
-(global-set-key (kbd "(") (smartchr '("(" "(`!!')" "((" "")))
+;; (global-set-key (kbd "(") (smartchr '("(" "(`!!')" "((" "")))
 (global-set-key (kbd "G") (smartchr '("G" "ありがとうございます" "`!!'ありがとうございます" "")))
 
 
@@ -1914,6 +1910,20 @@
 ;; htmlize.el
 ;;====================
 (load "htmlize.el")
+
+
+;;====================
+;; wrap-region
+;;====================
+;; @see launch setting
+
+(add-to-list 'load-path "~/.emacs.d/bundle/wrap-region")
+(require 'wrap-region)
+;; 第一引数:リージョンの先頭に挿入する文字
+;; 第二引数:リージョン末尾に挿入する文字
+;; 第三引数:トリガとなるキー
+;; 第四引数:有効にするモード
+;; (wrap-region-add-wrapper "(" ")" "(")
 
 
 ;; ---------------------------------------------------------------------------------
@@ -2134,3 +2144,17 @@
           (candidate)
           (with-current-buffer anything-current-buffer
             (insert candidate))))))
+
+
+
+
+;; ---------------------------------------------------------------------------------
+;; launch Settings
+;; ---------------------------------------------------------------------------------
+(add-hook 'after-init-hook
+          (lambda()
+            (eshell)
+            (switch-to-buffer "*scratch*")
+            (rst-mode)
+            (wrap-region-mode)
+))
