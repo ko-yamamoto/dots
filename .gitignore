@@ -13,3 +13,5 @@ ac-comphist.dat
 .emacs.d/.scratch-log
 .emacs.d/.scratch-log-prev
 .emacs.d/srecode-map.el
+.session
+/.emacs.d/#init.el#
