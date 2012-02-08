@@ -1,5 +1,5 @@
 ;;; anything-ipa.el --- Anything interface of In Place Annotation
-;; $Id: anything-ipa.el,v 1.6 2009/03/01 22:52:44 rubikitch Exp $
+;; $Id: anything-ipa.el,v 1.6 2009-03-01 22:52:44 rubikitch Exp $
 
 ;; Copyright (C) 2009  rubikitch
 
@@ -26,6 +26,20 @@
 
 ;; Anything interface of in place annotations.
 
+;;; Commands:
+;;
+;; Below are complete command list:
+;;
+;;  `anything-ipa'
+;;    `anything' interface of ipa.
+;;  `anything-ipa-global'
+;;    `anything' interface of ipa (global).
+;;
+;;; Customizable Options:
+;;
+;; Below are customizable option list:
+;;
+
 ;; Variable `anything-c-source-ipa' is source for in place annotations
 ;; in current buffer. And command `anything-ipa' is anything menu of
 ;; it. `anything-c-source-ipa-global' and `anything-ipa-global' are
@@ -45,7 +59,7 @@
 ;;; History:
 
 ;; $Log: anything-ipa.el,v $
-;; Revision 1.6  2009/03/01 22:52:44  rubikitch
+;; Revision 1.6  2009-03-01 22:52:44  rubikitch
 ;; Use `ipa-annotation-face' for annotation text
 ;;
 ;; Revision 1.5  2009/02/13 01:18:32  rubikitch
@@ -67,16 +81,20 @@
 
 ;;; Code:
 
-(defvar anything-ipa-version "$Id: anything-ipa.el,v 1.6 2009/03/01 22:52:44 rubikitch Exp $")
+(defvar anything-ipa-version "$Id: anything-ipa.el,v 1.6 2009-03-01 22:52:44 rubikitch Exp $")
 (eval-when-compile (require 'cl))
 (require 'anything)
-(require 'ipa)
+(require 'ipa nil t)
 
 ;;;; file-local source
 (defvar anything-c-source-ipa
   '((name . "In Place Annotations (Current Buffer)")
     (candidates . anything-ipa-candidates)
-    (action . goto-char)
+    (action ("Go To" . goto-char)
+            ("Edit (empty string to delete)" .
+             (lambda (p) (save-excursion (goto-char p) (ipa-edit t))))
+            ("Move" .
+             (lambda (p) (goto-char p) (ipa-move t))))
     (migemo))
   "`anything' source of ipa in current-buffer.")
 
@@ -121,5 +139,5 @@
 (provide 'anything-ipa)
 
 ;; How to save (DO NOT REMOVE!!)
-;; (emacswiki-post "anything-ipa.el")
+;; (progn (magit-push) (emacswiki-post "anything-ipa.el"))
 ;;; anything-ipa.el ends here
