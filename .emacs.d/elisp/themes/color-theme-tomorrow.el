@@ -133,9 +133,9 @@ theme will be used."
 
        ;; ;; rst-mode
        ;; (rst-level-1-face ((t (:foreground ,red))))
-       (rst-level-1-face ((t (:background ,red))))
-       (rst-level-2-face ((t (:background ,green))))
-       (rst-level-3-face ((t (:background ,aqua))))
+       (rst-level-1-face ((t (:background ,red :foreground ,background))))
+       (rst-level-2-face ((t (:background ,green :foreground ,background))))
+       (rst-level-3-face ((t (:background ,aqua :foreground ,background))))
        ;; (rst-level-2-face ((t (:foreground ,blue))))
        ;; (rst-level-3-face ((t (:foreground purple))))
 
