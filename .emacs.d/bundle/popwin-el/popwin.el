@@ -127,14 +127,6 @@ minibuffer window is selected."
       (minibuffer-selected-window)
     (selected-window)))
 
-(defun popwin:called-interactively-p ()
-  (with-no-warnings
-    (if (or (>= emacs-major-version 24)
-            (and (= emacs-major-version 23)
-                 (>= emacs-minor-version 2)))
-        (called-interactively-p 'any)
-      (called-interactively-p))))
-
 
 
 ;;; Common
@@ -386,6 +378,9 @@ popup buffer.")
                                   popwin:popup-window-dedicated-p
                                   popwin:popup-window-stuck-p
                                   popwin:window-outline)))
+  (defun popwin:valid-context-p (context)
+    (window-live-p (plist-get context 'popwin:popup-window)))
+
   (defun popwin:current-context ()
     (loop for var in context-vars
           collect var
@@ -403,11 +398,13 @@ popup buffer.")
   (defun popwin:pop-context ()
     (popwin:use-context (pop popwin:context-stack)))
 
-  (defun popwin:find-context-for-buffer (buffer)
+  (defun* popwin:find-context-for-buffer (buffer &key valid-only)
     (loop with stack = popwin:context-stack
           for context = (pop stack)
           while context
-          if (eq buffer (plist-get context 'popwin:popup-buffer))
+          if (and (eq buffer (plist-get context 'popwin:popup-buffer))
+                  (or (not valid-only)
+                      (popwin:valid-context-p context)))
           return (list context stack))))
 
 (defun popwin:update-window-references-in-context-stack (map)
@@ -534,7 +531,7 @@ BUFFER."
   (setq buffer (get-buffer buffer))
   (popwin:push-context)
   (multiple-value-bind (context context-stack)
-      (popwin:find-context-for-buffer buffer)
+      (popwin:find-context-for-buffer buffer :valid-only t)
     (if context
         (progn
           (popwin:use-context context)
@@ -722,7 +719,7 @@ usual. This function can be used as a value of
   (popwin:display-buffer-1
    buffer-or-name
    :if-config-not-found
-   (unless (popwin:called-interactively-p)
+   (unless (called-interactively-p)
      (lambda (buffer)
        (popwin:original-display-buffer buffer not-this-window)))))
 
