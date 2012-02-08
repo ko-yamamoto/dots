@@ -1790,11 +1790,6 @@
 ;; nil なら スクラッチバッファを削除できるままにする。初期値は t です。
 ;; (setq sl-prohibit-kill-scratch-buffer-p nil)
 
-;;====================
-;; dial-scroll.el
-;;====================
-;; (require 'dial-scroll)
-
 
 ;;====================
 ;; gtags
