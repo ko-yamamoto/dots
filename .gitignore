@@ -12,3 +12,4 @@ ac-comphist.dat
 .emacs.d/server/server
 .emacs.d/.scratch-log
 .emacs.d/.scratch-log-prev
+.emacs.d/srecode-map.el

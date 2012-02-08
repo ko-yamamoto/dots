@@ -1926,6 +1926,23 @@
 ;; (wrap-region-add-wrapper "(" ")" "(")
 
 
+
+;;====================
+;; rainbow-delimiters
+;;====================
+(add-to-list 'load-path "~/.emacs.d/bundle/rainbow-delimiters")
+(require 'rainbow-delimiters)
+(global-rainbow-delimiters-mode)
+
+
+
+
+
+
+
+
+
+
 ;; ---------------------------------------------------------------------------------
 ;; Visual Settings
 ;; ---------------------------------------------------------------------------------
