@@ -971,7 +971,15 @@
 ;;(add-hook 'nxml-mode-hook
 ;;          '(lambda ()
 ;;             (local-set-key (kbd "C-c C-c") 'nxml-complete)))
-
+(add-hook 'nxml-mode-hook
+          (lambda ()
+            (setq auto-fill-mode -1)
+            ;; スラッシュの入力で終了タグを自動補完
+            (setq nxml-slash-auto-complete-flag t)
+            ;; タグのインデントをしない
+            ;; (setq nxml-child-indent 0)
+            ;; (setq indent-tabs-mode t)
+            (setq tab-width 4)))
 
 
 ;; ---------------------------------------------------------------------------------
@@ -1900,8 +1908,7 @@
 ;; コンパイル前に保存する
 (add-hook 'malabar-mode-hook
           (lambda ()
-            (add-hook 'after-save-hook 'malabar-compile-file-silently
-                      nil t)))
+            (add-hook 'after-save-hook 'malabar-compile-file-silently nil t)))
 ; 日本語だとコンパイルエラーメッセージが化けるので
 (setq malabar-groovy-java-options '("-Duser.language=en")) 
 
@@ -2004,7 +2011,7 @@
 (color-theme-tomorrow-night-bright)
 
 ;; ウィンドウを透明化
-(add-to-list 'default-frame-alist '(alpha . (0.80 0.80)))
+(add-to-list 'default-frame-alist '(alpha . (0.85 0.85)))
 
 ;; キーワードのカラー表示を有効化
 (global-font-lock-mode t)
