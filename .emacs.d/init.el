@@ -1123,6 +1123,7 @@
 ;; magit
 ;;====================
 ;; git用プラグイン magit
+(add-to-list 'load-path "~/.emacs.d/bundle/magit")
 (require 'magit)
 (global-set-key (kbd "C-q g") 'magit-status)
 
