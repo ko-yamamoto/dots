@@ -135,7 +135,9 @@ theme will be used."
        ;; (rst-level-1-face ((t (:foreground ,red))))
        (rst-level-1-face ((t (:background ,red :foreground ,background))))
        (rst-level-2-face ((t (:background ,green :foreground ,background))))
-       (rst-level-3-face ((t (:background ,aqua :foreground ,background))))
+       (rst-level-3-face ((t (:background ,blue :foreground ,background))))
+       (rst-level-4-face ((t (:background ,yellow :foreground ,background))))
+       (rst-level-5-face ((t (:background ,orange :foreground ,background))))
        ;; (rst-level-2-face ((t (:foreground ,blue))))
        ;; (rst-level-3-face ((t (:foreground purple))))
 

@@ -11,6 +11,8 @@ do
     then
         cd $PULL_DIR
 
+        echo $(pwd)
+
         git pull
 
         cd $WORK_DIR

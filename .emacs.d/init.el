@@ -97,7 +97,6 @@
 ;; バッファ一覧をまともに
 (global-set-key "\C-x\C-b" 'bs-show)
 
-
 ;; 最近のファイル500個を保存する
 (setq recentf-max-saved-items 500)
 (setq recentf-max-menu-items 30)
@@ -1006,7 +1005,6 @@
 ;;====================
 ;; package.el
 ;;====================
-
 (when is_emacs24
   (require 'package)
   (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
@@ -1031,10 +1029,86 @@
 ;;         (css-mode . "css-template.css")))
 
 
+;;====================
+;; anything
+;;====================
+(add-to-list 'load-path "~/.emacs.d/bundle/anything-config")
+(define-key global-map (kbd "C-;") 'anything)
+(setq
+ ;; ショートカットアルファベット表示
+ anything-enable-shortcuts 'alphabet
+ ;; 候補表示までの時間
+ anything-idle-delay 0.3
+ ;; 候補の多いときに体感速度を上げる
+ anything-quick-update t
+ )
+(require 'anything-config)
+(setq anything-sources
+      '(anything-c-source-buffers+
+        anything-c-source-recentf
+        anything-c-source-emacs-commands
+        anything-c-source-emacs-functions
+        anything-c-source-files-in-current-dir
+        ))
+
+
+;; anything-kyr
+(require 'anything-kyr-config)
+;; anything-complete.el があれば読み込む
+(when (require 'anything-complete nil t)
+  ;; 補完を anything でやりたいならば
+  (anything-read-string-mode 1))
+
+
+;; kill-ringもanythigで
+(global-set-key (kbd "M-y") 'anything-show-kill-ring)
+
+
+;;; anything-c-moccurの設定
+(require 'anything-c-moccur)
+;; カスタマイズ可能変数の設定(M-x customize-group anything-c-moccur でも設定可能)
+(setq anything-c-moccur-anything-idle-delay 0.2 ;`anything-idle-delay'
+      anything-c-moccur-higligt-info-line-flag t ; `anything-c-moccur-dmoccur'などのコマンドでバッファの情報をハイライトする
+      anything-c-moccur-enable-auto-look-flag t ; 現在選択中の候補の位置を他のwindowに表示する
+      anything-c-moccur-enable-initial-pattern t ; `anything-c-moccur-occur-by-moccur'の起動時にポイントの位置の単語を初期パターンにする
+                                        ;      anything-c-moccur-use-moccur-anything-map-flag nil ; non-nilならanything-c-moccurのデフォルトのキーバインドを使用する
+      )
+
+;;; キーバインドの割当(好みに合わせて設定してください)
+;; (global-set-key (kbd "M-o") 'anything-c-moccur-occur-by-moccur) ;バッファ内検索
+;; (global-set-key (kbd "C-M-o") 'anything-c-moccur-dmoccur) ;ディレクトリ
+;; (add-hook 'dired-mode-hook ;dired
+;;           '(lambda ()
+;;              (local-set-key (kbd "O") 'anything-c-moccur-dired-do-moccur-by-moccur)))
+
+
+
+;;====================
 ;; yasnippet
+;;====================
+(add-to-list 'load-path "~/.emacs.d/bundle/yasnippet")
 (require 'yasnippet)
-(yas/initialize)
-(yas/load-directory "~/.emacs.d/snippets")
+(yas/global-mode 1)
+(yas/load-directory "~/.emacs.d/bundle/yasnippet/snippets")
+
+(defun my-yas/prompt (prompt choices &optional display-fn)
+  (let* ((names (loop for choice in choices
+                      collect (or (and display-fn (funcall display-fn choice))
+                                  coice)))
+         (selected (anything-other-buffer
+                    `(((name . ,(format "%s" prompt))
+                       (candidates . names)
+                       (action . (("Insert snippet" . (lambda (arg) arg))))))
+                    "*anything yas/prompt*")))
+    (if selected
+        (let ((n (position selected names :test 'equal)))
+          (nth n choices))
+      (signal 'quit "user quit!"))))
+(custom-set-variables '(yas/prompt-functions '(my-yas/prompt)))
+(global-set-key (kbd "C-c y") 'yas/insert-snippet)
+
+
+
 
 
 ;; 最近使ったファイルに加えないファイルを正規表現で指定する
@@ -1135,6 +1209,10 @@
 (require 'magit)
 (global-set-key (kbd "C-q g") 'magit-status)
 
+;; 色変更
+(set-face-foreground 'magit-diff-add "#b9ca4a")
+(set-face-foreground 'magit-diff-del "#d54e53")
+(set-face-background 'magit-item-highlight "gray25")
 
 
 ;;====================
@@ -1212,60 +1290,6 @@
 (set-variable 'smooth-scroll/hscroll-step-size 8)
 ;; (setq scroll-step 1
 ;; scroll-conservatively 10000)
-
-
-;;====================
-;; anything
-;;====================
-(add-to-list 'load-path "~/.emacs.d/bundle/anything-config")
-(define-key global-map (kbd "C-;") 'anything)
-(setq
- ;; ショートカットアルファベット表示
- anything-enable-shortcuts 'alphabet
- ;; 候補表示までの時間
- anything-idle-delay 0.3
- ;; 候補の多いときに体感速度を上げる
- anything-quick-update t
- )
-(require 'anything-config)
-(setq anything-sources
-      '(anything-c-source-buffers+
-        anything-c-source-recentf
-        anything-c-source-emacs-commands
-        anything-c-source-emacs-functions
-        anything-c-source-files-in-current-dir
-        ))
-
-
-;; anything-kyr
-(require 'anything-kyr-config)
-;; anything-complete.el があれば読み込む
-(when (require 'anything-complete nil t)
-  ;; 補完を anything でやりたいならば
-  (anything-read-string-mode 1))
-
-
-;; kill-ringもanythigで
-(global-set-key (kbd "M-y") 'anything-show-kill-ring)
-
-
-;;; anything-c-moccurの設定
-(require 'anything-c-moccur)
-;; カスタマイズ可能変数の設定(M-x customize-group anything-c-moccur でも設定可能)
-(setq anything-c-moccur-anything-idle-delay 0.2 ;`anything-idle-delay'
-      anything-c-moccur-higligt-info-line-flag t ; `anything-c-moccur-dmoccur'などのコマンドでバッファの情報をハイライトする
-      anything-c-moccur-enable-auto-look-flag t ; 現在選択中の候補の位置を他のwindowに表示する
-      anything-c-moccur-enable-initial-pattern t ; `anything-c-moccur-occur-by-moccur'の起動時にポイントの位置の単語を初期パターンにする
-                                        ;      anything-c-moccur-use-moccur-anything-map-flag nil ; non-nilならanything-c-moccurのデフォルトのキーバインドを使用する
-      )
-
-;;; キーバインドの割当(好みに合わせて設定してください)
-;; (global-set-key (kbd "M-o") 'anything-c-moccur-occur-by-moccur) ;バッファ内検索
-;; (global-set-key (kbd "C-M-o") 'anything-c-moccur-dmoccur) ;ディレクトリ
-;; (add-hook 'dired-mode-hook ;dired
-;;           '(lambda ()
-;;              (local-set-key (kbd "O") 'anything-c-moccur-dired-do-moccur-by-moccur)))
-
 
 
 ;;====================
@@ -1395,8 +1419,12 @@
 ;; jaunte
 ;;====================
 ;; vimperatorのhit a hint風
+(add-to-list 'load-path "~/.emacs.d/bundle/jaunte.el")
 (require 'jaunte)
+;; グローバルに設定
+(setq jaunte-global-hint-unit 'symbol)
 (global-set-key (kbd "C-c C-j") 'jaunte)
+(key-chord-define-global "qf" 'jaunte)
 
 
 ;;====================
@@ -1812,7 +1840,7 @@
 (global-set-key "\M-r" 'gtags-find-rtag)    ;関数の参照先へ
 (global-set-key "\M-s" 'gtags-find-symbol)  ;変数の定義元/参照先へ
 (global-set-key "\M-p" 'gtags-find-pattern)
-(global-set-key "\M-f" 'gtags-find-file)    ;ファイルにジャンプ
+;;(global-set-key "\M-f" 'gtags-find-file)    ;ファイルにジャンプ
 (global-set-key [?\C-,] 'gtags-pop-stack)   ;前のバッファに戻る
 
 (setq gtags-mode-hook
