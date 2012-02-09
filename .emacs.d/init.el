@@ -1131,6 +1131,7 @@
 ;; magit
 ;;====================
 ;; git用プラグイン magit
+(add-to-list 'load-path "~/.emacs.d/bundle/magit")
 (require 'magit)
 (global-set-key (kbd "C-q g") 'magit-status)
 
@@ -1216,7 +1217,7 @@
 ;;====================
 ;; anything
 ;;====================
-(require 'anything-startup)
+(add-to-list 'load-path "~/.emacs.d/bundle/anything-config")
 (define-key global-map (kbd "C-;") 'anything)
 (setq
  ;; ショートカットアルファベット表示
@@ -1798,11 +1799,6 @@
 ;; nil なら スクラッチバッファを削除できるままにする。初期値は t です。
 ;; (setq sl-prohibit-kill-scratch-buffer-p nil)
 
-;;====================
-;; dial-scroll.el
-;;====================
-;; (require 'dial-scroll)
-
 
 ;;====================
 ;; gtags
@@ -1842,6 +1838,7 @@
 (require 'popup)
 (require 'popup-select-window)
 (global-set-key "\C-xo" 'popup-select-window)
+(key-chord-define-global "gh" 'popup-select-window)
 ;; モードラインハイライトをオフ
 (setq popup-select-window-use-modeline-highlight nil)
 
