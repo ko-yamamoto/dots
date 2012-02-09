@@ -1395,8 +1395,10 @@
 ;; jaunte
 ;;====================
 ;; vimperatorのhit a hint風
+(add-to-list 'load-path "~/.emacs.d/bundle/jaunte.el")
 (require 'jaunte)
 (global-set-key (kbd "C-c C-j") 'jaunte)
+(key-chord-define-global "ff" 'windmove-up)
 
 
 ;;====================
