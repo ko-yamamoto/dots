@@ -1209,6 +1209,10 @@
 (require 'magit)
 (global-set-key (kbd "C-q g") 'magit-status)
 
+;; 色変更
+(set-face-foreground 'magit-diff-add "#b9ca4a")
+(set-face-foreground 'magit-diff-del "#d54e53")
+(set-face-background 'magit-item-highlight "gray25")
 
 
 ;;====================
@@ -1420,7 +1424,7 @@
 ;; グローバルに設定
 (setq jaunte-global-hint-unit 'symbol)
 (global-set-key (kbd "C-c C-j") 'jaunte)
-(key-chord-define-global "ff" 'jaunte)
+(key-chord-define-global "qf" 'jaunte)
 
 
 ;;====================
