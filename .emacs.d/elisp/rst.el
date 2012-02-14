@@ -77,7 +77,7 @@
 ;;; DOWNLOAD
 
 ;; The latest release of this file lies in the docutils source code repository:
-;;   http://svn.berlios.de/svnroot/repos/docutils/trunk/docutils/tools/editors/emacs/rst.el
+;;   http://docutils.svn.sourceforge.net/svnroot/docutils/trunk/docutils/tools/editors/emacs/rst.el
 
 ;;; INSTALLATION
 
@@ -134,12 +134,12 @@ and before TAIL-RE and DELIM-RE in VAR or DEFAULT for no match"
 ;; Use LastChanged... to really get information from SVN
 (defconst rst-svn-rev
   (rst-extract-version "\\$" "LastChangedRevision: " "[0-9]+" " "
-		       "$LastChangedRevision: 6993 $")
+		       "$LastChangedRevision: 7233 $")
   "The SVN revision of this file.
 SVN revision is the upstream (docutils) revision.")
 (defconst rst-svn-timestamp
   (rst-extract-version "\\$" "LastChangedDate: " ".+?+" " "
-		       "$LastChangedDate: 2011-03-20 18:20:36 +0100 (Son, 20 Mär 2011) $")
+		       "$LastChangedDate: 2011-12-02 00:43:32 +0000 (Fri, 02 Dec 2011) $")
   "The SVN timestamp of this file.")
 
 ;; Maintained by the release process
