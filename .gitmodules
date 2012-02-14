@@ -1,3 +1,36 @@
 [submodule ".vim/vundle..git"]
 	path = .vim/vundle..git
 	url = git://github.com/gmarik/vundle.git
+[submodule ".emacs.d/bundle/anything-config"]
+	path = .emacs.d/bundle/anything-config
+	url = git://repo.or.cz/anything-config
+[submodule ".emacs.d/bundle/emacs-historyf"]
+	path = .emacs.d/bundle/emacs-historyf
+	url = git://github.com/k1LoW/emacs-historyf.git
+[submodule ".emacs.d/bundle/jaunte.el"]
+	path = .emacs.d/bundle/jaunte.el
+	url = git://github.com/kawaguchi/jaunte.el.git
+[submodule ".emacs.d/bundle/popwin-el"]
+	path = .emacs.d/bundle/popwin-el
+	url = git://github.com/m2ym/popwin-el.git
+[submodule ".emacs.d/bundle/twittering-mode"]
+	path = .emacs.d/bundle/twittering-mode
+	url = git://github.com/hayamiz/twittering-mode.git
+[submodule ".emacs.d/bundle/yasnippet"]
+	path = .emacs.d/bundle/yasnippet
+	url = git://github.com/capitaomorte/yasnippet.git
+[submodule ".emacs.d/bundle/auto-complete"]
+	path = .emacs.d/bundle/auto-complete
+	url = git://github.com/m2ym/auto-complete.git
+[submodule ".emacs.d/bundle/expand-region.el"]
+	path = .emacs.d/bundle/expand-region.el
+	url = git://github.com/magnars/expand-region.el.git
+[submodule ".emacs.d/bundle/magit"]
+	path = .emacs.d/bundle/magit
+	url = git://github.com/magit/magit.git
+[submodule ".emacs.d/bundle/rainbow-delimiters"]
+	path = .emacs.d/bundle/rainbow-delimiters
+	url = git://github.com/jlr/rainbow-delimiters.git
+[submodule ".emacs.d/bundle/wrap-region"]
+	path = .emacs.d/bundle/wrap-region
+	url = git://github.com/rejeep/wrap-region.git
