@@ -1232,9 +1232,13 @@
 (define-key ac-mode-map (kbd "TAB") 'auto-complete)
 
 ;; 自動補完
-;; (setq ac-auto-start 3) ; ?文字以上で補完開始
+(setq ac-auto-start 3) ; ?文字以上で補完開始
 ;; 手動補完するならこっち
-(setq ac-auto-start nil) ; 自動的に開始しない
+;; (setq ac-auto-start nil) ; 自動的に開始しない
+
+;; 一定時間後に保管開始
+(setq ac-auto-show-menu 1.0)
+
 
 ;; コンテキストに応じてTABで補完
 (ac-set-trigger-key "TAB")
@@ -1256,13 +1260,16 @@
 (setq ac-ignore-case t) ;区別無し
 
 ;; 補完の色
-(set-face-background 'ac-candidate-face "OliveDrab1")
-(set-face-underline 'ac-candidate-face "OliveDrab1")
-(set-face-background 'ac-selection-face "DarkOrange")
+(set-face-background 'ac-candidate-face "#b9ca4a")
+(set-face-underline 'ac-candidate-face "#b9ca4a")
+(set-face-background 'ac-selection-face "#d54e53")
+
+;; 候補を20行分表示
+(setq ac-menu-height 20)
 
 
 ;; 補完の情報源
-(setq-default ac-sources '(ac-source-filename ac-source-words-in-same-mode-buffers ac-source-symbols))
+(setq-default ac-sources '(ac-source-abbrev ac-source-yasnippet ac-source-filename ac-source-files-in-current-dir ac-source-words-in-same-mode-buffers ac-source-symbols))
 ;; 補完するモードの追加
 (setq ac-modes (append ac-modes '(text-mode sql-mode scala-mode)))
 
@@ -1804,16 +1811,20 @@
 ;; rst
 ;;====================
 ;; @see launch setting
-
 (require 'rst)
 ;; 拡張子の*.rst, *.restのファイルをrst-modeで開く
 (setq auto-mode-alist
       (append '(("\\.rst$" . rst-mode)
+                ("\\.howm$" . rst-mode)
                 ("\\.rest$" . rst-mode)) auto-mode-alist))
 ;; 背景が黒い場合はこうしないと見出しが見づらい
-;; (setq frame-background-mode 'dark)
-;; 全部スペースでインデントしましょう
-(add-hook 'rst-mode-hook '(lambda() (setq indent-tabs-mode nil)))
+(setq frame-background-mode 'dark)
+;; インデントをスペースで
+(add-hook 'rst-mode-hook 
+          '(lambda() 
+             (setq indent-tabs-mode nil)
+      ;;       (setq-default tab-width 3 indent-tabs-mode nil)
+))
 
 
 ;;====================
