@@ -1436,19 +1436,6 @@
 (setq moccur-split-word t)
 
 
-;; ;; scheme-mode-hook
-;; (defvar ac-source-scheme
-;;   '((candidates
-;;      . (lambda ()
-;;          (require 'scheme-complete)
-;;          (all-completions ac-target (car (scheme-current-env))))))
-;;   "Source for scheme keywords.")
-;; (add-hook 'scheme-mode-hook
-;;           '(lambda ()
-;;              (make-local-variable 'ac-sources)
-;;              (setq ac-sources (append ac-sources '(ac-source-scheme)))))
-
-
 ;;====================
 ;; smooth-scroll
 ;;====================
@@ -1471,53 +1458,6 @@
 (setq cua-enable-cua-keys nil) 
 
 
-
-
-;;====================
-;; popwin
-;;====================
-;; (add-to-list 'load-path "~/.emacs.d/bundle/popwin-el")
-;; (require 'popwin)
-;; (setq display-buffer-function 'popwin:display-buffer)
-;; ;; anythingをpopwinで行うため
-;; (setq anything-samewindow nil)
-;; ;; popwinのデフォルトサイズ
-;; (setq popwin:popup-window-height 0.4)
-;; ;; popwinを使う表示を設定
-;; (setq popwin:special-display-config
-;;       (append '(("*Remember*" :stick t)
-;;                 ("*Backtrace*")
-;;                 ("*Messages*")
-;;                 ("*Completion*" :height 0.2)
-;;                 ("*Compile-Log*")
-;;                 ("*sdic*" :noselect t)
-;;                 ("*anything*" :height 20)
-;;                                         ;("*Moccur*" :height 20)
-;;                 ("*Directory*" :height 20)
-;;                 ("*undo-tree*" :height 20)
-;;                 ("\\*magit*" :regexp t :height 30)
-;;                 (dired-mode :position top :height 0.6)
-;;                 ;; slime
-;;                 ("*slime-apropos*")
-;;                 ("*slime-macroexpansion*")
-;;                 ("*slime-description*")
-;;                 ("*slime-compilation*" :noselect t)
-;;                 ("*slime-xref*")
-;;                 ("*slime-repl clojure*" :height 30)
-;;                 ("*slime-repl ccl*" :height 30)
-;;                 ("\\*sldb clojure*" :regexp t :height 30)
-;;                 (sldb-mode :stick t)
-;;                 (slime-repl-mode)
-;;                 (slime-connection-list-mode)
-;;                 (direx:direx-mode :position left :width 25 :dedicated t)
-;;                 )
-;;               popwin:special-display-config))
-
-;; ;; 最後に表示したpopwinを再表示
-;; (define-key global-map (kbd "C-x p") 'popwin:display-last-buffer)
-
-
-
 ;;====================
 ;; undo-tree
 ;;====================
@@ -1536,7 +1476,6 @@
 (global-set-key (kbd "C-$") 'mark-word*) ; 単語を選択
 (global-set-key (kbd "C-\"") 'mark-string) ; 文字列(""含む)を選択
 (global-set-key (kbd "C-(") 'mark-up-list) ; リスト表記()を選択
-
 
 
 ;;====================
@@ -1566,8 +1505,6 @@
 (key-chord-define-global "qk" 'windmove-up)
 
 
-
-
 ;;====================
 ;; uniquify
 ;;====================
@@ -1577,24 +1514,11 @@
   (setq uniquify-buffer-name-style 'post-forward-angle-brackets))
 
 
-
 ;;====================
 ;; savekill
 ;;====================
 ;; kill ringの中身をファイル保存
 (require 'savekill)
-
-
-;;====================
-;; jaunte
-;;====================
-;; vimperatorのhit a hint風
-;; (add-to-list 'load-path "~/.emacs.d/bundle/jaunte.el")
-;; (require 'jaunte)
-;; ;; グローバルに設定
-;; (setq jaunte-global-hint-unit 'symbol)
-;; (global-set-key (kbd "C-c C-j") 'jaunte)
-;; (key-chord-define-global "qf" 'jaunte)
 
 
 ;;====================
@@ -1678,76 +1602,6 @@
   '(progn
      (define-key howm-mode-map
        "\C-c\C-c" 'my-save-and-kill-buffer)))
-
-
-
-;;====================
-;; twittering-mode
-;;====================
-;; (add-to-list 'load-path "~/.emacs.d/bundle/twittering-mode")
-;; ;; twittering-mode twittering-numbering.el
-;; ;; https://github.com/pft/elisp-assorted/blob/master/twittering-numbering.el
-;; ;; twittering-mode
-;; (require 'twittering-mode)
-;; ;; (autoload 'twittering-numbering "twittering-numbering" t)
-;; ;; (add-hook 'twittering-mode-hook 'twittering-numbering)
-;; (setq twittering-use-master-password t)
-;; (setq twittering-status-format "%i%S(%s) %p %R \n%C{%m/%d %H:%M:%S}(%@)  \n\n  %t \n\nfrom %f%L\n\n")
-;; ;;%s - screen_name
-;; ;;%S - name
-;; ;;%i - profile_image
-;; ;;%d - description
-;; ;;%l - location
-;; ;;%L - \" [location]\"
-;; ;;%r - \" sent to user\" (use on direct_messages{,_sent})
-;; ;;%r - \" in reply to user\" (use on other standard timeline)
-;; ;;%R - \" (retweeted by user)\"
-;; ;;%RT{...} - strings rendered only when the tweet is a retweet.
-;; ;;           The braced strings are rendered with the information of the
-;; ;;           retweet itself instead of that of the retweeted original tweet.
-;; ;;           For example, %s for a retweet means who posted the original
-;; ;;           tweet, but %RT{%s} means who retweeted it.
-;; ;;%u - url
-;; ;;%j - user.id
-;; ;;%p - protected?
-;; ;;%c - created_at (raw UTC string)
-;; ;;%C{time-format-str} - created_at (formatted with time-format-str)
-;; ;;%@ - X seconds ago
-;; ;;%T - raw text
-;; ;;%t - text filled as one paragraph
-;; ;;%' - truncated
-;; ;;%FACE[face-name]{...} - strings decorated with the specified face.
-;; ;;%FILL[prefix]{...} - strings filled as a paragraph. The prefix is optional.
-;; ;;                     You can use any other specifiers in braces.
-;; ;;%FOLD[prefix]{...} - strings folded within the frame width.
-;; ;;                     The prefix is optional. This keeps newlines and does not
-;; ;;                     squeeze a series of white spaces.
-;; ;;                     You can use any other specifiers in braces.
-;; ;;%f - source
-;; ;;%# - id
-
-;; (setq twittering-retweet-format " RT @%s: %t")
-
-;; (add-hook 'twittering-mode-hook
-;;           '(lambda ()
-;;              ;; TwitterのWebっぽく
-;;              (define-key twittering-mode-map (kbd "F") 'twittering-favorite)
-;;              (define-key twittering-mode-map (kbd "R") 'twittering-reply-to-user)
-;;              (define-key twittering-mode-map (kbd "Q") 'twittering-organic-retweet)
-;;              (define-key twittering-mode-map (kbd "T") 'twittering-native-retweet)
-;;              (define-key twittering-mode-map (kbd "M") 'twittering-direct-message)
-;;              (define-key twittering-mode-map (kbd "N") 'twittering-update-status-interactive)
-;;              (define-key twittering-mode-map (kbd "C-c C-f") 'twittering-home-timeline)
-;;              (define-key twittering-mode-map (kbd "C-c C-r") 'twittering-replies-timeline)
-;;              (define-key twittering-mode-map (kbd "C-c C-m") 'twittering-direct-messages-timeline)
-;;              ;; "<"">"で先頭、最後尾へ移動
-;;              (define-key twittering-mode-map (kbd "<") (lambda () (interactive) (goto-char (point-min))))
-;;              (define-key twittering-mode-map (kbd ">") (lambda () (interactive) (goto-char (point-max))))))
-
-;; ;; 起動時に読み込むタイムライン
-;; (setq twittering-initial-timeline-spec-string
-;;       '(":replies"
-;;         ":home"))
 
 
 ;;====================
@@ -2073,24 +1927,6 @@
 
 
 ;;====================
-;; expand-region
-;;====================
-;; (add-to-list 'load-path "~/.emacs.d/bundle/expand-region.el")
-;; (require 'expand-region)
-;; (global-set-key (kbd "C-@") 'er/expand-region)
-;; (global-set-key (kbd "C-M-@") 'er/contract-region) ;; リージョンを狭める
-
-
-;;====================
-;; emacs-historyf
-;;====================
-;; (add-to-list 'load-path "~/.emacs.d/bundle/emacs-historyf")
-;; (require 'historyf)
-;; (define-key global-map (kbd "C-q l") 'historyf-forward)
-;; (define-key global-map (kbd "C-q h") 'historyf-back)
-
-
-;;====================
 ;; malabar-mode
 ;;====================
 ;; (require 'malabar-mode nil t)
@@ -2117,33 +1953,6 @@
 ;; htmlize.el
 ;;====================
 (load "htmlize.el")
-
-
-;;====================
-;; wrap-region
-;;====================
-;; @see launch setting
-;;(add-to-list 'load-path "~/.emacs.d/bundle/wrap-region")
-;;(require 'wrap-region)
-;; 第一引数:リージョンの先頭に挿入する文字
-;; 第二引数:リージョン末尾に挿入する文字
-;; 第三引数:トリガとなるキー
-;; 第四引数:有効にするモード
-;; (wrap-region-add-wrapper "(" ")" "(")
-
-
-
-;;====================
-;; rainbow-delimiters
-;;====================
-;; (add-to-list 'load-path "~/.emacs.d/bundle/rainbow-delimiters")
-;; (require 'rainbow-delimiters)
-;; (global-rainbow-delimiters-mode)
-
-
-
-
-
 
 
 
