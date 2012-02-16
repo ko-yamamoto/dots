@@ -15,3 +15,8 @@ ac-comphist.dat
 .emacs.d/srecode-map.el
 .session
 /.emacs.d/#init.el#
+/.emacs.d/el-get/*
+/.emacs.d/el-get/.loaddefs.el
+/.emacs.d/el-get/.loaddefs.elc
+/.emacs.d/el-get/.status.el
+/.emacs.d/elpa/archives/tromey/archive-contents
