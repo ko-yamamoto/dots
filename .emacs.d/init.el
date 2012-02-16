@@ -1049,6 +1049,7 @@
                           (setq anything-sources
                                 '(anything-c-source-buffers+
                                   anything-c-source-recentf
+                                  anything-c-source-imenu
                                   anything-c-source-emacs-commands
                                   anything-c-source-emacs-functions
                                   anything-c-source-files-in-current-dir
@@ -1262,14 +1263,11 @@
                                      '(":replies"
                                        ":home"))
                                ))
-
-
-          ;; (:name asciidoc
-          ;;        :type elpa
-          ;;        :after (lambda ()
-          ;;                 (autoload 'doc-mode "doc-mode" nil t)
-          ;;                 (add-to-list 'auto-mode-alist '("\\.adoc$" . doc-mode))
-          ;;                 (add-hook 'doc-mode-hook '(lambda () (turn-on-auto-fill) (require 'asciidoc)))))
+          (:name coffee-mode
+                 :after (lambda ()
+                          (require 'coffee-mode)
+                          (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
+                          (add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))))
           ))
   (setq my-packages
         (append '(el-get) (mapcar 'el-get-source-name el-get-sources)))
