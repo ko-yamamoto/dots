@@ -562,7 +562,7 @@
 ))
 (global-set-key "\C-q4" 'split-for-twmode)
 
-(global-set-key "\C-qt" 'twit)
+(global-set-key "\C-qtt" 'twit)
 
 
 
@@ -1226,34 +1226,6 @@
                                ))
           (:name twittering-mode
                  :after (lamda ()
-                               (require 'twittering-mode)
-                               ;; (autoload 'twittering-numbering "twittering-numbering" t)
-                               ;; (add-hook 'twittering-mode-hook 'twittering-numbering)
-                               (setq twittering-use-master-password t)
-                               (setq twittering-status-format "%i%S(%s) %p %R \n%C{%m/%d %H:%M:%S}(%@)  \n\n  %t \n\nfrom %f%L\n\n")
-
-                               (setq twittering-retweet-format " RT @%s: %t")
-
-                               ;; (add-hook 'twittering-mode-hook
-                               ;;           '(lambda ()
-                               ;;              ;; TwitterのWebっぽく
-                               ;;              (define-key twittering-mode-map (kbd "F") 'twittering-favorite)
-                               ;;              (define-key twittering-mode-map (kbd "R") 'twittering-reply-to-user)
-                               ;;              (define-key twittering-mode-map (kbd "Q") 'twittering-organic-retweet)
-                               ;;              (define-key twittering-mode-map (kbd "T") 'twittering-retweet)
-                               ;;              (define-key twittering-mode-map (kbd "M") 'twittering-direct-message)
-                               ;;              (define-key twittering-mode-map (kbd "N") 'twittering-update-status-interactive)
-                               ;;              (define-key twittering-mode-map (kbd "C-c C-f") 'twittering-home-timeline)
-                               ;;              (define-key twittering-mode-map (kbd "C-c C-r") 'twittering-replies-timeline)
-                               ;;              ;; (define-key twittering-mode-map (kbd "C-c C-m") 'twittering-direct-messages-timeline)
-                               ;;              ;; "<"">"で先頭、最後尾へ移動
-                               ;;              (define-key twittering-mode-map (kbd "<") (lambda () (interactive) (goto-char (point-min))))
-                               ;;              (define-key twittering-mode-map (kbd ">") (lambda () (interactive) (goto-char (point-max))))))
-
-                               ;; 起動時に読み込むタイムライン
-                               (setq twittering-initial-timeline-spec-string
-                                     '(":replies"
-                                       ":home"))
                                ))
           (:name coffee-mode
                  :after (lambda ()
@@ -1949,6 +1921,20 @@
 ;; twittering-mode
 ;;====================
 ;; (el-get:use twittering-mode)
+(require 'twittering-mode)
+;; (autoload 'twittering-numbering "twittering-numbering" t)
+;; (add-hook 'twittering-mode-hook 'twittering-numbering)
+(setq twittering-use-master-password t)
+(setq twittering-status-format "%i%S(%s) %p %R \n%C{%m/%d %H:%M:%S}(%@)  \n\n  %t \n\nfrom %f%L\n\n")
+
+(setq twittering-retweet-format " RT @%s: %t")
+
+;; 起動時に読み込むタイムライン
+(setq twittering-initial-timeline-spec-string
+      '(":replies"
+        ":home"))
+
+(global-set-key (kbd "C-q t p") 'twittering-update-status-interactive)
 (add-hook 'twittering-mode-hook
           (lambda ()
             (mapc (lambda (pair)
