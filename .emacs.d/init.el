@@ -1209,24 +1209,13 @@
                                ))
           (:name jaunte.el
                  :type git
-                 :url "git://github.com/kawaguchi/jaunte.el.git"
-                 :after (lamda ()
-                               (require 'jaunte)
-                               ;; グローバルに設定
-                               (setq jaunte-global-hint-unit 'symbol)
-                               (global-set-key (kbd "C-c C-j") 'jaunte)
-                               (key-chord-define-global "qf" 'jaunte)
-                               ))
+                 :url "git://github.com/kawaguchi/jaunte.el.git")
           (:name rainbow-delimiters
                  :type git
                  :url "git://github.com/jlr/rainbow-delimiters.git"
                  :after (lamda ()
-                               (require 'rainbow-delimiters)
-                               (global-rainbow-delimiters-mode)
                                ))
-          (:name twittering-mode
-                 :after (lamda ()
-                               ))
+          (:name twittering-mode)
           (:name coffee-mode
                  :after (lambda ()
                           (require 'coffee-mode)
@@ -1950,6 +1939,24 @@
                     ("N" . twittering-update-status-interactive)
                     ))))
 
+
+;;====================
+;; jaunte.el
+;;====================
+;; (el-get:use
+(require 'jaunte)
+;; グローバルに設定
+(setq jaunte-global-hint-unit 'symbol)
+(global-set-key (kbd "C-c C-j") 'jaunte)
+(key-chord-define-global "qf" 'jaunte)
+
+
+;;====================
+;; rainbow-delimiters
+;;====================
+;; (el-get:use
+(require 'rainbow-delimiters)
+(global-rainbow-delimiters-mode)
 
 
 
