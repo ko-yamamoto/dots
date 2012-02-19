@@ -2183,7 +2183,7 @@
 ;; ---------------------------------------------------------------------------------
 (add-hook 'after-init-hook
           (lambda()
-            (eshell)
+;;            (eshell)
             (switch-to-buffer "*scratch*")
             (rst-mode)
             (wrap-region-mode)
