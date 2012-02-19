@@ -699,14 +699,6 @@
                 initial-frame-alist))
   (setq default-frame-alist initial-frame-alist)
 
-  ;; プロクシの設定
-  ;; (setq url-proxy-services '(("http" . "192.168.1.8:8080"))) 
-
-  ;; Twittering-modeのプロクシ
-  ;; (setq twittering-proxy-use t)
-  ;; (setq twittering-proxy-server "192.168.1.8")
-  ;; (setq twittering-proxy-port 8080)
-
   )
 
 
@@ -1242,21 +1234,21 @@
 
                                (setq twittering-retweet-format " RT @%s: %t")
 
-                               (add-hook 'twittering-mode-hook
-                                         '(lambda ()
-                                            ;; TwitterのWebっぽく
-                                            (define-key twittering-mode-map (kbd "F") 'twittering-favorite)
-                                            (define-key twittering-mode-map (kbd "R") 'twittering-reply-to-user)
-                                            (define-key twittering-mode-map (kbd "Q") 'twittering-organic-retweet)
-                                            (define-key twittering-mode-map (kbd "T") 'twittering-native-retweet)
-                                            (define-key twittering-mode-map (kbd "M") 'twittering-direct-message)
-                                            (define-key twittering-mode-map (kbd "N") 'twittering-update-status-interactive)
-                                            (define-key twittering-mode-map (kbd "C-c C-f") 'twittering-home-timeline)
-                                            (define-key twittering-mode-map (kbd "C-c C-r") 'twittering-replies-timeline)
-                                            (define-key twittering-mode-map (kbd "C-c C-m") 'twittering-direct-messages-timeline)
-                                            ;; "<"">"で先頭、最後尾へ移動
-                                            (define-key twittering-mode-map (kbd "<") (lambda () (interactive) (goto-char (point-min))))
-                                            (define-key twittering-mode-map (kbd ">") (lambda () (interactive) (goto-char (point-max))))))
+                               ;; (add-hook 'twittering-mode-hook
+                               ;;           '(lambda ()
+                               ;;              ;; TwitterのWebっぽく
+                               ;;              (define-key twittering-mode-map (kbd "F") 'twittering-favorite)
+                               ;;              (define-key twittering-mode-map (kbd "R") 'twittering-reply-to-user)
+                               ;;              (define-key twittering-mode-map (kbd "Q") 'twittering-organic-retweet)
+                               ;;              (define-key twittering-mode-map (kbd "T") 'twittering-retweet)
+                               ;;              (define-key twittering-mode-map (kbd "M") 'twittering-direct-message)
+                               ;;              (define-key twittering-mode-map (kbd "N") 'twittering-update-status-interactive)
+                               ;;              (define-key twittering-mode-map (kbd "C-c C-f") 'twittering-home-timeline)
+                               ;;              (define-key twittering-mode-map (kbd "C-c C-r") 'twittering-replies-timeline)
+                               ;;              ;; (define-key twittering-mode-map (kbd "C-c C-m") 'twittering-direct-messages-timeline)
+                               ;;              ;; "<"">"で先頭、最後尾へ移動
+                               ;;              (define-key twittering-mode-map (kbd "<") (lambda () (interactive) (goto-char (point-min))))
+                               ;;              (define-key twittering-mode-map (kbd ">") (lambda () (interactive) (goto-char (point-max))))))
 
                                ;; 起動時に読み込むタイムライン
                                (setq twittering-initial-timeline-spec-string
@@ -1952,6 +1944,25 @@
 ;;====================
 (load "htmlize.el")
 
+
+;;====================
+;; twittering-mode
+;;====================
+;; (el-get:use twittering-mode)
+(add-hook 'twittering-mode-hook
+          (lambda ()
+            (mapc (lambda (pair)
+                    (let ((key (car pair))
+                          (func (cdr pair)))
+                      (define-key twittering-mode-map
+                        (read-kbd-macro key) func)))
+                  '(("F" . twittering-favorite)
+                    ("R" . twittering-reply-to-user)
+                    ("Q" . twittering-organic-retweet)
+                    ("T" . twittering-native-retweet)
+                    ("M" . twittering-direct-message)
+                    ("N" . twittering-update-status-interactive)
+                    ))))
 
 
 
