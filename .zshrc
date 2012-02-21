@@ -105,7 +105,7 @@ esac
 
 # ログイン時プロンプト（すぐにviモード表示プロンプトで上書き）
 setopt prompt_subst
-PROMPT='%{$fg[red]%}[%{$reset_color%}%n%{$fg[red]%}]%#%{$reset_color%} '
+PROMPT='%{$fg[red]%}[%{$reset_color%}%n@%m%{$fg[red]%}]%#%{$reset_color%} '
 RPROMPT='%{$fg[red]%}[%{$fg[white]%}%~%{$fg[red]%}]%{$reset_color%}'
 
 
