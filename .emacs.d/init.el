@@ -1319,47 +1319,47 @@
 ;;====================
 ;; ElScreen
 ;;====================
-;; EmacsでGNU screen風のインターフェイスを使う
-(setq elscreen-prefix-key "\C-z")
-(require 'elscreen)
-(if window-system
-    (define-key elscreen-map "\C-z" 'iconify-or-deiconify-frame)
-  (define-key elscreen-map "\C-z" 'suspend-emacs))
+;; ;; EmacsでGNU screen風のインターフェイスを使う
+;; (setq elscreen-prefix-key "\C-z")
+;; (require 'elscreen)
+;; (if window-system
+;;     (define-key elscreen-map "\C-z" 'iconify-or-deiconify-frame)
+;;   (define-key elscreen-map "\C-z" 'suspend-emacs))
 
-;; 以下は自動でスクリーンを生成する場合の設定
-(defmacro elscreen-create-automatically (ad-do-it)
-  `(if (not (elscreen-one-screen-p))
-       ,ad-do-it
-     (elscreen-create)
-     (elscreen-notify-screen-modification 'force-immediately)
-     (elscreen-message "New screen is automatically created")))
+;; ;; 以下は自動でスクリーンを生成する場合の設定
+;; (defmacro elscreen-create-automatically (ad-do-it)
+;;   `(if (not (elscreen-one-screen-p))
+;;        ,ad-do-it
+;;      (elscreen-create)
+;;      (elscreen-notify-screen-modification 'force-immediately)
+;;      (elscreen-message "New screen is automatically created")))
 
-(defadvice elscreen-next (around elscreen-create-automatically activate)
-  (elscreen-create-automatically ad-do-it))
+;; (defadvice elscreen-next (around elscreen-create-automatically activate)
+;;   (elscreen-create-automatically ad-do-it))
 
-(defadvice elscreen-previous (around elscreen-create-automatically activate)
-  (elscreen-create-automatically ad-do-it))
+;; (defadvice elscreen-previous (around elscreen-create-automatically activate)
+;;   (elscreen-create-automatically ad-do-it))
 
-(defadvice elscreen-toggle (around elscreen-create-automatically activate)
-  (elscreen-create-automatically ad-do-it))
+;; (defadvice elscreen-toggle (around elscreen-create-automatically activate)
+;;   (elscreen-create-automatically ad-do-it))
 
-(setq elscreen-display-tab 10) ; タブの幅（６以上じゃないとダメ）
-(setq elscreen-tab-display-kill-screen nil) ; タブの左端の×を非表示
+;; (setq elscreen-display-tab 10) ; タブの幅（６以上じゃないとダメ）
+;; (setq elscreen-tab-display-kill-screen nil) ; タブの左端の×を非表示
 
-(global-set-key (kbd "C-z C-c") 'elscreen-clone) ; 今のウインドウを基に作成
-(global-set-key (kbd "C-z C-k") 'elscreen-kill-screen-and-buffers) ; スクリーンとバッファをkill
-(global-set-key [(C-tab)] 'elscreen-next) ; ブラウザみたいに
-(global-set-key [(C-S-tab)] 'elscreen-previous) ; ブラウザみたいに　その2
-(global-set-key [(C-S-iso-lefttab)] 'elscreen-previous) ; ブラウザみたいに　その2 (for linux)
+;; (global-set-key (kbd "C-z C-c") 'elscreen-clone) ; 今のウインドウを基に作成
+;; (global-set-key (kbd "C-z C-k") 'elscreen-kill-screen-and-buffers) ; スクリーンとバッファをkill
+;; (global-set-key [(C-tab)] 'elscreen-next) ; ブラウザみたいに
+;; (global-set-key [(C-S-tab)] 'elscreen-previous) ; ブラウザみたいに　その2
+;; (global-set-key [(C-S-iso-lefttab)] 'elscreen-previous) ; ブラウザみたいに　その2 (for linux)
 
-;; elscreen-server
-(require 'elscreen-server)
+;; ;; elscreen-server
+;; (require 'elscreen-server)
 
-;; elscreen-dired
-(require 'elscreen-dired)
+;; ;; elscreen-dired
+;; (require 'elscreen-dired)
 
-;; elscreen-color-theme
-(require 'elscreen-color-theme)
+;; ;; elscreen-color-theme
+;; (require 'elscreen-color-theme)
 
 
 
@@ -1958,6 +1958,87 @@
 (require 'rainbow-delimiters)
 (global-rainbow-delimiters-mode)
 
+
+
+;;====================
+;; tabbar.el
+;;====================
+(require 'tabbar)
+(require 'cl)
+;; タブに表示しないものの設定
+;; (setq my-tabbar-x-list (list "*Compile-Log*" "*anything*" "*anything complete*" "*howm-keys:*"))
+;; (defun my-tabbar-buffer-list ()
+;;   (remove-if
+;;     (lambda (buffer) (member (buffer-name buffer) my-tabbar-x-list))
+;;     (tabbar-buffer-list)))
+;; (setq tabbar-buffer-list-function 'my-tabbar-buffer-list)
+(defvar my-tabbar-displayed-buffers
+  '("*Backtrace*" "*Colors*" "*Faces*" "*vc-")
+  "*Regexps matches buffer names always included tabs.")
+
+(defun my-tabbar-buffer-list ()
+  "Return the list of buffers to show in tabs.
+Exclude buffers whose name starts with a space or an asterisk.
+The current buffer and buffers matches `my-tabbar-displayed-buffers'
+are always included."
+  (let* ((hides (list ?\  ?\*))
+         (re (regexp-opt my-tabbar-displayed-buffers))
+         (cur-buf (current-buffer))
+         (tabs (delq nil
+                     (mapcar (lambda (buf)
+                               (let ((name (buffer-name buf)))
+                                 (when (or (string-match re name)
+                                           (not (memq (aref name 0) hides)))
+                                   buf)))
+                             (buffer-list)))))
+    ;; Always include the current buffer.
+    (if (memq cur-buf tabs)
+        tabs
+      (cons cur-buf tabs))))
+(setq tabbar-buffer-list-function 'my-tabbar-buffer-list)
+
+(tabbar-mode)
+
+;; グループ化を使わない
+(setq tabbar-buffer-groups-function nil)
+
+;; 左に表示されるボタンを無効化
+(dolist (btn '(tabbar-buffer-home-button
+               tabbar-scroll-left-button
+               tabbar-scroll-right-button))
+  (set btn (cons (cons "" nil)
+                 (cons "" nil))))
+
+;; 色設定
+;; タブバー背景
+(set-face-attribute
+ 'tabbar-default nil
+ :background "gray5"
+ :height 1.0)
+;; 非アクティブタブ
+(set-face-attribute
+ 'tabbar-unselected nil
+ :background "gray10"
+ :foreground "white"
+ :box nil
+ :height 0.9)
+;;アクティブタブ
+(set-face-attribute
+ 'tabbar-selected nil
+ :background "gray10"
+ :foreground "#e7c547" ; yellow
+ ;; :foreground "#d54e53" ; red
+ ;; :foreground "#e78c45" ; orange
+ ;; :foreground "#7aa6da" ; blue
+ :box nil
+ :height 0.9)
+
+;; 幅設定
+(setq tabbar-separator '(0.6))
+
+;; Firefoxライクなキーバインドに
+(global-set-key [(control tab)]       'tabbar-forward)
+(global-set-key [(control shift tab)] 'tabbar-backward)
 
 
 ;; ---------------------------------------------------------------------------------
