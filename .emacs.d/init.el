@@ -1997,6 +1997,7 @@ are always included."
       (cons cur-buf tabs))))
 (setq tabbar-buffer-list-function 'my-tabbar-buffer-list)
 
+;; 常に有効化
 (tabbar-mode)
 
 ;; グループ化を使わない
@@ -2036,9 +2037,11 @@ are always included."
 ;; 幅設定
 (setq tabbar-separator '(0.6))
 
-;; Firefoxライクなキーバインドに
-(global-set-key [(control tab)]       'tabbar-forward)
-(global-set-key [(control shift tab)] 'tabbar-backward)
+;; 表示切り替え
+(global-set-key [(control tab)]       'tabbar-forward-tab)
+(global-set-key [(control shift tab)] 'tabbar-backward-tab)
+
+
 
 
 ;; ---------------------------------------------------------------------------------
