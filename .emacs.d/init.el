@@ -1089,6 +1089,7 @@
                                           ("*Messages*")
                                           ("*Completion*" :height 0.2)
                                           ("*Compile-Log*")
+                                          ("*compilation*") ; for rst-compile
                                           ("*sdic*" :noselect t)
                                           ("*anything*" :height 20)
                                           ;;("*Moccur*" :height 20)
