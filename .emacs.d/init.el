@@ -313,6 +313,11 @@
 (define-key dired-mode-map (kbd "a") 'dired-find-file)
 
 
+;; ディレクトリの移動キーを追加(wdired 中は無効)
+(define-key dired-mode-map (kbd "<left>") 'dired-up-directory)
+(define-key dired-mode-map (kbd "<right>") 'dired-find-alternate-file)
+
+
 
 ;; Quick Look
 (setq dired-load-hook '(lambda () (load "dired-x"))) 
