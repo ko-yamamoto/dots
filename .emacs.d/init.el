@@ -2077,6 +2077,17 @@ are always included."
 
 
 
+;;====================
+;; ddskk
+;;====================
+(require 'skk-autoloads)
+(global-set-key (kbd "C-q s s") 'skk-mode)
+(global-set-key (kbd "C-q s a") 'skk-auto-fill-mode)
+(global-set-key (kbd "C-q s t") 'skk-tutorial)
+
+;; 辞書ファイル
+(setq skk-large-jisyo "~/.emacs.d/elisp/skk/SKK-JISYO.L")
+
 
 ;; ---------------------------------------------------------------------------------
 ;; Visual Settings
