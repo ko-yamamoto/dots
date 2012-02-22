@@ -318,6 +318,15 @@
 (define-key dired-mode-map (kbd "<right>") 'dired-find-alternate-file)
 
 
+;; フルパスファイル名コピー(ファイル名だけは"w")
+(defun dired-get-fullpath-filename ()
+  "カーソル位置のファイル名 (フルパス) をコピー"
+  (interactive)
+  (kill-new (dired-get-filename))
+  (message (dired-get-filename)))
+(define-key dired-mode-map (kbd "W") 'dired-get-fullpath-filename)
+
+
 
 ;; Quick Look
 (setq dired-load-hook '(lambda () (load "dired-x"))) 
