@@ -1,0 +1,90 @@
+# ^z c           新画面作成
+# ^z n           画面を順に切り替え
+# ^z p           画面を逆順に切り替え
+
+# コピーモード関連
+# ^z Esc, ^z [   画面をコピーモードに切り替え
+# ^z ]           コピーモードでコピーした内容を貼り付け
+# Esc            (コピーモード中)コピーモードを抜ける
+# Spc            (コピーモード中)リージョン選択開始
+# Spc            (コピーモード中 + リージョン選択中)リージョンをコピー
+
+# ^z d           スクリーンをデタッチ
+# ^z [数字]      数字 のウィンドウへ切り替え
+# ^z S(大文字)   ウインドウ分割
+# ^z tab         ウインドウ移動
+# ^z ^a          直前に表示していたウィンドウに切替
+# ^z A           現在のウィンドウの名前を入力
+# ^z C           ウインドウをクリア
+# ^z i           現在のウィンドウに関する情報を表示
+# ^z v           バージョンとコンパイルされた日時を表示
+# ^z w           ウィンドウのリストを表示
+# ^z ?           キーマップを表示
+
+# C-y            上へ表示領域をスクロール
+# C-n            下へ表示領域をスクロール
+
+
+# エスケープキーの設定
+escape z
+# escape ^Tt
+
+# ビジュアルベルを無効
+vbell off
+
+# ステータス行の設定
+#hardstatus alwayslastline "[%02c] %`%-w%{=b bw}%n %t%{-}%+w"
+#hardstatus alwayslastline "%{= wk} %-w%{=bu dr}%n %t%{-}%+w %= %{=b wb}%y/%m/%d %{=b wb}%c"
+#hardstatus alwayslastline "%{= Gw}[%m/%d %02c:%s] %{GW} %-w%{= rW}%n %t%{-}%+w %=%{Gw}$USER@$HOSTNAME[$LANG] (%l) "
+hardstatus alwayslastline "%{= Gw}[%m/%d %02c] %{GW} %-w%{= rW}%n %t%{-}%+w %=%{Gw}$USER@$HOSTNAME[$LANG]"
+
+# シェルタイトル
+shelltitle "% |zsh"
+
+# 背景色消去
+#defbce "on"
+
+# スタートアップ時メッセージ無効
+startup_message off
+
+# 自動でデタッチする
+autodetach on
+
+# スクロール行を 10,240行
+defscrollback 10240
+
+# ターミナル
+#term xterm-256color
+
+# ^T U で UTF-8 / ^T E で EUC-JP を切り替え
+bind U eval "encoding utf-8" "!!!echo 'export LANG=ja_JP.UTF-8'"
+bind E eval "encoding euc" "!!!echo 'export LANG=ja_JP.EUC-JP'"
+
+# zshの起動バインド設定
+bind c screen zsh
+
+# 画面が残らないようにする
+altscreen on
+
+# ハードコピーを追記モード
+hardcopy_append on
+
+#hardcopydir /home/dai/.screen/
+#bind h hardcopy -h ~/.screen/hardcopy/${YSC}/${MSC}/${YSC}${MSC}${DSC}-hard.log
+bind h hardcopy -h ${HOME}/hard.log
+
+#bufferfile ${HOME}/a
+
+bind , eval "readbuf ${HOME}/a"
+bind . eval "writebuf ${HOME}/.screen/copybuffer" "!${HOME}/.screen/mv_copybuf.sh"
+
+bind @ eval "readbuf ${HOME}/a" "writebuf ${HOME}/.screen/copybuffer" "!${HOME}/.screen/mv_copybuf.sh"
+
+# メッセージ表示時間
+msgwait 1
+
+# 画面分割用
+bind r eval 'echo "Resize window"' 'command -c resize'
+bind -c resize ^] command
+bind -c resize j eval 'resize +1' 'command -c resize'
+bind -c resize k eval 'resize -1' 'command -c resize'
