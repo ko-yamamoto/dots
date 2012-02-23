@@ -207,6 +207,7 @@ alias ec='emacsclient -n'
 # Mineファイル読み込み
 # オレオレ設定はこっちに
 [ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
+[ -f ~/.zshrc.mac ] && source ~/.zshrc.mac
 [ -f ~/.zshrc.cyg ] && source ~/.zshrc.cyg
 
 
