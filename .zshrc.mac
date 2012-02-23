@@ -3,3 +3,7 @@ alias ccl='/usr/local/ccl/dx86cl'
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
 
 alias play='/usr/local/play/play/play'
+
+
+alias emacsclient='/Applications/Emacs24S.app/Contents/MacOS/bin/emacsclient -n'
+alias ec='/Applications/Emacs24S.app/Contents/MacOS/bin/emacsclient -n'
