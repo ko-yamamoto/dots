@@ -304,6 +304,39 @@
   (if (eq major-mode 'dired-mode)
       (kill-buffer my-dired-before-buffer)))
 
+
+
+;; ファイルなら別バッファで、ディレクトリなら同じバッファで開く
+(defun dired-open-in-accordance-with-situation ()
+  (interactive)
+  (let ((file (dired-get-filename)))
+    (if (file-directory-p file)
+        (dired-find-alternate-file)
+      (dired-find-file))))
+
+;; dired-find-alternate-file の有効化
+(put 'dired-find-alternate-file 'disabled nil)
+;; RET 標準の dired-find-file では dired バッファが複数作られるので
+;; dired-find-alternate-file を代わりに使う
+(define-key dired-mode-map (kbd "RET") 'dired-open-in-accordance-with-situation)
+(define-key dired-mode-map (kbd "a") 'dired-find-file)
+
+
+;; ディレクトリの移動キーを追加(wdired 中は無効)
+(define-key dired-mode-map (kbd "<left>") 'dired-up-directory)
+(define-key dired-mode-map (kbd "<right>") 'dired-open-in-accordance-with-situation)
+
+
+;; フルパスファイル名コピー(ファイル名だけは"w")
+(defun dired-get-fullpath-filename ()
+  "カーソル位置のファイル名 (フルパス) をコピー"
+  (interactive)
+  (kill-new (dired-get-filename))
+  (message (dired-get-filename)))
+(define-key dired-mode-map (kbd "W") 'dired-get-fullpath-filename)
+
+
+
 ;; Quick Look
 (setq dired-load-hook '(lambda () (load "dired-x"))) 
 (setq dired-guess-shell-alist-user
@@ -2044,6 +2077,17 @@ are always included."
 (global-set-key [(control shift tab)] 'tabbar-backward-tab)
 
 
+
+;;====================
+;; ddskk
+;;====================
+(require 'skk-autoloads)
+(global-set-key (kbd "C-q s s") 'skk-mode)
+(global-set-key (kbd "C-q s a") 'skk-auto-fill-mode)
+(global-set-key (kbd "C-q s t") 'skk-tutorial)
+
+;; 辞書ファイル
+(setq skk-large-jisyo "~/.emacs.d/elisp/skk/SKK-JISYO.L")
 
 
 ;; ---------------------------------------------------------------------------------
