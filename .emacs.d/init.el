@@ -2020,19 +2020,20 @@ are always included."
 ;; 非アクティブタブ
 (set-face-attribute
  'tabbar-unselected nil
- :background "gray10"
+ :background "gray15"
  :foreground "white"
  :box nil
  :height 0.9)
 ;;アクティブタブ
 (set-face-attribute
  'tabbar-selected nil
- :background "gray10"
+ :background "black"
  :foreground "#e7c547" ; yellow
  ;; :foreground "#d54e53" ; red
  ;; :foreground "#e78c45" ; orange
  ;; :foreground "#7aa6da" ; blue
- :box nil
+ ;; :box nil
+ :box '(:line-width 1 :color "#7aa6da") ; blue
  :height 0.9)
 
 ;; 幅設定
