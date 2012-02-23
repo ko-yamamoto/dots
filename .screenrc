@@ -36,7 +36,8 @@ vbell off
 #hardstatus alwayslastline "[%02c] %`%-w%{=b bw}%n %t%{-}%+w"
 #hardstatus alwayslastline "%{= wk} %-w%{=bu dr}%n %t%{-}%+w %= %{=b wb}%y/%m/%d %{=b wb}%c"
 #hardstatus alwayslastline "%{= Gw}[%m/%d %02c:%s] %{GW} %-w%{= rW}%n %t%{-}%+w %=%{Gw}$USER@$HOSTNAME[$LANG] (%l) "
-hardstatus alwayslastline "%{= Gw}[%m/%d %02c] %{GW} %-w%{= rW}%n %t%{-}%+w %=%{Gw}$USER@$HOSTNAME[$LANG]"
+#hardstatus alwayslastline "%{= Gw}[%m/%d %02c] %{GW} %-w%{= rW}%n %t%{-}%+w %=%{Gw}$USER@$HOSTNAME[$LANG]"
+hardstatus alwayslastline "%{= Kw}[%m/%d %02c] %{KW} %-w%{= rW}%n %t%{-}%+w %=%{Kw}$USER@$HOSTNAME[$LANG]"
 
 # シェルタイトル
 shelltitle "% |zsh"
