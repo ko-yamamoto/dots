@@ -112,13 +112,18 @@ RPROMPT='%{$fg[red]%}[%{$fg[white]%}%~%{$fg[red]%}]%{$reset_color%}'
 # プロンプトをカラー表示
 autoload colors && colors
 
-# lsカラー表示
-export LSCOLORS=exfxcxdxbxegedabagacad
-alias ls="ls -G"
-export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
 
+# lsカラー表示
+export LSCOLORS=ExFxCxdxBxegedabagacad
+export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
 # 補完をカラーに
-zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
+zstyle ':completion:*' list-colors 'di=;34;1' 'ln=;35;1' 'so=;32;1' 'ex=31;1' 'bd=46;34' 'cd=43;34'
+alias ls="ls -G"
+
+
+
+
+
 
 # 補完パターン 大文字小文字区別なしなど
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
