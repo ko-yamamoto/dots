@@ -89,3 +89,12 @@ bind r eval 'echo "Resize window"' 'command -c resize'
 bind -c resize ^] command
 bind -c resize j eval 'resize +1' 'command -c resize'
 bind -c resize k eval 'resize -1' 'command -c resize'
+
+# cygwin でコピーモードからWindowsのクリップボードへコピーする
+# bindkey -m Y   eval 'stuff Y'    'writebuf' 'exec sh -c "/usr/bin/putclip < /tmp/screen-exchange"'
+bindkey -m Y   eval 'stuff Y'    'writebuf' 'exec sh -c "cat /tmp/screen-exchange| nkf -W -s | /usr/bin/putclip"'
+
+
+
+
+

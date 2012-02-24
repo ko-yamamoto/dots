@@ -20,3 +20,5 @@ ac-comphist.dat
 /.emacs.d/el-get/.loaddefs.elc
 /.emacs.d/el-get/.status.el
 /.emacs.d/elpa/archives/tromey/archive-contents
+/.screen/copybuffer
+/.screen/copybuffer.txt
