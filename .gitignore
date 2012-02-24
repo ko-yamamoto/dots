@@ -22,3 +22,7 @@ ac-comphist.dat
 /.emacs.d/elpa/archives/tromey/archive-contents
 /.screen/copybuffer
 /.screen/copybuffer.txt
+/.emacs.d/elpa/archives/gnu/archive-contents
+/.emacs.d/elpa/archives/marmalade/archive-contents
+/.vim/.vimwinpos
+/screen.exe.stackdump
