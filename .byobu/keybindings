@@ -1,0 +1,4 @@
+source $BYOBU_PREFIX/share/byobu/keybindings/common
+escape ^Zz
+
+termcapinfo xterm-color 'k1=\EOP:k2=\EOQ:k3=\EOR:k4=\EOS'
