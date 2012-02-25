@@ -7,3 +7,9 @@ alias play='/usr/local/play/play/play'
 
 alias emacsclient='/Applications/Emacs24S.app/Contents/MacOS/bin/emacsclient -n'
 alias ec='/Applications/Emacs24S.app/Contents/MacOS/bin/emacsclient -n'
+
+
+export PATH=$PATH:/usr/local/bin:/usr/local/lib/python2.7/site-packages
+
+export BYOBU_PREFIX=`brew --prefix`
+
