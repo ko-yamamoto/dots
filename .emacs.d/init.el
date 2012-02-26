@@ -2085,9 +2085,9 @@ are always included."
 
 
 ;;====================
-;; win-pos.el
+;; save-frame-posize.el
 ;;====================
-(require 'win-pos)
+(require 'save-frame-posize)
 
 
 ;; ---------------------------------------------------------------------------------

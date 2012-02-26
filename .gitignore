@@ -28,3 +28,4 @@ ac-comphist.dat
 /screen.exe.stackdump
 /.emacs.d/url/cookies
 /.emacs.d/.winposize
+/.emacs.d/.frameposize

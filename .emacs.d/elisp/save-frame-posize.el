@@ -1,8 +1,8 @@
-;; win-pos.el
+;; save-frame-posize.el
 
 ;; Copyright (C) 2012 by nishikawasasaki
 ;; Author: nishikawasasaki
-;; https://github.com/nishikawasasaki/win-pos.el
+;; https://github.com/nishikawasasaki/save-frame-posize.el
 
 
 ;; This file is free software; you can redistribute it and/or modify
@@ -21,75 +21,75 @@
 ;; Boston, MA 02110-1301, USA.
 
 ;; What is this?
-;; Save window size and position.
+;; Save GNU Emacs frame size and position.
 ;; Restore the size and position when you launch Emacs.
 
 
 ;; Install
 ;; Move this file into directory in load-path.
 ;; And this add to init.el
-;; (require 'win-pos)
+;; (require 'save-frame-posize)
 
 ;; ChangeLog
-;; 0.0.1: init release
+;; see https://github.com/nishikawasasaki/save-frame-posize.el
 
 ;; var ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defvar rwps-save-file "~/.emacs.d/.winposize")
-(defvar rwps-delimiter ",")
+(defvar sfps-save-file "~/.emacs.d/.frameposize")
+(defvar sfps-delimiter ",")
 
 
 ;; func ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun rwps-save-when-kill-emacs ()
+(defun sfps-save-when-kill-emacs ()
   "終了時にウインドウの位置とサイズを記憶"
   (interactive)
   ;; 保存用バッファ作成
-  (get-buffer-create "*rwps*")
-  (switch-to-buffer "*rwps*")
+  (get-buffer-create "*sfps*")
+  (switch-to-buffer "*sfps*")
   ;; 位置とサイズをバッファに書き込み
-  (with-output-to-temp-buffer "*rwps*"
+  (with-output-to-temp-buffer "*sfps*"
     (princ (window-height)) ; ウィンドウ高さ
-    (princ rwps-delimiter) ; デリミタ
+    (princ sfps-delimiter) ; デリミタ
     (princ (window-width)) ; ウィンドウ幅
-    (princ rwps-delimiter) ; デリミタ
-    (princ (cdr (nth 8 (frame-parameters (selected-frame))))) ; ウィンドウX位置
-    (princ rwps-delimiter) ; デリミタ
-    (princ (cdr (nth 7 (frame-parameters (selected-frame))))) ; ウィンドウY位置
+    (princ sfps-delimiter) ; デリミタ
+    (princ (assoc-default 'left (frame-parameters (selected-frame)))) ; ウィンドウX位置
+    (princ sfps-delimiter) ; デリミタ
+    (princ (assoc-default 'top (frame-parameters (selected-frame)))) ; ウィンドウY位置
     )
   ;; バッファ内容を保存
   (let ((coding-system-for-write 'utf-8))
-    (write-region (point-min) (point-max) rwps-save-file))
+    (write-region (point-min) (point-max) sfps-save-file))
   ;; バッファ削除
-  (kill-buffer "*rwps*")
+  (kill-buffer "*sfps*")
 )
 
 ;; 開始時にウインドウの位置とサイズを読み込み
-(defun rwps-restore-when-start-emacs ()
+(defun sfps-restore-when-start-emacs ()
   (interactive)
-  (get-buffer-create "*rwps*")
-  (switch-to-buffer "*rwps*")
+  (get-buffer-create "*sfps*")
+  (switch-to-buffer "*sfps*")
 
   ;; 位置とサイズの保存ファイルを読み込み
-  (insert-file-contents rwps-save-file)
+  (insert-file-contents sfps-save-file)
   ;; 保存した位置とサイズをカンマ区切りでファイルから取得
-  (let ((rwps-posize-str (buffer-substring (point-max) (point-min))))
+  (let ((sfps-posize-str (buffer-substring (point-max) (point-min))))
     ;; カンマでスプリットしてリストへ変換
-    (let ((rwps-posize-list (split-string rwps-posize-str rwps-delimiter)))
+    (let ((sfps-posize-list (split-string sfps-posize-str sfps-delimiter)))
       ;; 縦幅セット (ミニバッファ分の 1 を足す)
-      (set-frame-height (selected-frame) (+ 1 (string-to-number (nth 0 rwps-posize-list))))
+      (set-frame-height (selected-frame) (+ 1 (string-to-number (nth 0 sfps-posize-list))))
       ;; 横幅セット
-      (set-frame-width (selected-frame) (string-to-number (nth 1 rwps-posize-list)))
+      (set-frame-width (selected-frame) (string-to-number (nth 1 sfps-posize-list)))
       ;; 座標セット
       (set-frame-position (selected-frame)
-                          (string-to-number (nth 2 rwps-posize-list))
-                          (string-to-number (nth 3 rwps-posize-list)))))
+                          (string-to-number (nth 2 sfps-posize-list))
+                          (string-to-number (nth 3 sfps-posize-list)))))
   ;; バッファ削除
-  (kill-buffer "*rwps*"))
+  (kill-buffer "*sfps*"))
 
 ;; Emacs 開始時に呼び出す
-(add-hook 'emacs-startup-hook 'rwps-restore-when-start-emacs)
+(add-hook 'emacs-startup-hook 'sfps-restore-when-start-emacs)
 
 ;; Emacs 終了時に呼び出す
-(add-hook 'kill-emacs-hook 'rwps-save-when-kill-emacs)
+(add-hook 'kill-emacs-hook 'sfps-save-when-kill-emacs)
 
 
-(provide 'win-pos)
+(provide 'save-frame-posize)
