@@ -643,7 +643,7 @@
   ;; ウィンドウサイズ設定
   (setq initial-frame-alist
         (append (list
-                 '(width . 160) ;; ウィンドウ幅
+                 '(width . 160) ;;  ウィンドウ幅
                  '(height . 60) ;; ウィンドウ高さ
                  '(top . 300) ;; 表示位置
                  '(left . 340) ;; 表示位置
@@ -2083,6 +2083,7 @@ are always included."
 ;;====================
 (require 'skk-autoloads)
 (global-set-key (kbd "C-q s s") 'skk-mode)
+(key-chord-define-global "jk" 'skk-mode)
 (when is_win
   ;; Windows の場合、変換/無変換キーでオンオフする
   (global-set-key [convert] 'skk-mode)
@@ -2093,6 +2094,9 @@ are always included."
 
 ;; 辞書ファイル
 (setq skk-large-jisyo "~/.emacs.d/elisp/skk/SKK-JISYO.L")
+
+
+
 
 
 ;; ---------------------------------------------------------------------------------

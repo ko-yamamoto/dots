@@ -1,0 +1,5 @@
+;; 全角ｗを入力
+(setq skk-rom-kana-rule-list
+      (append '(("wq" nil "ｗ")
+               )
+              skk-rom-kana-rule-list))
