@@ -638,20 +638,6 @@
 
 (when is_mac
 
-
-
-  ;; ウィンドウサイズ設定
-  (setq initial-frame-alist
-        (append (list
-                 '(width . 160) ;;  ウィンドウ幅
-                 '(height . 60) ;; ウィンドウ高さ
-                 '(top . 300) ;; 表示位置
-                 '(left . 340) ;; 表示位置
-                 )
-                initial-frame-alist))
-  (setq default-frame-alist initial-frame-alist)
-  
-  
   ;; exec-pathとPATHに設定したいパスのリストを設定
   (dolist (dir (list
                 "/usr/local/bin"
@@ -721,18 +707,8 @@
     ;; ファイル名の文字コード指定
     (setq file-name-coding-system 'shift_jis)
 
-  ;; ウィンドウサイズ設定
-  (setq initial-frame-alist
-        (append (list
-                 '(width . 80) ;; ウィンドウ幅
-                 '(height . 40) ;; ウィンドウ高さ
-                 '(top . 50) ;; 表示位置
-                 '(left . 50) ;; 表示位置
-                 )
-                initial-frame-alist))
-  (setq default-frame-alist initial-frame-alist)
 
-  )
+)
 
 
 
@@ -2108,8 +2084,10 @@ are always included."
 (resume) ; 起動時に復元
 
 
-
-
+;;====================
+;; win-pos.el
+;;====================
+(require 'win-pos)
 
 
 ;; ---------------------------------------------------------------------------------

@@ -27,3 +27,4 @@ ac-comphist.dat
 /.vim/.vimwinpos
 /screen.exe.stackdump
 /.emacs.d/url/cookies
+/.emacs.d/.winposize
