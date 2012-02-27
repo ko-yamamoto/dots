@@ -1947,6 +1947,7 @@
                     ("T" . twittering-native-retweet)
                     ("M" . twittering-direct-message)
                     ("N" . twittering-update-status-interactive)
+                    ("." . twittering-current-timeline) ; 更新
                     ))))
 
 
