@@ -1197,7 +1197,7 @@
           (:name emacs-historyf
                  :type git
                  :url "git://github.com/k1LoW/emacs-historyf.git"
-                 :after (lamda ()
+                 :after (lambda ()
                                (require 'historyf)
                                (define-key global-map (kbd "C-q l") 'historyf-forward)
                                (define-key global-map (kbd "C-q h") 'historyf-back)
@@ -1209,7 +1209,7 @@
                           (global-set-key (kbd "C-M-@") 'er/contract-region) ;; リージョンを狭める
                           ))
           (:name wrap-region
-                 :after (lamda ()
+                 :after (lambda ()
                                (require 'wrap-region)
                                ;; 第一引数:リージョンの先頭に挿入する文字
                                ;; 第二引数:リージョン末尾に挿入する文字
@@ -1223,7 +1223,7 @@
           (:name rainbow-delimiters
                  :type git
                  :url "git://github.com/jlr/rainbow-delimiters.git"
-                 :after (lamda ()
+                 :after (lambda ()
                                ))
           (:name twittering-mode)
           (:name coffee-mode
