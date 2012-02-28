@@ -2096,6 +2096,8 @@ are always included."
 ;; ---------------------------------------------------------------------------------
 
 ;; フォント
+;;01234567890123456789
+;;あいうえおかきくけこ
 (when is_linux
 ;;  (add-to-list 'default-frame-alist '(font . "A-OTF 新ゴ Pro-11"))
 
@@ -2107,11 +2109,11 @@ are always included."
   ;;                     ;; :family "MeiryoKe_Console"
   ;;                     :height 115)
 
-(set-default-font "MeiryoKe_Console-11.0")
-(set-face-font 'variable-pitch "MeiryoKe_Console-11.0")
-(set-fontset-font (frame-parameter nil 'font)
-                 'japanese-jisx0208
-                 '("MeiryoKe_Console" . "unicode-bmp"))
+  (set-default-font "MeiryoKe_Console-11.0")
+  (set-face-font 'variable-pitch "MeiryoKe_Console-11.0")
+  (set-fontset-font (frame-parameter nil 'font)
+                    'japanese-jisx0208
+                    '("MeiryoKe_Console" . "unicode-bmp"))
 )
 
 (when is_win
@@ -2121,23 +2123,10 @@ are always included."
 
 (when is_mac
   ;; フォント設定
-  (setq my-font "-*-*-medium-r-normal--12-*-*-*-*-*-fontset-hiramaru")
-  (set-face-attribute 'default nil
-                      :family "Monaco"
-                      :height 140)
-                                        ;:height 90)
-  (set-fontset-font "fontset-default"
+  (set-default-font "ricty-16")
+  (set-fontset-font (frame-parameter nil 'font)
                     'japanese-jisx0208
-                    '("VL_Gothic" . "iso10646-1"))
-  (set-fontset-font "fontset-default"
-                    'katakana-jisx0201
-                    '("VL_Gothic" . "iso10646-1"))
-  (setq face-font-rescale-alist
-        '((".*Monaco-bold.*" . 1.0)
-          (".*Monaco-medium.*" . 1.0)
-          (".*Osaka-bold.*" . 1.0)
-          (".*Osaka-medium.*" . 1.0)
-          ("-cdac$" . 1.4)))
+                    '("ricty" . "unicode-bmp"))
 )
 
 
