@@ -2095,7 +2095,9 @@ are always included."
 ;; Visual Settings
 ;; ---------------------------------------------------------------------------------
 
+;;====================
 ;; フォント
+;;====================
 ;;01234567890123456789
 ;;あいうえおかきくけこ
 (when is_linux
@@ -2115,14 +2117,13 @@ are always included."
                     'japanese-jisx0208
                     '("MeiryoKe_Console" . "unicode-bmp"))
 )
-
 (when is_win
-  (add-to-list 'default-frame-alist '(font . "ricty-10.5"))
-  ;; (add-to-list 'default-frame-alist '(font . "MeiryoKe_Console-10.5"))
+  (set-default-font "ricty-10.5")
+  (set-fontset-font (frame-parameter nil 'font)
+                    'japanese-jisx0208
+                    '("ricty" . "unicode-bmp"))
 )
-
 (when is_mac
-  ;; フォント設定
   (set-default-font "ricty-16")
   (set-fontset-font (frame-parameter nil 'font)
                     'japanese-jisx0208
