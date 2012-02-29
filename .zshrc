@@ -79,6 +79,7 @@ export ANDROID_SWT=/Users/nishikawasasaki/android/android-sdk-mac_x86/tools/lib/
 # bashcompinit
 # source ~/.git-completion.bash
 
+alias gs='git status -s'
 
 # プロンプト表示設定
 case ${UID} in
