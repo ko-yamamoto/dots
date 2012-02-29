@@ -2086,6 +2086,14 @@ are always included."
                          skk-isearch-mode-enable)
                 (skk-isearch-mode-cleanup))))
 
+;; 文脈に応じてSKKオンオフ
+(add-hook 'skk-load-hook
+	  (lambda ()
+	    (require 'context-skk)))
+
+;; 動的補完オン
+(setq skk-dcomp-activate t)
+
 
 
 
@@ -2134,7 +2142,7 @@ are always included."
                     '("MeiryoKe_Console" . "unicode-bmp"))
 )
 (when is_win
-  (set-default-font "ricty-10.5")
+  (set-default-font "ricty-10")
   (set-fontset-font (frame-parameter nil 'font)
                     'japanese-jisx0208
                     '("ricty" . "unicode-bmp"))

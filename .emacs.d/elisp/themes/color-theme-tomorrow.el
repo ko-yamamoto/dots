@@ -90,7 +90,8 @@ theme will be used."
                  green "#b9ca4a"
                  aqua "#70c0b1"
                  blue "#7aa6da"
-                 purple "#c397d8")))
+                 purple "#c397d8"
+                 white "#ffffff")))
 
     (color-theme-install
      `(color-theme-tomorrow-real
@@ -133,11 +134,11 @@ theme will be used."
 
        ;; ;; rst-mode
        ;; (rst-level-1-face ((t (:foreground ,red))))
-       (rst-level-1-face ((t (:background ,red :foreground ,background))))
-       (rst-level-2-face ((t (:background ,green :foreground ,background))))
-       (rst-level-3-face ((t (:background ,blue :foreground ,background))))
-       (rst-level-4-face ((t (:background ,yellow :foreground ,background))))
-       (rst-level-5-face ((t (:background ,orange :foreground ,background))))
+       (rst-level-1-face ((t (:background ,red :foreground ,white))))
+       (rst-level-2-face ((t (:background ,green :foreground ,white))))
+       (rst-level-3-face ((t (:background ,blue :foreground ,white))))
+       (rst-level-4-face ((t (:background ,yellow :foreground ,white))))
+       (rst-level-5-face ((t (:background ,orange :foreground ,white))))
        ;; (rst-level-2-face ((t (:foreground ,blue))))
        ;; (rst-level-3-face ((t (:foreground purple))))
 
