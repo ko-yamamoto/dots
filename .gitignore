@@ -29,3 +29,4 @@ ac-comphist.dat
 /.emacs.d/url/cookies
 /.emacs.d/.winposize
 /.emacs.d/.frameposize
+*.elc
