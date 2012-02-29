@@ -2072,6 +2072,22 @@ are always included."
 ;; 辞書ファイル
 (setq skk-large-jisyo "~/.emacs.d/elisp/skk/SKK-JISYO.L")
 
+;; ddskk 起動時のみ, インクリメンタルサーチを使用
+;;; Isearch setting.
+(add-hook 'isearch-mode-hook
+          #'(lambda ()
+              (when (and (boundp 'skk-mode)
+                         skk-mode
+                         skk-isearch-mode-enable)
+                (skk-isearch-mode-setup))))
+(add-hook 'isearch-mode-end-hook
+          #'(lambda ()
+              (when (and (featurep 'skk-isearch)
+                         skk-isearch-mode-enable)
+                (skk-isearch-mode-cleanup))))
+
+
+
 
 
 ;;====================
