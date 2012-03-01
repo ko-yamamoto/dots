@@ -192,6 +192,11 @@ setopt Complete_Aliases
 alias ll='ls -alh --time-style=+'%Y/%m/%d %H:%M:%S''
 
 
+alias -g L='| less'
+alias -g G='| grep'
+alias -g H='| head'
+alias -g T='| tail'
+
 
 # vi
 # export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
