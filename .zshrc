@@ -187,8 +187,11 @@ setopt print_eight_bit
 # エイリアス
 setopt Complete_Aliases
 
-#alias ls='ls -fgh'
-alias ll='ls -alfgh'
+# alias ls='ls -fgh'
+# alias ll='ls -alfgh'
+alias ll='ls -alh --time-style=+'%Y/%m/%d %H:%M:%S''
+
+
 
 # vi
 # export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
@@ -757,4 +760,3 @@ alias ec='emacsclient -n'
 function scouter() {
   sed -e '/^\s*$/d' -e '/^\s*#/d' ${ZDOTDIR:-$HOME}/.zshrc | wc -l
 }
-
