@@ -4,11 +4,11 @@
 (require 'skk-autoloads)
 (global-set-key (kbd "C-q s s") 'skk-mode)
 (key-chord-define-global "jk" 'skk-mode)
-(when is_win
-  ;; Windows の場合、変換/無変換キーでオンオフする
-  (global-set-key [convert] 'skk-mode)
-  (global-set-key [non-convert] 'skk-mode)
-)
+;; (when is_win
+;;   ;; Windows の場合、変換/無変換キーでオンオフする
+;;   (global-set-key [convert] 'skk-mode)
+;;   (global-set-key [non-convert] 'skk-mode)
+;; )
 (global-set-key (kbd "C-q s a") 'skk-auto-fill-mode)
 (global-set-key (kbd "C-q s t") 'skk-tutorial)
 
