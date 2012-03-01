@@ -30,3 +30,4 @@ ac-comphist.dat
 /.emacs.d/.winposize
 /.emacs.d/.frameposize
 *.elc
+elisp/*.elc

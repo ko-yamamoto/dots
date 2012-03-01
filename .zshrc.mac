@@ -1,5 +1,9 @@
 alias ccl='/usr/local/ccl/dx86cl'
 
+# alias ls='ls -fgh'
+alias ll='ls -alfgh'
+
+
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
 
 alias play='/usr/local/play/play/play'
@@ -8,6 +12,7 @@ alias play='/usr/local/play/play/play'
 alias emacsclient='/Applications/Emacs24S.app/Contents/MacOS/bin/emacsclient -n'
 alias ec='/Applications/Emacs24S.app/Contents/MacOS/bin/emacsclient -n'
 
+alias top='top -R -F -u'
 
 export PATH=$PATH:/usr/local/bin:/usr/local/lib/python2.7/site-packages
 
