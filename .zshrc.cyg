@@ -2,6 +2,8 @@ alias ls='ls --color=auto'
 alias ll='ls --color=auto -alh --time-style=+'%Y/%m/%d_%H:%M:%S''
 
 
+alias -g U=' | nkf -w | dos2unix'
+
 
 alias open='cygstart'
 
