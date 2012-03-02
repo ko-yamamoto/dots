@@ -215,12 +215,22 @@ alias ec='emacsclient -n'
 # alias ctags='/usr/local/Cellar/ctags/5.8/bin/ctags'
 
 
+# 拡張があれば読み込み
+## 移動したディレクトリを記録し、 ディレクトリ間を j で補完して移動
+## https://github.com/joelthelion/autojump
+[ -f ~/.autojump/etc/profile.d/autojump.zsh ] && source ~/.autojump/etc/profile.d/autojump.zsh
+
 # Mineファイル読み込み
 # オレオレ設定はこっちに
 [ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
 [ -f ~/.zshrc.mac ] && source ~/.zshrc.mac
 [ -f ~/.zshrc.cyg ] && source ~/.zshrc.cyg
 
+
+
+
+
+## 以下 zsh vi モード
 
 
 # #zshプロンプトにモード表示####################################
