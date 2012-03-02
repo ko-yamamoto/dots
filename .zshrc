@@ -184,6 +184,10 @@ setopt nolistbeep
 # 日本語のファイル名表示
 setopt print_eight_bit
 
+# 補完候補をカーソルで選択できる 
+zstyle ':completion:*:default' menu select=1
+
+
 # エイリアス
 setopt Complete_Aliases
 
