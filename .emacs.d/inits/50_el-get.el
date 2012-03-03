@@ -181,6 +181,8 @@
                                (require 'historyf)
                                (define-key global-map (kbd "C-q l") 'historyf-forward)
                                (define-key global-map (kbd "C-q h") 'historyf-back)
+                               (key-chord-define-global "bn" 'historyf-forward)
+                               (key-chord-define-global "bp" 'historyf-back)
                                ))
           (:name expand-region
                  :after (lambda ()
