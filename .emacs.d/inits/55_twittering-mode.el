@@ -26,7 +26,8 @@
   '((t (:foreground "#f0c674"))) nil)
 ;; つぶやき文字用の見た目
 (defface twittering-mode-text-face
-  '((t (:foreground "#81a2be"))) nil)
+;;  '((t (:foreground "#81a2be"))) nil)
+  '((t (:foreground "#ffffff"))) nil)
 ;; 日時用の見た目
 (defface twittering-mode-hide-face
   '((t (:foreground "#969896"))) nil)
