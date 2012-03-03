@@ -6,5 +6,5 @@
 ;;            (eshell)
             (switch-to-buffer "*scratch*")
             (rst-mode)
-            (wrap-region-mode)
+            (wrap-region-global-mode t)
 ))
