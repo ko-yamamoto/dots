@@ -60,7 +60,10 @@
 (ad-enable-advice 'font-lock-mode 'before 'my-font-lock-mode)
 (ad-activate 'font-lock-mode)
 
+;; カーソルの形
 (add-to-list 'default-frame-alist '(cursor-type 'hollow-rectangle))
+;; カーソルの色
+(add-to-list 'default-frame-alist '(cursor-color . "#ffcc66"))
 
 ;; カーソル位置のフェースを調べる関数
 (defun describe-face-at-point ()
