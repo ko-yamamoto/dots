@@ -30,10 +30,12 @@ theme will be used."
         (green "#718c00")
         (aqua "#3e999f")
         (blue "#4271ae")
-        (purple "#8959a8"))
+        (purple "#8959a8")
+        (white "#ffffff"))
 
     (cond ((eq variant 'night)
-           (setq background "#1d1f21"
+;;           (setq background "#1d1f21"
+           (setq background "#131517"
                  current-line "#282a2e"
                  selection "#373b41"
                  foreground "#c5c8c6"
@@ -45,7 +47,8 @@ theme will be used."
                  green "#b5bd68"
                  aqua "#8abeb7"
                  blue "#81a2be"
-                 purple "#b294bb"))
+                 purple "#b294bb"
+                 white "#ffffff"))
 
           ((eq variant 'night-eighties)
            (setq background "#2d2d2d"
@@ -60,7 +63,8 @@ theme will be used."
                  green "#99cc99"
                  aqua "#009999"
                  blue "#99cccc"
-                 purple "#cc99cc"))
+                 purple "#cc99cc"
+                 white "#ffffff"))
 
           ((eq variant 'night-blue)
            (setq background "#002451"
@@ -75,7 +79,8 @@ theme will be used."
                  green "#d1f1a9"
                  aqua "#99ffff"
                  blue "#bbdaff"
-                 purple "#ebbbff"))
+                 purple "#ebbbff"
+                 white "#ffffff"))
 
           ((eq variant 'night-bright)
            (setq background "#000000"
