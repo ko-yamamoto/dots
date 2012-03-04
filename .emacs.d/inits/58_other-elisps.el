@@ -213,6 +213,7 @@
 (require 'popup-select-window)
 (global-set-key "\C-xo" 'popup-select-window)
 (key-chord-define-global "gh" 'popup-select-window)
+(key-chord-define-global "qw" 'popup-select-window)
 ;; モードラインハイライトをオフ
 (setq popup-select-window-use-modeline-highlight nil)
 
