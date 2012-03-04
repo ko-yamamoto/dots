@@ -26,16 +26,19 @@
   '((t (:foreground "#f0c674"))) nil)
 ;; つぶやき文字用の見た目
 (defface twittering-mode-text-face
-;;  '((t (:foreground "#81a2be"))) nil)
-  '((t (:foreground "#ffffff"))) nil)
+  '((t (:foreground "#81a2be"))) nil)
+;;  '((t (:foreground "#ffffff"))) nil)
 ;; 日時用の見た目
 (defface twittering-mode-hide-face
   '((t (:foreground "#969896"))) nil)
+;; in reply to用の見た目
+(defface twittering-mode-reply-face
+  '((t (:foreground "#b5bd68"))) nil)
 
 
 
 ;; 表示方法
-(setq twittering-status-format "%i%FACE[twittering-mode-name-face]{%s(%S)} %FACE[twittering-mode-hide-face]{%p  %r%R \t%C{%m/%d %H:%M:%S}(%@)}  \n\n%FACE[twittering-mode-text-face]{%t} \n\n%FACE[twittering-mode-hide-face]{from %f%L}\n\n")
+(setq twittering-status-format "%i%FACE[twittering-mode-name-face]{%s(%S) %p }%FACE[twittering-mode-reply-face]{%r%R}\n%FACE[twittering-mode-text-face]{%t}\n%FACE[twittering-mode-hide-face]{%C{%m/%d %H:%M:%S}(%@)}%FACE[twittering-mode-hide-face]{  from %f%L}\n\n")
 
 ;; RT 形式
 (setq twittering-retweet-format " RT @%s: %t")
