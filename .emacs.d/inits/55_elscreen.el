@@ -44,7 +44,12 @@
 ;; elscreen-dired
 (require 'elscreen-dired)
 
+;; elscreen-howm
+(require 'elscreen-howm)
+
+;; elscreen-dnd
+(require 'elscreen-dnd)
+
 ;; elscreen-color-theme
 (require 'elscreen-color-theme)
-
 
