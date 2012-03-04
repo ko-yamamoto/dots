@@ -168,4 +168,12 @@
         ("\\.pdf" "qlmanage -p")))
 
 ;; popwinでdiredを開くときのキー
-(global-set-key (kbd "C-x j") 'dired-jump-other-window)
+;;(global-set-key (kbd "C-x j") 'dired-jump-other-window)
+
+(defun dired-with-new-elscreen ()
+  "新しい elscreen で dired  * need emacs-historyf"
+  (interactive)
+  (elscreen-create)
+  (historyf-back) ; emacs-historyf
+  (dired-jump))
+(define-key global-map (kbd "C-x j") 'dired-with-new-elscreen)

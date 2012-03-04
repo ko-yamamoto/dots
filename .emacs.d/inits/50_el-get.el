@@ -17,7 +17,6 @@
         '(
           (:name anything
                  :after (lambda ()
-                          (define-key global-map (kbd "C-;") 'anything)
                           (setq
                            ;; ショートカットアルファベット表示
                            anything-enable-shortcuts 'alphabet
@@ -26,15 +25,38 @@
                            ;; 候補の多いときに体感速度を上げる
                            anything-quick-update t
                            )
+
                           (require 'anything-config)
-                          (setq anything-sources
+
+                          ;; anything で欲しい物全部表示版
+                          (defun my-anything-all ()
+                            (interactive)
+                            (anything-other-buffer
                                 '(anything-c-source-buffers+
+                                  anything-c-source-elscreen
                                   anything-c-source-recentf
                                   anything-c-source-imenu
                                   anything-c-source-emacs-commands
                                   anything-c-source-emacs-functions
-                                  anything-c-source-files-in-current-dir
-                                  ))
+                                  anything-c-source-files-in-current-dir)
+                                "*my-anything-all*"))
+                          (define-key global-map (kbd "C-;") 'my-anything-all)
+                          ;; anything でバッファと elscreen 表示
+                          (defun my-anything-buf-screens ()
+                            (interactive)
+                            (anything-other-buffer
+                                '(anything-c-source-buffers+
+                                  anything-c-source-elscreen)
+                                "*my-anything-buf-screens*"))
+                          (define-key global-map (kbd "C-x C-b") 'my-anything-buf-screens)
+
+                          (defun anything-with-new-elscreen ()
+                            "新しい elscreen で anything"
+                            (interactive)
+                            (elscreen-create)
+                            (my-anything-all))
+                          (define-key global-map (kbd "C-:") 'anything-with-new-elscreen)
+
                           ;; kill-ringもanythigで
                           (global-set-key (kbd "M-y") 'anything-show-kill-ring)
                           ))
@@ -81,6 +103,8 @@
                                           ("*compilation*") ; for rst-compile
                                           ("*sdic*" :noselect t)
                                           ("*anything*" :height 20)
+                                          ("*my-anything-all*" :height 20)
+                                          ("*my-anything-buf-screens*" :height 20)
                                           ;;("*Moccur*" :height 20)
                                           ("*Directory*" :height 20)
                                           ("*undo-tree*" :height 20)
