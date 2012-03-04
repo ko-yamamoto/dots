@@ -39,9 +39,14 @@
   '((t (:foreground "#363836"))) nil)
 
 
+;; mode-line に API の残数を表示する
+(setq twittering-display-remaining t)
+
+;; icon-mode 有効
+(twittering-icon-mode)
 
 ;; 表示方法
-(setq twittering-status-format "%i%FACE[twittering-mode-name-face]{%s(%S) %p }%FACE[twittering-mode-reply-face]{%r%R}\n%FACE[twittering-mode-text-face]{%t}\n%FACE[twittering-mode-hide-face]{%C{%m/%d %H:%M:%S}(%@)}%FACE[twittering-mode-hide-face]{  from %f%L}%FACE[twittering-mode-sepa-face]{\n\n--------------------------------------------------------------------------------------\n}")
+(setq twittering-status-format "%i%FACE[twittering-mode-name-face]{%s(%S) %p }%FACE[twittering-mode-reply-face]{%r%R}\n%FACE[twittering-mode-text-face]{%FILL[ ]{%t}}\n%FACE[twittering-mode-hide-face]{%C{%m/%d %H:%M:%S}(%@)}%FACE[twittering-mode-hide-face]{  from %f%L}%FACE[twittering-mode-sepa-face]{\n\n---------------------------------------------------------------------------------------\n}")
 
 ;; RT 形式
 (setq twittering-retweet-format " RT @%s: %t")
@@ -51,7 +56,6 @@
       '(":replies"
         ":home"))
 
-(global-set-key (kbd "C-q t p") 'twittering-update-status-interactive)
 (add-hook 'twittering-mode-hook
           (lambda ()
             (mapc (lambda (pair)
@@ -67,6 +71,12 @@
                     ("N" . twittering-update-status-interactive)
                     ("." . twittering-current-timeline) ; 更新
                     ))))
+
+
+
+(global-set-key "\C-qtt" 'twit)
+(global-set-key (kbd "C-q t p") 'twittering-update-status-interactive)
+
 
 ;; Format string for rendering statuses.
 ;; Ex. \"%i %s,  %@:\\n%FILL{  %T // from %f%L%r%R}\n \"
