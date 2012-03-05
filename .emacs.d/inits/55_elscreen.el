@@ -45,7 +45,7 @@
 (require 'elscreen-dired)
 
 ;; elscreen-howm
-(require 'elscreen-howm)
+;; (require 'elscreen-howm)
 
 ;; elscreen-dnd
 (require 'elscreen-dnd)

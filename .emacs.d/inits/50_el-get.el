@@ -68,7 +68,13 @@
                  :after (progn
                           (require 'anything-howm)
 
-                          (global-set-key (kbd "C-c C-, C-,") 'anything-howm-menu-command)
+                          (defun anything-howm-with-new-elscreen ()
+                            "新しい elscreen で anything-howm"
+                            (interactive)
+                            (elscreen-create)
+                            (anything-howm-menu-command))
+
+                          (global-set-key (kbd "C-c C-, C-,") 'anything-howm-with-new-elscreen)
 
                           ;; 「最近のメモ」をいくつ表示するか
                           (setq anything-howm-recent-menu-number-limit 300)
