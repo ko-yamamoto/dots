@@ -16,7 +16,7 @@
   (setq el-get-sources
         '(
           (:name anything
-                 :after (lambda ()
+                 :after (progn
                           (setq
                            ;; ショートカットアルファベット表示
                            anything-enable-shortcuts 'alphabet
@@ -32,22 +32,24 @@
                           (defun my-anything-all ()
                             (interactive)
                             (anything-other-buffer
-                                '(anything-c-source-buffers+
-                                  anything-c-source-elscreen
-                                  anything-c-source-recentf
-                                  anything-c-source-imenu
-                                  anything-c-source-emacs-commands
-                                  anything-c-source-emacs-functions
-                                  anything-c-source-files-in-current-dir)
-                                "*my-anything-all*"))
+                             '(anything-c-source-buffers+
+                               anything-c-source-elscreen
+                               anything-c-source-recentf
+                               anything-c-source-imenu
+                               anything-c-source-emacs-commands
+                               anything-c-source-emacs-functions
+                               anything-c-source-files-in-current-dir)
+                             "*my-anything-all*"))
                           (define-key global-map (kbd "C-;") 'my-anything-all)
                           ;; anything でバッファと elscreen 表示
                           (defun my-anything-buf-screens ()
                             (interactive)
                             (anything-other-buffer
-                                '(anything-c-source-buffers+
-                                  anything-c-source-elscreen)
-                                "*my-anything-buf-screens*"))
+                             '(
+                               ;; anything-c-source-buffers+
+                               anything-c-source-buffers+-howm-title
+                               anything-c-source-elscreen)
+                             "*my-anything-buf-screens*"))
                           (define-key global-map (kbd "C-x C-b") 'my-anything-buf-screens)
 
                           (defun anything-with-new-elscreen ()
@@ -59,6 +61,24 @@
 
                           ;; kill-ringもanythigで
                           (global-set-key (kbd "M-y") 'anything-show-kill-ring)
+                          ))
+          (:name anything-howm
+                 :type git
+                 :url "git://github.com/wakaran/anything-howm.git"
+                 :after (progn
+                          (require 'anything-howm)
+
+                          (global-set-key (kbd "C-c C-, C-,") 'anything-howm-menu-command)
+
+                          ;; 「最近のメモ」をいくつ表示するか
+                          (setq anything-howm-recent-menu-number-limit 300)
+
+                          ;; (global-set-key (kbd "C-2") 'anything-howm-menu-command)
+                          ;; (global-set-key (kbd "C-3") 'anything-cached-howm-menu)
+
+                          ;; howm のデータディレクトリへのパス
+                          (setq anything-howm-data-directory "~/howm")
+
                           ))
 ;;          (:name yasnippet
 ;;       :type git
@@ -86,7 +106,7 @@
 ;;
 ;;                          ))
           (:name popwin
-                 :after (lambda ()
+                 :after (progn
                           (require 'popwin)
                           (setq display-buffer-function 'popwin:display-buffer)
                           ;; anythingをpopwinで行うため
@@ -132,7 +152,7 @@
                  ;; make するとエラーが出るので独自で git pull
                  :type git
                  :url "http://github.com/magit/magit.git"
-                 :after (lambda ()
+                 :after (progn
                           (require 'magit)
                           (global-set-key (kbd "C-q g") 'magit-status)
                           ;; 色変更
@@ -142,8 +162,8 @@
                           ))
 
           (:name auto-complete
-                 :url "http://cx4a.org/repo/auto-complete.git"
-                 :after (lambda ()
+                 :url "git://github.com/m2ym/auto-complete.git"
+                 :after (progn
                           (require 'auto-complete)
                           (require 'auto-complete-config)
                           (global-auto-complete-mode t)
@@ -198,24 +218,29 @@
                           ;; 補完するモードの追加
                           (setq ac-modes (append ac-modes '(text-mode sql-mode scala-mode)))
                           ))
+
           (:name emacs-historyf
                  :type git
                  :url "git://github.com/k1LoW/emacs-historyf.git"
-                 :after (lambda ()
-                               (require 'historyf)
-                               (define-key global-map (kbd "C-q l") 'historyf-forward)
-                               (define-key global-map (kbd "C-q h") 'historyf-back)
-                               (key-chord-define-global "bn" 'historyf-forward)
-                               (key-chord-define-global "bp" 'historyf-back)
-                               ))
+                 :after (progn
+                          (require 'historyf)
+                          (define-key global-map (kbd "C-q l") 'historyf-forward)
+                          (define-key global-map (kbd "C-q h") 'historyf-back)
+                          (key-chord-define-global "bn" 'historyf-forward)
+                          (key-chord-define-global "bp" 'historyf-back)
+                          ))
+
           (:name expand-region
-                 :after (lambda ()
+                 :after (progn
                           (require 'expand-region)
                           (global-set-key (kbd "C-@") 'er/expand-region)
                           (global-set-key (kbd "C-M-@") 'er/contract-region) ;; リージョンを狭める
                           ))
+
           (:name wrap-region
-                 :after (lambda ()
+                 :type git
+                 :url "git://github.com/rejeep/wrap-region.git"
+                 :after (progn
                                (require 'wrap-region)
                                ;; 第一引数:リージョンの先頭に挿入する文字
                                ;; 第二引数:リージョン末尾に挿入する文字
@@ -223,20 +248,38 @@
                                ;; 第四引数:有効にするモード
                                ;; (wrap-region-add-wrapper "(" ")" "(")
                                ))
+
           (:name jaunte.el
                  :type git
-                 :url "git://github.com/kawaguchi/jaunte.el.git")
+                 :url "git://github.com/kawaguchi/jaunte.el.git"
+                 :after (progn
+                          (require 'jaunte)
+                          ;; グローバルに設定
+                          (setq jaunte-global-hint-unit 'symbol)
+                          (global-set-key (kbd "C-c C-j") 'jaunte)
+                          (key-chord-define-global "qf" 'jaunte)
+                          ))
+
           (:name rainbow-delimiters
                  :type git
                  :url "git://github.com/jlr/rainbow-delimiters.git"
-                 :after (lambda ()
-                               ))
-          (:name twittering-mode)
+                 :after (progn
+                          (require 'rainbow-delimiters)
+                          (global-rainbow-delimiters-mode)
+                          ))
+
+          (:name twittering-mode
+                 :type git
+                 :url "git://github.com/hayamiz/twittering-mode.git")
+
           (:name coffee-mode
-                 :after (lambda ()
-                          (require 'coffee-mode)
-                          (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
-                          (add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))))
+                 :after (progn
+                          (progn 
+                            (require 'coffee-mode)
+                            (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
+                            (add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode)))
+                          ))
+
           ))
   (setq my-packages
         (append '(el-get) (mapcar 'el-get-source-name el-get-sources)))
