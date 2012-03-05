@@ -228,6 +228,16 @@ alias ec='emacsclient -n'
 [ -f ~/.zshrc.cyg ] && source ~/.zshrc.cyg
 
 
+# 指定したコマンドを指定した時間ごとに実行
+function timer() {
+    if [ $# -lt 2 ]; then
+        echo "Needs 2 args." 1>&2
+        echo "arg1 -> command, arg2 -> seconds" 1>&2
+    else
+        while true; do  $2 $3 $4 $5 $6 $7 ; echo ""; sleep $1 ; done
+    fi
+}
+
 
 
 
