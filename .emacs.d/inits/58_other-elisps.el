@@ -135,10 +135,11 @@
 ;; cyg-mount
 ;;====================
 ;; Cygwin のドライブ・プレフィックスを有効に
-(setq cygwin-mount-cygwin-bin-directory "c:/cygwin/bin")
-(require 'cygwin-mount)
-(cygwin-mount-activate)
-
+(when is_win
+  (setq cygwin-mount-cygwin-bin-directory "c:/cygwin/bin")
+  (require 'cygwin-mount)
+  (cygwin-mount-activate)
+)
 
 
 ;;====================
@@ -165,13 +166,13 @@
 ;; scratch-log.el
 ;;====================
 (require 'scratch-log)
-;; (setq sl-scratch-log-file "~/.emacs.d/.scratch-log")
-;; (setq sl-prev-scratch-string-file "~/.emacs.d/.scratch-log-prev")
+(setq sl-scratch-log-file "~/.emacs.d/.scratch-log")
+(setq sl-prev-scratch-string-file "~/.emacs.d/.scratch-log-prev")
 
 ;; nil なら emacs 起動時に，最後に終了したときの スクラッチバッファの内容を復元しない。初期値は t です。
-;; (setq sl-restore-scratch-p nil)
+(setq sl-restore-scratch-p nil)
 ;; nil なら スクラッチバッファを削除できるままにする。初期値は t です。
-;; (setq sl-prohibit-kill-scratch-buffer-p nil)
+(setq sl-prohibit-kill-scratch-buffer-p nil)
 
 
 ;;====================
@@ -265,29 +266,6 @@
 (load "htmlize.el")
 
 
-
-;;====================
-;; jaunte.el
-;;====================
-;; (el-get:use
-(require 'jaunte)
-;; グローバルに設定
-(setq jaunte-global-hint-unit 'symbol)
-(global-set-key (kbd "C-c C-j") 'jaunte)
-(key-chord-define-global "qf" 'jaunte)
-
-
-;;====================
-;; rainbow-delimiters
-;;====================
-;; (el-get:use
-(require 'rainbow-delimiters)
-(global-rainbow-delimiters-mode)
-
-
-
-
-
 ;;====================
 ;; revive.el
 ;;====================
@@ -304,3 +282,22 @@
 ;;====================
 (require 'save-frame-posize)
 
+
+
+
+;;====================
+;; migemo.el
+;;====================
+(setq migemo-command "cmigemo")
+;; (setq migemo-options '("-q" "--emacs" "-i" "\a"))
+(setq migemo-options '("-q" "--emacs"))
+(setq migemo-dictionary (expand-file-name "~/.emacs.d/elisp/migemo"))
+;; (setq migemo-accept-process-output-timeout-msec 80)
+(setq migemo-user-dictionary nil)
+(setq migemo-regex-dictionary nil)
+;; (setq migemo-use-pattern-alist t)
+;; (setq migemo-use-frequent-pattern-alist t)
+;; (setq migemo-pattern-alist-length 1000)
+(setq migemo-coding-system 'utf-8-unix)
+(load-library "migemo")
+(migemo-init)
