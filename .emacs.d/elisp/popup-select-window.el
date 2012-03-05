@@ -1,6 +1,6 @@
 ;;; popup-select-window.el --- selecting a window by popup-menu*
 
-;; Copyright (C) 2010  HAMANO Kiyoto
+;; Copyright (C) 2010-2012  HAMANO Kiyoto
 
 ;; Author: HAMANO Kiyoto <khiker.mail@gmail.com>
 ;; Keywords: popup, select-window, window
@@ -24,7 +24,7 @@
 
 ;;; Requirement:
 ;;
-;; * popup.el http://github.com/m2ym/auto-complete
+;; * popup.el http://github.com/m2ym/popup-el
 
 ;;; Setting:
 ;;
@@ -41,6 +41,8 @@
 ;; * Change highlight face
 ;;
 ;;   (setq popup-select-window-window-highlight-face
+;;        '(:background "navy"))
+;;   (setq popup-select-window-window-highlight-face
 ;;        '(:foreground "white" :background "navy"))
 ;;
 ;; * Disable modeline highlight
@@ -55,18 +57,31 @@
 ;;
 ;;   (setq popup-select-window-active-modeline-bgcolor "blue")
 ;;
-;; * Chnage nonactive modeline color to gray
+;; * Change nonactive modeline color to gray
 ;;
 ;;   (setq popup-select-window-inactive-modeline-bgcolor "gray")
+;;
+;; * Change minimum number that enable popup (specifiy window
+;;   number. defaults 3).
+;;
+;;  (setq popup-select-window-popup-windows 1)
 
 ;;; Tested:
 ;;
 ;; * Emacs
-;;   * 24.0.50
+;;   * 24.0.90
 ;; * popup.el
 ;;   * 0.4
 
 ;;; ChangeLog:
+;;
+;; * 0.1.0 (2012/02/11)
+;;   Added key configuration to select window by 1 key.
+;;
+;; * 0.0.5 (2012/02/11)
+;;   Added a customizable variable
+;;   `popup-select-window-popup-windows'. This variable specifies
+;;   minumum number that enable popup.
 ;;
 ;; * 0.0.4 (2010/09/25)
 ;;   Modified a sample "Change highlight face".
@@ -90,7 +105,7 @@
 
 ;;; Variables:
 
-(defvar popup-select-window-version "0.0.3"
+(defconst popup-select-window-version "0.1.0"
   "Version of `popup-select-window'.")
 
 (defvar popup-select-window-window-highlight-face 'highlight
@@ -120,6 +135,9 @@
 (defvar popup-select-window-popup-width 30
   "*Value of `popup-menu*' width.")
 
+(defvar popup-select-window-popup-windows 3
+  "*A number of windows that enable popup-select-window")
+
 (defvar popup-select-window-popup-keymap
   (let ((keymap (make-sparse-keymap)))
     (set-keymap-parent keymap popup-menu-keymap)
@@ -145,22 +163,46 @@
   (interactive)
   (let ((wins
          (let ((c 0))
-           (mapcar (lambda (x)
-                     (prog1 (list c
-                                  (buffer-name (window-buffer x))
-                                  x)
-                       (setq c (1+ c))))
+           (mapcar #'(lambda (x)
+                       (prog1 (list c
+                                    (buffer-name (window-buffer x))
+                                    x)
+                         (setq c (1+ c))))
                    (window-list))))
         (cwin (selected-window))
         (active-modeline (face-background 'modeline))
         (inactive-modeline (face-background 'modeline-inactive))
         (mhighlight popup-select-window-use-modeline-highlight)
         (bhighlight popup-select-window-use-buffer-highlight)
+        (min-wins popup-select-window-popup-windows)
+        (keymap (make-sparse-keymap))
         select buf)
+    ;; If value of `popup-select-window-popup-windows' is invlaid (not
+    ;; number or less than 1), set to display minimum division number of
+    ;; the window (division number 1).
     (cond
-     ((= (length wins) 2)
+     ((or (not (numberp min-wins))
+          (>= 2 min-wins))
+      (setq min-wins 1))
+     (t
+      (setq min-wins (1- min-wins))))
+    ;; Set up keymap for selection.
+    (cond
+     ((> 26 (length wins))
+      (setq keymap
+            (progn
+              (set-keymap-parent keymap popup-select-window-popup-keymap)
+              (dotimes (i (length wins))
+                (define-key keymap (format "%c" (+ ?a i))
+                  'popup-select-window-select))
+              keymap)))
+     (t
+      (setq keymap popup-select-window-popup-keymap)))
+    ;; Now selects any window.
+    (cond
+     ((= (length wins) min-wins)
       (call-interactively 'other-window))
-     ((> (length wins) 2)
+     ((> (length wins) min-wins)
       (unwind-protect
           (progn
             (when mhighlight
@@ -173,15 +215,16 @@
             (setq popup-select-window-window-list-cache wins
                   select
                   (popup-menu*
-                   (mapcar '(lambda (x)
-                              (let ((num  (nth 0 x))
-                                    (name (nth 1 x)))
-                                (propertize (format "%s" name) 'index num)))
+                   (mapcar #'(lambda (x)
+                               (let ((num  (nth 0 x))
+                                     (name (nth 1 x)))
+                                 (propertize (format "(%c) %s" (+ ?a num) name)
+                                             'index num)))
                            wins)
                    :width        popup-select-window-popup-width
                    :margin-left  popup-select-window-popup-margin-left
                    :margin-right popup-select-window-popup-margin-right
-                   :keymap       popup-select-window-popup-keymap)))
+                   :keymap       keymap)))
         ;; delete overlay
         (when bhighlight
           (popup-select-window-delete-overlay))
@@ -196,6 +239,27 @@
           (select-window
            (popup-select-window-get-window
             (popup-select-window-get-index select) wins))))))))
+
+(defun popup-select-window-select ()
+  (interactive)
+  ;; Variable `menu' is contents of popup.
+  ;; See: `popup-menu-event-loop'
+  (let* ((m (with-no-warnings menu))
+         (lst (popup-list m))
+         (ch (cond
+              ((vectorp last-input-event)
+               (car last-input-event))
+              (t
+               last-input-event)))
+         num item)
+    (when (and (>= ch ?a) (>= ?z ch))
+      (setq num (- ch ?a))
+      (popup-select-window-delete-overlay)
+      (when popup-select-window-highlight-func
+        (funcall popup-select-window-highlight-func
+                 (popup-select-window-get-window num)))
+      (when (setq item (popup-item-value-or-self (nth num lst)))
+        (return item)))))
 
 (defun popup-select-window-next ()
   (interactive)
@@ -272,4 +336,3 @@
 (provide 'popup-select-window)
 
 ;;; popup-select-window.el ends here
-
