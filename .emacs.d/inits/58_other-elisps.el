@@ -1,3 +1,11 @@
+;;====================
+;; auto-async-byte-compile
+;;====================
+(require 'auto-async-byte-compile)
+;; オートコンパイル無効にする正規表現
+(setq auto-async-byte-compile-exclude-file-regexp "/junk/")
+(add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
+
 
 ;;====================
 ;; smooth-scroll
