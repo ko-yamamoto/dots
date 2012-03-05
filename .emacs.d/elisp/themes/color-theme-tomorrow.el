@@ -21,6 +21,7 @@ theme will be used."
   (let ((background "#ffffff")
         (current-line "#e9efff")
         (mode-line "#e9efff")
+        (mode-line-inactive "#e9efff")
         (selection "#c5cce9")
         (foreground "#4d4d4c")
         (comment "#8e908c")
@@ -39,6 +40,7 @@ theme will be used."
            (setq background "#131517"
                  current-line "#282a2e"
                  mode-line "#81a2be"
+                 mode-line-inactive "#81a2be"
                  selection "#373b41"
 ;;                 foreground "#c5c8c6"
                  foreground "#e5e8e6"
@@ -57,6 +59,7 @@ theme will be used."
            (setq background "#2d2d2d"
                  current-line "#393939"
                  mode-line "#393939"
+                 mode-line-inactive "#393939"
                  selection "#515151"
                  foreground "#cccccc"
                  comment "#999999"
@@ -74,6 +77,7 @@ theme will be used."
            (setq background "#002451"
                  current-line "#00346e"
                  mode-line "#00346e"
+                 mode-line-inactive "#00346e"
                  selection "#003f8e"
                  foreground "#ffffff"
                  comment "#7285b7"
@@ -91,6 +95,7 @@ theme will be used."
            (setq background "#000000"
                  current-line "#2a2a2a"
                  mode-line "#2a2a2a"
+                 mode-line-inactive "#2a2a2a"
                  selection "#424242"
                  foreground "#dedede"
                  comment "#969896"
@@ -117,6 +122,7 @@ theme will be used."
        (fringe ((t (:background ,current-line))))
        (minibuffer-prompt ((t (:foreground ,blue))))
        (mode-line ((t (:background ,mode-line :foreground ,foreground))))
+       (mode-line-inactive ((t (:background ,mode-line-inactive :foreground ,foreground))))
        (region ((t (:background ,selection))))
 
        ;; Font-lock stuff
