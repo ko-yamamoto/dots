@@ -25,7 +25,7 @@
 (defadvice elscreen-toggle (around elscreen-create-automatically activate)
   (elscreen-create-automatically ad-do-it))
 
-(setq elscreen-display-tab 10) ; タブの幅（６以上じゃないとダメ）
+(setq elscreen-display-tab 14) ; タブの幅（６以上じゃないとダメ）
 (setq elscreen-tab-display-kill-screen nil) ; タブの左端の×を非表示
 
 (global-set-key (kbd "C-z C-c") 'elscreen-clone) ; 今のウインドウを基に作成
@@ -51,5 +51,5 @@
 (require 'elscreen-dnd)
 
 ;; elscreen-color-theme
-(require 'elscreen-color-theme)
+;; (require 'elscreen-color-theme)
 
