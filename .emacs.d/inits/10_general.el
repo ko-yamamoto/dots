@@ -112,13 +112,6 @@
 (global-set-key (kbd "C-c r") 'query-replace)
 
 
-;; オートコンパイル
-;;(require 'auto-async-byte-compile)
-;; オートコンパイル無効にする正規表現
-;;(setq auto-async-byte-compile-exclude-file-regexp "/junk/")
-;;(add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
-
-
 ;; 1画面戻る(M-v)を"Ctr-Shift-v"にも
 (global-set-key (kbd "C-S-v") 'scroll-down)
 
