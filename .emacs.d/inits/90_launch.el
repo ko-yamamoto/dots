@@ -9,8 +9,9 @@
 
 (add-hook 'after-init-hook
           (lambda()
-;;            (eshell)
-;;            (switch-to-buffer "*scratch*")
-            (rst-mode)
+            ;; (eshell)
+            ;; (switch-to-buffer "*scratch*")
+            ;; (rst-mode)
             (wrap-region-global-mode t)
-            (howm-menu)))
+            ;; (howm-menu)
+            ))
