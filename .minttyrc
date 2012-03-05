@@ -1,5 +1,5 @@
-BoldAsFont=yes
-Transparency=glass
+BoldAsFont=no
+Transparency=high
 CursorType=block
 Font=Ricty
 Locale=ja_JP
