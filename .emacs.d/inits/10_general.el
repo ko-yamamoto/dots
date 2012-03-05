@@ -239,3 +239,10 @@
 (setq truncate-lines nil)
 ;; 画面分割してもデフォルトで折り返す
 (setq truncate-partial-width-windows nil)
+
+
+;; Emacs 終了時にプロセスを自動で殺す
+(defadvice save-buffers-kill-terminal (before my-save-buffers-kill-terminal activate)
+  (when (process-list)
+    (dolist (p (process-list))
+      (set-process-query-on-exit-flag p nil))))
