@@ -1516,7 +1516,9 @@ Use \\[toggle-read-only] to permit editing."
                    elscreen-e21-tab-format
                    (list
                     (propertize
-                     (make-string (window-width) ?\ )
+                     ;; タブバーの背景色が途中出きれてしまうため暫定修正
+                     ;; (make-string (window-width) ?\ )
+                     (make-string (* 2 (window-width)) ?\ )
                      'face 'elscreen-tab-background-face
                      'local-map (elscreen-e21-tab-create-keymap)))))
 
