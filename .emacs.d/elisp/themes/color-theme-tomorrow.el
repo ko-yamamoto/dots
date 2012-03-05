@@ -20,6 +20,7 @@ theme will be used."
 
   (let ((background "#ffffff")
         (current-line "#e9efff")
+        (mode-line "#e9efff")
         (selection "#c5cce9")
         (foreground "#4d4d4c")
         (comment "#8e908c")
@@ -37,6 +38,7 @@ theme will be used."
 ;;           (setq background "#1d1f21"
            (setq background "#131517"
                  current-line "#282a2e"
+                 mode-line "#81a2be"
                  selection "#373b41"
 ;;                 foreground "#c5c8c6"
                  foreground "#e5e8e6"
@@ -54,6 +56,7 @@ theme will be used."
           ((eq variant 'night-eighties)
            (setq background "#2d2d2d"
                  current-line "#393939"
+                 mode-line "#393939"
                  selection "#515151"
                  foreground "#cccccc"
                  comment "#999999"
@@ -70,6 +73,7 @@ theme will be used."
           ((eq variant 'night-blue)
            (setq background "#002451"
                  current-line "#00346e"
+                 mode-line "#00346e"
                  selection "#003f8e"
                  foreground "#ffffff"
                  comment "#7285b7"
@@ -86,6 +90,7 @@ theme will be used."
           ((eq variant 'night-bright)
            (setq background "#000000"
                  current-line "#2a2a2a"
+                 mode-line "#2a2a2a"
                  selection "#424242"
                  foreground "#dedede"
                  comment "#969896"
@@ -111,7 +116,7 @@ theme will be used."
        (default ((t (:background ,background :foreground ,foreground))))
        (fringe ((t (:background ,current-line))))
        (minibuffer-prompt ((t (:foreground ,blue))))
-       (mode-line ((t (:background ,current-line :foreground ,foreground))))
+       (mode-line ((t (:background ,mode-line :foreground ,foreground))))
        (region ((t (:background ,selection))))
 
        ;; Font-lock stuff
@@ -154,7 +159,19 @@ theme will be used."
 
        ;; show-paren-mode
        (show-paren-match-face ((t (:background ,blue :foreground ,current-line))))
-       (show-paren-mismatch-face ((t (:background ,orange :foreground ,current-line))))))))
+       (show-paren-mismatch-face ((t (:background ,orange :foreground ,current-line))))
+
+       ;; elscreen
+       ;; (elscreen-tab-background-face ((t (:background "#000000"))))
+       (elscreen-tab-background-face ((t (:background ,green))))
+       (elscreen-tab-control-face ((t (:background ,green))))
+       (elscreen-tab-current-screen-face ((t (:background ,blue :foreground ,white))))
+       (elscreen-tab-other-screen-face ((t (:background ,green :foreground ,white))))
+
+))))
+
+
+
 
 (defun color-theme-tomorrow ()
   "Base light Tomorrow theme."
