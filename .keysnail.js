@@ -359,6 +359,7 @@ key.suspendKey           = "<f2>";
 
 // ================================= Hooks ================================= //
 
+
 hook.setHook('KeyBoardQuit', function (aEvent) {
     if (key.currentKeySequence.length) {
         return;
@@ -382,6 +383,7 @@ hook.setHook('KeyBoardQuit', function (aEvent) {
         key.generateKey(aEvent.originalTarget, KeyEvent.DOM_VK_ESCAPE, true);
     }
 });
+
 
 
 
@@ -540,6 +542,10 @@ key.setGlobalKey('C-M-o', function (ev) {
     ext.exec("find-all-tab");
 }, '全タブから検索');
 
+key.setGlobalKey('M-j', function () {
+    plugins.twitterClient.switchTo();
+}, 'Twitter Client Select Action');
+
 key.setViewKey('U', function (ev) {
     ext.exec("list-closed-tabs");
 }, '閉じたタブリスト表示');
@@ -547,10 +553,6 @@ key.setViewKey('U', function (ev) {
 key.setViewKey('B', function (ev) {
     ext.exec("list-tab-history");
 }, 'このタブの履歴リスト表示');
-
-key.setGlobalKey('M-j', function () {
-    plugins.twitterClient.switchTo();
-}, 'Twitter Client Select Action');
 
 key.setViewKey('x', function (ev, arg) {
     ext.exec("list-hateb-items", arg);
@@ -631,7 +633,7 @@ key.setViewKey([['C-p'], ['k']], function (aEvent) {
     }
 }, '一行スクロールアップ');
 
-key.setViewKey('C-f', function (ev) {
+key.setViewKey([['C-f'], ['i']], function (ev) {
     command.focusElement(command.elementsRetrieverTextarea, 0);
 }, '最初のインプットエリアへフォーカス', true);
 
