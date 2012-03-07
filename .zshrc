@@ -81,34 +81,16 @@ export ANDROID_SWT=/Users/nishikawasasaki/android/android-sdk-mac_x86/tools/lib/
 
 alias gs='git status -s'
 
-# プロンプト表示設定
-case ${UID} in
-0)
-    PROMPT="%B%{[31m%}%/#%{[m%}%b "
-    PROMPT2="%B%{[31m%}%_#%{[m%}%b "
-    SPROMPT="%B%{[31m%}%r is correct? [n,y,a,e]:%{[m%}%b "
-    RPROMPT=["%T"]
-    [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
-        PROMPT="%{[37m%}${HOST%%.*} ${PROMPT}"
-    ;;
-*)
-    PROMPT="%{[31m%}%/%%%{[m%} "
-    PROMPT2="%{[31m%}%_%%%{[m%} "
-    SPROMPT="%{[31m%}%r is correct? [n,y,a,e]:%{[m%} "
-    RPROMPT=["%T"]
-    [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
-        PROMPT="%{[37m%}${HOST%%.*} ${PROMPT}"
-    ;;
-esac
-
-# ログイン時プロンプト（すぐにviモード表示プロンプトで上書き）
-setopt prompt_subst
-PROMPT='%{$fg[red]%}[%{$reset_color%}%n@%m%{$fg[red]%}]%#%{$reset_color%} '
-RPROMPT='%{$fg[red]%}[%{$fg[white]%}%~%{$fg[red]%}]%{$reset_color%}'
-
 
 # プロンプトをカラー表示
 autoload colors && colors
+
+# プロンプト表示設定
+setopt prompt_subst
+# PROMPT='%F{red}[%f%U%n%u%F{red}@%f%m%F{red}]%f%B%F{blue}%(!.#. >)%f%b '
+PROMPT='%F{green}%n%f/%m%B%F{blue}%(!.#. >)%f%b '
+# RPROMPT='%{$fg[red]%}[%{$fg[blue]%}%~%{$fg[red]%}]%{$reset_color%}'
+RPROMPT='%F{red}@%f%U%F{blue}%~%f%u'
 
 
 # lsカラー表示
