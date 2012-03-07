@@ -88,7 +88,7 @@ autoload colors && colors
 # プロンプト表示設定
 setopt prompt_subst
 # PROMPT='%F{red}[%f%U%n%u%F{red}@%f%m%F{red}]%f%B%F{blue}%(!.#. >)%f%b '
-PROMPT='%F{green}%n%f/%m%B%F{blue}%(!.#. >)%f%b '
+PROMPT='%F{green}%n%f/%m%B%(?.%F{blue}%(!.#. :))%f.%F{red}%(!.#. :()%f)%b '
 # RPROMPT='%{$fg[red]%}[%{$fg[blue]%}%~%{$fg[red]%}]%{$reset_color%}'
 RPROMPT='%F{red}@%f%U%F{blue}%~%f%u'
 
