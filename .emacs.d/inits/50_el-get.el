@@ -32,7 +32,9 @@
                           (defun my-anything-all ()
                             (interactive)
                             (anything-other-buffer
-                             '(anything-c-source-buffers+
+                             '(
+                               ;; anything-c-source-buffers+
+                               anything-c-source-buffers+-howm-title
                                anything-c-source-elscreen
                                anything-c-source-recentf
                                anything-c-source-imenu
