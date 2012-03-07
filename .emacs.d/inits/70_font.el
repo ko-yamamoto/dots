@@ -29,25 +29,31 @@
   (set-fontset-font (frame-parameter nil 'font)
                     'japanese-jisx0208
                     '("ricty" . "unicode-bmp"))
+
 )
 (when is_mac
-  ;; 英字フォント
-  (set-face-attribute 'default nil
-                      :family "ricty"
-                      :height 140)
-  ;; 漢字フォント
-  (set-fontset-font
-   nil 'japanese-jisx0208
-   (font-spec :family "NfMotoyaAporo"))
-  ;; ひらがなかたかな
-  (set-fontset-font
-   nil '(#x3040 . #x30ff)
-   (font-spec :family "NfMotoyaAporo"))
+  (set-default-font "ricty-14")
+  (set-fontset-font (frame-parameter nil 'font)
+                    'japanese-jisx0208
+                    '("ricty" . "unicode-bmp"))
+  ;; バラバラに設定する場合
+  ;; ;; 英字フォント
+  ;; (set-face-attribute 'default nil
+  ;;                     :family "ricty"
+  ;;                     :height 140)
+  ;; ;; 漢字フォント
+  ;; (set-fontset-font
+  ;;  nil 'japanese-jisx0208
+  ;;  (font-spec :family "NfMotoyaAporo"))
+  ;; ;; ひらがなかたかな
+  ;; (set-fontset-font
+  ;;  nil '(#x3040 . #x30ff)
+  ;;  (font-spec :family "NfMotoyaAporo"))
 
-  (setq face-font-rescale-alist
-        '((".ricty.*" . 1.0)
-          (".NfMotoyaAporo.*" . 1.0)
-          ("-cdac$" . 1.0)))
+  ;; (setq face-font-rescale-alist
+  ;;       '((".ricty.*" . 1.0)
+  ;;         (".NfMotoyaAporo.*" . 1.0)
+  ;;         ("-cdac$" . 1.0)))
 )
 
 
