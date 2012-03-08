@@ -74,7 +74,8 @@
                             "新しい elscreen で anything-howm"
                             (interactive)
                             (elscreen-create)
-                            (anything-howm-menu-command))
+                            (anything-howm-menu-command)
+                            (howm-mode))
 
                           (global-set-key (kbd "C-c C-, C-,") 'anything-howm-with-new-elscreen)
 
