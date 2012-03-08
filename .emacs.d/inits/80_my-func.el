@@ -92,7 +92,7 @@
       (setq truncate-lines nil)
     (setq truncate-lines t))
   (recenter))
-(global-set-key (kbd "C-c C-l") 'toggle-truncate-lines) ; 折り返し表示ON/OFF
+(global-set-key (kbd "C-c l") 'toggle-truncate-lines) ; 折り返し表示ON/OFF
 (key-chord-define-global "cl" 'toggle-truncate-lines)
 
 
@@ -155,3 +155,19 @@
 ))
 (global-set-key "\C-q4" 'split-for-twmode)
 
+
+
+;; ちょっとした編集用
+(defun open-junk-file ()
+  (interactive)
+  (let* ((file (expand-file-name
+                (format-time-string
+                 "%Y/%m/%Y-%m-%d-%H%M%S." (current-time))
+                "~/Desktop/"))
+         (dir (file-name-directory file)))
+    (make-directory dir t)
+    ;; (find-file-other-window (read-string "Junk Code: " file))))
+    ;; elscreen するので別ウィンドウで開かないように変更
+    (find-file (read-string "Junk Code: " file))))
+;; (global-set-key "\C-xj" 'open-junk-file)
+(global-set-key (kbd "C-c j") '(lambda () (interactive) (elscreen-create) (open-junk-file)))
