@@ -32,12 +32,20 @@ escape z
 # ビジュアルベルを無効
 vbell off
 
+# メッセージ表示時間
+msgminwait 10
+msgwait 10
+
+
 # ステータス行の設定
 #hardstatus alwayslastline "[%02c] %`%-w%{=b bw}%n %t%{-}%+w"
 #hardstatus alwayslastline "%{= wk} %-w%{=bu dr}%n %t%{-}%+w %= %{=b wb}%y/%m/%d %{=b wb}%c"
 #hardstatus alwayslastline "%{= Gw}[%m/%d %02c:%s] %{GW} %-w%{= rW}%n %t%{-}%+w %=%{Gw}$USER@$HOSTNAME[$LANG] (%l) "
 #hardstatus alwayslastline "%{= Gw}[%m/%d %02c] %{GW} %-w%{= rW}%n %t%{-}%+w %=%{Gw}$USER@$HOSTNAME[$LANG]"
 hardstatus alwayslastline "%{= Kw}[%m/%d %02c] %{KW} %-w%{= rW}%n %t%{-}%+w %=%{Kw}$USER@$HOSTNAME[$LANG]"
+
+# キャプション行の設定
+caption splitonly "%{= Kw} %?%F%{b Kr}%? %?%h%:%t (screen #%n)%? "
 
 # シェルタイトル
 # shelltitle "% |zsh"
@@ -81,12 +89,12 @@ bind . eval "writebuf ${HOME}/.screen/copybuffer" "!${HOME}/.screen/mv_copybuf.s
 
 bind @ eval "readbuf ${HOME}/a" "writebuf ${HOME}/.screen/copybuffer" "!${HOME}/.screen/mv_copybuf.sh"
 
-# メッセージ表示時間
-msgwait 1
+
 
 # 画面分割用
-bind q eval 'echo "2: split / 1: only / 0: remove / o: focus r: resize"' 'command -c REGION'
+bind q eval 'echo "2: split / 3: vsplit / 1: only / 0: remove / o: focus r: resize"' 'command -c REGION'
 bind -c REGION 2 split
+bind -c REGION 3 eval 'split -v'
 bind -c REGION 1 only
 bind -c REGION 0 remove
 bind -c REGION o focus
@@ -111,3 +119,4 @@ bindkey -k k2 screen zsh
 bindkey -k k3 prev
 bindkey -k k4 next
 bindkey -k k6 detach
+
