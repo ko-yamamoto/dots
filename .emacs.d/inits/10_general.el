@@ -246,3 +246,6 @@
   (when (process-list)
     (dolist (p (process-list))
       (set-process-query-on-exit-flag p nil))))
+
+;; 大文字変換を使用する
+(put 'upcase-region 'disabled nil)
