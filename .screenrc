@@ -63,7 +63,7 @@ autodetach on
 defscrollback 10240
 
 # ターミナル
-#term xterm-256color
+term xterm-256color
 
 # ^T U で UTF-8 / ^T E で EUC-JP を切り替え
 bind U eval "encoding utf-8" "!!!echo 'export LANG=ja_JP.UTF-8'"
