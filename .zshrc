@@ -15,8 +15,8 @@ bindkey -e
 # キーバインドをviに
 # bindkey -v
 # TERM設定 Emacsからshellを実行するときの表示の乱れを防ぐ
-TERM=xterm-color
-[[ $TERM = "eterm-color" ]] && TERM=xterm-color
+TERM=xterm-256color
+[[ $TERM = "eterm-color" ]] && TERM=xterm-256color
 
 # Emacs
 # export EDITOR=emacsclient
