@@ -1,5 +1,5 @@
-BoldAsFont=no
-Transparency=high
+BoldAsFont=yes
+Transparency=glass
 CursorType=block
 Font=Ricty
 Locale=ja_JP
@@ -19,7 +19,7 @@ CursorColour=0,0,0
 FontIsBold=no
 Black=0,0,0
 Red=204,102,102
-Green=181,189,104
+Green=163,188,35
 Yellow=240,198,116
 Blue=129,162,190
 Magenta=178,148,187
