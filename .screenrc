@@ -80,7 +80,10 @@ hardcopy_append on
 
 #hardcopydir /home/dai/.screen/
 #bind h hardcopy -h ~/.screen/hardcopy/${YSC}/${MSC}/${YSC}${MSC}${DSC}-hard.log
-bind h hardcopy -h ${HOME}/hard.log
+bind h hardcopy -h "${HOME}/sccreen-logs/hard.log"
+
+# ログファイル名
+logfile "${HOME}/screen-logs/screen-%Y%m%d-%n.log"
 
 #bufferfile ${HOME}/a
 
