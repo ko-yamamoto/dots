@@ -162,8 +162,10 @@
   (interactive)
   (let* ((file (expand-file-name
                 (format-time-string
-                 "%Y/%m/%Y-%m-%d-%H%M%S." (current-time))
-                "~/Desktop/"))
+                 ;; "%Y/%m/%Y-%m-%d-%H%M%S." (current-time))
+                 ;; 月日のディレクトリは作らない
+                 "%Y-%m-%d-%H%M%S." (current-time))
+                "~/junks/"))
          (dir (file-name-directory file)))
     (make-directory dir t)
     ;; (find-file-other-window (read-string "Junk Code: " file))))
