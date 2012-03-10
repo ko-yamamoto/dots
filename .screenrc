@@ -123,3 +123,5 @@ bindkey -k k3 prev
 bindkey -k k4 next
 bindkey -k k6 detach
 
+
+bindkey  focus
