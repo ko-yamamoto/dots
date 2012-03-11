@@ -2,3 +2,6 @@
 (require 'tramp)
 
 (setq-default tramp-default-method "sshx")
+
+;; 再接続用ファイルは作らない -> Solaris でエラーが出るため
+(setq-default tramp-persistency-file-name nil)
