@@ -31,3 +31,4 @@ ac-comphist.dat
 /.emacs.d/.frameposize
 *.elc
 elisp/*.elc
+/.emacs.d/tramp
