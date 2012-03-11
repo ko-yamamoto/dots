@@ -220,6 +220,8 @@
 (global-set-key "\C-q2" 'split-window-vertically)
 (global-set-key "\C-q3" 'split-window-horizontally)
 
+;; ウィンドウ移動を楽に
+(define-key global-map (kbd "C-t") 'other-window)
 
 ;; 自動でchmod+x
 (defun make-file-executable ()
