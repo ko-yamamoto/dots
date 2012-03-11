@@ -113,11 +113,12 @@ static char * arrow_right[] = {
                      '(:eval (concat (propertize " %b  " 'face 'mode-line-color-2)
                                      (propertize " " 'display arrow-right-2)))
 
+                     " "
                      'mode-line-mule-info
 
                      ;; Justify right by filling with spaces to right fringe - 16
                      ;; (16 should be computed rahter than hardcoded)
-                     '(:eval (propertize " " 'display '((space :align-to (- right-fringe 25))) 'face 'mode-line-color-1))
+                     '(:eval (propertize " " 'display '((space :align-to (- right-fringe 45))) 'face 'mode-line-color-1))
 
                      '(:eval (concat (propertize " " 'display arrow-left-2)
                                      (propertize " %m " 'face 'mode-line-color-2)))
@@ -125,7 +126,7 @@ static char * arrow_right[] = {
                                      (propertize " " 'face 'mode-line-color-1)))
 
                      'minor-mode-alist
-                     )) 
+                     ))
 
 (make-face 'mode-line-color-1)
 (set-face-attribute 'mode-line-color-1 nil
