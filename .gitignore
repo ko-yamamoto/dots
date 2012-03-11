@@ -32,3 +32,4 @@ ac-comphist.dat
 *.elc
 elisp/*.elc
 /.emacs.d/tramp
+/.emacs.d/inits/56_tramp-route.el
