@@ -222,6 +222,23 @@ function timer() {
 
 
 
+# ssh-agent 用
+agentPID=`ps gxww|grep "ssh-agent]*$"|awk '{print $1}'`
+agentSOCK=`/bin/ls -t /tmp/ssh*/agent*|head -1`
+if [ "$agentPID" = "" -o "$agentSOCK" = "" ]; then
+    unset SSH_AUTH_SOCK SSH_AGENT_PID
+    eval `ssh-agent`
+    # ssh-add < /dev/null
+else
+    export SSH_AGENT_PID=$agentPID
+    export SSH_AUTH_SOCK=$agentSOCK
+    # if [ `ssh-add -l` = "" ]; then
+    #     ssh-add < /dev/null
+    # fi
+fi
+
+
+
 
 ## 以下 zsh vi モード
 
