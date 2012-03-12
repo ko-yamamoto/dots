@@ -177,3 +177,38 @@
   (historyf-back) ; emacs-historyf
   (dired-jump))
 (define-key global-map (kbd "C-x j") 'dired-with-new-elscreen)
+
+
+
+;; dired から外部プログラムで開くための設定
+(defun open-file-dwim (filename)
+  "Open file dwim"
+  (let* ((winp (string-equal window-system "w32"))
+         (opener (if (file-directory-p filename)
+                     (if winp '("explorer.exe") '("open"))
+                   (if winp '("cygstart.exe") '("open"))))
+         (fn (replace-regexp-in-string "/$" "" filename))
+         (args (append opener (list (if winp
+                                        (replace-regexp-in-string "/" (rx "\\") fn)
+                                      fn))))
+         (process-connection-type nil))
+    (apply 'start-process "open-file-dwim" nil args)))
+
+;; カーソル下のファイルやディレクトリを関連付けられたプログラムで開く
+(defun dired-open-dwim ()
+  "Open file under the cursor"
+  (interactive)
+  (open-file-dwim (dired-get-filename)))
+
+;; 現在のディレクトリを関連付けられたプログラムで開く
+(defun dired-open-here ()
+  "Open current directory"
+  (interactive)
+  (open-file-dwim (expand-file-name dired-directory)))
+
+;; キーバインド
+(add-hook 'dired-mode-hook
+          (lambda ()
+            (define-key dired-mode-map (kbd "C-c o") 'dired-open-dwim)
+            (define-key dired-mode-map (kbd "C-c .") 'dired-open-here)
+            ))

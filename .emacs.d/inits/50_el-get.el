@@ -153,6 +153,7 @@
                                           (slime-connection-list-mode)
                                           (direx:direx-mode :position left :width 25 :dedicated t)
                                           ("*auto-async-byte-compile*" :height 20)
+                                          ("*Shell Command Output*" :height 25)
                                           )
                                         popwin:special-display-config))
 
