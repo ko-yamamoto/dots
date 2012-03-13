@@ -93,6 +93,17 @@ PROMPT='%F{green}%n%f/%m%B%(?.%F{blue}%(!.#. :))%f.%F{red}%(!.#. :()%f)%b '
 RPROMPT='%F{red}@%f%U%F{blue}%~%f%u'
 
 
+# 自動/Tram 用プロンプト
+case "${TERM}" in
+    dumb | emacs)
+        PROMPT="%n@%~%(!.#.$)"
+        RPROMPT=""
+        unsetopt zle
+        ;;
+esac
+
+
+
 # lsカラー表示
 export LSCOLORS=ExFxCxdxBxegedabagacad
 export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
