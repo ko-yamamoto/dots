@@ -212,3 +212,14 @@
             (define-key dired-mode-map (kbd "C-c o") 'dired-open-dwim)
             (define-key dired-mode-map (kbd "C-c .") 'dired-open-here)
             ))
+
+
+;; anything in dired
+(defun my/anything-dired ()
+  (interactive)
+  (let ((curbuf (current-buffer)))
+    (if (anything-other-buffer
+         '(anything-c-source-files-in-current-dir+)
+         "*anything*")
+        (kill-buffer curbuf))))
+(define-key dired-mode-map (kbd "p") 'my/anything-dired)
