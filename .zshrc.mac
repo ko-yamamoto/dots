@@ -20,3 +20,7 @@ export BYOBU_PREFIX=`brew --prefix`
 
 # 環境変数
 export PATH=/bin:/usr/local/bin:/Users/nishikawasasaki/bin:/Users/nishikawasasaki/android/android-sdk-mac_x86/tools:/Users/nishikawasasaki/android/android-sdk-mac_x86/platform-tools:$PATH
+
+
+# git のログには emacs を
+export GIT_EDITOR="/Applications/Emacs24S.app/Contents/MacOS/bin/emacsclient" 
