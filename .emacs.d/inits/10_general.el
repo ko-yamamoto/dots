@@ -99,12 +99,9 @@
 
 ;; Emacs serverを起動
 (server-start)
-(defun iconify-emacs-when-server-is-done ()
-  (unless server-clients (iconify-frame)))
+;;クライアントを終了するとき終了するかどうかを聞かない
+(remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)
 
-
-;; ターミナルに戻る
-(add-hook 'server-done-hook 'iconify-emacs-when-server-is-done)
 (global-set-key (kbd "C-x c") 'server-edit)
 
 
