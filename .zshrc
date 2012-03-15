@@ -180,9 +180,11 @@ setopt print_eight_bit
 # 補完候補をカーソルで選択できる 
 zstyle ':completion:*:default' menu select=1
 
+# C-w は一つ上のパスまでを消す
+WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
 # エイリアス
-setopt Complete_Aliases
+setopt complete_aliases
 
 
 
