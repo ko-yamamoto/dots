@@ -305,6 +305,16 @@
                           (setq sl-prohibit-kill-scratch-buffer-p nil)
                           ))
 
+          (:name shadow.el
+                 :type git
+                 :url "git://github.com/mooz/shadow.el.git"
+                 :after (progn
+                          (require 'shadow)
+                          (add-hook 'find-file-hooks 'shadow-on-find-file)
+                          (add-hook 'shadow-find-unshadow-hook
+                                    (lambda () (auto-revert-mode 1)))
+                          ))
+
           ))
   (setq my-packages
         (append '(el-get) (mapcar 'el-get-source-name el-get-sources)))
