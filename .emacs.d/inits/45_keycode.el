@@ -18,6 +18,8 @@
 (key-chord-define-global "cv" 'scroll-up)
 (key-chord-define-global "vb" 'scroll-down)
 (key-chord-define-global "MM" 'occur-by-moccur)
+(key-chord-define-global "qi" 'imenu)
+
 
 (key-chord-define-global "ql" 'windmove-right)
 (key-chord-define-global "qh" 'windmove-left)
