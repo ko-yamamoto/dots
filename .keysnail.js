@@ -122,6 +122,10 @@ plugins.options["tanything_opt.keymap"] = {
     "p"     : "localTogglePin"
 };
 
+//migemo 有効に
+prompt.useMigemo = true;
+prompt.migemoMinWordLength = 3;
+
 
 // Tombloo連携でGoogleReader
 // local["^http://www.google.(co.jp|com)/reader/view/"] = [
