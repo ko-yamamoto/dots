@@ -622,13 +622,13 @@ key.setViewKey('L', function (ev) {
 }, '進む');
 
 key.setViewKey([['C-n'], ['j']], function (aEvent) {
-    for (var i = 0; i < 8; i++) {
+    for (var i = 0; i < 5; i++) {
         key.generateKey(aEvent.originalTarget, KeyEvent.DOM_VK_DOWN, true);
     }
 }, '一行スクロールダウン');
 
 key.setViewKey([['C-p'], ['k']], function (aEvent) {
-    for (var i = 0; i < 8; i++) {
+    for (var i = 0; i < 5; i++) {
         key.generateKey(aEvent.originalTarget, KeyEvent.DOM_VK_UP, true);
     }
 }, '一行スクロールアップ');
