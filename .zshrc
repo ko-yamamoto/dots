@@ -249,6 +249,12 @@ else
 fi
 
 
+# plugins######################################################
+# zaw
+[ -f ~/bin/zaw/zaw.zsh ] && source ~/bin/zaw/zaw.zsh
+[ -f ~/bin/zaw/zaw.zsh ] && bindkey '^Q;' zaw
+[ -f ~/bin/zaw/zaw.zsh ] && bindkey '^R' zaw-history
+
 
 
 ## 以下 zsh vi モード
