@@ -9,11 +9,11 @@
 
 
 ;; "フォーマット"
-(defun format-line-indent ()
+(defun indent-buffer ()
   "バッファ全体のインデントを整える"
   (interactive)
   (indent-region (point-min) (point-max)))
-(global-set-key (kbd "C-S-f") 'kill-whole-line)
+(global-set-key (kbd "C-S-f") 'indent-buffer)
 
 
 ;; M-↑などで今の行をコピー
@@ -152,7 +152,7 @@
     (windmove-down)
     (twittering-replies-timeline)
     (windmove-up)
-))
+    ))
 (global-set-key "\C-q4" 'split-for-twmode)
 
 
