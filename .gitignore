@@ -33,3 +33,4 @@ ac-comphist.dat
 elisp/*.elc
 /.emacs.d/tramp
 /.emacs.d/inits/56_tramp-route.el
+/.emacs.d/semanticdb/**

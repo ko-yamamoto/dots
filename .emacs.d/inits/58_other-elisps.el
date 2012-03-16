@@ -1,10 +1,10 @@
 ;;====================
 ;; auto-async-byte-compile
 ;;====================
-(require 'auto-async-byte-compile)
+;;(require 'auto-async-byte-compile)
 ;; オートコンパイル無効にする正規表現
-(setq auto-async-byte-compile-exclude-file-regexp "/junk/")
-(add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
+;; (setq auto-async-byte-compile-exclude-file-regexp "/junk/")
+;; (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
 
 
 ;;====================
@@ -115,15 +115,15 @@
 ;;====================
 ;; ac-sime
 ;;====================
-(require 'ac-slime)
-(add-hook 'slime-mode-hook      'set-up-slime-ac)
-(add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
-
-(define-globalized-minor-mode real-global-auto-complete-mode
-  auto-complete-mode (lambda ()
-                       (if (not (minibufferp (current-buffer)))
-                           (auto-complete-mode 1))))
-(real-global-auto-complete-mode t)
+;; (require 'ac-slime)
+;; (add-hook 'slime-mode-hook      'set-up-slime-ac)
+;; (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
+;; 
+;; (define-globalized-minor-mode real-global-auto-complete-mode
+;;   auto-complete-mode (lambda ()
+;;                        (if (not (minibufferp (current-buffer)))
+;;                            (auto-complete-mode 1))))
+;; (real-global-auto-complete-mode t)
 
 
 ;;====================
@@ -232,28 +232,6 @@
   (global-set-key "\C-cep" 'evernote-post-region)
   (global-set-key "\C-ceb" 'evernote-browser))
 
-
-;;====================
-;; malabar-mode
-;;====================
-;; (require 'malabar-mode nil t)
-;; (setq malabar-groovy-lib-dir (expand-file-name "~/.emacs.d/elisp/malabar-1.5/malabar-lib")) ; お好みで
-;; (add-to-list 'auto-mode-alist '("\\.java\\'" . malabar-mode))
-
-;; ;; 普段使わないパッケージを import 候補から除外
-;; (add-to-list 'malabar-import-excluded-classes-regexp-list
-;;              "^java\\.awt\\..*$")
-;; (add-to-list 'malabar-import-excluded-classes-regexp-list
-;;              "^com\\.sun\\..*$")
-;; (add-to-list 'malabar-import-excluded-classes-regexp-list
-;;              "^org\\.omg\\..*$")
-
-;; ;; コンパイル前に保存する
-;; (add-hook 'malabar-mode-hook
-;;           (lambda ()
-;;             (add-hook 'after-save-hook 'malabar-compile-file-silently nil t)))
-;; ; 日本語だとコンパイルエラーメッセージが化けるので
-;; (setq malabar-groovy-java-options '("-Duser.language=en")) 
 
 
 ;;====================
