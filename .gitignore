@@ -34,3 +34,4 @@ elisp/*.elc
 /.emacs.d/tramp
 /.emacs.d/inits/56_tramp-route.el
 /.emacs.d/semanticdb/**
+/.emacs.d/ede-projects.el
