@@ -280,3 +280,5 @@
   (font-lock-fontify-buffer))
 
 ;; (defalias 'h 'my-keep-highlight-regexp)
+
+
