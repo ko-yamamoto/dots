@@ -62,6 +62,13 @@
                              "*my-anything-buf-screens*"))
                           (define-key global-map (kbd "C-x C-b") 'my-anything-buf-screens)
 
+                          (defun anything-my-semantic-imenu ()
+                            (interactive)
+                            (anything-other-buffer
+                             '(anything-c-source-imenu)
+                             "*anything-my-imenu*"))
+                          (define-key global-map (kbd "C-q i") 'anything-my-semantic-imenu)
+
                           (defun anything-with-new-elscreen ()
                             "新しい elscreen で anything"
                             (interactive)
@@ -71,6 +78,7 @@
 
                           ;; kill-ringもanythigで
                           (global-set-key (kbd "M-y") 'anything-show-kill-ring)
+
                           ))
           (:name anything-howm
                  :type git
@@ -142,6 +150,7 @@
                                           ("*anything*" :height 20)
                                           ("*my-anything-all*" :height 20)
                                           ("*my-anything-buf-screens*" :height 20)
+                                          ("*anything-my-imenu*" :position right :height 0.2)
                                           ;;("*Moccur*" :height 20)
                                           ("*Directory*" :height 20)
                                           ("*undo-tree*" :height 20)
@@ -321,6 +330,20 @@
                           (add-hook 'shadow-find-unshadow-hook
                                     (lambda () (auto-revert-mode 1)))
                           ))
+
+          ;; (:name emacs-window-layout
+          ;;        :type git
+          ;;        :url "git://github.com/kiwanami/emacs-window-layout.git"
+          ;;        )
+          ;; (:name emacs-window-manager
+          ;;        :type git
+          ;;        :url "git://github.com/kiwanami/emacs-window-manager.git"
+          ;;        :after (progn
+          ;;                 (require 'e2wm)
+          ;;                 (global-set-key (kbd "M-+") 'e2wm:start-management)
+          ;;                 (require 'e2wm-vcs)
+          ;;                 (global-set-key (kbd "C-q g") 'e2wm:dp-magit)
+          ;;                 ))
 
           ))
 
