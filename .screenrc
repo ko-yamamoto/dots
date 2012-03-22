@@ -27,7 +27,6 @@
 
 # エスケープキーの設定
 escape z
-# escape ^Tt
 
 # ビジュアルベルを無効
 vbell off
