@@ -203,6 +203,55 @@ local["^https?://mail.google.com/mail/"] = [
     ['T', null]
 ];
 
+local["^http://www.google.(co.jp|com)/reader/view/"] = [
+    // jump
+    pass(["g", "h"]),
+    pass(["g", "a"]),
+    pass(["g", "s"]),
+    pass(["g", "S"]),
+    pass(["g", "u"]),
+    pass(["g", "t"]),
+    pass(["g", "T"]),
+    pass(["g", "d"]),
+    pass(["g", "f"]),
+    pass(["g", "F"]),
+    pass(["g", "c"]),
+    pass(["g", "C"]),
+    pass(["g", "e"]),
+    pass(["g", "p"]),
+    // navigation
+    ["j", null],
+    ["k", null],
+    ["n", null],
+    ["p", null],
+    ["N", null],
+    ["P", null],
+    ["X", null],
+    ["o", null],
+    // item
+    ["s", null],
+    ["L", null],
+    ["t", null],
+    ["e", null],
+    ["S", null],
+    ["d", null],
+    ["v", null],
+    ["o", null],
+    ["c", null],
+    ["C", null],
+    ["m", null],
+    ["A", null],
+    ["T", null],
+    // application
+    ["r", null],
+    ["u", null],
+    ["1", null],
+    ["2", null],
+    ["/", null],
+    ["a", null],
+    ["=", null],
+    ["-", null]
+];
 
 
 
@@ -363,7 +412,6 @@ key.suspendKey           = "<f2>";
 
 // ================================= Hooks ================================= //
 
-
 hook.setHook('KeyBoardQuit', function (aEvent) {
     if (key.currentKeySequence.length) {
         return;
@@ -387,7 +435,6 @@ hook.setHook('KeyBoardQuit', function (aEvent) {
         key.generateKey(aEvent.originalTarget, KeyEvent.DOM_VK_ESCAPE, true);
     }
 });
-
 
 
 
@@ -688,10 +735,6 @@ key.setViewKey('M-p', function (ev) {
 key.setViewKey('M-n', function (ev) {
     command.walkInputElement(command.elementsRetrieverButton, false, true);
 }, '前のボタンへフォーカスを当てる');
-
-key.setViewKey('t', function (ev, arg) {
-    shell.input("tabopen ");
-}, 'tabopen');
 
 key.setViewKey('c', function (ev, arg) {
     ext.exec("list-hateb-comments", arg);
@@ -998,3 +1041,7 @@ key.setCaretKey('m', function (ev, arg) {
 key.setCaretKey('M', function (ev, arg) {
     shell.input("weblio " + (content.getSelection() || ""));
 }, 'Lookup the meaning of the word');
+
+key.setViewKey('t', function (ev) {
+    BrowserOpenTab();
+}, 'タブを開く');
