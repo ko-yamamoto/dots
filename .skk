@@ -1,5 +1,42 @@
+;; 辞書ファイル
+(setq skk-large-jisyo "~/.emacs.d/elisp/skk/SKK-JISYO.L")
+
+
+;; 辞書指定
+(setq skk-search-prog-list
+      '(
+        (skk-search-kakutei-jisyo-file skk-kakutei-jisyo 10000 t)
+        (skk-search-jisyo-file skk-initial-search-jisyo 10000 t)
+        (skk-search-jisyo-file skk-jisyo 0 t)
+        (skk-okuri-search)
+        (skk-tankan-search 'skk-search-jisyo-file skk-large-jisyo 10000)
+        (skk-search-jisyo-file skk-large-jisyo 10000)
+        ))
+
+;; (1) かな漢字変換の候補に Google サジェストを利用する
+(add-to-list 'skk-search-prog-list
+             ;; '(skk-search-web 'skk-google-suggest)
+             '(skk-search-web 'skk-google-cgi-api-for-japanese-input)
+             t)
+;; (2) skk-search-web 辞書登録モードへの突入時の初期値に Google サジェストを利用する
+;; (setq skk-read-from-minibuffer-function
+;;       (lambda ()
+;;         ;; (car (skk-google-suggest skk-henkan-key))))
+;;         (car (skk-google-cgi-api-for-japanese-input skk-henkan-key))))
+
+;; 動的補完オン
+(setq skk-dcomp-activate t)
+
+;; 送りかな設定
+(setq skk-auto-okuri-process t)
+(setq skk-auto-start-henkan t)
+
+;; カーソル付近に入力モードを表示する
+(setq skk-show-mode-show t)
+
 ;; 全角ｗを入力
 (setq skk-rom-kana-rule-list
       (append '(("wq" nil "ｗ")
-               )
+                )
               skk-rom-kana-rule-list))
+
