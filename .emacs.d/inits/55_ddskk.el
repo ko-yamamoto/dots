@@ -12,9 +12,6 @@
 (global-set-key (kbd "C-q s a") 'skk-auto-fill-mode)
 (global-set-key (kbd "C-q s t") 'skk-tutorial)
 
-;; 辞書ファイル
-(setq skk-large-jisyo "~/.emacs.d/elisp/skk/SKK-JISYO.L")
-
 ;; ddskk 起動時のみ, インクリメンタルサーチを使用
 ;;; Isearch setting.
 (add-hook 'isearch-mode-hook
@@ -34,8 +31,5 @@
 	  (lambda ()
 	    (require 'context-skk)))
 
-;; 動的補完オン
-(setq skk-dcomp-activate t)
-
-
-
+;; Google サジェストする
+(require 'skk-search-web)
