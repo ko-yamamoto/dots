@@ -114,9 +114,11 @@ bindkey -m Y   eval 'stuff Y'    'writebuf' 'exec sh -c "cat /tmp/screen-exchang
 
 # 起動時にリサイズしない
 termcapinfo xterm-color 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+termcapinfo xterm-256color 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
 
 # Funcion Key を使う
 termcapinfo xterm-color 'k1=\EOP:k2=\EOQ:k3=\EOR:k4=\EOS'
+termcapinfo xterm-256color 'k1=\EOP:k2=\EOQ:k3=\EOR:k4=\EOS'
 bindkey -k k2 screen zsh
 bindkey -k k3 prev
 bindkey -k k4 next
