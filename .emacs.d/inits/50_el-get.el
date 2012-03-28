@@ -36,13 +36,32 @@
 
                           (require 'anything-config)
 
+                          ;; persistent-action を buffer kill に入れ替えたものソース
+                          (defvar anything-c-source-buffers-list-R
+                            `((name . "Buffers")
+                              (candidates . anything-c-buffer-list)
+                              (type . buffer)
+                              (match anything-c-buffer-match-major-mode)
+                              (candidate-transformer anything-c-skip-boring-buffers
+                                                     anything-c-highlight-buffers)
+                              (persistent-action . anything-c-buffers-list-R-persistent-action)
+                              (keymap . ,anything-c-buffer-map)
+                              (volatile)
+                              (mode-line . anything-buffer-mode-line-string)
+                              (persistent-help . "Kill this buffer / C-u \\[anything-execute-persistent-action]:Show this buffer ")))
+                          (defun anything-c-buffers-list-R-persistent-action (candidate)
+                            (if current-prefix-arg
+                                (anything-c-switch-to-buffer candidate)
+                              (anything-c-buffers-persistent-kill candidate)))
+
                           ;; anything で欲しい物全部表示版
                           (defun my-anything-all ()
                             (interactive)
                             (anything-other-buffer
                              '(
                                ;; anything-c-source-buffers+
-                               anything-c-source-buffers+-howm-title
+                               ;; anything-c-source-buffers+-howm-title
+                               anything-c-source-buffers-list-R
                                anything-c-source-elscreen
                                anything-c-source-recentf
                                anything-c-source-imenu
@@ -79,7 +98,11 @@
                           ;; kill-ringもanythigで
                           (global-set-key (kbd "M-y") 'anything-show-kill-ring)
 
+                          ;; C-d でバッファを消せるように
+                          (define-key anything-map (kbd "C-d") 'anything-buffer-run-kill-buffers)
+
                           ))
+
           (:name anything-howm
                  :type git
                  :url "git://github.com/wakaran/anything-howm.git"
@@ -105,31 +128,31 @@
                           (setq anything-howm-data-directory "~/howm")
 
                           ))
-;;          (:name yasnippet
-;;       :type git
-;;       :url "https://github.com/capitaomorte/yasnippet.git"
-;;                 :after (lambda ()
-;;                          (require 'yasnippet)
-;;                          (yas/global-mode 1)
-;;                          (yas/load-directory "~/.emacs.d/dict")
-;;
-;;                          (defun my-yas/prompt (prompt choices &optional display-fn)
-;;                            (let* ((names (loop for choice in choices
-;;                                                collect (or (and display-fn (funcall display-fn choice))
-;;                                                            coice)))
-;;                                   (selected (anything-other-buffer
-;;                                              `(((name . ,(format "%s" prompt))
-;;                                                 (candidates . names)
-;;                                                 (action . (("Insert snippet" . (lambda (arg) arg))))))
-;;                                              "*anything yas/prompt*")))
-;;                              (if selected
-;;                                  (let ((n (position selected names :test 'equal)))
-;;                                    (nth n choices))
-;;                                (signal 'quit "user quit!"))))
-;;                          (custom-set-variables '(yas/prompt-functions '(my-yas/prompt)))
-;;                          (global-set-key (kbd "C-c y") 'yas/insert-snippet)
-;;
-;;                          ))
+          ;;          (:name yasnippet
+          ;;       :type git
+          ;;       :url "https://github.com/capitaomorte/yasnippet.git"
+          ;;                 :after (lambda ()
+          ;;                          (require 'yasnippet)
+          ;;                          (yas/global-mode 1)
+          ;;                          (yas/load-directory "~/.emacs.d/dict")
+          ;;
+          ;;                          (defun my-yas/prompt (prompt choices &optional display-fn)
+          ;;                            (let* ((names (loop for choice in choices
+          ;;                                                collect (or (and display-fn (funcall display-fn choice))
+          ;;                                                            coice)))
+          ;;                                   (selected (anything-other-buffer
+          ;;                                              `(((name . ,(format "%s" prompt))
+          ;;                                                 (candidates . names)
+          ;;                                                 (action . (("Insert snippet" . (lambda (arg) arg))))))
+          ;;                                              "*anything yas/prompt*")))
+          ;;                              (if selected
+          ;;                                  (let ((n (position selected names :test 'equal)))
+          ;;                                    (nth n choices))
+          ;;                                (signal 'quit "user quit!"))))
+          ;;                          (custom-set-variables '(yas/prompt-functions '(my-yas/prompt)))
+          ;;                          (global-set-key (kbd "C-c y") 'yas/insert-snippet)
+          ;;
+          ;;                          ))
           (:name popwin
                  :after (progn
                           (require 'popwin)
@@ -150,7 +173,7 @@
                                           ("*anything*" :height 20)
                                           ("*my-anything-all*" :height 20)
                                           ("*my-anything-buf-screens*" :height 20)
-                                          ("*anything-my-imenu*" :position right :height 0.2)
+                                          ("*anything-my-imenu*" :position right :height 30)
                                           ;;("*Moccur*" :height 20)
                                           ("*Directory*" :height 20)
                                           ("*undo-tree*" :height 20)
@@ -268,13 +291,13 @@
                  :type git
                  :url "git://github.com/rejeep/wrap-region.git"
                  :after (progn
-                               (require 'wrap-region)
-                               ;; 第一引数:リージョンの先頭に挿入する文字
-                               ;; 第二引数:リージョン末尾に挿入する文字
-                               ;; 第三引数:トリガとなるキー
-                               ;; 第四引数:有効にするモード
-                               ;; (wrap-region-add-wrapper "(" ")" "(")
-                               ))
+                          (require 'wrap-region)
+                          ;; 第一引数:リージョンの先頭に挿入する文字
+                          ;; 第二引数:リージョン末尾に挿入する文字
+                          ;; 第三引数:トリガとなるキー
+                          ;; 第四引数:有効にするモード
+                          ;; (wrap-region-add-wrapper "(" ")" "(")
+                          ))
 
           (:name jaunte.el
                  :type git
@@ -345,6 +368,16 @@
           ;;                 (global-set-key (kbd "C-q g") 'e2wm:dp-magit)
           ;;                 ))
 
+          (:name direx-el
+                 :type git
+                 :url "git://github.com/m2ym/direx-el.git"
+                 :after (progn
+                          (require 'direx)
+                          (global-set-key (kbd "C-x j") 'direx:jump-to-directory-other-window)
+                          ;; (setq direx:leaf-icon "  "
+                          ;;       direx:open-icon "+ "
+                          ;;       direx:closed-icon "> ")
+                          ))
           ))
 
   (setq my-packages
@@ -352,5 +385,5 @@
   (el-get 'sync my-packages)
   ;; (el-get 'wait)
 
-)
+  )
 
