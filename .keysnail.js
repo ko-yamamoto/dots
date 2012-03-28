@@ -49,10 +49,10 @@ plugins.options["twitter_client.tracking_langage"] = "ja";
 key.setEditKey(["C-c", "e"], function (ev, arg) {
         ext.exec("edit_text", arg);
 }, "外部エディタで編集", true);
-plugins.options["K2Emacs.editor"] = "/Applications/Emacs.app";
+plugins.options["K2Emacs.editor"] = "C:\\my\\programs\\emacs\\emacs-23.3\\bin\\emacsclientw.exe -n";
 plugins.options["K2Emacs.ext"] = "html";
 plugins.options["K2Emacs.encode"] = "UTF-8"
-plugins.options["K2Emacs.sep"] = "/";
+plugins.options["K2Emacs.sep"] = "\\";
 
 
 // ヒントの見た目設定
@@ -61,7 +61,7 @@ plugins.options["hok.hint_base_style"] = {
     "z-index"        : '2147483647',
     "color"          : '#000',
     "font-family"    : 'VL_Gothic',
-    "font-size"      : '9pt',
+    "font-size"      : '10pt',
     "font-weight"    : 'bold',
     "line-height"    : '10pt',
     "padding"        : '2px',
@@ -121,10 +121,6 @@ plugins.options["tanything_opt.keymap"] = {
     "e"     : "localMovetoend",
     "p"     : "localTogglePin"
 };
-
-//migemo 有効に
-prompt.useMigemo = true;
-prompt.migemoMinWordLength = 3;
 
 
 // Tombloo連携でGoogleReader
@@ -203,55 +199,6 @@ local["^https?://mail.google.com/mail/"] = [
     ['T', null]
 ];
 
-local["^http://www.google.(co.jp|com)/reader/view/"] = [
-    // jump
-    pass(["g", "h"]),
-    pass(["g", "a"]),
-    pass(["g", "s"]),
-    pass(["g", "S"]),
-    pass(["g", "u"]),
-    pass(["g", "t"]),
-    pass(["g", "T"]),
-    pass(["g", "d"]),
-    pass(["g", "f"]),
-    pass(["g", "F"]),
-    pass(["g", "c"]),
-    pass(["g", "C"]),
-    pass(["g", "e"]),
-    pass(["g", "p"]),
-    // navigation
-    ["j", null],
-    ["k", null],
-    ["n", null],
-    ["p", null],
-    ["N", null],
-    ["P", null],
-    ["X", null],
-    ["o", null],
-    // item
-    ["s", null],
-    ["L", null],
-    ["t", null],
-    ["e", null],
-    ["S", null],
-    ["d", null],
-    ["v", null],
-    ["o", null],
-    ["c", null],
-    ["C", null],
-    ["m", null],
-    ["A", null],
-    ["T", null],
-    // application
-    ["r", null],
-    ["u", null],
-    ["1", null],
-    ["2", null],
-    ["/", null],
-    ["a", null],
-    ["=", null],
-    ["-", null]
-];
 
 
 
@@ -509,17 +456,14 @@ key.setGlobalKey(['C-x', 'C-s'], function (ev) {
     saveDocument(window.content.document);
 }, 'ファイルを保存', true);
 
-key.setGlobalKey([['C-x', 'u'], ['C-c', 'u']], function (ev) {
-    undoCloseTab();
-}, '閉じたタブを元に戻す');
+key.setGlobalKey(['C-x', 'u'], function (ev) {
+    display.echoStatusBar("Undo!", 2000);
+    goDoCommand("cmd_undo");
+}, 'アンドゥ');
 
 key.setGlobalKey(['C-x', 'T'], function (ev, arg) {
     ext.exec("twitter-client-tweet-this-page", arg, ev);
 }, 'このページのタイトルと URL を使ってつぶやく', true);
-
-key.setGlobalKey(['C-x', 'C-b'], function (ev) {
-    ext.exec("history-show");
-}, '全履歴リスト表示');
 
 key.setGlobalKey(['C-x', 't'], function (ev, arg) {
     ext.exec("twitter-client-display-timeline", arg, ev);
@@ -528,6 +472,30 @@ key.setGlobalKey(['C-x', 't'], function (ev, arg) {
 key.setGlobalKey(['C-x', 'h'], function (ev) {
     goDoCommand("cmd_selectAll");
 }, 'すべて選択', true);
+
+key.setGlobalKey(['C-x', 'r', 'd'], function (ev, arg) {
+    command.replaceRectangle(ev.originalTarget, "", false, !arg);
+}, '矩形削除', true);
+
+key.setGlobalKey(['C-x', 'r', 't'], function (ev) {
+    prompt.read("String rectangle: ", function (aStr, aInput) {command.replaceRectangle(aInput, aStr);}, ev.originalTarget);
+}, '矩形置換', true);
+
+key.setGlobalKey(['C-x', 'r', 'o'], function (ev) {
+    command.openRectangle(ev.originalTarget);
+}, '矩形行空け', true);
+
+key.setGlobalKey(['C-x', 'r', 'k'], function (ev, arg) {
+    command.kill.buffer = command.killRectangle(ev.originalTarget, !arg);
+}, '矩形キル', true);
+
+key.setGlobalKey(['C-x', 'r', 'y'], function (ev) {
+    command.yankRectangle(ev.originalTarget, command.kill.buffer);
+}, '矩形ヤンク', true);
+
+key.setGlobalKey(['C-c', 'u'], function (ev) {
+    undoCloseTab();
+}, '閉じたタブを元に戻す');
 
 key.setGlobalKey(['C-c', 'C-c', 'C-v'], function (ev) {
     toJavaScriptConsole();
@@ -588,10 +556,6 @@ key.setGlobalKey('C-r', function (ev) {
 key.setGlobalKey('M-o', function (ev) {
     ext.exec("find-current-tab");
 }, 'このタブから検索');
-
-key.setGlobalKey('C-M-o', function (ev) {
-    ext.exec("find-all-tab");
-}, '全タブから検索');
 
 key.setGlobalKey('M-j', function () {
     plugins.twitterClient.switchTo();
@@ -660,7 +624,7 @@ key.setViewKey(['C-x', 'h'], function (ev) {
     goDoCommand("cmd_selectAll");
 }, 'すべて選択', true);
 
-key.setViewKey('d', function (ev) {
+key.setViewKey([['d'], ['m', 'k']], function (ev) {
     BrowserCloseTabOrWindow();
 }, 'タブ / ウィンドウを閉じる');
 
@@ -673,18 +637,18 @@ key.setViewKey('L', function (ev) {
 }, '進む');
 
 key.setViewKey([['C-n'], ['j']], function (aEvent) {
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 8; i++) {
         key.generateKey(aEvent.originalTarget, KeyEvent.DOM_VK_DOWN, true);
     }
 }, '一行スクロールダウン');
 
 key.setViewKey([['C-p'], ['k']], function (aEvent) {
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 8; i++) {
         key.generateKey(aEvent.originalTarget, KeyEvent.DOM_VK_UP, true);
     }
 }, '一行スクロールアップ');
 
-key.setViewKey([['C-f'], ['i']], function (ev) {
+key.setViewKey('C-f', function (ev) {
     command.focusElement(command.elementsRetrieverTextarea, 0);
 }, '最初のインプットエリアへフォーカス', true);
 
@@ -752,10 +716,6 @@ key.setViewKey('R', function (ev) {
     BrowserReloadSkipCache();
 }, '更新(キャッシュを無視)');
 
-key.setViewKey('m', function (ev, arg) {
-    shell.input("goodic " + (content.getSelection() || ""));
-}, 'Lookup the meaning of the word');
-
 key.setViewKey('M', function (ev, arg) {
     shell.input("weblio " + (content.getSelection() || ""));
 }, 'Lookup the meaning of the word');
@@ -779,6 +739,10 @@ key.setViewKey('A', function (ev, arg) {
 key.setViewKey('C-s', function (ev) {
     command.iSearchForward();
 }, 'インクリメンタル検索', true);
+
+key.setViewKey('t', function (ev) {
+    BrowserOpenTab();
+}, 'タブを開く');
 
 key.setEditKey(['C-c', 'e'], function (ev, arg) {
     ext.exec("edit_text", arg);
@@ -834,9 +798,9 @@ key.setEditKey('C-e', function (ev) {
     command.endLine(ev);
 }, '行末へ');
 
-key.setEditKey('C-f', function (ev) {
-    command.nextChar(ev);
-}, '一文字右へ移動');
+key.setEditKey([['C-f'], ['M-n']], function (ev) {
+    command.walkInputElement(command.elementsRetrieverTextarea, true, true);
+}, '次のテキストエリアへフォーカス');
 
 key.setEditKey('C-b', function (ev) {
     command.previousChar(ev);
@@ -922,10 +886,6 @@ key.setEditKey('C-w', function (ev) {
     goDoCommand("cmd_delete");
     command.resetMark(ev);
 }, '選択中のテキストを切り取り (Kill region)', true);
-
-key.setEditKey('M-n', function (ev) {
-    command.walkInputElement(command.elementsRetrieverTextarea, true, true);
-}, '次のテキストエリアへフォーカス');
 
 key.setEditKey('M-p', function (ev) {
     command.walkInputElement(command.elementsRetrieverTextarea, false, true);
@@ -1034,14 +994,18 @@ key.setCaretKey('M-n', function (ev) {
     command.walkInputElement(command.elementsRetrieverButton, false, true);
 }, '前のボタンへフォーカスを当てる');
 
-key.setCaretKey('m', function (ev, arg) {
-    shell.input("goodic " + (content.getSelection() || ""));
-}, 'Lookup the meaning of the word');
-
 key.setCaretKey('M', function (ev, arg) {
     shell.input("weblio " + (content.getSelection() || ""));
 }, 'Lookup the meaning of the word');
 
-key.setViewKey('t', function (ev) {
-    BrowserOpenTab();
-}, 'タブを開く');
+key.setGlobalKey('C-s', function (ev) {
+    command.iSearchForwardKs(ev);
+}, 'Emacs ライクなインクリメンタル検索', true);
+
+key.setGlobalKey('C-;', function (ev) {
+    ext.exec("history-show");
+}, '履歴 anything 風');
+
+key.setGlobalKey(['C-x', 'C-b'], function (ev, arg) {
+    ext.exec('tanything', arg, ev);
+}, 'タブを一覧表示', true);
