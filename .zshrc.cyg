@@ -1,12 +1,17 @@
 export PATH=~/bin:${PATH}
 
-
+# PATH ############################################################################
 # maven
 MVN_HOME=/c/mvn/mvn
 export PATH=${MVN_HOME}:${PATH}
 
-# aliases
+# play
+PLAY_HOME=/c/play/play-2.0
+export PATH=${PLAY_HOME}:${PATH}
 
+
+
+# aliases ############################################################################
 # java の文字化け対策
 alias java='java -Dfile.encoding=UTF-8'
 
