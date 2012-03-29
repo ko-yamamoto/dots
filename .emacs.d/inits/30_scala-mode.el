@@ -18,6 +18,7 @@
 ;; (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
 
 
+;; imenu用
 (add-hook 'scala-mode-hook
           (lambda ()
             (scala-electric-mode)
@@ -34,3 +35,19 @@
                     ("object" "\\(object +\\)\\([^(): ]+\\)" 2)
                     ))))
 
+
+;; インデント修正
+(defadvice scala-block-indentation (around improve-indentation-after-brace activate)
+  (if (eq (char-before) ?\{)
+      (setq ad-return-value (+ (current-indentation) scala-mode-indent:step))
+    ad-do-it))
+(defun scala-newline-and-indent ()
+  (interactive)
+  (delete-horizontal-space)
+  (let ((last-command nil))
+    (newline-and-indent))
+  (when (scala-in-multi-line-comment-p)
+    (insert "* ")))
+(add-hook 'scala-mode-hook
+          (lambda ()
+            (define-key scala-mode-map (kbd "RET") 'scala-newline-and-indent)))
