@@ -27,7 +27,7 @@
                  :after (progn
                           (setq
                            ;; ショートカットアルファベット表示
-                           anything-enable-shortcuts 'alphabet
+                           ;; anything-enable-shortcuts 'alphabet
                            ;; 候補表示までの時間
                            anything-idle-delay 0.3
                            ;; 候補の多いときに体感速度を上げる
@@ -76,7 +76,8 @@
                             (anything-other-buffer
                              '(
                                ;; anything-c-source-buffers+
-                               anything-c-source-buffers+-howm-title
+                               ;; anything-c-source-buffers+-howm-title
+                               anything-c-source-buffers-list-R
                                anything-c-source-elscreen)
                              "*my-anything-buf-screens*"))
                           (define-key global-map (kbd "C-x C-b") 'my-anything-buf-screens)
