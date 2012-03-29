@@ -29,7 +29,7 @@ NeoBundle 'git://github.com/Shougo/vimshell.git'
 NeoBundle 'git://github.com/Shougo/vimfiler.git'
 
 " 入力/開発補助
-NeoBundle 'git://github.com/Shougo/neocomplcache.git', 'ver.7'
+NeoBundle 'git://github.com/Shougo/neocomplcache.git'
 NeoBundle 'git://github.com/thinca/vim-quickrun.git'
 NeoBundle 'git://github.com/scrooloose/nerdcommenter.git'
 NeoBundle 'git://github.com/thinca/vim-poslist.git'
