@@ -106,10 +106,6 @@
 (global-set-key (kbd "C-x c") 'server-edit)
 
 
-;; 置換(M-%)キーバインドを(C-c r)にも
-(global-set-key (kbd "C-c r") 'query-replace)
-
-
 ;; 1画面戻る(M-v)を"Ctr-Shift-v"にも
 (global-set-key (kbd "C-S-v") 'scroll-down)
 
