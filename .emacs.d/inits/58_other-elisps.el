@@ -147,7 +147,7 @@
   (setq cygwin-mount-cygwin-bin-directory "c:/cygwin/bin")
   (require 'cygwin-mount)
   (cygwin-mount-activate)
-)
+  )
 
 
 ;;====================
@@ -166,8 +166,8 @@
 (add-hook 'rst-mode-hook 
           '(lambda() 
              (setq indent-tabs-mode nil)
-      ;;       (setq-default tab-width 3 indent-tabs-mode nil)
-))
+             ;;       (setq-default tab-width 3 indent-tabs-mode nil)
+             ))
 
 
 
@@ -176,7 +176,7 @@
 ;;====================
 (when (locate-library "gtags")
   (require 'gtags)
-)
+  )
 
 (global-set-key "\M-t" 'gtags-find-tag)     ;関数の定義元へ
 (global-set-key "\M-r" 'gtags-find-rtag)    ;関数の参照先へ
@@ -196,7 +196,7 @@
 ;;====================
 (require 'smartchr)
 (global-set-key (kbd ">")
- (smartchr '(">" "-> " "=> " "-> '`!!''" "-> \"`!!'\"" "=> '`!!''" "=> \"`!!'\"" "")))
+                (smartchr '(">" "-> " "=> " "-> '`!!''" "-> \"`!!'\"" "=> '`!!''" "=> \"`!!'\"" "")))
 (global-set-key (kbd "\"") (smartchr '("\"" "\"`!!'\"" "'" "'`!!''" "")))
 ;; (global-set-key (kbd "(") (smartchr '("(" "(`!!')" "((" "")))
 (global-set-key (kbd "G") (smartchr '("G" "ありがとうございます" "`!!'ありがとうございます" "")))
@@ -275,3 +275,13 @@
 (setq migemo-coding-system 'utf-8-unix)
 (load-library "migemo")
 (migemo-init)
+
+
+;;====================
+;; emacs-historyf
+;;====================
+(require 'historyf)
+(define-key global-map (kbd "C-q l") 'historyf-forward)
+(define-key global-map (kbd "C-q h") 'historyf-back)
+(key-chord-define-global "bn" 'historyf-forward)
+(key-chord-define-global "bp" 'historyf-back)

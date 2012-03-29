@@ -269,17 +269,6 @@
                           (setq ac-modes (append ac-modes '(text-mode sql-mode scala-mode java-mode)))
                           ))
 
-          (:name emacs-historyf
-                 :type git
-                 :url "git://github.com/k1LoW/emacs-historyf.git"
-                 :after (progn
-                          (require 'historyf)
-                          (define-key global-map (kbd "C-q l") 'historyf-forward)
-                          (define-key global-map (kbd "C-q h") 'historyf-back)
-                          (key-chord-define-global "bn" 'historyf-forward)
-                          (key-chord-define-global "bp" 'historyf-back)
-                          ))
-
           (:name expand-region
                  :after (progn
                           (require 'expand-region)
@@ -378,6 +367,15 @@
                           ;;       direx:open-icon "+ "
                           ;;       direx:closed-icon "> ")
                           ))
+
+          (:name anything-replace-string
+           :type git 
+           :url "git://github.com/k1LoW/anything-replace-string.git"
+           :after (progn
+                    (require 'anything-replace-string)
+                    (global-set-key (kbd "C-c r") 'anything-replace-string)
+                    ))
+
           ))
 
   (setq my-packages
