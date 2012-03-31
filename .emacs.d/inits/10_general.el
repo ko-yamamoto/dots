@@ -5,11 +5,11 @@
 
 ;; マウスの右クリックの割り当て(押しながらの操作)をはずす
 (if window-system (progn
-        (global-unset-key [down-mouse-3])
-;; マウスの右クリックメニューを使えるようにする
-(defun bingalls-edit-menu (event)  (interactive "e")
-    (popup-menu menu-bar-edit-menu))
-    (global-set-key [mouse-3] 'bingalls-edit-menu)))
+                    (global-unset-key [down-mouse-3])
+                    ;; マウスの右クリックメニューを使えるようにする
+                    (defun bingalls-edit-menu (event)  (interactive "e")
+                      (popup-menu menu-bar-edit-menu))
+                    (global-set-key [mouse-3] 'bingalls-edit-menu)))
 
 ;; C-hをヘルプから外すための設定
 (load "term/bobcat")
@@ -215,7 +215,22 @@
 (global-set-key "\C-q3" 'split-window-horizontally)
 
 ;; ウィンドウ移動を楽に
-(define-key global-map (kbd "C-t") 'other-window)
+;; (define-key global-map (kbd "C-t") 'other-window)
+(defun other-window-or-split ()
+  (interactive)
+  (when (one-window-p)
+    (split-window-horizontally))
+  (other-window 1))
+(global-set-key (kbd "C-t") 'other-window-or-split)
+(define-key dired-mode-map (kbd "C-t") 'other-window-or-split)
+
+;; (makunbound 'overriding-minor-mode-map)
+;; (define-minor-mode overriding-minor-mode
+;;   "強制的にC-tを割り当てる"             ;説明文字列
+;;   t                                     ;デフォルトで有効にする
+;;   ""                                    ;モードラインに表示しない
+;;   `((,(kbd "C-t") . other-window-or-split)))
+
 
 ;; 自動でchmod+x
 (defun make-file-executable ()
@@ -270,7 +285,7 @@
 (defun my-keep-highlight-set-font-lock (re)
   (font-lock-add-keywords 'nil (list (list re 0 my-highlight-face t)))
   (font-lock-fontify-buffer))
- 
+
 (defun my-cancel-highlight-regexp ()
   (interactive)
   (font-lock-remove-keywords 'nil (list (list my-highlight-keyword 0 my-highlight-face t)))
