@@ -173,8 +173,7 @@
 (defun dired-with-new-elscreen ()
   "新しい elscreen で dired  * need emacs-historyf"
   (interactive)
-  (elscreen-create)
-  (historyf-back) ; emacs-historyf
+  (elscreen-clone)
   (dired-jump))
 (define-key global-map (kbd "C-x j") 'dired-with-new-elscreen)
 
