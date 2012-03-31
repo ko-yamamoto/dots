@@ -341,6 +341,59 @@ plugins.lib = _.extend(plugins.lib, {
     }
 });
 
+
+// imenu 的なものを追加
+ext.add("imenu-headers", function () {
+  let anchorSelector = [
+    "h1",
+    "h2",
+    "h3",
+    "h4"
+  ].join(",");
+
+  let elements = Array.slice(content.document.querySelectorAll(anchorSelector));
+
+  function elementToString(element) {
+    let headerString = "",
+        matched = null;
+    if ((matched = element.localName.match(/h([0-9])/))) {
+      let headerCount = parseInt(matched[1], 10);
+      headerString = (new Array(headerCount)).join("  ");
+
+      let headerMarks = {
+        1: '',            /* none */
+        2: "\u2023",      /* right arrow */
+        3: "\u2022",      /* bullet */
+        4: "\u25E6"       /* white bullet */
+      };
+
+      if (headerMarks[headerCount])
+        headerString = headerString + headerMarks[headerCount] + " ";
+    }
+
+    return headerString + element.textContent;
+  }
+
+  function scrollToElement(element) {
+    let anchor = element.getAttribute("id") || element.getAttribute("name");
+    if (anchor)
+      content.location.hash = anchor;
+    else
+      element.scrollIntoView();
+  }
+
+  prompt.selector({
+    message: "jump to: ",
+    collection: elements.map(function (element) elementToString(element)),
+    callback: function (selectedIndex) {
+      if (selectedIndex < 0)
+        return;
+      scrollToElement(elements[selectedIndex]);
+    }
+  });
+}, "imenu-headers", true);
+
+
 //}}%PRESERVE%
 // ========================================================================= //
 
