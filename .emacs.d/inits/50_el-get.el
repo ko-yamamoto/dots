@@ -174,7 +174,7 @@
                                           ("*anything*" :height 20)
                                           ("*my-anything-all*" :height 20)
                                           ("*my-anything-buf-screens*" :height 20)
-                                          ("*anything-my-imenu*" :position right :height 30)
+                                          ("*anything-my-imenu*" :height 20)
                                           ;;("*Moccur*" :height 20)
                                           ("*Directory*" :height 20)
                                           ("*undo-tree*" :height 20)
