@@ -358,16 +358,16 @@
           ;;                 (global-set-key (kbd "C-q g") 'e2wm:dp-magit)
           ;;                 ))
 
-          (:name direx-el
-                 :type git
-                 :url "git://github.com/m2ym/direx-el.git"
-                 :after (progn
-                          (require 'direx)
-                          (global-set-key (kbd "C-x j") 'direx:jump-to-directory-other-window)
-                          ;; (setq direx:leaf-icon "  "
-                          ;;       direx:open-icon "+ "
-                          ;;       direx:closed-icon "> ")
-                          ))
+          ;; (:name direx-el
+          ;;        :type git
+          ;;        :url "git://github.com/m2ym/direx-el.git"
+          ;;        :after (progn
+          ;;                 (require 'direx)
+          ;;                 (global-set-key (kbd "C-x j") 'direx:jump-to-directory-other-window)
+          ;;                 ;; (setq direx:leaf-icon "  "
+          ;;                 ;;       direx:open-icon "+ "
+          ;;                 ;;       direx:closed-icon "> ")
+          ;;                 ))
 
           (:name anything-replace-string
            :type git 
