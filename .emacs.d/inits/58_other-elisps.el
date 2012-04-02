@@ -285,3 +285,11 @@
 (define-key global-map (kbd "C-q h") 'historyf-back)
 (key-chord-define-global "bn" 'historyf-forward)
 (key-chord-define-global "bp" 'historyf-back)
+
+
+;;====================
+;; descbinds-anything
+;;====================
+(require 'descbinds-anything)
+(descbinds-anything-install)
+(key-chord-define-global "df" 'describe-bindings)
