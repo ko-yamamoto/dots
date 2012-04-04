@@ -114,7 +114,7 @@
                             "新しい elscreen で anything-howm"
                             (interactive)
                             (elscreen-create)
-                            (anything-howm-menu-command)
+                            (ah:menu-command)
                             (howm-mode))
 
                           (global-set-key (kbd "C-c C-, C-,") 'anything-howm-with-new-elscreen)
@@ -126,7 +126,7 @@
                           ;; (global-set-key (kbd "C-3") 'anything-cached-howm-menu)
 
                           ;; howm のデータディレクトリへのパス
-                          (setq anything-howm-data-directory "~/howm")
+                          (setq ah:data-directory "~/howm")
 
                           ))
           ;;          (:name yasnippet
