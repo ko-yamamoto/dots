@@ -120,10 +120,10 @@
                           (global-set-key (kbd "C-c C-, C-,") 'anything-howm-with-new-elscreen)
 
                           ;; 「最近のメモ」をいくつ表示するか
-                          (setq anything-howm-recent-menu-number-limit 300)
+                          (setq ah:recent-menu-number-limit 600)
 
-                          ;; (global-set-key (kbd "C-2") 'anything-howm-menu-command)
-                          ;; (global-set-key (kbd "C-3") 'anything-cached-howm-menu)
+                          (global-set-key (kbd "C-2") 'ah:menu-command)
+                          (global-set-key (kbd "C-3") 'ah:cached-howm-menu)
 
                           ;; howm のデータディレクトリへのパス
                           (setq ah:data-directory "~/howm")
@@ -370,12 +370,12 @@
           ;;                 ))
 
           (:name anything-replace-string
-           :type git 
-           :url "git://github.com/k1LoW/anything-replace-string.git"
-           :after (progn
-                    (require 'anything-replace-string)
-                    (global-set-key (kbd "C-c r") 'anything-replace-string)
-                    ))
+                 :type git 
+                 :url "git://github.com/k1LoW/anything-replace-string.git"
+                 :after (progn
+                          (require 'anything-replace-string)
+                          (global-set-key (kbd "C-c r") 'anything-replace-string)
+                          ))
 
           ))
 
