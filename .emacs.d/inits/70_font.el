@@ -25,7 +25,7 @@
                     '("MeiryoKe_Console" . "unicode-bmp"))
 )
 (when is_win
-  (set-default-font "ricty-10.5")
+  (set-default-font "ricty-10")
   (set-fontset-font (frame-parameter nil 'font)
                     'japanese-jisx0208
                     '("ricty" . "unicode-bmp"))

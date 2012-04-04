@@ -22,6 +22,9 @@ alias -g U=' | nkf -u -S -w | dos2unix'
 
 alias open='cygstart'
 
+# 対話型コンソールを使えるようにする
+alias play='conin play'
+
 # rm が消しすぎるので、rm の替わりにゴミ箱に放り込むコマンドが欲しい． - ブックマクロ開発に - http://goo.gl/ZNpDL
 alias tr='trash-put'
 alias tl='trash-list'
