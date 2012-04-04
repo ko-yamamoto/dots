@@ -5,6 +5,11 @@
                                   global-semantic-mru-bookmark-mode))
 (semantic-mode 1)
 
+;; imenu 時の表示を変更
+(setq semantic-imenu-summary-function
+      (lambda (tag)
+        (semantic-format-tag-summarize tag nil t)))
+
 ;; speedbarを使う
 (require 'semantic/sb)
 (require 'sr-speedbar)
