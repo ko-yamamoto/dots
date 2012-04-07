@@ -10,7 +10,7 @@
 ;; (color-theme-tomorrow)
 
 ;; ウィンドウを透明化
-(add-to-list 'default-frame-alist '(alpha . (0.85 0.85)))
+(add-to-list 'default-frame-alist '(alpha . (0.80 0.80)))
 
 ;; キーワードのカラー表示を有効化
 (global-font-lock-mode t)
