@@ -35,16 +35,9 @@ bindkey '^S' history-incremental-pattern-search-forward
 
 zstyle :compinstall filename '/Users/nishikawasasaki/.zshrc'
 
-# 環境変数SHELL -> viewの時/opt/local以下のzshを観に行ってしまうため
-# export SHELL=/usr/local/bin/zsh
-
 # 環境変数LANG
-# export LANG=ja_JP.UTF-8
-export LANG=ja_JP.utf8
-
-#Python
-# alias python='python2.7'
-
+# export LANG=ja_JP.utf8
+export LANG=ja_JP.UTF-8
 
 # JAVA
 JAVA_OPTS="-Dfile.encoding=UTF-8"
@@ -56,31 +49,7 @@ export PATH=$PATH:$SCALA_HOME/bin
 # -deprecationつけて起動
 alias scala='scala -deprecation $1'
 
-
-# Lift
-# liftweb path vars
-# export M2_HOME=/Applications/liftweb-1.0.1/apache-maven
-# export M2=$M2_HOME/bin
-# export MAVEN_OPTS="-noverify"
-# export PATH=$M2:$PATH
-
-# play Framework
-export PLAY_HOME=/Users/nishikawasasaki/bin/play/play-1.1
-export PATH=$PLAY_HOME:$PATH
-
-# Android SDK
-export ANDROID_SDK_HOME=/Users/nishikawasasaki/android/android-sdk-mac_x86
-export PATH=$ANDROID_SDK_HOME:$PATH
-export ANDROID_SWT=/Users/nishikawasasaki/android/android-sdk-mac_x86/tools/lib/x86_64
-
-
-# git用の補完設定 -> bashcompinit有効でエラーが起きるためコメントアウト
-# autoload bashcompinit
-# bashcompinit
-# source ~/.git-completion.bash
-
 alias gs='git status -s'
-
 
 # プロンプトをカラー表示
 autoload colors && colors
