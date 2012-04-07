@@ -173,3 +173,37 @@
     (find-file (read-string "Junk Code: " file))))
 ;; (global-set-key "\C-xj" 'open-junk-file)
 (global-set-key (kbd "C-c j") '(lambda () (interactive) (elscreen-create) (open-junk-file)))
+
+
+
+;; 'o' 次の行に挿入
+(defun edit-next-line ()
+  (interactive)
+  (end-of-line)
+  (newline-and-indent))
+;; 'O' 前の行に挿入
+(defun edit-previous-line ()
+  (interactive)
+  (forward-line -1)
+  (if (not (= (current-line) 1))
+      (end-of-line))
+  (newline-and-indent))
+(key-chord-define-global "vo" 'edit-next-line)
+
+;; 'f' 後方の入力した文字の上に移動
+(defun forward-match-char (n)
+  (interactive "p")
+  (let ((c (read-char)))
+    (dotimes (i n)
+      (forward-char)
+      (skip-chars-forward (format "^%s" (char-to-string c))))))
+;; 'F' 前方の入力した文字の上に移動
+(defun backward-match-char (n)
+  (interactive "p")
+  (let ((c (read-char)))
+    (dotimes (i n)
+      (skip-chars-backward (format "^%s" (char-to-string c)))
+      (backward-char))))
+(global-set-key (kbd "M-l") 'forward-match-char)
+(global-set-key (kbd "M-L") 'backward-match-char)
+(key-chord-define-global "vf" 'forward-match-char)
