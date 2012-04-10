@@ -27,7 +27,7 @@
      (:background "grey5"))
     (((class color)
       (background light))
-;;     (:background "lemon chiffon"))
+     ;;     (:background "lemon chiffon"))
      (:background "#e8ff9e"))
     (t
      ()))
@@ -36,9 +36,6 @@
 ;; (setq hl-line-face 'underline) ; 下線
 (global-hl-line-mode)
 
-
-;; 1画面スクロールで前の表示を何行分残すか
-(setq next-screen-context-lines 5)
 
 
 ;; タブ, 全角スペース, 行末空白表示
@@ -101,21 +98,21 @@
     (font-lock-mode 1)))
 
 (defvar anything-c-source-font-families
-      '((name . "Fonts")
-        (init lambda ()
-              (unless (anything-candidate-buffer)
-                (save-window-excursion
-                  (anything-font-families-create-buffer))
-                (anything-candidate-buffer
-                 (get-buffer "*Fonts*"))))
-        (candidates-in-buffer)
-        (get-line . buffer-substring)
-        (action
-         ("Copy Name" lambda
-          (candidate)
-          (kill-new candidate))
-         ("Insert Name" lambda
-          (candidate)
-          (with-current-buffer anything-current-buffer
-            (insert candidate))))))
+  '((name . "Fonts")
+    (init lambda ()
+          (unless (anything-candidate-buffer)
+            (save-window-excursion
+              (anything-font-families-create-buffer))
+            (anything-candidate-buffer
+             (get-buffer "*Fonts*"))))
+    (candidates-in-buffer)
+    (get-line . buffer-substring)
+    (action
+     ("Copy Name" lambda
+      (candidate)
+      (kill-new candidate))
+     ("Insert Name" lambda
+      (candidate)
+      (with-current-buffer anything-current-buffer
+        (insert candidate))))))
 

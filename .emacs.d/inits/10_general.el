@@ -265,6 +265,18 @@
 (define-key minibuffer-local-completion-map "\C-w" 'backward-kill-word)
 
 
+;; Autosave every 500 typed characters
+(setq auto-save-interval 500)
+
+;; スクロール設定
+(setq hscroll-step                    1
+      scroll-conservatively           10000
+      scroll-preserve-screen-position t
+      auto-window-vscroll             nil           ; speedup down scroll
+      scroll-margin                   5
+      redisplay-dont-pause            t             ; this will be default in emacs24
+      )
+
 ;; tail -f
 ;;http://d.hatena.ne.jp/kitokitoki/20100706/p1
 (make-face 'my-highlight-face)
