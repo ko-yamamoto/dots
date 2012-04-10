@@ -16,8 +16,6 @@
 ;; smooth scroll of the buffer
 (set-variable 'smooth-scroll/vscroll-step-size 8)
 (set-variable 'smooth-scroll/hscroll-step-size 8)
-;; (setq scroll-step 1
-;; scroll-conservatively 10000)
 
 
 ;;====================
