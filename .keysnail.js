@@ -1062,3 +1062,7 @@ key.setGlobalKey('C-;', function (ev) {
 key.setGlobalKey(['C-x', 'C-b'], function (ev, arg) {
     ext.exec('tanything', arg, ev);
 }, 'タブを一覧表示', true);
+
+key.setGlobalKey("M-i", function (ev) {
+  ext.exec("imenu-headers");
+}, 'jump to headers');
