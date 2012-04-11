@@ -291,3 +291,10 @@
 (require 'descbinds-anything)
 (descbinds-anything-install)
 (key-chord-define-global "df" 'describe-bindings)
+
+
+;;====================
+;; dsvn.el
+;;====================
+(autoload 'svn-status "dsvn" "Run `svn status'." t)
+(autoload 'svn-update "dsvn" "Run `svn update'." t)
