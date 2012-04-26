@@ -378,6 +378,14 @@
                           (global-set-key (kbd "C-c r") 'anything-replace-string)
                           ))
 
+          (:name BESI ;Better Emacs-Scala Indentation
+                 :type git
+                 :url "git://github.com/Rogach/besi.git"
+                 :after (progn
+                          (require 'besi)
+                          ))
+
+
           ))
 
   (setq my-packages
