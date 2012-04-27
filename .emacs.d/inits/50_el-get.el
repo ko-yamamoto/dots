@@ -195,6 +195,7 @@
                                           (direx:direx-mode :position left :width 25 :dedicated t)
                                           ("*auto-async-byte-compile*" :height 20)
                                           ("*Shell Command Output*" :height 25)
+                                          ("*svn output*" :stick t :position right)
                                           )
                                         popwin:special-display-config))
 
