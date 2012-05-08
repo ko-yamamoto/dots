@@ -610,6 +610,10 @@ key.setGlobalKey('M-o', function (ev) {
     ext.exec("find-current-tab");
 }, 'このタブから検索');
 
+key.setGlobalKey('C-M-o', function (ev) {
+    ext.exec('find-all-tab');
+}, '全タブから検索');
+
 key.setGlobalKey('M-j', function () {
     plugins.twitterClient.switchTo();
 }, 'Twitter Client Select Action');
