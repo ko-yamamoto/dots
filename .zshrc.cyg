@@ -1,5 +1,7 @@
 export PATH=~/bin:${PATH}
 
+
+
 # PATH ############################################################################
 # maven
 MVN_HOME=/c/mvn/mvn
@@ -9,11 +11,13 @@ export PATH=${MVN_HOME}:${PATH}
 PLAY_HOME=/c/play/play-2.0
 export PATH=${PLAY_HOME}:${PATH}
 
+# haskell
+HASKELL_HOME="/C/Program Files (x86)/Haskell Platform/latest/bin"
+export PATH=${HASKELL_HOME}:${PATH}
+
 
 
 # aliases ############################################################################
-# java の文字化け対策
-alias java='java -Dfile.encoding=UTF-8'
 
 alias ls='ls --color=auto'
 alias ll='ls --color=auto -alh --time-style=+'%Y/%m/%d_%H:%M:%S''
@@ -38,10 +42,16 @@ function chpwd(){ls --color=auto}
 
 alias gvim='gvim --remote-tab-silent'
 
+# java の文字化け対策
+export JAVA_OPTIONS="-Dfile.encoding=UTF-8"
+
 # mvn
-MAVEN_OPTS="-Xmx512M -Duser.language=en"
+export MAVEN_OPTS="-Xmx512M -Duser.language=en"
 
 
 # git のログには emacs を
-# export GIT_EDITOR="/c/my/programs/emacs/emacs/bin/emacsclient" 
-export GIT_EDITOR="emacsclient" 
+# export GIT_EDITOR="/c/my/programs/emacs/emacs/bin/emacsclient"
+export GIT_EDITOR="emacsclient"
+
+# rvm ruby
+[[ -s $HOME/.rvm/scripts/rvm ]] && source "$HOME/.rvm/scripts/rvm"
