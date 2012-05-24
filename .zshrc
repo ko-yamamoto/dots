@@ -776,3 +776,7 @@ function scouter() {
   sed -e '/^\s*$/d' -e '/^\s*#/d' ${ZDOTDIR:-$HOME}/.zshrc | wc -l
 }
 
+<<<<<<< HEAD
+=======
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+>>>>>>> 87f376289568551b38a1f973f45803546dbbaca1
