@@ -5,12 +5,16 @@ alias ll='ls -alfgh'
 
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 
 alias emacsclient='/Applications/Emacs24_20120406.app/Contents/MacOS/bin/emacsclient -n'
 alias ec='/Applications/Emacs24_20120406.app/Contents/MacOS/bin/emacsclient -n'
 
 alias top='top -R -F -u'
+
+alias setsuna='java -jar ~/program/git/setsuna/setsuna.jar'
+
 
 export PATH=$PATH:/usr/local/bin:/usr/local/lib/python2.7/site-packages
 
