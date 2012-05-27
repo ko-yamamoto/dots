@@ -5,20 +5,14 @@
   ;;====================
   (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
+
   (unless (require 'el-get nil t)
     (url-retrieve
      "https://raw.github.com/dimitri/el-get/master/el-get-install.el"
      (lambda (s)
        (let (el-get-master-branch)
-         (end-of-buffer)
+         (goto-char (point-max))
          (eval-print-last-sexp)))))
-  ;;(unless (require 'el-get nil t)
-  ;;  (url-retrieve
-  ;;   "https://raw.github.com/dimitri/el-get/master/el-get-install.el"
-  ;;   (lambda (s)
-  ;;     (end-of-buffer)
-  ;;     (eval-print-last-sexp))))
-
   ;; (require 'el-get)
 
   (setq el-get-sources
@@ -222,7 +216,7 @@
                           (global-auto-complete-mode t)
                           (setq ac-dwim t)
                           ;; ;; 辞書ファイルの位置
-                          (add-to-list 'ac-dictionary-directories "~/.emacs.d/bundle/auto-complete/dict")
+                          (add-to-list 'ac-dictionary-directories "~/.emacs.d/el-get/auto-complete/dict")
 
                           ;; デフォルト設定有効
                           (ac-config-default)
@@ -269,10 +263,12 @@
                                         ;; '(ac-source-abbrev ac-source-yasnippet ac-source-filename ac-source-files-in-current-dir ac-source-words-in-same-mode-buffers ac-source-symbols))
                                         '(ac-source-abbrev ac-source-yasnippet ac-source-files-in-current-dir ac-source-words-in-same-mode-buffers ac-source-symbols))
                           ;; 補完するモードの追加
-                          (setq ac-modes (append ac-modes '(text-mode sql-mode scala-mode java-mode)))
+                          (setq ac-modes (append ac-modes '(text-mode sql-mode scala-mode java-mode haskell-mode)))
                           ))
 
           (:name expand-region
+                 :type git
+                 :url "git://github.com/magnars/expand-region.el.git"
                  :after (progn
                           (require 'expand-region)
                           (global-set-key (kbd "C-@") 'er/expand-region)
@@ -395,6 +391,39 @@
                           (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
                           (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
                           ;;(add-hook 'haskell-mode-hook 'turn-on-haskell-simple-indent)
+
+                          (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
+                          (add-to-list 'auto-mode-alist '("\\.lhs$" . literate-haskell-mode))
+                          (add-to-list 'auto-mode-alist '("\\.cabal\\'" . haskell-cabal-mode))
+
+                          ;; ghc-mod
+                          ;; cabal でインストールしたライブラリのコマンドが格納されている bin ディレクトリへのパスを exec-path に追加する
+                          (add-to-list 'exec-path (concat (getenv "HOME") "/.cabal/bin"))
+                          ;; ghc-flymake.el などがあるディレクトリ ghc-mod
+                          (add-to-list 'load-path "~/.emacs.d/elisp/ghc-mod-1.10.15")
+                          (autoload 'ghc-init "ghc" nil t)
+                          (add-hook 'haskell-mode-hook
+                                    (lambda () (ghc-init)))
+
+                          ;; auto-complete
+                          (ac-define-source ghc-mod
+                            '((depends ghc)
+                              (candidates . (ghc-select-completion-symbol))
+                              (symbol . "s")
+                              (cache)))
+
+                          (defun my-ac-haskell-mode ()
+                            (setq ac-sources '(ac-source-words-in-same-mode-buffers ac-source-dictionary ac-source-ghc-mod)))
+                          (add-hook 'haskell-mode-hook 'my-ac-haskell-mode)
+
+                          (defun my-haskell-ac-init ()
+                            (when (member (file-name-extension buffer-file-name) '("hs" "lhs"))
+                              (auto-complete-mode t)
+                              (setq ac-sources '(ac-source-words-in-same-mode-buffers ac-source-dictionary ac-source-ghc-mod))))
+
+                          (add-hook 'find-file-hook 'my-haskell-ac-init)
+
+
                           ))
 
 
@@ -402,6 +431,7 @@
 
   (setq my-packages
         (append '(el-get) (mapcar 'el-get-source-name el-get-sources)))
+  ;; (append '(el-get) (mapcar 'el-get-as-symbol (mapcar 'el-get-source-name el-get-sources))))
   (el-get 'sync my-packages)
   ;; (el-get 'wait)
 
