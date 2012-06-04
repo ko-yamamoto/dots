@@ -39,7 +39,7 @@
                     'japanese-jisx0208
                     '("ricty" . "unicode-bmp"))
   ;; バラバラに設定する場合
-  ;; ;; 英字フォント
+  ;; ;; 英字フォントk
   ;; (set-face-attribute 'default nil
   ;;                     :family "ricty"
   ;;                     :height 140)
