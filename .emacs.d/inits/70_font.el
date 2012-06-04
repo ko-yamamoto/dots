@@ -18,17 +18,19 @@
   ;;                     ;; :family "MeiryoKe_Console"
   ;;                     :height 115)
 
-  (set-default-font "MeiryoKe_Console-11.0")
-  (set-face-font 'variable-pitch "MeiryoKe_Console-11.0")
+  (set-default-font "VL ゴシック-9.0")
+  (set-face-font 'variable-pitch "VL ゴシック-9.0")
   (set-fontset-font (frame-parameter nil 'font)
                     'japanese-jisx0208
-                    '("MeiryoKe_Console" . "unicode-bmp"))
+                    '("VL ゴシック" . "unicode-bmp"))
 )
 (when is_win
-  (set-default-font "ricty-9")
+  (set-default-font "ricty-10.5")
+  ;; (set-default-font "MeiryoKe_Console-10.5")
   (set-fontset-font (frame-parameter nil 'font)
                     'japanese-jisx0208
                     '("ricty" . "unicode-bmp"))
+                    ;; '("MeiryoKe_Console" . "unicode-bmp"))
 
 )
 (when is_mac
