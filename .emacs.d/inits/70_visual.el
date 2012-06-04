@@ -73,7 +73,8 @@
  (is_emacs23
   (menu-bar-mode nil))
  (is_emacs24
-  (tool-bar-mode 0)))
+  (tool-bar-mode 0)
+  (menu-bar-mode -1)))
 
 
 
