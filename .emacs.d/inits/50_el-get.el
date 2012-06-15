@@ -388,9 +388,9 @@
                  :after (progn
                           (load "~/.emacs.d/el-get/haskell-mode/haskell-site-file")
                           (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
-                          ;; (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
                           ;; (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
-                          (add-hook 'haskell-mode-hook 'turn-on-haskell-simple-indent)
+                          ;; (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+                          ;; (add-hook 'haskell-mode-hook 'turn-on-haskell-simple-indent)
 
                           (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
                           (add-to-list 'auto-mode-alist '("\\.lhs$" . literate-haskell-mode))
@@ -411,6 +411,10 @@
                               (candidates . (ghc-select-completion-symbol))
                               (symbol . "s")
                               (cache)))
+
+                          ;; indent
+                          (custom-set-variables
+                           '(haskell-mode-hook '(turn-on-haskell-indentation)))
 
                           (defun my-ac-haskell-mode ()
                             (setq ac-sources '(ac-source-words-in-same-mode-buffers ac-source-dictionary ac-source-ghc-mod)))
