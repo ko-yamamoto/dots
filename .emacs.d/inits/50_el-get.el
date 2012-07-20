@@ -99,8 +99,8 @@
                           ))
 
           (:name anything-howm
-                 :type git
-                 :url "git://github.com/wakaran/anything-howm.git"
+                 :type github
+                 :url "git://github.com/mori-dev/anything-howm.git"
                  :after (progn
                           (require 'anything-howm)
 
@@ -149,6 +149,8 @@
           ;;
           ;;                          ))
           (:name popwin
+                 :type github
+                 :url "git://github.com/m2ym/popwin-el.git"
                  :after (progn
                           (require 'popwin)
                           (setq display-buffer-function 'popwin:display-buffer)
@@ -197,7 +199,7 @@
                           (define-key global-map (kbd "C-x p") 'popwin:display-last-buffer)))
           (:name magit
                  ;; make するとエラーが出るので独自で git pull
-                 :type git
+                 :type github
                  :url "http://github.com/magit/magit.git"
                  :after (progn
                           (require 'magit)
@@ -209,6 +211,7 @@
                           ))
 
           (:name auto-complete
+                 :type github
                  :url "git://github.com/m2ym/auto-complete.git"
                  :after (progn
                           (require 'auto-complete)
@@ -267,7 +270,7 @@
                           ))
 
           (:name expand-region
-                 :type git
+                 :type github
                  :url "git://github.com/magnars/expand-region.el.git"
                  :after (progn
                           (require 'expand-region)
@@ -276,7 +279,7 @@
                           ))
 
           (:name wrap-region
-                 :type git
+                 :type github
                  :url "git://github.com/rejeep/wrap-region.git"
                  :after (progn
                           (require 'wrap-region)
@@ -287,16 +290,16 @@
                           ;; (wrap-region-add-wrapper "(" ")" "(")
                           ))
 
-          (:name jaunte.el
-                 :type git
-                 :url "git://github.com/kawaguchi/jaunte.el.git"
-                 :after (progn
-                          (require 'jaunte)
-                          ;; グローバルに設定
-                          (setq jaunte-global-hint-unit 'symbol)
-                          (global-set-key (kbd "C-c C-j") 'jaunte)
-                          (key-chord-define-global "qf" 'jaunte)
-                          ))
+          ;; (:name jaunte.el
+          ;;        :type git
+          ;;        :url "git://github.com/kawaguchi/jaunte.el.git"
+          ;;        :after (progn
+          ;;                 (require 'jaunte)
+          ;;                 ;; グローバルに設定
+          ;;                 (setq jaunte-global-hint-unit 'symbol)
+          ;;                 (global-set-key (kbd "C-c C-j") 'jaunte)
+          ;;                 (key-chord-define-global "qf" 'jaunte)
+          ;;                 ))
 
           ;; (:name rainbow-delimiters
           ;;        :type git
@@ -307,7 +310,7 @@
           ;;                 ))
 
           (:name twittering-mode
-                 :type git
+                 :type github
                  :url "git://github.com/hayamiz/twittering-mode.git")
 
           (:name coffee-mode
@@ -319,8 +322,8 @@
                           ))
 
           (:name scratch-log
-                 :type git
-                 :url "git://github.com/wakaran/scratch-log.git"
+                 :type github
+                 :url "git://github.com/mori-dev/scratch-log.git"
                  :after (progn
                           (require 'scratch-log)
                           (setq sl-scratch-log-file "~/.emacs.d/.scratch-log")
@@ -332,15 +335,15 @@
                           (setq sl-prohibit-kill-scratch-buffer-p t)
                           ))
 
-          (:name shadow.el
-                 :type git
-                 :url "git://github.com/mooz/shadow.el.git"
-                 :after (progn
-                          (require 'shadow)
-                          (add-hook 'find-file-hooks 'shadow-on-find-file)
-                          (add-hook 'shadow-find-unshadow-hook
-                                    (lambda () (auto-revert-mode 1)))
-                          ))
+          ;; (:name shadow.el
+          ;;        :type git
+          ;;        :url "git://github.com/mooz/shadow.el.git"
+          ;;        :after (progn
+          ;;                 (require 'shadow)
+          ;;                 (add-hook 'find-file-hooks 'shadow-on-find-file)
+          ;;                 (add-hook 'shadow-find-unshadow-hook
+          ;;                           (lambda () (auto-revert-mode 1)))
+          ;;                 ))
 
           ;; (:name emacs-window-layout
           ;;        :type git
@@ -367,13 +370,13 @@
           ;;                 ;;       direx:closed-icon "> ")
           ;;                 ))
 
-          (:name anything-replace-string
-                 :type git 
-                 :url "git://github.com/k1LoW/anything-replace-string.git"
-                 :after (progn
-                          (require 'anything-replace-string)
-                          (global-set-key (kbd "C-c r") 'anything-replace-string)
-                          ))
+          ;; (:name anything-replace-string
+          ;;        :type git 
+          ;;        :url "git://github.com/k1LoW/anything-replace-string.git"
+          ;;        :after (progn
+          ;;                 (require 'anything-replace-string)
+          ;;                 (global-set-key (kbd "C-c r") 'anything-replace-string)
+          ;;                 ))
 
           (:name BESI ;Better Emacs-Scala Indentation
                  :type git
