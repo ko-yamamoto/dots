@@ -185,7 +185,8 @@ alias ec='emacsclient -n'
 # 拡張があれば読み込み
 ## 移動したディレクトリを記録し、 ディレクトリ間を j で補完して移動
 ## https://github.com/joelthelion/autojump
-[ -f ~/.autojump/etc/profile.d/autojump.zsh ] && source ~/.autojump/etc/profile.d/autojump.zsh
+# [ -f ~/.autojump/etc/profile.d/autojump.zsh ] && source ~/.autojump/etc/profile.d/autojump.zsh
+[[ -s ~/.autojump/etc/profile.d/autojump.zsh ]] && source ~/.autojump/etc/profile.d/autojump.zsh
 
 # Mineファイル読み込み
 # オレオレ設定はこっちに
@@ -776,3 +777,5 @@ function scouter() {
   sed -e '/^\s*$/d' -e '/^\s*#/d' ${ZDOTDIR:-$HOME}/.zshrc | wc -l
 }
 
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
