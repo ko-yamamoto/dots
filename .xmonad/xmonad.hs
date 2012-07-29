@@ -21,7 +21,7 @@ import qualified Data.Map        as M
 
 -- bar
 myBar = "xmobar"
-myPP = xmobarPP { ppCurrent = xmobarColor "#429942" "" . wrap "<" ">" }
+myPP = xmobarPP { ppCurrent = xmobarColor "#73c3ff" "" . wrap "[" "]" }
 toggleStrutsKey XConfig { XMonad.modMask = modMask } = (modMask, xK_b)
 
 
@@ -110,10 +110,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. shiftMask, xK_k     ), windows W.swapUp    )
 
     -- Shrink the master area
-    , ((modm,               xK_h     ), sendMessage Shrink)
+    , ((modm .|. shiftMask, xK_h     ), sendMessage Shrink)
 
     -- Expand the master area
-    , ((modm,               xK_l     ), sendMessage Expand)
+    , ((modm .|. shiftMask, xK_l     ), sendMessage Expand)
 
     -- Push window back into tiling
     , ((modm,               xK_t     ), withFocused $ windows . W.sink)

@@ -93,7 +93,7 @@ zstyle ':completion:*:processes' menu yes select=2
 
 # タイトルの設定
 case "${TERM}" in
-kterm*|xterm)
+kterm*|xterm*)
     precmd() {
         echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
     }
