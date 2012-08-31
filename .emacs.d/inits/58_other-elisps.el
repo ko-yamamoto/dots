@@ -174,6 +174,8 @@
 ;;====================
 (when (locate-library "gtags")
   (require 'gtags)
+  (require 'anything-gtags)
+  (global-set-key (kbd "C-q w") 'anything-gtags-select)
   )
 
 (global-set-key "\M-t" 'gtags-find-tag)     ;関数の定義元へ
