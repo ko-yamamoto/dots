@@ -58,6 +58,7 @@
                                anything-c-source-buffers-list-R
                                anything-c-source-elscreen
                                anything-c-source-recentf
+                               anything-c-source-gtags-select
                                anything-c-source-imenu
                                anything-c-source-emacs-commands
                                anything-c-source-emacs-functions
@@ -432,6 +433,16 @@
 
 
                           ))
+
+          (:name android-mode
+                 :type github
+                 :url "git://github.com/remvee/android-mode.git"
+                 :after (progn
+                          (require 'android-mode)
+                          (setq android-mode-sdk-dir "/mnt/winc/android/android-sdk-windows-r20.0.3")
+                          ))
+
+
 
 
           ))
