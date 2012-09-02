@@ -439,7 +439,7 @@
                  :url "git://github.com/remvee/android-mode.git"
                  :after (progn
                           (require 'android-mode)
-                          (setq android-mode-sdk-dir "/mnt/winc/android/android-sdk-windows-r20.0.3")
+                          (setq android-mode-sdk-dir "~/android/android-sdk")
                           ))
 
 
