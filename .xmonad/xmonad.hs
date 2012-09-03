@@ -24,11 +24,13 @@ myBar = "xmobar"
 myPP = xmobarPP { ppCurrent = xmobarColor "#73c3ff" "" . wrap "[" "]" }
 toggleStrutsKey XConfig { XMonad.modMask = modMask } = (modMask, xK_b)
 
+-- gridselect
+myGsconfig = defaultGSConfig { gs_cellheight = 100, gs_cellwidth = 260 }
 
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
-myTerminal      = "xterm"
+myTerminal      = "xterm -fa ricty +cjk_width -fs 10"
 
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
@@ -137,7 +139,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm              , xK_q     ), spawn "xmonad --recompile; xmonad --restart")
 
     -- GridSelect
-    , ((modm              , xK_s     ), goToSelected defaultGSConfig)
+    , ((modm              , xK_s     ), goToSelected myGsconfig)
     ]
     ++
 

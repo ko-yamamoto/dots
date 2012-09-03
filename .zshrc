@@ -186,7 +186,7 @@ alias ec='emacsclient -n'
 ## 移動したディレクトリを記録し、 ディレクトリ間を j で補完して移動
 ## https://github.com/joelthelion/autojump
 # [ -f ~/.autojump/etc/profile.d/autojump.zsh ] && source ~/.autojump/etc/profile.d/autojump.zsh
-[[ -s ~/.autojump/etc/profile.d/autojump.zsh ]] && source ~/.autojump/etc/profile.d/autojump.zsh
+# [[ -s ~/.autojump/etc/profile.d/autojump.zsh ]] && source ~/.autojump/etc/profile.d/autojump.zsh
 
 # Mineファイル読み込み
 # オレオレ設定はこっちに
