@@ -21,15 +21,15 @@ export PATH=$PATH:/usr/local/bin:/usr/local/lib/python2.7/site-packages
 export BYOBU_PREFIX=`brew --prefix`
 
 # 環境変数
-export PATH=/usr/local/bin:/bin:/Users/nishikawasasaki/bin:/Users/nishikawasasaki/android/android-sdk-mac_x86/tools:/Users/nishikawasasaki/android/android-sdk-mac_x86/platform-tools:$PATH
+export PATH=/usr/local/bin:/bin:/Users/nishikawasasaki/bin:/Users/nishikawasasaki/android/android-sdk-macosx/tools:/Users/nishikawasasaki/android/android-sdk-macosx/platform-tools:$PATH
 
 PLAY_HOME=/usr/local/play/play
 export PATH=${PLAY_HOME}:${PATH}
 
 # Android SDK
-export ANDROID_SDK_HOME=/Users/nishikawasasaki/android/android-sdk-mac_x86
+export ANDROID_SDK_HOME=/Users/nishikawasasaki/android/android-sdk-macosx
 export PATH=$ANDROID_SDK_HOME:$PATH
-export ANDROID_SWT=/Users/nishikawasasaki/android/android-sdk-mac_x86/tools/lib/x86_64
+export ANDROID_SWT=/Users/nishikawasasaki/android/android-sdk-macosx/tools/lib/x86_64
 
 
 
