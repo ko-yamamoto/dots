@@ -56,7 +56,7 @@ NeoBundle 'git://github.com/nathanaelkane/vim-indent-guides.git'
 " NeoBundle 'fholgado/minibufexpl.vim'
 NeoBundle 'git://github.com/godlygeek/csapprox.git'
 NeoBundle 'git://github.com/kien/rainbow_parentheses.vim.git'
-NeoBundle 'git://github.com/Lokaltog/vim-powerline.git'
+" NeoBundle 'git://github.com/Lokaltog/vim-powerline.git'
 NeoBundle 'https://github.com/rgarver/Kwbd.vim.git' " 指定ウィンドウのバッファを、 ウィンドウのレイアウトを崩す事無く閉じる
 
 
@@ -71,6 +71,7 @@ NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'git://github.com/vim-ruby/vim-ruby.git'
 NeoBundle 'git://github.com/rosstimson/scala-vim-support.git'
 
+NeoBundle 'git://github.com/tyru/eskk.vim.git'
 
 " その他
 NeoBundle 'git://github.com/tyru/open-browser.vim.git'
@@ -347,7 +348,7 @@ hi PmenuSbar ctermbg=0 ctermfg=9
 if has("unix")
   " unix(linux)の場合256色モードでカラースキーマ指定
   set t_Co=256
-  colorscheme wombat256mod
+  colorscheme Tomorrow-Night-Bright
 endif
 
 " カラー確認
@@ -782,7 +783,8 @@ let QFixHowm_ListReminder_MenuExt = '[-@+!~.]'
 let QFixHowm_MenuRecent = 25
 "メニュー画面で表示するランダムメモの数
 let QFixHowm_RandomWalkColumns = 15
-
+" 保存位置
+let howm_dir             = '~/howm'
 
 "------------------------------------
 " QfixGrep
@@ -925,6 +927,12 @@ let g:tagbar_type_scala = {
 nnoremap <silent> <leader>o :TagbarToggle<CR>
 
 
+"------------------------------------
+" eskk.vim
+"------------------------------------
+let g:eskk#directory = "~/.eskk"
+let g:eskk#dictionary = { 'path': "~/.skk-jisyo", 'sorted': 0, 'encoding': 'utf-8', }
+let g:eskk#large_dictionary = { 'path': "~/.eskk/SKK-JISYO.L", 'sorted': 1, 'encoding': 'euc-jp', }
 
 
 "------------------------------------
@@ -951,6 +959,8 @@ endif
 let neco_dic = g:neocomplcache_dictionary_filetype_lists
 let neco_dic.tweetvim_say = $HOME . '/.tweetvim/screen_name'
 
+" アイコン表示 (ImageMagick が必要)
+let g:tweetvim_display_icon = 1
 
 
 
