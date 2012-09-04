@@ -5,9 +5,9 @@ if has("win32")
     " au GUIEnter * simalt ~x
     au GUIEnter * set lines=55
     au GUIEnter * set columns=100
-else
-    au GUIEnter * set lines=45
-    au GUIEnter * set columns=150
+" else
+    " au GUIEnter * set lines=45
+    " au GUIEnter * set columns=150
 endif
 
 " ========== メニューバー関連の設定 ==========
@@ -143,10 +143,12 @@ if has("win32")
 
 elseif has("mac")
     " Mac用設定
-    set guifont=VL-Gothic-Regular:h12
+    " set guifont=VL-Gothic-Regular:h12
+    set guifont=ricty:h12
 
 elseif has("unix")
- 	  set gfn=MeiryoKe_Console\ 11
+       " set gfn=MeiryoKe_Console\ 11
+ 	  set gfn=ricty\ 11
 endif
 
 if has('gui_macvim')
