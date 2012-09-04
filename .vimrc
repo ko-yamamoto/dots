@@ -71,7 +71,7 @@ NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'git://github.com/vim-ruby/vim-ruby.git'
 NeoBundle 'git://github.com/rosstimson/scala-vim-support.git'
 
-NeoBundle 'git://github.com/tyru/eskk.vim.git'
+" NeoBundle 'git://github.com/tyru/eskk.vim.git'
 
 " その他
 NeoBundle 'git://github.com/tyru/open-browser.vim.git'
@@ -930,9 +930,9 @@ nnoremap <silent> <leader>o :TagbarToggle<CR>
 "------------------------------------
 " eskk.vim
 "------------------------------------
-let g:eskk#directory = "~/.eskk"
-let g:eskk#dictionary = { 'path': "~/.skk-jisyo", 'sorted': 0, 'encoding': 'utf-8', }
-let g:eskk#large_dictionary = { 'path': "~/.eskk/SKK-JISYO.L", 'sorted': 1, 'encoding': 'euc-jp', }
+" let g:eskk#directory = "~/.eskk"
+" let g:eskk#dictionary = { 'path': "~/.skk-jisyo", 'sorted': 0, 'encoding': 'utf-8', }
+" let g:eskk#large_dictionary = { 'path': "~/.eskk/SKK-JISYO.L", 'sorted': 1, 'encoding': 'euc-jp', }
 
 
 "------------------------------------

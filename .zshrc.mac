@@ -1,3 +1,5 @@
+export GIT_EDITOR='mvim -f'
+
 alias ccl='/usr/local/ccl/dx86cl'
 
 # alias ls='ls -fgh'
