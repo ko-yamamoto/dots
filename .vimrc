@@ -1,7 +1,7 @@
 " ########## vimrc ##########
 "
 "------------------------------------
-" neovundle
+" neobundle
 "------------------------------------
 filetype off
 
@@ -22,7 +22,9 @@ NeoBundle 'git://github.com/mattn/webapi-vim.git'
 NeoBundle 'git://github.com/Shougo/unite.vim.git'
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'git://github.com/ujihisa/unite-font.git'
-NeoBundle 'git://github.com/h1mesuke/unite-outline.git'
+NeoBundle 'git://github.com/Shougo/unite-outline.git'
+
+NeoBundle 'git://github.com/Shougo/unite-ssh.git'
 
 " shell/filer
 NeoBundle 'git://github.com/Shougo/vimshell.git'
@@ -56,7 +58,7 @@ NeoBundle 'git://github.com/nathanaelkane/vim-indent-guides.git'
 " NeoBundle 'fholgado/minibufexpl.vim'
 NeoBundle 'git://github.com/godlygeek/csapprox.git'
 NeoBundle 'git://github.com/kien/rainbow_parentheses.vim.git'
-" NeoBundle 'git://github.com/Lokaltog/vim-powerline.git'
+NeoBundle 'git://github.com/Lokaltog/vim-powerline.git'
 NeoBundle 'https://github.com/rgarver/Kwbd.vim.git' " 指定ウィンドウのバッファを、 ウィンドウのレイアウトを崩す事無く閉じる
 
 
@@ -73,6 +75,11 @@ NeoBundle 'git://github.com/rosstimson/scala-vim-support.git'
 
 " NeoBundle 'git://github.com/tyru/eskk.vim.git'
 
+
+" 暗号化
+NeoBundle 'git://github.com/vim-scripts/gnupg.vim.git'
+
+
 " その他
 NeoBundle 'git://github.com/tyru/open-browser.vim.git'
 NeoBundle 'git://github.com/vim-scripts/TwitVim.git'
@@ -86,6 +93,7 @@ NeoBundle 'git://github.com/mattn/lisper-vim'
 NeoBundle 'git://github.com/basyura/twibill.vim.git'
 NeoBundle 'git://github.com/basyura/TweetVim.git'
 NeoBundle 'git://github.com/pasela/unite-webcolorname.git'
+
 
 
 
@@ -776,13 +784,13 @@ let QFixHowm_MenuPreview = 1
 " メニュー画面の分割方法指定  垂直分割して左側
 let QFixHowm_MenuCmd = 'vertical split'
 "メニュー画面の予定表示日数
-let QFixHowm_ShowScheduleMenu = 15
+let QFixHowm_ShowScheduleMenu = 20
 "メニュー画面の予定・TODO表示に使われる識別子
 let QFixHowm_ListReminder_MenuExt = '[-@+!~.]'
 "メニュー画面で表示する最近のメモの数
-let QFixHowm_MenuRecent = 25
+let QFixHowm_MenuRecent = 50
 "メニュー画面で表示するランダムメモの数
-let QFixHowm_RandomWalkColumns = 15
+let QFixHowm_RandomWalkColumns = 10
 " 保存位置
 let howm_dir             = '~/howm'
 
@@ -960,7 +968,7 @@ let neco_dic = g:neocomplcache_dictionary_filetype_lists
 let neco_dic.tweetvim_say = $HOME . '/.tweetvim/screen_name'
 
 " アイコン表示 (ImageMagick が必要)
-let g:tweetvim_display_icon = 1
+" let g:tweetvim_display_icon = 1
 
 
 
@@ -1141,6 +1149,7 @@ nnoremap <silent> cip ciw<C-r>0<Esc>:let@/=@1<CR>:noh<CR>
 
 " エディタのタブ操作系
 nnoremap <Leader><C-T> :tabnew<CR>
+nnoremap tt :tabnew<CR>
 nnoremap <C-Tab>   gt
 nnoremap <C-S-Tab> gT
 
