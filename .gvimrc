@@ -19,7 +19,7 @@ set guioptions-=R
 set guioptions-=l "左スクロールバーなし
 set guioptions-=L
 set guioptions-=b "下スクロールバーなし
-" set guioptions-=r "右カーソルバー
+set guioptions-=r "右カーソルバー
 
 
 " ステータスライン下の行数
