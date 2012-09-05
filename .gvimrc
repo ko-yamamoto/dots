@@ -144,7 +144,7 @@ if has("win32")
 elseif has("mac")
     " Mac用設定
     " set guifont=VL-Gothic-Regular:h12
-    set guifont=ricty:h12
+    set guifont=ricty:h13
 
 elseif has("unix")
        " set gfn=MeiryoKe_Console\ 11
