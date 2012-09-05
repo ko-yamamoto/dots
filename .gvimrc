@@ -25,6 +25,8 @@ set guioptions-=b "下スクロールバーなし
 " ステータスライン下の行数
 set cmdheight=1
 
+set novisualbell
+
 " ========== 色の設定 ==========
 "カラースキーマを設定
 " colorscheme murphyNS
@@ -135,6 +137,7 @@ if has("win32")
     " set guifont=MS_Gothic:h10:cSHIFTJIS 
     " set guifont=VL_Gothic:h9:cSHIFTJIS 
     set guifont=MeiryoKe_Console:h9:cSHIFTJIS
+    set guifont=ricty:h10:cSHIFTJIS
     " set transparency=220 " 透明度を指定
     au GUIEnter * set transparency=220
 
