@@ -74,61 +74,63 @@ endfunction
 set guitablabel=%N:\ %{GuiTabLabel()}
 
 
-
+" タブページを常に表示
+set showtabline=2
 " gVimでもテキストベースのタブページを使う
-" set guioptions-=e
+set guioptions-=e
 
-" 各タブページのカレントバッファ名+αを表示するために情報を取得する補助関数
-" function! s:tabpage_label(n)
-  " " t:title と言う変数があったらそれを使う
-  " " let title = gettabvar(a:n, 'title')
-  " " if title !=# ''
-    " " return title
-  " " endif
-  " " タイトルはファイル名のみに変更
-  " let l:bufnrlist = tabpagebuflist(v:lnum)
-  " let title = fnamemodify(bufname(l:bufnrlist[tabpagewinnr(v:lnum) - 1]), ':t')
+set tabline=%!MakeTabLine()
 
-  " " タブページ内のバッファのリスト
-  " let bufnrs = tabpagebuflist(a:n)
+function! MakeTabLine() "{{{
+  let titles = map(range(1, tabpagenr('$')), 's:tabpage_label(v:val)')
+  let sep = ' '  " タブ間の区切り
+  let tabpages = join(titles, sep) . sep . '%#TabLineFill#%T'
+  let info = ''  " 好きな情報を入れる
 
-  " " カレントタブページかどうかでハイライトを切り替える
-  " let hi = a:n is tabpagenr() ? '%#TabLineSel#' : '%#TabLine#'
+  "FoldCCnavi
+  if exists('*FoldCCnavi')
+    let info .= '%#TabLineInfo#'.substitute(FoldCCnavi()[-60:],'\s>\s','%#TabLineFill#> %#TabLineInfo#','g').'%0* '
+  endif
 
-  " " バッファが複数あったらバッファ数を表示
-  " let no = len(bufnrs)
-  " if no is 1
-    " let no = ''
-  " endif
-  " " タブページ内に変更ありのバッファがあったら '+' を付ける
-  " let mod = len(filter(copy(bufnrs), 'getbufvar(v:val, "&modified")')) ? '[+]' : ''
-  " let sp = (no . mod) ==# '' ? '' : ' '  " 隙間空ける
+  "カレントディレクトリ
+  let info .= '['.fnamemodify(getcwd(), ":~") . ']'
 
-  " " カレントバッファ
-  " let curbufnr = bufnrs[tabpagewinnr(a:n) - 1]  " tabpagewinnr() は 1 origin
-  " let fname = pathshorten(bufname(curbufnr))
-
-  " let label = no . mod . sp . fname
+  return tabpages . '%=' . info  " タブリストを左に、情報を右に表示
+endfunction "}}}
 
 
-  " return '%' . a:n . 'T' . hi . label . '%T%#TabLineFill#'
-" endfunction
+function! s:tabpage_label(tabpagenr) "{{{
+  "rol;各タブページのカレントバッファ名+αを表示
+  let title = gettabvar(a:tabpagenr, 'title') "タブローカル変数t:titleを取得
+  if title !=# ''
+    return title
+  endif
 
-" " タブラインを生成する関数
-" function! MakeTabLine()
-  " let titles = map(range(1, tabpagenr('$')), 's:tabpage_label(v:val)')
-  " let sep = ' ☆ '  " タブ間の区切り
-  " let tabpages = join(titles, sep) . sep . '%#TabLineFill#%T'
-  
-  " let info = ''  " 好きな情報を入れる
-  " " カレントディレクトリ
-  " let info .= fnamemodify(getcwd(), ":~") . ' '
+  " タブページ内のバッファのリスト
+  let bufnrs = tabpagebuflist(a:tabpagenr)
 
-  " return tabpages . '%=' . info  " タブリストを左に、情報を右に表示
-" endfunction
+  " カレントタブページかどうかでハイライトを切り替える
+  let hi = a:tabpagenr is tabpagenr() ? '%#TabLineSel#' : '%#TabLine#'
 
-" " tablineへセット
-" set tabline=%!MakeTabLine()
+  " バッファが複数あったらバッファ数を表示
+  let no = len(bufnrs)
+  if no is 1
+    let no = ''
+  endif
+  " タブページ内に変更ありのバッファがあったら '+' を付ける
+  let mod = len(filter(copy(bufnrs), 'getbufvar(v:val, "&modified")')) ? '+' : ''
+  let nomod = (no . mod) ==# '' ? '' : '['.no.mod.']'
+
+  " カレントバッファ
+  let curbufnr = bufnrs[tabpagewinnr(a:tabpagenr) - 1]  " tabpagewinnr() は 1 origin
+  let fname = fnamemodify(bufname(curbufnr), ':t')
+  let fname = fname is '' ? 'No title' : fname "バッファが空ならNo title
+
+  let label = fname . nomod
+
+  return '%' . a:tabpagenr . 'T' . hi .a:tabpagenr.': '. curbufnr.'-' . label . '%T%#TabLineFill#'
+endfunction "}}}
+
 
 " ========== 環境別の設定 ==========
 
