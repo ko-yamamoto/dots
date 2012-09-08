@@ -217,7 +217,7 @@
 
           (:name auto-complete
                  :type github
-                 :url "git://github.com/m2ym/auto-complete.git"
+                 :url "git://github.com/auto-complete/auto-complete.git"
                  :after (progn
                           (require 'auto-complete)
                           (require 'auto-complete-config)
@@ -267,9 +267,10 @@
                           (setq ac-menu-height 20)
 
                           ;; 補完の情報源
+                          (require 'auto-complete-etags)
                           (setq-default ac-sources
                                         ;; '(ac-source-abbrev ac-source-yasnippet ac-source-filename ac-source-files-in-current-dir ac-source-words-in-same-mode-buffers ac-source-symbols))
-                                        '(ac-source-abbrev ac-source-yasnippet ac-source-files-in-current-dir ac-source-words-in-same-mode-buffers ac-source-symbols))
+                                        '(ac-source-abbrev ac-source-etags ac-source-yasnippet ac-source-files-in-current-dir ac-source-words-in-same-mode-buffers ac-source-symbols))
                           ;; 補完するモードの追加
                           (setq ac-modes (append ac-modes '(text-mode sql-mode scala-mode java-mode haskell-mode)))
                           ))
