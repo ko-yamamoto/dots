@@ -24,7 +24,8 @@
 (defface hlline-face
   '((((class color)
       (background dark))
-     (:background "grey5"))
+     ;; (:background "grey5"))
+     (:background "#b5bd68"))
     (((class color)
       (background light))
      ;;     (:background "lemon chiffon"))
