@@ -17,6 +17,7 @@
 
   (setq el-get-sources
         '(
+
           (:name anything
                  :after (progn
                           (setq
@@ -58,6 +59,8 @@
                                anything-c-source-buffers-list-R
                                anything-c-source-elscreen
                                anything-c-source-recentf
+                               anything-c-source-etags-select
+                               anything-c-source-ctags
                                anything-c-source-gtags-select
                                anything-c-source-imenu
                                anything-c-source-emacs-commands
@@ -124,6 +127,7 @@
                           (setq ah:data-directory "~/howm")
 
                           ))
+
           ;;          (:name yasnippet
           ;;       :type git
           ;;       :url "https://github.com/capitaomorte/yasnippet.git"
