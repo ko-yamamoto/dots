@@ -54,13 +54,13 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        (isearch ((t (:foreground ,yellow :inverse-video t))))
        (menu ((t (:foreground ,base0 :background ,base02))))
        (minibuffer-prompt ((t (:foreground ,blue))))
-       (mode-line
-        ((t (:foreground ,base1 :background ,base02
-                         :box (:line-width 1 :color ,base1)))))
-       (mode-line-buffer-id ((t (:foreground ,base1))))
-       (mode-line-inactive
-        ((t (:foreground ,base0  :background ,base02
-                         :box (:line-width 1 :color ,base02)))))
+       ;; (mode-line
+       ;;  ((t (:foreground ,base1 :background ,base02
+       ;;                   :box (:line-width 1 :color ,base1)))))
+       ;; (mode-line-buffer-id ((t (:foreground ,base1))))
+       ;; (mode-line-inactive
+       ;;  ((t (:foreground ,base0  :background ,base02
+       ;;                   :box (:line-width 1 :color ,base02)))))
        (region ((t (:background ,base02))))
        (secondary-selection ((t (:background ,base02))))
        (trailing-whitespace ((t (:foreground ,red :inverse-video t))))
@@ -109,7 +109,16 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        (org-done ((t (:foreground ,green :bold t))))
        ;; show-paren
        (show-paren-match-face ((t (:background ,cyan :foreground ,base3))))
-       (show-paren-mismatch-face ((t (:background ,red :foreground ,base3))))))))
+       (show-paren-mismatch-face ((t (:background ,red :foreground ,base3))))
+
+       ;; helm
+       (helm-header ((t (:background ,"#1b5864" :foreground ,base3))))
+       (helm-source-header ((t (:background ,red :foreground ,base3))))
+       (helm-selection ((t (:background ,green :foreground ,base3))))
+       (helm-visible-mark ((t (:background ,magenta :foreground ,base3))))
+
+       ))))
+
 
 (defun color-theme-solarized-dark ()
   (interactive)
