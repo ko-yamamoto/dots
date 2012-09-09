@@ -14,11 +14,11 @@
 ;; (setq eshell-cmpl-cycle-cutoff-length 5)
 ;; ;; 履歴で重複を無視する
 ;; (setq eshell-hist-ignoredups t)
-;; ;; prompt 文字列の変更
-;; (defun my-eshell-prompt ()
-;;   (concat (eshell/pwd) "\n♪ " ))
-;; (setq eshell-prompt-function 'my-eshell-prompt)
-;; (setq eshell-prompt-regexp "^[^#$\n]*[#♪] ")
+;; prompt 文字列の変更
+(defun my-eshell-prompt ()
+  (concat (eshell/pwd) "\n♪ " ))
+(setq eshell-prompt-function 'my-eshell-prompt)
+(setq eshell-prompt-regexp "^[^#$\n]*[#♪] ")
 
 
 ;; ;; sudoのあとも補完可能に
@@ -130,4 +130,10 @@
 ;;                             ad-return-value)
 ;;        ad-return-value)))
 
-(global-set-key (kbd "C-q e") 'eshell)
+
+(defun eshell-with-new-elscreen ()
+  "新しい elscreen で eshell"
+  (interactive)
+  (elscreen-create)
+  (eshell))
+(global-set-key (kbd "C-q e") 'eshell-with-new-elscreen)
