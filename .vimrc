@@ -63,7 +63,10 @@ NeoBundle 'git://github.com/godlygeek/csapprox.git'
 NeoBundle 'git://github.com/kien/rainbow_parentheses.vim.git'
 NeoBundle 'git://github.com/Lokaltog/vim-powerline.git'
 NeoBundle 'https://github.com/rgarver/Kwbd.vim.git' " 指定ウィンドウのバッファを、 ウィンドウのレイアウトを崩す事無く閉じる
+
+" colorscheme
 NeoBundle 'git://github.com/altercation/vim-colors-solarized.git'
+NeoBundle 'git://github.com/jnurmine/Zenburn.git'
 
 
 " 言語関連
@@ -359,16 +362,15 @@ hi PmenuSel ctermbg=blue ctermfg=white
 hi PmenuSbar ctermbg=0 ctermfg=9
 
 "背景色
-set background=light
-
+set background=dark
 "カラースキーマを設定→gvimrcへ
-"colorscheme murphy
+colorscheme Tomorrow-Night-Bright
 
 if has("unix")
   " unix(linux)の場合256色モードでカラースキーマ指定
   set t_Co=256
   " colorscheme Tomorrow-Night-Bright
-  colorscheme solarized
+  " colorscheme solarized
 endif
 
 " カラー確認
