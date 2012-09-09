@@ -150,7 +150,7 @@ elseif has("mac")
 
 elseif has("unix")
        " set gfn=MeiryoKe_Console\ 11
- 	  set gfn=ricty\ 11
+ 	  set gfn=ricty\ 10
 endif
 
 if has('gui_macvim')
