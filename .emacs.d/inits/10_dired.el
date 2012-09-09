@@ -222,3 +222,5 @@
          "*helm-dired*")
         (kill-buffer curbuf))))
 (define-key dired-mode-map (kbd "p") 'my/helm-dired)
+
+(define-key dired-mode-map (kbd "f") 'find-dired)
