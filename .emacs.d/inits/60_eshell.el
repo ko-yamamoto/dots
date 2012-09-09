@@ -48,30 +48,23 @@
 ;;       (_my-toggle-term (buffer-list)))))
 ;; (global-set-key (kbd "C-t") 'my-toggle-term)
 
-;; ;; eshell での補完に auto-complete.el を使う
-;; ;; (ac-define-source pcomplete
-;; ;;   '((candidates . pcomplete-completions)))
-;; ;; (defun nm-eshell-pcomplete ()
-;; ;;   (interactive)
-;; ;;   (let ((ac-sources '(ac-source-pcomplete
-;; ;;                       ac-source-filename)))
-;; ;;     (auto-complete)))
-;; ;; (defun nm-eshell-auto-complete ()
-;; ;;   (interactive)
-;; ;;   (let ((ac-sources '(ac-source-functions
-;; ;;                       ac-source-variables
-;; ;;                       ac-source-features
-;; ;;                       ac-source-symbols
-;; ;;                       ac-source-words-in-same-mode-buffers)))
-;; ;;     (auto-complete)))
-;; ;; (defun nm-eshell-mode-hook ()
-;; ;;   (local-unset-key (kbd "M-?"))
-;; ;;   (local-set-key (kbd "TAB") 'nm-eshell-pcomplete)
-;; ;;   (local-set-key [tab] 'nm-eshell-pcomplete)
-;; ;;   (local-set-key (kbd "M-TAB") 'nm-eshell-auto-complete)
-;; ;;   (local-set-key [M-tab] 'nm-eshell-auto-complete))
-;; ;; (add-hook 'eshell-mode-hook 'nm-eshell-mode-hook)
-
+;; eshell での補完に auto-complete.el を使う
+(require 'pcomplete)
+(add-to-list 'ac-modes 'eshell-mode)
+(ac-define-source pcomplete
+  '((candidates . pcomplete-completions)))
+(defun my-ac-eshell-mode ()
+  (setq ac-sources
+        '(ac-source-pcomplete
+          ac-source-filename
+          ac-source-files-in-current-dir
+          ac-source-words-in-buffer
+          ac-source-dictionary)))
+(add-hook 'eshell-mode-hook
+          (lambda ()
+            (my-ac-eshell-mode)
+            (define-key eshell-mode-map (kbd "C-i") 'auto-complete)
+            (define-key eshell-mode-map [(tab)] 'auto-complete)))
 
 ;; ;; キーバインドの変更
 ;; (add-hook 'eshell-mode-hook
@@ -137,3 +130,4 @@
 ;;                             ad-return-value)
 ;;        ad-return-value)))
 
+(global-set-key (kbd "C-q e") 'eshell)
