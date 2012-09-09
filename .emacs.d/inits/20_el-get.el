@@ -293,22 +293,28 @@
                           (define-key ac-mode-map (kbd "TAB") 'auto-complete)
 
                           ;; 自動補完
-                          (setq ac-auto-start 3) ; ?文字以上で補完開始
+                          (setq ac-auto-start 4) ; ?文字以上で補完開始
                           ;; 手動補完するならこっち
                           ;; (setq ac-auto-start nil) ; 自動的に開始しない
 
                           ;; 一定時間後に保管開始
-                          (setq ac-auto-show-menu 1.0)
+                          (setq ac-auto-show-menu 0.8)
 
-                          ;; コンテキストに応じてTABで補完
-                          (ac-set-trigger-key "TAB")
-                          ;; 補完確定
-                          (define-key ac-complete-mode-map "RET" 'ac-complete)
+                          ;; 補完候補をソートする
+                          (setq ac-use-comphist t)
 
                           (setq ac-use-menu-map t)
                           ;; デフォルトで設定済み
                           ;; (define-key ac-menu-map "\C-n" 'ac-next)
                           ;; (define-key ac-menu-map "\C-p" 'ac-previous)
+                          ;; コンテキストに応じてTABで補完
+
+                          (ac-set-trigger-key "TAB")
+                          ;; 補完確定
+                          (define-key ac-complete-mode-map "RET" 'ac-complete)
+
+                          ;; 補完を完了するだけ
+                          (define-key ac-completing-map (kbd "RET") nil)
 
                           ;; tab補完で候補が選択されないようにする
                           (define-key ac-menu-map [(tab)] 'ac-next)
