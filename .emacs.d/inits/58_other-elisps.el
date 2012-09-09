@@ -287,13 +287,6 @@
 (key-chord-define-global "bp" 'historyf-back)
 
 
-;;====================
-;; descbinds-anything
-;;====================
-; (require 'descbinds-anything)
-; (descbinds-anything-install)
-; (key-chord-define-global "df" 'describe-bindings)
-
 
 ;;====================
 ;; dsvn.el
