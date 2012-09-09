@@ -23,11 +23,14 @@ NeoBundle 'git://github.com/Shougo/unite.vim.git'
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'git://github.com/ujihisa/unite-font.git'
 NeoBundle 'git://github.com/Shougo/unite-outline.git'
+NeoBundle 'git://github.com/tsukkee/unite-tag.git'
+NeoBundle 'git://github.com/thinca/vim-unite-history.git'
 
 NeoBundle 'git://github.com/Shougo/unite-ssh.git'
 
 " shell/filer
 NeoBundle 'git://github.com/Shougo/vimshell.git'
+NeoBundle 'git://github.com/ujihisa/vimshell-ssh.git'
 NeoBundle 'git://github.com/Shougo/vimfiler.git'
 
 " 入力/開発補助
@@ -61,6 +64,9 @@ NeoBundle 'git://github.com/kien/rainbow_parentheses.vim.git'
 NeoBundle 'git://github.com/Lokaltog/vim-powerline.git'
 NeoBundle 'https://github.com/rgarver/Kwbd.vim.git' " 指定ウィンドウのバッファを、 ウィンドウのレイアウトを崩す事無く閉じる
 
+" colorscheme
+NeoBundle 'git://github.com/altercation/vim-colors-solarized.git'
+NeoBundle 'git://github.com/jnurmine/Zenburn.git'
 
 
 " 言語関連
@@ -72,6 +78,8 @@ NeoBundle 'git://github.com/vim-scripts/JSON.vim.git'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'git://github.com/vim-ruby/vim-ruby.git'
 NeoBundle 'git://github.com/rosstimson/scala-vim-support.git'
+NeoBundle 'git://github.com/wlangstroth/vim-haskell.git'
+NeoBundle 'git://github.com/ujihisa/neco-ghc.git'
 
 " NeoBundle 'git://github.com/tyru/eskk.vim.git'
 
@@ -225,6 +233,12 @@ au   BufEnter *   execute ":lcd " . expand("%:p:h")
 " ％拡張のmatchhit.vimを利用
 :source $VIMRUNTIME/macros/matchit.vim
 
+" tags
+" if has('path_extra')
+    " set tags=**;
+" endif
+set tags+=tags;
+
 "-------------------------------------------------------------------------------
 " 表示設定
 "-------------------------------------------------------------------------------
@@ -347,16 +361,16 @@ hi Pmenu ctermbg=white ctermfg=darkgray
 hi PmenuSel ctermbg=blue ctermfg=white
 hi PmenuSbar ctermbg=0 ctermfg=9
 
-"背景色は黒っぽい
-" set background=light
-
+"背景色
+set background=dark
 "カラースキーマを設定→gvimrcへ
-"colorscheme murphy
+colorscheme Tomorrow-Night-Bright
 
 if has("unix")
   " unix(linux)の場合256色モードでカラースキーマ指定
   set t_Co=256
-  colorscheme Tomorrow-Night-Bright
+  " colorscheme Tomorrow-Night-Bright
+  " colorscheme solarized
 endif
 
 " カラー確認
@@ -609,6 +623,8 @@ endfunction"}}}
 
 " unite で neocomplcache の補完
 imap <C-k>  <Plug>(neocomplcache_start_unite_complete)
+
+
 
 
 "------------------------------------

@@ -3,7 +3,9 @@
 ;;====================
 ;; メモを取ろう！！
 (setq howm-menu-lang 'ja)
-(global-set-key "\C-c,," 'howm-menu)
+;; (global-set-key "\C-c,," 'howm-menu)
+(define-key global-map (kbd "C-c , ,") 'howm-menu)
+
 (mapc
  (lambda (f)
    (autoload f
@@ -13,10 +15,10 @@
              howm-keyword-to-kill-ring))
 
 ;; リンクを TAB で辿る
-(eval-after-load "howm-mode"
-  '(progn
-     (define-key howm-mode-map [tab] 'action-lock-goto-next-link)
-     (define-key howm-mode-map [(meta tab)] 'action-lock-goto-previous-link)))
+;; (eval-after-load "howm-mode"
+;;   '(progn
+;;      (define-key howm-mode-map [tab] 'action-lock-goto-next-link)
+;;      (define-key howm-mode-map [(meta tab)] 'action-lock-goto-previous-link)))
 ;; 「最近のメモ」一覧時にタイトル表示
 (setq howm-list-recent-title t)
 ;; 全メモ一覧時にタイトル表示
@@ -85,4 +87,4 @@
   (interactive)
   (elscreen-create)
   (howm-menu))
-(define-key global-map (kbd "C-c , ,") 'howm-menu-with-new-elscreen)
+(define-key global-map (kbd "C-c C-, C-,") 'howm-menu-with-new-elscreen)

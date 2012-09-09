@@ -40,3 +40,4 @@ elisp/*.elc
 /.xmonad/xmonad.hi
 /.xmonad/xmonad.o
 
+/.emacs.d/abbrev_defs
