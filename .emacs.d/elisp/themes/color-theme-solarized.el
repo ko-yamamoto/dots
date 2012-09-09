@@ -117,6 +117,12 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        (helm-selection ((t (:background ,green :foreground ,base3))))
        (helm-visible-mark ((t (:background ,magenta :foreground ,base3))))
 
+
+       (elscreen-tab-background-face ((t (:background ,base03))))
+       (elscreen-tab-control-face ((t (:background ,base03 :foreground ,base3))))
+       (elscreen-tab-current-screen-face ((t (:background ,base03 :foreground ,red))))
+       (elscreen-tab-other-screen-face ((t (:background ,base03 :foreground ,base3))))
+
        ))))
 
 
