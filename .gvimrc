@@ -31,7 +31,9 @@ set novisualbell
 "カラースキーマを設定
 " colorscheme murphyNS
 " colorscheme wombat-noItalic
-colorscheme Tomorrow-Night-Bright
+" colorscheme Tomorrow-Night-Bright
+set background=light
+colorscheme solarized
 
 
 
@@ -158,7 +160,7 @@ if has('gui_macvim')
     set showtabline=2 " タブを常に表示
     " set showtabline=0 " タブを非表示
     set imdisable " IMを無効化
-    au GUIEnter * set transparency=20 " 透明度を指定
+    au GUIEnter * set transparency=15 " 透明度を指定
     set antialias
 endif
 

@@ -174,8 +174,8 @@
 ;;====================
 (when (locate-library "gtags")
   (require 'gtags)
-  (require 'anything-gtags)
-  (global-set-key (kbd "C-q w") 'anything-gtags-select)
+  ; (require 'anything-gtags)
+  ; (global-set-key (kbd "C-q w") 'anything-gtags-select)
   )
 
 (global-set-key "\M-t" 'gtags-find-tag)     ;関数の定義元へ
@@ -286,13 +286,6 @@
 (key-chord-define-global "bn" 'historyf-forward)
 (key-chord-define-global "bp" 'historyf-back)
 
-
-;;====================
-;; descbinds-anything
-;;====================
-(require 'descbinds-anything)
-(descbinds-anything-install)
-(key-chord-define-global "df" 'describe-bindings)
 
 
 ;;====================
