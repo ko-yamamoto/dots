@@ -271,7 +271,12 @@
                           (set-face-background 'magit-item-highlight "gray25")
                           ))
 
-          (:name auto-complete
+          (:name popup-el-github
+                 :type github
+                 :url "git://github.com/auto-complete/popup-el.git"
+                 )
+
+          (:name auto-complete-github
                  :type github
                  :url "git://github.com/auto-complete/auto-complete.git"
                  :after (progn

@@ -112,10 +112,10 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        (show-paren-mismatch-face ((t (:background ,red :foreground ,base3))))
 
        ;; helm
-       (helm-header ((t (:background ,"#1b5864" :foreground ,base3))))
-       (helm-source-header ((t (:background ,red :foreground ,base3))))
-       (helm-selection ((t (:background ,green :foreground ,base3))))
-       (helm-visible-mark ((t (:background ,magenta :foreground ,base3))))
+       (helm-header ((t (:background ,"#81a2be" :foreground ,base3))))
+       (helm-source-header ((t (:background ,"#81a2be" :foreground ,base3))))
+       (helm-selection ((t (:background ,"#b5bd68" :foreground ,base3))))
+       (helm-visible-mark ((t (:background ,red :foreground ,base3))))
 
 
        (elscreen-tab-background-face ((t (:background ,base03))))
