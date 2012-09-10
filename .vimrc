@@ -624,7 +624,11 @@ endfunction"}}}
 " unite で neocomplcache の補完
 imap <C-k>  <Plug>(neocomplcache_start_unite_complete)
 
-
+" mru の非対象となるパターンを変更("mnt"を除外)
+call unite#util#set_default('g:unite_source_file_mru_ignore_pattern',
+      \'\~$\|\.\%(o\|exe\|dll\|bak\|sw[po]\)$'
+      \'\|\%(^\|/\)\.\%(hg\|git\|bzr\|svn\)\%($\|/\)'
+      \'\|^\%(\\\\\|/media/\|/temp/\|/tmp/\|\%(/private\)\=/var/folders/\)')
 
 
 "------------------------------------
