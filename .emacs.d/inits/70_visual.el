@@ -13,7 +13,8 @@
 (transient-mark-mode t)
 
 ;; 行数表示
-(global-set-key "\M-n" 'linum-mode)
+;; (global-set-key "\M-n" 'linum-mode)
+;; -> yalinum-mode
 
 ;; カーソル点滅
 (blink-cursor-mode t)
