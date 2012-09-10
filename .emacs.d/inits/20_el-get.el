@@ -514,8 +514,13 @@
                           (setq android-mode-sdk-dir "~/android/android-sdk")
                           ))
 
-
-
+          (:name emacs-yalinum-github
+                 :type github
+                 :url "git://github.com/myuhe/emacs-yalinum.git"
+                 :after (progn
+                          (require 'yalinum)
+                          (global-yalinum-mode t)
+                          ))
 
           ))
 

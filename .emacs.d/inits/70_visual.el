@@ -78,6 +78,8 @@
   (tool-bar-mode 0)
   (menu-bar-mode -1)))
 
+;; スクロールバーを消す
+(set-scroll-bar-mode nil)
 
 
 (require 'cl)  ; loop, delete-duplicates

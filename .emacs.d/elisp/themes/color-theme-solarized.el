@@ -117,11 +117,16 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        (helm-selection ((t (:background ,"#b5bd68" :foreground ,base3))))
        (helm-visible-mark ((t (:background ,red :foreground ,base3))))
 
-
+       ;; elscreen
        (elscreen-tab-background-face ((t (:background ,base03))))
        (elscreen-tab-control-face ((t (:background ,base03 :foreground ,base3))))
        (elscreen-tab-current-screen-face ((t (:background ,base03 :foreground ,red))))
        (elscreen-tab-other-screen-face ((t (:background ,base03 :foreground ,base3))))
+
+       ;; yalinum
+       (yalinum-face ((t (:background ,base03 :foreground ,base3))))
+       (yalinum-bar-face ((t (:background "#b5bd68" :foreground ,base3))))
+
 
        ))))
 
