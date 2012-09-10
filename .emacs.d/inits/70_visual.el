@@ -61,7 +61,8 @@
 ;; カーソルの形
 (add-to-list 'default-frame-alist '(cursor-type 'hollow-rectangle))
 ;; カーソルの色
-(add-to-list 'default-frame-alist '(cursor-color . "#ffcc66"))
+;; (add-to-list 'default-frame-alist '(cursor-color . "#268bd2"))
+(add-to-list 'default-frame-alist '(cursor-color . "#dc322f"))
 
 ;; カーソル位置のフェースを調べる関数
 (defun describe-face-at-point ()
