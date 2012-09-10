@@ -117,13 +117,33 @@
                           ;; configuration helm variable
                           (setq helm-idle-delay 0.2)
                           (setq helm-input-idle-delay 0)
-                          (setq helm-candidate-number-limit 100)
+                          (setq helm-candidate-number-limit 300)
 
                           (require 'helm-files)
 
+                          ;; action を buffer kill に入れ替えたものソース
+                          (defun helm-c-buffers-list-R-persistent-action (candidate)
+                            (if current-prefix-arg
+                                (helm-c-switch-to-buffer candidate)
+                              (helm-c-buffers-persistent-kill candidate)))
+                          (defvar helm-c-source-buffers-list-R
+                            `((name . "Buffers")
+                              (init . (lambda ()
+                                        ;; Issue #51 Create the list before `helm-buffer' creation.
+                                        (setq helm-buffers-list-cache (helm-c-buffer-list))))
+                              (candidates . helm-buffers-list-cache)
+                              (type . buffer)
+                              (match helm-c-buffer-match-major-mode)
+                              (persistent-action . helm-c-buffers-list-R-persistent-action)
+                              (keymap . ,helm-c-buffer-map)
+                              (volatile)
+                              (mode-line . helm-buffer-mode-line-string)
+                              (persistent-help
+                               . "Kill this buffer / C-u \\[helm-execute-persistent-action]: Show this buffer")))
+
                           (defun helm-my ()
                             (interactive)
-                            (helm-other-buffer '(helm-c-source-buffers-list
+                            (helm-other-buffer '(helm-c-source-buffers-list-R
                                                  helm-c-source-elscreen
                                                  helm-c-source-recentf
                                                  helm-c-source-ctags
