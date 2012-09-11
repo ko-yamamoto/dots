@@ -204,31 +204,29 @@
 
                           ; ))
 
-          ;;          (:name yasnippet
-          ;;       :type git
-          ;;       :url "https://github.com/capitaomorte/yasnippet.git"
-          ;;                 :after (lambda ()
-          ;;                          (require 'yasnippet)
-          ;;                          (yas/global-mode 1)
-          ;;                          (yas/load-directory "~/.emacs.d/dict")
-          ;;
-          ;;                          (defun my-yas/prompt (prompt choices &optional display-fn)
-          ;;                            (let* ((names (loop for choice in choices
-          ;;                                                collect (or (and display-fn (funcall display-fn choice))
-          ;;                                                            coice)))
-          ;;                                   (selected (anything-other-buffer
-          ;;                                              `(((name . ,(format "%s" prompt))
-          ;;                                                 (candidates . names)
-          ;;                                                 (action . (("Insert snippet" . (lambda (arg) arg))))))
-          ;;                                              "*anything yas/prompt*")))
-          ;;                              (if selected
-          ;;                                  (let ((n (position selected names :test 'equal)))
-          ;;                                    (nth n choices))
-          ;;                                (signal 'quit "user quit!"))))
-          ;;                          (custom-set-variables '(yas/prompt-functions '(my-yas/prompt)))
-          ;;                          (global-set-key (kbd "C-c y") 'yas/insert-snippet)
-          ;;
-          ;;                          ))
+          (:name helm-c-yasnippet-github
+                 :type github
+                 :url "git://github.com/emacs-helm/helm-c-yasnippet.git"
+                 ) ;; use this elisp in yasnippet's :after
+
+          (:name yasnippet
+                 :website "https://github.com/capitaomorte/yasnippet.git"
+                 :description "YASnippet is a template system for Emacs."
+                 :type github
+                 :pkgname "capitaomorte/yasnippet"
+                 :features "yasnippet"
+                 :compile "yasnippet.el"
+                 :after (progn
+                          (require 'yasnippet)
+                          (setq yas-snippet-dirs '("~/.emacs.d/el-get/yasnippet/snippets"))
+                          (yas-global-mode 1)
+
+                          (require 'helm-c-yasnippet)
+                          (setq helm-c-yas-space-match-any-greedy t) ;[default: nil]
+                          (global-set-key (kbd "C-c y") 'helm-c-yas-complete)
+                 ))
+
+
           (:name popwin
                  :type github
                  :url "git://github.com/m2ym/popwin-el.git"
@@ -542,6 +540,15 @@
                           ;; (global-yalinum-mode t)
                           (global-set-key (kbd "M-n") 'yalinum-mode)
                           ))
+
+          (:name back-button.el-github
+                 :type github
+                 :url "git://github.com/rolandwalker/back-button.git"
+                 :after (progn
+                          (require 'back-button)
+                          (back-button-mode 1)
+                          ))
+
 
           ))
 

@@ -293,3 +293,32 @@
 ;;====================
 (autoload 'svn-status "dsvn" "Run `svn status'." t)
 (autoload 'svn-update "dsvn" "Run `svn update'." t)
+
+
+
+
+
+
+
+;;====================
+;; others
+;;====================
+
+;; 最近使ったファイルに加えないファイルを正規表現で指定する
+(setq recentf-exclude '("/TAGS$" "/var/tmp/"))
+(require 'recentf-ext)
+
+
+;; point-undo 
+(require 'point-undo)
+(define-key global-map (kbd "<f7>") 'point-undo)
+(define-key global-map (kbd "C-q b") 'point-undo)
+(define-key global-map (kbd "S-<f7>") 'point-redo)
+(define-key global-map (kbd "C-q f") 'point-redo)
+
+
+;; 最後の変更箇所にジャンプ
+(require 'goto-chg)
+(define-key global-map (kbd "<f8>") 'goto-last-change)
+(define-key global-map (kbd "S-<f8>") 'goto-last-change-reverse)
+
