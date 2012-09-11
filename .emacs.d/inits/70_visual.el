@@ -26,11 +26,11 @@
   '((((class color)
       (background dark))
      ;; (:background "grey5"))
-     (:background "#e8ff9e"))
+     (:background "#b5bd68"))
     (((class color)
       (background light))
      ;;     (:background "lemon chiffon"))
-     (:background "#e8ff9e"))
+     (:background "#b5bd68"))
     (t
      ()))
   "*Face used by hl-line.")

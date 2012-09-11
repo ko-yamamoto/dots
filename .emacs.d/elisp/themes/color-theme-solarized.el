@@ -115,7 +115,7 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        ;; helm
        (helm-header ((t (:background ,"#81a2be" :foreground ,base3))))
        (helm-source-header ((t (:background ,"#81a2be" :foreground ,base3))))
-       (helm-selection ((t (:background ,"#e8ff9e" :foreground ,base3))))
+       (helm-selection ((t (:background ,"#b5bd68" :foreground ,base3))))
        (helm-visible-mark ((t (:background ,red :foreground ,base3))))
 
        ;; elscreen
