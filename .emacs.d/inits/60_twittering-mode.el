@@ -23,10 +23,12 @@
 ;;       purple "#b294bb")
 ;; 名前用の見た目
 (defface twittering-mode-name-face
-  '((t (:foreground "#f0c674"))) nil)
+  '((t (:foreground "#81a2be"))) nil)
+  ;; '((t (:foreground "#f0c674"))) nil)
 ;; つぶやき文字用の見た目
 (defface twittering-mode-text-face
-  '((t (:foreground "#81a2be"))) nil)
+  '((t (:foreground "#444444"))) nil)
+  ;; '((t (:foreground "#81a2be"))) nil)
 ;;  '((t (:foreground "#ffffff"))) nil)
 ;; 日時用の見た目
 (defface twittering-mode-hide-face
@@ -36,7 +38,8 @@
   '((t (:foreground "#b5bd68"))) nil)
 ;; 区切り用の見た目
 (defface twittering-mode-sepa-face
-  '((t (:foreground "#363836"))) nil)
+  '((t (:foreground "#aaaaaa"))) nil)
+  ;; '((t (:foreground "#363836"))) nil)
 
 
 ;; mode-line に API の残数を表示する
