@@ -1,7 +1,7 @@
 =begin
 
 = howm (一人お手軽 Wiki もどき)
-$Id: README.ja.rd,v 1.330 2012-02-18 12:03:32 hira Exp $
+$Id: README.ja.rd,v 1.331 2012-08-16 09:52:07 hira Exp $
 
 Emacs で断片的なメモをどんどんとるための環境です.
 分類機能はあえてつけません.
@@ -923,19 +923,15 @@ Emacs で断片的なメモをどんどんとるための環境です.
 
 thx > patch・改良案・指摘をくださった皆様
 
-* リリース予定版 howm-1.4.0rc2 [2012-02-18]
-  * fix: 2012-01-21 以降の emacs-24 でエラー (void-variable inhibit-first-line-modes-regexps)
-    ((<thx|URL:http://howm.sourceforge.jp/cgi-bin/hiki/hiki.cgi?BugReportPaste>))
-    thx > 佐々木 寛 さん (sasaki at fcc.ad.jp)
-* リリース予定版 howm-1.4.0rc1 [2011-12-28]
+* リリース版 howm-1.4.0 [2012-08-16]
   * Note
     * ((*非互換変更*))に注意!
       * 1.3.* どおりの挙動を望むなら↓
           (setq howm-compatible-to-ver1dot3 t) ;; (require 'howm) より前に!
       * 個別に設定したければ, M-x customize-group RET howm-compatibility RET
     * 長いこと隠し機能だったものを公式機能にしました.
-    * howm-test110823 とほぼ同内容です.
-      (バイトコンパイル時の警告を一部修正)
+    * emacs-24 対応
+    * howm-1.4.0rc2 と同内容です.
   * 変更
     * howm-file-name-format のデフォルトを *.howm から *.txt に変更
       * 拡張子のせいで他ツールとの連携に困っているらしい事例を見かけるので
@@ -995,6 +991,9 @@ thx > patch・改良案・指摘をくださった皆様
         ((<thx|URL:http://howm.sourceforge.jp/cgi-bin/hiki/hiki.cgi?Idea>))
         > taku さん
       * todo を済ませたときに指定コマンドを実行 (howm-congrats-command)
+  * fix: 2012-01-21 以降の emacs-24 でエラー (void-variable inhibit-first-line-modes-regexps)
+    ((<thx|URL:http://howm.sourceforge.jp/cgi-bin/hiki/hiki.cgi?BugReportPaste>))
+    thx > 佐々木 寛 さん (sasaki at fcc.ad.jp)
 
 * リリース版 howm-1.3.9.2 [2011-12-28]
   * こまごま fix (howm-1.3.9.2rc4 と同内容です)
