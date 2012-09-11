@@ -41,3 +41,5 @@ elisp/*.elc
 /.xmonad/xmonad.o
 
 /.emacs.d/abbrev_defs
+/.emacs.d/eshell/history
+/.emacs.d/eshell/lastdir
