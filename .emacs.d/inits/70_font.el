@@ -23,11 +23,11 @@
   ;; (set-fontset-font (frame-parameter nil 'font)
   ;;                   'japanese-jisx0208
   ;;                   '("VL ゴシック" . "unicode-bmp"))
-  (set-default-font "ricty-10.5")
-  (set-face-font 'variable-pitch "ricty-10.5")
+  (set-default-font "ricty-9")
+  (set-face-font 'variable-pitch "ricty-9")
   (set-fontset-font (frame-parameter nil 'font)
                     'japanese-jisx0208
-                    '("ricty-10.5" . "unicode-bmp"))
+                    '("ricty-9" . "unicode-bmp"))
 
 )
 (when is_win
