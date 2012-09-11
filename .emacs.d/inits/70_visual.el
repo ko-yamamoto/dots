@@ -26,7 +26,7 @@
   '((((class color)
       (background dark))
      ;; (:background "grey5"))
-     (:background "#b5bd68"))
+     (:background "#e8ff9e"))
     (((class color)
       (background light))
      ;;     (:background "lemon chiffon"))

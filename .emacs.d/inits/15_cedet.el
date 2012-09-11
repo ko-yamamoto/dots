@@ -4,7 +4,8 @@
 ;;                                   global-semantic-idle-summary-mode
 ;;                                   global-semantic-mru-bookmark-mode))
 ;; (semantic-mode 1)
-(semantic-load-enable-excessive-code-helpers)
+
+;; (semantic-load-enable-excessive-code-helpers)
 
 ;; imenu 時の表示を変更
 ;; (setq semantic-imenu-summary-function
