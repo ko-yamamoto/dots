@@ -40,7 +40,8 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
       (rotatef base00 base0))
     (color-theme-install
      `(color-theme-solarized
-       ((foreground-color . ,base0)
+       ;; ((foreground-color . ,base0)
+       ((foreground-color . ,"#333333")
         (background-color . ,base03)
         (background-mode . ,mode)
         (cursor-color . ,red))
