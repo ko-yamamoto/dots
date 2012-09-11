@@ -26,6 +26,10 @@
 ;; メニューを 2 時間キャッシュ
 (setq howm-menu-expiry-hours 2)
 
+;; 最近のメモに表示する個数
+(setq howm-menu-recent-num 50)
+
+
 ;; howm の時は auto-fill で
 (add-hook 'howm-mode-on-hook 'auto-fill-mode)
 
