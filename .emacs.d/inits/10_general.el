@@ -214,6 +214,26 @@
 (global-set-key "\C-q2" 'split-window-vertically)
 (global-set-key "\C-q3" 'split-window-horizontally)
 
+
+(defun window-toggle-division ()
+  "ウィンドウ 2 分割時に、縦分割<->横分割"
+  (interactive)
+  (unless (= (count-windows 1) 2)
+    (error "ウィンドウが 2 分割されていません。"))
+  (let (before-height (other-buf (window-buffer (next-window))))
+    (setq before-height (window-height))
+    (delete-other-windows)
+
+    (if (= (window-height) before-height)
+        (split-window-vertically)
+      (split-window-horizontally)
+      )
+
+    (switch-to-buffer-other-window other-buf)
+    (other-window -1)))
+(global-set-key (kbd "C-q 0") 'window-toggle-division)
+
+
 ;; ウィンドウ移動を楽に
 ;; (define-key global-map (kbd "C-t") 'other-window)
 (defun other-window-or-split ()
