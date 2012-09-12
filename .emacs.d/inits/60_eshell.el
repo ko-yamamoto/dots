@@ -131,9 +131,29 @@
 ;;        ad-return-value)))
 
 
+;; eshell 起動
+(global-set-key (kbd "C-q e e") 'eshell)
+
+
 (defun eshell-with-new-elscreen ()
   "新しい elscreen で eshell"
   (interactive)
   (elscreen-create)
   (eshell))
-(global-set-key (kbd "C-q e") 'eshell-with-new-elscreen)
+(global-set-key (kbd "C-q e n") 'eshell-with-new-elscreen)
+
+
+;; helm で履歴から入力
+(add-hook 'eshell-mode-hook
+          #'(lambda ()
+              (define-key eshell-mode-map
+                (kbd "M-p")
+                'helm-eshell-history)))
+
+;; helm で補完
+(add-hook 'eshell-mode-hook
+          #'(lambda ()
+              (define-key eshell-mode-map
+                (kbd "M-n")
+                'helm-esh-pcomplete)))
+
