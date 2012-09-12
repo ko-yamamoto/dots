@@ -128,6 +128,17 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        (yalinum-face ((t (:background ,base03 :foreground ,base3))))
        (yalinum-bar-face ((t (:background "#b5bd68" :foreground ,base3))))
 
+       ;; speebar
+       (speedbar-tag-face ((t (:background ,base03 :foreground ,base3))))
+       (speedbar-selected-face ((t (:background ,base03 :foreground ,red))))
+       (speedbar-file-face ((t (:background ,base03 :foreground ,"#888888"))))
+
+       ;; eshell
+       (eshell-ls-executable ((t (:background ,base03 :foreground ,red))))
+       (eshell-prompt ((t (:background ,base03 :foreground ,base01))))
+
+       ;; dired
+       (dired-flagged ((t (:background ,base03 :foreground ,orange))))
 
        ))))
 
