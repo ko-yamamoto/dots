@@ -25,18 +25,19 @@
 (defface hlline-face
   '((((class color)
       (background dark))
-     ;; (:background "grey5"))
+     (:background "grey5"))
      ;; (:background "#b5bd68"))
-     (:background "snow1"))
+     ;; (:background "snow1"))
     (((class color)
       (background light))
-     ;;     (:background "lemon chiffon"))
+         (:background "lemon chiffon"))
      ;; (:background "#b5bd68"))
-     (:background "snow1"))
+     ;; (:background "snow1"))
     (t
      ()))
   "*Face used by hl-line.")
 (setq hl-line-face 'hlline-face)
+
 ;; (setq hl-line-face 'underline) ; 下線
 (global-hl-line-mode)
 

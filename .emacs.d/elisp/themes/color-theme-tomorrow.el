@@ -174,6 +174,29 @@ theme will be used."
        (elscreen-tab-current-screen-face ((t (:background ,blue :foreground ,white))))
        (elscreen-tab-other-screen-face ((t (:background ,green :foreground ,white))))
 
+       ;; helm
+       (helm-header ((t (:background ,"#81a2be"))))
+       (helm-source-header ((t (:background ,"#81a2be"))))
+       (helm-selection ((t (:background ,"#b5bd68"))))
+       (helm-visible-mark ((t (:background ,red))))
+
+       ;; yalinum
+       ;; (yalinum-face ((t (:background ,base03 :foreground ,base3))))
+       (yalinum-bar-face ((t (:background "#b5bd68" :foreground "#000000"))))
+
+       ;; speebar
+       ;; (speedbar-tag-face ((t (:foreground ,base3))))
+       (speedbar-selected-face ((t (:foreground ,red))))
+       (speedbar-file-face ((t (:foreground ,"#888888"))))
+
+       ;; eshell
+       (eshell-ls-executable ((t (:foreground ,red))))
+       ;; (eshell-prompt ((t (:foreground ,base01))))
+
+       ;; dired
+       (dired-flagged ((t (:foreground ,orange))))
+
+
 ))))
 
 
