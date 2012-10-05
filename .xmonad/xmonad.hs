@@ -30,7 +30,7 @@ myGsconfig = defaultGSConfig { gs_cellheight = 100, gs_cellwidth = 260 }
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
-myTerminal      = "xterm -fa ricty +cjk_width -fs 10"
+myTerminal      = "xterm -fa ricty +cjk_width -fs 9"
 
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
