@@ -196,6 +196,10 @@ theme will be used."
        ;; dired
        (dired-flagged ((t (:foreground ,orange))))
 
+       ;; auto-complete
+       (ac-candidate-face ((t (:background ,green :foreground ,"#ffffff"))))
+       (ac-selection-face ((t (:background ,orange :foreground ,"#000000"))))
+       ;; (set-face-underline 'ac-candidate-face "#b9ca4a")
 
 ))))
 
