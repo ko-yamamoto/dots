@@ -357,7 +357,7 @@
                                         ;; '(ac-source-abbrev ac-source-yasnippet ac-source-filename ac-source-files-in-current-dir ac-source-words-in-same-mode-buffers ac-source-symbols))
                                         '(ac-source-abbrev ac-source-etags ac-source-yasnippet ac-source-files-in-current-dir ac-source-words-in-same-mode-buffers ac-source-symbols))
                           ;; 補完するモードの追加
-                          (setq ac-modes (append ac-modes '(text-mode sql-mode scala-mode java-mode haskell-mode)))
+                          (setq ac-modes (append ac-modes '(text-mode sql-mode scala-mode java-mode haskell-mode jde-mode)))
                           ))
 
           (:name expand-region

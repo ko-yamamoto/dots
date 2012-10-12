@@ -191,7 +191,7 @@ theme will be used."
 
        ;; eshell
        (eshell-ls-executable ((t (:foreground ,red))))
-       ;; (eshell-prompt ((t (:foreground ,base01))))
+       (eshell-prompt ((t (:foreground ,"#888888"))))
 
        ;; dired
        (dired-flagged ((t (:foreground ,orange))))

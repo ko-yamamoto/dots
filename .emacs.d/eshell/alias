@@ -1,3 +1,6 @@
+alias d. dired .
+alias hf helm-find-files $1
+
 alias cd cd $1;ls
-alias ec /Applications/Emacs.app/Contents/MacOS/bin/emacsclient -n $1
+alias ec emacsclient -n $1
 alias ll ls -alh
