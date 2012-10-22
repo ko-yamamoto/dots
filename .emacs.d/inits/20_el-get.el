@@ -18,89 +18,89 @@
   (setq el-get-sources
         '(
 
-          ; (:name anything
-                 ; :after (progn
-                          ; (setq
-                           ; ;; ショートカットアルファベット表示
-                           ; ;; anything-enable-shortcuts 'alphabet
-                           ; ;; 候補表示までの時間
-                           ; anything-idle-delay 0.3
-                           ; ;; 候補の多いときに体感速度を上げる
-                           ; anything-quick-update t
-                           ; )
+                                        ; (:name anything
+                                        ; :after (progn
+                                        ; (setq
+                                        ; ;; ショートカットアルファベット表示
+                                        ; ;; anything-enable-shortcuts 'alphabet
+                                        ; ;; 候補表示までの時間
+                                        ; anything-idle-delay 0.3
+                                        ; ;; 候補の多いときに体感速度を上げる
+                                        ; anything-quick-update t
+                                        ; )
 
-                          ; (require 'anything-config)
+                                        ; (require 'anything-config)
 
-                          ; ;; persistent-action を buffer kill に入れ替えたものソース
-                          ; (defvar anything-c-source-buffers-list-R
-                            ; `((name . "Buffers")
-                              ; (candidates . anything-c-buffer-list)
-                              ; (type . buffer)
-                              ; (match anything-c-buffer-match-major-mode)
-                              ; (candidate-transformer anything-c-skip-boring-buffers
-                                                     ; anything-c-highlight-buffers)
-                              ; (persistent-action . anything-c-buffers-list-R-persistent-action)
-                              ; (keymap . ,anything-c-buffer-map)
-                              ; (volatile)
-                              ; (mode-line . anything-buffer-mode-line-string)
-                              ; (persistent-help . "Kill this buffer / C-u \\[anything-execute-persistent-action]:Show this buffer ")))
-                          ; (defun anything-c-buffers-list-R-persistent-action (candidate)
-                            ; (if current-prefix-arg
-                                ; (anything-c-switch-to-buffer candidate)
-                              ; (anything-c-buffers-persistent-kill candidate)))
+                                        ; ;; persistent-action を buffer kill に入れ替えたものソース
+                                        ; (defvar anything-c-source-buffers-list-R
+                                        ; `((name . "Buffers")
+                                        ; (candidates . anything-c-buffer-list)
+                                        ; (type . buffer)
+                                        ; (match anything-c-buffer-match-major-mode)
+                                        ; (candidate-transformer anything-c-skip-boring-buffers
+                                        ; anything-c-highlight-buffers)
+                                        ; (persistent-action . anything-c-buffers-list-R-persistent-action)
+                                        ; (keymap . ,anything-c-buffer-map)
+                                        ; (volatile)
+                                        ; (mode-line . anything-buffer-mode-line-string)
+                                        ; (persistent-help . "Kill this buffer / C-u \\[anything-execute-persistent-action]:Show this buffer ")))
+                                        ; (defun anything-c-buffers-list-R-persistent-action (candidate)
+                                        ; (if current-prefix-arg
+                                        ; (anything-c-switch-to-buffer candidate)
+                                        ; (anything-c-buffers-persistent-kill candidate)))
 
-                          ; ;; anything で欲しい物全部表示版
-                          ; (defun my-anything-all ()
-                            ; (interactive)
-                            ; (anything-other-buffer
-                             ; '(
-                               ; ;; anything-c-source-buffers+
-                               ; ;; anything-c-source-buffers+-howm-title
-                               ; anything-c-source-buffers-list-R
-                               ; anything-c-source-elscreen
-                               ; anything-c-source-recentf
-                               ; anything-c-source-etags-select
-                               ; anything-c-source-ctags
-                               ; anything-c-source-gtags-select
-                               ; anything-c-source-imenu
-                               ; anything-c-source-emacs-commands
-                               ; anything-c-source-emacs-functions
-                               ; anything-c-source-files-in-current-dir)
-                             ; "*my-anything-all*"))
-                          ; (define-key global-map (kbd "C-;") 'my-anything-all)
-                          ; ;; anything でバッファと elscreen 表示
-                          ; (defun my-anything-buf-screens ()
-                            ; (interactive)
-                            ; (anything-other-buffer
-                             ; '(
-                               ; ;; anything-c-source-buffers+
-                               ; ;; anything-c-source-buffers+-howm-title
-                               ; anything-c-source-buffers-list-R
-                               ; anything-c-source-elscreen)
-                             ; "*my-anything-buf-screens*"))
-                          ; (define-key global-map (kbd "C-x C-b") 'my-anything-buf-screens)
+                                        ; ;; anything で欲しい物全部表示版
+                                        ; (defun my-anything-all ()
+                                        ; (interactive)
+                                        ; (anything-other-buffer
+                                        ; '(
+                                        ; ;; anything-c-source-buffers+
+                                        ; ;; anything-c-source-buffers+-howm-title
+                                        ; anything-c-source-buffers-list-R
+                                        ; anything-c-source-elscreen
+                                        ; anything-c-source-recentf
+                                        ; anything-c-source-etags-select
+                                        ; anything-c-source-ctags
+                                        ; anything-c-source-gtags-select
+                                        ; anything-c-source-imenu
+                                        ; anything-c-source-emacs-commands
+                                        ; anything-c-source-emacs-functions
+                                        ; anything-c-source-files-in-current-dir)
+                                        ; "*my-anything-all*"))
+                                        ; (define-key global-map (kbd "C-;") 'my-anything-all)
+                                        ; ;; anything でバッファと elscreen 表示
+                                        ; (defun my-anything-buf-screens ()
+                                        ; (interactive)
+                                        ; (anything-other-buffer
+                                        ; '(
+                                        ; ;; anything-c-source-buffers+
+                                        ; ;; anything-c-source-buffers+-howm-title
+                                        ; anything-c-source-buffers-list-R
+                                        ; anything-c-source-elscreen)
+                                        ; "*my-anything-buf-screens*"))
+                                        ; (define-key global-map (kbd "C-x C-b") 'my-anything-buf-screens)
 
-                          ; (defun anything-my-semantic-imenu ()
-                            ; (interactive)
-                            ; (anything-other-buffer
-                             ; '(anything-c-source-imenu)
-                             ; "*anything-my-imenu*"))
-                          ; (define-key global-map (kbd "C-q i") 'anything-my-semantic-imenu)
+                                        ; (defun anything-my-semantic-imenu ()
+                                        ; (interactive)
+                                        ; (anything-other-buffer
+                                        ; '(anything-c-source-imenu)
+                                        ; "*anything-my-imenu*"))
+                                        ; (define-key global-map (kbd "C-q i") 'anything-my-semantic-imenu)
 
-                          ; (defun anything-with-new-elscreen ()
-                            ; "新しい elscreen で anything"
-                            ; (interactive)
-                            ; (elscreen-create)
-                            ; (my-anything-all))
-                          ; (define-key global-map (kbd "C-:") 'anything-with-new-elscreen)
+                                        ; (defun anything-with-new-elscreen ()
+                                        ; "新しい elscreen で anything"
+                                        ; (interactive)
+                                        ; (elscreen-create)
+                                        ; (my-anything-all))
+                                        ; (define-key global-map (kbd "C-:") 'anything-with-new-elscreen)
 
-                          ; ;; kill-ringもanythigで
-                          ; (global-set-key (kbd "M-y") 'anything-show-kill-ring)
+                                        ; ;; kill-ringもanythigで
+                                        ; (global-set-key (kbd "M-y") 'anything-show-kill-ring)
 
-                          ; ;; C-d でバッファを消せるように
-                          ; (define-key anything-map (kbd "C-d") 'anything-buffer-run-kill-buffers)
+                                        ; ;; C-d でバッファを消せるように
+                                        ; (define-key anything-map (kbd "C-d") 'anything-buffer-run-kill-buffers)
 
-                          ; ))
+                                        ; ))
 
           (:name helm-github
                  :type github
@@ -112,7 +112,7 @@
 
                           (helm-mode 1)
 
-                          ; (require 'helm-gtags)
+                                        ; (require 'helm-gtags)
 
                           ;; configuration helm variable
                           (setq helm-idle-delay 0.2)
@@ -178,31 +178,31 @@
 
                           ))
 
-          ; (:name anything-howm
-                 ; :type github
-                 ; :url "git://github.com/mori-dev/anything-howm.git"
-                 ; :after (progn
-                          ; (require 'anything-howm)
+                                        ; (:name anything-howm
+                                        ; :type github
+                                        ; :url "git://github.com/mori-dev/anything-howm.git"
+                                        ; :after (progn
+                                        ; (require 'anything-howm)
 
-                          ; (defun anything-howm-with-new-elscreen ()
-                            ; "新しい elscreen で anything-howm"
-                            ; (interactive)
-                            ; (elscreen-create)
-                            ; (ah:menu-command)
-                            ; (howm-mode))
+                                        ; (defun anything-howm-with-new-elscreen ()
+                                        ; "新しい elscreen で anything-howm"
+                                        ; (interactive)
+                                        ; (elscreen-create)
+                                        ; (ah:menu-command)
+                                        ; (howm-mode))
 
-                          ; (global-set-key (kbd "C-c C-, C-,") 'anything-howm-with-new-elscreen)
+                                        ; (global-set-key (kbd "C-c C-, C-,") 'anything-howm-with-new-elscreen)
 
-                          ; ;; 「最近のメモ」をいくつ表示するか
-                          ; (setq ah:recent-menu-number-limit 600)
+                                        ; ;; 「最近のメモ」をいくつ表示するか
+                                        ; (setq ah:recent-menu-number-limit 600)
 
-                          ; (global-set-key (kbd "C-2") 'ah:menu-command)
-                          ; (global-set-key (kbd "C-3") 'ah:cached-howm-menu)
+                                        ; (global-set-key (kbd "C-2") 'ah:menu-command)
+                                        ; (global-set-key (kbd "C-3") 'ah:cached-howm-menu)
 
-                          ; ;; howm のデータディレクトリへのパス
-                          ; (setq ah:data-directory "~/howm")
+                                        ; ;; howm のデータディレクトリへのパス
+                                        ; (setq ah:data-directory "~/howm")
 
-                          ; ))
+                                        ; ))
 
           (:name helm-c-yasnippet-github
                  :type github
@@ -224,7 +224,7 @@
                           (require 'helm-c-yasnippet)
                           (setq helm-c-yas-space-match-any-greedy t) ;[default: nil]
                           (global-set-key (kbd "C-c y") 'helm-c-yas-complete)
-                 ))
+                          ))
 
 
           (:name popwin
@@ -543,6 +543,15 @@
                  :after (progn
                           (require 'back-button)
                           (back-button-mode 1)
+                          ))
+
+          (:name mark-multiple.el-github
+                 :type github
+                 :url "git://github.com/magnars/mark-multiple.el.git"
+                 :after (progn
+                          (require 'mark-more-like-this)
+                          (global-set-key (kbd "C-<") 'mark-previous-like-this)
+                          (global-set-key (kbd "C->") 'mark-next-like-this)
                           ))
 
 
