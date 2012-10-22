@@ -14,21 +14,10 @@ xrdb -merge $HOME/.Xresources
 xrandr -s 1280x720
 
 # タッチパッド関連 ##########
-# 感度
-synclient FingerHigh=70
-# 2本タップを右、3本タップを中クリックに
-synclient TapButton1=1
-synclient TapButton2=2
-synclient TapButton3=3
-# 手の平での誤爆防止
-synclient PalmDetect=1
 syndaemon -t -k -d &
 
-# キー変更 #################
-# eject を delete
-xmodmap -e "keycode 169 = Delete"
-# F12(Fnなし)で Insert
-xmodmap -e "keycode 123 = Insert"
+# keymap
+xmodmap $HOME/.xmodmaprc
 
 hsetroot
 xsetroot -cursor_name left_ptr
