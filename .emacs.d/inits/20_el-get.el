@@ -218,7 +218,10 @@
                  :compile "yasnippet.el"
                  :after (progn
                           (require 'yasnippet)
-                          (setq yas-snippet-dirs '("~/.emacs.d/el-get/yasnippet/snippets"))
+                          (setq yas-snippet-dirs
+                                '("~/.emacs.d/mysnippets"
+                                  "~/.emacs.d/el-get/yasnippet/snippets"
+                                  ))
                           (yas-global-mode 1)
 
                           (require 'helm-c-yasnippet)
@@ -282,7 +285,12 @@
                  :url "http://github.com/magit/magit.git"
                  :after (progn
                           (require 'magit)
+
+                          ;; magit をバッファ全体に開く
+                          (setq magit-status-buffer-switch-function 'switch-to-buffer)
+
                           (global-set-key (kbd "C-q g") 'magit-status)
+
                           ;; 色変更
                           (set-face-foreground 'magit-diff-add "#b9ca4a")
                           (set-face-foreground 'magit-diff-del "#d54e53")
