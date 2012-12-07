@@ -61,7 +61,7 @@ PROMPT='%F{green}%n%f/%m%B%(?.%F{blue}%(!.#. :))%f.%F{red}%(!.#. :()%f)%b '
 # RPROMPT='%{$fg[red]%}[%{$fg[blue]%}%~%{$fg[red]%}]%{$reset_color%}'
 # RPROMPT='%F{red}@%f%U%F{blue}%~%f%u'
 
-# 右プロンプトには git 情報
+# バージョン管理情報表示
 setopt prompt_subst
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' actionformats \
@@ -79,7 +79,9 @@ vcs_info_wrapper() {
     echo "%{$fg[grey]%}${vcs_info_msg_0_}%{$reset_color%}$del"
   fi
 }
-RPROMPT=$'$(vcs_info_wrapper)'
+
+# バージョン管理 短縮したカレントディレクトリ
+RPROMPT=$'$(vcs_info_wrapper)%F{red}@%f%F{blue}%(5~,%-1~/.../%2~,%~)%f'
 
 
 # 自動/Tram 用プロンプト
