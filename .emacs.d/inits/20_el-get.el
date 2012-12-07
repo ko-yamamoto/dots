@@ -562,8 +562,31 @@
                           (global-set-key (kbd "C->") 'mark-next-like-this)
                           ))
 
+          (:name emacs-powerline-github
+                 :type github
+                 :url "git://github.com/jonathanchu/emacs-powerline.git"
+                 :after (progn
+                          (require 'powerline)
+                          (require 'cl)
+
+                          ;; 境界の形を1つ選択
+                          ;; (setq powerline-arrow-shape 'arrow)   ;; the default
+                          (setq powerline-arrow-shape 'curve)   ;; give your mode-line curves
+                          ;; (setq powerline-arrow-shape 'arrow14) ;; best for small fonts
+
+                          ;; (custom-set-faces
+                          ;;  '(mode-line ((t (:foreground "#030303" :background "#bdbdbd" :box nil))))
+                          ;;  '(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil)))))
+
+                          ;; 色
+                          (setq powerline-color1 "grey22")
+                          (setq powerline-color2 "grey40")
+
+                          ))
 
           ))
+
+
 
   (setq my-packages
         (append '(el-get) (mapcar 'el-get-source-name el-get-sources)))

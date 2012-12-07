@@ -10,8 +10,8 @@ alias ll='ls -alfgh'
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 
-alias emacsclient='/Applications/Emacs24_20120406.app/Contents/MacOS/bin/emacsclient -n'
-alias ec='/Applications/Emacs24_20120406.app/Contents/MacOS/bin/emacsclient -n'
+alias emacsclient='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -n'
+alias ec='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -n'
 
 alias top='top -R -F -u'
 
@@ -23,7 +23,7 @@ export PATH=$PATH:/usr/local/bin:/usr/local/lib/python2.7/site-packages
 export BYOBU_PREFIX=`brew --prefix`
 
 # 環境変数
-export PATH=/usr/local/bin:/bin:/Users/nishikawasasaki/bin:/Users/nishikawasasaki/android/android-sdk-macosx/tools:/Users/nishikawasasaki/android/android-sdk-macosx/platform-tools:$PATH
+export PATH=/Users/nishikawasasaki/.cabal/bin:/usr/local/bin:/bin:/Users/nishikawasasaki/bin:/Users/nishikawasasaki/android/android-sdk-macosx/tools:/Users/nishikawasasaki/android/android-sdk-macosx/platform-tools:$PATH
 
 PLAY_HOME=/usr/local/play/play
 export PATH=${PLAY_HOME}:${PATH}
@@ -36,4 +36,4 @@ export ANDROID_SWT=/Users/nishikawasasaki/android/android-sdk-macosx/tools/lib/x
 
 
 # git のログには emacs を
-export GIT_EDITOR="/Applications/Emacs24_20120406.app/Contents/MacOS/bin/emacsclient" 
+export GIT_EDITOR="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient" 
