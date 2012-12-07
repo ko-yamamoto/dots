@@ -59,7 +59,27 @@ setopt prompt_subst
 # PROMPT='%F{red}[%f%U%n%u%F{red}@%f%m%F{red}]%f%B%F{blue}%(!.#. >)%f%b '
 PROMPT='%F{green}%n%f/%m%B%(?.%F{blue}%(!.#. :))%f.%F{red}%(!.#. :()%f)%b '
 # RPROMPT='%{$fg[red]%}[%{$fg[blue]%}%~%{$fg[red]%}]%{$reset_color%}'
-RPROMPT='%F{red}@%f%U%F{blue}%~%f%u'
+# RPROMPT='%F{red}@%f%U%F{blue}%~%f%u'
+
+# 右プロンプトには git 情報
+setopt prompt_subst
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' actionformats \
+    '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '
+zstyle ':vcs_info:*' formats       \
+    '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{5}]%f '
+zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r'
+
+zstyle ':vcs_info:*' enable git cvs svn
+
+# or use pre_cmd, see man zshcontrib
+vcs_info_wrapper() {
+  vcs_info
+  if [ -n "$vcs_info_msg_0_" ]; then
+    echo "%{$fg[grey]%}${vcs_info_msg_0_}%{$reset_color%}$del"
+  fi
+}
+RPROMPT=$'$(vcs_info_wrapper)'
 
 
 # 自動/Tram 用プロンプト
@@ -221,6 +241,11 @@ else
     #     ssh-add < /dev/null
     # fi
 fi
+
+
+
+
+
 
 
 # plugins######################################################
