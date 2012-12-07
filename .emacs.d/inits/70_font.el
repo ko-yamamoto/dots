@@ -8,16 +8,6 @@
 ;; | 数字 | アルファベット | 日本語     |
 ;; | 0123 | abcdefghijklmn | こんにちは |
 (when is_linux
-;;  (add-to-list 'default-frame-alist '(font . "A-OTF 新ゴ Pro-11"))
-
-  ;; (set-face-attribute 'default nil
-  ;;                     ;; :family "Takaoゴシック"
-  ;;                     ;; :family "Inconsolata"
-  ;;                     ;; :family "VL ゴシック"
-  ;;                     :family "ricty"
-  ;;                     ;; :family "MeiryoKe_Console"
-  ;;                     :height 115)
-
   ;; (set-default-font "VL ゴシック-10.0")
   ;; (set-face-font 'variable-pitch "VL ゴシック-10.0")
   ;; (set-fontset-font (frame-parameter nil 'font)
@@ -43,10 +33,12 @@
 
 )
 (when is_mac
-  (set-default-font "ricty-14")
+  ;; (set-default-font "ricty-14")
+  (set-default-font "瀬戸フォント-14")
   (set-fontset-font (frame-parameter nil 'font)
                     'japanese-jisx0208
-                    '("ricty" . "unicode-bmp"))
+                    ;; '("ricty" . "unicode-bmp"))
+                    '("瀬戸フォント" . "unicode-bmp"))
   ;; バラバラに設定する場合
   ;; ;; 英字フォントk
   ;; (set-face-attribute 'default nil
