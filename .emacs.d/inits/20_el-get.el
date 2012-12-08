@@ -584,6 +584,85 @@
 
                           ))
 
+          (:name tabbar-github
+                 :type github
+                 :url "git://github.com/CMPITG/tabbar.el.git"
+                 :after (progn
+
+                          (require 'tabbar)
+                          (tabbar-mode 1)
+
+                          ;; グループを使わない
+                          (setq tabbar-buffer-groups-function nil)
+
+                          ;; 左側のボタンを消す
+                          (dolist (btn '(tabbar-buffer-home-button
+                                         tabbar-scroll-left-button
+                                         tabbar-scroll-right-button))
+                            (set btn (cons (cons "" nil)
+                                           (cons "" nil))))
+
+                          ;; ウィンドウからタブがはみ出たときの動作
+                          ;; タブをスクロールさせる（デフォルト）
+                          ;; (setq tabbar-auto-scroll-flag t)
+                          ;; タブを省略して表示
+                          (setq tabbar-auto-scroll-flag nil)
+
+                          ;; 切り替えキー
+                          (global-set-key (kbd "<C-tab>") 'tabbar-forward-tab)
+                          (global-set-key (kbd "<C-S-tab>") 'tabbar-backward-tab)
+
+                          ;; タブ名の間隔
+                          (setq tabbar-separator '(1.5))
+
+                          ;; タブに表示させるバッファの設定
+                          (defvar my-tabbar-displayed-buffers
+                            '("*scratch*" "*Backtrace*" "*Colors*" "*Faces*" "*vc-" "*magit:" "*eshell*")
+                            "*Regexps matches buffer names always included tabs.")
+                          (defun my-tabbar-buffer-list ()
+                            (let* ((hides (list ?\  ?\*))
+                                   (re (regexp-opt my-tabbar-displayed-buffers))
+                                   (cur-buf (current-buffer))
+                                   (tabs (delq nil
+                                               (mapcar (lambda (buf)
+                                                         (let ((name (buffer-name buf)))
+                                                           (when (or (string-match re name)
+                                                                     (not (memq (aref name 0) hides)))
+                                                             buf)))
+                                                       (buffer-list)))))
+                              ;; Always include the current buffer.
+                              (if (memq cur-buf tabs)
+                                  tabs
+                                (cons cur-buf tabs))))
+                          (setq tabbar-buffer-list-function 'my-tabbar-buffer-list)
+
+                          ;; 外観変更
+                          (set-face-attribute
+                           'tabbar-default nil
+                           :family "Comic Sans MS"
+                           :background "black"
+                           :foreground "gray72"
+                           :height 1.0)
+                          (set-face-attribute
+                           'tabbar-unselected nil
+                           :background "black"
+                           :foreground "grey72"
+                           :box nil)
+                          (set-face-attribute
+                           'tabbar-selected nil
+                           :background "black"
+                           :foreground "yellow"
+                           :box nil)
+                          (set-face-attribute
+                           'tabbar-button nil
+                           :box nil)
+                          (set-face-attribute
+                           'tabbar-separator nil
+                           :height 1.5)
+
+                          ))
+
+
           ))
 
 
