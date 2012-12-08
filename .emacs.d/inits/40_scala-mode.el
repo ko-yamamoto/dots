@@ -12,7 +12,6 @@
           (lambda ()
             (scala-electric-mode)
             (define-key scala-mode-map my-shell-pop-key 'shell-pop)
-            (define-key scala-mode-map [(C-tab)] 'elscreen-next) ; ブラウザみたいに
             ))
 
 ;; ensime
