@@ -169,10 +169,8 @@
          (dir (file-name-directory file)))
     (make-directory dir t)
     ;; (find-file-other-window (read-string "Junk Code: " file))))
-    ;; elscreen するので別ウィンドウで開かないように変更
     (find-file (read-string "Junk Code: " file))))
-;; (global-set-key "\C-xj" 'open-junk-file)
-(global-set-key (kbd "C-c j") '(lambda () (interactive) (elscreen-create) (open-junk-file)))
+(global-set-key "\C-xj" 'open-junk-file)
 
 
 

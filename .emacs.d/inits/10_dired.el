@@ -170,14 +170,6 @@
 ;; popwinでdiredを開くときのキー
 ;;(global-set-key (kbd "C-x j") 'dired-jump-other-window)
 
-(defun dired-with-new-elscreen ()
-  "新しい elscreen で dired  * need emacs-historyf"
-  (interactive)
-  (elscreen-clone)
-  (dired-jump))
-(define-key global-map (kbd "C-x j") 'dired-with-new-elscreen)
-
-
 
 ;; dired から外部プログラムで開くための設定
 (defun open-file-dwim (filename)

@@ -135,14 +135,6 @@
 (global-set-key (kbd "C-q e e") 'eshell)
 
 
-(defun eshell-with-new-elscreen ()
-  "新しい elscreen で eshell"
-  (interactive)
-  (elscreen-create)
-  (eshell))
-(global-set-key (kbd "C-q e n") 'eshell-with-new-elscreen)
-
-
 ;; helm で履歴から入力
 (add-hook 'eshell-mode-hook
           #'(lambda ()
