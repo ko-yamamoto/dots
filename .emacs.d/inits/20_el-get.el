@@ -176,7 +176,7 @@
                           ;; 色変更
                           (set-face-foreground 'magit-diff-add "#b9ca4a")
                           (set-face-foreground 'magit-diff-del "#d54e53")
-                          (set-face-background 'magit-item-highlight "gray25")
+                          (set-face-background 'magit-item-highlight "#000000")
                           ))
 
           (:name popup-el-github
@@ -521,7 +521,7 @@
                           ;; 外観変更
                           (set-face-attribute
                            'tabbar-default nil
-                           :family "Comic Sans MS"
+                           :family "瀬戸フォント"
                            :background "black"
                            :foreground "gray72"
                            :height 1.0)
@@ -533,7 +533,7 @@
                           (set-face-attribute
                            'tabbar-selected nil
                            :background "black"
-                           :foreground "yellow"
+                           :foreground "#eab700"
                            :box nil)
                           (set-face-attribute
                            'tabbar-button nil

@@ -175,9 +175,10 @@ theme will be used."
        (elscreen-tab-other-screen-face ((t (:background ,green :foreground ,white))))
 
        ;; helm
-       (helm-header ((t (:background ,"#81a2be"))))
-       (helm-source-header ((t (:background ,"#81a2be"))))
-       (helm-selection ((t (:background ,"#b5bd68"))))
+       (helm-header ((t (:background ,"grey22"))))
+       (helm-source-header ((t (:background ,"grey40"))))
+       (helm-selection ((t (:background ,"grey5" :foreground ,yellow))))
+       ;; (helm-selection ((t (:foreground ,yellow))))
        (helm-visible-mark ((t (:background ,red))))
 
        ;; yalinum
