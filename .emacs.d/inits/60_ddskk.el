@@ -27,9 +27,9 @@
                 (skk-isearch-mode-cleanup))))
 
 ;; 文脈に応じてSKKオンオフ
-(add-hook 'skk-load-hook
-	  (lambda ()
-	    (require 'context-skk)))
+;; (add-hook 'skk-load-hook
+;; 	  (lambda ()
+;; 	    (require 'context-skk)))
 
 ;; Google サジェストする
 (require 'skk-search-web)

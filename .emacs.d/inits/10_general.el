@@ -347,3 +347,4 @@
 
 ;; 保存時に余計なスペースとタブを取り除く
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
