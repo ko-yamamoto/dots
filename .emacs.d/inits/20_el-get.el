@@ -98,6 +98,7 @@
                  :pkgname "capitaomorte/yasnippet"
                  :features "yasnippet"
                  :compile "yasnippet.el"
+                 :submodule nil
                  :after (progn
                           (require 'yasnippet)
                           (setq yas-snippet-dirs
