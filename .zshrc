@@ -2,12 +2,9 @@
 HISTFILE=~/.histfile
 HISTSIZE=100000
 SAVEHIST=100000
-
-# ignore duplication command history list
-setopt hist_ignore_dups
-# share command history data
-setopt share_history
-
+setopt hist_ignore_all_dups  # 重複するコマンド行は古い方を削除
+setopt hist_ignore_dups      # 直前と同じコマンドラインはヒストリに追加しない
+setopt share_history         # コマンド履歴ファイルを共有する
 
 
 # キーバインドをEmacsに
@@ -55,10 +52,13 @@ autoload colors && colors
 
 # プロンプト表示設定
 setopt prompt_subst
-# PROMPT='%F{red}[%f%U%n%u%F{red}@%f%m%F{red}]%f%B%F{blue}%(!.#. >)%f%b '
-PROMPT='%F{green}%n%f/%m%B%(?.%F{blue}%(!.#. :))%f.%F{red}%(!.#. :()%f)%b '
-# RPROMPT='%{$fg[red]%}[%{$fg[blue]%}%~%{$fg[red]%}]%{$reset_color%}'
-# RPROMPT='%F{red}@%f%U%F{blue}%~%f%u'
+# PROMPT='%F{green}%n%f/%m%B%(?.%F{blue}%(!.#. :))%f.%F{red}%(!.#. :()%f)%b '
+
+PROMPT='%F{green}%n%f/%m  %F{blue}%(10~,%-4~/.../%6~,%~)%f
+%B%(?.%F{blue}%(!.#.／^o^＼)%f.%F{red}%(!.#.＼^o^／)%f)%b '
+# PROMPT='%F{green}%n%f/%m  %F{blue}%(10~,%-4~/.../%6~,%~)%f
+# %B%(?.%F{blue}%(!.#.>)%f.%F{red}%(!.#.>)%f)%b '
+
 
 # バージョン管理情報表示
 # setopt prompt_subst
@@ -256,7 +256,7 @@ function _update_vcs_info_msg() {
         prompt="${(j: :)messages}"
     fi
 
-    RPROMPT="$prompt %F{blue}%(5~,%-1~/.../%2~,%~)%f"
+    RPROMPT="$prompt"
 }
 add-zsh-hook precmd _update_vcs_info_msg
 
