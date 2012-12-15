@@ -24,7 +24,7 @@
 ;; 矩形処理にcuaを利用
 (cua-mode t)
 ;; 矩形以外のcuaの機能をオフ
-(setq cua-enable-cua-keys nil) 
+(setq cua-enable-cua-keys nil)
 
 
 ;;====================
@@ -116,7 +116,7 @@
 ;; (require 'ac-slime)
 ;; (add-hook 'slime-mode-hook      'set-up-slime-ac)
 ;; (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
-;; 
+;;
 ;; (define-globalized-minor-mode real-global-auto-complete-mode
 ;;   auto-complete-mode (lambda ()
 ;;                        (if (not (minibufferp (current-buffer)))
@@ -161,8 +161,8 @@
 ;; 背景が黒い場合はこうしないと見出しが見づらい
 (setq frame-background-mode 'dark)
 ;; インデントをスペースで
-(add-hook 'rst-mode-hook 
-          '(lambda() 
+(add-hook 'rst-mode-hook
+          '(lambda()
              (setq indent-tabs-mode nil)
              ;;       (setq-default tab-width 3 indent-tabs-mode nil)
              ))
@@ -296,7 +296,39 @@
 
 
 
+;;====================
+;; pomodoro.el
+;;====================
+(require 'pomodoro)
+;; 作業時間終了後に開くファイル。デフォルトでは "~/.emacs.d/pomodoro.org"
+(setq pomodoro:file "~/howm/2012/03/2012-03-06-110154.howm") ; howm の TODO リスト
 
+;; 作業時間関連
+(setq pomodoro:work-time 25
+      pomodoro:rest-time 5
+      pomodoro:long-rest-time 30)
+
+;; hook関数関連
+(require 'notifications) ;; Linuxで DBUSがある環境のみ
+(defun* my/pomodoro-notification (&key (title "Pomodoro")
+                                       body
+                                       (urgency 'critical))
+  (notifications-notify :title title :body body :urgency urgency))
+
+;; 作業終了後の hook
+(add-hook 'pomodoro:finish-work-hook
+          (lambda ()
+            (my/pomodoro-notification :body "Work is Finish")))
+
+;; 休憩終了後の hook
+(add-hook 'pomodoro:finish-rest-hook
+          (lambda ()
+            (my/pomodoro-notification :body "Break time is finished")))
+
+;; 長期休憩後の hook
+(add-hook 'pomodoro:long-rest-hook
+          (lambda ()
+            (my/pomodoro-notification :body "Long Break time now")))
 
 
 
@@ -309,7 +341,7 @@
 (require 'recentf-ext)
 
 
-;; point-undo 
+;; point-undo
 (require 'point-undo)
 (define-key global-map (kbd "<f7>") 'point-undo)
 (define-key global-map (kbd "C-q b") 'point-undo)
@@ -321,4 +353,3 @@
 (require 'goto-chg)
 (define-key global-map (kbd "<f8>") 'goto-last-change)
 (define-key global-map (kbd "S-<f8>") 'goto-last-change-reverse)
-
