@@ -49,7 +49,6 @@ export PATH=$PATH:$SCALA_HOME/bin
 # -deprecationつけて起動
 alias scala='scala -deprecation $1'
 
-alias gs='git status -s'
 
 # プロンプトをカラー表示
 autoload colors && colors
@@ -382,18 +381,8 @@ alias ec='emacsclient -n'
 # ctags
 # alias ctags='/usr/local/Cellar/ctags/5.8/bin/ctags'
 
-
-# 拡張があれば読み込み
-## 移動したディレクトリを記録し、 ディレクトリ間を j で補完して移動
-## https://github.com/joelthelion/autojump
-# [ -f ~/.autojump/etc/profile.d/autojump.zsh ] && source ~/.autojump/etc/profile.d/autojump.zsh
-# [[ -s ~/.autojump/etc/profile.d/autojump.zsh ]] && source ~/.autojump/etc/profile.d/autojump.zsh
-
-# Mineファイル読み込み
-# オレオレ設定はこっちに
-[ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
-[ -f ~/.zshrc.mac ] && source ~/.zshrc.mac
-[ -f ~/.zshrc.cyg ] && source ~/.zshrc.cyg
+compdef _git g='git' # g でも git として補完
+alias g='git'
 
 
 # 指定したコマンドを指定した時間ごとに実行
@@ -439,8 +428,17 @@ fi
 # zsh-completions
 # cd ~/bin
 # git clone https://github.com/zsh-users/zsh-completions.git
-# rm -f ~/.zcompdump; compinit
 fpath=($HOME/bin/zsh-completions/src $fpath)
+rm -f ~/.zcompdump; autoload -U compinit; compinit
+
+# Mineファイル読み込み
+# オレオレ設定はこっちに
+[ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
+[ -f ~/.zshrc.mac ] && source ~/.zshrc.mac
+[ -f ~/.zshrc.cyg ] && source ~/.zshrc.cyg
+
+
+
 
 
 ## 以下 zsh vi モード
