@@ -33,12 +33,12 @@
 
 )
 (when is_mac
-  ;; (set-default-font "ricty-14")
-  (set-default-font "瀬戸フォント-14")
+  (set-default-font "ricty-14")
+  ;; (set-default-font "瀬戸フォント-14")
   (set-fontset-font (frame-parameter nil 'font)
                     'japanese-jisx0208
-                    ;; '("ricty" . "unicode-bmp"))
-                    '("瀬戸フォント" . "unicode-bmp"))
+                    '("ricty" . "unicode-bmp"))
+                    ;; '("瀬戸フォント" . "unicode-bmp"))
   ;; バラバラに設定する場合
   ;; ;; 英字フォントk
   ;; (set-face-attribute 'default nil
