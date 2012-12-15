@@ -521,10 +521,10 @@
                           ;; 外観変更
                           (set-face-attribute
                            'tabbar-default nil
-                           :family "瀬戸フォント"
+                           :family "ricty"
                            :background "black"
                            :foreground "gray72"
-                           :height 1.0)
+                           :height 0.8)
                           (set-face-attribute
                            'tabbar-unselected nil
                            :background "black"
@@ -540,7 +540,7 @@
                            :box nil)
                           (set-face-attribute
                            'tabbar-separator nil
-                           :height 1.5)
+                           :height 1.0)
 
                           ))
 
