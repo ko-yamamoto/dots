@@ -177,7 +177,7 @@ theme will be used."
        ;; helm
        (helm-header ((t (:background ,"grey22"))))
        (helm-source-header ((t (:background ,"grey40"))))
-       (helm-selection ((t (:background ,"grey5" :foreground ,yellow))))
+       (helm-selection ((t (:background ,"grey10" :foreground ,yellow))))
        ;; (helm-selection ((t (:foreground ,yellow))))
        (helm-visible-mark ((t (:background ,red))))
 
