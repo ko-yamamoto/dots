@@ -347,7 +347,7 @@ setopt nolistbeep
 # 日本語のファイル名表示
 setopt print_eight_bit
 
-# 補完候補をカーソルで選択できる 
+# 補完候補をカーソルで選択できる
 zstyle ':completion:*:default' menu select=1
 
 # C-w は一つ上のパスまでを消す
@@ -430,11 +430,17 @@ fi
 
 
 # plugins######################################################
+
 # zaw
 [ -f ~/bin/zaw/zaw.zsh ] && source ~/bin/zaw/zaw.zsh
 [ -f ~/bin/zaw/zaw.zsh ] && bindkey '^Q;' zaw
 [ -f ~/bin/zaw/zaw.zsh ] && bindkey '^R' zaw-history
 
+# zsh-completions
+# cd ~/bin
+# git clone https://github.com/zsh-users/zsh-completions.git
+# rm -f ~/.zcompdump; compinit
+fpath=($HOME/bin/zsh-completions/src $fpath)
 
 
 ## 以下 zsh vi モード
@@ -577,7 +583,7 @@ fi
 # 	bindkey -M vicmd '$' vi-end-of-line
 # 	bindkey -M vicmd 'd' vi-delete
 # 	bindkey -M vicmd 'D' vi-kill-eol
-# 	bindkey -M vicmd 'x' vi-delete-char  
+# 	bindkey -M vicmd 'x' vi-delete-char
 # 	bindkey -M vicmd 'X' vi-backward-delete-char
 # 	bindkey -M vicmd 'y' vi-yank
 # 	bindkey -M vicmd 'Y' vi-yank-whole-line
@@ -599,7 +605,7 @@ fi
 # 	bindkey -M vicmd '' vi-c-v
 # 	bindkey -M vicmd 'V' vi-V
 # 	bindkey -M vicmd 's' vi-substitute
-# 	bindkey -M vicmd 'S' vi-change-whole-line 
+# 	bindkey -M vicmd 'S' vi-change-whole-line
 # }
 # #
 # ##########################################################
@@ -608,7 +614,7 @@ fi
 # function vi-vis-cursor-shori_before() {
 # 	if [ $MARK -lt $(( $CURSOR + 1 )) ] ;then
 # 		VI_VIS_CURSOR_MARK=1
-# 	elif [ $MARK -eq $(( $CURSOR + 1 )) ] ;then 
+# 	elif [ $MARK -eq $(( $CURSOR + 1 )) ] ;then
 # 		VI_VIS_CURSOR_MARK=0
 # 	else
 # 		VI_VIS_CURSOR_MARK=-1
@@ -630,7 +636,7 @@ fi
 # 			CURSOR=$CURSOR
 # 			VI_VIS_CURSOR_MARK=1
 # 		fi
-# 	elif [ $MARK -eq $(( $CURSOR + 1 )) ] ;then 
+# 	elif [ $MARK -eq $(( $CURSOR + 1 )) ] ;then
 # 		if [ ${VI_VIS_CURSOR_MARK} -eq 1 ] ;then
 # 			MARK=$(( $MARK + 1 ))
 # 			CURSOR=$CURSOR
@@ -901,7 +907,7 @@ fi
 # 		CURSOR=$(( $CURSOR - 1 ))
 # 	fi
 # 	zle vi-vis-key-reset
-# 	if [ $CURSOR -lt $MARK ] ;then 
+# 	if [ $CURSOR -lt $MARK ] ;then
 # 		CURSOR=$(($CURSOR + 1))
 # 	fi
 # 	MARK=$(($CURSOR + 1))
@@ -926,7 +932,7 @@ fi
 # 		CURSOR=$(( $CURSOR - 1 ))
 # 	fi
 # 	zle vi-vis-key-reset
-# 	if [ $CURSOR -lt $MARK ] ;then 
+# 	if [ $CURSOR -lt $MARK ] ;then
 # 		CURSOR=$(($CURSOR + 1))
 # 	fi
 # 	MARK=$(($CURSOR + 1))
