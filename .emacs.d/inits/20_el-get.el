@@ -34,6 +34,7 @@
                           (setq helm-idle-delay 0.2)
                           (setq helm-input-idle-delay 0)
                           (setq helm-candidate-number-limit 300)
+                          (setq helm-buffer-max-length 100)
 
                           (require 'helm-files)
 
@@ -292,7 +293,7 @@
 
           (:name coffee-mode
                  :after (progn
-                          (progn 
+                          (progn
                             (require 'coffee-mode)
                             (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
                             (add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode)))
@@ -348,7 +349,7 @@
           ;;                 ))
 
           ;; (:name anything-replace-string
-          ;;        :type git 
+          ;;        :type git
           ;;        :url "git://github.com/k1LoW/anything-replace-string.git"
           ;;        :after (progn
           ;;                 (require 'anything-replace-string)
@@ -556,4 +557,3 @@
   ;; (el-get 'wait)
 
   )
-
