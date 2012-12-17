@@ -62,7 +62,7 @@
 ;; savekill
 ;;====================
 ;; kill ringの中身をファイル保存
-(require 'savekill)
+;; (require 'savekill) ; Windows で定期的に重たくなるためコメントアウト
 
 
 
@@ -244,11 +244,11 @@
 ;; revive.el
 ;;====================
 ;; http://www.hasta-pronto.org/archives/2008/01/30-0235.php
-;; (autoload 'save-current-configuration "revive" "Save status" t)
-;; (autoload 'resume "revive" "Resume Emacs" t)
-;; (autoload 'wipe "revive" "Wipe emacs" t)
-;; (add-hook 'kill-emacs-hook 'save-current-configuration)   ; 終了時に保存
-;; (resume) ; 起動時に復元
+(autoload 'save-current-configuration "revive" "Save status" t)
+(autoload 'resume "revive" "Resume Emacs" t)
+(autoload 'wipe "revive" "Wipe emacs" t)
+(add-hook 'kill-emacs-hook 'save-current-configuration)   ; 終了時に保存
+(resume) ; 起動時に復元
 
 
 ;;====================

@@ -13,7 +13,6 @@
                 "C:/scala/scala/bin"
                 "C:/Python27"
                 "C:/java/jdk1.7.0/bin"
-                "C:/Program Files (x86)/Git/bin"
                 (expand-file-name "~/bin")
                 (expand-file-name "~/.emacs.d/bin")
                 ))
@@ -24,6 +23,10 @@
 
     ;; ファイル名の文字コード指定
     (setq file-name-coding-system 'shift_jis)
+
+    ;; "Emacs 23.1.50.1 hangs ramdomly for 6-8 seconds on Windows XP - Stack Overflow"
+    ;; http://stackoverflow.com/questions/2007329/emacs-23-1-50-1-hangs-ramdomly-for-6-8-seconds-on-windows-xp
+    (setq w32-get-true-file-attributes nil)
 
 
 )
