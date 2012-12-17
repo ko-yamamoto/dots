@@ -115,3 +115,7 @@
   gn = grep -n
   sm = submodule
   smupdate = submodule foreach "git checkout master; git pull origin master"
+[merge]
+	ff = false
+[pull]
+	rebase = true
