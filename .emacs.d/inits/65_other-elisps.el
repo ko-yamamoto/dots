@@ -24,7 +24,7 @@
 ;; 矩形処理にcuaを利用
 (cua-mode t)
 ;; 矩形以外のcuaの機能をオフ
-(setq cua-enable-cua-keys nil) 
+(setq cua-enable-cua-keys nil)
 
 
 ;;====================
@@ -116,7 +116,7 @@
 ;; (require 'ac-slime)
 ;; (add-hook 'slime-mode-hook      'set-up-slime-ac)
 ;; (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
-;; 
+;;
 ;; (define-globalized-minor-mode real-global-auto-complete-mode
 ;;   auto-complete-mode (lambda ()
 ;;                        (if (not (minibufferp (current-buffer)))
@@ -161,8 +161,8 @@
 ;; 背景が黒い場合はこうしないと見出しが見づらい
 (setq frame-background-mode 'dark)
 ;; インデントをスペースで
-(add-hook 'rst-mode-hook 
-          '(lambda() 
+(add-hook 'rst-mode-hook
+          '(lambda()
              (setq indent-tabs-mode nil)
              ;;       (setq-default tab-width 3 indent-tabs-mode nil)
              ))
@@ -297,9 +297,6 @@
 
 
 
-
-
-
 ;;====================
 ;; others
 ;;====================
@@ -309,7 +306,7 @@
 (require 'recentf-ext)
 
 
-;; point-undo 
+;; point-undo
 (require 'point-undo)
 (define-key global-map (kbd "<f7>") 'point-undo)
 (define-key global-map (kbd "C-q b") 'point-undo)
@@ -321,4 +318,3 @@
 (require 'goto-chg)
 (define-key global-map (kbd "<f8>") 'goto-last-change)
 (define-key global-map (kbd "S-<f8>") 'goto-last-change-reverse)
-

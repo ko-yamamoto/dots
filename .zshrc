@@ -2,12 +2,9 @@
 HISTFILE=~/.histfile
 HISTSIZE=100000
 SAVEHIST=100000
-
-# ignore duplication command history list
-setopt hist_ignore_dups
-# share command history data
-setopt share_history
-
+setopt hist_ignore_all_dups  # 重複するコマンド行は古い方を削除
+setopt hist_ignore_dups      # 直前と同じコマンドラインはヒストリに追加しない
+setopt share_history         # コマンド履歴ファイルを共有する
 
 
 # キーバインドをEmacsに
@@ -49,39 +46,220 @@ export PATH=$PATH:$SCALA_HOME/bin
 # -deprecationつけて起動
 alias scala='scala -deprecation $1'
 
-alias gs='git status -s'
 
 # プロンプトをカラー表示
 autoload colors && colors
 
 # プロンプト表示設定
 setopt prompt_subst
-# PROMPT='%F{red}[%f%U%n%u%F{red}@%f%m%F{red}]%f%B%F{blue}%(!.#. >)%f%b '
-PROMPT='%F{green}%n%f/%m%B%(?.%F{blue}%(!.#. :))%f.%F{red}%(!.#. :()%f)%b '
-# RPROMPT='%{$fg[red]%}[%{$fg[blue]%}%~%{$fg[red]%}]%{$reset_color%}'
-# RPROMPT='%F{red}@%f%U%F{blue}%~%f%u'
+# PROMPT='%F{green}%n%f/%m%B%(?.%F{blue}%(!.#. :))%f.%F{red}%(!.#. :()%f)%b '
+
+PROMPT='%F{green}%n%f/%m  %F{blue}%(10~,%-4~/.../%6~,%~)%f
+%B%(?.%F{blue}%(!.#.／^o^＼)%f.%F{red}%(!.#.＼^o^／)%f)%b '
+# PROMPT='%F{green}%n%f/%m  %F{blue}%(10~,%-4~/.../%6~,%~)%f
+# %B%(?.%F{blue}%(!.#.>)%f.%F{red}%(!.#.>)%f)%b '
+
 
 # バージョン管理情報表示
-setopt prompt_subst
+# setopt prompt_subst
+# autoload -Uz vcs_info
+# zstyle ':vcs_info:*' actionformats \
+#     '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '
+# zstyle ':vcs_info:*' formats       \
+#     '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{5}]%f '
+# zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r'
+
+# zstyle ':vcs_info:*' enable git cvs svn
+
+# # or use pre_cmd, see man zshcontrib
+# vcs_info_wrapper() {
+#   vcs_info
+#   if [ -n "$vcs_info_msg_0_" ]; then
+#     echo "%{$fg[grey]%}${vcs_info_msg_0_}%{$reset_color%}$del"
+#   fi
+# }
+
+# # バージョン管理 短縮したカレントディレクトリ
+# RPROMPT=$'$(vcs_info_wrapper)%F{red}@%f%F{blue}%(5~,%-1~/.../%2~,%~)%f'
+
+# vcs_info 設定
+
+RPROMPT=""
+
 autoload -Uz vcs_info
-zstyle ':vcs_info:*' actionformats \
-    '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '
-zstyle ':vcs_info:*' formats       \
-    '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{5}]%f '
-zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r'
+autoload -Uz add-zsh-hook
+autoload -Uz is-at-least
+autoload -Uz colors
 
-zstyle ':vcs_info:*' enable git cvs svn
+# 以下の3つのメッセージをエクスポートする
+#   $vcs_info_msg_0_ : 通常メッセージ用 (緑)
+#   $vcs_info_msg_1_ : 警告メッセージ用 (黄色)
+#   $vcs_info_msg_2_ : エラーメッセージ用 (赤)
+zstyle ':vcs_info:*' max-exports 3
 
-# or use pre_cmd, see man zshcontrib
-vcs_info_wrapper() {
-  vcs_info
-  if [ -n "$vcs_info_msg_0_" ]; then
-    echo "%{$fg[grey]%}${vcs_info_msg_0_}%{$reset_color%}$del"
-  fi
+zstyle ':vcs_info:*' enable git svn hg bzr
+# 標準のフォーマット(git 以外で使用)
+# misc(%m) は通常は空文字列に置き換えられる
+zstyle ':vcs_info:*' formats '(%s)-[%b]'
+zstyle ':vcs_info:*' actionformats '(%s)-[%b]' '%m' '<!%a>'
+zstyle ':vcs_info:(svn|bzr):*' branchformat '%b:r%r'
+zstyle ':vcs_info:bzr:*' use-simple true
+
+
+if is-at-least 4.3.10; then
+    # git 用のフォーマット
+    # git のときはステージしているかどうかを表示
+    zstyle ':vcs_info:git:*' formats '(%s)-[%b]' '%c%u %m'
+    zstyle ':vcs_info:git:*' actionformats '(%s)-[%b]' '%c%u %m' '<!%a>'
+    zstyle ':vcs_info:git:*' check-for-changes true
+    zstyle ':vcs_info:git:*' stagedstr "+"    # %c で表示する文字列
+    zstyle ':vcs_info:git:*' unstagedstr "-"  # %u で表示する文字列
+fi
+
+# hooks 設定
+if is-at-least 4.3.11; then
+    # git のときはフック関数を設定する
+
+    # formats '(%s)-[%b]' '%c%u %m' , actionformats '(%s)-[%b]' '%c%u %m' '<!%a>'
+    # のメッセージを設定する直前のフック関数
+    # 今回の設定の場合はformat の時は2つ, actionformats の時は3つメッセージがあるので
+    # 各関数が最大3回呼び出される。
+    zstyle ':vcs_info:git+set-message:*' hooks \
+                                            git-hook-begin \
+                                            git-untracked \
+                                            git-push-status \
+                                            git-nomerge-branch \
+                                            git-stash-count
+
+    # フックの最初の関数
+    # git の作業コピーのあるディレクトリのみフック関数を呼び出すようにする
+    # (.git ディレクトリ内にいるときは呼び出さない)
+    # .git ディレクトリ内では git status --porcelain などがエラーになるため
+    function +vi-git-hook-begin() {
+        if [[ $(command git rev-parse --is-inside-work-tree 2> /dev/null) != 'true' ]]; then
+            # 0以外を返すとそれ以降のフック関数は呼び出されない
+            return 1
+        fi
+
+        return 0
+    }
+
+    # untracked フィアル表示
+    #
+    # untracked ファイル(バージョン管理されていないファイル)がある場合は
+    # unstaged (%u) に ? を表示
+    function +vi-git-untracked() {
+        # zstyle formats, actionformats の2番目のメッセージのみ対象にする
+        if [[ "$1" != "1" ]]; then
+            return 0
+        fi
+
+        if command git status --porcelain 2> /dev/null \
+            | awk '{print $1}' \
+            | command grep -F '??' > /dev/null 2>&1 ; then
+
+            # unstaged (%u) に追加
+            hook_com[unstaged]+='?'
+        fi
+    }
+
+    # push していないコミットの件数表示
+    #
+    # リモートリポジトリに push していないコミットの件数を
+    # pN という形式で misc (%m) に表示する
+    function +vi-git-push-status() {
+        # zstyle formats, actionformats の2番目のメッセージのみ対象にする
+        if [[ "$1" != "1" ]]; then
+            return 0
+        fi
+
+        if [[ "${hook_com[branch]}" != "master" ]]; then
+            # master ブランチでない場合は何もしない
+            return 0
+        fi
+
+        # push していないコミット数を取得する
+        local ahead
+        ahead=$(command git rev-list origin/master..master 2>/dev/null \
+            | wc -l \
+            | tr -d ' ')
+
+        if [[ "$ahead" -gt 0 ]]; then
+            # misc (%m) に追加
+            hook_com[misc]+="(p${ahead})"
+        fi
+    }
+
+    # マージしていない件数表示
+    #
+    # master 以外のブランチにいる場合に、
+    # 現在のブランチ上でまだ master にマージしていないコミットの件数を
+    # (mN) という形式で misc (%m) に表示
+    function +vi-git-nomerge-branch() {
+        # zstyle formats, actionformats の2番目のメッセージのみ対象にする
+        if [[ "$1" != "1" ]]; then
+            return 0
+        fi
+
+        if [[ "${hook_com[branch]}" == "master" ]]; then
+            # master ブランチの場合は何もしない
+            return 0
+        fi
+
+        local nomerged
+        nomerged=$(command git rev-list master..${hook_com[branch]} 2>/dev/null | wc -l | tr -d ' ')
+
+        if [[ "$nomerged" -gt 0 ]] ; then
+            # misc (%m) に追加
+            hook_com[misc]+="(m${nomerged})"
+        fi
+    }
+
+
+    # stash 件数表示
+    #
+    # stash している場合は :SN という形式で misc (%m) に表示
+    function +vi-git-stash-count() {
+        # zstyle formats, actionformats の2番目のメッセージのみ対象にする
+        if [[ "$1" != "1" ]]; then
+            return 0
+        fi
+
+        local stash
+        stash=$(command git stash list 2>/dev/null | wc -l | tr -d ' ')
+        if [[ "${stash}" -gt 0 ]]; then
+            # misc (%m) に追加
+            hook_com[misc]+=":S${stash}"
+        fi
+    }
+
+fi
+
+function _update_vcs_info_msg() {
+    local -a messages
+    local prompt
+
+    LANG=en_US.UTF-8 vcs_info
+
+    if [[ -z ${vcs_info_msg_0_} ]]; then
+        # vcs_info で何も取得していない場合はプロンプトを表示しない
+        prompt=""
+    else
+        # vcs_info で情報を取得した場合
+        # $vcs_info_msg_0_ , $vcs_info_msg_1_ , $vcs_info_msg_2_ を
+        # それぞれ緑、黄色、赤で表示する
+        [[ -n "$vcs_info_msg_0_" ]] && messages+=( "%F{green}${vcs_info_msg_0_}%f" )
+        [[ -n "$vcs_info_msg_1_" ]] && messages+=( "%F{yellow}${vcs_info_msg_1_}%f" )
+        [[ -n "$vcs_info_msg_2_" ]] && messages+=( "%F{red}${vcs_info_msg_2_}%f" )
+
+        # 間にスペースを入れて連結する
+        prompt="${(j: :)messages}"
+    fi
+
+    RPROMPT="$prompt"
 }
+add-zsh-hook precmd _update_vcs_info_msg
 
-# バージョン管理 短縮したカレントディレクトリ
-RPROMPT=$'$(vcs_info_wrapper)%F{red}@%f%F{blue}%(5~,%-1~/.../%2~,%~)%f'
 
 
 # 自動/Tram 用プロンプト
@@ -168,7 +346,7 @@ setopt nolistbeep
 # 日本語のファイル名表示
 setopt print_eight_bit
 
-# 補完候補をカーソルで選択できる 
+# 補完候補をカーソルで選択できる
 zstyle ':completion:*:default' menu select=1
 
 # C-w は一つ上のパスまでを消す
@@ -203,18 +381,8 @@ alias ec='emacsclient -n'
 # ctags
 # alias ctags='/usr/local/Cellar/ctags/5.8/bin/ctags'
 
-
-# 拡張があれば読み込み
-## 移動したディレクトリを記録し、 ディレクトリ間を j で補完して移動
-## https://github.com/joelthelion/autojump
-# [ -f ~/.autojump/etc/profile.d/autojump.zsh ] && source ~/.autojump/etc/profile.d/autojump.zsh
-# [[ -s ~/.autojump/etc/profile.d/autojump.zsh ]] && source ~/.autojump/etc/profile.d/autojump.zsh
-
-# Mineファイル読み込み
-# オレオレ設定はこっちに
-[ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
-[ -f ~/.zshrc.mac ] && source ~/.zshrc.mac
-[ -f ~/.zshrc.cyg ] && source ~/.zshrc.cyg
+compdef _git g='git' # g でも git として補完
+alias g='git'
 
 
 # 指定したコマンドを指定した時間ごとに実行
@@ -251,10 +419,25 @@ fi
 
 
 # plugins######################################################
+
 # zaw
 [ -f ~/bin/zaw/zaw.zsh ] && source ~/bin/zaw/zaw.zsh
 [ -f ~/bin/zaw/zaw.zsh ] && bindkey '^Q;' zaw
 [ -f ~/bin/zaw/zaw.zsh ] && bindkey '^R' zaw-history
+
+# zsh-completions
+# cd ~/bin
+# git clone https://github.com/zsh-users/zsh-completions.git
+fpath=($HOME/bin/zsh-completions/src $fpath)
+rm -f ~/.zcompdump; autoload -U compinit; compinit
+
+# Mineファイル読み込み
+# オレオレ設定はこっちに
+[ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
+[ -f ~/.zshrc.mac ] && source ~/.zshrc.mac
+[ -f ~/.zshrc.cyg ] && source ~/.zshrc.cyg
+
+
 
 
 
@@ -398,7 +581,7 @@ fi
 # 	bindkey -M vicmd '$' vi-end-of-line
 # 	bindkey -M vicmd 'd' vi-delete
 # 	bindkey -M vicmd 'D' vi-kill-eol
-# 	bindkey -M vicmd 'x' vi-delete-char  
+# 	bindkey -M vicmd 'x' vi-delete-char
 # 	bindkey -M vicmd 'X' vi-backward-delete-char
 # 	bindkey -M vicmd 'y' vi-yank
 # 	bindkey -M vicmd 'Y' vi-yank-whole-line
@@ -420,7 +603,7 @@ fi
 # 	bindkey -M vicmd '' vi-c-v
 # 	bindkey -M vicmd 'V' vi-V
 # 	bindkey -M vicmd 's' vi-substitute
-# 	bindkey -M vicmd 'S' vi-change-whole-line 
+# 	bindkey -M vicmd 'S' vi-change-whole-line
 # }
 # #
 # ##########################################################
@@ -429,7 +612,7 @@ fi
 # function vi-vis-cursor-shori_before() {
 # 	if [ $MARK -lt $(( $CURSOR + 1 )) ] ;then
 # 		VI_VIS_CURSOR_MARK=1
-# 	elif [ $MARK -eq $(( $CURSOR + 1 )) ] ;then 
+# 	elif [ $MARK -eq $(( $CURSOR + 1 )) ] ;then
 # 		VI_VIS_CURSOR_MARK=0
 # 	else
 # 		VI_VIS_CURSOR_MARK=-1
@@ -451,7 +634,7 @@ fi
 # 			CURSOR=$CURSOR
 # 			VI_VIS_CURSOR_MARK=1
 # 		fi
-# 	elif [ $MARK -eq $(( $CURSOR + 1 )) ] ;then 
+# 	elif [ $MARK -eq $(( $CURSOR + 1 )) ] ;then
 # 		if [ ${VI_VIS_CURSOR_MARK} -eq 1 ] ;then
 # 			MARK=$(( $MARK + 1 ))
 # 			CURSOR=$CURSOR
@@ -722,7 +905,7 @@ fi
 # 		CURSOR=$(( $CURSOR - 1 ))
 # 	fi
 # 	zle vi-vis-key-reset
-# 	if [ $CURSOR -lt $MARK ] ;then 
+# 	if [ $CURSOR -lt $MARK ] ;then
 # 		CURSOR=$(($CURSOR + 1))
 # 	fi
 # 	MARK=$(($CURSOR + 1))
@@ -747,7 +930,7 @@ fi
 # 		CURSOR=$(( $CURSOR - 1 ))
 # 	fi
 # 	zle vi-vis-key-reset
-# 	if [ $CURSOR -lt $MARK ] ;then 
+# 	if [ $CURSOR -lt $MARK ] ;then
 # 		CURSOR=$(($CURSOR + 1))
 # 	fi
 # 	MARK=$(($CURSOR + 1))
