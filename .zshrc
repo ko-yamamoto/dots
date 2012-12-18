@@ -90,7 +90,7 @@ PROMPT='%F{green}%n%f/%m  %F{blue}%(10~,%-4~/.../%6~,%~)%f
 # RPROMPT 設定
 if [ `echo $UNAME | grep 'CYGWIN'` ] ; then
 # CYGWIN は重いのでシンプル
-    RPROMPT="%F{blue}%(5~,%-1~/.../%2~,%~)%f"
+    # RPROMPT="%F{blue}%(5~,%-1~/.../%2~,%~)%f"
 else
 # CYGWIN 以外
     # vcs_info 設定
