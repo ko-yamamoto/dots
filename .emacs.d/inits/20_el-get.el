@@ -34,7 +34,7 @@
                           (setq helm-idle-delay 0.2)
                           (setq helm-input-idle-delay 0.1) ; 入力後に候補を更新するまでの時間
                           (setq helm-candidate-number-limit 300) ; 候補数
-                          (setq helm-buffer-max-length 100) ; バッファ名の最大長
+                          (setq helm-buffer-max-length 80) ; バッファ名の最大長
 
                           (require 'helm-files)
 
