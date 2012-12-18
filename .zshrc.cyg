@@ -56,3 +56,6 @@ export GIT_EDITOR="emacsclient"
 
 # rvm ruby
 [[ -s $HOME/.rvm/scripts/rvm ]] && source "$HOME/.rvm/scripts/rvm"
+
+# autojump
+[[ -s ~/.autojump/etc/profile.d/autojump.zsh ]] && . ~/.autojump/etc/profile.d/autojump.zsh
