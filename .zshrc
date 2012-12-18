@@ -90,7 +90,7 @@ PROMPT='%F{green}%n%f/%m  %F{blue}%(10~,%-4~/.../%6~,%~)%f
 # RPROMPT 設定
 if [ `echo $UNAME | grep 'CYGWIN'` ] ; then
 # CYGWIN は重いのでシンプル
-    # RPROMPT="%F{blue}%(5~,%-1~/.../%2~,%~)%f"
+    RPROMPT="%F{blue}%(5~,%-1~/.../%2~,%~)%f"
 else
 # CYGWIN 以外
     # vcs_info 設定
@@ -452,6 +452,48 @@ rm -f ~/.zcompdump; autoload -U compinit; compinit
 [ -f ~/.zshrc.cyg ] && source ~/.zshrc.cyg
 
 
+
+
+# 補完用 #####################################################
+# mosh
+# Thx! "zsh+MoshでHostnameを補完出来るようにした - Glide Note - グライドノート"
+# http://blog.glidenote.com/blog/2012/04/14/mosh-hostname-completion/
+function _mosh_hosts {
+  local -a config_hosts
+  local config
+  integer ind
+
+  # If users-hosts matches, we shouldn't complete anything else.
+  if [[ "$IPREFIX" == *@ ]]; then
+    _combination -s '[:@]' my-accounts users-hosts "users=${IPREFIX/@}" hosts "$@" && return
+  else
+    _combination -s '[:@]' my-accounts users-hosts \
+      ${opt_args[-l]:+"users=${opt_args[-l]:q}"} hosts "$@" && return
+  fi
+  if (( ind = ${words[(I)-F]} )); then
+    config=${~words[ind+1]}
+  else
+    config="$HOME/.ssh/config"
+  fi
+  if [[ -r $config ]]; then
+    local IFS=$'\t ' key hosts host
+    while read key hosts; do
+      if [[ "$key" == (#i)host ]]; then
+	 for host in ${(z)hosts}; do
+	    case $host in
+	    (*[*?]*) ;;
+	    (*) config_hosts+=("$host") ;;
+	    esac
+	 done
+      fi
+    done < "$config"
+    if (( ${#config_hosts} )); then
+      _wanted hosts expl 'remote host name' \
+	compadd -M 'm:{a-zA-Z}={A-Za-z} r:|.=* r:|=*' "$@" $config_hosts
+    fi
+  fi
+}
+compdef _mosh_hosts mosh
 
 
 
