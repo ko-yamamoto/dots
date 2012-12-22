@@ -435,21 +435,27 @@ fi
 # plugins######################################################
 
 # zaw
-[ -f ~/bin/zaw/zaw.zsh ] && source ~/bin/zaw/zaw.zsh
-[ -f ~/bin/zaw/zaw.zsh ] && bindkey '^Q;' zaw
-[ -f ~/bin/zaw/zaw.zsh ] && bindkey '^R' zaw-history
+if [ -f ~/bin/zaw/zaw.zsh ]; then
+    source ~/bin/zaw/zaw.zsh
+    bindkey '^Q;' zaw
+    bindkey '^R' zaw-history
+    zstyle ':filter-select' max-lines $(($LINES / 3))
+fi
+
 
 # zsh-completions
 # cd ~/bin
 # git clone https://github.com/zsh-users/zsh-completions.git
-fpath=($HOME/bin/zsh-completions/src $fpath)
-rm -f ~/.zcompdump; autoload -U compinit; compinit
+if [ -d ~/bin/zsh-completions ]; then
+    fpath=($HOME/bin/zsh-completions/src $fpath)
+    rm -f ~/.zcompdump; autoload -U compinit; compinit
+fi
 
 # Mineファイル読み込み
 # オレオレ設定はこっちに
-[ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
 [ -f ~/.zshrc.mac ] && source ~/.zshrc.mac
 [ -f ~/.zshrc.cyg ] && source ~/.zshrc.cyg
+[ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
 
 
 
