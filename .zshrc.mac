@@ -42,4 +42,11 @@ export GIT_EDITOR="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient"
 # autojump
 ## 移動したディレクトリを記録し、 ディレクトリ間を j で補完して移動
 ## https://github.com/joelthelion/autojump
-[[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && . ~/.autojump/etc/profile.d/autojump.sh
+if [ -s ~/.autojump/etc/profile.d/autojump.zsh ]; then
+    source ~/.autojump/etc/profile.d/autojump.zsh
+fi
+
+
+# source-highlight
+export LESS='-R'
+export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
