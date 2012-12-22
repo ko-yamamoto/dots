@@ -11,6 +11,7 @@
     excludesfile = ~/.gitignore  # globalな.gitignoreの指定
     autocrlf = input                 # CRLFを自動変換
     editor = emacsclient --alternate-editor vim
+    pager = LESS=-R less
 
 [color]
   # colorの設定(以下のコマンドは自動で色つける)
