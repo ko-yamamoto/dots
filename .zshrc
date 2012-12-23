@@ -60,7 +60,7 @@ setopt prompt_subst
 # PROMPT='%F{green}%n%f/%m  %F{blue}%(10~,%-4~/.../%6~,%~)%f
 # %B%(?.%F{blue}%(!.#.／^o^＼)%f.%F{red}%(!.#.＼^o^／)%f)%b '
 PROMPT='%F{green}%n%f/%m  %F{blue}%(10~,%-4~/.../%6~,%~)%f
-%B%(?.%F{blue}%(!.#.♪)%f.%F{red}%(!.#.!!)%f)%b '
+%B%(?.%F{blue}%(!.#.>)%f.%F{red}%(!.#.!)%f)%b '
 
 
 # バージョン管理情報表示
