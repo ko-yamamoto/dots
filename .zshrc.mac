@@ -3,7 +3,8 @@ export GIT_EDITOR='mvim -f'
 alias ccl='/usr/local/ccl/dx86cl'
 
 # alias ls='ls -fgh'
-alias ll='ls -alfgh'
+alias ll='ls -lh'
+alias la='ls -alfh'
 
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
@@ -33,6 +34,8 @@ export ANDROID_SDK_HOME=/Users/nishikawasasaki/android/android-sdk-macosx
 export PATH=$ANDROID_SDK_HOME:$PATH
 export ANDROID_SWT=/Users/nishikawasasaki/android/android-sdk-macosx/tools/lib/x86_64
 
+# JAVA は UTF-8
+export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8
 
 
 # git のログには emacs を
