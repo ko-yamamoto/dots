@@ -581,6 +581,25 @@
 
                           ))
 
+          (:name git-gutter.el-github
+                 :type github
+                 :url "git://github.com/syohex/emacs-git-gutter.git"
+                 :after (progn
+                          ;; (require 'git-gutter)
+                          (require 'git-gutter-fringe) ;; If you use flinge version
+
+                          ;; 色変更
+                          (set-face-foreground 'git-gutter-fr:added "#b9ca4a")
+                          (set-face-foreground 'git-gutter-fr:modified "#f0c674")
+                          (set-face-foreground 'git-gutter-fr:deleted "#d54e53")
+
+                          ;; 保存時に表示更新
+                          (add-hook 'after-save-hook
+                                    (lambda ()
+                                      (if (zerop (call-process-shell-command "git rev-parse --show-toplevel"))
+                                          (git-gutter))))
+                          ))
+
 
           ))
 
