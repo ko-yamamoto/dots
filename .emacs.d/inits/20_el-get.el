@@ -268,7 +268,8 @@
 
                           ;; 補完時大文字小文字の区別
                           ;; 大文字・小文字を区別しない
-                          (setq ac-ignore-case t) ;区別無し
+                          ;; (setq ac-ignore-case t) ;区別無し
+                          (setq ac-ignore-case nil) ;; 区別有り
 
                           ;; 候補を20行分表示
                           (setq ac-menu-height 20)
