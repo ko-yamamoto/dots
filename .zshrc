@@ -327,6 +327,8 @@ bindkey '^^' cdup
 autoload -Uz zmv
 alias zmv='noglob zmv -W'
 
+# 補完用ファイル置き場追加
+fpath=(~/.zsh/functions(N-/) ${fpath})
 
 # 補完設定
 autoload -zU compinit
