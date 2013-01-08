@@ -531,6 +531,7 @@
                           ;; 切り替えキー
                           (global-set-key (kbd "<C-tab>") 'tabbar-forward-tab)
                           (global-set-key (kbd "<C-S-tab>") 'tabbar-backward-tab)
+                          (global-set-key (kbd "<C-S-iso-lefttab>") 'tabbar-backward-tab)
 
                           ;; タブ名の間隔
                           (setq tabbar-separator '(1.5))
