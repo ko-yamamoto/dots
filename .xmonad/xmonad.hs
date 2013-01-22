@@ -14,6 +14,10 @@ import System.Exit
 import XMonad.Hooks.DynamicLog
 import XMonad.Actions.GridSelect
 
+import XMonad.Layout.ResizableTile
+import XMonad.Layout.Grid
+import XMonad.Layout.StackTile
+
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
@@ -117,6 +121,11 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Expand the master area
     , ((modm .|. shiftMask, xK_l     ), sendMessage Expand)
 
+    -- Shrink a window vertically
+    , ((modm .|. shiftMask, xK_z     ), sendMessage MirrorShrink)
+    -- Expand a window vertically
+    , ((modm .|. shiftMask, xK_a     ), sendMessage MirrorExpand)
+
     -- Push window back into tiling
     , ((modm,               xK_t     ), withFocused $ windows . W.sink)
 
@@ -191,7 +200,10 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 -- The available layouts.  Note that each layout is separated by |||,
 -- which denotes layout choice.
 --
-myLayout = tiled ||| Mirror tiled ||| Full
+-- myLayout = (ResizableTall 1 (3/100) (1/2) []) ||| tiled ||| Mirror tiled ||| Full
+-- myLayout = (ResizableTall 1 (3/100) (1/2) []) ||| Mirror tiled ||| Full
+-- myLayout = (ResizableTall 1 (3/100) (3/5) [])||| (ResizableTall 2 (3/100) (2/5) []) ||| Grid ||| (Mirror $ ResizableTall 1 (3/100) (1/2) []) ||| Full
+myLayout = (ResizableTall 1 (3/100) (3/5) [])||| (ResizableTall 2 (3/100) (2/5) []) ||| Grid ||| Full
   where
      -- default tiling algorithm partitions the screen into two panes
      tiled   = Tall nmaster delta ratio
@@ -204,6 +216,7 @@ myLayout = tiled ||| Mirror tiled ||| Full
 
      -- Percent of screen to increment by when resizing panes
      delta   = 3/100
+
 
 ------------------------------------------------------------------------
 -- Window rules:
@@ -223,6 +236,7 @@ myLayout = tiled ||| Mirror tiled ||| Full
 myManageHook = composeAll
     [ className =? "MPlayer"        --> doFloat
     , className =? "Gimp"           --> doFloat
+    , title =? "Ediff"           --> doFloat
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore ]
 
