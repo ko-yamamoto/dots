@@ -1063,10 +1063,15 @@ key.setGlobalKey('C-;', function (ev) {
     ext.exec("history-show");
 }, '履歴 anything 風');
 
-key.setGlobalKey(['C-x', 'C-b'], function (ev, arg) {
+key.setGlobalKey(['C-x', 'b'], function (ev, arg) {
     ext.exec('tanything', arg, ev);
 }, 'タブを一覧表示', true);
 
 key.setGlobalKey("M-i", function (ev) {
   ext.exec("imenu-headers");
 }, 'jump to headers');
+
+key.setGlobalKey(['C-x', 'g'], function (ev, arg) {
+    ext.exec('tabgroup-list', arg, ev);
+}, 'タブグループを一覧表示', true);
+

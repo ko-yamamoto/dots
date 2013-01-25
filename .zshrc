@@ -35,6 +35,10 @@ bindkey '^S' history-incremental-pattern-search-forward
 
 zstyle :compinstall filename '/Users/nishikawasasaki/.zshrc'
 
+
+# 共通のPATH
+export PATH=$HOME/bin:$PATH
+
 # 環境変数LANG
 # export LANG=ja_JP.utf8
 export LANG=ja_JP.UTF-8
