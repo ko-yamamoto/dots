@@ -208,7 +208,8 @@
                           ;; magit をバッファ全体に開く
                           (setq magit-status-buffer-switch-function 'switch-to-buffer)
 
-                          (global-set-key (kbd "C-q g") 'magit-status)
+                          (global-set-key (kbd "C-c g g") 'magit-status)
+                          (global-set-key (kbd "C-c g d") 'magit-diff-working-tree)
 
                           ;; 色変更
                           (set-face-foreground 'magit-diff-add "#b9ca4a")
@@ -425,10 +426,10 @@
 
                           ;; auto-complete
                           (ac-define-source ghc-mod
-                            '((depends ghc)
-                              (candidates . (ghc-select-completion-symbol))
-                              (symbol . "s")
-                              (cache)))
+                                            '((depends ghc)
+                                              (candidates . (ghc-select-completion-symbol))
+                                              (symbol . "s")
+                                              (cache)))
 
                           ;; indent
                           (custom-set-variables
@@ -611,19 +612,19 @@
                           (require 'multiple-cursors)
 
                           ;; 複数行選択してから全ての行にカーソル追加
-                          (global-set-key (kbd "C-q m m") 'mc/edit-lines)
+                          (global-set-key (kbd "C-c m m") 'mc/edit-lines)
                           ;; リージョンと一致する箇所で現在行より下にあるもの1つを追加
                           (global-set-key (kbd "C->") 'mc/mark-next-like-this)
                           ;; リージョンと一致する箇所で現在行より上にあるもの1つを追加
                           (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
                           ;; リージョンと一致する箇所を↑↓キーで追加。←で追加せずに次の箇所へ。→で取り消し(1つ戻る)
-                          (global-set-key (kbd "C-q m e") 'mc/mark-more-like-this-extended)
+                          (global-set-key (kbd "C-c m e") 'mc/mark-more-like-this-extended)
                           ;; リージョンと一致する箇所全て追加
-                          (global-set-key (kbd "C-q m a") 'mc/mark-all-like-this)
+                          (global-set-key (kbd "C-c m a") 'mc/mark-all-like-this)
                           ;; 良い感じに追加
-                          (global-set-key (kbd "C-q m d") 'mc/mark-all-like-this-dwim)
+                          (global-set-key (kbd "C-c m d") 'mc/mark-all-like-this-dwim)
                           ;; HTML などで対応するタグを追加
-                          (global-set-key (kbd "C-q m t") 'mc/mark-sgml-tag-pair)
+                          (global-set-key (kbd "C-c m t") 'mc/mark-sgml-tag-pair)
 
                           ))
 

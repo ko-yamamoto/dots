@@ -77,8 +77,8 @@
 
 
 
-(global-set-key "\C-qtt" 'twit)
-(global-set-key (kbd "C-q t p") 'twittering-update-status-interactive)
+(global-set-key (kbd "C-c t t") 'twit)
+(global-set-key (kbd "C-c t p") 'twittering-update-status-interactive)
 
 
 ;; Format string for rendering statuses.
