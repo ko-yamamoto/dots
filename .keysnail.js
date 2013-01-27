@@ -1099,3 +1099,13 @@ key.setGlobalKey(['C-c', 't', 't'], function (ev, arg) {
     ext.exec("twitter-client-display-timeline", arg, ev);
 }, 'TL を表示', true);
 
+key.setGlobalKey(['C-c', 'y'], function (ev, arg) {
+    ext.exec("view-yammer", arg, ev);
+}, 'yammer を表示', true);
+
+
+
+// PRESERVE エリアの外に
+key.setViewKey(['ESC', 'ESC'], function (ev) {
+    userscript.loadPlugins();
+}, 'プラグインのリロード');
