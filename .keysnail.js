@@ -38,10 +38,23 @@ plugins.options["twitter_client.keymap"] = {
 plugins.options["twitter_client.lists"] = 
     ["nishikawasasaki/kdl", "nishikawasasaki/list"];
 
+plugins.options["twitter_client.list_update_intervals"] = {
+    "nishikawasasaki/kdl"     : 60 * 1000 * 10 // 10 分ごとに更新を確認
+};
+
 // 日本語のつぶやきを対象に
 plugins.options["twitter_client.tracking_langage"] = "ja";
 
-
+// popup するかどうか
+plugins.options["twitter_client.popup_new_statuses"]           = false;
+// 起動時にリストを更新するかどうか
+plugins.options["twitter_client.automatically_begin_list"]     = false;
+// タイムラインの更新間隔
+plugins.options["twitter_client.update_interval"]          = 0;
+// リプライの更新間隔
+plugins.options["twitter_client.mentions_update_interval"] = 60 * 1000 * 5;
+// DM の更新間隔
+plugins.options["twitter_client.dm_update_interval"]       = 60 * 1000 * 10;
 
 
 
@@ -96,7 +109,7 @@ plugins.options['find.keymap'] = {
     "k"     : "prompt-previous-completion",
     "g"     : "prompt-beginning-of-candidates",
     "G"     : "prompt-end-of-candidates",
-    "q"     : "prompt-cancel",
+    "q"     : "prompt-cancel"
 };
 
 
@@ -199,6 +212,12 @@ local["^https?://mail.google.com/mail/"] = [
     ['T', null]
 ];
 
+local["^https?://www.facebook.com/"] = [
+    // navigation
+    ['k', null],
+    ['j', null]
+];
+
 
 
 
@@ -218,9 +237,9 @@ local["^https?://mail.google.com/mail/"] = [
         if (!matched)
             return null;
 
-        let xml = new XML(matched[1]);
+        let xml = util.xmlToDom(matched[1], util.XHTML);
 
-        return [cs.suggestion.@data for each (cs in xml.CompleteSuggestion)];
+        return Array.slice(xml.querySelectorAll("suggestion[data]")).map(function (suggestion) suggestion.getAttribute("data"));
     }
 
     function googleCompleter(args, extra) {
@@ -264,11 +283,11 @@ local["^https?://mail.google.com/mail/"] = [
 
 
 // promptで自動日本語入力オフ
-style.register(<><![CDATA[
-    #keysnail-prompt-textbox *|input {
-        ime-mode : inactive !important;
-    }
-]]></>);
+// style.register(<><![CDATA[
+//     #keysnail-prompt-textbox *|input {
+//         ime-mode : inactive !important;
+//     }
+// ]]></>);
 
 
 // ===== Add exts =====
@@ -514,14 +533,6 @@ key.setGlobalKey(['C-x', 'u'], function (ev) {
     goDoCommand("cmd_undo");
 }, 'アンドゥ');
 
-key.setGlobalKey(['C-x', 'T'], function (ev, arg) {
-    ext.exec("twitter-client-tweet-this-page", arg, ev);
-}, 'このページのタイトルと URL を使ってつぶやく', true);
-
-key.setGlobalKey(['C-x', 't'], function (ev, arg) {
-    ext.exec("twitter-client-display-timeline", arg, ev);
-}, 'TL を表示', true);
-
 key.setGlobalKey(['C-x', 'h'], function (ev) {
     goDoCommand("cmd_selectAll");
 }, 'すべて選択', true);
@@ -705,7 +716,7 @@ key.setViewKey([['C-p'], ['k']], function (aEvent) {
     }
 }, '一行スクロールアップ');
 
-key.setViewKey('C-f', function (ev) {
+key.setViewKey('M-m', function (ev) {
     command.focusElement(command.elementsRetrieverTextarea, 0);
 }, '最初のインプットエリアへフォーカス', true);
 
@@ -855,10 +866,6 @@ key.setEditKey('C-e', function (ev) {
     command.endLine(ev);
 }, '行末へ');
 
-key.setEditKey([['C-f'], ['M-n']], function (ev) {
-    command.walkInputElement(command.elementsRetrieverTextarea, true, true);
-}, '次のテキストエリアへフォーカス');
-
 key.setEditKey('C-b', function (ev) {
     command.previousChar(ev);
 }, '一文字左へ移動');
@@ -943,6 +950,10 @@ key.setEditKey('C-w', function (ev) {
     goDoCommand("cmd_delete");
     command.resetMark(ev);
 }, '選択中のテキストを切り取り (Kill region)', true);
+
+key.setEditKey('M-n', function (ev) {
+    command.walkInputElement(command.elementsRetrieverTextarea, true, true);
+}, '次のテキストエリアへフォーカス');
 
 key.setEditKey('M-p', function (ev) {
     command.walkInputElement(command.elementsRetrieverTextarea, false, true);
@@ -1074,4 +1085,17 @@ key.setGlobalKey("M-i", function (ev) {
 key.setGlobalKey(['C-x', 'g'], function (ev, arg) {
     ext.exec('tabgroup-list', arg, ev);
 }, 'タブグループを一覧表示', true);
+
+key.setGlobalKey(["C-c", "t", "n"],
+    function (ev, arg) {
+        ext.exec("twitter-client-tweet", arg);
+}, "つぶやく", true);
+
+key.setGlobalKey(['C-c', "t", "l"], function (ev, arg) {
+    ext.exec("twitter-client-tweet-this-page", arg, ev);
+}, 'このページのタイトルと URL を使ってつぶやく', true);
+
+key.setGlobalKey(['C-c', 't', 't'], function (ev, arg) {
+    ext.exec("twitter-client-display-timeline", arg, ev);
+}, 'TL を表示', true);
 
