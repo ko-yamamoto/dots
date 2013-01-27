@@ -64,7 +64,7 @@ key.setEditKey(["C-c", "e"], function (ev, arg) {
 }, "外部エディタで編集", true);
 plugins.options["K2Emacs.editor"] = "C:\\my\\programs\\emacs\\emacs-23.3\\bin\\emacsclientw.exe -n";
 plugins.options["K2Emacs.ext"] = "html";
-plugins.options["K2Emacs.encode"] = "UTF-8"
+plugins.options["K2Emacs.encode"] = "UTF-8";
 plugins.options["K2Emacs.sep"] = "\\";
 
 
@@ -85,6 +85,11 @@ plugins.options["hok.hint_base_style"] = {
 plugins.options["hok.hint_color_link"]    = 'rgba(210, 210, 210, 0.6)';
 plugins.options["hok.hint_color_form"]    = 'rgba(210, 210, 210, 0.6)';
 plugins.options["hok.hint_color_focused"] = 'rgba(255, 82, 93, 0.6)';
+
+
+// migemo
+prompt.useMigemo = true;
+prompt.migemoMinWordLength = 3;
 
 
 plugins.options["hitsory.keymap"] = {
