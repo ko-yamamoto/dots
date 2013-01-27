@@ -1086,7 +1086,7 @@ key.setGlobalKey(['C-x', 'g'], function (ev, arg) {
     ext.exec('tabgroup-list', arg, ev);
 }, 'タブグループを一覧表示', true);
 
-key.setGlobalKey(["C-c", "t", "n"],
+key.setGlobalKey(["C-c", "t", "p"],
     function (ev, arg) {
         ext.exec("twitter-client-tweet", arg);
 }, "つぶやく", true);
