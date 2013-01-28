@@ -14,23 +14,24 @@ plugins.options["twitter_client.keymap"] = {
     "g"     : "prompt-beginning-of-candidates",
     "G"     : "prompt-end-of-candidates",
     "q"     : "prompt-cancel",
-    // local
-    "t"     : "tweet",
-    "r"     : "reply",
-    "R"     : "retweet",
+    // twitter client specific actions
+    "N"     : "tweet",
+    "R"     : "reply",
+    "T"     : "retweet",
+    "M"     : "send-direct-message",
     "D"     : "delete-tweet",
-    "f"     : "add-to-favorite",
-    "v"     : "display-entire-message",
+    "F"     : "add-to-favorite",
+    "v"     : "twitter-client-select-user-show-timeline",
     "V"     : "view-in-twitter",
     "c"     : "copy-tweet",
-    "i"     : "copy-user-id",
     "*"     : "show-target-status",
     "@"     : "show-mentions",
+    "d"     : "show-dms",
     "/"     : "search-word",
-    "o"     : "open-url,n",
-    "d"     : "send-direct-message",
-    "+"     : "show-conversations",
-    "h"     : "refresh-or-back-to-timeline",
+    "o"     : "open-url",
+    "r"     : "show-conversations",
+    "."     : "refresh-or-back-to-timeline",
+    "A"     : "toggle-homeline-updating",
     "s"     : "switch-to"
 };
 
@@ -55,6 +56,7 @@ plugins.options["twitter_client.update_interval"]          = 0;
 plugins.options["twitter_client.mentions_update_interval"] = 60 * 1000 * 5;
 // DM の更新間隔
 plugins.options["twitter_client.dm_update_interval"]       = 60 * 1000 * 10;
+
 
 
 
