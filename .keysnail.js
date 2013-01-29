@@ -21,7 +21,7 @@ plugins.options["twitter_client.keymap"] = {
     "M"     : "send-direct-message",
     "D"     : "delete-tweet",
     "F"     : "add-to-favorite",
-    "v"     : "twitter-client-select-user-show-timeline",
+    "v"     : "show-target-status",
     "V"     : "view-in-twitter",
     "c"     : "copy-tweet",
     "*"     : "show-target-status",
