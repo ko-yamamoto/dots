@@ -51,7 +51,7 @@ plugins.options["twitter_client.popup_new_statuses"]           = false;
 // 起動時にリストを更新するかどうか
 plugins.options["twitter_client.automatically_begin_list"]     = false;
 // タイムラインの更新間隔
-plugins.options["twitter_client.update_interval"]          = 0;
+plugins.options["twitter_client.update_interval"]          = 60 * 1000 * 5;
 // リプライの更新間隔
 plugins.options["twitter_client.mentions_update_interval"] = 60 * 1000 * 5;
 // DM の更新間隔
@@ -200,6 +200,8 @@ local["^https?://mail.google.com/mail/"] = [
     ['m', null],
     ['!', null],
     ['#', null],
+    ['*', null],
+    ['g', null],
     ['r', null],
     ['R', null],
     ['a', null],
@@ -795,13 +797,24 @@ key.setViewKey('M', function (ev, arg) {
     shell.input("weblio " + (content.getSelection() || ""));
 }, 'Lookup the meaning of the word');
 
+// key.setViewKey('t', function (ev, arg) {
+//     shell.input("tabopen ");
+// }, 'タブで開く');
+key.setViewKey('t', function (ev, arg) {
+    BrowserOpenTab();
+}, 'タブを開く');
+
+
 key.setViewKey('T', function (ev, arg) {
     shell.input("tabopen google ");
 }, 'google検索');
 
+// key.setViewKey('o', function (ev, arg) {
+//     shell.input("open ");
+// }, 'このタブで開く');
 key.setViewKey('o', function (ev, arg) {
-    shell.input("open ");
-}, 'このタブで開く');
+    command.focusToById("urlbar");
+}, 'ロケーションバーへ移動');
 
 key.setViewKey('O', function (ev, arg) {
     shell.input("open google ");
@@ -814,10 +827,6 @@ key.setViewKey('A', function (ev, arg) {
 key.setViewKey('C-s', function (ev) {
     command.iSearchForward();
 }, 'インクリメンタル検索', true);
-
-key.setViewKey('t', function (ev) {
-    BrowserOpenTab();
-}, 'タブを開く');
 
 key.setEditKey(['C-c', 'e'], function (ev, arg) {
     ext.exec("edit_text", arg);
@@ -872,6 +881,10 @@ key.setEditKey('C-a', function (ev) {
 key.setEditKey('C-e', function (ev) {
     command.endLine(ev);
 }, '行末へ');
+
+key.setEditKey('C-f', function (ev) {
+    command.nextChar(ev);
+}, '一文字右へ移動');
 
 key.setEditKey('C-b', function (ev) {
     command.previousChar(ev);
@@ -1096,19 +1109,30 @@ key.setGlobalKey(['C-x', 'g'], function (ev, arg) {
 key.setGlobalKey(["C-c", "t", "p"],
     function (ev, arg) {
         ext.exec("twitter-client-tweet", arg);
-}, "つぶやく", true);
+}, "twitter につぶやく", true);
 
 key.setGlobalKey(['C-c', "t", "l"], function (ev, arg) {
     ext.exec("twitter-client-tweet-this-page", arg, ev);
-}, 'このページのタイトルと URL を使ってつぶやく', true);
+}, 'twitter にこのページのタイトルと URL を使ってつぶやく', true);
 
 key.setGlobalKey(['C-c', 't', 't'], function (ev, arg) {
     ext.exec("twitter-client-display-timeline", arg, ev);
-}, 'TL を表示', true);
+}, 'twitter TL を表示', true);
 
 key.setGlobalKey(['C-c', 'y'], function (ev, arg) {
     ext.exec("view-yammer", arg, ev);
 }, 'yammer を表示', true);
+
+
+key.setGlobalKey(["C-c", "f", "f"],
+    function (ev, arg) {
+        ext.exec("facebook-show-news-feed", arg);
+}, " facebook ニュースフィードを表示", true);
+
+key.setGlobalKey(["C-c", "f", "p"],
+    function (ev, arg) {
+        ext.exec("facebook-post-text", arg);
+}, " facebook 自分のウォールにポスト", true);
 
 
 
