@@ -3,7 +3,7 @@
 ;; ---------------------------------------------------------------------------------
 
 ;; タイトルバー
-(setq frame-title-format (format "%%f - Emacs@%s" (system-name)))
+(setq frame-title-format (format "%%b - Emacs@%s" (system-name)))
 
 
 ;; 対応するカッコをハイライト
@@ -124,4 +124,3 @@
       (candidate)
       (with-current-buffer anything-current-buffer
         (insert candidate))))))
-
