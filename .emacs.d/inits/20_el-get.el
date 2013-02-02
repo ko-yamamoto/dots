@@ -58,12 +58,29 @@
                               (persistent-help
                                . "Kill this buffer / C-u \\[helm-execute-persistent-action]: Show this buffer")))
 
+                          ;; ディレクトリだけのソース
+                          (defvar helm-c-recentf-directory-source
+                            '((name . "Recentf Directry")
+                              (candidates . (lambda ()
+                                              (loop for file in recentf-list
+                                                    when (file-directory-p file)
+                                                    collect file)))
+                              (type . file)))
+                          ;; ファイルだけのソース
+                          (defvar helm-c-recentf-file-source
+                            '((name . "Recentf File")
+                              (candidates . (lambda ()
+                                              (loop for file in recentf-list
+                                                    when (not (file-directory-p file))
+                                                    collect file)))
+                              (type . file)))
+
 
                           (defun helm-my ()
                             (interactive)
                             (helm-other-buffer '(helm-c-source-buffers-list-R
-                                                 helm-c-source-recentf
-                                                 helm-c-source-ctags
+                                                 helm-c-recentf-file-source
+                                                 helm-c-recentf-directory-source
                                                  helm-c-source-buffer-not-found)
                                                "*helm my*"))
 
@@ -427,10 +444,10 @@
 
                           ;; auto-complete
                           (ac-define-source ghc-mod
-                                            '((depends ghc)
-                                              (candidates . (ghc-select-completion-symbol))
-                                              (symbol . "s")
-                                              (cache)))
+                            '((depends ghc)
+                              (candidates . (ghc-select-completion-symbol))
+                              (symbol . "s")
+                              (cache)))
 
                           ;; indent
                           (custom-set-variables
