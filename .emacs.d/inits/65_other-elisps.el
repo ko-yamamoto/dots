@@ -1,13 +1,4 @@
 ;;====================
-;; auto-async-byte-compile
-;;====================
-;;(require 'auto-async-byte-compile)
-;; オートコンパイル無効にする正規表現
-;; (setq auto-async-byte-compile-exclude-file-regexp "/junk/")
-;; (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
-
-
-;;====================
 ;; smooth-scroll
 ;;====================
 (require 'smooth-scroll)
@@ -34,18 +25,6 @@
 (require 'undo-tree)
 (global-undo-tree-mode)
 (global-set-key (kbd "M-/") 'undo-tree-redo)
-
-
-;;====================
-;; thing-opt
-;;====================
-;; テキストオブジェクト(thing)選択
-(require 'thing-opt)
-(define-thing-commands)
-(global-set-key (kbd "C-$") 'mark-word*) ; 単語を選択
-(global-set-key (kbd "C-\"") 'mark-string) ; 文字列(""含む)を選択
-(global-set-key (kbd "C-(") 'mark-up-list) ; リスト表記()を選択
-
 
 
 
