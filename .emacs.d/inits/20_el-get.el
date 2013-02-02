@@ -541,11 +541,12 @@
                             (set btn (cons (cons "" nil)
                                            (cons "" nil))))
 
+
                           ;; ウィンドウからタブがはみ出たときの動作
                           ;; タブをスクロールさせる（デフォルト）
-                          ;; (setq tabbar-auto-scroll-flag t)
+                          (setq tabbar-auto-scroll-flag t)
                           ;; タブを省略して表示
-                          (setq tabbar-auto-scroll-flag nil)
+                          ;; (setq tabbar-auto-scroll-flag nil)
 
                           ;; 切り替えキー
                           (global-set-key (kbd "<C-tab>") 'tabbar-forward-tab)

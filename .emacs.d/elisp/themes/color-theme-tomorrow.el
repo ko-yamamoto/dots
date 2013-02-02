@@ -39,7 +39,8 @@ theme will be used."
 ;;           (setq background "#1d1f21"
            (setq background "#131517"
                  current-line "#282a2e"
-                 mode-line "#81a2be"
+                 ;; mode-line "#81a2be"
+                 mode-line "#f0c674"
                  mode-line-inactive "#81a2be"
                  selection "#373b41"
 ;;                 foreground "#c5c8c6"
@@ -121,7 +122,8 @@ theme will be used."
        (default ((t (:background ,background :foreground ,foreground))))
        (fringe ((t (:background ,current-line))))
        (minibuffer-prompt ((t (:foreground ,blue))))
-       (mode-line ((t (:background ,mode-line :foreground ,foreground))))
+       ;; (mode-line ((t (:background ,mode-line :foreground ,foreground))))
+       (mode-line ((t (:background ,"#555555" :foreground ,yellow))))
        (mode-line-inactive ((t (:background ,mode-line-inactive :foreground ,foreground))))
        (region ((t (:background ,selection))))
 
@@ -177,7 +179,7 @@ theme will be used."
        ;; helm
        (helm-header ((t (:background ,"grey22"))))
        (helm-source-header ((t (:background ,"grey40"))))
-       (helm-selection ((t (:background ,"grey10" :foreground ,yellow))))
+       (helm-selection ((t (:background ,"grey15" :foreground ,yellow))))
        ;; (helm-selection ((t (:foreground ,yellow))))
        (helm-visible-mark ((t (:background ,red))))
 
