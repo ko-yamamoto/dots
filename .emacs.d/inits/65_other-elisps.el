@@ -53,9 +53,10 @@
 ;; uniquify
 ;;====================
 ;; 同一名の buffer があったとき、開いているファイルのパスの一部を表示して区別する
-(when (locate-library "uniquify")
-  (require 'uniquify)
-  (setq uniquify-buffer-name-style 'post-forward-angle-brackets))
+(require 'uniquify)
+;; (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+(setq uniquify-buffer-name-style 'forward)
+(setq uniquify-strip-common-suffix nil)
 
 
 ;;====================
