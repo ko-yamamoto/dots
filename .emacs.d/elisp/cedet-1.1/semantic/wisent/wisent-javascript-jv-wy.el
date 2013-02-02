@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2005-2011 Free Software Foundation, Inc.
 
-;; Author: nishikawasasaki <nishikawasasaki@nsiMac.local>
-;; Created: 2012-09-09 05:13:20+0900
+;; Author: nishikawasasaki <nishikawasasaki@MacBookPro.local>
+;; Created: 2013-02-02 13:19:35+0900
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 
