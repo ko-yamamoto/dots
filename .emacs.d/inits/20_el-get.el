@@ -675,6 +675,16 @@
                  )
 
 
+          (:name js2-mode-mooz-github
+                 :type github
+                 :branch "emacs24"
+                 :url "git://github.com/mooz/js2-mode.git"
+                 :after (progn
+                          (autoload 'js2-mode "js2-mode" nil t)
+                          (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+                          ))
+
+
 
 
           ))
