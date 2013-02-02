@@ -88,7 +88,7 @@
                           (global-set-key (kbd "C-x C-f") 'helm-find-files)
                           (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 
-                          (global-set-key (kbd "C-q i") 'helm-imenu)
+                          (global-set-key (kbd "M-i") 'helm-imenu)
 
 
                           ;; git 管理ファイルを状態に応じて表示
