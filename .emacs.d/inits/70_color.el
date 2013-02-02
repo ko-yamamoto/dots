@@ -5,8 +5,8 @@
 ;; (color-theme-ns-w2)
 ;; (color-theme-ns)
 ;; (color-theme-tangotango)
-(color-theme-tomorrow-night-bright)
-;; (color-theme-tomorrow-night)
+;; (color-theme-tomorrow-night-bright)
+(color-theme-tomorrow-night)
 ;; (color-theme-tomorrow)
 ;; (color-theme-solarized-light)
 
@@ -18,5 +18,3 @@
 
 ;; 選択範囲をハイライト
 (setq-default transient-mark-mode t)
-
-

@@ -26,14 +26,14 @@
 
 
 ;; モードライン
-;; (setq-default mode-line-format
-;;               (list "%*["
-;;                     'mode-line-mule-info
-;;                     ;; "] L%l:C%c %P   %b   (%m"
-;;                     "] L%l:C%c %P   %f   (%m"
-;;                     'minor-mode-alist
-;;                     ")"
-;;                     )
-;;               )
+(setq-default mode-line-format
+              (list "%*["
+                    'mode-line-mule-info
+                    ;; "] L%l:C%c %P   %b   (%m"
+                    "] L%l:C%c %P   %f   (%m"
+                    'minor-mode-alist
+                    ")"
+                    )
+              )
 
 ;; -> el-get の powerline で設定
