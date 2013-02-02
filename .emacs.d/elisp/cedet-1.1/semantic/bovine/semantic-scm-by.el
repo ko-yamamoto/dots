@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2001, 2003, 2009 Eric M. Ludlam
 
-;; Author: nishikawasasaki <nishikawasasaki@nsiMac.local>
-;; Created: 2012-09-09 05:13:22+0900
+;; Author: nishikawasasaki <nishikawasasaki@MacBookPro.local>
+;; Created: 2013-02-02 13:19:37+0900
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

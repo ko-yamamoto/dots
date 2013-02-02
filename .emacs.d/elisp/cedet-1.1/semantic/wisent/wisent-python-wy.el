@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2002, 2003, 2004, 2007, 2012 Richard Kim
 
-;; Author: nishikawasasaki <nishikawasasaki@nsiMac.local>
-;; Created: 2012-09-09 05:13:19+0900
+;; Author: nishikawasasaki <nishikawasasaki@MacBookPro.local>
+;; Created: 2013-02-02 13:19:34+0900
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 
