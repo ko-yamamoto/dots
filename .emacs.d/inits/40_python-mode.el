@@ -17,11 +17,3 @@
 (autoload 'pymacs-load "pymacs" nil t)
 (eval-after-load "pymacs"
   '(add-to-list 'pymacs-load-path "~/app/emacs/elisp"))
-
-
-;; 補完
-;; (require 'pysmell)
-;; (add-hook 'python-mode-hook (lambda () (pysmell-mode 1)))
-
-
-
