@@ -90,32 +90,6 @@
              (define-key slime-repl-mode-map "\C-c\M-r" 'slime-restart-inferior-lisp)))
 
 
-;;====================
-;; ac-sime
-;;====================
-;; (require 'ac-slime)
-;; (add-hook 'slime-mode-hook      'set-up-slime-ac)
-;; (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
-;;
-;; (define-globalized-minor-mode real-global-auto-complete-mode
-;;   auto-complete-mode (lambda ()
-;;                        (if (not (minibufferp (current-buffer)))
-;;                            (auto-complete-mode 1))))
-;; (real-global-auto-complete-mode t)
-
-
-;;====================
-;; cl-indent-patches
-;;====================
-;; (when (require 'cl-indent-patches nil t)
-;;   ;; emacs-lispのインデントと混同しないように
-;;   (setq lisp-indent-function
-;;         (lambda (&rest args)
-;;           (apply (if (memq major-mode '(emacs-lisp-mode lisp-interaction-mode))
-;;                      'lisp-indent-function
-;;                    'common-lisp-indent-function)
-;;                  args))))
-
 
 ;;====================
 ;; cyg-mount
