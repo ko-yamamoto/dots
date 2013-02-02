@@ -347,6 +347,3 @@
 
 ;; 保存時に余計なスペースとタブを取り除く
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-;; imenu 実行
-(global-set-key (kbd "M-i") 'imenu)
