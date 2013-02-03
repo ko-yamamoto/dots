@@ -160,9 +160,18 @@
                                   ))
                           (yas-global-mode 1)
 
+                          (custom-set-variables '(yas-trigger-key "SPC"))
+
+                          ;; 既存スニペットを挿入する
+                          (define-key yas-minor-mode-map (kbd "C-c y i") 'yas-insert-snippet)
+                          ;; 新規スニペットを作成するバッファを用意する
+                          (define-key yas-minor-mode-map (kbd "C-c y n") 'yas-new-snippet)
+                          ;; 既存スニペットを閲覧・編集する
+                          (define-key yas-minor-mode-map (kbd "C-c y v") 'yas-visit-snippet-file)
+
                           (require 'helm-c-yasnippet)
                           (setq helm-c-yas-space-match-any-greedy t) ;[default: nil]
-                          (global-set-key (kbd "C-c y") 'helm-c-yas-complete)
+                          (global-set-key (kbd "C-c y y") 'helm-c-yas-complete)
                           ))
 
 
@@ -296,8 +305,12 @@
                           ;; 補完の情報源
                           (require 'auto-complete-etags)
                           (setq-default ac-sources
-                                        ;; '(ac-source-abbrev ac-source-yasnippet ac-source-filename ac-source-files-in-current-dir ac-source-words-in-same-mode-buffers ac-source-symbols))
-                                        '(ac-source-abbrev ac-source-etags ac-source-yasnippet ac-source-files-in-current-dir ac-source-words-in-same-mode-buffers ac-source-symbols))
+                                        '(ac-source-abbrev
+                                          ac-source-etags
+                                          ac-source-yasnippet
+                                          ac-source-files-in-current-dir
+                                          ac-source-words-in-same-mode-buffers
+                                          ac-source-symbols))
                           ;; 補完するモードの追加
                           (setq ac-modes (append ac-modes '(text-mode sql-mode scala-mode java-mode haskell-mode jde-mode coffee-mode)))
 
@@ -665,7 +678,7 @@
                  :after (progn
 
                           (require 'guide-key)
-                          (setq guide-key/guide-key-sequence '("C-q" "C-c e" "C-c m" "C-c g" "C-q s" "C-c t" "C-x RET"))
+                          (setq guide-key/guide-key-sequence '("C-q" "C-c e" "C-c m" "C-c g" "C-q s" "C-c t" "C-c y" "C-x RET"))
                           ;; (setq guide-key/highlight-command-regexp "rectangle")
                           (guide-key-mode 1)  ; guide-key-mode を有効にする
                           ))
