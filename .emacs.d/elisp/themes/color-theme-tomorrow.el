@@ -124,7 +124,7 @@ theme will be used."
        (minibuffer-prompt ((t (:foreground ,blue))))
        ;; (mode-line ((t (:background ,mode-line :foreground ,foreground))))
        (mode-line ((t (:background ,"#555555" :foreground ,yellow))))
-       (mode-line-inactive ((t (:background ,mode-line-inactive :foreground ,foreground))))
+       (mode-line-inactive ((t (:background ,"#555555" :foreground ,foreground))))
        (region ((t (:background ,selection))))
 
        ;; Font-lock stuff

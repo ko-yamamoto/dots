@@ -181,8 +181,6 @@
                  :after (progn
                           (require 'popwin)
                           (setq display-buffer-function 'popwin:display-buffer)
-                          ;; anythingをpopwinで行うため
-                          (setq anything-samewindow nil)
                           ;; popwinのデフォルトサイズ
                           (setq popwin:popup-window-height 0.4)
                           ;; popwinを使う表示を設定
@@ -194,10 +192,7 @@
                                           ("*Compile-Log*")
                                           ("*compilation*") ; for rst-compile
                                           ("*sdic*" :noselect t)
-                                          ("*anything*" :height 20)
-                                          ("*my-anything-all*" :height 20)
-                                          ("*my-anything-buf-screens*" :height 20)
-                                          ("*anything-my-imenu*" :height 20)
+                                          ("*helm \\(.*\\)*" :regexp t :height 0.35)
                                           ;;("*Moccur*" :height 20)
                                           ("*Directory*" :height 20)
                                           ("*undo-tree*" :height 20)
@@ -223,7 +218,8 @@
                                         popwin:special-display-config))
 
                           ;; 最後に表示したpopwinを再表示
-                          (define-key global-map (kbd "C-x p") 'popwin:display-last-buffer)))
+                          (define-key global-map (kbd "C-c p") 'popwin:display-last-buffer)))
+
           (:name magit
                  ;; make するとエラーが出るので独自で git pull
                  :type github
