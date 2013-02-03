@@ -36,7 +36,7 @@ plugins.options["twitter_client.keymap"] = {
 };
 
 // リスト設定
-plugins.options["twitter_client.lists"] = 
+plugins.options["twitter_client.lists"] =
     ["nishikawasasaki/kdl", "nishikawasasaki/list"];
 
 plugins.options["twitter_client.list_update_intervals"] = {
@@ -119,28 +119,28 @@ plugins.options['find.keymap'] = {
     "q"     : "prompt-cancel"
 };
 
-
+//Tanything 0.1.4用設定
 plugins.options["tanything_opt.keymap"] = {
-    "C-z"   : "prompt-toggle-edit-mode",
-    "SPC"   : "prompt-next-page",
-    "b"     : "prompt-previous-page",
-    "j"     : "prompt-next-completion",
-    "k"     : "prompt-previous-completion",
-    "g"     : "prompt-beginning-of-candidates",
-    "G"     : "prompt-end-of-candidates",
-    "D"     : "prompt-cancel",
+    "C-z"   : "prompt-toggle-edit-mode",        //ローカルキーバインドモードを抜けて編集モードに移行
+    "C-v"   : "prompt-next-page",               //一画面スクロールダウン
+    "M-v"   : "prompt-previous-page",           //一画面スクロールアップ
+    "j"     : "prompt-next-completion",         //次のアイテムに移動
+    "k"     : "prompt-previous-completion",     //前のアイテム移動
+    "g"     : "prompt-beginning-of-candidates", //最初のアイテムに移動
+    "G"     : "prompt-end-of-candidates",       //最後のアイテムに移動
+    "q"     : "prompt-cancel",
     // Tanything specific actions
-    "O"     : "localOpen",
-    "q"     : "localClose",
-    "p"     : "localLeftclose",
-    "n"     : "localRightclose",
-    "a"     : "localAllclose",
-    "d"     : "localDomainclose",
-    "c"     : "localClipUT",
-    "C"     : "localClipU",
-    "e"     : "localMovetoend",
-    "p"     : "localTogglePin"
+    "d"     : "localClose",                     //選択したタブを閉じる
+    // "p"     : "localLeftclose",                 //選択したタブの左にあるタブをすべて閉じる
+    // "n"     : "localRightclose",                //選択したタブの右にあるタブをすべて閉じる
+    "M-a"   : "localAllclose",                  //選択したタブ以外をすべて閉じる(キーバインド”a”だと押し間違いがあるので"M-a"に変更。)
+    "c"     : "localClipUT",                    //選択したタブのタイトルとURLをHTMLタグつきでコピー
+    "p"     : "localTogglePin",
+    "C"     : "localClipU",                     //選択したタブのURLをHTMLタグつきでコピー
+    "e"     : "localMovetoend",                 //選択したタブを末尾に移動
+    "a"     : "localMovetostart"               //選択したタブを先頭に移動//追加
 };
+
 
 
 // Tombloo連携でGoogleReader
@@ -1134,6 +1134,10 @@ key.setGlobalKey(["C-c", "f", "p"],
         ext.exec("facebook-post-text", arg);
 }, " facebook 自分のウォールにポスト", true);
 
+
+key.setEditKey('C-l', function (ev) {
+    command.recenter(ev);
+}, 'カーソル位置が画面の中央へ来るようスクロール', true);
 
 
 // PRESERVE エリアの外に
