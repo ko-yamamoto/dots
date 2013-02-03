@@ -4,10 +4,15 @@
 
 ;; see el-get
 
-;; ensime
+;; ensime ;;;;;;;;;;;;;;;;;;;
 (add-to-list 'load-path "~/.emacs.d/elisp/ensime_2.10.0-RC3-0.9.8.2/elisp/")
 (require 'ensime)
+
+;; ensime 同梱の auto-complete を使おうとするのを止める
+(setq ensime-ac-override-settings nil)
+
 (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 ;; imenu用
