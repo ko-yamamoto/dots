@@ -347,3 +347,6 @@
 
 ;; 保存時に余計なスペースとタブを取り除く
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;; 改行とインデント
+(global-set-key (kbd "C-m") 'newline-and-indent)
