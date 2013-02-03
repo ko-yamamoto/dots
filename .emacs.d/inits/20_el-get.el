@@ -254,7 +254,7 @@
                           (global-auto-complete-mode t)
                           (setq ac-dwim t)
                           ;; ;; 辞書ファイルの位置
-                          (add-to-list 'ac-dictionary-directories "~/.emacs.d/el-get/auto-complete/dict")
+                          (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
 
                           ;; デフォルト設定有効
                           (ac-config-default)
