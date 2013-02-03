@@ -1119,6 +1119,10 @@ key.setGlobalKey(['C-c', 't', 't'], function (ev, arg) {
     ext.exec("twitter-client-display-timeline", arg, ev);
 }, 'twitter TL を表示', true);
 
+key.setGlobalKey(['C-c', 't', '@'], function (ev, arg) {
+    ext.exec("twitter-client-show-mentions", arg, ev);
+}, 'twitter メンションを表示', true);
+
 key.setGlobalKey(['C-c', 'y'], function (ev, arg) {
     ext.exec("view-yammer", arg, ev);
 }, 'yammer を表示', true);
