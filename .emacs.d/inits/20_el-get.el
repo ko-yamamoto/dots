@@ -425,12 +425,6 @@
           ;;                 (global-set-key (kbd "C-c r") 'anything-replace-string)
           ;;                 ))
 
-          (:name BESI ;Better Emacs-Scala Indentation
-                 :type git
-                 :url "git://github.com/Rogach/besi.git"
-                 :after (progn
-                          (require 'besi)
-                          ))
 
           (:name haskell-mode
                  :type git
@@ -457,10 +451,10 @@
 
                           ;; auto-complete
                           (ac-define-source ghc-mod
-                            '((depends ghc)
-                              (candidates . (ghc-select-completion-symbol))
-                              (symbol . "s")
-                              (cache)))
+                                            '((depends ghc)
+                                              (candidates . (ghc-select-completion-symbol))
+                                              (symbol . "s")
+                                              (cache)))
 
                           ;; indent
                           (custom-set-variables
@@ -698,7 +692,12 @@
                           (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
                           ))
 
-
+          (:name scala-mode2-github
+                 :type github
+                 :url "git://github.com/hvesalai/scala-mode2.git"
+                 :after (progn
+                          (require 'scala-mode2)
+                          ))
 
 
           ))
