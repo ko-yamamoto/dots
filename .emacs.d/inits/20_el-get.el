@@ -249,66 +249,28 @@
                  :type github
                  :url "git://github.com/auto-complete/auto-complete.git"
                  :after (progn
-                          (require 'auto-complete)
+
                           (require 'auto-complete-config)
-                          (global-auto-complete-mode t)
-                          (setq ac-dwim t)
-                          ;; ;; 辞書ファイルの位置
-                          (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
-
-                          ;; デフォルト設定有効
                           (ac-config-default)
-                          ;; 補完を高度に
-                          (define-key ac-mode-map (kbd "TAB") 'auto-complete)
+                          (global-auto-complete-mode t)
 
-                          ;; 自動補完
-                          (setq ac-auto-start 4) ; ?文字以上で補完開始
-                          ;; 手動補完するならこっち
-                          ;; (setq ac-auto-start nil) ; 自動的に開始しない
-
-                          ;; 一定時間後に保管開始
-                          (setq ac-auto-show-menu 0.8)
-
-                          ;; 補完候補をソートする
-                          (setq ac-use-comphist t)
-
+                          ;; 補完メニュー表示時に特別なキーマップを有効にするか
                           (setq ac-use-menu-map t)
-                          ;; デフォルトで設定済み
-                          ;; (define-key ac-menu-map "\C-n" 'ac-next)
-                          ;; (define-key ac-menu-map "\C-p" 'ac-previous)
-                          ;; コンテキストに応じてTABで補完
+                          ;; 辞書ファイルの位置
+                          (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+                          ;; 補完の開始キー
+                          (define-key ac-mode-map (kbd "M-c") 'auto-complete)
+                          ;; 補完を止めるキー
+                          (define-key ac-menu-map "q" 'ac-stop)
+                          ;; 補完メニュー表示までのディレイ
+                          (setq ac-auto-show-menu 0.8)
+                          ;;補完メニューの行数
+                          (setq ac-menu-height 15)
+                          ;; 大文字・小文字の区別方法
+                          (setq ac-ignore-case 'smart)
+                          ;; 補完選択時にTABがRETの挙動に
+                          (setq ac-dwim t)
 
-                          (ac-set-trigger-key "TAB")
-                          ;; 補完確定
-                          (define-key ac-complete-mode-map "RET" 'ac-complete)
-
-                          ;; 補完を完了するだけ
-                          (define-key ac-completing-map (kbd "RET") nil)
-
-                          ;; tab補完で候補が選択されないようにする
-                          (define-key ac-menu-map [(tab)] 'ac-next)
-                          (define-key ac-menu-map [(S-tab)] 'ac-previous)
-
-
-                          ;; 補完時大文字小文字の区別
-                          ;; 大文字・小文字を区別しない
-                          ;; (setq ac-ignore-case t) ;区別無し
-                          (setq ac-ignore-case nil) ;; 区別有り
-
-                          ;; 候補を20行分表示
-                          (setq ac-menu-height 20)
-
-                          ;; 補完の情報源
-                          (require 'auto-complete-etags)
-                          (setq-default ac-sources
-                                        '(ac-source-abbrev
-                                          ac-source-etags
-                                          ac-source-yasnippet
-                                          ac-source-files-in-current-dir
-                                          ac-source-words-in-same-mode-buffers
-                                          ac-source-symbols))
-                          ;; 補完するモードの追加
-                          (setq ac-modes (append ac-modes '(text-mode sql-mode scala-mode java-mode haskell-mode jde-mode coffee-mode)))
 
                           ))
 
@@ -447,10 +409,10 @@
 
                           ;; auto-complete
                           (ac-define-source ghc-mod
-                                            '((depends ghc)
-                                              (candidates . (ghc-select-completion-symbol))
-                                              (symbol . "s")
-                                              (cache)))
+                            '((depends ghc)
+                              (candidates . (ghc-select-completion-symbol))
+                              (symbol . "s")
+                              (cache)))
 
                           ;; indent
                           (custom-set-variables
