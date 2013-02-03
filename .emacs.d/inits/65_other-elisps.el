@@ -238,7 +238,7 @@
 ;;====================
 
 ;; 最近使ったファイルに加えないファイルを正規表現で指定する
-(setq recentf-exclude '("/TAGS$" "/var/tmp/" ".*ssh.*" ".*sudo.*"))
+(setq recentf-exclude '("/TAGS$" "/var/tmp/"))
 (require 'recentf-ext)
 
 
