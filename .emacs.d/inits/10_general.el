@@ -73,6 +73,7 @@
 (setq recentf-max-saved-items 500)
 (setq recentf-max-menu-items 30)
 (setq recentf-keep '(file-remote-p file-readable-p))
+(setq recentf-auto-cleanup 'never)
 
 
 ;; ごみ箱を有効
