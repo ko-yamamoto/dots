@@ -201,7 +201,7 @@ theme will be used."
 
        ;; auto-complete
        (ac-candidate-face ((t (:background ,green :foreground ,"#ffffff"))))
-       (ac-selection-face ((t (:background ,orange :foreground ,"#000000"))))
+       (ac-selection-face ((t (:background ,yellow :foreground ,"#000000"))))
        ;; (set-face-underline 'ac-candidate-face "#b9ca4a")
 
 ))))
