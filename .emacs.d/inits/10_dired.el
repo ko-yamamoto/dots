@@ -168,7 +168,7 @@
         ("\\.pdf" "qlmanage -p")))
 
 ;; popwinでdiredを開くときのキー
-;;(global-set-key (kbd "C-x j") 'dired-jump-other-window)
+;; (global-set-key (kbd "C-c d") 'dired-jump-other-window)
 
 
 ;; dired から外部プログラムで開くための設定

@@ -193,11 +193,11 @@
                                           ("*compilation*") ; for rst-compile
                                           ("*sdic*" :noselect t)
                                           ("*helm \\(.*\\)*" :regexp t :height 0.35)
+                                          ;; ("\\(.*\\) \\[Dired\\]" :regexp t :height 0.4 :position top :stick t)
                                           ;;("*Moccur*" :height 20)
                                           ("*Directory*" :height 20)
                                           ("*undo-tree*" :height 20)
                                           ("\\*magit*" :regexp t :height 30)
-                                          (dired-mode :position top :height 0.6)
                                           ;; slime
                                           ("*slime-apropos*")
                                           ("*slime-macroexpansion*")
@@ -488,85 +488,121 @@
 
           ;;                 ))
 
-          (:name tabbar-github
+          (:name elscreen-24-ns-github
                  :type github
-                 :url "git://github.com/CMPITG/tabbar.el.git"
+                 :url "git://github.com/nishikawasasaki/elscreen.git"
                  :after (progn
+                          (require 'elscreen)
+                          (elscreen-start)
+                          ;; タブコントロールを左端に表示しない
+                          (setq elscreen-tab-display-control nil)
+                          ;; タブを閉じる [X] を表示しない
+                          (setq elscreen-tab-display-kill-screen nil)
 
-                          (require 'tabbar)
-                          (tabbar-mode 1)
-
-                          ;; グループを使わない
-                          (setq tabbar-buffer-groups-function nil)
-
-                          ;; 左側のボタンを消す
-                          (dolist (btn '(tabbar-buffer-home-button
-                                         tabbar-scroll-left-button
-                                         tabbar-scroll-right-button))
-                            (set btn (cons (cons "" nil)
-                                           (cons "" nil))))
-
-
-                          ;; ウィンドウからタブがはみ出たときの動作
-                          ;; タブをスクロールさせる（デフォルト）
-                          (setq tabbar-auto-scroll-flag t)
-                          ;; タブを省略して表示
-                          ;; (setq tabbar-auto-scroll-flag nil)
+                          ;; タブが1つの時にタブ移動をすると自動でスクリーンを生成する
+                          (defmacro elscreen-create-automatically (ad-do-it)
+                            `(if (not (elscreen-one-screen-p))
+                                 ,ad-do-it
+                               (elscreen-create)
+                               (elscreen-notify-screen-modification 'force-immediately)
+                               (elscreen-message "New screen is automatically created")))
+                          (defadvice elscreen-next (around elscreen-create-automatically activate)
+                            (elscreen-create-automatically ad-do-it))
+                          (defadvice elscreen-previous (around elscreen-create-automatically activate)
+                            (elscreen-create-automatically ad-do-it))
+                          (defadvice elscreen-toggle (around elscreen-create-automatically activate)
+                            (elscreen-create-automatically ad-do-it))
 
                           ;; 切り替えキー
-                          (global-set-key (kbd "<C-tab>") 'tabbar-forward-tab)
-                          (global-set-key (kbd "<C-S-tab>") 'tabbar-backward-tab)
-                          (global-set-key (kbd "<C-S-iso-lefttab>") 'tabbar-backward-tab)
+                          (global-set-key (kbd "<C-tab>") 'elscreen-next)
+                          (global-set-key (kbd "<C-S-tab>") 'elscreen-previous)
+                          (global-set-key (kbd "<C-S-iso-lefttab>") 'elscreen-previous)
 
-                          ;; タブ名の間隔
-                          (setq tabbar-separator '(1.5))
 
-                          ;; タブに表示させるバッファの設定
-                          (defvar my-tabbar-displayed-buffers
-                            '("*Backtrace*" "*Colors*" "*Faces*" "*vc-" "*eshell*")
-                            "*Regexps matches buffer names always included tabs.")
-                          (defun my-tabbar-buffer-list ()
-                            (let* ((hides (list ?\  ?\*))
-                                   (re (regexp-opt my-tabbar-displayed-buffers))
-                                   (cur-buf (current-buffer))
-                                   (tabs (delq nil
-                                               (mapcar (lambda (buf)
-                                                         (let ((name (buffer-name buf)))
-                                                           (when (or (string-match re name)
-                                                                     (not (memq (aref name 0) hides)))
-                                                             buf)))
-                                                       (buffer-list)))))
-                              ;; Always include the current buffer.
-                              (if (memq cur-buf tabs)
-                                  tabs
-                                (cons cur-buf tabs))))
-                          (setq tabbar-buffer-list-function 'my-tabbar-buffer-list)
-
-                          ;; 外観変更
-                          (set-face-attribute
-                           'tabbar-default nil
-                           :family "ricty"
-                           :background "black"
-                           :foreground "gray72"
-                           :height 0.8)
-                          (set-face-attribute
-                           'tabbar-unselected nil
-                           :background "black"
-                           :foreground "grey72"
-                           :box nil)
-                          (set-face-attribute
-                           'tabbar-selected nil
-                           :background "black"
-                           :foreground "#eab700"
-                           :box nil)
-                          (set-face-attribute
-                           'tabbar-button nil
-                           :box nil)
-                          (set-face-attribute
-                           'tabbar-separator nil
-                           :height 1.0)
 
                           ))
+
+
+
+          ;; (:name tabbar-github
+          ;;        :type github
+          ;;        :url "git://github.com/CMPITG/tabbar.el.git"
+          ;;        :after (progn
+
+          ;;                 (require 'tabbar)
+          ;;                 (tabbar-mode 1)
+
+          ;;                 ;; グループを使わない
+          ;;                 (setq tabbar-buffer-groups-function nil)
+
+          ;;                 ;; 左側のボタンを消す
+          ;;                 (dolist (btn '(tabbar-buffer-home-button
+          ;;                                tabbar-scroll-left-button
+          ;;                                tabbar-scroll-right-button))
+          ;;                   (set btn (cons (cons "" nil)
+          ;;                                  (cons "" nil))))
+
+
+          ;;                 ;; ウィンドウからタブがはみ出たときの動作
+          ;;                 ;; タブをスクロールさせる（デフォルト）
+          ;;                 (setq tabbar-auto-scroll-flag t)
+          ;;                 ;; タブを省略して表示
+          ;;                 ;; (setq tabbar-auto-scroll-flag nil)
+
+          ;;                 ;; 切り替えキー
+          ;;                 (global-set-key (kbd "<C-tab>") 'tabbar-forward-tab)
+          ;;                 (global-set-key (kbd "<C-S-tab>") 'tabbar-backward-tab)
+          ;;                 (global-set-key (kbd "<C-S-iso-lefttab>") 'tabbar-backward-tab)
+
+          ;;                 ;; タブ名の間隔
+          ;;                 (setq tabbar-separator '(1.5))
+
+          ;;                 ;; タブに表示させるバッファの設定
+          ;;                 (defvar my-tabbar-displayed-buffers
+          ;;                   '("*Backtrace*" "*Colors*" "*Faces*" "*vc-" "*eshell*")
+          ;;                   "*Regexps matches buffer names always included tabs.")
+          ;;                 (defun my-tabbar-buffer-list ()
+          ;;                   (let* ((hides (list ?\  ?\*))
+          ;;                          (re (regexp-opt my-tabbar-displayed-buffers))
+          ;;                          (cur-buf (current-buffer))
+          ;;                          (tabs (delq nil
+          ;;                                      (mapcar (lambda (buf)
+          ;;                                                (let ((name (buffer-name buf)))
+          ;;                                                  (when (or (string-match re name)
+          ;;                                                            (not (memq (aref name 0) hides)))
+          ;;                                                    buf)))
+          ;;                                              (buffer-list)))))
+          ;;                     ;; Always include the current buffer.
+          ;;                     (if (memq cur-buf tabs)
+          ;;                         tabs
+          ;;                       (cons cur-buf tabs))))
+          ;;                 (setq tabbar-buffer-list-function 'my-tabbar-buffer-list)
+
+          ;;                 ;; 外観変更
+          ;;                 (set-face-attribute
+          ;;                  'tabbar-default nil
+          ;;                  :family "ricty"
+          ;;                  :background "black"
+          ;;                  :foreground "gray72"
+          ;;                  :height 0.8)
+          ;;                 (set-face-attribute
+          ;;                  'tabbar-unselected nil
+          ;;                  :background "black"
+          ;;                  :foreground "grey72"
+          ;;                  :box nil)
+          ;;                 (set-face-attribute
+          ;;                  'tabbar-selected nil
+          ;;                  :background "black"
+          ;;                  :foreground "#eab700"
+          ;;                  :box nil)
+          ;;                 (set-face-attribute
+          ;;                  'tabbar-button nil
+          ;;                  :box nil)
+          ;;                 (set-face-attribute
+          ;;                  'tabbar-separator nil
+          ;;                  :height 1.0)
+
+          ;;                 ))
 
           ;; (:name git-gutter.el-github
           ;;        :type github
@@ -655,6 +691,48 @@
                  :url "git://github.com/hvesalai/scala-mode2.git"
                  :after (progn
                           (require 'scala-mode2)
+                          ))
+
+          (:name direx-el-github
+                 :type github
+                 :url "git://github.com/m2ym/direx-el.git"
+                 :after (progn
+                          (require 'direx)
+                          (require 'direx-project)
+
+                          (defun my/dired-jump ()
+                            (interactive)
+                            (cond (current-prefix-arg
+                                   (dired-jump))
+                                  ((not (one-window-p))
+                                   (or (ignore-errors
+                                         (direx-project:jump-to-project-root) t)
+                                       (direx:jump-to-directory)))
+                                  (t
+                                   (or (ignore-errors
+                                         (direx-project:jump-to-project-root-other-window) t)
+                                       (direx:jump-to-directory-other-window)))))
+
+                          (global-set-key (kbd "C-c d") 'my/dired-jump)
+
+                          ;; → で toggle
+                          (define-key direx:file-keymap (kbd "<right>") 'direx:toggle-item)
+                          ;; vim 風
+                          (define-key direx:file-keymap (kbd "l") 'direx:toggle-item)
+                          (define-key direx:file-keymap (kbd "j") 'direx:next-item)
+                          (define-key direx:file-keymap (kbd "k") 'direx:previous-item)
+                          ;; o と f を入れ替え
+                          (define-key direx:file-keymap (kbd "o") 'direx:find-item)
+                          (define-key direx:file-keymap (kbd "f") 'direx:find-item-other-window)
+
+                          ;; ツリーの表示
+                          (setq direx:leaf-icon "  "
+                                direx:open-icon "▾ "
+                                direx:closed-icon "▸ ")
+
+                          ;; popwin で開く
+                          (push '(direx:direx-mode :position left :width 0.3 :dedicated t)
+                                popwin:special-display-config)
                           ))
 
 

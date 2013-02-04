@@ -171,10 +171,10 @@ theme will be used."
 
        ;; elscreen
        ;; (elscreen-tab-background-face ((t (:background "#000000"))))
-       (elscreen-tab-background-face ((t (:background ,green))))
-       (elscreen-tab-control-face ((t (:background ,green))))
-       (elscreen-tab-current-screen-face ((t (:background ,blue :foreground ,white))))
-       (elscreen-tab-other-screen-face ((t (:background ,green :foreground ,white))))
+       (elscreen-tab-background-face ((t (:background ,"#555555"))))
+       (elscreen-tab-control-face ((t (:background ,"#555555"))))
+       (elscreen-tab-current-screen-face ((t (:background ,"#555555" :foreground ,yellow))))
+       (elscreen-tab-other-screen-face ((t (:background ,"#555555" :foreground ,white))))
 
        ;; helm
        (helm-header ((t (:background ,"grey22"))))
