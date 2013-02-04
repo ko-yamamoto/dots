@@ -74,6 +74,9 @@
 (setq recentf-max-menu-items 30)
 (setq recentf-keep '(file-remote-p file-readable-p))
 (setq recentf-auto-cleanup 'never)
+;; 最近使ったファイルに加えないファイルを正規表現で指定する
+(setq recentf-exclude '("/TAGS$" "/var/tmp/" "^/[^/:]+:"))
+
 
 
 ;; ごみ箱を有効
