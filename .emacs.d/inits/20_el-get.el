@@ -739,6 +739,24 @@
                                 popwin:special-display-config)
                           ))
 
+          (:name smartrep.el-github
+                 :type github
+                 :url "git://github.com/myuhe/smartrep.el.git"
+                 :after (progn
+                          (require 'smartrep)
+                          (smartrep-define-key
+                           global-map "C-z" '(("c" . 'elscreen-create)
+                                              ("n" . 'elscreen-next)
+                                              ("p" . 'elscreen-previous)
+                                              ("a" . 'elscreen-toggle)
+                                              ))
+                                              ;; ("a" . (lambda () (beginning-of-buffer-other-window 0)))
+                                              ;; ("e" . (lambda () (end-of-buffer-other-window 0)))))
+
+
+                          ))
+
+
 
           ))
 
