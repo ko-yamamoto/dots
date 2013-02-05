@@ -713,17 +713,13 @@ key.setViewKey('L', function (ev) {
     BrowserForward();
 }, '進む');
 
-key.setViewKey([['C-n'], ['j']], function (aEvent) {
-    for (var i = 0; i < 5; i++) {
-        key.generateKey(aEvent.originalTarget, KeyEvent.DOM_VK_DOWN, true);
-    }
-}, '一行スクロールダウン');
+key.setViewKey([['C-n'], ['j']], function (ev) {
+    plugins.scrollet.scrollLines(4)
+}, '4行スクロールダウン');
 
-key.setViewKey([['C-p'], ['k']], function (aEvent) {
-    for (var i = 0; i < 5; i++) {
-        key.generateKey(aEvent.originalTarget, KeyEvent.DOM_VK_UP, true);
-    }
-}, '一行スクロールアップ');
+key.setViewKey([['C-p'], ['k']], function (ev) {
+    plugins.scrollet.scrollLines(-4)
+}, '4行スクロールアップ');
 
 key.setViewKey('M-m', function (ev) {
     command.focusElement(command.elementsRetrieverTextarea, 0);
@@ -1148,3 +1144,19 @@ key.setEditKey('C-l', function (ev) {
 key.setViewKey(['ESC', 'ESC'], function (ev) {
     userscript.loadPlugins();
 }, 'プラグインのリロード');
+
+key.setGlobalKey(['C-x', 'r', 'SPC'], function (ev, arg) {
+    ext.exec("scrollet-set-mark", arg, ev);
+}, "現在の位置をマークに保存", true);
+
+key.setGlobalKey(['C-x', 'r', 'j'], function (ev, arg) {
+    ext.exec("scrollet-jump-to-mark", arg, ev);
+}, "マークに保存された位置へジャンプ", true);
+
+key.setGlobalKey("C-1", function (ev, arg) {
+    ext.exec("scrollet-set-mark", arg, ev);
+}, "現在の位置をマークに保存", true);
+
+key.setGlobalKey("C-2", function (ev, arg) {
+    ext.exec("scrollet-jump-to-mark", arg, ev);
+}, "マークに保存された位置へジャンプ", true);
