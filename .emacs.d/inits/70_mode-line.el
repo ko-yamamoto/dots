@@ -24,20 +24,11 @@
 ;; %% -- print %.
 ;; %- -- print infinitely many dashes.
 
-
 ;; モードライン
 (setq-default mode-line-format
-              (list "%*["
-                    'mode-line-mule-info
-                    ;; "] L%l:C%c %P   %b   (%m"
-                    "] L%l:C%c %P   %f   (%m"
-                    'minor-mode-alist
-                    ")"
-                    )
-              )
+              (list "%*[" 'mode-line-mule-info "] L%l:C%c %P [" `(vc-mode vc-mode) "]   %f   (%m" 'minor-mode-alist ")"))
 
 ;; -> el-get の powerline で設定
-
 
 ;; モード名をエイリアス
 (defvar mode-line-cleaner-alist
