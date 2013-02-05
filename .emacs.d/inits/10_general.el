@@ -355,3 +355,6 @@
 
 ;; 改行とインデント
 (global-set-key (kbd "C-m") 'newline-and-indent)
+
+;; 変更のあったファイルの自動再読み込み
+(global-auto-revert-mode t)
