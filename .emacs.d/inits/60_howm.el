@@ -86,3 +86,10 @@
      (define-key howm-mode-map
        "\C-c\C-c" 'my-save-and-kill-buffer)))
 
+
+(defun howm-menu-with-new-elscreen ()
+  "新しい elscreen で howm のメニューを表示"
+  (interactive)
+  (elscreen-create)
+  (howm-menu))
+(define-key global-map (kbd "C-c , ,") 'howm-menu-with-new-elscreen)

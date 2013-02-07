@@ -524,6 +524,22 @@
                           ;; emacsclient からは別のタブで開く
                           (require 'elscreen-server nil t)
 
+                          (defun anything-with-new-elscreen ()
+                            "新しい elscreen で anything"
+                            (interactive)
+                            (elscreen-create)
+                            (helm-my))
+                          (define-key global-map (kbd "C-:") 'anything-with-new-elscreen)
+
+                          (defun dired-with-new-elscreen ()
+                            "新しい elscreen で dired  * need emacs-historyf"
+                            (interactive)
+                            (elscreen-create)
+                            (historyf-back) ; emacs-historyf
+                            (dired-jump))
+                          (define-key global-map (kbd "C-x j") 'dired-with-new-elscreen)
+
+
                           ))
 
 
@@ -745,13 +761,14 @@
                  :after (progn
                           (require 'smartrep)
                           (smartrep-define-key
-                           global-map "C-z" '(("c" . 'elscreen-create)
-                                              ("n" . 'elscreen-next)
-                                              ("p" . 'elscreen-previous)
-                                              ("a" . 'elscreen-toggle)
-                                              ))
-                                              ;; ("a" . (lambda () (beginning-of-buffer-other-window 0)))
-                                              ;; ("e" . (lambda () (end-of-buffer-other-window 0)))))
+                              global-map "C-z" '(("c" . 'elscreen-create)
+                                                 ("n" . 'elscreen-next)
+                                                 ("p" . 'elscreen-previous)
+                                                 ("a" . 'elscreen-toggle)
+                                                 ("k" . 'elscreen-kill)
+                                                 ))
+                          ;; ("a" . (lambda () (beginning-of-buffer-other-window 0)))
+                          ;; ("e" . (lambda () (end-of-buffer-other-window 0)))))
 
 
                           ))

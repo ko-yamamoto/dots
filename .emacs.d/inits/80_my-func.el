@@ -170,7 +170,7 @@
     (make-directory dir t)
     ;; (find-file-other-window (read-string "Junk Code: " file))))
     (find-file (read-string "Junk Code: " file))))
-(global-set-key "\C-xj" 'open-junk-file)
+(global-set-key "\C-cj" 'open-junk-file)
 
 
 
