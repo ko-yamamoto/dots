@@ -270,3 +270,9 @@
   (setq dired-file-coding-system coding-system)
   (dired-map-over-marks-check
    (function dired-convert-coding-system) arg 'convert-coding-system t))
+
+
+
+
+;; dired でのファイルサイズ表示のオプション
+(setq dired-listing-switches "-FlhA")
