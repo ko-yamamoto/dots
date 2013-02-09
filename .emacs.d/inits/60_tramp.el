@@ -23,3 +23,20 @@ file is a remote file (include directory)."
         (rename-buffer (concat (buffer-name) " <" user "@" host ">") t)))))
 (add-to-list 'find-file-hook 'tramp-my-append-buffer-name-hint)
 (add-to-list 'dired-mode-hook 'tramp-my-append-buffer-name-hint)
+
+
+;; sudo でログインするための設定
+(add-to-list 'tramp-default-proxies-alist
+             '(nil "\\`root\\'" "/ssh:%h:"))
+(add-to-list 'tramp-default-proxies-alist
+             '("localhost" nil nil))
+(add-to-list 'tramp-default-proxies-alist
+             '((regexp-quote (system-name)) nil nil))
+
+
+
+(defun my-tramp-closing ()
+  "tramp のバッファを全て閉じ、全接続を終了する"
+  (interactive)
+   (tramp-cleanup-all-buffers)
+   (tramp-cleanup-all-connections))
