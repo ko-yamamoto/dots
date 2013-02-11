@@ -12,6 +12,8 @@
 ;;====================
 ;; cua
 ;;====================
+;; 矩形選択開始キーの変更
+(setq cua-rectangle-mark-key (kbd "C-S-<return>"))
 ;; 矩形処理にcuaを利用
 (cua-mode t)
 ;; 矩形以外のcuaの機能をオフ

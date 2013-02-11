@@ -18,6 +18,10 @@
   (setq el-get-sources
         '(
 
+          (:name org-mode-git
+                 :type git
+                 :url "git://orgmode.org/org-mode.git")
+
           (:name helm-github
                  :type github
                  :url "git://github.com/emacs-helm/helm.git"
@@ -271,6 +275,9 @@
                           (setq ac-ignore-case 'smart)
                           ;; 補完選択時にTABがRETの挙動に
                           (setq ac-dwim t)
+
+                          ;; 追加モード
+                          (add-to-list 'ac-modes 'org-mode)
 
 
                           ))
