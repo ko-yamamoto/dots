@@ -6,16 +6,6 @@
 ;; org-default-notes-fileのファイル名
 (setq org-default-notes-file "notes.org")
 
-;; org-rememberを使う
-(require 'remember)
-(require 'org-remember)
-(org-remember-insinuate)
-
-;; org-rememberのテンプレート
-(setq org-remember-templates
-      '(("Memo" ?n "* %?\n  %T\n  %i\n  %a" nil "Memos")
-        ("Todo" ?t "* TODO %?\n  %T\n  %i\n  %a" nil "Todos")))
-
 ;; TODO状態
 (setq org-todo-keywords
       '((sequence "TODO(t)" "WAIT(w)" "|" "DONE(d)" "SOMEDAY(s)")))
@@ -37,6 +27,29 @@
   (find-file org-directory))
 (define-key global-map (kbd "C-c o o") 'open-my-org-directory)
 
+;; org-capture
+(require 'org-capture)
+(setq org-capture-templates
+      '(("t" "Todo ノード追加" entry (file+headline "~/memo/Todos.org" "Todos")
+         "* TODO %?
+  %i
+  %a
+  %T")
+        ("l" "Todo リスト追加" item (file+headline "~/memo/Todos.org" "TodoList")
+         "- [ ] %?%i
+  %T")
+        ("m" "Memo" entry (file+headline nil "Memos")
+         "** %?
+  %i
+  %a
+  %T")
+        ("n" "日報" entry (file+datetree "~/memo/nippo.org")
+         "**** %?%i
+     - [
+     - 00:00 - 00:00")
+
+        ))
+(global-set-key (kbd "C-c o c") 'org-capture)
 
 
 
