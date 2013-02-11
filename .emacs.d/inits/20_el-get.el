@@ -531,19 +531,19 @@
                           ;; emacsclient からは別のタブで開く
                           (require 'elscreen-server nil t)
 
-                          (defun anything-with-new-elscreen ()
-                            "新しい elscreen で anything"
+                          (defun helm-with-new-elscreen ()
+                            "新しい elscreen で helm"
                             (interactive)
                             (elscreen-create)
                             (helm-my))
-                          (define-key global-map (kbd "C-:") 'anything-with-new-elscreen)
+                          (define-key global-map (kbd "C-:") 'helm-with-new-elscreen)
 
                           (defun dired-with-new-elscreen ()
-                            "新しい elscreen で dired  * need emacs-historyf"
+                            "新しい elscreen で dired"
                             (interactive)
-                            (elscreen-create)
-                            (historyf-back) ; emacs-historyf
-                            (dired-jump))
+                            (let ((current-dir (expand-file-name ".")))
+                              (elscreen-create)
+                              (dired current-dir)))
                           (define-key global-map (kbd "C-x j") 'dired-with-new-elscreen)
 
                           (define-key global-map (kbd "C-z C-c") 'elscreen-clone)
