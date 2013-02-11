@@ -1,15 +1,3 @@
-;; ;; 補完時に大文字小文字を区別しない
-;; (setq eshell-cmpl-ignore-case t)
-;; ;; 確認なしでヒストリ保存
-;; (setq eshell-ask-to-save-history (quote always))
-;; ;; 補完時にサイクルする
-;; ;;(setq eshell-cmpl-cycle-completions t)
-;; (setq eshell-cmpl-cycle-completions nil)
-;; ;;補完候補がこの数値以下だとサイクルせずに候補表示
-;; (setq eshell-cmpl-cycle-cutoff-length 5)
-;; ;; 履歴で重複を無視する
-;; (setq eshell-hist-ignoredups t)
-
 ;; prompt 文字列の変更
 (defun my-eshell-prompt ()
   (concat (eshell/pwd) "\n♪ " ))
@@ -17,23 +5,38 @@
 (setq eshell-prompt-regexp "^[^#$\n]*[#♪] ")
 
 
-;; eshell での補完に auto-complete.el を使う
-(require 'pcomplete)
-(add-to-list 'ac-modes 'eshell-mode)
-(ac-define-source pcomplete
-  '((candidates . pcomplete-completions)))
-(defun my-ac-eshell-mode ()
-  (setq ac-sources
-        '(ac-source-pcomplete
-          ac-source-filename
-          ac-source-files-in-current-dir
-          ac-source-words-in-buffer
-          ac-source-dictionary)))
-(add-hook 'eshell-mode-hook
-          (lambda ()
-            (my-ac-eshell-mode)
-            (define-key eshell-mode-map (kbd "C-i") 'auto-complete)
-            (define-key eshell-mode-map [(tab)] 'auto-complete)))
+;; ;; eshell での補完に auto-complete.el を使う
+;; (require 'pcomplete)
+;; (add-to-list 'ac-modes 'eshell-mode)
+;; (ac-define-source pcomplete
+;;   '((candidates . pcomplete-completions)))
+;; (defun my-ac-eshell-mode ()
+;;   (setq ac-sources
+;;         '(ac-source-pcomplete
+;;           ac-source-filename
+;;           ac-source-files-in-current-dir
+;;           ac-source-words-in-buffer
+;;           ac-source-dictionary)))
+;; (add-hook 'eshell-mode-hook
+;;           (lambda ()
+;;             (my-ac-eshell-mode)
+;;             (define-key eshell-mode-map (kbd "C-i") 'auto-complete)
+;;             (define-key eshell-mode-map [(tab)] 'auto-complete)
+;;             ))
+
+;; eshell での補完に pcomplete を使う
+;; 補完時に大文字小文字を区別しない
+(setq eshell-cmpl-ignore-case t)
+;; 確認なしでヒストリ保存
+(setq eshell-ask-to-save-history (quote always))
+;; 補完時にサイクルする
+(setq eshell-cmpl-cycle-completions t)
+;; (setq eshell-cmpl-cycle-completions nil)
+;;補完候補がこの数値以下だとサイクルせずに候補表示
+(setq eshell-cmpl-cycle-cutoff-length 1)
+;; 履歴で重複を無視する
+(setq eshell-hist-ignoredups t)
+
 
 
 
@@ -51,9 +54,19 @@
 ;; helm で補完
 (add-hook 'eshell-mode-hook
           #'(lambda ()
-              (define-key eshell-mode-map
-                (kbd "M-n")
-                'helm-esh-pcomplete)))
+              (define-key eshell-mode-map [(tab)] 'helm-esh-pcomplete)))
+
+;; helm で pcomplete と履歴の補完を同時に
+;; (add-hook 'eshell-mode-hook
+;;           #'(lambda ()
+;;               (require 'helm-eshell)
+;;               (defun my-helm-eshell ()
+;;                 (interactive)
+;;                 (helm-other-buffer '(helm-c-source-esh
+;;                                      helm-c-source-eshell-history)
+;;                                    "my helm eshell"))
+;;               (define-key eshell-mode-map [(tab)] 'my-helm-eshell)
+;;               ))
 
 
 ;; ちょっと作業用
@@ -69,6 +82,12 @@
       (eshell-mode)))
   (popwin:popup-buffer (get-buffer eshell-pop-buffer) :height 20))
 (global-set-key (kbd "C-c e p") 'eshell-pop)
+
+;; eshell のバッファはカーソルが一番下までいっても良い
+(add-hook 'eshell-mode-hook
+          (lambda ()
+            (make-local-variable 'scroll-margin)
+            (setq scroll-margin 0)))
 
 
 ;; alias ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

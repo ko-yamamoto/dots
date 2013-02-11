@@ -193,8 +193,12 @@ theme will be used."
        (speedbar-file-face ((t (:foreground ,"#888888"))))
 
        ;; eshell
-       (eshell-ls-executable ((t (:foreground ,red))))
        (eshell-prompt ((t (:foreground ,"#888888"))))
+       (eshell-ls-executable ((t (:foreground ,red))))
+       (eshell-ls-archive ((t (:foreground ,green))))
+       (eshell-ls-directory ((t (:foreground ,blue))))
+       (eshell-ls-readonly ((t (:foreground ,yellow))))
+       (eshell-ls-symlink ((t (:foreground ,purple))))
 
        ;; dired
        (dired-flagged ((t (:foreground ,orange))))
