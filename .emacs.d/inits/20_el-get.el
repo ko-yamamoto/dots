@@ -633,24 +633,30 @@
 
           ;;                 ))
 
-          ;; (:name git-gutter.el-github
-          ;;        :type github
-          ;;        :url "git://github.com/syohex/emacs-git-gutter.git"
-          ;;        :after (progn
-          ;;                 ;; (require 'git-gutter)
-          ;;                 (require 'git-gutter-fringe) ;; If you use flinge version
+          (:name git-gutter.el-github
+                 :type github
+                 :url "git://github.com/syohex/emacs-git-gutter.git"
+                 :after (progn
+                          (require 'git-gutter)
 
-          ;;                 ;; 色変更
-          ;;                 (set-face-foreground 'git-gutter-fr:added "#b9ca4a")
-          ;;                 (set-face-foreground 'git-gutter-fr:modified "#f0c674")
-          ;;                 (set-face-foreground 'git-gutter-fr:deleted "#d54e53")
+                          ;; (global-git-gutter-mode t)
 
-          ;;                 ;; 保存時に表示更新
-          ;;                 (add-hook 'after-save-hook
-          ;;                           (lambda ()
-          ;;                             (if (zerop (call-process-shell-command "git rev-parse --show-toplevel"))
-          ;;                                 (git-gutter))))
-          ;;                 ))
+                          ;; 表示変更
+                          ;; (setq git-gutter:window-width 2)
+                          ;; (setq git-gutter:added-sign "☀")
+                          ;; (setq git-gutter:modified-sign "☁")
+                          ;; (setq git-gutter:deleted-sign "☂")
+                          ;; 色変更
+                          (set-face-foreground 'git-gutter:added "#de935f")
+                          (set-face-foreground 'git-gutter:modified "#eab700")
+                          (set-face-foreground 'git-gutter:deleted "#81a2be")
+
+                          ;; ignore all spaces
+                          (setq git-gutter:diff-option "-w")
+
+                          (global-set-key (kbd "C-c g c") 'git-gutter:toggle)
+
+                          ))
 
 
           (:name multiple-cursors-github
@@ -781,8 +787,6 @@
 
 
                           ))
-
-
 
           ))
 
