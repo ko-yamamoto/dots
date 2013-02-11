@@ -44,3 +44,4 @@ elisp/*.elc
 /.emacs.d/eshell/history
 /.emacs.d/eshell/lastdir
 /.emacs.d/.mc-lists.el
+/.emacs.d/bookmarks
