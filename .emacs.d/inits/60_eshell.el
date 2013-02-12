@@ -90,7 +90,7 @@
             (setq scroll-margin 0)))
 
 
-;; alias ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; function ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; eshell 起動してバッファのディレクトリへ移動
 (defun eshell/cde ()
@@ -111,3 +111,64 @@
                 (buffer-substring-no-properties
                  (point) (line-end-position)))))
     (eshell/cd dir)))
+
+
+;; git branch を取得する → git 関連の補完で利用
+(defun my/git-branches ()
+  (split-string (shell-command-to-string "git branch | sed -e 's/[ *]*//'")))
+
+
+;; pcomplete ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun pcomplete/m ()
+  "Completion for `m' (`git merge')"
+  (pcomplete-here* (my/git-branches)))
+
+(defun pcomplete/co ()
+  "Completion for `co' (`git checkout')"
+  (pcomplete-here* (my/git-branches)))
+
+(defun pcomplete/bd ()
+  "Completion for `bd' (`git branch -d')"
+  (pcomplete-here* (my/git-branches)))
+
+(defun pcomplete/a ()
+  "Completion for `a' (`git add -p')"
+  (while (pcomplete-here (my/git-modified-files))))
+
+(defun my/git-untracked-files ()
+  (split-string (shell-command-to-string "git status -s -u | sed -e 's/^...//'")))
+
+(defconst pcmpl-git-commands
+  '("add" "bisect" "branch" "checkout" "clone"
+    "commit" "diff" "fetch" "grep"
+    "init" "log" "merge" "mv" "pull" "push" "rebase"
+    "reset" "rm" "show" "status" "tag" )
+  "List of `git' commands")
+
+(defun pcomplete/git ()
+  "Completion for `git'"
+  ;; Completion for the command argument.
+  (pcomplete-here* pcmpl-git-commands)
+  ;; complete files/dirs forever if the command is `add' or `rm'
+  (cond
+   ((pcomplete-match (regexp-opt '("add") ))
+    (while (pcomplete-here (my/git-untracked-files))))
+   ((pcomplete-match (regexp-opt '("rm" "reset" "mv")) 1)
+    (while (pcomplete-here (pcomplete-entries))))))
+
+(defun my/git-unstaged-files ()
+  "Return a list of files which are modified but unstaged."
+  (split-string (shell-command-to-string "git status -s | egrep '^.M' | sed -e 's/^.M //'")))
+
+(defun pcomplete/d ()
+  "Completion for `d' (`git diff')."
+  (while (pcomplete-here (my/git-unstaged-files))))
+
+(defun my/git-staged-files ()
+  "Return a list of staged files."
+  (split-string (shell-command-to-string "git status -s | egrep '^M' | sed -e 's/^M.//'")))
+
+(defun pcomplete/dc ()
+  "Completion for `dc' (`git diff')."
+  (while (pcomplete-here (my/git-staged-files))))
