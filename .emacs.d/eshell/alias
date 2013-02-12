@@ -1,6 +1,22 @@
 alias d. dired .
 alias hf helm-find-files $1
+alias ff find-file $1
+
+alias less view-file $1
 
 alias cd cd $1;ls
 alias ec emacsclient -n $1
-alias ll ls -alh
+alias ll ls -lh $1
+alias la ls -alh $1
+
+
+;; git
+alias g git $1
+
+;; git は magit に
+alias ms magit-status .
+alias ml magit-log
+alias md magit-diff master
+alias mb magit-branch-manager
+alias mf magit-fetch-current
+alias mr magit-interactive-rebase
