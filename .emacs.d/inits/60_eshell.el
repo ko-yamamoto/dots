@@ -17,6 +17,60 @@
 ;;           ac-source-files-in-current-dir
 ;;           ac-source-words-in-buffer
 ;;           ac-source-dictionary)))
+
+(defun ac-pcomplete ()
+  ;; eshell uses `insert-and-inherit' to insert a \t if no completion
+  ;; can be found, but this must not happen as auto-complete source
+  (flet ((insert-and-inherit (&rest args)))
+    ;; this code is stolen from `pcomplete' in pcomplete.el
+    (let* (tramp-mode ;; do not automatically complete remote stuff
+           (pcomplete-stub)
+           (pcomplete-show-list t) ;; inhibit patterns like * being deleted
+           pcomplete-seen pcomplete-norm-func
+           pcomplete-args pcomplete-last pcomplete-index
+           (pcomplete-autolist pcomplete-autolist)
+           (pcomplete-suffix-list pcomplete-suffix-list)
+           (candidates (pcomplete-completions))
+           (beg (pcomplete-begin))
+           ;; note, buffer text and completion argument may be
+           ;; different because the buffer text may bet transformed
+           ;; before being completed (e.g. variables like $HOME may be
+           ;; expanded)
+           (buftext (buffer-substring beg (point)))
+           (arg (nth pcomplete-index pcomplete-args)))
+      ;; we auto-complete only if the stub is non-empty and matches
+      ;; the end of the buffer text
+      (when (and (not (zerop (length pcomplete-stub)))
+                 (or (string= pcomplete-stub ; Emacs 23
+                              (substring buftext
+                                         (max 0
+                                              (- (length buftext)
+                                                 (length pcomplete-stub)))))
+                     (string= pcomplete-stub ; Emacs 24
+                              (substring arg
+                                         (max 0
+                                              (- (length arg)
+                                                 (length pcomplete-stub)))))))
+        ;; Collect all possible completions for the stub. Note that
+        ;; `candidates` may be a function, that's why we use
+        ;; `all-completions`.
+        (let* ((cnds (all-completions pcomplete-stub candidates))
+               (bnds (completion-boundaries pcomplete-stub
+                                            candidates
+                                            nil
+                                            ""))
+               (skip (- (length pcomplete-stub) (car bnds))))
+          ;; We replace the stub at the beginning of each candidate by
+          ;; the real buffer content.
+          (mapcar #'(lambda (cand) (concat buftext (substring cand skip)))
+                  cnds))))))
+
+(defvar ac-source-pcomplete
+  '((candidates . ac-pcomplete)))
+
+(add-hook 'eshell-mode-hook #'(lambda () (setq ac-sources '(ac-source-pcomplete ac-source-files-in-current-dir))))
+(add-to-list 'ac-modes 'eshell-mode)
+
 ;; (add-hook 'eshell-mode-hook
 ;;           (lambda ()
 ;;             (my-ac-eshell-mode)
@@ -44,29 +98,13 @@
 (global-set-key (kbd "C-c e e") 'eshell)
 
 
-;; helm で履歴から入力
-(add-hook 'eshell-mode-hook
-          #'(lambda ()
-              (define-key eshell-mode-map
-                (kbd "M-p")
-                'helm-eshell-history)))
 
-;; helm で補完
 (add-hook 'eshell-mode-hook
           #'(lambda ()
+              ;; helm で履歴から入力
+              (define-key eshell-mode-map (kbd "M-p") 'helm-eshell-history)
+              ;; helm で補完
               (define-key eshell-mode-map [(tab)] 'helm-esh-pcomplete)))
-
-;; helm で pcomplete と履歴の補完を同時に
-;; (add-hook 'eshell-mode-hook
-;;           #'(lambda ()
-;;               (require 'helm-eshell)
-;;               (defun my-helm-eshell ()
-;;                 (interactive)
-;;                 (helm-other-buffer '(helm-c-source-esh
-;;                                      helm-c-source-eshell-history)
-;;                                    "my helm eshell"))
-;;               (define-key eshell-mode-map [(tab)] 'my-helm-eshell)
-;;               ))
 
 
 ;; ちょっと作業用
@@ -89,6 +127,11 @@
             (make-local-variable 'scroll-margin)
             (setq scroll-margin 0)))
 
+;; eshell 時 helm の表示を変更
+(add-hook 'eshell-mode-hook
+          (lambda ()
+            (make-local-variable 'helm-c-show-completion-min-window-height)
+            (setq helm-c-show-completion-min-window-height 30)))
 
 ;; function ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
