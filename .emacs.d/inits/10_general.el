@@ -358,3 +358,6 @@
 
 ;; 変更のあったファイルの自動再読み込み
 (global-auto-revert-mode t)
+
+;; ロケールは C で統一しておく
+(setq system-time-locale "C")
