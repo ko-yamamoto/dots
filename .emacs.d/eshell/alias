@@ -1,8 +1,10 @@
 alias d. dired .
 alias hf helm-find-files $1
 alias ff find-file $1
+alias ffw find-file-other-window $1
 
 alias less view-file $1
+alias view view-file $1
 
 alias cd cd $1;ls
 alias ec emacsclient -n $1
