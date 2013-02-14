@@ -68,7 +68,51 @@
 (defvar ac-source-pcomplete
   '((candidates . ac-pcomplete)))
 
-(add-hook 'eshell-mode-hook #'(lambda () (setq ac-sources '(ac-source-pcomplete ac-source-files-in-current-dir))))
+(defun ac-eshell-candidates ()
+  "Get candidates for eshell completion using `pcomplete'."
+  (catch 'pcompleted
+    (with-helm-current-buffer
+      (let* ((pcomplete-stub)
+             pcomplete-seen pcomplete-norm-func
+             pcomplete-args pcomplete-last pcomplete-index
+             (pcomplete-autolist pcomplete-autolist)
+             (pcomplete-suffix-list pcomplete-suffix-list)
+             (table (pcomplete-completions))
+             (entry (condition-case nil
+                        ;; On Emacs24 `try-completion' return
+                        ;; pattern when more than one result.
+                        ;; Otherwise Emacs23 return nil, which
+                        ;; is wrong, in this case use pattern
+                        ;; to behave like Emacs24.
+                        (or (try-completion helm-pattern
+                                            (pcomplete-entries))
+                            helm-pattern)
+                      ;; In Emacs23 `pcomplete-entries' may fail
+                      ;; with error, so try this instead.
+                      (error
+                       nil
+                       (let ((fc (car (last
+                                       (pcomplete-parse-arguments)))))
+                         ;; Check if last arg require fname completion.
+                         (and (file-name-directory fc) fc))))))
+        (loop for i in (all-completions pcomplete-stub table)
+              for file-cand = (and entry
+                                   (if (file-remote-p i) i
+                                     (expand-file-name
+                                      i (file-name-directory entry))))
+              if (and file-cand (or (file-remote-p file-cand)
+                                    (file-exists-p file-cand)))
+              collect file-cand into ls
+              else collect i into ls
+              finally return
+              (if (and entry (not (string= entry "")) (file-exists-p entry))
+                  (append (list (expand-file-name entry default-directory)) ls)
+                ls))))))
+(defvar ac-source-eshell-pcomplete
+  '((candidates . ac-eshell-candidates)))
+
+
+(add-hook 'eshell-mode-hook #'(lambda () (setq ac-sources '(ac-source-eshell-pcomplete))))
 (add-to-list 'ac-modes 'eshell-mode)
 
 ;; (add-hook 'eshell-mode-hook
