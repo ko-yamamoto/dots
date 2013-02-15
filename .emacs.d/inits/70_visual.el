@@ -22,22 +22,6 @@
 
 
 ;; カーソル行ハイライト
-(defface hlline-face
-  '((((class color)
-      (background dark))
-     (:background "grey5"))
-     ;; (:background "#b5bd68"))
-     ;; (:background "snow1"))
-    (((class color)
-      (background light))
-         (:background "lemon chiffon"))
-     ;; (:background "#b5bd68"))
-     ;; (:background "snow1"))
-    (t
-     ()))
-  "*Face used by hl-line.")
-(setq hl-line-face 'hlline-face)
-
 ;; (setq hl-line-face 'underline) ; 下線
 (global-hl-line-mode)
 
@@ -64,9 +48,6 @@
 
 ;; カーソルの形
 (add-to-list 'default-frame-alist '(cursor-type 'hollow-rectangle))
-;; カーソルの色
-;; (add-to-list 'default-frame-alist '(cursor-color . "#268bd2"))
-(add-to-list 'default-frame-alist '(cursor-color . "#dc322f"))
 
 ;; カーソル位置のフェースを調べる関数
 (defun describe-face-at-point ()
