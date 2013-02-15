@@ -282,6 +282,17 @@
 
                           ))
 
+          (:name ac-slime-github
+                 :type github
+                 :url "git://github.com/purcell/ac-slime.git"
+                 :after (progn
+                          (require 'ac-slime)
+                          (add-hook 'slime-mode-hook 'set-up-slime-ac)
+                          (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
+                          (eval-after-load "auto-complete"
+                            '(add-to-list 'ac-modes 'slime-repl-mode))
+                          ))
+
           (:name expand-region
                  :type github
                  :url "git://github.com/magnars/expand-region.el.git"
