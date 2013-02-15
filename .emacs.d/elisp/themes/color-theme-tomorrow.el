@@ -201,6 +201,7 @@ theme will be used."
        ;; eshell
        (eshell-prompt ((t (:foreground ,"#888888"))))
        (eshell-ls-executable ((t (:foreground ,red))))
+       (eshell-ls-missing ((t (:foreground ,orange))))
        (eshell-ls-archive ((t (:foreground ,green))))
        (eshell-ls-directory ((t (:foreground ,blue))))
        (eshell-ls-readonly ((t (:foreground ,yellow))))
