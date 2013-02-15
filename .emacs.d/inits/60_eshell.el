@@ -68,7 +68,14 @@
 (defvar ac-source-pcomplete
   '((candidates . ac-pcomplete)))
 
-(add-hook 'eshell-mode-hook #'(lambda () (setq ac-sources '(ac-source-pcomplete ac-source-files-in-current-dir))))
+(add-hook 'eshell-mode-hook
+          #'(lambda ()
+              ;; auto-complete のソースを追加
+              (setq ac-sources '(ac-source-pcomplete ac-source-files-in-current-dir))
+              ;; eshell では自動補完しない
+              (make-local-variable 'ac-auto-start)
+              (setq ac-auto-start nil)
+              ))
 (add-to-list 'ac-modes 'eshell-mode)
 
 ;; (add-hook 'eshell-mode-hook
@@ -133,6 +140,15 @@
             (make-local-variable 'helm-c-show-completion-min-window-height)
             (setq helm-c-show-completion-min-window-height 30)))
 
+
+(setq eshell-banner-message (concat "Welcome to Eshell \n"
+                                    (system-name)
+                                    " running "
+                                    (shell-command-to-string "uname -rs")
+                                    "on Emacs "
+                                    emacs-version
+                                    "\n\n"))
+
 ;; function ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; eshell 起動してバッファのディレクトリへ移動
@@ -154,6 +170,15 @@
                 (buffer-substring-no-properties
                  (point) (line-end-position)))))
     (eshell/cd dir)))
+
+;; リモートホスト / へ移動
+(defun eshell/cd\/ ()
+  (interactive)
+  (let* ((host-name (concat
+                     (car (split-string (eshell/pwd) ":/"))
+                     ":/")))
+    (eshell/cd host-name)
+    ))
 
 
 ;; git branch を取得する → git 関連の補完で利用
