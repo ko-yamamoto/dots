@@ -181,9 +181,13 @@ theme will be used."
        ;; helm
        (helm-header ((t (:background ,"grey22"))))
        (helm-source-header ((t (:background ,"grey40"))))
-       (helm-selection ((t (:background ,"grey15" :foreground ,yellow))))
+       ;; (helm-selection ((t (:background ,"grey15" :foreground ,yellow))))
+       (helm-selection ((t (:background ,"grey25"  :underline, nil))))
        ;; (helm-selection ((t (:foreground ,yellow))))
        (helm-visible-mark ((t (:background ,red))))
+       (helm-ff-directory ((t (:background ,nil :foreground ,blue))))
+       (helm-candidate-number ((t (:background ,nil :foreground ,white))))
+
 
        ;; yalinum
        ;; (yalinum-face ((t (:background ,base03 :foreground ,base3))))
