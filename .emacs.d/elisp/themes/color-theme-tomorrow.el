@@ -115,7 +115,8 @@ theme will be used."
        ((background . ,background)
         (background-mode . dark)
         (border-color . ,cursor)
-        (cursor-color . ,cursor)
+        ;; (cursor-color . ,cursor)
+        (cursor-color . ,yellow)
         (foreground-color . ,foreground))
 
        ;; Built-in stuff (Emacs 23)
@@ -139,7 +140,8 @@ theme will be used."
        (font-lock-warning-face ((t (:foreground ,red))))
 
        ;; hl-line-mode
-       (hl-line ((t (:background ,current-line))))
+       ;; (hl-line ((t (:background ,current-line))))
+       (hl-line ((t (:background ,"grey15"))))
 
        ;; linum-mode
        (linum ((t (:background ,current-line :foreground ,foreground))))
@@ -207,6 +209,9 @@ theme will be used."
        (ac-candidate-face ((t (:background ,green :foreground ,"#ffffff"))))
        (ac-selection-face ((t (:background ,yellow :foreground ,"#000000"))))
        ;; (set-face-underline 'ac-candidate-face "#b9ca4a")
+
+       ;; slime
+       (slime-repl-inputed-output-face ((t (:foreground ,red))))
 
 ))))
 
