@@ -54,6 +54,11 @@
   :type 'boolean
   :group 'init-loader)
 
+(defcustom init-loader-byte-compile t
+  "自動的に設定ファイルをバイトコンパイルする"
+  :type 'boolean
+  :group 'init-loader)
+
 (defcustom init-loader-default-regexp "\\(?:^[[:digit:]]\\{2\\}\\)"
   "起動時に読み込まれる設定ファイルにマッチする正規表現.
 デフォルトは二桁の数字から始まるファイルにマッチする正規表現.
@@ -92,7 +97,6 @@ e.x, 00_hoge.el, 01_huga.el ... 99_keybind.el"
   "Linux環境での起動時に読み込まれる設定ファイルにマッチする正規表現"
   :group 'init-loader
   :type 'regexp)
-
 
 ;;; Code
 (defun* init-loader-load (&optional (init-dir init-loader-directory))
@@ -135,13 +139,25 @@ e.x, 00_hoge.el, 01_huga.el ... 99_keybind.el"
   (defun init-loader-error-log (&optional s)
     (if s (and (stringp s) (push s err-logs)) (mapconcat 'identity (reverse err-logs) "\n"))))
 
+(defvar init-loader-before-compile-hook nil)
+(defun init-loader-load-file (file)
+  (when init-loader-byte-compile
+    (let* ((path (file-name-sans-extension (locate-library file)))
+           (el (concat path ".el")) (elc (concat path ".elc")))
+      (when (or (not (file-exists-p elc))
+                (file-newer-than-file-p el elc))
+        (when (file-exists-p elc) (delete-file elc))
+        (run-hook-with-args 'init-loader-before-compile-hook file)
+        (byte-compile-file el))))
+  (load file))
+
 (defun init-loader-re-load (re dir &optional sort)
 ;; 2011/06/12 zqwell load-path問題修正 (autoloadを使ったりすると問題になる)
 ;  (let ((load-path (cons dir load-path)))
   (add-to-list 'load-path dir) ; globalなload-pathを利用するようにする
     (dolist (el (init-loader--re-load-files re dir sort))
       (condition-case e
-          (let ((time (car (benchmark-run (load (file-name-sans-extension el))))))
+          (let ((time (car (benchmark-run (init-loader-load-file (file-name-sans-extension el))))))
             (init-loader-log (format "loaded %s. %s" (locate-library el) time)))
         (error
 	 ;; 2011/06/12 zqwell エラー箇所表示対応
@@ -203,7 +219,7 @@ e.x, 00_hoge.el, 01_huga.el ... 99_keybind.el"
 
 (dont-compile
   (when (fboundp 'expectations)
-    (expectations 
+    (expectations
       (desc "init-loader--re-load-files")
       (expect  '("00_utils.el" "01_ik-cmd.el" "20_elisp.el" "21_javascript.el" "23_yaml.el" "25_perl.el" "96_color.el" "98_emacs-config.el" "99_global-keys.el")
         (stub directory-files => init-loader-test-files)
@@ -230,4 +246,3 @@ e.x, 00_hoge.el, 01_huga.el ... 99_keybind.el"
       )))
 
 (provide 'init-loader)
-
