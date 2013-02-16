@@ -68,7 +68,7 @@
 (when is_win
   (setq inferior-lisp-program "ccl.bat"))
 (when is_mac
-  (setq inferior-lisp-program "dx86cl64"))
+  (setq inferior-lisp-program "ccl"))
 (when is_linux
   (setq inferior-lisp-program "ccl"))
 
