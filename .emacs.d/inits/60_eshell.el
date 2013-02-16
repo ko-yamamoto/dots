@@ -86,8 +86,8 @@
 ;;             ))
 
 ;; eshell での補完に pcomplete を使う
-;; 補完時に大文字小文字を区別しない
-(setq eshell-cmpl-ignore-case t)
+;; 補完時に大文字小文字を区別しないなら t
+(setq eshell-cmpl-ignore-case nil)
 ;; 確認なしでヒストリ保存
 (setq eshell-ask-to-save-history (quote always))
 ;; 補完時にサイクルする
