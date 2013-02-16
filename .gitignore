@@ -45,3 +45,4 @@ elisp/*.elc
 /.emacs.d/eshell/lastdir
 /.emacs.d/.mc-lists.el
 /.emacs.d/bookmarks
+/.emacs.d/elpa/archives/melpa/archive-contents
