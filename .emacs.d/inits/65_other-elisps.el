@@ -21,16 +21,6 @@
 
 
 ;;====================
-;; undo-tree
-;;====================
-;; undo redoを木構造で保存
-(require 'undo-tree)
-(global-undo-tree-mode)
-(global-set-key (kbd "M-/") 'undo-tree-redo)
-
-
-
-;;====================
 ;; uniquify
 ;;====================
 ;; 同一名の buffer があったとき、開いているファイルのパスの一部を表示して区別する
