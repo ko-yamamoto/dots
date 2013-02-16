@@ -201,7 +201,6 @@
                                           ;; ("\\(.*\\) \\[Dired\\]" :regexp t :height 0.4 :position top :stick t)
                                           ;;("*Moccur*" :height 20)
                                           ("*Directory*" :height 20)
-                                          ("*undo-tree*" :height 20)
                                           ("\\*magit*" :regexp t :height 30)
                                           ;; slime
                                           ("*slime-apropos*")
@@ -800,6 +799,24 @@
 
 
                           ))
+
+          (:name undo-tree-git
+                 :type git
+                 :url "http://www.dr-qubit.org/git/undo-tree.git"
+                 :after (progn
+                          (require 'undo-tree)
+                          (global-undo-tree-mode)
+                          ;; デフォルトで時間を表示
+                          (setq undo-tree-visualizer-timestamps t)
+
+                          (global-set-key (kbd "C-/") 'undo-tree-undo)
+                          (global-set-key (kbd "M-/") 'undo-tree-redo)
+
+                          ))
+
+
+
+
 
           ))
 
