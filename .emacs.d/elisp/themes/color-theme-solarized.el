@@ -160,8 +160,11 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        (slime-repl-inputed-output-face ((t (:foreground ,red))))
 
        ;; magit
+       (magit-diff-add ((t (:foreground ,red))))
+       (magit-diff-del ((t (:foreground ,red))))
        (magit-section-title ((t (:foreground ,red))))
        (magit-header ((t (:foreground ,red :box (:line-width 1)))))
+
        ))))
 
 
