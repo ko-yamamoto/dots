@@ -24,15 +24,21 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
         (base0   "#839496")
         (base1   "#93a1a1")
         (base2   "#eee8d5")
-        (base3   "#fdf6e3")
-        (yellow  "#b58900")
-        (orange  "#cb4b16")
-        (red     "#dc322f")
+        ;; (base3   "#fdf6e3")
+        (base3   "#fefbf3")
+        (base31   "#faebc3")
         (magenta "#d33682")
         (violet  "#6c71c4")
-        (blue    "#268bd2")
         (cyan    "#2aa198")
-        (green   "#859900"))
+        (red "#c82829")
+        (orange "#f5871f")
+        (yellow "#eab700")
+        (green "#718c00")
+        (aqua "#3e999f")
+        (blue "#4271ae")
+        (purple "#8959a8")
+        (white "#ffffff")
+        )
     (when (eq 'light mode)
       (rotatef base03 base3)
       (rotatef base02 base2)
@@ -41,7 +47,7 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
     (color-theme-install
      `(color-theme-solarized
        ;; ((foreground-color . ,base0)
-       ((foreground-color . ,"#333333")
+       ((foreground-color . ,"#111111")
         (background-color . ,base03)
         (background-mode . ,mode)
         (cursor-color . ,red))
@@ -49,20 +55,22 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        (default ((t (:foreground ,base0))))
        (cursor ((t (:foreground ,base0 :background ,base03 :inverse-video t))))
        (escape-glyph-face ((t (:foreground ,red))))
-       (fringe ((t (:foreground ,base01 :background ,base02))))
-       (header-line ((t (:foreground ,base0 :background ,base2))))
+       (fringe ((t (:foreground ,base01 :background ,base03))))
+       ;; (header-line ((t (:foreground ,base0 :background ,base2))))
        (highlight ((t (:background ,base02))))
-       (isearch ((t (:foreground ,yellow :inverse-video t))))
+       ;; (isearch ((t (:foreground ,orange :inverse-video t))))
+       (isearch ((t (:background ,orange :foreground ,white))))
+       (isearch-lazy-highlight-face ((t (:background ,orange))))
        (menu ((t (:foreground ,base0 :background ,base02))))
        (minibuffer-prompt ((t (:foreground ,blue))))
-       ;; (mode-line
-       ;;  ((t (:foreground ,base1 :background ,base02
-       ;;                   :box (:line-width 1 :color ,base1)))))
-       ;; (mode-line-buffer-id ((t (:foreground ,base1))))
-       ;; (mode-line-inactive
-       ;;  ((t (:foreground ,base0  :background ,base02
-       ;;                   :box (:line-width 1 :color ,base02)))))
-       (region ((t (:background ,base02))))
+       (mode-line
+        ((t (:foreground ,base1 :background ,base02
+                         :box (:line-width 1 :color ,base1)))))
+       (mode-line-buffer-id ((t (:foreground ,base1))))
+       (mode-line-inactive
+        ((t (:foreground ,base0  :background ,base02
+                         :box (:line-width 1 :color ,base02)))))
+       (region ((t (:background ,base31))))
        (secondary-selection ((t (:background ,base02))))
        (trailing-whitespace ((t (:foreground ,red :inverse-video t))))
        (vertical-border ((t (:foreground ,base0))))
@@ -109,14 +117,17 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        (org-todo ((t (:foreground ,red :bold t))))
        (org-done ((t (:foreground ,green :bold t))))
        ;; show-paren
-       (show-paren-match-face ((t (:background ,cyan :foreground ,base3))))
-       (show-paren-mismatch-face ((t (:background ,red :foreground ,base3))))
+       (show-paren-match-face ((t (:background ,blue :foreground ,nil))))
+       (show-paren-mismatch-face ((t (:background ,orange :foreground ,nil))))
 
        ;; helm
        (helm-header ((t (:background ,"#81a2be" :foreground ,base3))))
+       (header-line ((t (:background ,"#81a2be" :foreground ,base3))))
        (helm-source-header ((t (:background ,"#81a2be" :foreground ,base3))))
        (helm-selection ((t (:background ,"#b5bd68" :foreground ,base3))))
        (helm-visible-mark ((t (:background ,red :foreground ,base3))))
+       (helm-ff-directory ((t (:background ,nil :foreground ,blue))))
+       (helm-candidate-number ((t (:background ,nil :foreground ,yellow))))
 
        ;; elscreen
        (elscreen-tab-background-face ((t (:background ,base03))))
@@ -134,12 +145,23 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        (speedbar-file-face ((t (:background ,base03 :foreground ,"#888888"))))
 
        ;; eshell
-       (eshell-ls-executable ((t (:background ,base03 :foreground ,red))))
-       (eshell-prompt ((t (:background ,base03 :foreground ,base01))))
+       (eshell-prompt ((t (:foreground ,"#888888"))))
+       (eshell-ls-executable ((t (:foreground ,red))))
+       (eshell-ls-missing ((t (:foreground ,orange))))
+       (eshell-ls-archive ((t (:foreground ,green))))
+       (eshell-ls-directory ((t (:foreground ,blue))))
+       (eshell-ls-readonly ((t (:foreground ,yellow))))
+       (eshell-ls-symlink ((t (:foreground ,violet))))
 
        ;; dired
        (dired-flagged ((t (:background ,base03 :foreground ,orange))))
 
+       ;; slime
+       (slime-repl-inputed-output-face ((t (:foreground ,red))))
+
+       ;; magit
+       (magit-section-title ((t (:foreground ,red))))
+       (magit-header ((t (:foreground ,red :box (:line-width 1)))))
        ))))
 
 
