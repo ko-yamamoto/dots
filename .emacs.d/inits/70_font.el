@@ -37,7 +37,8 @@
   ;; (set-default-font "瀬戸フォント-14")
   (set-fontset-font (frame-parameter nil 'font)
                     'japanese-jisx0208
-                    '("ricty" . "unicode-bmp"))
+                    '("Dejima Mincho monospace" . "unicode-bmp"))
+                    ;; '("ricty" . "unicode-bmp"))
                     ;; '("瀬戸フォント" . "unicode-bmp"))
   ;; バラバラに設定する場合
   ;; ;; 英字フォントk
@@ -58,5 +59,3 @@
   ;;         (".NfMotoyaAporo.*" . 1.0)
   ;;         ("-cdac$" . 1.0)))
 )
-
-

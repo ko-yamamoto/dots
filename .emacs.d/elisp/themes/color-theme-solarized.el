@@ -101,7 +101,8 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        (emacs-wiki-verbatim-face ((t (:foreground ,base00 :underline t))))
        ;; font-lock
        (font-lock-builtin-face ((t (:foreground ,green))))
-       (font-lock-comment-face ((t (:foreground ,base01 :italic t))))
+       ;; (font-lock-comment-face ((t (:foreground ,base01 :italic t))))
+       (font-lock-comment-face ((t (:foreground ,base01))))
        (font-lock-constant-face ((t (:foreground ,cyan))))
        (font-lock-function-name-face ((t (:foreground ,blue))))
        (font-lock-keyword-face ((t (:foreground ,green))))
