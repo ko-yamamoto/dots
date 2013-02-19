@@ -52,12 +52,15 @@
                               (init . (lambda ()
                                         ;; Issue #51 Create the list before `helm-buffer' creation.
                                         (setq helm-buffers-list-cache (helm-c-buffer-list))))
+                              ;; (candidates . (lambda ()
+                              ;;                 (sort helm-buffers-list-cache 'string<)))
                               (candidates . helm-buffers-list-cache)
                               (type . buffer)
                               (match helm-c-buffer-match-major-mode)
                               (persistent-action . helm-c-buffers-list-R-persistent-action)
                               (keymap . ,helm-c-buffer-map)
                               (volatile)
+                              (no-delay-on-input)
                               (mode-line . helm-buffer-mode-line-string)
                               (persistent-help
                                . "Kill this buffer / C-u \\[helm-execute-persistent-action]: Show this buffer")))
@@ -651,7 +654,7 @@
                  :after (progn
                           (require 'git-gutter)
 
-                          ;; (global-git-gutter-mode t)
+                          (global-git-gutter-mode t)
 
                           ;; 表示変更
                           ;; (setq git-gutter:window-width 2)
@@ -726,7 +729,7 @@
 
           (:name js2-mode-mooz-github
                  :type github
-                 :branch "emacs24"
+                 ;; :branch "emacs24"
                  :url "git://github.com/mooz/js2-mode.git"
                  :after (progn
                           (autoload 'js2-mode "js2-mode" nil t)
@@ -812,6 +815,16 @@
                           (global-set-key (kbd "C-/") 'undo-tree-undo)
                           (global-set-key (kbd "M-/") 'undo-tree-redo)
 
+                          ))
+
+          (:name shellenv-el-github
+                 :type github
+                 :url "git://github.com/zonuexe/shellenv-el.git"
+                 :after (progn
+                          (require 'shellenv)
+                          (custom-set-variables
+                           '(shellenv/shell 'zsh))
+                          (shellenv/setpath)
                           ))
 
 
