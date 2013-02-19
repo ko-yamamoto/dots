@@ -24,8 +24,10 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
         (base0   "#839496")
         (base1   "#93a1a1")
         (base2   "#eee8d5")
+        (base2o   "#eee8d5")
         ;; (base3   "#fdf6e3")
         (base3   "#fefbf3")
+        (base3o   "#fefbf3")
         (base31   "#faebc3")
         (magenta "#d33682")
         (violet  "#6c71c4")
@@ -50,7 +52,7 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        ((foreground-color . ,"#111111")
         (background-color . ,base03)
         (background-mode . ,mode)
-        (cursor-color . ,red))
+        (cursor-color . ,orange))
        ;; basic
        (default ((t (:foreground ,base0))))
        (cursor ((t (:foreground ,base0 :background ,base03 :inverse-video t))))
@@ -61,6 +63,7 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        ;; (isearch ((t (:foreground ,orange :inverse-video t))))
        (isearch ((t (:background ,orange :foreground ,white))))
        (isearch-lazy-highlight-face ((t (:background ,orange))))
+       (isearch-fail ((t (:background ,yellow))))
        (menu ((t (:foreground ,base0 :background ,base02))))
        (minibuffer-prompt ((t (:foreground ,blue))))
        (mode-line
@@ -161,10 +164,18 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        (slime-repl-inputed-output-face ((t (:foreground ,red))))
 
        ;; magit
-       (magit-diff-add ((t (:foreground ,red))))
+       (magit-diff-add ((t (:foreground ,green))))
        (magit-diff-del ((t (:foreground ,red))))
        (magit-section-title ((t (:foreground ,red))))
-       (magit-header ((t (:foreground ,red :box (:line-width 1)))))
+       (magit-header ((t (:foreground ,green :box (:line-width 1)))))
+
+       ;; auto-complete
+       ;; (ac-candidate-face ((t (:background ,green :foreground ,"#ffffff"))))
+       ;; (ac-selection-face ((t (:background ,yellow :foreground ,"#000000"))))
+       (ac-candidate-face ((t (:background ,base2o :foreground ,"#a9a497"))))
+       (ac-selection-face ((t (:background ,base3o))))
+       ;; (set-face-underline 'ac-candidate-face "#b9ca4a")
+
 
        ))))
 
