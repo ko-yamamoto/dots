@@ -319,3 +319,13 @@ When using this mode the value of `dired-listing-switches' should not contain \"
             (lambda ()
               (define-key dired-mode-map "a" 'dired-list-all-mode)
               )))
+
+
+(defun dired-find-file-other-exist-window ()
+  "ウィンドウを再利用してもう片方のウィンドウで開く"
+  (interactive)
+  (find-file-other-exist-window (dired-get-file-for-visit)))
+(add-hook 'dired-mode-hook
+          (lambda ()
+            (define-key dired-mode-map "o" 'dired-find-file-other-exist-window)
+            ))
