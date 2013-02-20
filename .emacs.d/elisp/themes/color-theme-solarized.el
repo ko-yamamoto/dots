@@ -28,18 +28,19 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
         ;; (base3   "#fdf6e3")
         (base3   "#fefbf3")
         (base3o   "#fefbf3")
-        (base31   "#faebc3")
+        (base31   "#f6db94")
         (magenta "#d33682")
         (violet  "#6c71c4")
         (cyan    "#2aa198")
-        (red "#c82829")
-        (orange "#f5871f")
+        (red "#d63334")
+        (orange "#f79b45")
         (yellow "#eab700")
         (green "#718c00")
         (aqua "#3e999f")
         (blue "#4271ae")
         (purple "#8959a8")
         (white "#ffffff")
+        (black "#2d282a")
         )
     (when (eq 'light mode)
       (rotatef base03 base3)
@@ -49,7 +50,7 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
     (color-theme-install
      `(color-theme-solarized
        ;; ((foreground-color . ,base0)
-       ((foreground-color . ,"#111111")
+       ((foreground-color . ,black)
         (background-color . ,base03)
         (background-mode . ,mode)
         (cursor-color . ,orange))
@@ -61,9 +62,10 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        ;; (header-line ((t (:foreground ,base0 :background ,base2))))
        (highlight ((t (:background ,base02))))
        ;; (isearch ((t (:foreground ,orange :inverse-video t))))
-       (isearch ((t (:background ,orange :foreground ,white))))
-       (isearch-lazy-highlight-face ((t (:background ,orange))))
-       (isearch-fail ((t (:background ,yellow))))
+       (match ((t (:background ,orange :foreground ,black))))
+       (isearch ((t (:background ,yellow :foreground ,white))))
+       (isearch-lazy-highlight-face ((t (:background ,yellow :foreground ,black))))
+       (isearch-fail ((t (:background ,orange))))
        (menu ((t (:foreground ,base0 :background ,base02))))
        (minibuffer-prompt ((t (:foreground ,blue))))
        (mode-line
@@ -110,34 +112,40 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        (font-lock-function-name-face ((t (:foreground ,blue))))
        (font-lock-keyword-face ((t (:foreground ,green))))
        (font-lock-string-face ((t (:foreground ,cyan))))
-       (font-lock-type-face ((t (:foreground ,yellow))))
+       (font-lock-type-face ((t (:foreground ,orange :bold t))))
        (font-lock-variable-name-face ((t (:foreground ,blue))))
        (font-lock-warning-face ((t (:foreground ,red :bold t))))
+
        ;; info
        (info-xref ((t (:foreground ,blue :underline t))))
        (info-xref-visited ((t (:inherit info-xref :foreground ,magenta))))
+
        ;; org
        (org-hide ((t (:foreground ,base03))))
        (org-todo ((t (:foreground ,red :bold t))))
        (org-done ((t (:foreground ,green :bold t))))
+       (org-date ((t (:foreground ,base1 :bold t))))
+       (org-level-4 ((T (:foreground ,red))))
+
        ;; show-paren
-       (show-paren-match-face ((t (:background ,blue :foreground ,nil))))
-       (show-paren-mismatch-face ((t (:background ,orange :foreground ,nil))))
+       (show-paren-match-face ((t (:background ,orange :foreground ,white :bold t))))
+       (show-paren-mismatch-face ((t (:background ,red :foreground ,white :bold t))))
 
        ;; helm
        (helm-header ((t (:background ,"#81a2be" :foreground ,base3))))
        (header-line ((t (:background ,"#81a2be" :foreground ,base3))))
        (helm-source-header ((t (:background ,"#81a2be" :foreground ,base3))))
-       (helm-selection ((t (:background ,"#b5bd68" :foreground ,base3))))
+       (helm-selection ((t (:background ,base2o))))
        (helm-visible-mark ((t (:background ,red :foreground ,base3))))
        (helm-ff-directory ((t (:background ,nil :foreground ,blue))))
-       (helm-candidate-number ((t (:background ,nil :foreground ,yellow))))
+       (helm-candidate-number ((t (:background ,nil :foreground ,orange))))
+       (helm-ff-prefix ((t (:background ,red :foreground ,white :bold t))))
 
        ;; elscreen
-       (elscreen-tab-background-face ((t (:background ,base03))))
+       (elscreen-tab-background-face ((t (:background ,base2o))))
        (elscreen-tab-control-face ((t (:background ,base03 :foreground ,base3))))
        (elscreen-tab-current-screen-face ((t (:background ,base03 :foreground ,red))))
-       (elscreen-tab-other-screen-face ((t (:background ,base03 :foreground ,base3))))
+       (elscreen-tab-other-screen-face ((t (:background ,base2o :foreground ,"#a9a497"))))
 
        ;; yalinum
        (yalinum-face ((t (:background ,base03 :foreground ,base3))))
@@ -176,6 +184,7 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        (ac-selection-face ((t (:background ,base3o))))
        ;; (set-face-underline 'ac-candidate-face "#b9ca4a")
 
+       (sh-heredoc ((t (:foreground ,yellow))))
 
        ))))
 
