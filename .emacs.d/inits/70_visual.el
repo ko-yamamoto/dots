@@ -47,7 +47,9 @@
 (ad-activate 'font-lock-mode)
 
 ;; カーソルの形
-(add-to-list 'default-frame-alist '(cursor-type 'hollow-rectangle))
+;; (add-to-list 'default-frame-alist '(cursor-type 'hollow-rectangle))
+;; (add-to-list 'default-frame-alist '(cursor-type '(bar . 3)))
+(add-to-list 'default-frame-alist '(cursor-type . (bar . 2)))
 
 ;; カーソル位置のフェースを調べる関数
 (defun describe-face-at-point ()
