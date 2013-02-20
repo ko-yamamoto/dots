@@ -1,7 +1,7 @@
 alias d. dired .
 alias hf helm-find-files $1
 alias ff find-file $1
-alias ffw find-file-other-window $1
+alias ffw find-file-other-exist-window $1
 
 alias less view-file $1
 alias view view-file $1
@@ -18,7 +18,9 @@ alias g git $1
 ;; git は magit に
 alias ms magit-status .
 alias ml magit-log
-alias md magit-diff master
+alias mll magit-log-long
+Alias mdm magit-diff master
+Alias md magit-diff-working-tree
 alias mb magit-branch-manager
 alias mf magit-fetch-current
 alias mr magit-interactive-rebase

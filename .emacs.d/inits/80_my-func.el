@@ -174,34 +174,68 @@
 
 
 
-;; 'o' 次の行に挿入
-(defun edit-next-line ()
-  (interactive)
-  (end-of-line)
-  (newline-and-indent))
-;; 'O' 前の行に挿入
-(defun edit-previous-line ()
-  (interactive)
-  (forward-line -1)
-  (if (not (= (current-line) 1))
-      (end-of-line))
-  (newline-and-indent))
-(key-chord-define-global "vo" 'edit-next-line)
+;; ;; 'o' 次の行に挿入
+;; (defun edit-next-line ()
+;;   (interactive)
+;;   (end-of-line)
+;;   (newline-and-indent))
+;; ;; 'O' 前の行に挿入
+;; (defun edit-previous-line ()
+;;   (interactive)
+;;   (forward-line -1)
+;;   (if (not (= (current-line) 1))
+;;       (end-of-line))
+;;   (newline-and-indent))
+;; (key-chord-define-global "vo" 'edit-next-line)
 
-;; 'f' 後方の入力した文字の上に移動
-(defun forward-match-char (n)
-  (interactive "p")
-  (let ((c (read-char)))
-    (dotimes (i n)
-      (forward-char)
-      (skip-chars-forward (format "^%s" (char-to-string c))))))
-;; 'F' 前方の入力した文字の上に移動
-(defun backward-match-char (n)
-  (interactive "p")
-  (let ((c (read-char)))
-    (dotimes (i n)
-      (skip-chars-backward (format "^%s" (char-to-string c)))
-      (backward-char))))
-(global-set-key (kbd "M-l") 'forward-match-char)
-(global-set-key (kbd "M-L") 'backward-match-char)
-(key-chord-define-global "vf" 'forward-match-char)
+;; ;; 'f' 後方の入力した文字の上に移動
+;; (defun forward-match-char (n)
+;;   (interactive "p")
+;;   (let ((c (read-char)))
+;;     (dotimes (i n)
+;;       (forward-char)
+;;       (skip-chars-forward (format "^%s" (char-to-string c))))))
+;; ;; 'F' 前方の入力した文字の上に移動
+;; (defun backward-match-char (n)
+;;   (interactive "p")
+;;   (let ((c (read-char)))
+;;     (dotimes (i n)
+;;       (skip-chars-backward (format "^%s" (char-to-string c)))
+;;       (backward-char))))
+;; (global-set-key (kbd "M-l") 'forward-match-char)
+;; (global-set-key (kbd "M-L") 'backward-match-char)
+;; (key-chord-define-global "vf" 'forward-match-char)
+
+
+(defun find-file-other-exist-window ()
+  "ウィンドウ 2 分割時に、もう片方のウィンドウでファイルを開く"
+  (interactive)
+  (unless (= (count-windows 1) 2)
+    (error "ウィンドウが 2 分割されていません。"))
+  (let (before-height (other-buf (window-buffer (next-window))))
+    (setq before-height (window-height))
+    (delete-other-windows)
+
+    (if (= (window-height) before-height)
+        (split-window-vertically)
+      (split-window-horizontally)
+      )
+
+    (switch-to-buffer-other-window other-buf)
+    (other-window -1)))
+(global-set-key (kbd "C-q 0") 'window-toggle-division)
+
+
+(defun find-file-other-exist-window (filename)
+  "ウィンドウ 2 分割時に、もう片方のウィンドウでファイルを開く"
+  (interactive)
+  (cond ((one-window-p)
+         ;; ウィンドウが1つの時は新しく開いたウィンドウで編集へ
+         (find-file-other-window filename))
+        ((= (count-windows 1) 2)
+         ;; ウィンドウが2つの時は既存のもう片方のウィンドウで編集へ
+         (other-window 1)
+         (find-file filename))
+        ((> (count-windows 1) 2)
+          ;; ウィンドウが3つ以上の時はエラー
+          (error "ウィンドウが 2 分割されていません。"))))
