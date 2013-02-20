@@ -156,6 +156,13 @@
 (global-set-key "\C-q4" 'split-for-twmode)
 
 
+(defun split-v-7-3-windows ()
+  ;; 7:3 にウィンドウを分割
+  (interactive)
+  (progn
+    (split-window (selected-window) (round (* 0.7 (window-width))) t)))
+(global-set-key (kbd "C-q 7") 'split-v-7-3-windows)
+
 
 ;; ちょっとした編集用
 (defun open-junk-file ()
@@ -207,21 +214,20 @@
 ;; (key-chord-define-global "vf" 'forward-match-char)
 
 
-(defun find-file-other-exist-window ()
-  "ウィンドウ 2 分割時に、もう片方のウィンドウでファイルを開く"
+(defun window-toggle-division ()
+  "ウィンドウ 2 分割時に、縦分割<->横分割"
   (interactive)
   (unless (= (count-windows 1) 2)
     (error "ウィンドウが 2 分割されていません。"))
-  (let (before-height (other-buf (window-buffer (next-window))))
+  (let ((before-height)
+        (other-buf (window-buffer (next-window))))
     (setq before-height (window-height))
     (delete-other-windows)
-
     (if (= (window-height) before-height)
         (split-window-vertically)
-      (split-window-horizontally)
-      )
-
-    (switch-to-buffer-other-window other-buf)
+      (split-window-horizontally))
+    (other-window 1)
+    (switch-to-buffer other-buf)
     (other-window -1)))
 (global-set-key (kbd "C-q 0") 'window-toggle-division)
 
@@ -237,5 +243,5 @@
          (other-window 1)
          (find-file filename))
         ((> (count-windows 1) 2)
-          ;; ウィンドウが3つ以上の時はエラー
-          (error "ウィンドウが 2 分割されていません。"))))
+         ;; ウィンドウが3つ以上の時はエラー
+         (error "ウィンドウが 2 分割されていません。"))))
