@@ -46,3 +46,5 @@ elisp/*.elc
 /.emacs.d/.mc-lists.el
 /.emacs.d/bookmarks
 /.emacs.d/elpa/archives/melpa/archive-contents
+/.emacs.d/last-wconf
+/.emacs.d/wconf-archive
