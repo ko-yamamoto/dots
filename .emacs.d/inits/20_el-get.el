@@ -871,6 +871,23 @@
                           ))
 
 
+          (:name nrepl.el.git-github
+                 :type github
+                 :url "git://github.com/kingtim/nrepl.el.git"
+                 :after (progn
+                          (require 'nrepl)
+                          (add-hook 'nrepl-interaction-mode-hook
+                                    'nrepl-turn-on-eldoc-mode)
+                          ;; nrepl 用バッファをバッファ一覧から隠す
+                          (setq nrepl-hide-special-buffers t)
+                          ;; エラーバッファのポップアップをしない
+                          (setq nrepl-popup-stacktraces nil)
+                          ;; C-c C-z switch to the *nrepl* buffer
+                          (add-to-list 'same-window-buffer-names "*nrepl*")
+
+                          ))
+
+
 
 
 
