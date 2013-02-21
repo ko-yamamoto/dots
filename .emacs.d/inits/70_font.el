@@ -1,6 +1,7 @@
 ;;====================
 ;; フォント
 ;;====================
+
 ;; 01234567890123456789
 ;;  あいうえおかきくけこ
 ;;   abcdefghijklmnopqrstuvwxyz
@@ -34,13 +35,17 @@
 
 )
 (when is_mac
-  (set-default-font "ricty-14")
-  ;; (set-default-font "瀬戸フォント-14")
+  (set-frame-font "M+ 1mn medium:pixelsize=12:spacing=0:slant=1")
+  (progn
+    (set-face-font 'default "M+ 1mn bold:pixelsize=12:spacing=0:slant=1")
+    (set-face-font 'bold "M+ 1mn bold:pixelsize=12:spacing=0:slant=1")
+    ;; (set-face-font 'italic "M+ 1mn bold:pixelsize=12:spacing=0:slant=1")
+    ;; (set-face-font 'bold-italic "M+ 1mn bold:pixelsize=12:spacing=0:slant=1")
+    )
   (set-fontset-font (frame-parameter nil 'font)
                     'japanese-jisx0208
-                    '("Dejima Mincho monospace" . "unicode-bmp"))
-                    ;; '("ricty" . "unicode-bmp"))
-                    ;; '("瀬戸フォント" . "unicode-bmp"))
+                    '("M+ 1mn medium" . "unicode-bmp"))
+
   ;; バラバラに設定する場合
   ;; ;; 英字フォントk
   ;; (set-face-attribute 'default nil
