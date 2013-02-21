@@ -657,19 +657,62 @@
                           (global-git-gutter-mode t)
 
                           ;; 表示変更
-                          ;; (setq git-gutter:window-width 2)
+                          (setq git-gutter:window-width 1)
                           ;; (setq git-gutter:added-sign "☀")
                           ;; (setq git-gutter:modified-sign "☁")
                           ;; (setq git-gutter:deleted-sign "☂")
+                          (setq git-gutter:added-sign "|")
+                          (setq git-gutter:modified-sign "|")
+                          (setq git-gutter:deleted-sign "|")
                           ;; 色変更
-                          (set-face-foreground 'git-gutter:added "#de935f")
+                          (set-face-foreground 'git-gutter:added "#afd900")
                           (set-face-foreground 'git-gutter:modified "#eab700")
-                          (set-face-foreground 'git-gutter:deleted "#81a2be")
+                          (set-face-foreground 'git-gutter:deleted "#c82829")
 
                           ;; ignore all spaces
                           (setq git-gutter:diff-option "-w")
 
                           (global-set-key (kbd "C-c g c") 'git-gutter:toggle)
+
+                          ))
+          (:name git-gutter-fringe-github
+                 :type github
+                 :url "git://github.com/syohex/emacs-git-gutter-fringe.git"
+                 :after (progn
+                          ;; You need to install fringe-helper.el
+                          (require 'git-gutter-fringe)
+                          ;; 色変更
+                          (set-face-foreground 'git-gutter-fr:added "#afd900")
+                          (set-face-foreground 'git-gutter-fr:modified "#eab700")
+                          (set-face-foreground 'git-gutter-fr:deleted "#c82829")
+                          ;; 形変更
+                          (fringe-helper-define 'git-gutter-fr:added nil
+                            "...XXXX.."
+                            "...XXXX.."
+                            "...XXXX.."
+                            "...XXXX.."
+                            "...XXXX.."
+                            "...XXXX.."
+                            "...XXXX.."
+                            "...XXXX..")
+                          (fringe-helper-define 'git-gutter-fr:deleted nil
+                            "...XXXX.."
+                            "...XXXX.."
+                            "...XXXX.."
+                            "...XXXX.."
+                            "...XXXX.."
+                            "...XXXX.."
+                            "...XXXX.."
+                            "...XXXX..")
+                          (fringe-helper-define 'git-gutter-fr:modified nil
+                            "...XXXX.."
+                            "...XXXX.."
+                            "...XXXX.."
+                            "...XXXX.."
+                            "...XXXX.."
+                            "...XXXX.."
+                            "...XXXX.."
+                            "...XXXX..")
 
                           ))
 
@@ -743,47 +786,47 @@
                           (require 'scala-mode2)
                           ))
 
-          (:name direx-el-github
-                 :type github
-                 :url "git://github.com/m2ym/direx-el.git"
-                 :after (progn
-                          (require 'direx)
-                          (require 'direx-project)
+          ;; (:name direx-el-github
+          ;;        :type github
+          ;;        :url "git://github.com/m2ym/direx-el.git"
+          ;;        :after (progn
+          ;;                 (require 'direx)
+          ;;                 (require 'direx-project)
 
-                          (defun my/dired-jump ()
-                            (interactive)
-                            (cond (current-prefix-arg
-                                   (dired-jump))
-                                  ((not (one-window-p))
-                                   (or (ignore-errors
-                                         (direx-project:jump-to-project-root) t)
-                                       (direx:jump-to-directory)))
-                                  (t
-                                   (or (ignore-errors
-                                         (direx-project:jump-to-project-root-other-window) t)
-                                       (direx:jump-to-directory-other-window)))))
+          ;;                 (defun my/dired-jump ()
+          ;;                   (interactive)
+          ;;                   (cond (current-prefix-arg
+          ;;                          (dired-jump))
+          ;;                         ((not (one-window-p))
+          ;;                          (or (ignore-errors
+          ;;                                (direx-project:jump-to-project-root) t)
+          ;;                              (direx:jump-to-directory)))
+          ;;                         (t
+          ;;                          (or (ignore-errors
+          ;;                                (direx-project:jump-to-project-root-other-window) t)
+          ;;                              (direx:jump-to-directory-other-window)))))
 
-                          (global-set-key (kbd "C-c d") 'my/dired-jump)
+          ;;                 (global-set-key (kbd "C-c d") 'my/dired-jump)
 
-                          ;; → で toggle
-                          (define-key direx:file-keymap (kbd "<right>") 'direx:toggle-item)
-                          ;; vim 風
-                          (define-key direx:file-keymap (kbd "l") 'direx:toggle-item)
-                          (define-key direx:file-keymap (kbd "j") 'direx:next-item)
-                          (define-key direx:file-keymap (kbd "k") 'direx:previous-item)
-                          ;; o と f を入れ替え
-                          (define-key direx:file-keymap (kbd "o") 'direx:find-item)
-                          (define-key direx:file-keymap (kbd "f") 'direx:find-item-other-window)
+          ;;                 ;; → で toggle
+          ;;                 (define-key direx:file-keymap (kbd "<right>") 'direx:toggle-item)
+          ;;                 ;; vim 風
+          ;;                 (define-key direx:file-keymap (kbd "l") 'direx:toggle-item)
+          ;;                 (define-key direx:file-keymap (kbd "j") 'direx:next-item)
+          ;;                 (define-key direx:file-keymap (kbd "k") 'direx:previous-item)
+          ;;                 ;; o と f を入れ替え
+          ;;                 (define-key direx:file-keymap (kbd "o") 'direx:find-item)
+          ;;                 (define-key direx:file-keymap (kbd "f") 'direx:find-item-other-window)
 
-                          ;; ツリーの表示
-                          (setq direx:leaf-icon "  "
-                                direx:open-icon "▾ "
-                                direx:closed-icon "▸ ")
+          ;;                 ;; ツリーの表示
+          ;;                 (setq direx:leaf-icon "  "
+          ;;                       direx:open-icon "▾ "
+          ;;                       direx:closed-icon "▸ ")
 
-                          ;; popwin で開く
-                          (push '(direx:direx-mode :position left :width 0.3 :dedicated t)
-                                popwin:special-display-config)
-                          ))
+          ;;                 ;; popwin で開く
+          ;;                 (push '(direx:direx-mode :position left :width 0.3 :dedicated t)
+          ;;                       popwin:special-display-config)
+          ;;                 ))
 
           (:name smartrep.el-github
                  :type github
