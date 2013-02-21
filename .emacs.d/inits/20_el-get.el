@@ -221,6 +221,7 @@
                                           ("*auto-async-byte-compile*" :height 20)
                                           ("*Shell Command Output*" :height 25)
                                           ("*svn output*" :stick t :position right)
+                                          ("*nrepl-error*" :height 30)
                                           )
                                         popwin:special-display-config))
 
@@ -329,13 +330,13 @@
           ;;                 (key-chord-define-global "qf" 'jaunte)
           ;;                 ))
 
-          ;; (:name rainbow-delimiters
-          ;;        :type git
-          ;;        :url "git://github.com/jlr/rainbow-delimiters.git"
-          ;;        :after (progn
-          ;;                 (require 'rainbow-delimiters)
-          ;;                 (global-rainbow-delimiters-mode)
-          ;;                 ))
+          (:name rainbow-delimiters
+                 :type git
+                 :url "git://github.com/jlr/rainbow-delimiters.git"
+                 :after (progn
+                          (require 'rainbow-delimiters)
+                          (global-rainbow-delimiters-mode)
+                          ))
 
           (:name twittering-mode
                  :type github
