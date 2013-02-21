@@ -176,7 +176,16 @@
 (autoload 'resume "revive" "Resume Emacs" t)
 (autoload 'wipe "revive" "Wipe emacs" t)
 (add-hook 'kill-emacs-hook 'save-current-configuration)   ; 終了時に保存
+;; 起動時に復元しないバッファ名を正規表現で指定
+(setq revive:ignore-buffer-pattern "\\.loaddefs\\.el")
 (resume) ; 起動時に復元
+
+;; フレームの状態を保存
+(require 'revive+)
+(revive-plus:demo)
+(setq revive-plus:all-frames t)
+(define-key global-map (kbd "C-c r s") 'revive-plus:wconf-archive-save)
+(define-key global-map (kbd "C-c r r") 'revive-plus:wconf-archive-restore)
 
 
 ;;====================
