@@ -152,6 +152,17 @@
                                     emacs-version
                                     "\n\n"))
 
+
+(defun eshell-split-gration-windows ()
+  ;; 7:3 にウィンドウを分割して eshell
+  (interactive)
+  (progn
+    (my/split-v-gration-windows)
+    (eshell)))
+(global-set-key (kbd "C-c e g") 'eshell-split-gration-windows)
+
+
+
 ;; function ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; eshell 起動してバッファのディレクトリへ移動

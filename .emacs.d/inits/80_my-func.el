@@ -156,12 +156,13 @@
 (global-set-key "\C-q4" 'split-for-twmode)
 
 
-(defun split-v-7-3-windows ()
+(defun my/split-v-gration-windows ()
   ;; 7:3 にウィンドウを分割
   (interactive)
   (progn
-    (split-window (selected-window) (round (* 0.7 (window-width))) t)))
-(global-set-key (kbd "C-q 7") 'split-v-7-3-windows)
+    (split-window (selected-window) (round (* 0.375 (window-width))) t)))
+(global-set-key (kbd "C-q 7") 'my/split-v-gration-windows)
+
 
 
 ;; ちょっとした編集用
@@ -237,7 +238,9 @@
   (interactive)
   (cond ((one-window-p)
          ;; ウィンドウが1つの時は新しく開いたウィンドウで編集へ
-         (find-file-other-window filename))
+         (my/split-v-gration-windows)
+         (other-window 1)
+         (find-file filename))
         ((= (count-windows 1) 2)
          ;; ウィンドウが2つの時は既存のもう片方のウィンドウで編集へ
          (other-window 1)

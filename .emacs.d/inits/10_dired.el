@@ -329,3 +329,12 @@ When using this mode the value of `dired-listing-switches' should not contain \"
           (lambda ()
             (define-key dired-mode-map "o" 'dired-find-file-other-exist-window)
             ))
+
+
+(defun dired-split-gration-windows ()
+  ;; 7:3 にウィンドウを分割して dired
+  (interactive)
+  (progn
+    (my/split-v-gration-windows)
+    (dired-jump)))
+(global-set-key (kbd "C-c d g") 'dired-split-gration-windows)
