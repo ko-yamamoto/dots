@@ -889,8 +889,12 @@
                           ))
 
 
-
-
+          (:name nurumacs-github
+                 :type github
+                 :url "git://github.com/zk-phi/nurumacs.git"
+                 :after (progn
+                          (require 'nurumacs)
+                          ))
 
           ))
 

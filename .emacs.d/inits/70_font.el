@@ -37,7 +37,7 @@
 (when is_mac
   (set-frame-font "M+ 1mn medium:pixelsize=12:spacing=0:slant=1")
   (progn
-    (set-face-font 'default "M+ 1mn bold:pixelsize=12:spacing=0:slant=1")
+    (set-face-font 'default "M+ 1mn medium:pixelsize=12:spacing=0:slant=1")
     (set-face-font 'bold "M+ 1mn bold:pixelsize=12:spacing=0:slant=1")
     ;; (set-face-font 'italic "M+ 1mn bold:pixelsize=12:spacing=0:slant=1")
     ;; (set-face-font 'bold-italic "M+ 1mn bold:pixelsize=12:spacing=0:slant=1")
