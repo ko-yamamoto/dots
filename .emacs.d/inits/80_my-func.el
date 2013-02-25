@@ -156,14 +156,6 @@
 (global-set-key "\C-q4" 'split-for-twmode)
 
 
-(defun my/split-v-gration-windows ()
-  ;; 7:3 にウィンドウを分割
-  (interactive)
-  (progn
-    (split-window (selected-window) (round (* 0.375 (window-width))) t)))
-(global-set-key (kbd "C-q 7") 'my/split-v-gration-windows)
-
-
 
 ;; ちょっとした編集用
 (defun open-junk-file ()
@@ -248,3 +240,14 @@
         ((> (count-windows 1) 2)
          ;; ウィンドウが3つ以上の時はエラー
          (error "ウィンドウが 2 分割されていません。"))))
+
+(defun my/split-v-gration-windows ()
+  ;; 丁度良くウィンドウを分割
+  (interactive)
+  ;; (progn
+    (let* ((ration
+            (if (> (frame-width) 220)
+                0.375 ;; 画面が広い場合は黄金比
+              0.3)))
+    (split-window (selected-window) (round (* ration (window-width))) t)))
+(global-set-key (kbd "C-q 7") 'my/split-v-gration-windows)

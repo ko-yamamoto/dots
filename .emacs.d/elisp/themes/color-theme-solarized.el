@@ -182,7 +182,7 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        ;; (ac-candidate-face ((t (:background ,green :foreground ,"#ffffff"))))
        ;; (ac-selection-face ((t (:background ,yellow :foreground ,"#000000"))))
        (ac-candidate-face ((t (:background ,base2o :foreground ,"#a9a497"))))
-       (ac-selection-face ((t (:background ,base3o))))
+       (ac-selection-face ((t (:background ,base31 :foreground ,black))))
        ;; (set-face-underline 'ac-candidate-face "#b9ca4a")
 
        (sh-heredoc ((t (:foreground ,yellow))))
