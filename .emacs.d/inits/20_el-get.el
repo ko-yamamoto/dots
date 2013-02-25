@@ -217,7 +217,7 @@
                                           ("*auto-async-byte-compile*" :height 20)
                                           ("*Shell Command Output*" :height 25)
                                           ("*svn output*" :stick t :position right)
-                                          ("*nrepl-error*" :height 30)
+                                          ("\\*nrepl-*" :height 0.3 :regexp t)
                                           )
                                         popwin:special-display-config))
 
