@@ -26,19 +26,15 @@
                  :type github
                  :url "git://github.com/emacs-helm/helm.git"
                  :after (progn
-
-
                           (require 'helm-config)
-
                           (helm-mode 1)
-
                                         ; (require 'helm-gtags)
-
                           ;; configuration helm variable
-                          (setq helm-idle-delay 0.2)
+                          (setq helm-idle-delay 0.1)
                           (setq helm-input-idle-delay 0.1) ; 入力後に候補を更新するまでの時間
                           (setq helm-candidate-number-limit 300) ; 候補数
                           (setq helm-buffer-max-length 80) ; バッファ名の最大長
+                          (setq enable-recursive-minibuffers t)
 
                           (require 'helm-files)
 
@@ -278,10 +274,11 @@
                           (setq ac-ignore-case 'smart)
                           ;; 補完選択時にTABがRETの挙動に
                           (setq ac-dwim t)
+                          ;; 表示崩れ防止
+                          (setq popup-use-optimized-column-computation nil)
 
                           ;; 追加モード
                           (add-to-list 'ac-modes 'org-mode)
-
 
                           ))
 
