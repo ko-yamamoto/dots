@@ -1,12 +1,12 @@
 ;;====================
 ;; smooth-scroll
 ;;====================
-;; (require 'smooth-scroll)
-;; (smooth-scroll-mode t)
-;;
-;; ;; smooth scroll of the buffer
-;; (set-variable 'smooth-scroll/vscroll-step-size 3)
-;; (set-variable 'smooth-scroll/hscroll-step-size 3)
+(require 'smooth-scroll)
+(smooth-scroll-mode t)
+
+;; smooth scroll of the buffer
+(set-variable 'smooth-scroll/vscroll-step-size 3)
+(set-variable 'smooth-scroll/hscroll-step-size 3)
 
 
 ;;====================

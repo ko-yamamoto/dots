@@ -199,6 +199,9 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        (rainbow-delimiters-depth-9-face ((t (:foreground ,aqua :bold t))))
 
 
+       (minimap-active-region-background ((t (:background ,base2o))))
+
+
        ))))
 
 
