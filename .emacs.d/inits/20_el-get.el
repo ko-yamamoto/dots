@@ -858,16 +858,6 @@
 
                           ))
 
-          (:name shellenv-el-github
-                 :type github
-                 :url "git://github.com/zonuexe/shellenv-el.git"
-                 :after (progn
-                          (require 'shellenv)
-                          (custom-set-variables
-                           '(shellenv/shell 'zsh))
-                          (shellenv/setpath)
-                          ))
-
 
           (:name nrepl.el.git-github
                  :type github
@@ -876,7 +866,7 @@
                           (require 'nrepl)
                           (add-hook 'nrepl-interaction-mode-hook
                                     'nrepl-turn-on-eldoc-mode)
-                          ;; nrepl 用バッファをバッファ一覧から隠す
+                          ;; nrepl 用バッファをバッqファ一覧から隠す
                           (setq nrepl-hide-special-buffers t)
                           ;; エラーバッファのポップアップをしない
                           (setq nrepl-popup-stacktraces nil)
@@ -886,11 +876,14 @@
                           ))
 
 
-          (:name nurumacs-github
+          (:name emacs-minimap-github
                  :type github
-                 :url "git://github.com/zk-phi/nurumacs.git"
+                 :url "git://github.com/dustinlacewell/emacs-minimap.git"
                  :after (progn
-                          (require 'nurumacs)
+                          (require 'minimap)
+                          (setq minimap-width-fraction 0.2)
+                          (setq minimap-update-delay 0.3)
+                          (global-set-key (kbd "C-c M-m") 'minimap-toggle)
                           ))
 
           ))
