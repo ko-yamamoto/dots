@@ -652,7 +652,7 @@
                  :after (progn
                           (require 'git-gutter)
 
-                          (global-git-gutter-mode t)
+                          ;; (global-git-gutter-mode t) ;; el-get が誤作動するため global は使わない
 
                           ;; 表示変更
                           (setq git-gutter:window-width 1)
@@ -875,16 +875,6 @@
 
                           ))
 
-
-          (:name emacs-minimap-github
-                 :type github
-                 :url "git://github.com/dustinlacewell/emacs-minimap.git"
-                 :after (progn
-                          (require 'minimap)
-                          (setq minimap-width-fraction 0.2)
-                          (setq minimap-update-delay 0.3)
-                          (global-set-key (kbd "C-c M-m") 'minimap-toggle)
-                          ))
 
           ))
 
