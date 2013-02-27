@@ -251,3 +251,9 @@
               0.3)))
     (split-window (selected-window) (round (* ration (window-width))) t)))
 (global-set-key (kbd "C-q 7") 'my/split-v-gration-windows)
+
+
+(defun my/buffer-kill-and-delete-window ()
+  (interactive)
+  (kill-buffer)
+  (delete-window))
