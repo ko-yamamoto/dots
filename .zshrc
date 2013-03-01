@@ -386,6 +386,15 @@ alias -g T='| tail'
 alias screen='screen -xRU'
 
 alias diff='diff -u'
+
+# ccl を使って lisp を ./hoge.lisp で起動する
+function run-lisp() {
+  case $1 in
+    *.lisp|*.li) ccl --load $1 --eval '(quit)';;
+  esac
+}
+alias -s {lisp,li}=run-lisp
+
 # vi
 # export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
 # alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
