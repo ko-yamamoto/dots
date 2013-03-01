@@ -22,7 +22,9 @@
 ;; slime キーバインドを設定
 (add-hook 'slime-mode-hook
           '(lambda ()
-             (define-key slime-mode-map [(tab)]     'slime-indent-and-complete-symbol)))
+             (define-key slime-mode-map [(tab)] 'slime-indent-and-complete-symbol)
+             (define-key slime-mode-map (kbd "C-c C-d") 'slime-documentation)
+             ))
 
 ;; slime-repl再起動
 (add-hook 'slime-repl-mode-hook
