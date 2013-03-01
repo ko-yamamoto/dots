@@ -655,7 +655,14 @@
                           ;; (global-git-gutter-mode t) ;; el-get が誤作動するため global は使わない
                           ;; 指定したモードで有効に
                           (let ((mode-hooks
-                                 '(emacs-lisp-mode org-mode-hook java-mode lisp-mode clojure-mode scala-mode haskell-mode sh-mode)))
+                                 '(emacs-lisp-mode-hook
+                                   org-mode-hook
+                                   java-mode-hook
+                                   lisp-mode-hook
+                                   clojure-mode-hook
+                                   scala-mode-hook
+                                   haskell-mode-hook
+                                   sh-mode-hook)))
                             (mapcar (lambda (mode-hook) (add-hook mode-hook 'git-gutter-mode)) mode-hooks))
 
                           ;; 表示変更
