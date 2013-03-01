@@ -653,6 +653,10 @@
                           (require 'git-gutter)
 
                           ;; (global-git-gutter-mode t) ;; el-get が誤作動するため global は使わない
+                          ;; 指定したモードで有効に
+                          (let ((mode-hooks
+                                 '(emacs-lisp-mode org-mode-hook java-mode lisp-mode clojure-mode scala-mode haskell-mode sh-mode)))
+                            (mapcar (lambda (mode-hook) (add-hook mode-hook 'git-gutter-mode)) mode-hooks))
 
                           ;; 表示変更
                           (setq git-gutter:window-width 1)
@@ -747,7 +751,7 @@
                           (require 'clojure-mode)
                           (add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
                           (autoload 'clojure-mode "clojure-mode" "A major mode for Clojure" t)
-                          (setq inferior-lisp-program "lein repl")
+                          ;; (setq inferior-lisp-program "lein repl")
 
                           ))
 
