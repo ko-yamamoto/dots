@@ -387,13 +387,14 @@ alias screen='screen -xRU'
 
 alias diff='diff -u'
 
-# ccl を使って lisp を ./hoge.lisp で起動する
-function run-lisp() {
+# いろいろな拡張しを実行
+function multi-run() {
   case $1 in
-    *.lisp|*.li) ccl --load $1 --eval '(quit)';;
+    *.lisp|*.li) ccl --load $1 --eval '(quit)';; # ccl を使って lisp を ./hoge.lisp で起動する
+    *.hs) runghc $1;; # haskell の main 関数実行
   esac
 }
-alias -s {lisp,li}=run-lisp
+alias -s {lisp,li,hs}=multi-run
 
 # vi
 # export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
