@@ -24,6 +24,7 @@
           '(lambda ()
              (define-key slime-mode-map [(tab)] 'slime-indent-and-complete-symbol)
              (define-key slime-mode-map (kbd "C-c C-d") 'slime-documentation)
+             (define-key slime-mode-map (kbd "C-c M-n") 'slime-repl-set-package)
              ))
 
 ;; slime-repl再起動
