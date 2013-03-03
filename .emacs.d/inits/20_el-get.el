@@ -267,7 +267,7 @@
                           ;; 補完を止めるキー
                           (define-key ac-menu-map "q" 'ac-stop)
                           ;; 補完メニュー表示までのディレイ
-                          (setq ac-auto-show-menu 0.8)
+                          (setq ac-auto-show-menu 0.3)
                           ;;補完メニューの行数
                           (setq ac-menu-height 15)
                           ;; 大文字・小文字の区別方法
@@ -423,10 +423,10 @@
                           ;; cabal でインストールしたライブラリのコマンドが格納されている bin ディレクトリへのパスを exec-path に追加する
                           (add-to-list 'exec-path (concat (getenv "HOME") "/.cabal/bin"))
                           ;; ghc-flymake.el などがあるディレクトリ ghc-mod
-                          (add-to-list 'load-path "~/.emacs.d/elisp/ghc-mod-1.10.15")
-                          (autoload 'ghc-init "ghc" nil t)
-                          (add-hook 'haskell-mode-hook
-                                    (lambda () (ghc-init)))
+                          ;; (add-to-list 'load-path "~/.emacs.d/elisp/ghc-mod-1.10.15")
+                          ;; (autoload 'ghc-init "ghc" nil t)
+                          ;; (add-hook 'haskell-mode-hook
+                          ;;           (lambda () (ghc-init)))
 
                           ;; auto-complete
                           (ac-define-source ghc-mod
@@ -436,8 +436,13 @@
                               (cache)))
 
                           ;; indent
-                          (custom-set-variables
-                           '(haskell-mode-hook '(turn-on-haskell-indentation)))
+                          (remove-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+                          (remove-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+                          (defun my-haskell-mode-hook ()
+                            (haskell-indentation-mode -1) ;; turn off, just to be sure
+                            (haskell-indent-mode 1))      ;; turn on indent-mode
+                          (add-hook 'haskell-mode-hook 'my-haskell-mode-hook)
+
 
                           (defun my-ac-haskell-mode ()
                             (setq ac-sources '(ac-source-words-in-same-mode-buffers ac-source-dictionary ac-source-ghc-mod)))
@@ -448,7 +453,7 @@
                               (auto-complete-mode t)
                               (setq ac-sources '(ac-source-words-in-same-mode-buffers ac-source-dictionary ac-source-ghc-mod))))
 
-                          (add-hook 'find-file-hook 'my-haskell-ac-init)
+                          (add-hook 'haskell-mode-hook 'my-haskell-ac-init)
 
 
                           ))
