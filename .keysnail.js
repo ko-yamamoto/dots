@@ -154,6 +154,11 @@ plugins.options["tanything_opt.keymap"] = {
 // ];
 
 
+plugins.options["kkk.sites"] = ["^https://([0-9a-zA-Z]+\\.)?github\\.com/",
+                                "^https://([0-9a-zA-Z]+\\.)?facebook\\.com/",
+                                "^https://([0-9a-zA-Z]+\\.)?google\\.co\\.jp/",
+                                "^http://([0-9a-zA-Z]+\\.)?tumblr\\.com/"];
+
 
 // Site local keymap {{ ===================================================== //
 
@@ -221,11 +226,12 @@ local["^https?://mail.google.com/mail/"] = [
     ['T', null]
 ];
 
-local["^https?://www.facebook.com/"] = [
-    // navigation
-    ['k', null],
-    ['j', null]
-];
+// local["^https?://www.facebook.com/"] = [
+//     // navigation
+//     ['k', null],
+//     ['j', null]
+// ];
+
 
 
 
@@ -714,11 +720,11 @@ key.setViewKey('L', function (ev) {
 }, '進む');
 
 key.setViewKey([['C-n'], ['j']], function (ev) {
-    plugins.scrollet.scrollLines(4)
+    plugins.scrollet.scrollLines(8);
 }, '4行スクロールダウン');
 
 key.setViewKey([['C-p'], ['k']], function (ev) {
-    plugins.scrollet.scrollLines(-4)
+    plugins.scrollet.scrollLines(-8);
 }, '4行スクロールアップ');
 
 key.setViewKey('M-m', function (ev) {
