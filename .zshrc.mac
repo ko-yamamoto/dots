@@ -4,6 +4,7 @@ export GIT_EDITOR='mvim -f'
 alias ll='ls -lh'
 alias la='ls -alfh'
 
+alias updatedb='/usr/libexec/locate.updatedb'
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
@@ -35,6 +36,8 @@ export ANDROID_SWT=/Users/nishikawasasaki/android/android-sdk-macosx/tools/lib/x
 # JAVA は UTF-8
 export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8
 
+CABAL_BIN=/Users/nishikawasasaki/Library/Haskell/bin
+export PATH=${CABAL_BIN}:${PATH}
 
 # git のログには emacs を
 export GIT_EDITOR="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient"
