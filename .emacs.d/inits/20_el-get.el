@@ -184,6 +184,7 @@
                  :after (progn
                           (require 'popwin)
                           (setq display-buffer-function 'popwin:display-buffer)
+
                           ;; popwinのデフォルトサイズ
                           (setq popwin:popup-window-height 0.4)
                           ;; popwinを使う表示を設定
@@ -889,6 +890,19 @@
                           (add-to-list 'same-window-buffer-names "*nrepl*")
 
                           ))
+
+
+          (:name hamlet-mode-github
+                 :type github
+                 :url "git://github.com/lightquake/hamlet-mode.git"
+                 :after (progn
+                          (require 'hamlet-mode)
+                          (add-to-list 'auto-mode-alist '("\\.hamlet\\" . hamlet-mode))
+                          (add-to-list 'auto-mode-alist '("\\.lucius\\" . hamlet-mode))
+                          ))
+
+
+
 
 
           ))

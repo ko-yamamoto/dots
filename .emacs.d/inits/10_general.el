@@ -361,3 +361,6 @@
 
 ;; ロケールは C で統一しておく
 (setq system-time-locale "C")
+
+;; バッファの終端を明示する
+(setq-default indicate-empty-lines t)

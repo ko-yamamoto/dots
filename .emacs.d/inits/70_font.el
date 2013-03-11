@@ -30,16 +30,18 @@
                     ;; '("MeiryoKe_Console" . "unicode-bmp"))
 )
 (when is_mac
-  (set-frame-font "M+ 1mn medium:pixelsize=12:spacing=0:slant=1")
+  ;; (set-frame-font "M+ 1mn regular:pixelsize=12:spacing=0:slant=1")
+  (set-frame-font "VL Gothic:pixelsize=12:spacing=0:slant=1")
   (progn
-    (set-face-font 'default "M+ 1mn medium:pixelsize=12:spacing=0:slant=1")
-    (set-face-font 'bold "M+ 1mn bold:pixelsize=12:spacing=0:slant=1")
+    (set-face-font 'default "VL Gothic:pixelsize=12:spacing=0:slant=1")
+    ;; (set-face-font 'default "M+ 1mn regular:pixelsize=12:spacing=0:slant=1")
+    ;; (set-face-font 'bold "M+ 1mn bold:pixelsize=12:spacing=0:slant=1")
     ;; (set-face-font 'italic "M+ 1mn bold:pixelsize=12:spacing=0:slant=1")
     ;; (set-face-font 'bold-italic "M+ 1mn bold:pixelsize=12:spacing=0:slant=1")
     )
   (set-fontset-font (frame-parameter nil 'font)
                     'japanese-jisx0208
-                    '("M+ 1mn medium" . "unicode-bmp"))
+                    '("VL Gothic" . "unicode-bmp"))
 
   ;; バラバラに設定する場合
   ;; ;; 英字フォントk
