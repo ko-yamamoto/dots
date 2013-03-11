@@ -1166,3 +1166,8 @@ key.setGlobalKey("C-1", function (ev, arg) {
 key.setGlobalKey("C-2", function (ev, arg) {
     ext.exec("scrollet-jump-to-mark", arg, ev);
 }, "マークに保存された位置へジャンプ", true);
+
+key.setGlobalKey(["C-c", "g"],
+    function (ev, arg) {
+        ext.exec("gmail-checker-mail-list", arg);
+}, "gmail のリストを表示", true);
