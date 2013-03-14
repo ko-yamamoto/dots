@@ -4,6 +4,7 @@
 
 [http]
     sslVerify = false
+	postBuffer = 524288000
 
 [core]
 	quotepath = false

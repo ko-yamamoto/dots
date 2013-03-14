@@ -78,7 +78,6 @@
                                                     collect file)))
                               (type . file)))
 
-
                           (defun helm-my ()
                             (interactive)
                             (helm-other-buffer '(helm-c-source-buffers-list-R
@@ -89,7 +88,7 @@
                                                "*helm my*"))
 
                           (define-key global-map (kbd "C-;") 'helm-my)
-                          (global-set-key (kbd "C-x C-f") 'helm-find-files)
+                          ;; (global-set-key (kbd "C-x C-f") 'helm-find-files)
                           (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 
                           (global-set-key (kbd "M-i") 'helm-imenu)
