@@ -479,33 +479,21 @@ key.setGlobalKey('C-M-r', function (ev) {
     userscript.reload();
 }, '設定ファイルを再読み込み', true);
 
-key.setGlobalKey('M-x', function (ev, arg) {
+key.setGlobalKey([['M-x'], ['C-x', 'c']], function (ev, arg) {
     ext.select(arg, ev);
 }, 'エクステ一覧表示', true);
 
-key.setGlobalKey('M-:', function (ev) {
-    command.interpreter();
-}, 'JavaScript のコードを評価', true);
-
-key.setGlobalKey(['<f1>', 'b'], function (ev) {
-    key.listKeyBindings();
-}, 'キーバインド一覧を表示');
-
-key.setGlobalKey(['<f1>', 'F'], function (ev) {
-    openHelpLink("firefox-help");
-}, 'Firefox のヘルプを表示');
-
-key.setGlobalKey('C-m', function (ev) {
-    key.generateKey(ev.originalTarget, KeyEvent.DOM_VK_RETURN, true);
-}, 'リターンコードを生成');
+key.setGlobalKey(['C-x', '1'], function (ev) {
+    window.loadURI(ev.target.ownerDocument.location.href);
+}, '現在のフレームだけを表示', true);
 
 key.setGlobalKey(['C-x', 'l'], function (ev) {
     command.focusToById("urlbar");
 }, 'ロケーションばーへ移動', true);
 
-key.setGlobalKey(['C-x', 'g'], function (ev) {
-    command.focusToById("searchbar");
-}, '検索バーへフォーカス', true);
+key.setGlobalKey(['C-x', 'g'], function (ev, arg) {
+    ext.exec('tabgroup-list', arg, ev);
+}, 'タブグループを一覧表示', true);
 
 key.setGlobalKey(['C-x', 's'], function (ev) {
     command.focusElement(command.elementsRetrieverButton, 0);
@@ -530,10 +518,6 @@ key.setGlobalKey(['C-x', 'C-c'], function (ev) {
 key.setGlobalKey(['C-x', 'o'], function (ev, arg) {
     command.focusOtherFrame(arg);
 }, '次のフレームを選択');
-
-key.setGlobalKey(['C-x', '1'], function (ev) {
-    window.loadURI(ev.target.ownerDocument.location.href);
-}, '現在のフレームだけを表示', true);
 
 key.setGlobalKey(['C-x', 'C-f'], function (ev) {
     BrowserOpenFileWindow();
@@ -571,6 +555,38 @@ key.setGlobalKey(['C-x', 'r', 'k'], function (ev, arg) {
 key.setGlobalKey(['C-x', 'r', 'y'], function (ev) {
     command.yankRectangle(ev.originalTarget, command.kill.buffer);
 }, '矩形ヤンク', true);
+
+key.setGlobalKey([['C-x', 'r', 'SPC'], ['C-1']], function (ev, arg) {
+    ext.exec("scrollet-set-mark", arg, ev);
+}, '現在の位置をマークに保存', true);
+
+key.setGlobalKey([['C-x', 'r', 'j'], ['C-2']], function (ev, arg) {
+    ext.exec("scrollet-jump-to-mark", arg, ev);
+}, 'マークに保存された位置へジャンプ', true);
+
+key.setGlobalKey(['C-x', 'b'], function (ev, arg) {
+    ext.exec('tanything', arg, ev);
+}, 'タブを一覧表示', true);
+
+key.setGlobalKey(['C-x', 't'], function (ev, arg) {
+    ext.exec("twitter-client-display-timeline", arg, ev);
+}, 'TL を表示', true);
+
+key.setGlobalKey('M-:', function (ev) {
+    command.interpreter();
+}, 'JavaScript のコードを評価', true);
+
+key.setGlobalKey(['<f1>', 'b'], function (ev) {
+    key.listKeyBindings();
+}, 'キーバインド一覧を表示');
+
+key.setGlobalKey(['<f1>', 'F'], function (ev) {
+    openHelpLink("firefox-help");
+}, 'Firefox のヘルプを表示');
+
+key.setGlobalKey('C-m', function (ev) {
+    key.generateKey(ev.originalTarget, KeyEvent.DOM_VK_RETURN, true);
+}, 'リターンコードを生成');
 
 key.setGlobalKey(['C-c', 'u'], function (ev) {
     undoCloseTab();
@@ -611,6 +627,41 @@ key.setGlobalKey(['C-c', 'c'], function (ev) {
     prompt.selector({message: "copy from :", collection: promptList, keymap: plugins.options['default.keymap'], callback: function (aIndex) {if (aIndex < 0) {return;}var key = promptList[aIndex];if (typeof templates[key] == "string") {let template = templates[key].replace(/\n/g, getLineSeprator());let text = format(template, window.content.document.title, window.content.location.href);command.setClipboardText(text);display.echoStatusBar("Yanked: " + text);} else {templates[key](window.content.document.title, window.content.location.href, function (text) {command.setClipboardText(window.content.document.title + " - " + text);display.echoStatusBar("Yanked: " + window.content.document.title + " - " + text);});}}});
 }, 'タイトルやURLをコピー');
 
+key.setGlobalKey(['C-c', 't', 'p'], function (ev, arg) {
+        ext.exec("twitter-client-tweet", arg);
+}, 'twitter につぶやく', true);
+
+key.setGlobalKey(['C-c', 't', 'l'], function (ev, arg) {
+    ext.exec("twitter-client-tweet-this-page", arg, ev);
+}, 'twitter にこのページのタイトルと URL を使ってつぶやく', true);
+
+key.setGlobalKey(['C-c', 't', 't'], function (ev, arg) {
+    ext.exec("twitter-client-display-timeline", arg, ev);
+}, 'twitter TL を表示', true);
+
+key.setGlobalKey(['C-c', 't', '@'], function (ev, arg) {
+    ext.exec("twitter-client-show-mentions", arg, ev);
+}, 'twitter メンションを表示', true);
+
+key.setGlobalKey(['C-c', 'y'], function (ev, arg) {
+    ext.exec("view-yammer", arg, ev);
+}, 'yammer を表示', true);
+
+key.setGlobalKey(['C-c', 'f', 'f'], function (ev, arg) {
+        ext.exec("facebook-show-news-feed", arg);
+}, ' facebook ニュースフィードを表示', true);
+
+key.setGlobalKey(['C-c', 'f', 'p'], function (ev, arg) {
+        ext.exec("facebook-post-text", arg);
+}, ' facebook 自分のウォールにポスト', true);
+
+key.setViewKey(['C-c', 'g', 'o'], function (ev, arg) {
+    var gurl = "https://mail.google.com/mail/u/0/#inbox";
+    var tBrowser = top.document.getElementById("content");
+    var tab = tBrowser.addTab(gurl);
+    tBrowser.selectedTab = tab;
+}, 'gmail を開く');
+
 key.setGlobalKey('M-w', function (ev) {
     command.copyRegion(ev);
 }, '選択中のテキストをコピー', true);
@@ -643,6 +694,18 @@ key.setGlobalKey('C-M-o', function (ev) {
 key.setGlobalKey('M-j', function () {
     plugins.twitterClient.switchTo();
 }, 'Twitter Client Select Action');
+
+key.setGlobalKey('C-s', function (ev) {
+    command.iSearchForwardKs(ev);
+}, 'Emacs ライクなインクリメンタル検索', true);
+
+key.setGlobalKey('C-;', function (ev) {
+    ext.exec("history-show");
+}, '履歴 anything 風');
+
+key.setGlobalKey('M-i', function (ev) {
+  ext.exec("imenu-headers");
+}, 'jump to headers');
 
 key.setViewKey('U', function (ev) {
     ext.exec("list-closed-tabs");
@@ -727,7 +790,7 @@ key.setViewKey([['C-p'], ['k']], function (ev) {
     plugins.scrollet.scrollLines(-8);
 }, '4行スクロールアップ');
 
-key.setViewKey('M-m', function (ev) {
+key.setViewKey([['M-m'], ['i']], function (ev) {
     command.focusElement(command.elementsRetrieverTextarea, 0);
 }, '最初のインプットエリアへフォーカス', true);
 
@@ -799,21 +862,14 @@ key.setViewKey('M', function (ev, arg) {
     shell.input("weblio " + (content.getSelection() || ""));
 }, 'Lookup the meaning of the word');
 
-// key.setViewKey('t', function (ev, arg) {
-//     shell.input("tabopen ");
-// }, 'タブで開く');
 key.setViewKey('t', function (ev, arg) {
     BrowserOpenTab();
 }, 'タブを開く');
-
 
 key.setViewKey('T', function (ev, arg) {
     shell.input("tabopen google ");
 }, 'google検索');
 
-// key.setViewKey('o', function (ev, arg) {
-//     shell.input("open ");
-// }, 'このタブで開く');
 key.setViewKey('o', function (ev, arg) {
     command.focusToById("urlbar");
 }, 'ロケーションバーへ移動');
@@ -829,6 +885,10 @@ key.setViewKey('A', function (ev, arg) {
 key.setViewKey('C-s', function (ev) {
     command.iSearchForward();
 }, 'インクリメンタル検索', true);
+
+key.setViewKey(['ESC', 'ESC'], function (ev) {
+    userscript.loadPlugins();
+}, 'プラグインのリロード');
 
 key.setEditKey(['C-c', 'e'], function (ev, arg) {
     ext.exec("edit_text", arg);
@@ -986,6 +1046,10 @@ key.setEditKey('M-/', function (ev) {
     goDoCommand("cmd_redo");
 }, 'Redo');
 
+key.setEditKey('C-l', function (ev) {
+    command.recenter(ev);
+}, 'カーソル位置が画面の中央へ来るようスクロール', true);
+
 key.setCaretKey([['C-a'], ['^']], function (ev) {
     ev.target.ksMarked ? goDoCommand("cmd_selectBeginLine") : goDoCommand("cmd_beginLine");
 }, 'キャレットを行頭へ移動');
@@ -1088,86 +1152,6 @@ key.setCaretKey('M', function (ev, arg) {
     shell.input("weblio " + (content.getSelection() || ""));
 }, 'Lookup the meaning of the word');
 
-key.setGlobalKey('C-s', function (ev) {
-    command.iSearchForwardKs(ev);
-}, 'Emacs ライクなインクリメンタル検索', true);
-
-key.setGlobalKey('C-;', function (ev) {
-    ext.exec("history-show");
-}, '履歴 anything 風');
-
-key.setGlobalKey(['C-x', 'b'], function (ev, arg) {
-    ext.exec('tanything', arg, ev);
-}, 'タブを一覧表示', true);
-
-key.setGlobalKey("M-i", function (ev) {
-  ext.exec("imenu-headers");
-}, 'jump to headers');
-
-key.setGlobalKey(['C-x', 'g'], function (ev, arg) {
-    ext.exec('tabgroup-list', arg, ev);
-}, 'タブグループを一覧表示', true);
-
-key.setGlobalKey(["C-c", "t", "p"],
-    function (ev, arg) {
-        ext.exec("twitter-client-tweet", arg);
-}, "twitter につぶやく", true);
-
-key.setGlobalKey(['C-c', "t", "l"], function (ev, arg) {
-    ext.exec("twitter-client-tweet-this-page", arg, ev);
-}, 'twitter にこのページのタイトルと URL を使ってつぶやく', true);
-
-key.setGlobalKey(['C-c', 't', 't'], function (ev, arg) {
-    ext.exec("twitter-client-display-timeline", arg, ev);
-}, 'twitter TL を表示', true);
-
-key.setGlobalKey(['C-c', 't', '@'], function (ev, arg) {
-    ext.exec("twitter-client-show-mentions", arg, ev);
-}, 'twitter メンションを表示', true);
-
-key.setGlobalKey(['C-c', 'y'], function (ev, arg) {
-    ext.exec("view-yammer", arg, ev);
-}, 'yammer を表示', true);
-
-
-key.setGlobalKey(["C-c", "f", "f"],
-    function (ev, arg) {
-        ext.exec("facebook-show-news-feed", arg);
-}, " facebook ニュースフィードを表示", true);
-
-key.setGlobalKey(["C-c", "f", "p"],
-    function (ev, arg) {
-        ext.exec("facebook-post-text", arg);
-}, " facebook 自分のウォールにポスト", true);
-
-
-key.setEditKey('C-l', function (ev) {
-    command.recenter(ev);
-}, 'カーソル位置が画面の中央へ来るようスクロール', true);
-
-
-// PRESERVE エリアの外に
-key.setViewKey(['ESC', 'ESC'], function (ev) {
-    userscript.loadPlugins();
-}, 'プラグインのリロード');
-
-key.setGlobalKey(['C-x', 'r', 'SPC'], function (ev, arg) {
-    ext.exec("scrollet-set-mark", arg, ev);
-}, "現在の位置をマークに保存", true);
-
-key.setGlobalKey(['C-x', 'r', 'j'], function (ev, arg) {
-    ext.exec("scrollet-jump-to-mark", arg, ev);
-}, "マークに保存された位置へジャンプ", true);
-
-key.setGlobalKey("C-1", function (ev, arg) {
-    ext.exec("scrollet-set-mark", arg, ev);
-}, "現在の位置をマークに保存", true);
-
-key.setGlobalKey("C-2", function (ev, arg) {
-    ext.exec("scrollet-jump-to-mark", arg, ev);
-}, "マークに保存された位置へジャンプ", true);
-
-key.setGlobalKey(["C-c", "g"],
-    function (ev, arg) {
-        ext.exec("gmail-checker-mail-list", arg);
-}, "gmail のリストを表示", true);
+key.setViewKey(['C-c', 'g', 'g'], function (ev, arg) {
+    ext.exec('gmail-checker-mail-list', arg, ev);
+}, '新着メールを表示', true);

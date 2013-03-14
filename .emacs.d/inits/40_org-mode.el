@@ -1,5 +1,6 @@
 ;; org-modeの初期化
-(require 'org-install)
+;; (require 'org-install)
+(require 'org)
 
 ;; org-default-notes-fileのディレクトリ
 (setq org-directory "~/memo/")
