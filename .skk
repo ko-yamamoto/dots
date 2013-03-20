@@ -1,5 +1,5 @@
 ;; 辞書ファイル
-(setq skk-large-jisyo "~/.emacs.d/elisp/skk/SKK-JISYO.L")
+(setq skk-large-jisyo "~/.emacs.d/skk/SKK-JISYO.L")
 
 
 ;; 辞書指定
@@ -15,8 +15,8 @@
 
 ;; (1) かな漢字変換の候補に Google サジェストを利用する
 (add-to-list 'skk-search-prog-list
-             ;; '(skk-search-web 'skk-google-suggest)
-             '(skk-search-web 'skk-google-cgi-api-for-japanese-input)
+             '(skk-search-web 'skk-google-suggest)
+             ;; '(skk-search-web 'skk-google-cgi-api-for-japanese-input)
              t)
 ;; (2) skk-search-web 辞書登録モードへの突入時の初期値に Google サジェストを利用する
 ;; (setq skk-read-from-minibuffer-function
