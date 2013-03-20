@@ -1,6 +1,8 @@
 ;;====================
 ;; ddskk
 ;;====================
+(add-to-list 'load-path "~/.emacs.d/skk")
+
 (require 'skk-autoloads)
 (global-set-key (kbd "C-q s s") 'skk-mode)
 (key-chord-define-global "jk" 'skk-mode)
