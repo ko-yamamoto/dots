@@ -6,12 +6,12 @@
 ;; (color-theme-ns)
 ;; (color-theme-tangotango)
 ;; (color-theme-tomorrow-night-bright)
-;; (color-theme-tomorrow-night)
+(color-theme-tomorrow-night)
 ;; (color-theme-tomorrow)
-(color-theme-solarized-light)
+;; (color-theme-solarized-light)
 
 ;; ウィンドウを透明化
-(add-to-list 'default-frame-alist '(alpha . (0.95 0.95)))
+(add-to-list 'default-frame-alist '(alpha . (0.8 0.8)))
 
 ;; キーワードのカラー表示を有効化
 (global-font-lock-mode t)
