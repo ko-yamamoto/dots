@@ -62,7 +62,7 @@ plugins.options["twitter_client.dm_update_interval"]       = 60 * 1000 * 10;
 
 // 外部エディタの設定
 key.setEditKey(["C-c", "e"], function (ev, arg) {
-        ext.exec("edit_text", arg);
+    ext.exec("edit_text", arg);
 }, "外部エディタで編集", true);
 plugins.options["K2Emacs.editor"] = "C:\\my\\programs\\emacs\\emacs-23.3\\bin\\emacsclientw.exe -n";
 plugins.options["K2Emacs.ext"] = "html";
@@ -157,8 +157,26 @@ plugins.options["tanything_opt.keymap"] = {
 plugins.options["kkk.sites"] = ["^https://([0-9a-zA-Z]+\\.)?github\\.com/",
                                 "^https://([0-9a-zA-Z]+\\.)?facebook\\.com/",
                                 "^https://([0-9a-zA-Z]+\\.)?google\\.co\\.jp/",
+                                "^https://([0-9a-zA-Z]+\\.)?duckduckgo\\.com/",
                                 "^http://([0-9a-zA-Z]+\\.)?tumblr\\.com/"];
 
+
+
+plugins.options["ril.keymap"] = {
+    "C-z" : "prompt-toggle-edit-mode",
+    "j" : "prompt-next-completion",
+    "k" : "prompt-previous-completion",
+    "g" : "prompt-beginning-of-candidates",
+    "G" : "prompt-end-of-candidates",
+    "q" : "prompt-cancel",
+    // PocketSnail specific actions
+    "o" : "open,c",
+    "O" : "open-background,c",
+    "t" : "open-text,c",
+    "T" : "open-text-background,c",
+    "d" : "delete",
+    "r" : "sync"
+};
 
 // Site local keymap {{ ===================================================== //
 
@@ -378,53 +396,53 @@ plugins.lib = _.extend(plugins.lib, {
 
 // imenu 的なものを追加
 ext.add("imenu-headers", function () {
-  let anchorSelector = [
-    "h1",
-    "h2",
-    "h3",
-    "h4"
-  ].join(",");
+    let anchorSelector = [
+        "h1",
+        "h2",
+        "h3",
+        "h4"
+    ].join(",");
 
-  let elements = Array.slice(content.document.querySelectorAll(anchorSelector));
+    let elements = Array.slice(content.document.querySelectorAll(anchorSelector));
 
-  function elementToString(element) {
-    let headerString = "",
-        matched = null;
-    if ((matched = element.localName.match(/h([0-9])/))) {
-      let headerCount = parseInt(matched[1], 10);
-      headerString = (new Array(headerCount)).join("  ");
+    function elementToString(element) {
+        let headerString = "",
+            matched = null;
+        if ((matched = element.localName.match(/h([0-9])/))) {
+            let headerCount = parseInt(matched[1], 10);
+            headerString = (new Array(headerCount)).join("  ");
 
-      let headerMarks = {
-        1: '',            /* none */
-        2: "\u2023",      /* right arrow */
-        3: "\u2022",      /* bullet */
-        4: "\u25E6"       /* white bullet */
-      };
+            let headerMarks = {
+                1: '',            /* none */
+                2: "\u2023",      /* right arrow */
+                3: "\u2022",      /* bullet */
+                4: "\u25E6"       /* white bullet */
+            };
 
-      if (headerMarks[headerCount])
-        headerString = headerString + headerMarks[headerCount] + " ";
+            if (headerMarks[headerCount])
+                headerString = headerString + headerMarks[headerCount] + " ";
+        }
+
+        return headerString + element.textContent;
     }
 
-    return headerString + element.textContent;
-  }
-
-  function scrollToElement(element) {
-    let anchor = element.getAttribute("id") || element.getAttribute("name");
-    if (anchor)
-      content.location.hash = anchor;
-    else
-      element.scrollIntoView();
-  }
-
-  prompt.selector({
-    message: "jump to: ",
-    collection: elements.map(function (element) elementToString(element)),
-    callback: function (selectedIndex) {
-      if (selectedIndex < 0)
-        return;
-      scrollToElement(elements[selectedIndex]);
+    function scrollToElement(element) {
+        let anchor = element.getAttribute("id") || element.getAttribute("name");
+        if (anchor)
+            content.location.hash = anchor;
+        else
+            element.scrollIntoView();
     }
-  });
+
+    prompt.selector({
+        message: "jump to: ",
+        collection: elements.map(function (element) elementToString(element)),
+        callback: function (selectedIndex) {
+            if (selectedIndex < 0)
+                return;
+            scrollToElement(elements[selectedIndex]);
+        }
+    });
 }, "imenu-headers", true);
 
 
@@ -628,7 +646,7 @@ key.setGlobalKey(['C-c', 'c'], function (ev) {
 }, 'タイトルやURLをコピー');
 
 key.setGlobalKey(['C-c', 't', 'p'], function (ev, arg) {
-        ext.exec("twitter-client-tweet", arg);
+    ext.exec("twitter-client-tweet", arg);
 }, 'twitter につぶやく', true);
 
 key.setGlobalKey(['C-c', 't', 'l'], function (ev, arg) {
@@ -648,11 +666,11 @@ key.setGlobalKey(['C-c', 'y'], function (ev, arg) {
 }, 'yammer を表示', true);
 
 key.setGlobalKey(['C-c', 'f', 'f'], function (ev, arg) {
-        ext.exec("facebook-show-news-feed", arg);
+    ext.exec("facebook-show-news-feed", arg);
 }, ' facebook ニュースフィードを表示', true);
 
 key.setGlobalKey(['C-c', 'f', 'p'], function (ev, arg) {
-        ext.exec("facebook-post-text", arg);
+    ext.exec("facebook-post-text", arg);
 }, ' facebook 自分のウォールにポスト', true);
 
 key.setViewKey(['C-c', 'g', 'o'], function (ev, arg) {
@@ -704,7 +722,7 @@ key.setGlobalKey('C-;', function (ev) {
 }, '履歴 anything 風');
 
 key.setGlobalKey('M-i', function (ev) {
-  ext.exec("imenu-headers");
+    ext.exec("imenu-headers");
 }, 'jump to headers');
 
 key.setViewKey('U', function (ev) {
@@ -1023,7 +1041,7 @@ key.setEditKey('M-y', function (ev) {
         return;
     }
     let (ct = command.getClipboardText()) (!command.kill.ring.length || ct != command.kill.ring[0]) &&
-        command.pushKillRing(ct);
+            command.pushKillRing(ct);
     prompt.selector({message: "Paste:", collection: command.kill.ring, callback: function (i) {if (i >= 0) {key.insertText(command.kill.ring[i]);}}});
 }, '以前にコピーしたテキスト一覧から選択して貼り付け', true);
 
@@ -1155,3 +1173,15 @@ key.setCaretKey('M', function (ev, arg) {
 key.setViewKey(['C-c', 'g', 'g'], function (ev, arg) {
     ext.exec('gmail-checker-mail-list', arg, ev);
 }, '新着メールを表示', true);
+
+key.setViewKey(['C-c', 'p', 'p'], function (ev, arg) {
+    ext.exec('ril-show-reading-list', arg, ev);
+}, 'Pocket - Show reading list', true);
+
+key.setViewKey(['C-c', 'p', 't'], function (ev, arg) {
+    ext.exec('ril-toggle', arg, ev);
+}, 'Pocket - Append or remove current tab', true);
+
+key.setViewKey(['C-c', 'p', 'a'], function (ev, arg) {
+    ext.exec('ril-append', arg, ev);
+}, 'Pocket - Append current tab', true);
