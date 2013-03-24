@@ -239,9 +239,11 @@
                           (global-set-key (kbd "C-c g f") 'magit-file-log)
 
                           ;; 色変更
-                          ;; (set-face-foreground 'magit-diff-add "#b9ca4a")
-                          ;; (set-face-foreground 'magit-diff-del "#d54e53")
-                          ;; (set-face-background 'magit-item-highlight "#000000")
+                          (set-face-foreground 'magit-diff-add "#b9ca4a")
+                          (set-face-background 'magit-diff-add "#000000")
+                          (set-face-foreground 'magit-diff-del "#d54e53")
+                          (set-face-background 'magit-diff-del "#000000")
+                          (set-face-background 'magit-item-highlight "#000000")
                           ))
 
           (:name popup-el-github
@@ -899,6 +901,15 @@
                           (require 'hamlet-mode)
                           (add-to-list 'auto-mode-alist '("\\.hamlet\\" . hamlet-mode))
                           (add-to-list 'auto-mode-alist '("\\.lucius\\" . hamlet-mode))
+                          ))
+
+          (:name emacs-rotate-github
+                 :type github
+                 :url "git://github.com/daic-h/emacs-rotate.git"
+                 :after (progn
+                          (require 'rotate)
+                          (global-set-key (kbd "C-q SPC") 'rotate-layout)
+                          (global-set-key (kbd "C-c C-t") 'rotate-window)
                           ))
 
 
