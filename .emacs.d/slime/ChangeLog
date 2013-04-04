@@ -1,3 +1,25 @@
+2013-03-12  Helmut Eller  <heller@common-lisp.net>
+
+	* slime.el (slime-read-interactive-args): Use read-shell-command
+	to enable completion.  Patch by Daimrod/Greg.
+
+2013-03-08  Mark Evenson  <evenson@tethys.local>
+
+	* swank-abcl.lisp: Allow SLIME inspector to perform class
+	finalization.
+
+2013-03-02  Stas Boukarev  <stassats@gmail.com>
+
+	* slime-autoloads.el: Don't load autoloads when slime is already
+	loaded, there's no sense in doing so.
+
+2013-02-20  Stas Boukarev  <stassats@gmail.com>
+
+	* slime.el (slime-attempt-connection): Don't run the timer with a
+	repeat argument, slime-attempt-connection will reinstantiate the
+	timer if needed, otherwise it can be a possible source of race
+	conditions.
+
 2013-02-13  Helmut Eller  <heller@common-lisp.net>
 
 	* swank-allegro.lisp (eval-in-frame): debugger:frame-var-name can

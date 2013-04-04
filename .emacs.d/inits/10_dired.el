@@ -277,7 +277,10 @@
 ;; dired でのファイルサイズ表示のオプション
 (setq dired-listing-switches "-FlhA")
 
-
+;; Mac の場合は
+(when (eq system-type 'darwin)
+  (require 'ls-lisp)
+  (setq ls-lisp-use-insert-directory-program nil))
 
 
 ;; diredの隠しファイル表示をトグルするminor-mode
