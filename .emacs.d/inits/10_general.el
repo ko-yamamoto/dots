@@ -132,31 +132,31 @@
 ;; ビューモード
 (setq view-read-only t)
 (defvar pager-keybind
-      `( ;; vi-like
-        ("h" . backward-word)
-        ("l" . forward-word)
-        ("j" . next-line)
-        ("k" . previous-line)
-        (";" . gene-word)
-        ("b" . scroll-down)
-        (" " . scroll-up)
-        ;; w3m-like
-        ("m" . gene-word)
-        ("i" . win-delete-current-window-and-squeeze)
-        ("w" . forward-word)
-        ("e" . backward-word)
-        ("(" . point-undo)
-        (")" . point-redo)
-        ("J" . ,(lambda () (interactive) (scroll-up 1)))
-        ("K" . ,(lambda () (interactive) (scroll-down 1)))
-        ;; bm-easy
-        ("." . bm-toggle)
-        ("[" . bm-previous)
-        ("]" . bm-next)
-        ;; langhelp-like
-        ("c" . scroll-other-window-down)
-        ("v" . scroll-other-window)
-        ))
+  `( ;; vi-like
+    ("h" . backward-word)
+    ("l" . forward-word)
+    ("j" . next-line)
+    ("k" . previous-line)
+    (";" . gene-word)
+    ("b" . scroll-down)
+    (" " . scroll-up)
+    ;; w3m-like
+    ("m" . gene-word)
+    ("i" . win-delete-current-window-and-squeeze)
+    ("w" . forward-word)
+    ("e" . backward-word)
+    ("(" . point-undo)
+    (")" . point-redo)
+    ("J" . ,(lambda () (interactive) (scroll-up 1)))
+    ("K" . ,(lambda () (interactive) (scroll-down 1)))
+    ;; bm-easy
+    ("." . bm-toggle)
+    ("[" . bm-previous)
+    ("]" . bm-next)
+    ;; langhelp-like
+    ("c" . scroll-other-window-down)
+    ("v" . scroll-other-window)
+    ))
 
 (defun define-many-keys (keymap key-table &optional includes)
   (let (key cmd)
@@ -164,7 +164,7 @@
       (setq key (car key-cmd)
             cmd (cdr key-cmd))
       (if (or (not includes) (member key includes))
-        (define-key keymap key cmd))))
+          (define-key keymap key cmd))))
   keymap)
 
 

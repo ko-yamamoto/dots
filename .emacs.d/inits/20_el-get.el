@@ -18,9 +18,9 @@
   (setq el-get-sources
         '(
 
-          (:name org-mode-git
-                 :type git
-                 :url "git://orgmode.org/org-mode.git")
+;;           (:name org-mode-git
+;;                  :type git
+;;                  :url "git://orgmode.org/org-mode.git")
 
           (:name helm-github
                  :type github
@@ -417,9 +417,9 @@
                           ;; (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
                           ;; (add-hook 'haskell-mode-hook 'turn-on-haskell-simple-indent)
 
-                          (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
-                          (add-to-list 'auto-mode-alist '("\\.lhs$" . literate-haskell-mode))
-                          (add-to-list 'auto-mode-alist '("\\.cabal\\'" . haskell-cabal-mode))
+                          ;; (add-to-list 'auto-mode-alist '("\\.hs" . haskell-mode))
+                          ;; (add-to-list 'auto-mode-alist '("\\.lhs" . literate-haskell-mode))
+                          ;; (add-to-list 'auto-mode-alist '("\\.cabal" . haskell-cabal-mode))
 
                           ;; ghc-mod
                           ;; cabal でインストールしたライブラリのコマンドが格納されている bin ディレクトリへのパスを exec-path に追加する
@@ -891,16 +891,6 @@
                           ;; C-c C-z switch to the *nrepl* buffer
                           (add-to-list 'same-window-buffer-names "*nrepl*")
 
-                          ))
-
-
-          (:name hamlet-mode-github
-                 :type github
-                 :url "git://github.com/lightquake/hamlet-mode.git"
-                 :after (progn
-                          (require 'hamlet-mode)
-                          (add-to-list 'auto-mode-alist '("\\.hamlet\\" . hamlet-mode))
-                          (add-to-list 'auto-mode-alist '("\\.lucius\\" . hamlet-mode))
                           ))
 
           (:name emacs-rotate-github

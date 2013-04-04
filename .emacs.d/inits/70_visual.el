@@ -74,7 +74,7 @@
 (defun anything-font-families ()
   "Preconfigured `anything' for font family."
   (interactive)
-  (flet ((anything-mp-highlight-match () nil))
+  (cl-flet ((anything-mp-highlight-match () nil))
     (anything-other-buffer
      '(anything-c-source-font-families)
      "*anything font families*")))
