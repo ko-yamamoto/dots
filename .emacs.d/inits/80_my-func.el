@@ -257,3 +257,14 @@
   (interactive)
   (kill-buffer)
   (delete-window))
+
+
+
+(defun my-comment-out-this-line ()
+  (interactive)
+  (let* ((bol (progn (beginning-of-line) (point)))
+         (eol (progn (end-of-line) (point))))
+    (comment-region bol eol)
+    (back-to-indentation)
+    ))
+(global-set-key (kbd "M-;") 'my-comment-out-this-line)
