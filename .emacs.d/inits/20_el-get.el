@@ -18,9 +18,9 @@
   (setq el-get-sources
         '(
 
-;;           (:name org-mode-git
-;;                  :type git
-;;                  :url "git://orgmode.org/org-mode.git")
+          ;;           (:name org-mode-git
+          ;;                  :type git
+          ;;                  :url "git://orgmode.org/org-mode.git")
 
           (:name helm-github
                  :type github
@@ -304,6 +304,7 @@
                           (global-set-key (kbd "C-M-@") 'er/contract-region) ;; リージョンを狭める
                           (global-set-key (kbd "C-=") 'er/expand-region)
                           (global-set-key (kbd "C-M-=") 'er/contract-region) ;; リージョンを狭める
+                          (global-set-key (kbd "C-o") 'er/expand-region)
                           ))
 
           (:name wrap-region
@@ -902,9 +903,25 @@
                           (global-set-key (kbd "C-c C-t") 'rotate-window)
                           ))
 
+          (:name migemo-github
+                 :type github
+                 :url "git://github.com/emacs-jp/migemo.git"
+                 :after (progn
+                          (setq migemo-command "cmigemo")
+                          ;; (setq migemo-options '("-q" "--emacs" "-i" "\a"))
+                          (setq migemo-options '("-q" "--emacs"))
+                          (setq migemo-dictionary (expand-file-name "~/.emacs.d/elisp/migemo/migemo-dict"))
+                          ;; (setq migemo-accept-process-output-timeout-msec 80)
+                          (setq migemo-user-dictionary nil)
+                          (setq migemo-regex-dictionary nil)
+                          (setq migemo-use-pattern-alist t)
+                          (setq migemo-use-frequent-pattern-alist t)
+                          (setq migemo-pattern-alist-length 1024)
+                          (setq migemo-coding-system 'utf-8-unix)
+                          (load-library "migemo")
+                          (migemo-init)
 
-
-
+                          ))
 
           ))
 
