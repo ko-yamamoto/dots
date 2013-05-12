@@ -267,4 +267,4 @@
     (comment-region bol eol)
     (back-to-indentation)
     ))
-(global-set-key (kbd "M-;") 'my-comment-out-this-line)
+;; (global-set-key (kbd "M-;") 'my-comment-out-this-line)

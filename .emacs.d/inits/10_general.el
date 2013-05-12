@@ -364,5 +364,3 @@
 
 ;; バッファの終端を明示する
 (setq-default indicate-empty-lines t)
-
-(global-set-key (kbd "C-o") 'nil)
