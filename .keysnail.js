@@ -321,6 +321,11 @@ local["^https?://mail.google.com/mail/"] = [
 //         ime-mode : inactive !important;
 //     }
 // ]]></>);
+// E4X が廃止のため書き換え
+style.register(['#keysnail-prompt-textbox *|input {',
+'ime-mode : inactive !important;',
+'}'].join("\n"));
+
 
 
 // ===== Add exts =====
