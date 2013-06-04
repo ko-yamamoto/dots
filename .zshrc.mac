@@ -6,9 +6,6 @@ alias la='ls -alfh'
 
 alias updatedb='/usr/libexec/locate.updatedb'
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-
 
 alias emacsclient='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -n'
 alias ec='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -n'
@@ -18,7 +15,7 @@ alias top='top -R -F -u'
 alias setsuna='java -jar ~/program/git/setsuna/setsuna.jar'
 
 
-export PATH=$PATH:/usr/local/bin:/usr/local/lib/python2.7/site-packages
+export PATH=/usr/local/bin:$PATH:/usr/local/lib/python2.7/site-packages
 
 export BYOBU_PREFIX=`brew --prefix`
 
