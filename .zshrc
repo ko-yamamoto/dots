@@ -47,12 +47,6 @@ export LANG=ja_JP.UTF-8
 JAVA_OPTS="-Dfile.encoding=UTF-8"
 export JAVA_OPTS
 
-# Scala
-export SCALA_HOME=/usr/local/scala
-export PATH=$PATH:$SCALA_HOME/bin
-# -deprecationつけて起動
-alias scala='scala -deprecation $1'
-
 
 # プロンプトをカラー表示
 autoload colors && colors
@@ -445,7 +439,9 @@ fi
 
 
 
-
+# rbenv
+export PATH=$HOME/.rbenv/bin:$PATH
+eval "$(rbenv init - zsh)"
 
 
 
@@ -1216,4 +1212,3 @@ compdef __go_tool_complete go
 function scouter() {
     sed -e '/^\s*$/d' -e '/^\s*#/d' ${ZDOTDIR:-$HOME}/.zshrc | wc -l
 }
-
