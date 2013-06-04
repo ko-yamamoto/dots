@@ -327,7 +327,6 @@ style.register(['#keysnail-prompt-textbox *|input {',
 '}'].join("\n"));
 
 
-
 // ===== Add exts =====
 
 //最近閉じたタブ
@@ -1190,3 +1189,11 @@ key.setViewKey(['C-c', 'p', 't'], function (ev, arg) {
 key.setViewKey(['C-c', 'p', 'a'], function (ev, arg) {
     ext.exec('ril-append', arg, ev);
 }, 'Pocket - Append current tab', true);
+
+key.setViewKey(['C-c', 'n', 'p'], function (ev, arg) {
+    ext.exec('noscript-show-popup', arg, ev);
+}, 'Noscript - Show popup', true);
+
+key.setViewKey(['C-c', 'n', 's'], function (ev, arg) {
+    ext.exec('noscript-selector', arg, ev);
+}, 'Noscript - selector', true);
