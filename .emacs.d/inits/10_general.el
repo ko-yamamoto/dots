@@ -380,3 +380,29 @@
   (defun region-active-p ()
     (and transient-mark-mode mark-active)))
 (global-set-key (kbd "M-f") 'my-forward-word)
+
+;; 「Emacsのトラノマキ」連載第16回「元Vimmerが考えるEmacsの再設計」(深町英太郎) | ありえるえりあ - http://dev.ariel-networks.com/wp/documents/aritcles/emacs/part16
+;; 範囲指定していないとき、C-wで前の単語を削除
+(defadvice kill-region (around kill-word-or-kill-region activate)
+  (if (and (interactive-p) transient-mark-mode (not mark-active))
+      (backward-kill-word 1)
+    ad-do-it))
+;; minibuffer用
+(define-key minibuffer-local-completion-map (kbd "C-w") 'backward-kill-word)
+
+;; カーソル位置の単語を削除
+(defun kill-word-at-point ()
+  (interactive)
+  (let ((char (char-to-string (char-after (point)))))
+    (cond
+     ((string= " " char) (delete-horizontal-space))
+     ((string-match "[\t\n -@\[-`{-~]" char) (kill-word 1))
+     (t (forward-char) (backward-word) (kill-word 1)))))
+(global-set-key (kbd "M-d") 'kill-word-at-point)
+
+;; kill-lineで行が連結したときにインデントを減らす
+(defadvice kill-line (before kill-line-and-fixup activate)
+  (when (and (not (bolp)) (eolp))
+    (forward-char)
+    (fixup-whitespace)
+    (backward-char)))
