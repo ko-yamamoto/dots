@@ -364,3 +364,19 @@
 
 ;; バッファの終端を明示する
 (setq-default indicate-empty-lines t)
+
+;; forward-word は単語頭に移動する
+;; my-forward-word.el - https://gist.github.com/mori-dev/409070
+(defun my-forward-word (arg)
+  (interactive "p")
+  (cond
+   ((region-active-p) (forward-word arg))
+   ((looking-at ".$") (re-search-forward "\\W\\b\\"))
+   ((looking-at "\\cj") (forward-word arg))
+   ((looking-at "\\(。\\|、\\|．\\|，\\)") (re-search-forward "\[。、．，\]+"))
+   (t (re-search-forward "\\(.$\\|\\W\\b\\)"))))
+;;; For compatibility
+(unless (fboundp 'region-active-p)
+  (defun region-active-p ()
+    (and transient-mark-mode mark-active)))
+(global-set-key (kbd "M-f") 'my-forward-word)
