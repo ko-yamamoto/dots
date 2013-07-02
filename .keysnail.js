@@ -884,17 +884,26 @@ key.setViewKey('M', function (ev, arg) {
     shell.input("weblio " + (content.getSelection() || ""));
 }, 'Lookup the meaning of the word');
 
+
+// key.setViewKey('t', function (ev, arg) {
+//     BrowserOpenTab();
+// }, 'タブを開く');
+
 key.setViewKey('t', function (ev, arg) {
-    BrowserOpenTab();
-}, 'タブを開く');
+    shell.input("tabopen ");
+}, 'google検索');
 
 key.setViewKey('T', function (ev, arg) {
     shell.input("tabopen google ");
 }, 'google検索');
 
+// key.setViewKey('o', function (ev, arg) {
+//     command.focusToById("urlbar");
+// }, 'ロケーションバーへ移動');
+
 key.setViewKey('o', function (ev, arg) {
-    command.focusToById("urlbar");
-}, 'ロケーションバーへ移動');
+    shell.input("open ");
+}, 'このタブでgoogle検索');
 
 key.setViewKey('O', function (ev, arg) {
     shell.input("open google ");
