@@ -33,8 +33,17 @@ export ANDROID_SWT=/Users/nishikawasasaki/android/android-sdk-macosx/tools/lib/x
 # JAVA は UTF-8
 export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8
 
+# sbt
+export SBT_OPTS="-Dfile.encoding=UTF8 -Xmx1024M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256m"
+
 CABAL_BIN=/Users/nishikawasasaki/Library/Haskell/bin
 export PATH=${CABAL_BIN}:${PATH}
+
+# golang
+export GOPATH=$HOME/go
+export PATH=$GOPATH/bin:$PATH
+
+
 
 # git のログには emacs を
 export GIT_EDITOR="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient"
