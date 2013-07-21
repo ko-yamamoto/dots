@@ -43,18 +43,21 @@
                             (if current-prefix-arg
                                 (helm-c-switch-to-buffer candidate)
                               (helm-c-buffers-persistent-kill candidate)))
+
                           (defvar helm-c-source-buffers-list-R
                             `((name . "Buffers")
                               (init . (lambda ()
                                         ;; Issue #51 Create the list before `helm-buffer' creation.
-                                        (setq helm-buffers-list-cache (helm-c-buffer-list))))
-                              ;; (candidates . (lambda ()
-                              ;;                 (sort helm-buffers-list-cache 'string<)))
+                                        (setq helm-buffers-list-cache (helm-buffer-list))
+                                        (unless helm-buffer-max-length
+                                          (setq helm-buffer-max-length
+                                                (loop for b in helm-buffers-list-cache
+                                                      maximize (length b))))))
                               (candidates . helm-buffers-list-cache)
                               (type . buffer)
-                              (match helm-c-buffer-match-major-mode)
+                              (match helm-buffer-match-major-mode)
                               (persistent-action . helm-c-buffers-list-R-persistent-action)
-                              (keymap . ,helm-c-buffer-map)
+                              (keymap . ,helm-buffer-map)
                               (volatile)
                               (no-delay-on-input)
                               (mode-line . helm-buffer-mode-line-string)
@@ -921,6 +924,13 @@
                           (load-library "migemo")
                           (migemo-init)
 
+                          ))
+
+          (:name exec-path-from-shell-github
+                 :type github
+                 :url "https://github.com/purcell/exec-path-from-shell.git"
+                 :after (progn
+                          (exec-path-from-shell-initialize)
                           ))
 
           ))
