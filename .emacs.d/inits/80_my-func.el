@@ -268,3 +268,13 @@
     (back-to-indentation)
     ))
 ;; (global-set-key (kbd "M-;") 'my-comment-out-this-line)
+
+
+(defun my-toggle-beginning-of-line-and-sentence ()
+  "文頭と行頭を移動"
+  (interactive)
+  (if (/= (line-beginning-position) (point))
+      (beginning-of-line)
+    (beginning-of-line-text))
+  )
+(global-set-key (kbd "C-a") 'my-toggle-beginning-of-line-and-sentence)
