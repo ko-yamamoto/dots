@@ -1,3 +1,11 @@
+! Xft settings ---------------------------------------------------------------
+Xft.dpi: 96
+Xft.antialias: true
+Xft.rgba: rgb
+Xft.hinting: true
+Xft.hintstyle: hintslight
+
+
 ! Xterm settings
 ! Main
 XTerm*utf8:               1
@@ -5,7 +13,7 @@ XTerm*locale:             true
 XTerm*selectToClipboard:  true
 XTerm*faceName:           Ricty
 XTerm*faceNameDoublesize: Ricty
-XTerm*faceSize:           10
+XTerm*faceSize:           9
 XTerm*cjkWidth:           true
 
 !TomorrowNight
