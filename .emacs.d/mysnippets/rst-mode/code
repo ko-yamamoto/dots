@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+#name : .. sourcecode::
+#key : sourcecode
+# --
+.. sourcecode:: $0
