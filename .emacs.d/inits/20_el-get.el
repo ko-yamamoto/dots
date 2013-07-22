@@ -744,20 +744,53 @@
 
                           (require 'multiple-cursors)
 
-                          ;; 複数行選択してから全ての行にカーソル追加
-                          (global-set-key (kbd "C-c m m") 'mc/edit-lines)
-                          ;; リージョンと一致する箇所で現在行より下にあるもの1つを追加
-                          (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-                          ;; リージョンと一致する箇所で現在行より上にあるもの1つを追加
-                          (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-                          ;; リージョンと一致する箇所を↑↓キーで追加。←で追加せずに次の箇所へ。→で取り消し(1つ戻る)
-                          (global-set-key (kbd "C-c m e") 'mc/mark-more-like-this-extended)
-                          ;; リージョンと一致する箇所全て追加
-                          (global-set-key (kbd "C-c m a") 'mc/mark-all-like-this)
-                          ;; 良い感じに追加
-                          (global-set-key (kbd "C-c m d") 'mc/mark-all-like-this-dwim)
-                          ;; HTML などで対応するタグを追加
-                          (global-set-key (kbd "C-c m t") 'mc/mark-sgml-tag-pair)
+                          ;; ;; 複数行選択してから全ての行にカーソル追加
+                          ;; (global-set-key (kbd "C-c m m") 'mc/edit-lines)
+                          ;; ;; リージョンと一致する箇所で現在行より下にあるもの1つを追加
+                          ;; (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+                          ;; ;; リージョンと一致する箇所で現在行より上にあるもの1つを追加
+                          ;; (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+                          ;; ;; リージョンと一致する箇所を↑↓キーで追加。←で追加せずに次の箇所へ。→で取り消し(1つ戻る)
+                          ;; (global-set-key (kbd "C-c m e") 'mc/mark-more-like-this-extended)
+                          ;; ;; リージョンと一致する箇所全て追加
+                          ;; (global-set-key (kbd "C-c m a") 'mc/mark-all-like-this)
+                          ;; ;; 良い感じに追加
+                          ;; (global-set-key (kbd "C-c m d") 'mc/mark-all-like-this-dwim)
+                          ;; ;; HTML などで対応するタグを追加
+                          ;; (global-set-key (kbd "C-c m t") 'mc/mark-sgml-tag-pair)
+                          ;; → smartrep.el で設定
+                          ))
+
+          (:name smartrep.el-github
+                 :type github
+                 :url "git://github.com/myuhe/smartrep.el.git"
+                 :after (progn
+                          ((region-end)quire 'smartrep)
+                          (smartrep-define-key
+                              global-map "C-z" '(("c" . 'elscreen-create)
+                                                 ("n" . 'elscreen-next)
+                                                 ("p" . 'elscreen-previous)
+                                                 ("a" . 'elscreen-toggle)
+                                                 ("k" . 'elscreen-kill)
+                                                 ))
+                          ;; ("a" . (lambda () (beginning-of-buffer-other-window 0)))
+                          ;; ("e" . (lambda () (end-of-buffer-other-window 0)))))
+
+                          ;; multiple-cursors
+                          (global-unset-key (kbd "C-c m"))
+                          (smartrep-define-key global-map (kbd "C-c m")
+                            '(("n"        . 'mc/mark-next-like-this)
+                              ("p"        . 'mc/mark-previous-like-this)
+                              ("m"        . 'mc/mark-more-like-this-extended)
+                              ("u"        . 'mc/unmark-next-like-this)
+                              ("U"        . 'mc/unmark-previous-like-this)
+                              ("s"        . 'mc/skip-to-next-like-this)
+                              ("S"        . 'mc/skip-to-previous-like-this)
+                              ("*"        . 'mc/mark-all-like-this)
+                              ("d"        . 'mc/mark-all-like-this-dwim)
+                              ("i"        . 'mc/insert-numbers)
+                              ("o"        . 'mc/sort-regions)
+                              ("O"        . 'mc/reverse-regions)))
 
                           ))
 
@@ -847,24 +880,6 @@
           ;;                 (push '(direx:direx-mode :position left :width 0.3 :dedicated t)
           ;;                       popwin:special-display-config)
           ;;                 ))
-
-          (:name smartrep.el-github
-                 :type github
-                 :url "git://github.com/myuhe/smartrep.el.git"
-                 :after (progn
-                          (require 'smartrep)
-                          (smartrep-define-key
-                              global-map "C-z" '(("c" . 'elscreen-create)
-                                                 ("n" . 'elscreen-next)
-                                                 ("p" . 'elscreen-previous)
-                                                 ("a" . 'elscreen-toggle)
-                                                 ("k" . 'elscreen-kill)
-                                                 ))
-                          ;; ("a" . (lambda () (beginning-of-buffer-other-window 0)))
-                          ;; ("e" . (lambda () (end-of-buffer-other-window 0)))))
-
-
-                          ))
 
           (:name undo-tree-git
                  :type git
