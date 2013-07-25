@@ -10,7 +10,7 @@
 	quotepath = false
 	filemode = false
     excludesfile = ~/.gitignore  # globalな.gitignoreの指定
-    autocrlf = input                 # CRLFを自動変換
+    autocrlf = false                 # CRLFを自動変換するかどうか
     editor = emacsclient --alternate-editor vim
     pager = LESS=-R less
 	ignorecase = false
@@ -28,7 +28,6 @@
 
 [alias]
   s = status
-  st = status
   ss = status -s
   sh = show
   so = remote show origin
@@ -118,6 +117,9 @@
   gn = grep -n
   sm = submodule
   smupdate = submodule foreach "git checkout master; git pull origin master"
+  # stash
+  st = stash
+  stp = stash pop
 [merge]
 	ff = false
 [pull]
