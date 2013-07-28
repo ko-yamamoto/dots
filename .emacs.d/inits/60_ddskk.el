@@ -14,6 +14,13 @@
 (global-set-key (kbd "C-q s a") 'skk-auto-fill-mode)
 (global-set-key (kbd "C-q s t") 'skk-tutorial)
 
+(when is_mac
+  ;;skk-server AquaSKK
+  (setq skk-server-portnum 1178)
+  (setq skk-server-host "localhost")
+)
+
+
 ;; ddskk 起動時のみ, インクリメンタルサーチを使用
 ;;; Isearch setting.
 (add-hook 'isearch-mode-hook
