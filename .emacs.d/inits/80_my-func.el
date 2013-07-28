@@ -278,3 +278,35 @@
     (beginning-of-line-text))
   )
 (global-set-key (kbd "C-a") 'my-toggle-beginning-of-line-and-sentence)
+
+
+
+(defun my-select-current-line ()
+  (move-beginning-of-line nil)
+  (set-mark-command nil)
+  (move-end-of-line nil)
+  (setq deactivate-mark nil))
+
+(defun my-comment-line ()
+  (my-select-current-line)
+  ;; (comment-dwim nil)
+  (comment-or-uncomment-region (region-beginning) (region-end)))
+
+(defun my-comment-dwim (arg)
+  "from comment-dwim"
+  (interactive "*P")
+  (comment-normalize-vars)
+  (if (and mark-active transient-mark-mode)
+      (comment-or-uncomment-region (region-beginning) (region-end) arg)
+    (if (save-excursion (beginning-of-line) (not (looking-at "\\s-*$")))
+	(if arg (comment-kill (and (integerp arg) arg)) (my-comment-line))
+      (if comment-insert-comment-function
+          (funcall comment-insert-comment-function)
+        (let ((add (comment-add arg)))
+          (indent-according-to-mode)
+          (insert (comment-padright comment-start add))
+          (save-excursion
+            (unless (string= "" comment-end)
+              (insert (comment-padleft comment-end add)))
+            (indent-according-to-mode)))))))
+(global-set-key (kbd "M-;") 'my-comment-dwim)
