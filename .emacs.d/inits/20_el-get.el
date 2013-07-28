@@ -277,8 +277,8 @@
                           (setq ac-menu-height 15)
                           ;; 大文字・小文字の区別方法
                           (setq ac-ignore-case 'smart)
-                          ;; 補完選択時にTABがRETの挙動に
-                          (setq ac-dwim t)
+                          ;; 補完選択時にTABをRETの挙動にしない
+                          (setq ac-dwim nil)
                           ;; 表示崩れ防止
                           (setq popup-use-optimized-column-computation nil)
 
