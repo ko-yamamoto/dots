@@ -765,7 +765,7 @@
                  :type github
                  :url "git://github.com/myuhe/smartrep.el.git"
                  :after (progn
-                          ((region-end)quire 'smartrep)
+                          (require 'smartrep)
                           (smartrep-define-key
                               global-map "C-z" '(("c" . 'elscreen-create)
                                                  ("n" . 'elscreen-next)
