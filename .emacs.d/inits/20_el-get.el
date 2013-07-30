@@ -949,6 +949,17 @@
                           (exec-path-from-shell-initialize)
                           ))
 
+          (:name Highlight-Indentation-for-Emacs-github
+                 :type github
+                 :url "https://github.com/antonj/Highlight-Indentation-for-Emacs.git"
+                 :after (progn
+                          (require 'highlight-indentation)
+                          (global-set-key (kbd "C-c i n") 'highlight-indentation-mode)
+                          (set-face-background 'highlight-indentation-face "#f8f8ec")
+                          ))
+
+
+
           ))
 
 
