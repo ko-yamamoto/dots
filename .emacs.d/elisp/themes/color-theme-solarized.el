@@ -221,6 +221,16 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        (moccur-face ((t (:background ,base31))))
        (moccur-current-line-face ((t (:background ,lgreen))))
 
+       ;; auto-highlight-symbol
+       (ahs-face ((t (:background ,base31))))
+       (ahs-definition-face ((t (:background ,yellow :foreground ,black))))
+       ;; (ahs-warning-face ((t (:background ,base2o :foreground ,"#a9a497"))))
+       (ahs-plugin-defalt-face ((t (:background nil :foreground nil))))
+       ;; (ahs-plugin-whole-buffer-face ((t (:background ,base2o :foreground ,"#a9a497"))))
+       ;; (ahs-plugin-bod-face ((t (:background ,base2o :foreground ,"#a9a497"))))
+       ;; (ahs-edit-mode-face ((t (:background ,base2o :foreground ,"#a9a497"))))
+
+
        ))))
 
 
