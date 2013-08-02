@@ -955,7 +955,7 @@
                  :after (progn
                           (require 'highlight-indentation)
                           (global-set-key (kbd "C-c i n") 'highlight-indentation-mode)
-                          (set-face-background 'highlight-indentation-face "#f8f8ec")
+                          (set-face-background 'highlight-indentation-face "#fcf5dd")
                           ))
 
 

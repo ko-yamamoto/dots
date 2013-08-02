@@ -36,6 +36,7 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
         (orange "#f79b45")
         (yellow "#eab700")
         (green "#718c00")
+        (lgreen "#e1e7cb")
         (aqua "#3e999f")
         (blue "#4271ae")
         (purple "#8959a8")
@@ -150,7 +151,8 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
 
        ;; yalinum
        (yalinum-face ((t (:background ,base03 :foreground ,base3))))
-       (yalinum-bar-face ((t (:background "#b5bd68" :foreground ,base3))))
+       ;; (yalinum-bar-face ((t (:background "#b5bd68" :foreground ,base3))))
+       (yalinum-bar-face ((t (:background ,base31 :foreground ,base3))))
 
        ;; speebar
        (speedbar-tag-face ((t (:background ,base03 :foreground ,base3))))
@@ -198,6 +200,19 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        (rainbow-delimiters-depth-8-face ((t (:foreground ,base01 :bold t))))
        (rainbow-delimiters-depth-9-face ((t (:foreground ,aqua :bold t))))
 
+       ;; auto-highlight-symbol
+       ;; (ahs-face ((t (:background ,base31))))
+       (ahs-face ((t (:background ,lgreen))))
+       (ahs-definition-face ((t (:background ,yellow :foreground ,black))))
+       ;; (ahs-warning-face ((t (:background ,base2o :foreground ,"#a9a497"))))
+       (ahs-plugin-defalt-face ((t (:background nil :foreground nil))))
+       ;; (ahs-plugin-whole-buffer-face ((t (:background ,base2o :foreground ,"#a9a497"))))
+       ;; (ahs-plugin-bod-face ((t (:background ,base2o :foreground ,"#a9a497"))))
+       ;; (ahs-edit-mode-face ((t (:background ,base2o :foreground ,"#a9a497"))))
+
+       ;; moccur
+       (moccur-face ((t (:background ,base31))))
+       (moccur-current-line-face ((t (:background ,lgreen))))
 
        ))))
 

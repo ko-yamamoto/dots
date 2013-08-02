@@ -201,3 +201,13 @@
 (require 'goto-chg)
 (define-key global-map (kbd "<f8>") 'goto-last-change)
 (define-key global-map (kbd "S-<f8>") 'goto-last-change-reverse)
+
+
+;; 単語自動ハイライト
+(require 'auto-highlight-symbol)
+(global-auto-highlight-symbol-mode t)
+(define-key global-map (kbd "C-c h i") 'auto-highlight-symbol-mode)
+(define-key global-map (kbd "M-<left>") 'ahs-backward)
+(define-key global-map (kbd "M-<right>") 'ahs-forward)
+(define-key global-map (kbd "M-S-<left>") 'ahs-backward-definition)
+(define-key global-map (kbd "M-S-<right>") 'ahs-forward-definition)
