@@ -80,8 +80,8 @@
 
 (global-set-key [M-up]    'duplicate-line-backward)
 (global-set-key [M-down]  'duplicate-line-forward)
-(global-set-key [M-right] 'duplicate-region-forward)
-(global-set-key [M-left]  'duplicate-region-backward)
+;; (global-set-key [M-right] 'duplicate-region-forward)
+;; (global-set-key [M-left]  'duplicate-region-backward)
 
 
 ;; 折り返し表示をトグル
