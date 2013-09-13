@@ -57,7 +57,7 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
         (cursor-color . ,orange))
        ;; basic
        (default ((t (:foreground ,base0))))
-       (cursor ((t (:foreground ,base0 :background ,base03 :inverse-video t))))
+;;       (cursor ((t (:foreground ,base0 :background ,base03 :inverse-video t))))
        (escape-glyph-face ((t (:foreground ,red))))
        (fringe ((t (:foreground ,base01 :background ,base03))))
        ;; (header-line ((t (:foreground ,base0 :background ,base2))))
@@ -173,16 +173,14 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        ;; diff
        (diff-add ((t (:foreground ,green :background ,base03))))
        (diff-removed ((t (:foreground ,red :background ,base03))))
-       ;; diff
-       ;; (diff-added ((t (:foreground ,green :inverse-video t))))
        (diff-changed ((t (:foreground ,yellow :inverse-video t))))
-       ;; (diff-removed ((t (:foreground ,red :inverse-video t))))
 
        ;; magit
        (magit-diff-add ((t (:foreground ,green :background ,base03))))
        (magit-diff-del ((t (:foreground ,red :background ,base03))))
        (magit-diff-none ((t (:background ,base03))))
        (magit-header ((t (:foreground ,green :box (:line-width 1)))))
+       (magit-item-highlight ((t (:foreground nil :background ,base02))))
 
        ;; auto-complete
        ;; (ac-candidate-face ((t (:background ,green :foreground ,"#ffffff"))))
