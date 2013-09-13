@@ -227,11 +227,21 @@
                           ;; 最後に表示したpopwinを再表示
                           (define-key global-map (kbd "C-c p") 'popwin:display-last-buffer)))
 
+          (:name cl-lib
+                 :builtin "24.3"
+                 :type elpa
+                 :description "Properly prefixed CL functions and macros"
+                 :url "http://elpa.gnu.org/packages/cl-lib.html")
+          (:name git-modes
+                 :description "GNU Emacs modes for various Git-related files"
+                 :type github
+                 :pkgname "magit/git-modes")
           (:name magit
                  ;; make するとエラーが出るので独自で git pull
                  :type github
                  :url "http://github.com/magit/magit.git"
-                 :after (progn
+                 :depends (cl-lib git-modes)
+                 :After (progn
                           (require 'magit)
 
                           ;; magit をバッファ全体に開く
@@ -415,7 +425,7 @@
                  :type git
                  :url "git://github.com/haskell/haskell-mode.git"
                  :after (progn
-                          (load "~/.emacs.d/el-get/haskell-mode/haskell-site-file")
+                          ;; (load "~/.emacs.d/el-get/haskell-mode/haskell-site-file")
                           (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
                           ;; (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
                           ;; (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
