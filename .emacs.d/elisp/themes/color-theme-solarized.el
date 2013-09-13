@@ -97,10 +97,6 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        (custom-link ((t (:foreground ,violet))))
        (custom-state ((t (:foreground ,green))))
        (custom-variable-tag ((t (:foreground ,orange :bold t))))
-       ;; diff
-       (diff-added ((t (:foreground ,green :inverse-video t))))
-       (diff-changed ((t (:foreground ,yellow :inverse-video t))))
-       (diff-removed ((t (:foreground ,red :inverse-video t))))
        ;; emacs-wiki
        (emacs-wiki-bad-link-face ((t (:foreground ,red :underline t))))
        (emacs-wiki-link-face ((t (:foreground ,blue :underline t))))
@@ -174,10 +170,18 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        ;; slime
        (slime-repl-inputed-output-face ((t (:foreground ,red))))
 
+       ;; diff
+       (diff-add ((t (:foreground ,green :background ,base03))))
+       (diff-removed ((t (:foreground ,red :background ,base03))))
+       ;; diff
+       ;; (diff-added ((t (:foreground ,green :inverse-video t))))
+       (diff-changed ((t (:foreground ,yellow :inverse-video t))))
+       ;; (diff-removed ((t (:foreground ,red :inverse-video t))))
+
        ;; magit
-       (magit-diff-add ((t (:foreground ,green))))
-       (magit-diff-del ((t (:foreground ,red))))
-       (magit-section-title ((t (:foreground ,red))))
+       (magit-diff-add ((t (:foreground ,green :background ,base03))))
+       (magit-diff-del ((t (:foreground ,red :background ,base03))))
+       (magit-diff-none ((t (:background ,base03))))
        (magit-header ((t (:foreground ,green :box (:line-width 1)))))
 
        ;; auto-complete
@@ -199,6 +203,9 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        (rainbow-delimiters-depth-7-face ((t (:foreground ,violet :bold t))))
        (rainbow-delimiters-depth-8-face ((t (:foreground ,base01 :bold t))))
        (rainbow-delimiters-depth-9-face ((t (:foreground ,aqua :bold t))))
+
+       ;; highlight-indentation
+       (highlight-indentation-face ((t (:background "#fcf5dd"))))
 
        ;; auto-highlight-symbol
        ;; (ahs-face ((t (:background ,base31))))
