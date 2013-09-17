@@ -957,6 +957,9 @@
                  :after (progn
                           (require 'exec-path-from-shell)
                           (exec-path-from-shell-initialize)
+                          (let ((envs '("PATH" "VIRTUAL_ENV" "GOROOT" "GOPATH")))
+                            (exec-path-from-shell-copy-envs envs))
+                          (setq eshell-path-env (getenv "PATH"))
                           ))
 
           (:name Highlight-Indentation-for-Emacs-github
