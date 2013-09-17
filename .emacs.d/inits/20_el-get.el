@@ -241,7 +241,7 @@
                  :type github
                  :url "http://github.com/magit/magit.git"
                  :depends (cl-lib git-modes)
-                 :After (progn
+                 :after (progn
                           (require 'magit)
 
                           ;; magit をバッファ全体に開く
@@ -252,9 +252,9 @@
                           (global-set-key (kbd "C-c g f") 'magit-file-log)
 
                           ;; 色変更
-                          (set-face-foreground 'magit-diff-add "#b9ca4a")
+                          ;; (set-face-foreground 'magit-diff-add "#b9ca4a")
                           ;; (set-face-background 'magit-diff-add "#000000")
-                          (set-face-foreground 'magit-diff-del "#d54e53")
+                          ;; (set-face-foreground 'magit-diff-del "#d54e53")
                           ;; (set-face-background 'magit-diff-del "#000000")
                           ;; (set-face-background 'magit-item-highlight "#000000")
                           ))
@@ -829,7 +829,7 @@
 
           (:name git-commit-mode-github
                  :type github
-                 :url "git://github.com/rafl/git-commit-mode.git"
+                 :url "https://github.com/rafl/git-commit-mode.git"
                  )
 
 
@@ -965,7 +965,6 @@
                  :after (progn
                           (require 'highlight-indentation)
                           (global-set-key (kbd "C-c i n") 'highlight-indentation-mode)
-                          (set-face-background 'highlight-indentation-face "#fcf5dd")
                           ))
 
 
