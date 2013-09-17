@@ -38,11 +38,22 @@
                     '("ricty" . "unicode-bmp"))
   )
 (when is_mac
-  (set-frame-font "VL Gothic:pixelsize=12:spacing=0:slant=1")
-  (progn
-    (set-face-font 'default "VL Gothic:pixelsize=12:spacing=0:slant=1")
-    )
-  (set-fontset-font (frame-parameter nil 'font)
-                    'japanese-jisx0208
-                    '("VL Gothic" . "unicode-bmp"))
+  ;; バラバラに設定する場合
+  ;; 英字フォント
+  (set-face-attribute 'default nil
+                      :family "Hermit"
+                      :height 120)
+  ;; 漢字フォント
+  (set-fontset-font
+   nil 'japanese-jisx0208
+   (font-spec :family "ricty"))
+  ;; ひらがなかたかな
+  (set-fontset-font
+   nil '(#x3040 . #x30ff)
+   (font-spec :family "ricty"))
+
+  (setq face-font-rescale-alist
+        '((".Hermit.*" . 1.0)
+          (".ricty.*" . 1.2)
+          ("-cdac$" . 1.0)))
   )
