@@ -228,6 +228,8 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        ;; (ahs-plugin-bod-face ((t (:background ,base2o :foreground ,"#a9a497"))))
        ;; (ahs-edit-mode-face ((t (:background ,base2o :foreground ,"#a9a497"))))
 
+       ;;emacs-anzu
+       (anzu-mode-line ((t (:foreground ,blue :bold t))))
 
        ))))
 

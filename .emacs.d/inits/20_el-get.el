@@ -18,6 +18,17 @@
   (setq el-get-sources
         '(
 
+          (:name exec-path-from-shell-github
+                 :type github
+                 :url "https://github.com/purcell/exec-path-from-shell.git"
+                 :after (progn
+                          (require 'exec-path-from-shell)
+                          (exec-path-from-shell-initialize)
+                          (let ((envs '("PATH" "VIRTUAL_ENV" "GOROOT" "GOPATH")))
+                            (exec-path-from-shell-copy-envs envs))
+                          (setq eshell-path-env (getenv "PATH"))
+                          ))
+
           ;;           (:name org-mode-git
           ;;                  :type git
           ;;                  :url "git://orgmode.org/org-mode.git")
@@ -228,7 +239,7 @@
                           (define-key global-map (kbd "C-c p") 'popwin:display-last-buffer)))
 
           (:name cl-lib
-                 :builtin "24.3"
+                 ;; :builtin "24.3"
                  :type elpa
                  :description "Properly prefixed CL functions and macros"
                  :url "http://elpa.gnu.org/packages/cl-lib.html")
@@ -914,21 +925,21 @@
                           ))
 
 
-          (:name nrepl.el.git-github
-                 :type github
-                 :url "git://github.com/kingtim/nrepl.el.git"
-                 :after (progn
-                          (require 'nrepl)
-                          (add-hook 'nrepl-interaction-mode-hook
-                                    'nrepl-turn-on-eldoc-mode)
-                          ;; nrepl 用バッファをバッqファ一覧から隠す
-                          (setq nrepl-hide-special-buffers t)
-                          ;; エラーバッファのポップアップをしない
-                          (setq nrepl-popup-stacktraces nil)
-                          ;; C-c C-z switch to the *nrepl* buffer
-                          (add-to-list 'same-window-buffer-names "*nrepl*")
+          ;; (:name nrepl.el.git-github
+          ;;        :type github
+          ;;        :url "git://github.com/kingtim/nrepl.el.git"
+          ;;        :after (progn
+          ;;                 (require 'nrepl)
+          ;;                 (add-hook 'nrepl-interaction-mode-hook
+          ;;                           'nrepl-turn-on-eldoc-mode)
+          ;;                 ;; nrepl 用バッファをバッqファ一覧から隠す
+          ;;                 (setq nrepl-hide-special-buffers t)
+          ;;                 ;; エラーバッファのポップアップをしない
+          ;;                 (setq nrepl-popup-stacktraces nil)
+          ;;                 ;; C-c C-z switch to the *nrepl* buffer
+          ;;                 (add-to-list 'same-window-buffer-names "*nrepl*")
 
-                          ))
+          ;;                 ))
 
           (:name emacs-rotate-github
                  :type github
@@ -959,17 +970,6 @@
 
                           ))
 
-          (:name exec-path-from-shell-github
-                 :type github
-                 :url "https://github.com/purcell/exec-path-from-shell.git"
-                 :after (progn
-                          (require 'exec-path-from-shell)
-                          (exec-path-from-shell-initialize)
-                          (let ((envs '("PATH" "VIRTUAL_ENV" "GOROOT" "GOPATH")))
-                            (exec-path-from-shell-copy-envs envs))
-                          (setq eshell-path-env (getenv "PATH"))
-                          ))
-
           (:name Highlight-Indentation-for-Emacs-github
                  :type github
                  :url "https://github.com/antonj/Highlight-Indentation-for-Emacs.git"
@@ -978,6 +978,40 @@
                           (global-set-key (kbd "C-c i n") 'highlight-indentation-mode)
                           ))
 
+          (:name emacs-anzu-github
+                 :type github
+                 :url "https://github.com/syohex/emacs-anzu.git"
+                 :after (progn
+                          (require 'anzu)
+                          (global-anzu-mode)
+                          ))
+
+          (:name go-mode
+                 :type http
+                 :url "http://go.googlecode.com/hg/misc/emacs/go-mode.el?r=tip"
+                 :localname "go-mode.el"
+                 :after (progn
+                          (require 'go-mode)
+
+                          ;; go get code.google.com/p/rog-go/exp/cmd/godef
+                          (add-hook 'go-mode-hook (lambda ()
+                                                    (local-set-key (kbd "M-.") 'godef-jump)
+                                                    (setq c-basic-offset 4)
+                                                    (setq indent-tabs-mode t)
+                                                    ;; 保存時に自動 fmt
+                                                    (add-hook 'before-save-hook 'gofmt-before-save)
+
+                                                    ;; GOPATH を Emacs から扱えるように exec-path へ追加しておくこと
+                                                    (require 'go-autocomplete)
+                                                    (require 'auto-complete-config)
+
+                                                    (local-set-key (kbd "M-." 'godef-jump))
+                                                    ;; (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)
+                                                    ;; (local-set-key (kbd "C-c i") 'go-goto-imports)
+                                                    ;; (local-set-key (kbd "C-c d") 'godoc))
+                                                    ))
+
+                          ))
 
           ))
 
