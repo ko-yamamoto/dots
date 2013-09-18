@@ -61,9 +61,14 @@
                                         ;; Issue #51 Create the list before `helm-buffer' creation.
                                         (setq helm-buffers-list-cache (helm-buffer-list))
                                         (unless helm-buffer-max-length
-                                          (setq helm-buffer-max-length
-                                                (loop for b in helm-buffers-list-cache
-                                                      maximize (length b))))))
+                                          (let ((result (loop for b in helm-buffers-list-cache
+                                                              maximize (length b) into len-buf
+                                                              maximize (length (with-current-buffer b
+                                                                                 (symbol-name major-mode)))
+                                                              into len-mode
+                                                              finally return (cons len-buf len-mode))))
+                                            (setq helm-buffer-max-length (car result)
+                                                  helm-buffer-max-len-mode (cdr result))))))
                               (candidates . helm-buffers-list-cache)
                               (type . buffer)
                               (match helm-buffer-match-major-mode)
@@ -94,8 +99,8 @@
 
                           (defun helm-my ()
                             (interactive)
-                            (helm-other-buffer '(helm-c-source-buffers-list-R
-                                                 helm-c-source-elscreen
+                            (helm-other-buffer '(helm-c-source-elscreen
+                                                 helm-c-source-buffers-list-R
                                                  helm-c-recentf-file-source
                                                  helm-c-recentf-directory-source
                                                  helm-c-source-buffer-not-found)
