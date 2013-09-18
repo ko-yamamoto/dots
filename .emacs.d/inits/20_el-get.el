@@ -891,19 +891,19 @@
           ;;                       popwin:special-display-config)
           ;;                 ))
 
-          ;; (:name undo-tree-git
-          ;;        :type git
-          ;;        :url "http://www.dr-qubit.org/git/undo-tree.git"
-          ;;        :after (progn
-          ;;                 (require 'undo-tree)
-          ;;                 (global-undo-tree-mode)
-          ;;                 ;; デフォルトで時間を表示
-          ;;                 (setq undo-tree-visualizer-timestamps t)
+          (:name undo-tree-git
+                 :type git
+                 :url "http://www.dr-qubit.org/git/undo-tree.git"
+                 :after (progn
+                          (require 'undo-tree)
+                          (global-undo-tree-mode)
+                          ;; デフォルトで時間を表示
+                          (setq undo-tree-visualizer-timestamps t)
 
-          ;;                 (global-set-key (kbd "C-/") 'undo-tree-undo)
-          ;;                 (global-set-key (kbd "M-/") 'undo-tree-redo)
+                          (global-set-key (kbd "C-/") 'undo-tree-undo)
+                          (global-set-key (kbd "M-/") 'undo-tree-redo)
 
-          ;;                 ))
+                          ))
 
 
           (:name nrepl.el.git-github
