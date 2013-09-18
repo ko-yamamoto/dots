@@ -310,3 +310,47 @@
               (insert (comment-padleft comment-end add)))
             (indent-according-to-mode)))))))
 (global-set-key (kbd "M-;") 'my-comment-dwim)
+
+
+
+;; Emacsで clever-f.vim的な動作を実現する - Life is very short - http://goo.gl/qXNahz
+;; C-M-sが Vimの "f", C-M-rが Vimの "F"相当です. それらが連続して
+;; 実行されるとき, 前入力したものと同じ文字を検索します
+(defvar my/last-search-char nil)
+(defun my/forward-to-char (arg &optional char)
+  (interactive "p\n")
+  (unless char
+    (if (memq last-command '(my/forward-to-char my/backward-to-char))
+        (setq char my/last-search-char)
+      (setq char (read-char "Forward Char: "))))
+  (setq my/last-search-char char)
+  (when (>= arg 0)
+    (forward-char 1))
+  (let ((case-fold-search nil))
+    (search-forward (char-to-string char) nil t arg))
+  (when (>= arg 0)
+    (backward-char 1)))
+
+(defun my/backward-to-char (arg &optional char)
+  (interactive "p\n")
+  (unless char
+    (if (memq last-command '(my/forward-to-char my/backward-to-char))
+        (setq char my/last-search-char)
+      (setq char (read-char "Backward Char: "))))
+  (backward-char 1)
+  (my/forward-to-char (- arg) char))
+
+(defun my/forward-last-char ()
+  (interactive)
+  (my/forward-to-char 1 my/last-search-char))
+
+(defun my/backward-last-char ()
+  (interactive)
+  (my/backward-to-char 1 my/last-search-char))
+
+(global-set-key (kbd "C-M-s") 'my/forward-to-char)
+(global-set-key (kbd "C-M-r") 'my/backward-to-char)
+
+(smartrep-define-key
+    global-map  "C-x" '((";" . 'my/forward-last-char)
+                        (":" . 'my/backward-last-char)))
