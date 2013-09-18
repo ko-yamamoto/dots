@@ -247,7 +247,15 @@
                           ;; magit をバッファ全体に開く
                           (setq magit-status-buffer-switch-function 'switch-to-buffer)
 
-                          (global-set-key (kbd "C-c g g") 'magit-status)
+                          (require 'vc)
+                          (defun magit-status-with-new-elscreen ()
+                            "新しい elscreen で magit status"
+                            (interactive)
+                            (setq my/now-point (buffer-file-name))
+                            (elscreen-create)
+                            (magit-status (vc-call-backend (vc-responsible-backend my/now-point) 'root my/now-point)))
+
+                          (global-set-key (kbd "C-c g g") 'magit-status-with-new-elscreen)
                           (global-set-key (kbd "C-c g d") 'magit-diff-working-tree)
                           (global-set-key (kbd "C-c g f") 'magit-file-log)
 
