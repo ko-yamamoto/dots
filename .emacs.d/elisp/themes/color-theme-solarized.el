@@ -231,6 +231,10 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        ;;emacs-anzu
        (anzu-mode-line ((t (:foreground ,blue :bold t))))
 
+       ;; skk
+       (skk-dcomp-face ((t (:foreground ,base01))))
+       (skk-show-mode-inline-face ((t (:background ,base03))))
+
        ))))
 
 
