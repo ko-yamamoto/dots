@@ -348,8 +348,8 @@
   (interactive)
   (my/backward-to-char 1 my/last-search-char))
 
-(global-set-key (kbd "C-M-s") 'my/forward-to-char)
-(global-set-key (kbd "C-M-r") 'my/backward-to-char)
+(global-set-key (kbd "C-S-s") 'my/forward-to-char)
+(global-set-key (kbd "C-S-r") 'my/backward-to-char)
 
 (smartrep-define-key
     global-map  "C-x" '((";" . 'my/forward-last-char)
