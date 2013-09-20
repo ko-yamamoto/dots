@@ -605,6 +605,7 @@
                           (define-key global-map (kbd "C-x j") 'dired-with-new-elscreen)
 
                           (define-key global-map (kbd "C-z C-c") 'elscreen-clone)
+                          (define-key global-map (kbd "C-z C-k") 'elscreen-kill-screen-and-buffers)
 
 
                           ))
