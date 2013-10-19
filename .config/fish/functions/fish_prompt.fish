@@ -23,8 +23,11 @@ function fish_prompt --description 'Write out the prompt'
   __terlar_git_prompt
   echo
 
-  if not test $last_status -eq 0
-    set_color $fish_color_error
+  switch (echo $last_status)
+	case 0
+		set_color $fish_color_command
+	case '*'
+		set_color $fish_color_error
   end
 
   echo -n '> '
