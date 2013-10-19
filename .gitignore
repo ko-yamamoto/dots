@@ -49,3 +49,5 @@ elisp/*.elc
 /.emacs.d/elpa/archives/melpa/archive-contents
 /.emacs.d/last-wconf
 /.emacs.d/wconf-archive
+
+.config/fish/fish_history
