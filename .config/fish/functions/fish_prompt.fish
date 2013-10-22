@@ -32,4 +32,10 @@ function fish_prompt --description 'Write out the prompt'
 
   echo -n '> '
   set_color normal
+
+  # for z.fish
+  z --add "$PWD"
+
+  # for autojump
+  autojump -a $PWD > /dev/null &
 end

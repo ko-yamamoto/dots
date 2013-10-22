@@ -30,3 +30,20 @@ function g
 end
 # g で実行する git に補完実行
 make_completion g 'git'
+
+
+
+
+##
+# Read Z extension
+##
+if test -f $HOME/bin/z-fish/z.fish
+  . $HOME/bin/z-fish/z.fish
+end
+
+#
+# for autojump
+#
+function j
+   cd (command autojump $argv)
+end
