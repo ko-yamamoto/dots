@@ -1,3 +1,8 @@
+# PATH
+set GOPATH $HOME/go
+set PATH $PATH $HOME/.autojump/bin $GOPATH/bin $HOME/.cabal/bin $HOME/bin $HOME/.rbenv/bin /usr/bin /opt/bin
+
+
 # alias や function で作った別名コマンドに補完を適用する関数
 function make_completion --argument-names alias command
     echo "
