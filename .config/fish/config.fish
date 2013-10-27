@@ -53,12 +53,29 @@ function j
    cd (command autojump $argv)
 end
 
-# Mac 用の設定読み込み
+# pelcor を使った history 補完
+function percol_select_history
+  history|percol|read percolhistry
+  if [ $percolhistry ]
+    commandline $percolhistry
+  else
+    commandline ''
+  end
+end
+
+
+# キーバインドの追加 ############################################
+function fish_user_key_bindings
+  bind \cr percol_select_history
+end
+
+
+# Mac 用の設定読み込み ##########################################
 if test -f $HOME/.config/fish/config_mac.fish
   . $HOME/.config/fish/config_mac.fish
 end
 
-# gentoo 用の設定読み込み
+# gentoo 用の設定読み込み #######################################
 if test -f $HOME/.config/fish/config_gentoo.fish
   . $HOME/.config/fish/config_gentoo.fish
 end
