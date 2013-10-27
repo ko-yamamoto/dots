@@ -51,3 +51,4 @@ elisp/*.elc
 /.emacs.d/wconf-archive
 
 .config/fish/fish_history
+.config/fish/fishd.*
