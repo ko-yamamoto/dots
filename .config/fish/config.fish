@@ -72,8 +72,12 @@ set CD_HISTORY_FILE $HOME/.cd_history_file # cd 履歴の記録先ファイル
 function percol_cd_history
   sort $CD_HISTORY_FILE | uniq -c | sort -r | sed -e 's/^[ ]*[0-9]*[ ]*//' | percol | read -l percolCDhistory
   if [ $percolCDhistory ]
-    commandline 'cd '
-    commandline -i $percolCDhistory
+    # commandline 'cd '
+    # commandline -i $percolCDhistory
+    echo 'cd' $percolCDhistory
+    cd $percolCDhistory
+    echo $percolCDhistory
+    commandline -f repaint
   else
     commandline ''
   end
