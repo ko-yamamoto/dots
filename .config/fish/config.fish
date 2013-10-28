@@ -21,7 +21,9 @@ set fish_greeting ""
 
 # cd したあとに ls
 function cd
-    builtin cd $argv; ls
+    builtin cd $argv
+    echo $PWD >> $CD_HISTORY_FILE # percol_cd_history 用
+    ls
 end
 
 # emacsclient を ec で
@@ -53,7 +55,7 @@ function j
    cd (command autojump $argv)
 end
 
-# pelcor を使った history 補完
+# percol を使った history 補完
 function percol_select_history
   history|percol|read percolhistry
   if [ $percolhistry ]
@@ -64,9 +66,22 @@ function percol_select_history
 end
 
 
+set CD_HISTORY_FILE $HOME/.cd_history_file # cd 履歴の記録先ファイル
+# percol を使って cd 履歴の中からディレクトリを選択
+# 過去の訪問回数が多いほど選択候補の上に来る
+function percol_cd_history
+  # sort $CD_HISTORY_FILE | uniq -c | sort -r | sed -e 's/^[ ]*[0-9]*[ ]*//' | sed -e s"/^${HOME//\//\\/}/~/" | percol | xargs echo
+  sort $CD_HISTORY_FILE | uniq -c | sort -r | sed -e 's/^[ ]*[0-9]*[ ]*//' | percol | read percolCDhistory
+  if [ $percolCDhistory ]
+    cd $percolCDhistory
+  end
+end
+
+
 # キーバインドの追加 ############################################
 function fish_user_key_bindings
   bind \cr percol_select_history
+  bind \cx percol_cd_history
 end
 
 
