@@ -35,11 +35,12 @@ myGsconfig = defaultGSConfig { gs_cellheight = 100, gs_cellwidth = 260 }
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
-myTerminal      = "xterm -fa ricty +cjk_width -fs 9"
+-- myTerminal      = "xterm -fa ricty +cjk_width -fs 9"
+myTerminal      = "xterm -fa Hermit +cjk_width -fs 9"
 
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
-myFocusFollowsMouse = True
+myFocusFollowsMouse = False
 
 -- Width of the window border in pixels.
 --
@@ -238,6 +239,7 @@ myManageHook = composeAll
     [ className =? "MPlayer"        --> doFloat
     , className =? "Gimp"           --> doFloat
     , title =? "Ediff"           --> doFloat
+    , title =? "Firebug"           --> doFloat
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore ]
 
