@@ -70,10 +70,12 @@ set CD_HISTORY_FILE $HOME/.cd_history_file # cd 履歴の記録先ファイル
 # percol を使って cd 履歴の中からディレクトリを選択
 # 過去の訪問回数が多いほど選択候補の上に来る
 function percol_cd_history
-  # sort $CD_HISTORY_FILE | uniq -c | sort -r | sed -e 's/^[ ]*[0-9]*[ ]*//' | sed -e s"/^${HOME//\//\\/}/~/" | percol | xargs echo
-  sort $CD_HISTORY_FILE | uniq -c | sort -r | sed -e 's/^[ ]*[0-9]*[ ]*//' | percol | read percolCDhistory
+  sort $CD_HISTORY_FILE | uniq -c | sort -r | sed -e 's/^[ ]*[0-9]*[ ]*//' | percol | read -l percolCDhistory
   if [ $percolCDhistory ]
-    cd $percolCDhistory
+    commandline 'cd '
+    commandline -i $percolCDhistory
+  else
+    commandline ''
   end
 end
 
