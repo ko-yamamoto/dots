@@ -70,12 +70,10 @@ function fish_user_key_bindings
 end
 
 
-# Mac 用の設定読み込み ##########################################
-if test -f $HOME/.config/fish/config_mac.fish
-  . $HOME/.config/fish/config_mac.fish
-end
-
-# gentoo 用の設定読み込み #######################################
-if test -f $HOME/.config/fish/config_gentoo.fish
-  . $HOME/.config/fish/config_gentoo.fish
+# 環境毎の設定読み込み ##########################################
+switch `uname`
+  case Darwin
+    . $HOME/.config/fish/config_mac.fish
+  case Linux
+    . $HOME/.config/fish/config_gentoo.fish
 end
