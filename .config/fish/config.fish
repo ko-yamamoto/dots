@@ -71,7 +71,7 @@ end
 
 
 # 環境毎の設定読み込み ##########################################
-switch `uname`
+switch (uname)
   case Darwin
     . $HOME/.config/fish/config_mac.fish
   case Linux
