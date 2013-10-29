@@ -125,6 +125,7 @@ end
 
 # キーバインドの追加 ############################################
 function fish_user_key_bindings
+  bind \cg 'commandline ""' # C-g で C-c する
   bind \cr percol_select_history
   bind \cx percol_cd_history
 end
