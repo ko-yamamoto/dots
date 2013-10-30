@@ -65,6 +65,12 @@ function cd --description "Change directory"
         return $cd_status
 end
 
+# top の代わりに htop する
+function top
+    htop $args
+end
+
+
 # emacsclient を ec で
 function ec
     emacsclient -n $argv
