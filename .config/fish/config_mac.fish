@@ -10,7 +10,3 @@ end
 function ec
     emacsclient -n $argv
 end
-
-function top
-    htop $args
-end
