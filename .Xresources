@@ -1,5 +1,5 @@
 ! Xft settings ---------------------------------------------------------------
-Xft.dpi: 96
+Xft.dpi: 108
 Xft.antialias: true
 Xft.rgba: rgb
 Xft.hinting: true
@@ -15,6 +15,7 @@ XTerm*faceName:           Ricty
 XTerm*faceNameDoublesize: Ricty
 XTerm*faceSize:           9
 XTerm*cjkWidth:           true
+! XTerm*ximFont: -misc-fixed-medium-normal--14-130-75-75-c-140-jisx0208.1983-0
 
 ! !TomorrowNight
 ! #define t_background       #1d1f21
@@ -121,7 +122,8 @@ XTerm*cjkWidth:           true
 
 ! Light
 
-#define S_base03 #fdf6e3
+! #define S_base03 #fdf6e3
+#define S_base03 #fefbf3
 #define S_base02 #eee8d5
 #define S_base01 #93a1a1
 #define S_base00 #839496
