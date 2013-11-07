@@ -1,5 +1,7 @@
+set --export LANG "ja_JP.UTF-8"
+
 # PATH
-set GOPATH $HOME/go
+set --export GOPATH $HOME/go
 set PATH $PATH $HOME/.autojump/bin $GOPATH/bin $HOME/.cabal/bin $HOME/bin $HOME/.rbenv/bin /usr/bin /opt/bin
 
 
@@ -64,6 +66,19 @@ function cd --description "Change directory"
 
         return $cd_status
 end
+
+
+# プロンプトの pwd 表示を変更
+if test (uname) = Darwin
+        function prompt_pwd --description "Print the current working directory, shortend to fit the prompt"
+                echo $PWD | sed -e "s|^$HOME|~|" -e 's|^/private||' -e 's-\([^/]\{,5\}\)[^/]*/-\1\.\./-g'
+        end
+else
+        function prompt_pwd --description "Print the current working directory, shortend to fit the prompt"
+                echo $PWD | sed -e "s|^$HOME|~|" -e 's-\([^/]\{,5\}\)[^/]*/-\1\.\./-g'
+        end
+end
+
 
 # top の代わりに htop する
 function top
