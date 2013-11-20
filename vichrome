@@ -1,0 +1,77 @@
+# EscapeをC-gで
+nmap <C-g> : Escape
+imap <C-g> : Escape
+cmap <C-g> : Escape
+emap <C-g> : Escape
+<C-g> : Escape
+ 
+
+ 
+# タブ操作をワンキーで
+nmap <C-l> ScrollRight
+nmap <C-h> ScrollLeft
+nmap l :TabFocusNext
+nmap h :TabFocusPrev
+ 
+# URLをコピー( Keysnailと同じキーバインドに )
+nmap w :Copy '%url'   
+nmap W :Copy '%title: %url'           
+ 
+nmap g : GoTop
+
+nmap b : TabList
+nmap d : TabCloseCurrent --focusprev
+
+# 検索
+nmap <C-s> : GoSearchModeForward
+nmap <C-r> : GoSearchModeBackward
+# フォーカス移動のキーバインドを追加
+cmap <C-n> :FocusNextCandidate
+cmap <C-p> :FocusPrevCandidate
+ 
+# スペースキーのあとにニックネームでページ移動
+nmap <Space>h  :TabOpenNew chrome://history
+nmap <Space>d  :TabOpenNew chrome://downloads
+nmap <Space>e  :TabOpenNew chrome://extensions/
+nmap <Space>s  :TabOpenNew chrome://chrome/settings/
+nmap <Space>x  :TabOpenNew http://www.youtube.com/xl
+nmap <Space>j  :TabOpenNew http://www.jorudan.co.jp/norikae/
+nmap <Space>o  :OpenOptionPage
+ 
+# fキーにインプットフォーカスを割り当て( Keysnailと同じキーバインドに )
+# nmap f :FocusOnFirstInput
+ 
+# 全てのページでタブ移動を可能に
+pagecmd http*://* nmap l :MoveToNextTab
+pagecmd http*://* nmap h :MoveToPrevTab
+ 
+# エイリアス(aliase) 独自コマンドを登録可能。
+alias ext TabOpenNew chrome://extensions/
+alias option TabOpenNew chrome://settings/browser
+alias downloads TabOpenNew chrome://downloads
+alias history TabOpenNew chrome://history
+ 
+# 複数のURLをまとめて開く( SNS関連ページ )
+alias sns TabOpenNew http://mixi.jp/home.pl https://www.facebook.com/ http://twitter.com/
+ 
+# PDFファイルでC-fを無効化
+pagecmd *.pdf nmap <C-f> <NOP>
+ 
+# 使わないコマンドを無効化
+# nmap yy <NOP>    #copy URL based on the current tab
+# nmap <C-d> <NOP> #page half down
+# nmap <C-u> <NOP> #page half up
+ 
+# ---------------------------------------------- #
+# 未設定
+ 
+# Twitterでf/rを無効化
+# pagecmd http*://twitter.com/* nmap f <NOP>
+# pagecmd http*://twitter.com/* nmap r <NOP>
+ 
+# <DISCARD>設定
+# Chromeにデフォルトで設定されている機能を無効化する
+# nmap <BS> <DISCARD>
+ 
+# ---------------------------------------------- #
+
