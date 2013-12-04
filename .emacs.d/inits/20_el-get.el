@@ -18,16 +18,16 @@
   (setq el-get-sources
         '(
 
-          (:name exec-path-from-shell-github
-                 :type github
-                 :url "https://github.com/purcell/exec-path-from-shell.git"
-                 :after (progn
-                          (require 'exec-path-from-shell)
-                          (exec-path-from-shell-initialize)
-                          (let ((envs '("PATH" "VIRTUAL_ENV" "GOROOT" "GOPATH")))
-                            (exec-path-from-shell-copy-envs envs))
-                          (setq eshell-path-env (getenv "PATH"))
-                          ))
+          ;; (:name exec-path-from-shell-github
+          ;;        :type github
+          ;;        :url "https://github.com/purcell/exec-path-from-shell.git"
+          ;;        :after (progn
+          ;;                 (require 'exec-path-from-shell)
+          ;;                 (exec-path-from-shell-initialize)
+          ;;                 (let ((envs '("PATH" "VIRTUAL_ENV" "GOROOT" "GOPATH")))
+          ;;                   (exec-path-from-shell-copy-envs envs))
+          ;;                 (setq eshell-path-env (getenv "PATH"))
+          ;;                 ))
 
           ;;           (:name org-mode-git
           ;;                  :type git
@@ -100,7 +100,8 @@
                           (defun helm-my ()
                             (interactive)
                             (helm-other-buffer '(helm-c-source-elscreen
-                                                 helm-c-source-buffers-list-R
+                                                 ;; helm-c-source-buffers-list-R
+                                                 helm-c-source-buffers-list
                                                  helm-c-recentf-file-source
                                                  helm-c-recentf-directory-source
                                                  helm-c-source-buffer-not-found)
@@ -243,11 +244,11 @@
                           ;; 最後に表示したpopwinを再表示
                           (define-key global-map (kbd "C-c p") 'popwin:display-last-buffer)))
 
-          (:name cl-lib
-                 ;; :builtin "24.3"
-                 :type elpa
-                 :description "Properly prefixed CL functions and macros"
-                 :url "http://elpa.gnu.org/packages/cl-lib.html")
+          ;; (:name cl-lib
+          ;;        ;; :builtin "24.3"
+          ;;        :type elpa
+          ;;        :description "Properly prefixed CL functions and macros"
+          ;;        :url "http://elpa.gnu.org/packages/cl-lib.html")
           (:name git-modes
                  :description "GNU Emacs modes for various Git-related files"
                  :type github
@@ -256,7 +257,8 @@
                  ;; make するとエラーが出るので独自で git pull
                  :type github
                  :url "http://github.com/magit/magit.git"
-                 :depends (cl-lib git-modes)
+                 ;; :depends (cl-lib git-modes)
+                 :depends (git-modes)
                  :after (progn
                           (require 'magit)
 
@@ -994,6 +996,35 @@
                           (global-set-key (kbd "M-%") 'anzu-query-replace)
                           (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
                           ))
+
+          (:name web-mode-github
+                 :type github
+                 :url "https://github.com/fxbois/web-mode.git"
+                 :after (progn
+                          (require 'web-mode)
+
+                          (add-hook 'web-mode-hook (lambda ()
+                                                     (local-set-key (kbd "C-;") 'helm-my)))
+
+                          (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+                          (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+                          (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+                          (add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
+                          (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+                          (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+                          (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+                          (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+
+                          (setq web-mode-markup-indent-offset 2)
+                          (setq web-mode-css-indent-offset 2)
+                          (setq web-mode-code-indent-offset 2)
+
+                          (setq web-mode-disable-auto-pairing t)
+                          (setq web-mode-disable-css-colorization t)
+                          ))
+
+
+
 
           (:name go-mode
                  :type http
