@@ -4,6 +4,22 @@ set --export LANG "ja_JP.UTF-8"
 set --export GOPATH $HOME/go
 set PATH $PATH $HOME/.autojump/bin $GOPATH/bin $HOME/.cabal/bin $HOME/bin $HOME/.rbenv/bin /usr/bin /opt/bin
 
+# ssh-agent
+set agentPID (ps gxww | grep "ssh-agent]*\$" | awk '{print $1}')
+set agentSOCK (/bin/ls -t /tmp/ssh*/agent*|head -1)
+if test "$agentPID" = "" -o "$agentSOCK" = ""
+    set -e SSH_AUTH_SOCK
+    set -e SSH_AGENT_PID
+    eval (ssh-agent)
+    ssh-add
+else
+    set --export SSH_AGENT_PID $agentPID
+    set --export SSH_AUTH_SOCK $agentSOCK
+    # if [ `ssh-add -l` = "" ]; then
+    #     ssh-add < /dev/null
+    # fi
+end
+
 
 # alias や function で作った別名コマンドに補完を適用する関数
 function make_completion --argument-names alias command
@@ -19,7 +35,6 @@ end
 
 # ログインメッセージ無効
 set fish_greeting ""
-
 
 # cd したあとに ls
 # function cd
