@@ -123,7 +123,11 @@ Ported to Emacs by Greg Pfeil, http://ethanschoonover.com/solarized."
        (org-todo ((t (:foreground ,red :bold t))))
        (org-done ((t (:foreground ,green :bold t))))
        (org-date ((t (:foreground ,base1 :bold t))))
-       (org-level-4 ((T (:foreground ,red))))
+       (org-level-1 ((t (:foreground ,red))))
+       (org-level-2 ((t (:foreground ,blue))))
+       (org-level-3 ((t (:foreground ,green))))
+       (org-level-4 ((t (:foreground ,yellow))))
+       (org-level-5 ((t (:foreground ,purple))))
 
        ;; show-paren
        (show-paren-match-face ((t (:background ,orange :foreground ,white :bold t))))
