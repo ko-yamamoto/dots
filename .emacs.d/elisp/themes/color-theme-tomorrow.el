@@ -30,10 +30,31 @@ theme will be used."
         (orange "#f5871f")
         (yellow "#eab700")
         (green "#718c00")
+        (lgreen "#e1e7cb")
         (aqua "#3e999f")
         (blue "#4271ae")
         (purple "#8959a8")
-        (white "#ffffff"))
+        (magenta "#d33682")
+        (cyan    "#2aa198")
+        (violet  "#6c71c4")
+
+        (white "#ffffff")
+        (black "#2d282a")
+
+        (base03  "#002b36")
+        (base02  "#073642")
+        (base01  "#586e75")
+        (base00  "#657b83")
+        (base0   "#839496")
+        (base1   "#93a1a1")
+        (base2   "#eee8d5")
+        (base2o   "#eee8d5")
+        ;; (base3   "#fdf6e3")
+        (base3   "#fefbf3")
+        (base3o   "#fefbf3")
+        (base31   "#f6db94")
+
+        )
 
     (cond ((eq variant 'night)
 ;;           (setq background "#1d1f21"
@@ -42,7 +63,8 @@ theme will be used."
                  ;; mode-line "#81a2be"
                  mode-line "#f0c674"
                  mode-line-inactive "#81a2be"
-                 selection "#373b41"
+                 ;; selection "#373b41"
+                 selection "#515151"
 ;;                 foreground "#c5c8c6"
                  foreground "#e5e8e6"
                  comment "#8c9898"
@@ -152,6 +174,11 @@ theme will be used."
        (org-hide ((t (:foreground ,current-line))))
        (org-link ((t (:foreground ,blue))))
        (org-todo ((t (:foreground ,red))))
+       (org-level-1 ((t (:foreground ,red))))
+       (org-level-2 ((t (:foreground ,blue))))
+       (org-level-3 ((t (:foreground ,green))))
+       (org-level-4 ((t (:foreground ,yellow))))
+       (org-level-5 ((t (:foreground ,purple))))
 
        ;; ;; rst-mode
        ;; (rst-level-1-face ((t (:foreground ,red))))
@@ -217,6 +244,74 @@ theme will be used."
 
        ;; slime
        (slime-repl-inputed-output-face ((t (:foreground ,red))))
+
+              (slime-repl-inputed-output-face ((t (:foreground ,red))))
+
+       ;; diff
+       (diff-add ((t (:foreground ,green :background ,base03))))
+       (diff-removed ((t (:foreground ,red :background ,base03))))
+       (diff-changed ((t (:foreground ,yellow :inverse-video t))))
+
+       ;; magit
+       (magit-diff-add ((t (:foreground ,green :background ,base03))))
+       (magit-diff-del ((t (:foreground ,red :background ,base03))))
+       (magit-diff-none ((t (:background ,base03))))
+       (magit-header ((t (:foreground ,green :box (:line-width 1)))))
+       (magit-item-highlight ((t (:foreground nil :background ,base02))))
+
+       ;; auto-complete
+       ;; (ac-candidate-face ((t (:background ,green :foreground ,"#ffffff"))))
+       ;; (ac-selection-face ((t (:background ,yellow :foreground ,"#000000"))))
+       (ac-candidate-face ((t (:background ,base2o :foreground ,"#a9a497"))))
+       (ac-selection-face ((t (:background ,base31 :foreground ,black))))
+       ;; (set-face-underline 'ac-candidate-face "#b9ca4a")
+
+       (sh-heredoc ((t (:foreground ,yellow))))
+
+       ;; rainbow-delimiters
+       (rainbow-delimiters-depth-1-face ((t (:foreground ,orange :bold t))))
+       (rainbow-delimiters-depth-2-face ((t (:foreground ,blue :bold t))))
+       (rainbow-delimiters-depth-3-face ((t (:foreground ,magenta :bold t))))
+       (rainbow-delimiters-depth-4-face ((t (:foreground ,cyan :bold t))))
+       (rainbow-delimiters-depth-5-face ((t (:foreground ,green :bold t))))
+       (rainbow-delimiters-depth-6-face ((t (:foreground ,yellow :bold t))))
+       (rainbow-delimiters-depth-7-face ((t (:foreground ,violet :bold t))))
+       (rainbow-delimiters-depth-8-face ((t (:foreground ,base01 :bold t))))
+       (rainbow-delimiters-depth-9-face ((t (:foreground ,aqua :bold t))))
+
+       ;; highlight-indentation
+       (highlight-indentation-face ((t (:background "#fcf5dd"))))
+
+       ;; auto-highlight-symbol
+       ;; (ahs-face ((t (:background ,base31))))
+       (ahs-face ((t (:background ,red))))
+       (ahs-definition-face ((t (:background ,yellow :foreground ,black))))
+       ;; (ahs-warning-face ((t (:background ,base2o :foreground ,"#a9a497"))))
+       (ahs-plugin-defalt-face ((t (:background nil :foreground nil))))
+       ;; (ahs-plugin-whole-buffer-face ((t (:background ,base2o :foreground ,"#a9a497"))))
+       ;; (ahs-plugin-bod-face ((t (:background ,base2o :foreground ,"#a9a497"))))
+       ;; (ahs-edit-mode-face ((t (:background ,base2o :foreground ,"#a9a497"))))
+
+       ;; moccur
+       (moccur-face ((t (:background ,base31))))
+       (moccur-current-line-face ((t (:background ,lgreen))))
+
+       ;; auto-highlight-symbol
+       (ahs-face ((t (:background ,base31))))
+       (ahs-definition-face ((t (:background ,yellow :foreground ,black))))
+       ;; (ahs-warning-face ((t (:background ,base2o :foreground ,"#a9a497"))))
+       (ahs-plugin-defalt-face ((t (:background nil :foreground nil))))
+       ;; (ahs-plugin-whole-buffer-face ((t (:background ,base2o :foreground ,"#a9a497"))))
+       ;; (ahs-plugin-bod-face ((t (:background ,base2o :foreground ,"#a9a497"))))
+       ;; (ahs-edit-mode-face ((t (:background ,base2o :foreground ,"#a9a497"))))
+
+       ;;emacs-anzu
+       (anzu-mode-line ((t (:foreground ,blue :bold t))))
+
+       ;; skk
+       (skk-dcomp-face ((t (:foreground ,base01))))
+       (skk-show-mode-inline-face ((t (:background ,base03))))
+
 
 ))))
 

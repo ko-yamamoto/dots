@@ -7,6 +7,7 @@
 ;; (color-theme-tangotango)
 ;; (color-theme-tomorrow-night-bright)
 (color-theme-tomorrow-night)
+;; (color-theme-tomorrow-night-eighties)
 ;; (color-theme-tomorrow)
 ;; (color-theme-solarized-light)
 

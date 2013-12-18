@@ -174,3 +174,14 @@ switch (uname)
   case Linux
     . $HOME/.config/fish/config_gentoo.fish
 end
+
+
+
+
+
+
+set fish_color_search_match --background=white
+set fish_color_command blue
+set fish_color_error red
+set fish_color_autosuggestion yellow
+set fish_color_param green

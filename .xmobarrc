@@ -1,4 +1,4 @@
-Config { font = "xft:ricty-9"
+Config { font = "xft:ricty-10"
        , bgColor = "black"
        , fgColor = "grey"
        , position = Top
@@ -14,5 +14,5 @@ Config { font = "xft:ricty-9"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ <fc=#89be22>%uname%</fc> | %cpu% | %memory% * %swap% | %eth0% | <fc=#ee9a00>%date%</fc> "
+       , template = "%StdinReader% }{ <fc=#89be22>%uname%</fc> | %cpu% | %memory% * %swap% | %eth0% | <fc=#95D9FF>%date%</fc> "
        }

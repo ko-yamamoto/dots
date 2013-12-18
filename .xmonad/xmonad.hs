@@ -238,6 +238,7 @@ myLayout = (ResizableTall 1 (3/100) (3/5) [])||| (ResizableTall 2 (3/100) (2/5) 
 myManageHook = composeAll
     [ className =? "MPlayer"        --> doFloat
     , className =? "Gimp"           --> doFloat
+    , appName =? "crx_hmjkmjkepdijhoojdojkdfohbdgmmhki"           --> doFloat -- google keep
     , appName =? "crx_nckgahadagoaajjgafhacjanaoiihapd"           --> doFloat -- google hangouts
     , title =? "Ediff"           --> doFloat
     , title =? "Firebug"           --> doFloat
