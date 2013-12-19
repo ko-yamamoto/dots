@@ -74,3 +74,4 @@
 (define-key org-mode-map [(control down)] 'outline-next-visible-heading)
 (define-key org-mode-map [(control shift up)] 'outline-backward-same-level)
 (define-key org-mode-map [(control shift down)] 'outline-forward-same-level)
+(define-key org-mode-map (kbd "C-a") 'my-toggle-beginning-of-line-and-sentence)
