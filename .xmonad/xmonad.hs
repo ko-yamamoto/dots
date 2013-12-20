@@ -23,6 +23,8 @@ import qualified Data.Map        as M
 
 import XMonad.Hooks.SetWMName
 
+import XMonad.Actions.CopyWindow
+
 
 -- bar
 myBar = "xmobar"
@@ -86,8 +88,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- launch gmrun
     , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
 
-    -- close focused window
-    , ((modm .|. shiftMask, xK_c     ), kill)
+    -- close focused window -> Close the focused window
+    , ((modm .|. shiftMask, xK_c     ), kill1)
 
      -- Rotate through the available layout algorithms
     , ((modm,               xK_space ), sendMessage NextLayout)
@@ -153,6 +155,12 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- GridSelect
     , ((modm              , xK_s     ), goToSelected myGsconfig)
+
+    -- @@ Make focused window always visible
+    , ((modm, xK_v ), windows copyToAll)
+    -- @@ Toggle window state back
+    , ((modm .|. shiftMask, xK_v ),  killAllOtherCopies)
+
     ]
     ++
 
