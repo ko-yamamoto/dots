@@ -11,8 +11,8 @@ Xft.hintstyle: hintslight
 XTerm*utf8:               1
 XTerm*locale:             true
 XTerm*selectToClipboard:  true
-XTerm*faceName:           Ricty
-XTerm*faceNameDoublesize: Ricty
+XTerm*faceName:           Hermit
+XTerm*faceNameDoublesize: 07YasashisaGothic
 XTerm*faceSize:           9
 XTerm*cjkWidth:           true
 ! XTerm*ximFont: -misc-fixed-medium-normal--14-130-75-75-c-140-jisx0208.1983-0
