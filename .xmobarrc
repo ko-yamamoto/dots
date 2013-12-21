@@ -1,4 +1,4 @@
-Config { font = "xft:ricty-10"
+Config { font = "xft:07YasashisaGothic-11"
        , bgColor = "black"
        , fgColor = "grey"
        , position = Top
