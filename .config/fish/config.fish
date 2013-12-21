@@ -2,7 +2,7 @@ set --export LANG "ja_JP.UTF-8"
 
 # PATH
 set --export GOPATH $HOME/go
-set PATH $PATH $HOME/.autojump/bin $GOPATH/bin $HOME/.cabal/bin $HOME/bin $HOME/.rbenv/bin /usr/bin /opt/bin
+set PATH $HOME/.autojump/bin $GOPATH/bin $HOME/.cabal/bin $HOME/.rbenv/shims $HOME/bin $HOME/.rbenv/bin /usr/bin /opt/bin $PATH
 
 # ssh-agent
 set agentPID (ps gxww | grep "ssh-agent]*\$" | awk '{print $1}')
