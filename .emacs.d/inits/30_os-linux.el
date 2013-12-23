@@ -23,7 +23,9 @@
 
   ;; リンクを開くブラウザの設定
   (setq browse-url-browser-function 'browse-url-generic
-        browse-url-generic-program "google-chrome")
+        browse-url-generic-program "google-chrome-beta")
+
+  (setq x-super-keysym 'meta)
+  (setq x-meta-keysym  'super)
+
  )
-
-
