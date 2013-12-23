@@ -18,12 +18,16 @@ import XMonad.Layout.ResizableTile
 import XMonad.Layout.Grid
 import XMonad.Layout.StackTile
 
+import XMonad.Util.EZConfig
+
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
 import XMonad.Hooks.SetWMName
 
 import XMonad.Actions.CopyWindow
+
+import XMonad.Actions.FloatKeys
 
 
 -- bar
@@ -77,69 +81,65 @@ myFocusedBorderColor = "#ff0000"
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
 --
-myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
-
+-- myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
+myKeys = \conf -> mkKeymap conf $
     -- launch a terminal
-    [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
+    [ ("M-S-<Return>", spawn $ XMonad.terminal conf)
 
     -- launch dmenu
-    , ((modm,               xK_p     ), spawn "dmenu_run -fn 07YasashisaGothic")
+    , ("M-p", spawn "dmenu_run -fn 07YasashisaGothic")
 
     -- launch gmrun
-    , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
+    , ("M-S-p", spawn "gmrun")
 
     -- close focused window -> Close the focused window
-    , ((modm .|. shiftMask, xK_c     ), kill1)
+    , ("M-S-c", kill1)
+    , ("M-w", kill1)
+    , ("M-q", kill)
 
      -- Rotate through the available layout algorithms
-    , ((modm,               xK_space ), sendMessage NextLayout)
+    , ("M-<Space>", sendMessage NextLayout)
 
     --  Reset the layouts on the current workspace to default
-    , ((modm .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)
+    , ("M-S-<Space>", setLayout $ XMonad.layoutHook conf)
 
     -- Resize viewed windows to the correct size
-    , ((modm,               xK_n     ), refresh)
+    , ("M-n", refresh)
 
     -- Move focus to the next window
-    , ((modm,               xK_Tab   ), windows W.focusDown)
+    , ("M-<Tab>", windows W.focusDown)
 
     -- Move focus to the next window
-    , ((modm,               xK_j     ), windows W.focusDown)
+    , ("M-j", windows W.focusDown)
 
     -- Move focus to the previous window
-    , ((modm,               xK_k     ), windows W.focusUp  )
+    , ("M-k", windows W.focusUp  )
 
     -- Move focus to the master window
-    , ((modm,               xK_m     ), windows W.focusMaster  )
+    , ("M-m", windows W.focusMaster  )
 
     -- Swap the focused window and the master window
-    , ((modm,               xK_Return), windows W.swapMaster)
+    , ("M-<Return>", windows W.swapMaster)
 
     -- Swap the focused window with the next window
-    , ((modm .|. shiftMask, xK_j     ), windows W.swapDown  )
+    , ("M-S-j", windows W.swapDown  )
 
     -- Swap the focused window with the previous window
-    , ((modm .|. shiftMask, xK_k     ), windows W.swapUp    )
+    , ("M-S-k", windows W.swapUp    )
 
     -- Shrink the master area
-    , ((modm .|. shiftMask, xK_h     ), sendMessage Shrink)
+    , ("M-S-h", sendMessage Shrink)
 
     -- Expand the master area
-    , ((modm .|. shiftMask, xK_l     ), sendMessage Expand)
+    , ("M-S-l", sendMessage Expand)
 
     -- Shrink a window vertically
-    , ((modm .|. shiftMask, xK_z     ), sendMessage MirrorShrink)
+    , ("M-S-z", sendMessage MirrorShrink)
     -- Expand a window vertically
-    , ((modm .|. shiftMask, xK_a     ), sendMessage MirrorExpand)
+    , ("M-S-a", sendMessage MirrorExpand)
 
     -- Push window back into tiling
-    , ((modm,               xK_t     ), withFocused $ windows . W.sink)
-
-    -- Increment the number of windows in the master area
-    , ((modm              , xK_comma ), sendMessage (IncMasterN 1))
-
-    -- Deincrement the number of windows in the master area
-    , ((modm              , xK_period), sendMessage (IncMasterN (-1)))
+    , ("M-t", withFocused $ windows . W.sink)
 
     -- Toggle the status bar gap
     -- Use this binding with avoidStruts from Hooks.ManageDocks.
@@ -148,39 +148,40 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- , ((modm              , xK_b     ), sendMessage ToggleStruts)
 
     -- Quit xmonad
-    , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
+    , ("M-S-q", io (exitWith ExitSuccess))
 
     -- Restart xmonad
-    , ((modm              , xK_q     ), spawn "xmonad --recompile; xmonad --restart")
+    , ("M-q", spawn "xmonad --recompile; xmonad --restart")
 
     -- GridSelect
-    , ((modm              , xK_s     ), goToSelected myGsconfig)
+    , ("M-s", goToSelected myGsconfig)
 
     -- @@ Make focused window always visible
-    , ((modm, xK_v ), windows copyToAll)
+    , ("M-v", windows copyToAll)
     -- @@ Toggle window state back
-    , ((modm .|. shiftMask, xK_v ),  killAllOtherCopies)
+    , ("M-S-v",  killAllOtherCopies)
 
     ]
+
     ++
 
     --
     -- mod-[1..9], Switch to workspace N
     -- mod-shift-[1..9], Move client to workspace N
     --
-    [((m .|. modm, k), windows $ f i)
-        | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
-        , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+    [(m ++ (show k), windows $ f i)
+         | (i, k) <- zip (XMonad.workspaces conf) [1 .. 9]
+    , (f, m) <- [(W.greedyView, "M-"), (W.shift, "M-S-")]
+    ]
+
     ++
 
-    --
-    -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
-    -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
-    --
-    [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
-        | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
-        , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
-
+    -- moving and resizing floating window with key
+    [(c ++ m ++ k, withFocused $ f (d x))
+         | (d, k) <- zip [\a->(a, 0), \a->(0, a), \a->(0-a, 0), \a->(0, 0-a)] ["<Right>", "<Down>", "<Left>", "<Up>"]
+         , (f, m) <- zip [keysMoveWindow, \d -> keysResizeWindow d (0, 0)] ["M-", "M-S-"]
+         , (c, x) <- zip ["", "C-"] [20, 2]
+    ]
 
 ------------------------------------------------------------------------
 -- Mouse bindings: default actions bound to mouse events
@@ -248,6 +249,7 @@ myLayout = (ResizableTall 1 (3/100) (3/5) [])||| (ResizableTall 2 (3/100) (2/5) 
 myManageHook = composeAll
     [ className =? "MPlayer"        --> doFloat
     , className =? "Gimp"           --> doFloat
+    , appName =? "mikutter.rb"           --> doFloat
     , appName =? "crx_hmjkmjkepdijhoojdojkdfohbdgmmhki"           --> doFloat -- google keep
     , appName =? "crx_nckgahadagoaajjgafhacjanaoiihapd"           --> doFloat -- google hangouts
     , title =? "Ediff"           --> doFloat
