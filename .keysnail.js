@@ -75,7 +75,7 @@ plugins.options["hok.hint_base_style"] = {
     "position"       : 'absolute',
     "z-index"        : '2147483647',
     "color"          : '#000',
-    "font-family"    : 'VL_Gothic',
+    "font-family"    : '07YasashisaGothic',
     "font-size"      : '10pt',
     "font-weight"    : 'bold',
     "line-height"    : '10pt',
@@ -84,9 +84,12 @@ plugins.options["hok.hint_base_style"] = {
     "text-transform" : 'uppercase'
 };
 
-plugins.options["hok.hint_color_link"]    = 'rgba(210, 210, 210, 0.6)';
-plugins.options["hok.hint_color_form"]    = 'rgba(210, 210, 210, 0.6)';
-plugins.options["hok.hint_color_focused"] = 'rgba(255, 82, 93, 0.6)';
+// plugins.options["hok.hint_color_link"]    = 'rgba(210, 210, 210, 0.6)';
+// plugins.options["hok.hint_color_form"]    = 'rgba(210, 210, 210, 0.6)';
+// plugins.options["hok.hint_color_focused"] = 'rgba(255, 82, 93, 0.6)';
+plugins.options["hok.hint_color_link"]    = 'rgba(255, 225, 116, 0.7)';
+plugins.options["hok.hint_color_form"]    = 'rgba(210, 210, 210, 0.5)';
+plugins.options["hok.hint_color_focused"] = 'rgba(204, 102, 102, 0.5)';
 
 
 // migemo
