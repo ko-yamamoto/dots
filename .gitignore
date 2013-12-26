@@ -52,3 +52,4 @@ elisp/*.elc
 
 .config/fish/fish_history
 .config/fish/fishd.*
+/.emacs.d/helm-adaptive-history
