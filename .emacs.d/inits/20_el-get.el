@@ -705,12 +705,16 @@
                           (let ((mode-hooks
                                  '(emacs-lisp-mode-hook
                                    org-mode-hook
+                                   rst-mode-hook
                                    java-mode-hook
                                    lisp-mode-hook
                                    clojure-mode-hook
                                    scala-mode-hook
                                    haskell-mode-hook
-                                   sh-mode-hook)))
+                                   sh-mode-hook
+                                   go-mode-hook
+                                   python-mode-hook
+                                   ruby-mode-hook)))
                             (mapcar (lambda (mode-hook) (add-hook mode-hook 'git-gutter-mode)) mode-hooks))
 
                           ;; 表示変更
@@ -722,7 +726,7 @@
                           (setq git-gutter:modified-sign "|")
                           (setq git-gutter:deleted-sign "|")
                           ;; 色変更
-                          (set-face-foreground 'git-gutter:added "#afd900")
+                          (set-face-foreground 'git-gutter:added "#95D9FF")
                           (set-face-foreground 'git-gutter:modified "#eab700")
                           (set-face-foreground 'git-gutter:deleted "#c82829")
 
@@ -739,7 +743,7 @@
                           ;; You need to install fringe-helper.el
                           (require 'git-gutter-fringe)
                           ;; 色変更
-                          (set-face-foreground 'git-gutter-fr:added "#afd900")
+                          (set-face-foreground 'git-gutter-fr:added "#95D9FF")
                           (set-face-foreground 'git-gutter-fr:modified "#eab700")
                           (set-face-foreground 'git-gutter-fr:deleted "#c82829")
                           ;; 形変更
@@ -905,6 +909,7 @@
           ;;                 (define-key direx:file-keymap (kbd "j") 'direx:next-item)
           ;;                 (define-key direx:file-keymap (kbd "k") 'direx:previous-item)
           ;;                 ;; o と f を入れ替え
+
           ;;                 (define-key direx:file-keymap (kbd "o") 'direx:find-item)
           ;;                 (define-key direx:file-keymap (kbd "f") 'direx:find-item-other-window)
 
@@ -997,6 +1002,7 @@
                           (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
                           ))
 
+
           (:name web-mode-github
                  :type github
                  :url "https://github.com/fxbois/web-mode.git"
@@ -1052,6 +1058,38 @@
                                                     ))
 
                           ))
+
+
+          (:name mykie-el-github
+                 :type github
+                 :url "https://github.com/yuutayamada/mykie-el.git")
+
+          (:name smart-newline.el-github
+                 :type github
+                 :url "https://github.com/ainame/smart-newline.el.git"
+                 :after (progn
+                          (let ((mode-hooks
+                                 '(emacs-lisp-mode-hook
+                                   org-mode-hook
+                                   rst-mode-hook
+                                   java-mode-hook
+                                   lisp-mode-hook
+                                   clojure-mode-hook
+                                   scala-mode-hook
+                                   haskell-mode-hook
+                                   sh-mode-hook
+                                   go-mode-hook
+                                   python-mode-hook
+                                   ruby-mode-hook)))
+                            (mapcar (lambda (mode-hook) (add-hook mode-hook (lambda () (smart-newline-mode t)))) mode-hooks))
+
+
+
+                          ))
+
+
+
+
 
           ))
 
