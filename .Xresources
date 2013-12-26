@@ -31,7 +31,7 @@ XTerm*cjkWidth:           true
 #define t_green                        #b5bd68
 #define t_aqua                        #8abeb7
 ! #define t_blue                        #81a2be
-#define t_blue                        #95D9FF
+#define t_blue                        #95c7ff
 #define t_purple                #b294bb
 
 
