@@ -71,7 +71,7 @@ myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
 
 -- Width of the window border in pixels.
 --
-myBorderWidth   = 1
+myBorderWidth   = 3
 -- Border colors for unfocused and focused windows, respectively.
 --
 myNormalBorderColor  = "#dddddd"
