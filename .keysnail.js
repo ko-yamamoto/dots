@@ -5,6 +5,8 @@
 // ========================================================================= //
 //{{%PRESERVE%
 
+plugins.options["metaplus.metakeys"] = ["ESC", "`"];
+
 plugins.options["twitter_client.keymap"] = {
     "C-z"   : "prompt-toggle-edit-mode",
     "SPC"   : "prompt-next-page",
@@ -1193,10 +1195,10 @@ key.setViewKey(['C-c', 'p', 'a'], function (ev, arg) {
     ext.exec('ril-append', arg, ev);
 }, 'Pocket - Append current tab', true);
 
-key.setViewKey(['C-c', 'n', 'p'], function (ev, arg) {
+key.setViewKey(['C-c', 'C-n'], function (ev, arg) {
     ext.exec('noscript-show-popup', arg, ev);
 }, 'Noscript - Show popup', true);
 
-key.setViewKey(['C-c', 'n', 's'], function (ev, arg) {
+key.setViewKey(['n'], function (ev, arg) {
     ext.exec('noscript-selector', arg, ev);
 }, 'Noscript - selector', true);
