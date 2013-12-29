@@ -8,11 +8,12 @@ Config { font = "xft:07YasashisaGothic-11"
                     , Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
                     , Run Memory ["-t","Mem: <usedratio>%"] 10
                     , Run Swap [] 10
+                    , Run Battery [] 600
                     , Run Com "uname" ["-s","-r"] "" 36000
     		    , Run Date "%Y/%m/%d %a %H:%M" "date" 10
     		    , Run StdinReader
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ <fc=#89be22>%uname%</fc> | %cpu% | %memory% * %swap% | %eth0% | <fc=#95D9FF>%date%</fc> "
+       , template = "%StdinReader% }{ <fc=#89be22>%uname%</fc> | %cpu% | %battery% | %memory% * %swap% | %eth0% | <fc=#95D9FF>%date%</fc> "
        }
