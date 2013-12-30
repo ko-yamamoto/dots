@@ -10,7 +10,7 @@ Config { font = "xft:07YasashisaGothic-11"
                     , Run Swap [] 10
                     , Run Battery [] 600
                     , Run Com "uname" ["-s","-r"] "" 36000
-    		    , Run Date "%Y/%m/%d %a %H:%M" "date" 10
+    		    , Run Date "%m/%d %a %H:%M" "date" 10
     		    , Run StdinReader
                     ]
        , sepChar = "%"
