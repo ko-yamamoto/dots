@@ -271,7 +271,14 @@
                             (interactive)
                             (setq my/now-point (buffer-file-name))
                             (elscreen-create)
-                            (magit-status (vc-call-backend (vc-responsible-backend my/now-point) 'root my/now-point)))
+                            (magit-status
+                             (vc-call-backend (vc-responsible-backend my/now-point) 'root my/now-point))
+                            (delete-other-windows))
+
+                          (defun my/magit-quit-session ()
+                            (interactive)
+                            (elscreen-kill-screen-and-buffers))
+                          (define-key magit-status-mode-map (kbd "q") 'my/magit-quit-session)
 
                           (global-set-key (kbd "C-c g g") 'magit-status-with-new-elscreen)
                           (global-set-key (kbd "C-c g d") 'magit-diff-working-tree)
