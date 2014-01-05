@@ -91,7 +91,7 @@ myKeys = \conf -> mkKeymap conf $
     , ("M-S-p", spawn "gmrun")
 
     -- close focused window -> Close the focused window
-    , ("M-S-c", kill1)
+    , ("M-S-c", kill)
     , ("M-w", kill1)
     , ("M-q", kill)
 
