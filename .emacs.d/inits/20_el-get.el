@@ -253,7 +253,7 @@
                  :description "GNU Emacs modes for various Git-related files"
                  :type github
                  :pkgname "magit/git-modes")
-          (:name magit
+          (:name magit-github
                  ;; make するとエラーが出るので独自で git pull
                  :type github
                  :url "http://github.com/magit/magit.git"
@@ -283,6 +283,12 @@
                           (global-set-key (kbd "C-c g g") 'magit-status-with-new-elscreen)
                           (global-set-key (kbd "C-c g d") 'magit-diff-working-tree)
                           (global-set-key (kbd "C-c g f") 'magit-file-log)
+
+                          (defun my/git-commit-commit ()
+                            (interactive)
+                            (git-commit-commit)
+                            (elscreen-kill))
+                          (define-key git-commit-mode-map (kbd "C-c C-c") 'my/git-commit-commit)
 
                           ;; 色変更
                           ;; (set-face-foreground 'magit-diff-add "#b9ca4a")
