@@ -6,10 +6,11 @@
 ;; (color-theme-ns)
 ;; (color-theme-tangotango)
 ;; (color-theme-tomorrow-night-bright)
-(color-theme-tomorrow-night)
+;; (color-theme-tomorrow-night)
 ;; (color-theme-tomorrow-night-eighties)
 ;; (color-theme-tomorrow)
 ;; (color-theme-solarized-light)
+(color-theme-hybrid)
 
 ;; ウィンドウを透明化
 (add-to-list 'default-frame-alist '(alpha . (0.8 0.8)))
