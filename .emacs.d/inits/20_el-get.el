@@ -32,6 +32,32 @@
           ;;           (:name org-mode-git
           ;;                  :type git
           ;;                  :url "git://orgmode.org/org-mode.git")
+          (:name org-mode
+                 :website "http://orgmode.org/"
+                 :description "Org-mode is for keeping notes, maintaining ToDo lists, doing project planning, and authoring with a fast and effective plain-text system."
+                 :type git
+                 :url "git://orgmode.org/org-mode.git"
+                 :info "doc"
+                 :build/berkeley-unix `,(mapcar
+                                         (lambda (target)
+                                           (list "gmake" target (concat "EMACS=" (shell-quote-argument el-get-emacs))))
+                                         '("oldorg"))
+                 :build `,(mapcar
+                           (lambda (target)
+                             (list "make" target (concat "EMACS=" (shell-quote-argument el-get-emacs))))
+                           '("oldorg"))
+                 :load-path ("." "lisp" "contrib/lisp"))
+
+          (:name ox-rst-github
+                 :type github
+                 :url "https://github.com/masayuko/ox-rst.git"
+                 :after (progn
+                          (require 'ox-rst)
+                          ))
+
+
+
+
 
           (:name helm-github
                  :type github
