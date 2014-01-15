@@ -148,7 +148,7 @@ vim: ft=xdefaults"
        (elscreen-tab-background-face ((t (:background ,background))))
        (elscreen-tab-control-face ((t (:background ,background :foreground ,foreground))))
        (elscreen-tab-current-screen-face ((t (:background ,background :foreground ,yellow))))
-       (elscreen-tab-other-screen-face ((t (:background ,background :foreground ,background))))
+       (elscreen-tab-other-screen-face ((t (:background ,background :foreground ,comment))))
 
        ;; yalinum
        (yalinum-face ((t (:background ,background :foreground ,comment))))
