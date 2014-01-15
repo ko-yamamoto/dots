@@ -100,16 +100,16 @@ vim: ft=xdefaults"
        (emacs-wiki-verbatim-face ((t (:foreground ,addbg :underline t))))
        ;; font-lock
        (font-lock-builtin-face ((t (:foreground ,lgreen))))
-       ;; (font-lock-comment-face ((t (:foreground ,addbg :italic t))))
        (font-lock-comment-face ((t (:foreground ,comment))))
        (font-lock-doc-face ((t (:foreground ,comment))))
-       (font-lock-constant-face ((t (:foreground ,cyan))))
-       (font-lock-function-name-face ((t (:foreground ,blue))))
-       (font-lock-keyword-face ((t (:foreground ,green))))
-       (font-lock-string-face ((t (:foreground ,lgreen))))
-       (font-lock-type-face ((t (:foreground ,yellow))))
+       (font-lock-constant-face ((t (:foreground ,orange))))
+       (font-lock-function-name-face ((t (:foreground ,red :bold t))))
+       (font-lock-keyword-face ((t (:foreground ,yellow))))
+       (font-lock-string-face ((t (:foreground ,purple))))
+       (font-lock-type-face ((t (:foreground ,green))))
        (font-lock-variable-name-face ((t (:foreground ,blue))))
        (font-lock-warning-face ((t (:foreground ,red :bold t))))
+       (c-annotation-face ((t (:foreground ,red))))
 
        ;; info
        (info-xref ((t (:foreground ,blue :underline t))))
@@ -151,9 +151,9 @@ vim: ft=xdefaults"
        (elscreen-tab-other-screen-face ((t (:background ,background :foreground ,background))))
 
        ;; yalinum
-       (yalinum-face ((t (:background ,background :foreground ,foreground))))
+       (yalinum-face ((t (:background ,background :foreground ,comment))))
        ;; (yalinum-bar-face ((t (:background "#b5bd68" :foreground ,base3))))
-       (yalinum-bar-face ((t (:background ,background :foreground ,foreground))))
+       (yalinum-bar-face ((t (:background ,blue :foreground ,background))))
 
        ;; speebar
        (speedbar-tag-face ((t (:background ,background :foreground ,foreground))))
