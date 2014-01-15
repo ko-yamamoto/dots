@@ -185,3 +185,6 @@ set fish_color_command blue
 set fish_color_error red
 set fish_color_autosuggestion yellow
 set fish_color_param green
+
+# other-writable(777) なものは赤い下線
+set --export LS_COLORS "ow=04;31:tw=04;31"
