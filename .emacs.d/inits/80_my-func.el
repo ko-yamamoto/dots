@@ -117,12 +117,20 @@
         (setq c (aref action 0))
         (cond ((= c ?l)
                (enlarge-window-horizontally dx))
+              ((= c ?L)
+               (enlarge-window-horizontally (* dx 5)))
               ((= c ?h)
                (shrink-window-horizontally dx))
+              ((= c ?H)
+               (shrink-window-horizontally (* dx 5)))
               ((= c ?j)
                (enlarge-window dy))
+              ((= c ?J)
+               (enlarge-window (* dy 5)))
               ((= c ?k)
                (shrink-window dy))
+              ((= c ?K)
+               (shrink-window (* dy 5)))
               ;; otherwise
               (t
                ;;               (let ((last-command-char (aref action 0))
@@ -133,7 +141,7 @@
                (message "Quit")
                (throw 'end-flag t)))))))
 ;; window-resizer C-q C-r (resize)
-(global-set-key "\C-q\C-r" 'my-window-resizer)
+(global-set-key (kbd "C-q C-r") 'my-window-resizer)
 
 
 
