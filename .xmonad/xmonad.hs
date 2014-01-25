@@ -13,6 +13,7 @@ import System.Exit
 
 import XMonad.Hooks.DynamicLog
 import XMonad.Actions.GridSelect
+import XMonad.Actions.CycleWS
 
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.Grid
@@ -102,10 +103,11 @@ myKeys = \conf -> mkKeymap conf $
     , ("M-S-<Space>", setLayout $ XMonad.layoutHook conf)
 
     -- Resize viewed windows to the correct size
-    , ("M-n", refresh)
+    -- , ("M-n", refresh)
 
     -- Move focus to the next window
     , ("M-<Tab>", windows W.focusDown)
+    , ("M-t", windows W.focusDown)
 
     -- Move focus to the next window
     , ("M-j", windows W.focusDown)
@@ -141,7 +143,7 @@ myKeys = \conf -> mkKeymap conf $
     , ("M-S-=", sendMessage MirrorExpand)
 
     -- Push window back into tiling
-    , ("M-t", withFocused $ windows . W.sink)
+    , ("M-S-f", withFocused $ windows . W.sink)
 
     -- Toggle the status bar gap
     -- Use this binding with avoidStruts from Hooks.ManageDocks.
@@ -156,7 +158,9 @@ myKeys = \conf -> mkKeymap conf $
     , ("M-r", spawn "xmonad --recompile; xmonad --restart")
 
     -- GridSelect
-    , ("M-s", goToSelected myGsconfig)
+    , ("M-g", goToSelected myGsconfig)
+    , ("M-s", nextWS)
+    , ("M-S-s", prevWS)
 
     -- @@ Make focused window always visible
     , ("M-v", windows copyToAll)
