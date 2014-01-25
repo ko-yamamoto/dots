@@ -126,15 +126,19 @@ myKeys = \conf -> mkKeymap conf $
     , ("M-S-k", windows W.swapUp    )
 
     -- Shrink the master area
-    , ("M-S-h", sendMessage Shrink)
+    , ("M-h", sendMessage Shrink)
+    , ("M--", sendMessage Shrink)
 
     -- Expand the master area
-    , ("M-S-l", sendMessage Expand)
+    , ("M-l", sendMessage Expand)
+    , ("M-=", sendMessage Expand)
 
     -- Shrink a window vertically
-    , ("M-S-z", sendMessage MirrorShrink)
+    , ("M-z", sendMessage MirrorShrink)
+    , ("M-S--", sendMessage MirrorShrink)
     -- Expand a window vertically
-    , ("M-S-a", sendMessage MirrorExpand)
+    , ("M-a", sendMessage MirrorExpand)
+    , ("M-S-=", sendMessage MirrorExpand)
 
     -- Push window back into tiling
     , ("M-t", withFocused $ windows . W.sink)
