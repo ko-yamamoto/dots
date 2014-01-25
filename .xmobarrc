@@ -3,17 +3,17 @@ Config { font = "xft:07YasashisaGothic-11"
        , fgColor = "grey"
        , position = Top
        , lowerOnStart = True
-       , commands = [ Run Network "eth0" ["-L","0","-H","32","--normal","green","--high","red"] 10
-                    , Run Network "eth1" ["-L","0","-H","32","--normal","green","--high","red"] 10
-                    , Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
-                    , Run Memory ["-t","Mem: <usedratio>%"] 10
-                    , Run Swap [] 10
-                    , Run Battery [] 600
+       , commands = [ Run Network "eth0" ["-L","0","-H","32","--normal","#89be22","--high","#cc6666"] 10
+                    , Run Network "eth1" ["-L","0","-H","32","--normal","#89be22","--high","#cc6666"] 10
+                    , Run Cpu ["-t","CPU: <total>%", "-L","3","-H","50","--normal","#89be22","--high","#cc6666"] 10
+                    , Run Memory ["-t","M: <usedratio>%", "-L", "50", "-H", "70", "-h", "#cc6666", "-l", "#89be22"] 10
+                    , Run Swap ["-t","S: <usedratio>%"] 10
+                    , Run BatteryP ["BAT0"] ["-t", "<acstatus><left>%(<timeleft>)", "-L", "25", "-H", "85", "-l", "#cc6666", "-h", "#89be22", "-p", "3", "--", "-O", "<fc=#89be22>C</fc>", "-o", "<fc=#cc6666>B</fc>"] 100
                     , Run Com "uname" ["-s","-r"] "" 36000
-    		    , Run Date "%m/%d %a %H:%M" "date" 10
-    		    , Run StdinReader
+                    , Run Date "%m/%d %a %H:%M" "date" 10
+         		    , Run StdinReader
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ <fc=#89be22>%uname%</fc> | %cpu% | %battery% | %memory% * %swap% | %eth0% | <fc=#95D9FF>%date%</fc> "
+       , template = "%StdinReader% }{ <fc=#89be22>%uname%</fc> | %cpu% | %memory% %swap% | %eth0% | %battery% | <fc=#95D9FF>%date%</fc> "
        }
