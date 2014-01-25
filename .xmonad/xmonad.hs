@@ -153,7 +153,7 @@ myKeys = \conf -> mkKeymap conf $
     , ("M-S-q", io (exitWith ExitSuccess))
 
     -- Restart xmonad
-    , ("M-q", spawn "xmonad --recompile; xmonad --restart")
+    , ("M-r", spawn "xmonad --recompile; xmonad --restart")
 
     -- GridSelect
     , ("M-s", goToSelected myGsconfig)
