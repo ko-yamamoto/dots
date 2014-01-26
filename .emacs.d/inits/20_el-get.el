@@ -289,7 +289,7 @@
                           (require 'magit)
 
                           ;; magit をバッファ全体に開く
-                          (setq magit-status-buffer-switch-function 'switch-to-buffer)
+                          ;; (setq magit-status-buffer-switch-function 'switch-to-buffer)
 
                           (require 'vc)
                           (defun magit-status-with-new-elscreen ()
