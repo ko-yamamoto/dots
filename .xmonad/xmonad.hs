@@ -33,7 +33,7 @@ import XMonad.Actions.FloatKeys
 
 -- bar
 myBar = "xmobar"
-myPP = xmobarPP { ppCurrent = xmobarColor "#73c3ff" "" . wrap "[" "]"
+myPP = xmobarPP { ppCurrent = xmobarColor "#95D9FF" "" . wrap "[" "]"
                 , ppTitle   = xmobarColor "#ffe174" "" . wrap "> " "" . shorten 50
                 }
 toggleStrutsKey XConfig { XMonad.modMask = modMask } = (modMask, xK_b)
