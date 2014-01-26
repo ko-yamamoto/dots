@@ -23,7 +23,7 @@
 
 ;; カーソル行ハイライト
 ;; (setq hl-line-face 'underline) ; 下線
-;; (global-hl-line-mode)
+(global-hl-line-mode)
 
 
 

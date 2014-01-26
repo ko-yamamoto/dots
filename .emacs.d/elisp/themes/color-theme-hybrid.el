@@ -59,7 +59,7 @@ vim: ft=xdefaults"
        (default ((t (:foreground ,foreground))))
        (escape-glyph-face ((t (:foreground ,red))))
        (fringe ((t (:foreground ,addbg :background ,background))))
-       (highlight ((t (:background ,selection))))
+       (highlight ((t (:background ,line))))
        (match ((t (:background ,background :foreground ,nil))))
        (isearch ((t (:background ,yellow :foreground ,white))))
        (isearch-lazy-highlight-face ((t (:background ,background :foreground ,nil))))
