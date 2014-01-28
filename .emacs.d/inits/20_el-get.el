@@ -362,16 +362,16 @@
 
                           ))
 
-          (:name ac-slime-github
-                 :type github
-                 :url "git://github.com/purcell/ac-slime.git"
-                 :after (progn
-                          (require 'ac-slime)
-                          (add-hook 'slime-mode-hook 'set-up-slime-ac)
-                          (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
-                          (eval-after-load "auto-complete"
-                            '(add-to-list 'ac-modes 'slime-repl-mode))
-                          ))
+          ;; (:name ac-slime-github
+          ;;        :type github
+          ;;        :url "git://github.com/purcell/ac-slime.git"
+          ;;        :after (progn
+          ;;                 (require 'ac-slime)
+          ;;                 (add-hook 'slime-mode-hook 'set-up-slime-ac)
+          ;;                 (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
+          ;;                 (eval-after-load "auto-complete"
+          ;;                   '(add-to-list 'ac-modes 'slime-repl-mode))
+          ;;                 ))
 
           (:name expand-region
                  :type github
@@ -420,13 +420,13 @@
                  :type github
                  :url "git://github.com/hayamiz/twittering-mode.git")
 
-          (:name coffee-mode
-                 :after (progn
-                          (progn
-                            (require 'coffee-mode)
-                            (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
-                            (add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode)))
-                          ))
+          ;; (:name coffee-mode
+          ;;        :after (progn
+          ;;                 (progn
+          ;;                   (require 'coffee-mode)
+          ;;                   (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
+          ;;                   (add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode)))
+          ;;                 ))
 
           (:name scratch-log
                  :type github
@@ -539,13 +539,13 @@
 
                           ))
 
-          (:name android-mode
-                 :type github
-                 :url "git://github.com/remvee/android-mode.git"
-                 :after (progn
-                          (require 'android-mode)
-                          (setq android-mode-sdk-dir "~/android/android-sdk")
-                          ))
+          ;; (:name android-mode
+          ;;        :type github
+          ;;        :url "git://github.com/remvee/android-mode.git"
+          ;;        :after (progn
+          ;;                 (require 'android-mode)
+          ;;                 (setq android-mode-sdk-dir "~/android/android-sdk")
+          ;;                 ))
 
           (:name emacs-yalinum-github
                  :type github
@@ -556,13 +556,13 @@
                           (global-set-key (kbd "M-n") 'yalinum-mode)
                           ))
 
-          (:name back-button.el-github
-                 :type github
-                 :url "git://github.com/rolandwalker/back-button.git"
-                 :after (progn
-                          (require 'back-button)
-                          (back-button-mode 1)
-                          ))
+          ;; (:name back-button.el-github
+          ;;        :type github
+          ;;        :url "git://github.com/rolandwalker/back-button.git"
+          ;;        :after (progn
+          ;;                 (require 'back-button)
+          ;;                 (back-button-mode 1)
+          ;;                 ))
 
           ;; (:name mark-multiple.el-github
           ;;        :type github
@@ -1101,7 +1101,8 @@
 
           (:name mykie-el-github
                  :type github
-                 :url "https://github.com/yuutayamada/mykie-el.git")
+                 :url "https://github.com/yuutayamada/mykie-el.git"
+                 :load-path ("./lisp"))
 
           (:name smart-newline.el-github
                  :type github
@@ -1121,14 +1122,7 @@
                                    python-mode-hook
                                    ruby-mode-hook)))
                             (mapcar (lambda (mode-hook) (add-hook mode-hook (lambda () (smart-newline-mode t)))) mode-hooks))
-
-
-
                           ))
-
-
-
-
 
           ))
 
