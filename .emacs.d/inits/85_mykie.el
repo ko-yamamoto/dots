@@ -4,7 +4,7 @@
 
 (mykie:global-set-key "C-a"
   :default     my-toggle-beginning-of-line-and-sentence
-nnnnnnnnnnnn  :C-u         mark-whole-buffer)
+  :C-u         mark-whole-buffer)
 
 (mykie:global-set-key "C-j"
   :default  (progn
