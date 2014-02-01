@@ -186,7 +186,7 @@ myKeys = \conf -> mkKeymap conf $
     [(c ++ m ++ k, withFocused $ f (d x))
          | (d, k) <- zip [\a->(a, 0), \a->(0, a), \a->(0-a, 0), \a->(0, 0-a)] ["<Right>", "<Down>", "<Left>", "<Up>"]
          , (f, m) <- zip [keysMoveWindow, \d -> keysResizeWindow d (0, 0)] ["M-", "M-S-"]
-         , (c, x) <- zip ["", "C-"] [20, 2]
+         , (c, x) <- zip ["", "C-"] [60, 20]
     ]
 
 ------------------------------------------------------------------------
