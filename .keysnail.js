@@ -162,6 +162,7 @@ plugins.options["tanything_opt.keymap"] = {
 plugins.options["kkk.sites"] = ["^https://([0-9a-zA-Z]+\\.)?github\\.com/",
                                 "^https://([0-9a-zA-Z]+\\.)?facebook\\.com/",
                                 "^https://([0-9a-zA-Z]+\\.)?google\\.co\\.jp/",
+                                "^https://([0-9a-zA-Z]+\\.)?google\\.com/",
                                 "^https://([0-9a-zA-Z]+\\.)?duckduckgo\\.com/",
                                 "^https://([0-9a-zA-Z]+\\.)?twitter\\.com/",
                                 "^http://([0-9a-zA-Z]+\\.)?tumblr\\.com/"];
