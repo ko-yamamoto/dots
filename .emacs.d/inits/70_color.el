@@ -15,10 +15,10 @@
 
 ;; after emacs24
 (setq custom-theme-directory "~/.emacs.d/elisp/themes/")
-(load-theme 'mccarthy t)
+(load-theme 'ns-milk t)
 
 ;; ウィンドウを透明化
-(add-to-list 'default-frame-alist '(alpha . (0.8 0.8)))
+(add-to-list 'default-frame-alist '(alpha . (0.9 0.9)))
 
 ;; キーワードのカラー表示を有効化
 (global-font-lock-mode t)

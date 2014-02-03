@@ -11,16 +11,13 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-;; ---------------------------
-;;
-;; McCarthy: A light color theme
-;;
-;; ----------------------------
+;; nishisasa-theme
+
 
 (unless (>= 24 emacs-major-version)
   (error "requires Emacs 24 or later."))
 
-(deftheme mccarthy "A dark color theme for Emacs")
+(deftheme ns-milk)
 
 (let ((*background*         "#f6f7f8")
       (*comments*           "#919398")
@@ -70,7 +67,7 @@
       )
 
   (custom-theme-set-faces
-   'mccarthy
+   'ns-milk
 
    `(bold ((t (:bold t))))
    `(button ((t (:foreground, *keywords* :underline t))))
@@ -243,8 +240,4 @@
   (add-to-list 'custom-theme-load-path
                (file-name-as-directory (file-name-directory load-file-name))))
 
-(provide-theme 'mccarthy)
-
-;; Local Variables:
-;; no-byte-compile: t
-;; End:
+(provide-theme 'ns-milk)
