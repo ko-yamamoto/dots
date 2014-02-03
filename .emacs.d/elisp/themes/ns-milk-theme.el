@@ -21,22 +21,22 @@
 
 (let ((*background*         "#f6f7f8")
       (*comments*           "#919398")
-      (*constant*           "#7498b7")
+      (*constant*           "#8abeb7")
       (*current-line*       "#e8eaed")
       (*cursor-underscore*  "#0e1f5b")
       (*keywords*           "#cc6666")
       (*line-number*        "#EEE")
-      (*method-declaration* "#a7b14d")
+      (*method-declaration* "#b294bb")
       (*mode-line-bg*       "#555")
       (*mode-inactive-bg*   "#999")
       (*mode-line-fg*       "#EEE")
       (*normal*             "#191919")
       (*number*             "#5b93fc")
-      (*operators* "#85678F")
+      (*operators*          "#a7b14d")
       (*warning*            "#3b5998")
       (*regexp*             "#ffe174")
-      (*string*             "#363636")
-      (*variable*           "#D14")
+      (*string*             "#7b7b7b")
+      (*variable*           "#7498b7")
       (*visual-selection*   "#CCC")
 
       (red         "#cc6666")
@@ -86,7 +86,7 @@
    `(font-lock-comment-delimiter-face ((t (:foreground, *comments*))))
    `(font-lock-comment-face ((t (:foreground, *comments*))))
    `(font-lock-constant-face ((t (:foreground, *constant*))))
-   `(font-lock-doc-face ((t (:foreground, *string*))))
+   `(font-lock-doc-face ((t (:foreground, *comments*))))
    `(font-lock-doc-string-face ((t (:foreground, *string*))))
    `(font-lock-function-name-face ((t (:foreground, *method-declaration*))))
    `(font-lock-keyword-face ((t (:foreground, *keywords* :bold t))))
@@ -98,7 +98,7 @@
    `(font-lock-regexp-grouping-construct ((t (:foreground, *regexp*))))
    `(font-lock-string-face ((t (:foreground, *string*))))
    `(font-lock-type-face ((t (:foreground, *operators*))))
-   `(font-lock-variable-name-face ((t (:foreground, *variable*))))
+   `(font-lock-variable-name-face ((t (:foreground, *variable* :bold t))))
    `(font-lock-warning-face ((t (:foreground, *warning*))))
 
    ;; GUI
@@ -136,17 +136,12 @@
 
    ;; auto-highlight-symbol
    `(ahs-face ((t (:background ,green :foreground ,*background*))))
-   `(ahs-definition-face ((t (:background ,yellow :foreground ,*background*))))
+   `(ahs-definition-face ((t (:background ,yellow :foreground ,*normal*))))
    `(ahs-plugin-defalt-face ((t (:background nil :foreground nil))))
 
    ;; moccur
    `(moccur-face ((t (:background ,*background*))))
    `(moccur-current-line-face ((t (:background ,green))))
-
-   ;; auto-highlight-symbol
-   `(ahs-face ((t (:background ,*background*))))
-   `(ahs-definition-face ((t (:background ,yellow :foreground ,black))))
-   `(ahs-plugin-defalt-face ((t (:background nil :foreground nil))))
 
    ;;emacs-anzu
    `(anzu-mode-line ((t (:foreground ,blue :bold t))))
@@ -183,6 +178,7 @@
    `(helm-ff-symlink ((t (:foreground ,*comments*))))
    `(helm-buffer-size ((t (:foreground ,*comments*))))
    `(helm-buffer-process ((t (:foreground ,*comments*))))
+   `(helm-match ((t (:background ,*regexp*))))
 
    ;; elscreen
    `(elscreen-tab-background-face ((t (:background ,*background*))))
