@@ -299,7 +299,8 @@
 (defun my-comment-line ()
   (my-select-current-line)
   ;; (comment-dwim nil)
-  (comment-or-uncomment-region (region-beginning) (region-end)))
+  (comment-or-uncomment-region (region-beginning) (region-end))
+  (next-line))
 
 (defun my-comment-dwim (arg)
   "from comment-dwim"
