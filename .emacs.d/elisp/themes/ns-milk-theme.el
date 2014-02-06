@@ -41,7 +41,7 @@
 
       (red         "#cc6666")
       (orange      "#de935f")
-      (yellow      "#ffd028")
+      (yellow      "#ffe174")
       (green       "#a7b14d")
       (lgreen      "#e1e7cb")
       (aqua        "#8abeb7")
@@ -206,6 +206,7 @@
 
    ;; dired
    `(dired-flagged ((t (:background ,*background* :foreground ,orange))))
+   `(dired-directory ((t (:background ,*background* :foreground ,*variable*))))
 
    ;; slime
    `(slime-repl-inputed-output-face ((t (:foreground ,red))))
@@ -227,6 +228,12 @@
    `(ac-selection-face ((t (:background ,blue :foreground ,*normal* :bold t))))
 
    `(sh-heredoc ((t (:foreground ,yellow))))
+
+
+   `(py-builtins-face ((t (:foreground ,green))))
+
+   `(web-mode-html-tag-face ((t (:foreground ,*method-declaration*))))
+   `(web-mode-html-attr-name-face ((t (:foreground ,*operators*))))
 
 
    ))
