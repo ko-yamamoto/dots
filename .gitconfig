@@ -28,7 +28,7 @@
 
 [alias]
   s = status
-  ss = status -s
+  ss = status -s -b
   sh = show
   so = remote show origin
   # pull/push/fetch
@@ -77,7 +77,7 @@
   ranking = shortlog -s -n --no-merges
   # logをtree表示
   log-graph = log --graph --date=short --pretty=format:'%Cgreen%h %cd %Cblue%cn %Creset%s'
-  lg = log --graph --pretty='format:%ad %C(yellow)%h%Cblue%d%Creset %s %C(green bold)%an%Creset'
+  lg = log --graph --pretty='format:  %C(yellow)%<(15)%cr%Creset%C(blue)%h%Creset  %C(green)%<(15)%an%Creset %s %Cred%d%Creset'
   log-all = log --graph --all --color --pretty='%x09%h %cn%x09%s %Cred%d%Creset'
   # reset
   rhs = reset --soft HEAD
