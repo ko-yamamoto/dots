@@ -125,9 +125,10 @@
 
                           (defun helm-my ()
                             (interactive)
-                            (helm-other-buffer '(helm-c-source-elscreen
-                                                 ;; helm-c-source-buffers-list-R
-                                                 helm-c-source-buffers-list
+                            (helm-other-buffer '(
+                                                 ;; helm-c-source-elscreen
+                                                 helm-c-source-buffers-list-R
+                                                 ;; helm-c-source-buffers-list
                                                  helm-c-recentf-file-source
                                                  helm-c-recentf-directory-source
                                                  helm-c-source-buffer-not-found)
