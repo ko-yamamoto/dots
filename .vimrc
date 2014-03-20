@@ -14,16 +14,17 @@ endif
 NeoBundle 'git://github.com/Shougo/neobundle.vim.git'
 
 " プラグインのプラグイン
-NeoBundle 'git://github.com/Shougo/vimproc.git'
+NeoBundle 'git://github.com/Shougo/vimproc.vim.git'
 NeoBundle 'git://github.com/mattn/webapi-vim.git'
 
 " ファイルセレクタ・移動系
 " unite.vim
 NeoBundle 'git://github.com/Shougo/unite.vim.git'
+NeoBundle 'git://github.com/Shougo/neomru.vim.git'
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'git://github.com/ujihisa/unite-font.git'
 NeoBundle 'git://github.com/Shougo/unite-outline.git'
-NeoBundle 'git://github.com/tsukkee/unite-tag.git'
+" NeoBundle 'git://github.com/tsukkee/unite-tag.git'
 NeoBundle 'git://github.com/thinca/vim-unite-history.git'
 
 NeoBundle 'git://github.com/Shougo/unite-ssh.git'
@@ -34,32 +35,32 @@ NeoBundle 'git://github.com/ujihisa/vimshell-ssh.git'
 NeoBundle 'git://github.com/Shougo/vimfiler.git'
 
 " 入力/開発補助
-NeoBundle 'git://github.com/Shougo/neocomplcache.git'
-NeoBundle 'git://github.com/thinca/vim-quickrun.git'
+NeoBundle 'git://github.com/Shougo/neocomplcache.vim.git'
+" NeoBundle 'git://github.com/thinca/vim-quickrun.git'
 NeoBundle 'git://github.com/scrooloose/nerdcommenter.git'
 NeoBundle 'git://github.com/thinca/vim-poslist.git'
 NeoBundle 'git://github.com/tpope/vim-surround.git'
-NeoBundle 'git://github.com/tyru/vim-altercmd.git'
+" NeoBundle 'git://github.com/tyru/vim-altercmd.git'
 NeoBundle 'git://github.com/kana/vim-operator-user.git'
 NeoBundle 'git://github.com/kana/vim-operator-replace.git'
-NeoBundle 'git://github.com/kana/vim-smartword.git'
-NeoBundle 'git://github.com/vim-scripts/occur.vim.git'
-NeoBundle 'git://github.com/vim-scripts/Align.git'
+" NeoBundle 'git://github.com/vim-scripts/occur.vim.git'
+" NeoBundle 'git://github.com/vim-scripts/Align.git'
 NeoBundle 'git://github.com/tpope/vim-fugitive.git'
 NeoBundle 'git://github.com/kana/vim-smartword.git'
 NeoBundle 'git://github.com/kana/vim-smartchr.git'
 NeoBundle 'git://github.com/kana/vim-arpeggio.git'
-NeoBundle 'git://github.com/vimtaku/vim-mlh.git'
+" NeoBundle 'git://github.com/vimtaku/vim-mlh.git'
 " NeoBundle 'git@github.com:nishikawasasaki/taglist.vim.git'
-NeoBundle 'git://github.com/majutsushi/tagbar.git'
+" NeoBundle 'git://github.com/majutsushi/tagbar.git'
+NeoBundle 'https://github.com/t9md/vim-textmanip.git'
 
 
 " 見た目に影響
 NeoBundle 'git://github.com/vim-scripts/smoothPageScroll.vim.git'
 NeoBundle 'git://github.com/thinca/vim-fontzoom.git'
-NeoBundle 'git://github.com/nathanaelkane/vim-indent-guides.git'
+" NeoBundle 'git://github.com/nathanaelkane/vim-indent-guides.git'
 " NeoBundle 'fholgado/minibufexpl.vim'
-NeoBundle 'git://github.com/godlygeek/csapprox.git'
+" NeoBundle 'git://github.com/godlygeek/csapprox.git'
 NeoBundle 'git://github.com/kien/rainbow_parentheses.vim.git'
 NeoBundle 'git://github.com/Lokaltog/vim-powerline.git'
 NeoBundle 'https://github.com/rgarver/Kwbd.vim.git' " 指定ウィンドウのバッファを、 ウィンドウのレイアウトを崩す事無く閉じる
@@ -73,13 +74,13 @@ NeoBundle 'git://github.com/jnurmine/Zenburn.git'
 NeoBundle 'git://github.com/derekwyatt/vim-scala.git'
 NeoBundle 'git://github.com/vim-scripts/VST.git'
 NeoBundle 'git://github.com/vim-scripts/JSON.vim.git'
-" NeoBundle 'VimClojure'
+NeoBundle 'VimClojure'
 " NeoBundle 'Processing'
 NeoBundle 'kchmck/vim-coffee-script'
-NeoBundle 'git://github.com/vim-ruby/vim-ruby.git'
+" NeoBundle 'git://github.com/vim-ruby/vim-ruby.git'
 NeoBundle 'git://github.com/rosstimson/scala-vim-support.git'
-NeoBundle 'git://github.com/wlangstroth/vim-haskell.git'
-NeoBundle 'git://github.com/ujihisa/neco-ghc.git'
+" NeoBundle 'git://github.com/wlangstroth/vim-haskell.git'
+" NeoBundle 'git://github.com/ujihisa/neco-ghc.git'
 
 " NeoBundle 'git://github.com/tyru/eskk.vim.git'
 
@@ -89,18 +90,23 @@ NeoBundle 'git://github.com/vim-scripts/gnupg.vim.git'
 
 
 " その他
-NeoBundle 'git://github.com/tyru/open-browser.vim.git'
-NeoBundle 'git://github.com/vim-scripts/TwitVim.git'
-NeoBundle 'fuenor/qfixhowm'
-NeoBundle 'git://github.com/mattn/learn-vimscript.git'
-NeoBundle 'git://github.com/mattn/lisper-vim'
+
+" NeoBundle 'https://github.com/jceb/vim-orgmode.git'
+NeoBundle 'https://github.com/hsitz/VimOrganizer.git'
+au! BufRead,BufWrite,BufWritePost,BufNewFile *.org 
+au BufEnter *.org            call org#SetOrgFileType()
+" NeoBundle 'git://github.com/tyru/open-browser.vim.git'
+" NeoBundle 'git://github.com/vim-scripts/TwitVim.git'
+" NeoBundle 'fuenor/qfixhowm'
+" NeoBundle 'git://github.com/mattn/learn-vimscript.git'
+" NeoBundle 'git://github.com/mattn/lisper-vim'
 " NeoBundle 'git://github.com/choplin/unite-vim_hacks.git'
 " NeoBundle 'git://github.com/basyura/twibill.vim.git'
 " NeoBundle 'git://github.com/basyura/unite-twitter.git'
 " NeoBundle 'git://github.com/mattn/hahhah-vim.git'
-NeoBundle 'git://github.com/basyura/twibill.vim.git'
-NeoBundle 'git://github.com/basyura/TweetVim.git'
-NeoBundle 'git://github.com/pasela/unite-webcolorname.git'
+" NeoBundle 'git://github.com/basyura/twibill.vim.git'
+" NeoBundle 'git://github.com/basyura/TweetVim.git'
+" NeoBundle 'git://github.com/pasela/unite-webcolorname.git'
 
 
 
@@ -364,7 +370,7 @@ hi PmenuSbar ctermbg=0 ctermfg=9
 "背景色
 set background=dark
 "カラースキーマを設定→gvimrcへ
-colorscheme Tomorrow-Night-Bright
+" colorscheme Tomorrow-Night-Bright
 
 if has("unix")
   " unix(linux)の場合256色モードでカラースキーマ指定
@@ -448,58 +454,50 @@ let g:acp_enableAtStartup = 0
 let g:neocomplcache_enable_at_startup = 1
 " Use smartcase.
 let g:neocomplcache_enable_smart_case = 1
-" Use camel case completion.
-let g:neocomplcache_enable_camel_case_completion = 1
-" Use underbar completion.
-let g:neocomplcache_enable_underbar_completion = 1
 " Set minimum syntax keyword length.
 let g:neocomplcache_min_syntax_length = 3
 let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
 
+" Enable heavy features.
+" Use camel case completion.
+"let g:neocomplcache_enable_camel_case_completion = 1
+" Use underbar completion.
+"let g:neocomplcache_enable_underbar_completion = 1
+
 " Define dictionary.
 let g:neocomplcache_dictionary_filetype_lists = {
-\ 'default' : '',
-\ 'vimshell' : $HOME.'/.vimshell_hist',
-\ 'ruby' : $HOME.'/.vim/dict/ruby.dict',
-\ 'scala' : $HOME . '/.vim/dict/scala.dict'
-\ }
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions'
+        \ }
 
 " Define keyword.
 if !exists('g:neocomplcache_keyword_patterns')
-let g:neocomplcache_keyword_patterns = {}
+    let g:neocomplcache_keyword_patterns = {}
 endif
 let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
 
 " Plugin key-mappings.
-" imap <C-k> <Plug>(neocomplcache_snippets_expand)
-" smap <C-k> <Plug>(neocomplcache_snippets_expand)
-" inoremap <expr><C-g> neocomplcache#undo_completion()
-inoremap <expr><C-l> neocomplcache#complete_common_string()
-
-" SuperTab like snippets behavior.
-"imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><C-g>     neocomplcache#undo_completion()
+inoremap <expr><C-l>     neocomplcache#complete_common_string()
 
 " Recommended key-mappings.
 " <CR>: close popup and save indent.
-" inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
-inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return neocomplcache#smart_close_popup() . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+endfunction
 " <TAB>: completion.
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " <C-h>, <BS>: close popup and delete backword char.
 inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y> neocomplcache#close_popup()
-inoremap <expr><C-e> neocomplcache#cancel_popup()
-
-" AutoComplPop like behavior.
-"let g:neocomplcache_enable_auto_select = 1
-
-" Shell like behavior(not recommended).
-"set completeopt+=longest
-"let g:neocomplcache_enable_auto_select = 1
-"let g:neocomplcache_disable_auto_complete = 1
-"inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
-"inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
+inoremap <expr><C-y>  neocomplcache#close_popup()
+inoremap <expr><C-e>  neocomplcache#cancel_popup()
+" Close popup by <Space>.
+"inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
 
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -507,18 +505,18 @@ autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-" autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 
 " Enable heavy omni completion.
-" if !exists('g:neocomplcache_omni_patterns')
-" let g:neocomplcache_omni_patterns = {}
-" endif
-" let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-" "autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-" let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-" let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
-" let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+if !exists('g:neocomplcache_omni_patterns')
+  let g:neocomplcache_omni_patterns = {}
+endif
+let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
+" For perlomni.vim setting.
+" https://github.com/c9s/perlomni.vim
+let g:neocomplcache_omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
 
 "------------------------------------
@@ -550,18 +548,18 @@ vmap <Leader>cb <Plug>NERDCommenterMinimal
 "------------------------------------
 " pydiction用設定
 "------------------------------------
-filetype plugin on
-autocmd FileType python let g:pydiction_location = '~/vim/pydiction/complete-dict'
-autocmd FileType python setl autoindent
-autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-autocmd FileType python setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
-
-"Ctr+Pで編集中のpython実行
-function! s:ExecPy()
-    exe "!" . &ft . " %"
-        :endfunction
-            command! Exec call <SID>ExecPy()
-                autocmd FileType python map <silent> <C-p> :call <SID>ExecPy()<CR>
+" filetype plugin on
+" autocmd FileType python let g:pydiction_location = '~/vim/pydiction/complete-dict'
+" autocmd FileType python setl autoindent
+" autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+" autocmd FileType python setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
+" 
+" "Ctr+Pで編集中のpython実行
+" function! s:ExecPy()
+"     exe "!" . &ft . " %"
+"         :endfunction
+"             command! Exec call <SID>ExecPy()
+"                 autocmd FileType python map <silent> <C-p> :call <SID>ExecPy()<CR>
 
 
 "------------------------------------
@@ -750,10 +748,10 @@ nnoremap <Leader>ga :Gwrite<CR>
 "------------------------------------
 " textmanip.vim
 "------------------------------------
-vmap <M-j> <Plug>(Textmanip.move_selection_down)
-vmap <M-h> <Plug>(Textmanip.move_selection_left)
-vmap <M-k> <Plug>(Textmanip.move_selection_up)
-vmap <M-l> <Plug>(Textmanip.move_selection_right)
+vmap <C-j> <Plug>(Textmanip.move_selection_down)
+vmap <C-h> <Plug>(Textmanip.move_selection_left)
+vmap <C-k> <Plug>(Textmanip.move_selection_up)
+vmap <C-l> <Plug>(Textmanip.move_selection_right)
 " 選択したテキストの移動
 nmap <M-d> <Plug>(Textmanip.duplicate_selection_n)
 vmap <M-d> <Plug>(Textmanip.duplicate_selection_v)
@@ -762,9 +760,9 @@ vmap <M-d> <Plug>(Textmanip.duplicate_selection_v)
 "------------------------------------
 " open-browser.vim
 "------------------------------------
-let g:netrw_nogx = 1 " disable netrw's gx mapping.
-nmap gx <Plug>(openbrowser-smart-search)
-vmap gx <Plug>(openbrowser-smart-search)
+" let g:netrw_nogx = 1 " disable netrw's gx mapping.
+" nmap gx <Plug>(openbrowser-smart-search)
+" vmap gx <Plug>(openbrowser-smart-search)
 
 
 "------------------------------------
@@ -791,48 +789,10 @@ let g:vimfiler_marked_file_icon = '*'
 
 
 "------------------------------------
-" QfixHowm
-"------------------------------------
-"Howmコマンドキーマップ
-let QFixHowm_Key = ' '
-"Howmコマンドの2ストローク目キーマップ
-let QFixHowm_KeyB = ','
-"howmのファイルタイプ
-let QFixHowm_FileType = 'qfix_memo'
-"メニュー画面のプレビューを常に表示
-let QFixHowm_MenuPreview = 1
-" メニュー画面の分割方法指定  垂直分割して左側
-let QFixHowm_MenuCmd = 'vertical split'
-"メニュー画面の予定表示日数
-let QFixHowm_ShowScheduleMenu = 20
-"メニュー画面の予定・TODO表示に使われる識別子
-let QFixHowm_ListReminder_MenuExt = '[-@+!~.]'
-"メニュー画面で表示する最近のメモの数
-let QFixHowm_MenuRecent = 50
-"メニュー画面で表示するランダムメモの数
-let QFixHowm_RandomWalkColumns = 10
-" 保存位置
-let howm_dir             = '~/howm'
-
-"------------------------------------
 " QfixGrep
 "------------------------------------
 " 検索ディレクトリはカレントディレクトリを基点にする
 let MyGrep_CurrentDirMode = 0
-
-"------------------------------------
-" indent guides
-"------------------------------------
-" vim起動時に1だと有効
-let g:indent_guides_enable_on_vim_startup = 0
-" インデント強調表示の濃度
-let g:indent_guides_color_change_percent = 10
-" インデント強調表示の幅
-let g:indent_guides_guide_size = 1
-" 有効とするインデントの幅
-let g:indent_guides_start_level = 2
-
-
 
 
 "------------------------------------
@@ -871,10 +831,6 @@ Arpeggionmap jk <Esc>
 Arpeggioimap jk <Esc>
 Arpeggiocmap jk <Esc>
 Arpeggiovmap jk <Esc>
-Arpeggionmap fj <Esc>
-Arpeggioimap fj <Esc>
-Arpeggiocmap fj <Esc>
-Arpeggiovmap fj <Esc>
 
 
 "------------------------------------
@@ -908,59 +864,6 @@ au Syntax * RainbowParenthesesLoadRound " ()
 au Syntax * RainbowParenthesesLoadBraces " {}
 " au Syntax * RainbowParenthesesLoadChevrons " <>
 
-
-
-"------------------------------------
-" taglist.vim
-"------------------------------------
-" ctags の位置を指定
-if has("mac")
-    " Tlist_Ctags_Cmd = "/usr/local/bin/ctags"
-endif
-if has("win32")
-    " Tlist_Ctags_Cmd = ""
-endif
-
-" nnoremap <silent> <leader>o :TlistToggle<CR>
-
-
-"------------------------------------
-" tagbar
-"------------------------------------
-" ctags の位置を指定
-if has("mac")
-	let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
-endif
-if has("win32")
-	let g:tagbar_ctags_bin = 'C:\my\programs\vim73-kaoriya-win64-20110728\vim73-kaoriya-win64\ctags.exe'
-endif
-
-" Scala 用定義
-let g:tagbar_type_scala = {
-    \ 'ctagstype' : 'Scala',
-    \ 'kinds'     : [
-        \ 'p:packages:1',
-        \ 'V:values',
-        \ 'v:variables',
-        \ 'T:types',
-        \ 't:traits',
-        \ 'o:objects',
-        \ 'a:aclasses',
-        \ 'c:classes',
-        \ 'r:cclasses',
-        \ 'm:methods'
-    \ ]
-\ }
-
-nnoremap <silent> <leader>o :TagbarToggle<CR>
-
-
-"------------------------------------
-" eskk.vim
-"------------------------------------
-" let g:eskk#directory = "~/.eskk"
-" let g:eskk#dictionary = { 'path': "~/.skk-jisyo", 'sorted': 0, 'encoding': 'utf-8', }
-" let g:eskk#large_dictionary = { 'path': "~/.eskk/SKK-JISYO.L", 'sorted': 1, 'encoding': 'euc-jp', }
 
 
 "------------------------------------
@@ -1100,13 +1003,6 @@ inoremap <expr> <Leader>dt strftime('%H:%M:%S')
 "vnoremap " "zdi^V"<C-R>z^V"<ESC>
 "vnoremap ' "zdi'<C-R>z'<ESC>
 
-
-
-" CTRL-hjklでウィンドウ移動
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-nnoremap <C-h> <C-w>h
 
 if has("win32")
   " altにキーを割り当てるためメニューバーを消す
