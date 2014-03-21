@@ -44,9 +44,9 @@
 ;; 罫線を簡単に引くモード
 ;; srefをarefに置き換えて動かすための設定(ソースを修正したためコメントアウト)
 ;; (unless (fboundp 'sref) (defalias 'sref 'aref))
-(if window-system
-    (autoload 'keisen-mode "keisen-mouse" "MULE 版罫線モード + マウス" t)
-  (autoload 'keisen-mode "keisen-mule" "MULE 版罫線モード" t))
+;; (if window-system
+;;     (autoload 'keisen-mode "keisen-mouse" "MULE 版罫線モード + マウス" t)
+;;   (autoload 'keisen-mode "keisen-mule" "MULE 版罫線モード" t))
 
 
 
@@ -55,11 +55,11 @@
 ;; cyg-mount
 ;;====================
 ;; Cygwin のドライブ・プレフィックスを有効に
-(when is_win
-  (setq cygwin-mount-cygwin-bin-directory "c:/cygwin/bin")
-  (require 'cygwin-mount)
-  (cygwin-mount-activate)
-  )
+;; (when is_win
+;;   (setq cygwin-mount-cygwin-bin-directory "c:/cygwin/bin")
+;;   (require 'cygwin-mount)
+;;   (cygwin-mount-activate)
+;;   )
 
 
 ;;====================
@@ -86,47 +86,47 @@
 ;;====================
 ;; gtags
 ;;====================
-(when (locate-library "gtags")
-  (require 'gtags)
-  ; (require 'anything-gtags)
-  ; (global-set-key (kbd "C-q w") 'anything-gtags-select)
-  )
+;; (when (locate-library "gtags")
+;;   (require 'gtags)
+;;   ; (require 'anything-gtags)
+;;   ; (global-set-key (kbd "C-q w") 'anything-gtags-select)
+;;   )
 
-(global-set-key "\M-t" 'gtags-find-tag)     ;関数の定義元へ
-(global-set-key "\M-r" 'gtags-find-rtag)    ;関数の参照先へ
-(global-set-key "\M-s" 'gtags-find-symbol)  ;変数の定義元/参照先へ
-(global-set-key "\M-p" 'gtags-find-pattern)
-;;(global-set-key "\M-f" 'gtags-find-file)    ;ファイルにジャンプ
-(global-set-key [?\C-,] 'gtags-pop-stack)   ;前のバッファに戻る
+;; (global-set-key "\M-t" 'gtags-find-tag)     ;関数の定義元へ
+;; (global-set-key "\M-r" 'gtags-find-rtag)    ;関数の参照先へ
+;; (global-set-key "\M-s" 'gtags-find-symbol)  ;変数の定義元/参照先へ
+;; (global-set-key "\M-p" 'gtags-find-pattern)
+;; ;;(global-set-key "\M-f" 'gtags-find-file)    ;ファイルにジャンプ
+;; (global-set-key [?\C-,] 'gtags-pop-stack)   ;前のバッファに戻る
 
-(setq gtags-mode-hook
-      '(lambda ()
-         (setq gtags-select-buffer-single t)
-         ))
+;; (setq gtags-mode-hook
+;;       '(lambda ()
+;;          (setq gtags-select-buffer-single t)
+;;          ))
 
 
 ;;====================
 ;; smartchr.el
 ;;====================
-(require 'smartchr)
-(global-set-key (kbd ">")
-                (smartchr '(">" ">>" "-> " "=> " "-> '`!!''" "-> \"`!!'\"" "=> '`!!''" "=> \"`!!'\"" "")))
-(global-set-key (kbd "\"") (smartchr '("\"" "\"`!!'\"" "'" "'`!!''" "")))
-;; (global-set-key (kbd "(") (smartchr '("(" "(`!!')" "((" "")))
-(global-set-key (kbd "G") (smartchr '("G" "ありがとうございます" "`!!'ありがとうございます" "")))
+;; (require 'smartchr)
+;; (global-set-key (kbd ">")
+;;                 (smartchr '(">" ">>" "-> " "=> " "-> '`!!''" "-> \"`!!'\"" "=> '`!!''" "=> \"`!!'\"" "")))
+;; (global-set-key (kbd "\"") (smartchr '("\"" "\"`!!'\"" "'" "'`!!''" "")))
+;; ;; (global-set-key (kbd "(") (smartchr '("(" "(`!!')" "((" "")))
+;; (global-set-key (kbd "G") (smartchr '("G" "ありがとうございます" "`!!'ありがとうございます" "")))
 
 
 
 ;;====================
 ;; popup-select-window.el
 ;;====================
-(require 'popup)
-(require 'popup-select-window)
-(global-set-key "\C-xo" 'popup-select-window)
-(key-chord-define-global "gh" 'popup-select-window)
-(key-chord-define-global "qw" 'popup-select-window)
-;; モードラインハイライトをオフ
-(setq popup-select-window-use-modeline-highlight nil)
+;; (require 'popup)
+;; (require 'popup-select-window)
+;; (global-set-key "\C-xo" 'popup-select-window)
+;; (key-chord-define-global "gh" 'popup-select-window)
+;; (key-chord-define-global "qw" 'popup-select-window)
+;; ;; モードラインハイライトをオフ
+;; (setq popup-select-window-use-modeline-highlight nil)
 
 
 

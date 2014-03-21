@@ -29,9 +29,6 @@
           ;;                 (setq eshell-path-env (getenv "PATH"))
           ;;                 ))
 
-          ;;           (:name org-mode-git
-          ;;                  :type git
-          ;;                  :url "git://orgmode.org/org-mode.git")
           (:name org-mode
                  :website "http://orgmode.org/"
                  :description "Org-mode is for keeping notes, maintaining ToDo lists, doing project planning, and authoring with a fast and effective plain-text system."
@@ -54,10 +51,6 @@
                  :after (progn
                           (require 'ox-rst)
                           ))
-
-
-
-
 
           (:name helm-github
                  :type github
@@ -189,40 +182,40 @@
 
                           ))
 
-          (:name helm-c-yasnippet-github
-                 :type github
-                 :url "git://github.com/emacs-helm/helm-c-yasnippet.git"
-                 ) ;; use this elisp in yasnippet's :after
+          ;; (:name helm-c-yasnippet-github
+          ;;        :type github
+          ;;        :url "git://github.com/emacs-helm/helm-c-yasnippet.git"
+          ;;        ) ;; use this elisp in yasnippet's :after
 
-          (:name yasnippet
-                 :website "https://github.com/capitaomorte/yasnippet.git"
-                 :description "YASnippet is a template system for Emacs."
-                 :type github
-                 :pkgname "capitaomorte/yasnippet"
-                 :features "yasnippet"
-                 :compile "yasnippet.el"
-                 :submodule nil
-                 :after (progn
-                          (require 'yasnippet)
-                          (setq yas-snippet-dirs
-                                '("~/.emacs.d/mysnippets"
-                                  "~/.emacs.d/el-get/yasnippet/snippets"
-                                  ))
-                          (yas-global-mode 1)
+          ;; (:name yasnippet
+          ;;        :website "https://github.com/capitaomorte/yasnippet.git"
+          ;;        :description "YASnippet is a template system for Emacs."
+          ;;        :type github
+          ;;        :pkgname "capitaomorte/yasnippet"
+          ;;        :features "yasnippet"
+          ;;        :compile "yasnippet.el"
+          ;;        :submodule nil
+          ;;        :after (progn
+          ;;                 (require 'yasnippet)
+          ;;                 (setq yas-snippet-dirs
+          ;;                       '("~/.emacs.d/mysnippets"
+          ;;                         "~/.emacs.d/el-get/yasnippet/snippets"
+          ;;                         ))
+          ;;                 (yas-global-mode 1)
 
-                          (custom-set-variables '(yas-trigger-key "SPC"))
+          ;;                 (custom-set-variables '(yas-trigger-key "SPC"))
 
-                          ;; 既存スニペットを挿入する
-                          (define-key yas-minor-mode-map (kbd "C-c y i") 'yas-insert-snippet)
-                          ;; 新規スニペットを作成するバッファを用意する
-                          (define-key yas-minor-mode-map (kbd "C-c y n") 'yas-new-snippet)
-                          ;; 既存スニペットを閲覧・編集する
-                          (define-key yas-minor-mode-map (kbd "C-c y v") 'yas-visit-snippet-file)
+          ;;                 ;; 既存スニペットを挿入する
+          ;;                 (define-key yas-minor-mode-map (kbd "C-c y i") 'yas-insert-snippet)
+          ;;                 ;; 新規スニペットを作成するバッファを用意する
+          ;;                 (define-key yas-minor-mode-map (kbd "C-c y n") 'yas-new-snippet)
+          ;;                 ;; 既存スニペットを閲覧・編集する
+          ;;                 (define-key yas-minor-mode-map (kbd "C-c y v") 'yas-visit-snippet-file)
 
-                          (require 'helm-c-yasnippet)
-                          (setq helm-c-yas-space-match-any-greedy t) ;[default: nil]
-                          (global-set-key (kbd "C-c y y") 'helm-c-yas-complete)
-                          ))
+          ;;                 (require 'helm-c-yasnippet)
+          ;;                 (setq helm-c-yas-space-match-any-greedy t) ;[default: nil]
+          ;;                 (global-set-key (kbd "C-c y y") 'helm-c-yas-complete)
+          ;;                 ))
 
 
           (:name popwin
@@ -1105,11 +1098,6 @@
 
                           ))
 
-
-          (:name mykie-el-github
-                 :type github
-                 :url "https://github.com/yuutayamada/mykie-el.git"
-                 :load-path ("./lisp"))
 
           (:name smart-newline.el-github
                  :type github
