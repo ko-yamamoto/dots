@@ -285,9 +285,7 @@
       (beginning-of-line)
     (beginning-of-line-text))
   )
-;; (global-set-key (kbd "C-a") 'my-toggle-beginning-of-line-and-sentence)
-;; -> el-get の mykie から利用
-
+(global-set-key (kbd "C-a") 'my-toggle-beginning-of-line-and-sentence)
 
 
 (defun my-select-current-line ()
