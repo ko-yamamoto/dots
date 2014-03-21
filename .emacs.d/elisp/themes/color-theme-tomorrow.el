@@ -149,6 +149,8 @@ theme will be used."
        (mode-line ((t (:background ,"#555555" :foreground ,yellow))))
        (mode-line-inactive ((t (:background ,"#555555" :foreground ,foreground))))
        (region ((t (:background ,selection))))
+       (highlight ((t (:background ,current-line))))
+       (hi-line ((t (:background ,current-line))))
 
        ;; Font-lock stuff
        (font-lock-comment-face ((t (:foreground ,comment))))
@@ -163,7 +165,7 @@ theme will be used."
 
        ;; hl-line-mode
        ;; (hl-line ((t (:background ,current-line))))
-       (hl-line ((t (:background ,"grey15"))))
+       ;; (hl-line ((t (:background ,"grey15"))))
 
        ;; linum-mode
        (linum ((t (:background ,current-line :foreground ,foreground))))
