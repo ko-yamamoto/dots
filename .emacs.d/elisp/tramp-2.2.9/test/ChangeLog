@@ -1,0 +1,96 @@
+2014-02-16  Michael Albinus  <michael.albinus@gmx.de>
+
+	Version 2.2.9 released.
+
+	* tramp-tests.el (password-cache-expiry): Set to nil.
+	(tramp-test28-shell-command): Make a while loop when waiting for
+	process exit.
+
+2014-02-11  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-tests.el (top): Require `vc', `vc-bzr', `vc-git' and
+	`vc-hg'.  Declare `tramp-find-executable' and `tramp-get-remote-path'.
+	(tramp-test29-vc-registered): New test.
+	(tramp-test30-utf8): Rename from `tramp-test29-utf8'.
+
+2014-02-07  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-tests.el (tramp-test26-process-file): Improve test.
+	(tramp-test27-start-file-process): Use "_p" as argument of lambda.
+	(tramp-test28-shell-command): Improve `shell-command' test.  Add
+	`async-shell-command' tests.
+
+2013-11-27  Michael Albinus  <michael.albinus@gmx.de>
+
+	* README:
+	* tramp-tests.el (tramp-test-temporary-file-directory): Use
+	$REMOTE_TEMPORARY_FILE_DIRECTORY.
+	(tramp-read-passwd): Check $REMOTE_ALLOW_PASSWORD.
+
+2013-11-16  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-tests.el (tramp-test07-file-exists-p)
+	(tramp-test08-file-local-copy)
+	(tramp-test09-insert-file-contents, tramp-test10-write-region)
+	(tramp-test11-copy-file, tramp-test12-rename-file)
+	(tramp-test13-make-directory, tramp-test14-delete-directory)
+	(tramp-test15-copy-directory, tramp-test16-directory-files)
+	(tramp-test17-insert-directory, tramp-test18-file-attributes)
+	(tramp-test19-directory-files-and-attributes)
+	(tramp-test20-file-modes, tramp-test21-file-links)
+	(tramp-test22-file-times, tramp-test23-visited-file-modtime)
+	(tramp-test24-file-name-completion, tramp-test25-load)
+	(tramp-test26-process-file, tramp-test27-start-file-process)
+	(tramp-test28-shell-command): Cleanup connection initially.
+
+2013-11-15  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-tests.el (tramp-test15-copy-directory)
+	(tramp-test16-directory-files, tramp-test17-insert-directory)
+	(tramp-test18-file-attributes)
+	(tramp-test19-directory-files-and-attributes)
+	(tramp-test20-file-modes, tramp-test21-file-links)
+	(tramp-test22-file-times, tramp-test23-visited-file-modtime)
+	(tramp-test24-file-name-completion, tramp-test25-load)
+	(tramp-test26-process-file, tramp-test27-start-file-process):
+	(tramp-test28-shell-command): Protect unwindforms with
+	`ignore-errors'.
+	(tramp-test29-utf8): New test.
+
+2013-11-13  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-tests.el (tramp-test02-file-name-dissect)
+	(tramp-test03-file-name-defaults, tramp-test21-file-links): Add tests.
+	(tramp-test26-process-file, tramp-test28-shell-command): Ensure,
+	that the directory is not empty when calling "ls".
+
+2013-11-11  Michael Albinus  <michael.albinus@gmx.de>
+
+	* .gitignore: New file.
+
+	* Makefile.in (EM): Add "-L ../lisp".
+	(%.elc): Remove current directory.
+
+	* README: Explain environment variables.
+
+	* tramp-tests.el (tramp-test-temporary-file-directory): Check
+	$TRAMP_TEST_TEMPORARY_FILE_DIRECTORY.
+	(tramp-read-passwd): Check $TRAMP_TEST_ALLOW_PASSWORD.
+	(tramp-test09-insert-file-contents, tramp-test10-write-region):
+	(tramp-test26-process-file): Add tests.
+	(tramp-test11-copy-file): Remove debug message.
+	(tramp-test20-file-modes): Special case, if user is "root".
+
+2013-11-08  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-tests.el: Add `tramp-own-remote-path' to
+	`tramp-remote-path' when running on hydra.
+	(tramp-test07-file-exists-p): Remove instrumentation code.
+	(tramp-test26-process-file): Don't use "/bin/true" and
+	"/bin/false", these paths do not exist on hydra.
+
+2013-11-07  Michael Albinus  <michael.albinus@gmx.de>
+
+	* Makefile.in:
+	* README:
+	* tramp-tests.el: New files.
