@@ -30,9 +30,9 @@ NeoBundle 'git://github.com/thinca/vim-unite-history.git'
 NeoBundle 'git://github.com/Shougo/unite-ssh.git'
 
 " shell/filer
-NeoBundle 'git://github.com/Shougo/vimshell.git'
+NeoBundle 'git://github.com/Shougo/vimshell.vim.git'
 NeoBundle 'git://github.com/ujihisa/vimshell-ssh.git'
-NeoBundle 'git://github.com/Shougo/vimfiler.git'
+NeoBundle 'git://github.com/Shougo/vimfiler.vim.git'
 
 " 入力/開発補助
 NeoBundle 'git://github.com/Shougo/neocomplcache.vim.git'
@@ -97,7 +97,6 @@ au! BufRead,BufWrite,BufWritePost,BufNewFile *.org
 au BufEnter *.org            call org#SetOrgFileType()
 " NeoBundle 'git://github.com/tyru/open-browser.vim.git'
 " NeoBundle 'git://github.com/vim-scripts/TwitVim.git'
-" NeoBundle 'fuenor/qfixhowm'
 " NeoBundle 'git://github.com/mattn/learn-vimscript.git'
 " NeoBundle 'git://github.com/mattn/lisper-vim'
 " NeoBundle 'git://github.com/choplin/unite-vim_hacks.git'
@@ -107,10 +106,6 @@ au BufEnter *.org            call org#SetOrgFileType()
 " NeoBundle 'git://github.com/basyura/twibill.vim.git'
 " NeoBundle 'git://github.com/basyura/TweetVim.git'
 " NeoBundle 'git://github.com/pasela/unite-webcolorname.git'
-
-
-
-
 
 filetype plugin on
 filetype indent on
@@ -128,15 +123,15 @@ let mapleader = " "
 filetype plugin indent on
 
 " エンコーディング関連 Encoding
-set ffs=unix,dos,mac " 改行文字
-set fileencodings=utf-8,cp932,euc-jp,iso-2022-jp,ucs-2,latin1
-set encoding=utf-8 " デフォルトエンコーディング
-if has("win32")
-    set termencoding=cp932
-else
-    set termencoding=utf-8
-endif
-
+" set ffs=unix,dos,mac " 改行文字
+" set fileencodings=utf-8,cp932,euc-jp,iso-2022-jp,ucs-2,latin1
+" set encoding=utf-8 " デフォルトエンコーディング
+" if has("win32")
+"     set termencoding=cp932
+" else
+"     set termencoding=utf-8
+" endif
+" 
 " 文字コード関連
 " from ずんWiki http://www.kawaz.jp/pukiwiki/?vim#content_1_7
 " 文字コードの自動認識
@@ -234,16 +229,18 @@ inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
 set virtualedit+=block
 
 " 常に開いているファイルのディレクトリをカレントリディレクトリにする
-au   BufEnter *   execute ":lcd " . expand("%:p:h")
+" au   BufEnter *   execute ":lcd " . expand("%:p:h")
 
 " ％拡張のmatchhit.vimを利用
 :source $VIMRUNTIME/macros/matchit.vim
 
-" tags
-" if has('path_extra')
-    " set tags=**;
-" endif
+tags
+if has('path_extra')
+  " set tags=**;
+endif
 set tags+=tags;
+
+
 
 "-------------------------------------------------------------------------------
 " 表示設定
@@ -404,10 +401,6 @@ set smartindent
 "クリップボードをOSと連携
 set clipboard=unnamed
 
-" ========== grep設定 ==========
-" vimgrep時に自動でQuickFixを開く設定
-au QuickfixCmdPost vimgrep cw
-
 " ========== Align設定 ==========
 " Alignを日本語環境で使用するための設定
 let g:Align_xstrlen = 3
@@ -427,8 +420,12 @@ set ambiwidth=double
 if has('mac')
   " Macではデフォルトの'iskeyword'がcp932に対応しきれていないので修正
   set iskeyword=@,48-57,_,128-167,224-235
+  set shell=/bin/sh
 endif
 
+if has('unix')
+  set shell=/bin/sh
+endif
 
 "-------------------------------------------------------------------------------
 " 検索設定 Search
@@ -582,18 +579,14 @@ nnoremap [unite]u  :<C-u>Unite<Space>
 
 " nnoremap <silent> <C-u>  :<C-u>Unite -buffer-name=buffer file_mru<CR>
 nnoremap <silent> <C-u>  :<C-u>Unite buffer tab file_mru directory_mru<CR>
+nnoremap <silent> [unite];  :<C-u>Unite buffer tab file_mru directory_mru<CR>
 inoremap <silent> <C-u>  <Esc>:<C-u>Unite -buffer-name=buffer tab file_mru directory_mru<CR>
 
 " nnoremap <silent> [unite]f  :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 " nnoremap <silent> <C-x><C-f>  :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 
-nnoremap <silent> [unite]b  :<C-u>Unite -auto-preview buffer<CR>
-nnoremap <silent> <C-x><C-b>  :<C-u>Unite -auto-preview buffer<CR>
-
-nnoremap <silent> [unite]m  :<C-u>Unite file_mru<CR>
-
-" nnoremap <silent> [unite]g  :<C-u>Unite -auto-preview grep<CR>
-nnoremap <silent> [unite]g :Unite grep:%:-iHRn<CR>
+nnoremap <silent> [unite]g  :<C-u>Unite -auto-preview grep<CR>
+" nnoremap <silent> [unite]g :Unite grep:%:-iHRn<CR>
 
 " レジスタ一覧
 "nnoremap <silent> <C-p> :<C-u>Unite -buffer-name=register register<CR>
@@ -606,7 +599,7 @@ xnoremap <silent> <C-p> dh:<C-u>Unite -buffer-name=register history/yank<CR>
 " nnoremap <silent> <C-p> :<C-u>Unite -auto-preview poslist<CR>
 
 " アウトライン
-nnoremap <silent> <C-o> :<C-u>Unite -auto-preview outline<CR>
+nnoremap <silent> [unite]o :<C-u>Unite outline<CR>
 
 autocmd FileType unite call s:unite_my_settings()
 
@@ -620,7 +613,7 @@ function! s:unite_my_settings()"{{{
 endfunction"}}}
 
 " unite で neocomplcache の補完
-imap <C-k>  <Plug>(neocomplcache_start_unite_complete)
+imap <C-l>  <Plug>(neocomplcache_start_unite_complete)
 
 " mru の非対象となるパターンを変更("mnt"を除外)
 call unite#util#set_default('g:unite_source_file_mru_ignore_pattern',
@@ -637,25 +630,6 @@ nmap s <Plug>Ysurround
 nmap ss <Plug>Yssurround
 
 
-
-
-
-"------------------------------------
-" MiniBufExplorer
-"------------------------------------
-"set minibfexp
-" let g:miniBufExplMapWindowNavVim=1 "hjklで移動
-" let g:miniBufExplSplitBelow=0  " Put new window above
-" let g:miniBufExplMapWindowNavArrows=1
-" let g:miniBufExplMapCTabSwitchBufs=1
-" let g:miniBufExplModSelTarget=1
-" let g:miniBufExplSplitToEdge=1
-" let g:miniBufExplMaxSize = 10
-
-":TmでMiniBufExplorerの表示トグル
-" command! Mt :TMiniBufExplorer
-
-
 "------------------------------------
 " scala
 "------------------------------------
@@ -664,8 +638,6 @@ hi scalaNew gui=underline
 hi scalaMethodCall gui=italic
 hi scalaValName gui=underline
 hi scalaVarName gui=underline
-
-
 
 
 "------------------------------------
@@ -708,10 +680,6 @@ let g:vimshell_right_prompt = 'getcwd()'
   " set nowrap
 " endfunction
 
-
-" if has('win32')
-  " let twitvim_proxy = "192.168.1.8:8080"
-" endif
 
 "------------------------------------
 " kana-vim-operator-replace
@@ -775,7 +743,6 @@ vmap <M-d> <Plug>(Textmanip.duplicate_selection_v)
 " 編集時はタブで開く
 " let g:vimfiler_edit_action = 'tabopen'
 
-
 " nnoremap <silent> <C-x><C-j>  :VimFilerSimple<CR>
 nnoremap <silent> <C-x><C-j>  :VimFilerTab<CR>
 nnoremap <Leader>f  :VimFilerTab<CR>
@@ -789,20 +756,12 @@ let g:vimfiler_marked_file_icon = '*'
 
 
 "------------------------------------
-" QfixGrep
-"------------------------------------
-" 検索ディレクトリはカレントディレクトリを基点にする
-let MyGrep_CurrentDirMode = 0
-
-
-"------------------------------------
 " occur.vim
 "------------------------------------
 " nmap  <Leader>oc :Occur<CR>
 " nmap  <Leader>mo :Moccur<CR>
 " nmap  <Leader>* :StarOccur<CR>
 " デフォルト定義済み
-
 
 
 "------------------------------------
@@ -900,7 +859,7 @@ let neco_dic.tweetvim_say = $HOME . '/.tweetvim/screen_name'
 "-------------------------------------------------------------------------------
 
 " キーを2つ以上にマッピングする際の待ち時間(ms)
-set timeoutlen=500
+set timeoutlen=250
 
 "Escの2回押しでハイライト消去
 nmap <ESC><ESC> :nohlsearch<CR><ESC>
