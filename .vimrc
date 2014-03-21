@@ -1,5 +1,9 @@
 " ########## vimrc ##########
 "
+" gocode
+set rtp+=$GOROOT/misc/vim
+"golint
+exe "set rtp+=" . globpath($GOPATH, "src/github.com/golang/lint/misc/vim")
 "------------------------------------
 " neobundle
 "------------------------------------
@@ -36,6 +40,10 @@ NeoBundle 'git://github.com/Shougo/vimfiler.vim.git'
 
 " 入力/開発補助
 NeoBundle 'git://github.com/Shougo/neocomplcache.vim.git'
+NeoBundle 'mattn/googlesuggest-complete-vim'
+" set completefunc=googlesuggest#Complete
+NeoBundle 'sousu/neco-googlesuggest'
+
 " NeoBundle 'git://github.com/thinca/vim-quickrun.git'
 NeoBundle 'git://github.com/scrooloose/nerdcommenter.git'
 NeoBundle 'git://github.com/thinca/vim-poslist.git'
@@ -81,6 +89,7 @@ NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'git://github.com/rosstimson/scala-vim-support.git'
 " NeoBundle 'git://github.com/wlangstroth/vim-haskell.git'
 " NeoBundle 'git://github.com/ujihisa/neco-ghc.git'
+NeoBundle 'Blackrush/vim-gocode'
 
 " NeoBundle 'git://github.com/tyru/eskk.vim.git'
 
@@ -95,7 +104,7 @@ NeoBundle 'git://github.com/vim-scripts/gnupg.vim.git'
 NeoBundle 'https://github.com/hsitz/VimOrganizer.git'
 au! BufRead,BufWrite,BufWritePost,BufNewFile *.org 
 au BufEnter *.org            call org#SetOrgFileType()
-" NeoBundle 'git://github.com/tyru/open-browser.vim.git'
+
 " NeoBundle 'git://github.com/vim-scripts/TwitVim.git'
 " NeoBundle 'git://github.com/mattn/learn-vimscript.git'
 " NeoBundle 'git://github.com/mattn/lisper-vim'
@@ -103,8 +112,9 @@ au BufEnter *.org            call org#SetOrgFileType()
 " NeoBundle 'git://github.com/basyura/twibill.vim.git'
 " NeoBundle 'git://github.com/basyura/unite-twitter.git'
 " NeoBundle 'git://github.com/mattn/hahhah-vim.git'
-" NeoBundle 'git://github.com/basyura/twibill.vim.git'
-" NeoBundle 'git://github.com/basyura/TweetVim.git'
+NeoBundle 'git://github.com/tyru/open-browser.vim.git'
+NeoBundle 'git://github.com/basyura/twibill.vim.git'
+NeoBundle 'git://github.com/basyura/TweetVim.git'
 " NeoBundle 'git://github.com/pasela/unite-webcolorname.git'
 
 filetype plugin on
@@ -262,36 +272,36 @@ set statusline=%n\:\ %y\[%{(&fenc!=''?&fenc:&enc).'\:'.&ff.'\]'}%m\ %F%r%=<%l/%L
 " set statusline=%n\:\ %y\[%{(&fenc!=''?&fenc:&enc).'\:'.&ff.'\]'}%m\ %F%r%=<%l/%L:%p%%>%=%{g:HahHah()}
 " ステータスライン下の行数
 set cmdheight=1
-" 一定時間放置するとカーソル行ハイライト
-augroup vimrc-auto-cursorline
-  autocmd!
-  autocmd CursorMoved,CursorMovedI * call s:auto_cursorline('CursorMoved')
-  autocmd CursorHold,CursorHoldI * call s:auto_cursorline('CursorHold')
-  autocmd WinEnter * call s:auto_cursorline('WinEnter')
-  autocmd WinLeave * call s:auto_cursorline('WinLeave')
-
-  let s:cursorline_lock = 0
-  function! s:auto_cursorline(event)
-    if a:event ==# 'WinEnter'
-      setlocal cursorline
-      let s:cursorline_lock = 2
-    elseif a:event ==# 'WinLeave'
-      setlocal nocursorline
-    elseif a:event ==# 'CursorMoved'
-      if s:cursorline_lock
-        if 1 < s:cursorline_lock
-          let s:cursorline_lock = 1
-        else
-          setlocal nocursorline
-          let s:cursorline_lock = 0
-        endif
-      endif
-    elseif a:event ==# 'CursorHold'
-      setlocal cursorline
-      let s:cursorline_lock = 1
-    endif
-  endfunction
-augroup END
+" " 一定時間放置するとカーソル行ハイライト
+" augroup vimrc-auto-cursorline
+"   autocmd!
+"   autocmd CursorMoved,CursorMovedI * call s:auto_cursorline('CursorMoved')
+"   autocmd CursorHold,CursorHoldI * call s:auto_cursorline('CursorHold')
+"   autocmd WinEnter * call s:auto_cursorline('WinEnter')
+"   autocmd WinLeave * call s:auto_cursorline('WinLeave')
+" 
+"   let s:cursorline_lock = 0
+"   function! s:auto_cursorline(event)
+"     if a:event ==# 'WinEnter'
+"       setlocal cursorline
+"       let s:cursorline_lock = 2
+"     elseif a:event ==# 'WinLeave'
+"       setlocal nocursorline
+"     elseif a:event ==# 'CursorMoved'
+"       if s:cursorline_lock
+"         if 1 < s:cursorline_lock
+"           let s:cursorline_lock = 1
+"         else
+"           setlocal nocursorline
+"           let s:cursorline_lock = 0
+"         endif
+"       endif
+"     elseif a:event ==# 'CursorHold'
+"       setlocal cursorline
+"       let s:cursorline_lock = 1
+"     endif
+"   endfunction
+" augroup END
 
 " コマンドのタブ補完モード
 set wildmenu
@@ -515,6 +525,7 @@ let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 " https://github.com/c9s/perlomni.vim
 let g:neocomplcache_omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
+let g:neocomplcache_force_overwrite_completefunc = 1
 
 "------------------------------------
 " Nerd_commenter設定
@@ -585,27 +596,24 @@ inoremap <silent> <C-u>  <Esc>:<C-u>Unite -buffer-name=buffer tab file_mru direc
 " nnoremap <silent> [unite]f  :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 " nnoremap <silent> <C-x><C-f>  :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 
-nnoremap <silent> [unite]g  :<C-u>Unite -auto-preview grep<CR>
-" nnoremap <silent> [unite]g :Unite grep:%:-iHRn<CR>
+nnoremap <silent> [unite]ga  :<C-u>Unite -auto-preview grep<CR>
+nnoremap <silent> [unite]gg :Unite grep:%:-iHRn<CR>
 
-" レジスタ一覧
-"nnoremap <silent> <C-p> :<C-u>Unite -buffer-name=register register<CR>
 "history/yankの有効化
 let g:unite_source_history_yank_enable = 1
 nnoremap <silent> <C-p> :<C-u>Unite history/yank<CR>
 xnoremap <silent> <C-p> dh:<C-u>Unite -buffer-name=register history/yank<CR>
 
-" 位置一覧
-" nnoremap <silent> <C-p> :<C-u>Unite -auto-preview poslist<CR>
 
 " アウトライン
 nnoremap <silent> [unite]o :<C-u>Unite outline<CR>
 
 autocmd FileType unite call s:unite_my_settings()
-
 function! s:unite_my_settings()"{{{
   imap <buffer> jj      <Plug>(unite_insert_leave)
   nnoremap <silent><buffer> <C-k> :<C-u>call unite#mappings#do_action('preview')<CR>
+  nnoremap <silent><buffer> f :<C-u>call unite#mappings#do_action('tabvimfiler')<CR>
+  nnoremap <silent><buffer> s :<C-u>call unite#mappings#do_action('tabvimshell')<CR>
   imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
   " unite開始時にinsertモードにするか 0ならしない
   let g:unite_enable_start_insert = 0
@@ -831,6 +839,7 @@ au Syntax * RainbowParenthesesLoadBraces " {}
 " 取得件数
 let g:tweetvim_tweet_per_page = 50
 
+nnoremap <Leader>tt :TweetVimHomeTimeline<CR>
 " 発言用バッファを表示する
 nnoremap <Leader>tp :TweetVimSay<CR>
 " タイムライン選択用の Unite を起動する
@@ -850,8 +859,10 @@ let neco_dic = g:neocomplcache_dictionary_filetype_lists
 let neco_dic.tweetvim_say = $HOME . '/.tweetvim/screen_name'
 
 " アイコン表示 (ImageMagick が必要)
-" let g:tweetvim_display_icon = 1
 
+" if !has("win32")
+let g:tweetvim_display_icon = 1
+" endif
 
 
 "-------------------------------------------------------------------------------

@@ -32,8 +32,9 @@ set novisualbell
 " colorscheme murphyNS
 " colorscheme wombat-noItalic
 " colorscheme Tomorrow-Night-Bright
-set background=light
-colorscheme solarized
+colorscheme Tomorrow-Night
+" set background=light
+" colorscheme solarized
 
 
 
