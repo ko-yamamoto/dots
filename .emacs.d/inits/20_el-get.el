@@ -253,7 +253,7 @@
                                           (sldb-mode :stick t)
                                           (slime-repl-mode)
                                           (slime-connection-list-mode)
-                                          (direx:direx-mode :position left :width 25 :dedicated t)
+                                          (direx:direx-mode :position left :width 0.3)
                                           ("*auto-async-byte-compile*" :height 20)
                                           ("*Shell Command Output*" :height 25)
                                           ("*svn output*" :stick t :position right)
@@ -466,16 +466,38 @@
           ;;                 (global-set-key (kbd "C-q g") 'e2wm:dp-magit)
           ;;                 ))
 
-          ;; (:name direx-el
-          ;;        :type git
-          ;;        :url "git://github.com/m2ym/direx-el.git"
-          ;;        :after (progn
-          ;;                 (require 'direx)
-          ;;                 (global-set-key (kbd "C-x j") 'direx:jump-to-directory-other-window)
-          ;;                 ;; (setq direx:leaf-icon "  "
-          ;;                 ;;       direx:open-icon "+ "
-          ;;                 ;;       direx:closed-icon "> ")
-          ;;                 ))
+          (:name direx-el
+                 :type git
+                 :url "git://github.com/m2ym/direx-el.git"
+                 :after (progn
+                          (require 'direx)
+                          (require 'direx-project)
+
+                          (defun my/dired-jump ()
+                            (interactive)
+                            (cond (current-prefix-arg
+                                   (dired-jump))
+                                  ((not (one-window-p))
+                                   (or (ignore-errors
+                                         (direx-project:jump-to-project-root) t)
+                                       (direx:jump-to-directory)))
+                                  (t
+                                   (or (ignore-errors
+                                         (direx-project:jump-to-project-root-other-window) t)
+                                       (direx:jump-to-directory-other-window)))))
+
+                          (global-set-key (kbd "C-x C-j") 'my/dired-jump)
+
+                          (defun my/direx-up-dir ()
+                            (interactive)
+                            (direx:find-directory-reuse "../"))
+                          (add-hook 'direx:direx-mode-hook (lambda ()
+                                                             (local-set-key (kbd "<left>") 'my/direx-up-dir)
+                                                             (local-set-key (kbd "q") 'delete-window)))
+                          ;; (setq direx:leaf-icon "  "
+                          ;;       direx:open-icon "+ "
+                          ;;       direx:closed-icon "> ")
+                          ))
 
           ;; (:name anything-replace-string
           ;;        :type git
