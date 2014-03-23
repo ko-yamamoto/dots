@@ -1,12 +1,11 @@
 ;;====================
 ;; smooth-scroll
 ;;====================
-(require 'smooth-scroll)
-(smooth-scroll-mode t)
-
-;; smooth scroll of the buffer
-(set-variable 'smooth-scroll/vscroll-step-size 3)
-(set-variable 'smooth-scroll/hscroll-step-size 3)
+;; (require 'smooth-scroll)
+;; (smooth-scroll-mode t)
+;; ;; smooth scroll of the buffer
+;; (set-variable 'smooth-scroll/vscroll-step-size 3)
+;; (set-variable 'smooth-scroll/hscroll-step-size 3)
 
 
 ;;====================
@@ -73,7 +72,7 @@
                 ;;("\\.howm$" . rst-mode)
                 ("\\.rest$" . rst-mode)) auto-mode-alist))
 ;; 背景が黒い場合はこうしないと見出しが見づらい
-(setq frame-background-mode 'dark)
+;; (setq frame-background-mode 'dark)
 ;; インデントをスペースで
 (add-hook 'rst-mode-hook
           '(lambda()
@@ -133,7 +132,7 @@
 ;;====================
 ;; htmlize.el
 ;;====================
-(load "htmlize.el")
+;; (load "htmlize.el")
 
 
 ;;====================
@@ -166,11 +165,11 @@
 ;;====================
 ;; emacs-historyf
 ;;====================
-(require 'historyf)
-(define-key global-map (kbd "C-q l") 'historyf-forward)
-(define-key global-map (kbd "C-q h") 'historyf-back)
-(key-chord-define-global "bn" 'historyf-forward)
-(key-chord-define-global "bp" 'historyf-back)
+;; (require 'historyf)
+;; (define-key global-map (kbd "C-q l") 'historyf-forward)
+;; (define-key global-map (kbd "C-q h") 'historyf-back)
+;; (key-chord-define-global "bn" 'historyf-forward)
+;; (key-chord-define-global "bp" 'historyf-back)
 
 
 
@@ -192,9 +191,9 @@
 ;; point-undo
 (require 'point-undo)
 (define-key global-map (kbd "<f7>") 'point-undo)
-(define-key global-map (kbd "C-q b") 'point-undo)
+;; (define-key global-map (kbd "C-q b") 'point-undo)
 (define-key global-map (kbd "S-<f7>") 'point-redo)
-(define-key global-map (kbd "C-q f") 'point-redo)
+;; (define-key global-map (kbd "C-q f") 'point-redo)
 
 
 ;; 最後の変更箇所にジャンプ
