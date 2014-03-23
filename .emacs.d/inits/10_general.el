@@ -406,3 +406,6 @@
     (forward-char)
     (fixup-whitespace)
     (backward-char)))
+
+;; ウィンドウと同時にバッファも閉じる
+(substitute-key-definition 'kill-buffer 'kill-buffer-and-its-windows global-map)
