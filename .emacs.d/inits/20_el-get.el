@@ -45,12 +45,12 @@
                            '("oldorg"))
                  :load-path ("." "lisp" "contrib/lisp"))
 
-          (:name ox-rst-github
-                 :type github
-                 :url "https://github.com/masayuko/ox-rst.git"
-                 :after (progn
-                          (require 'ox-rst)
-                          ))
+          ;; (:name ox-rst-github
+          ;;        :type github
+          ;;        :url "https://github.com/masayuko/ox-rst.git"
+          ;;        :after (progn
+          ;;                 (require 'ox-rst)
+          ;;                 ))
 
           (:name helm-github
                  :type github
@@ -1022,13 +1022,13 @@
 
           ;;                 ))
 
-          (:name Highlight-Indentation-for-Emacs-github
-                 :type github
-                 :url "https://github.com/antonj/Highlight-Indentation-for-Emacs.git"
-                 :after (progn
-                          (require 'highlight-indentation)
-                          (global-set-key (kbd "C-c i n") 'highlight-indentation-mode)
-                          ))
+          ;; (:name Highlight-Indentation-for-Emacs-github
+          ;;        :type github
+          ;;        :url "https://github.com/antonj/Highlight-Indentation-for-Emacs.git"
+          ;;        :after (progn
+          ;;                 (require 'highlight-indentation)
+          ;;                 (global-set-key (kbd "C-c i n") 'highlight-indentation-mode)
+          ;;                 ))
 
           (:name emacs-anzu-github
                  :type github

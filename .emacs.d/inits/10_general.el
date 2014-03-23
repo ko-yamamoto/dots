@@ -54,8 +54,8 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 
-;; 現在位置のファイルを開く
-(ffap-bindings)
+;; 現在カーソル位置のファイルパス/URLを開く
+;; (ffap-bindings)
 
 
 ;; タブは4
@@ -108,7 +108,7 @@
 ;;クライアントを終了するとき終了するかどうかを聞かない
 (remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)
 
-(global-set-key (kbd "C-x c") 'server-edit)
+;; (global-set-key (kbd "C-x c") 'server-edit)
 
 
 ;; 1画面戻る(M-v)を"Ctr-Shift-v"にも
@@ -130,49 +130,49 @@
 
 
 ;; ビューモード
-(setq view-read-only t)
-(defvar pager-keybind
-  `( ;; vi-like
-    ("h" . backward-word)
-    ("l" . forward-word)
-    ("j" . next-line)
-    ("k" . previous-line)
-    (";" . gene-word)
-    ("b" . scroll-down)
-    (" " . scroll-up)
-    ;; w3m-like
-    ("m" . gene-word)
-    ("i" . win-delete-current-window-and-squeeze)
-    ("w" . forward-word)
-    ("e" . backward-word)
-    ("(" . point-undo)
-    (")" . point-redo)
-    ("J" . ,(lambda () (interactive) (scroll-up 1)))
-    ("K" . ,(lambda () (interactive) (scroll-down 1)))
-    ;; bm-easy
-    ("." . bm-toggle)
-    ("[" . bm-previous)
-    ("]" . bm-next)
-    ;; langhelp-like
-    ("c" . scroll-other-window-down)
-    ("v" . scroll-other-window)
-    ))
+;; (setq view-read-only t)
+;; (defvar pager-keybind
+;;   `( ;; vi-like
+;;     ("h" . backward-word)
+;;     ("l" . forward-word)
+;;     ("j" . next-line)
+;;     ("k" . previous-line)
+;;     (";" . gene-word)
+;;     ("b" . scroll-down)
+;;     (" " . scroll-up)
+;;     ;; w3m-like
+;;     ("m" . gene-word)
+;;     ("i" . win-delete-current-window-and-squeeze)
+;;     ("w" . forward-word)
+;;     ("e" . backward-word)
+;;     ("(" . point-undo)
+;;     (")" . point-redo)
+;;     ("J" . ,(lambda () (interactive) (scroll-up 1)))
+;;     ("K" . ,(lambda () (interactive) (scroll-down 1)))
+;;     ;; bm-easy
+;;     ("." . bm-toggle)
+;;     ("[" . bm-previous)
+;;     ("]" . bm-next)
+;;     ;; langhelp-like
+;;     ("c" . scroll-other-window-down)
+;;     ("v" . scroll-other-window)
+;;     ))
 
-(defun define-many-keys (keymap key-table &optional includes)
-  (let (key cmd)
-    (dolist (key-cmd key-table)
-      (setq key (car key-cmd)
-            cmd (cdr key-cmd))
-      (if (or (not includes) (member key includes))
-          (define-key keymap key cmd))))
-  keymap)
+;; (defun define-many-keys (keymap key-table &optional includes)
+;;   (let (key cmd)
+;;     (dolist (key-cmd key-table)
+;;       (setq key (car key-cmd)
+;;             cmd (cdr key-cmd))
+;;       (if (or (not includes) (member key includes))
+;;           (define-key keymap key cmd))))
+;;   keymap)
 
 
-(defun view-mode-hook0 ()
-  (define-many-keys view-mode-map pager-keybind)
-  (hl-line-mode 1)
-  (define-key view-mode-map " " 'scroll-up))
-(add-hook 'view-mode-hook 'view-mode-hook0)
+;; (defun view-mode-hook0 ()
+;;   (define-many-keys view-mode-map pager-keybind)
+;;   (hl-line-mode 1)
+;;   (define-key view-mode-map " " 'scroll-up))
+;; (add-hook 'view-mode-hook 'view-mode-hook0)
 
 
 ;; 書き込み不能なファイルはview-modeで開くように
@@ -198,7 +198,7 @@
 
 
 ;; M-Yで1行コピー
-(global-set-key (kbd "M-Y") 'copy-line)
+;; (global-set-key (kbd "M-Y") 'copy-line)
 
 
 ;; C-q -> pre-fix key
@@ -367,19 +367,19 @@
 
 ;; forward-word は単語頭に移動する
 ;; my-forward-word.el - https://gist.github.com/mori-dev/409070
-(defun my-forward-word (arg)
-  (interactive "p")
-  (cond
-   ((region-active-p) (forward-word arg))
-   ((looking-at ".$") (re-search-forward "\\W\\b\\"))
-   ((looking-at "\\cj") (forward-word arg))
-   ((looking-at "\\(。\\|、\\|．\\|，\\)") (re-search-forward "\[。、．，\]+"))
-   (t (re-search-forward "\\(.$\\|\\W\\b\\)"))))
-;;; For compatibility
-(unless (fboundp 'region-active-p)
-  (defun region-active-p ()
-    (and transient-mark-mode mark-active)))
-(global-set-key (kbd "M-f") 'my-forward-word)
+;; (defun my-forward-word (arg)
+;;   (interactive "p")
+;;   (cond
+;;    ((region-active-p) (forward-word arg))
+;;    ((looking-at ".$") (re-search-forward "\\W\\b\\"))
+;;    ((looking-at "\\cj") (forward-word arg))
+;;    ((looking-at "\\(。\\|、\\|．\\|，\\)") (re-search-forward "\[。、．，\]+"))
+;;    (t (re-search-forward "\\(.$\\|\\W\\b\\)"))))
+;; ;;; For compatibility
+;; (unless (fboundp 'region-active-p)
+;;   (defun region-active-p ()
+;;     (and transient-mark-mode mark-active)))
+;; (global-set-key (kbd "M-f") 'my-forward-word)
 
 ;; 「Emacsのトラノマキ」連載第16回「元Vimmerが考えるEmacsの再設計」(深町英太郎) | ありえるえりあ - http://dev.ariel-networks.com/wp/documents/aritcles/emacs/part16
 ;; 範囲指定していないとき、C-wで前の単語を削除
