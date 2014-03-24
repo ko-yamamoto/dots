@@ -78,27 +78,30 @@
                                 (helm-c-switch-to-buffer candidate)
                               (helm-c-buffers-persistent-kill candidate)))
 
-                          (defvar helm-c-source-buffers-list-R
+                          (defvar helm-source-buffers-list-R
                             `((name . "Buffers")
                               (init . (lambda ()
                                         ;; Issue #51 Create the list before `helm-buffer' creation.
                                         (setq helm-buffers-list-cache (helm-buffer-list))
-                                        (unless helm-buffer-max-length
-                                          (let ((result (loop for b in helm-buffers-list-cache
-                                                              maximize (length b) into len-buf
-                                                              maximize (length (with-current-buffer b
-                                                                                 (symbol-name major-mode)))
-                                                              into len-mode
-                                                              finally return (cons len-buf len-mode))))
-                                            (setq helm-buffer-max-length (car result)
-                                                  helm-buffer-max-len-mode (cdr result))))))
+                                        (let ((result (cl-loop for b in helm-buffers-list-cache
+                                                               maximize (length b) into len-buf
+                                                               maximize (length (with-current-buffer b
+                                                                                  (symbol-name major-mode)))
+                                                               into len-mode
+                                                               finally return (cons len-buf len-mode))))
+                                          (unless helm-buffer-max-length
+                                            (setq helm-buffer-max-length (car result)))
+                                          (unless helm-buffer-max-len-mode
+                                            ;; If a new buffer is longer that this value
+                                            ;; this value will be updated
+                                            (setq helm-buffer-max-len-mode (cdr result))))))
                               (candidates . helm-buffers-list-cache)
+                              (no-matchplugin)
                               (type . buffer)
                               (match helm-buffer-match-major-mode)
                               (persistent-action . helm-c-buffers-list-R-persistent-action)
                               (keymap . ,helm-buffer-map)
                               (volatile)
-                              (no-delay-on-input)
                               (mode-line . helm-buffer-mode-line-string)
                               (persistent-help
                                . "Kill this buffer / C-u \\[helm-execute-persistent-action]: Show this buffer")))
@@ -124,7 +127,7 @@
                             (interactive)
                             (helm-other-buffer '(
                                                  ;; helm-c-source-elscreen
-                                                 helm-c-source-buffers-list-R
+                                                 helm-source-buffers-list-R
                                                  ;; helm-c-source-buffers-list
                                                  helm-c-recentf-file-source
                                                  helm-c-recentf-directory-source
