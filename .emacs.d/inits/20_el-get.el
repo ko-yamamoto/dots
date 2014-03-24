@@ -58,7 +58,11 @@
                  :after (progn
                           (require 'helm-config)
                           (helm-mode 1)
-                                        ; (require 'helm-gtags)
+
+                          ;; find-file では邪魔なので helm を使わない
+                          (add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
+
+                          ;; (require 'helm-gtags)
                           ;; configuration helm variable
                           (setq helm-idle-delay 0.1)
                           (setq helm-input-idle-delay 0.1) ; 入力後に候補を更新するまでの時間
