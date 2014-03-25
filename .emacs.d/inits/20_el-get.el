@@ -473,38 +473,39 @@
           ;;                 (global-set-key (kbd "C-q g") 'e2wm:dp-magit)
           ;;                 ))
 
-          (:name direx-el
-                 :type git
-                 :url "git://github.com/m2ym/direx-el.git"
-                 :after (progn
-                          (require 'direx)
-                          (require 'direx-project)
+          ;; (:name direx-el
+          ;;        :type git
+          ;;        :url "git://github.com/m2ym/direx-el.git"
+          ;;        :after (progn
+          ;;                 (require 'direx)
+          ;;                 (require 'direx-project)
 
-                          (defun my/dired-jump ()
-                            (interactive)
-                            (cond (current-prefix-arg
-                                   (dired-jump))
-                                  ((not (one-window-p))
-                                   (or (ignore-errors
-                                         (direx-project:jump-to-project-root) t)
-                                       (direx:jump-to-directory)))
-                                  (t
-                                   (or (ignore-errors
-                                         (direx-project:jump-to-project-root-other-window) t)
-                                       (direx:jump-to-directory-other-window)))))
+          ;;                 (defun my/dired-jump ()
+          ;;                   (interactive)
+          ;;                   (cond (current-prefix-arg
+          ;;                          (dired-jump))
+          ;;                         ((not (one-window-p))
+          ;;                          (or (ignore-errors
+          ;;                                (direx-project:jump-to-project-root) t)
+          ;;                              (direx:jump-to-directory)))
+          ;;                         (t
+          ;;                          (or (ignore-errors
+          ;;                                (direx-project:jump-to-project-root-other-window) t)
+          ;;                              (direx:jump-to-directory-other-window)))))
 
-                          (global-set-key (kbd "C-x C-j") 'my/dired-jump)
+          ;;                 (global-set-key (kbd "C-x C-j") 'my/dired-jump)
 
-                          (defun my/direx-up-dir ()
-                            (interactive)
-                            (direx:find-directory-reuse "../"))
-                          (add-hook 'direx:direx-mode-hook (lambda ()
-                                                             (local-set-key (kbd "<left>") 'my/direx-up-dir)
-                                                             (local-set-key (kbd "q") 'delete-window)))
-                          ;; (setq direx:leaf-icon "  "
-                          ;;       direx:open-icon "+ "
-                          ;;       direx:closed-icon "> ")
-                          ))
+          ;;                 (defun my/direx-up-dir ()
+          ;;                   (interactive)
+          ;;                   (direx:find-directory-reuse "../"))
+          ;;                 (add-hook 'direx:direx-mode-hook (lambda ()
+          ;;                                                    (local-set-key (kbd "<left>") 'my/direx-up-dir)
+          ;;                                                    ;; (local-set-key (kbd "q") 'delete-window)
+          ;;                                                    ))
+          ;;                 ;; (setq direx:leaf-icon "  "
+          ;;                 ;;       direx:open-icon "+ "
+          ;;                 ;;       direx:closed-icon "> ")
+          ;;                 ))
 
           ;; (:name anything-replace-string
           ;;        :type git
