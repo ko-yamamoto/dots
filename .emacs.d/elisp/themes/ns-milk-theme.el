@@ -235,6 +235,11 @@
    `(web-mode-html-tag-face ((t (:foreground ,*method-declaration*))))
    `(web-mode-html-attr-name-face ((t (:foreground ,*operators*))))
 
+   `(mozc-cand-overlay-focused-face ((t (:foreground ,*normal* :background ,lgreen))))
+   `(mozc-cand-overlay-odd-face ((t (:foreground ,*normal* :background ,*current-line*))))
+   `(mozc-cand-overlay-even-face ((t (:foreground ,*normal* :background ,*current-line*))))
+   `(mozc-cand-overlay-footer-face ((t (:foreground ,*normal* :background ,yellow))))
+
 
    ))
 
