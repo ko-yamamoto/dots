@@ -5,7 +5,7 @@
 
 (require 'skk-autoloads)
 (global-set-key (kbd "C-q s s") 'skk-mode)
-(key-chord-define-global "jk" 'skk-mode)
+;; (key-chord-define-global "jk" 'skk-mode)
 ;; (when is_win
 ;;   ;; Windows の場合、変換/無変換キーでオンオフする
 ;;   (global-set-key [convert] 'skk-mode)
