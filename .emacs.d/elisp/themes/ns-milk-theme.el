@@ -239,6 +239,7 @@
    `(mozc-cand-overlay-odd-face ((t (:foreground ,*normal* :background ,*current-line*))))
    `(mozc-cand-overlay-even-face ((t (:foreground ,*normal* :background ,*current-line*))))
    `(mozc-cand-overlay-footer-face ((t (:foreground ,*normal* :background ,yellow))))
+   `(mozc-preedit-selected-face ((t (:foreground ,*normal* :background ,yellow))))
 
 
    ))
