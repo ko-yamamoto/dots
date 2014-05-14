@@ -1,5 +1,5 @@
 
-export PATH=/usr/local/bin:~/bin:${PATH}
+export PATH=/sbin:/usr/local/bin:~/bin:${PATH}
 
 
 # PATH ############################################################################
@@ -16,16 +16,32 @@ HASKELL_HOME="/C/Program Files (x86)/Haskell Platform/latest/bin"
 export PATH=${HASKELL_HOME}:${PATH}
 
 
-
 # aliases ############################################################################
+
+function wincmd() {
+    CMD=$1
+    shift
+    $CMD $* 2>&1 | iconv -f cp932 -t utf-8
+}
+
+alias ping='wincmd ping'
+alias ipconfig='wincmd ipconfig'
+alias netstat='wincmd netstat'
+alias netsh='wincmd netsh'
+alias cscript='wincmd cscript'
+
+
 
 alias ls='ls --color=auto'
 alias ll='ls --color=auto -lh --time-style=+'%Y/%m/%d_%H:%M:%S''
 alias la='ls --color=auto -alh --time-style=+'%Y/%m/%d_%H:%M:%S''
 
+alias emacs='emacs-w32 &'
+alias ec='emacsclient-w32 -n'
+
 alias -g U=' | nkf -u -S -w | dos2unix'
 
-alias mosh='mosh --server="LANG=en_US.UTF-8 mosh-server" '
+# alias mosh='mosh --server="LANG=en_US.UTF-8 mosh-server" '
 
 alias open='cygstart'
 
@@ -54,10 +70,87 @@ export MAVEN_OPTS="-Xmx512M -Duser.language=en"
 
 # git のログには emacs を
 # export GIT_EDITOR="/c/my/programs/emacs/emacs/bin/emacsclient"
-export GIT_EDITOR="emacsclient"
+export GIT_EDITOR="emacsclient-w32"
 
 # rvm ruby
-[[ -s $HOME/.rvm/scripts/rvm ]] && source "$HOME/.rvm/scripts/rvm"
+# [[ -s $HOME/.rvm/scripts/rvm ]] && source "$HOME/.rvm/scripts/rvm"
 
 # autojump
-[[ -s ~/.autojump/etc/profile.d/autojump.zsh ]] && . ~/.autojump/etc/profile.d/autojump.zsh
+# [[ -s ~/.autojump/etc/profile.d/autojump.zsh ]] && . ~/.autojump/etc/profile.d/autojump.zsh
+
+
+function ppgrep() {
+    if [[ $1 == "" ]]; then
+        PERCOL=percol
+    else
+        PERCOL="percol --query $1"
+    fi
+    ps aux | eval $PERCOL | awk '{ print $2 }'
+}
+
+function ppkill() {
+    if [[ $1 =~ "^-" ]]; then
+        QUERY=""            # options only
+    else
+        QUERY=$1            # with a query
+        [[ $# > 0 ]] && shift
+    fi
+    ppgrep $QUERY | xargs kill $*
+}
+
+function exists { which $1 &> /dev/null }
+
+if exists percol; then
+    function percol_select_history() {
+        local tac
+        exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
+        BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
+        CURSOR=$#BUFFER         # move cursor
+        zle -R -c               # refresh
+    }
+
+    zle -N percol_select_history
+    bindkey '^R' percol_select_history
+fi
+
+
+# cd 履歴を記録
+typeset -U chpwd_functions
+CD_HISTORY_FILE=${HOME}/.cd_history_file # cd 履歴の記録先ファイル
+function chpwd_record_history() {
+    echo $PWD >> ${CD_HISTORY_FILE}
+}
+chpwd_functions=($chpwd_functions chpwd_record_history)
+
+# percol を使って cd 履歴の中からディレクトリを選択
+# 過去の訪問回数が多いほど選択候補の上に来る
+function percol_get_destination_from_history() {
+    sort ${CD_HISTORY_FILE} | uniq -c | sort -r | \
+        sed -e 's/^[ ]*[0-9]*[ ]*//' | \
+        sed -e s"/^${HOME//\//\\/}/~/" | \
+        percol | xargs echo
+}
+
+# percol を使って cd 履歴の中からディレクトリを選択し cd するウィジェット
+function percol_cd_history() {
+    local destination=$(percol_get_destination_from_history)
+    [ -n $destination ] && cd ${destination/#\~/${HOME}}
+    zle reset-prompt
+}
+zle -N percol_cd_history
+
+# percol を使って cd 履歴の中からディレクトリを選択し，現在のカーソル位置に挿入するウィジェット
+function percol_insert_history() {
+    local destination=$(percol_get_destination_from_history)
+    if [ $? -eq 0 ]; then
+        # local new_left="${LBUFFER} ${destination} "
+        local new_left="${LBUFFER}cd ${destination}"
+        BUFFER=${new_left}${RBUFFER}
+        CURSOR=${#new_left}
+    fi
+    zle reset-prompt
+}
+zle -N percol_insert_history
+
+# bindkey '^x' percol_cd_history
+bindkey '^x' percol_insert_history
