@@ -472,6 +472,83 @@ fi
 
 
 
+function ppgrep() {
+    if [[ $1 == "" ]]; then
+        PERCOL=percol
+    else
+        PERCOL="percol --query $1"
+    fi
+    ps aux | eval $PERCOL | awk '{ print $2 }'
+}
+
+function ppkill() {
+    if [[ $1 =~ "^-" ]]; then
+        QUERY=""            # options only
+    else
+        QUERY=$1            # with a query
+        [[ $# > 0 ]] && shift
+    fi
+    ppgrep $QUERY | xargs kill $*
+}
+
+function exists { which $1 &> /dev/null }
+
+if exists percol; then
+    function percol_select_history() {
+        local tac
+        exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
+        BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
+        CURSOR=$#BUFFER         # move cursor
+        zle -R -c               # refresh
+    }
+
+    zle -N percol_select_history
+    bindkey '^R' percol_select_history
+fi
+
+
+# cd 履歴を記録
+typeset -U chpwd_functions
+CD_HISTORY_FILE=${HOME}/.cd_history_file # cd 履歴の記録先ファイル
+function chpwd_record_history() {
+    echo $PWD >> ${CD_HISTORY_FILE}
+}
+chpwd_functions=($chpwd_functions chpwd_record_history)
+
+# percol を使って cd 履歴の中からディレクトリを選択
+# 過去の訪問回数が多いほど選択候補の上に来る
+function percol_get_destination_from_history() {
+    sort ${CD_HISTORY_FILE} | uniq -c | sort -r | \
+        sed -e 's/^[ ]*[0-9]*[ ]*//' | \
+        sed -e s"/^${HOME//\//\\/}/~/" | \
+        percol | xargs echo
+}
+
+# percol を使って cd 履歴の中からディレクトリを選択し cd するウィジェット
+function percol_cd_history() {
+    local destination=$(percol_get_destination_from_history)
+    [ -n $destination ] && cd ${destination/#\~/${HOME}}
+    zle reset-prompt
+}
+zle -N percol_cd_history
+
+# percol を使って cd 履歴の中からディレクトリを選択し，現在のカーソル位置に挿入するウィジェット
+function percol_insert_history() {
+    local destination=$(percol_get_destination_from_history)
+    if [ $? -eq 0 ]; then
+        # local new_left="${LBUFFER} ${destination} "
+        local new_left="${LBUFFER}cd ${destination}"
+        BUFFER=${new_left}${RBUFFER}
+        CURSOR=${#new_left}
+    fi
+    zle reset-prompt
+}
+zle -N percol_insert_history
+
+# bindkey '^x' percol_cd_history
+bindkey '^x' percol_insert_history
+
+
 
 # 補完用 #####################################################
 # mosh
