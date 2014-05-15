@@ -19,7 +19,8 @@
 
 (deftheme ns-milk)
 
-(let ((*background*         "#f6f7f8")
+;; (let ((*background*         "#f6f7f8")
+(let ((*background*         "#fffff4")
       (*comments*           "#919398")
       (*constant*           "#8abeb7")
       (*current-line*       "#e8eaed")
@@ -27,9 +28,11 @@
       (*keywords*           "#cc6666")
       (*line-number*        "#EEE")
       (*method-declaration* "#b294bb")
-      (*mode-line-bg*       "#555")
+      ;; (*mode-line-bg*       "#555")
+      (*mode-line-bg*       "#f0c674")
       (*mode-inactive-bg*   "#999")
-      (*mode-line-fg*       "#EEE")
+      ;; (*mode-line-fg*       "#EEE")
+      (*mode-line-fg*       "#cc6666")
       (*normal*             "#191919")
       (*number*             "#5b93fc")
       (*operators*          "#a7b14d")
