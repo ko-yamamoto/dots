@@ -14,7 +14,7 @@
 (depends-on "expand-region")
 (depends-on "wrap-region")
 (depends-on "rainbow-delimiters")
-(depends-on "twittering-mode")
+(depends-on "twittering-mode" :git "https://github.com/hayamiz/twittering-mode.git")
 (depends-on "scratch-log")
 (depends-on "haskell-mode")
 (depends-on "yalinum" :git "git://github.com/myuhe/emacs-yalinum.git")
