@@ -1,4 +1,4 @@
-export GIT_EDITOR='mvim -f'
+fpath=(/usr/local/share/zsh-completions $fpath)
 
 # alias ls='ls -fgh'
 alias ll='ls -lh'
