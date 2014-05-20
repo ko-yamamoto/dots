@@ -14,6 +14,7 @@
 ;; (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(require 'scala-mode2)
 
 ;; imenu用
 (add-hook 'scala-mode-hook
