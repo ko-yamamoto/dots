@@ -21,33 +21,57 @@
 
 ;;; Commentary:
 
+;; Place init-loader.el somewhere in your `load-path'.  Then, add the
+;; following lines to ~/.emacs or ~/.emacs.d/init.el:
 ;;
-;; Load `init-loader.el'
+;;     (require 'init-loader)
+;;     (init-loader-load "/path/to/init-directory")
 ;;
-;; (require 'init-loader)
+;; The last line loads configuration files in /path/to/init-directory.
+;; If you omit arguments for `init-loader-load', the value of
+;; `init-loader-directory' is used.
 ;;
-;; Load configuration files in `/path/to/init-directory'.
-;; If you omit arguments, `init-loader.el' loads from `init-loader-directory'
+;; Note that not all files in the directory are loaded.  Each file is
+;; examined that if it is a .el or .elc file and, it has a valid name
+;; specified by `init-loader-default-regexp' or it is a platform
+;; specific configuration file.
 ;;
-;; (init-loader-load "/path/to/init-directory")
+;; By default, valid names of configuration files start with two
+;; digits.  For example, the following file names are all valid:
+;;     00_util.el
+;;     01_ik-cmd.el
+;;     21_javascript.el
+;;     99_global-keys.el
 ;;
+;; Files are loaded in the lexicographical order.  This helps you to
+;; resolve dependency of the configurations.
 ;;
-;; Configuration files are loaded by following rules.
-;;   1. Configuration files which start with two digits.
-;;      Small number file is loaded earlier than large number file.
-;;      e.g. "00_utils.el" "01_ik-cmd.el" "21_javascript.el" ... "99_global-keys.el"
+;; A platform specific configuration file has a prefix corresponds to
+;; the platform.  The following is the list of prefixes and platform
+;; specific configuration files are loaded in the listed order after
+;; non-platform specific configuration files.
 ;;
-;;   2. Windows specific configuration files if system is Windows.
-;;      First load files that start with 'windows-'. Second load files that start with 'meadow-'
-;;      e.g. "windows-fonts.el", "windows-system.el", "meadow-commands.el", "meadow-fonts.el"
+;; Platform   Subplatform        Prefix         Example
+;; ------------------------------------------------------------------------
+;; Windows                       windows-       windows-fonts.el
+;;            Meadow             meadow-        meadow-commands.el
+;; ------------------------------------------------------------------------
+;; Mac OS X   Carbon Emacs       carbon-emacs-  carbon-emacs-applescript.el
+;;            Cocoa Emacs        cocoa-emacs-   cocoa-emacs-plist.el
+;; ------------------------------------------------------------------------
+;; GNU/Linux                     linux-         linux-commands.el
+;; ------------------------------------------------------------------------
+;; All        Non-window system  nw-            nw-key.el
 ;;
-;;   3. MacOSX specific configuration files if system is MacOSX
-;;      First load files that start with 'carbon-'. Second load files that start with 'cocoa-'
-;;      e.g. "carbon-applescript.el", "cocoa-fonts.el", "cocoa-plist.el"
+;; If `init-loader-byte-compile' is non-nil, each configuration file
+;; is byte-compiled when it is loaded.  If you modify the .el file,
+;; then it is recompiled next time it is loaded.
 ;;
-;;   4. No window Emacs specific configuration files which start with 'nw-'
-;;      e.g. "nw-config.el", "nw-key.el"
-;;
+;; Loaded files and errors during the loading process are recorded.
+;; If `init-loader-show-log-after-init' is non-nil, the record is
+;; shown after the overall loading process.  You can do this manually
+;; by M-x init-loader-show-log.
+
 ;;; Code:
 
 (eval-when-compile (require 'cl))
@@ -55,7 +79,7 @@
 
 ;;; customize-variables
 (defgroup init-loader nil
-  "Loader of configuration files"
+  "Loader of configuration files."
   :prefix "init-loader-"
   :group 'initialization)
 
@@ -64,61 +88,63 @@
                                 (file-name-as-directory user-emacs-directory)
                               "~/.emacs.d/")
                             "inits"))
-  "inits directory"
+  "Default directory of configuration files."
   :type 'directory
   :group 'init-loader)
 
 (defcustom init-loader-show-log-after-init t
-  "Show loading log message if this value is non-nil"
+  "Show loading log message if this value is non-nil."
   :type 'boolean
   :group 'init-loader)
 
 (defcustom init-loader-byte-compile nil
-  "Byte-Compile configuration files if this value is non-nil"
+  "Byte-compile configuration files if this value is non-nil."
   :type 'boolean
   :group 'init-loader)
 
 (defcustom init-loader-default-regexp "\\(?:\\`[[:digit:]]\\{2\\}\\)"
-  "Regexp of common configuration files
+  "Regular expression determining valid configuration file names.
 
-Default regexp matches files that start with two digits.
-Example, 00_foo.el, 01_bar.el ... 99_keybinds.el"
+The default value matches files that start with two digits.  For
+example, 00_foo.el, 01_bar.el ... 99_keybinds.el."
   :type 'regexp
   :group 'init-loader)
 
 (defcustom init-loader-meadow-regexp "\\`meadow-"
-  "Regexp of Meadow specific configuration file"
+  "Regular expression of Meadow specific configuration file names."
   :group 'init-loader
   :type 'regexp)
 
 (defcustom init-loader-windows-regexp "\\`windows-"
-  "Regexp of Windows specific configuration file"
+  "Regular expression of Windows specific configuration file names."
   :group 'init-loader
   :type 'regexp)
 
 (defcustom init-loader-carbon-emacs-regexp "\\`carbon-emacs-"
-  "Regexp of Carbon Emacs specific configuration file"
+  "Regular expression of Carbon Emacs specific configuration file names."
   :group 'init-loader
   :type 'regexp)
 
 (defcustom init-loader-cocoa-emacs-regexp "\\`cocoa-emacs-"
-  "Regexp of Cocoa Emacs specific configuration file"
+  "Regular expression of Cocoa Emacs specific configuration file names."
   :group 'init-loader
   :type 'regexp)
 
 (defcustom init-loader-nw-regexp "\\`nw-"
-  "Regexp of no-window Emacs configuration file"
+  "Regular expression of no-window Emacs configuration file names."
   :group 'init-loader
   :type 'regexp)
 
 (defcustom init-loader-linux-regexp "\\`linux-"
-  "Regexp of GNU/Linux specific configuration file"
+  "Regular expression of GNU/Linux specific configuration file names."
   :group 'init-loader
   :type 'regexp)
 
 ;;;###autoload
 (defun* init-loader-load (&optional (init-dir init-loader-directory))
-  (let ((init-dir (init-loader-follow-symlink init-dir)))
+  "Load configuration files in INIT-DIR."
+  (let ((init-dir (init-loader-follow-symlink init-dir))
+        (is-carbon-emacs nil))
     (assert (and (stringp init-dir) (file-directory-p init-dir)))
     (init-loader-re-load init-loader-default-regexp init-dir t)
 
@@ -131,9 +157,13 @@ Example, 00_foo.el, 01_bar.el ... 99_keybinds.el"
 
     ;; Carbon Emacs
     (when (featurep 'carbon-emacs-package)
-      (init-loader-re-load init-loader-carbon-emacs-regexp init-dir))
+      (init-loader-re-load init-loader-carbon-emacs-regexp init-dir)
+      (setq is-carbon-emacs t))
     ;; Cocoa Emacs
-    (when (equal window-system 'ns)
+    (when (or (equal window-system 'ns)
+              (and (not is-carbon-emacs) ;; for daemon mode
+                   (not window-system)
+                   (eq system-type 'darwin)))
       (init-loader-re-load init-loader-cocoa-emacs-regexp init-dir))
 
     ;; GNU Linux
@@ -152,10 +182,12 @@ Example, 00_foo.el, 01_bar.el ... 99_keybinds.el"
          (expand-file-name (file-symlink-p dir)))
         (t (expand-file-name dir))))
 
+(declare-function init-loader-log "init-loader.el" (&optional s) t)
 (lexical-let (logs)
   (defun init-loader-log (&optional s)
     (if s (and (stringp s) (push s logs)) (mapconcat 'identity (reverse logs) "\n"))))
 
+(declare-function init-loader-error-log "init-loader.el" (&optional s) t)
 (lexical-let (err-logs)
   (defun init-loader-error-log (&optional s)
     (if s (and (stringp s) (push s err-logs)) (mapconcat 'identity (reverse err-logs) "\n"))))
@@ -197,10 +229,11 @@ Example, 00_foo.el, 01_bar.el ... 99_keybinds.el"
 
 ;;;###autoload
 (defun init-loader-show-log ()
-  "Show init-loader log buffer"
+  "Show init-loader log buffer."
   (interactive)
   (let ((b (get-buffer-create "*init log*")))
     (with-current-buffer b
+      (view-mode -1)
       (erase-buffer)
       (insert "------- error log -------\n\n"
               (init-loader-error-log)
@@ -212,7 +245,8 @@ Example, 00_foo.el, 01_bar.el ... 99_keybinds.el"
       (insert "------- load path -------\n\n"
               (mapconcat 'identity load-path "\n"))
       (goto-char (point-min)))
-    (switch-to-buffer b)))
+    (switch-to-buffer b)
+    (view-mode +1)))
 
 (provide 'init-loader)
 
