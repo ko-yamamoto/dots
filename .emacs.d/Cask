@@ -36,3 +36,4 @@
 (depends-on "go-mode")
 (depends-on "smart-newline" :git "https://github.com/ainame/smart-newline.el.git")
 (depends-on "markdown-mode")
+(depends-on "highlight-symbol" :git "https://github.com/tsdh/highlight-symbol.el.git")
