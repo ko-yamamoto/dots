@@ -63,10 +63,10 @@ local layouts =
     awful.layout.suit.fair,
     awful.layout.suit.fair.horizontal,
     awful.layout.suit.spiral,
-    awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max,
-    awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier
+    -- awful.layout.suit.spiral.dwindle,
+    awful.layout.suit.max
+    -- awful.layout.suit.max.fullscreen,
+    -- awful.layout.suit.magnifier
 }
 -- }}}
 
@@ -83,7 +83,7 @@ end
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[2])
+    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
 end
 -- }}}
 
@@ -194,7 +194,7 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the left
     local left_layout = wibox.layout.fixed.horizontal()
-    left_layout:add(mylauncher)
+    -- left_layout:add(mylauncher)
     left_layout:add(mytaglist[s])
     left_layout:add(mypromptbox[s])
 
@@ -260,12 +260,12 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit),
 
-    awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
-    awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
-    awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1)      end),
-    awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end),
-    awful.key({ modkey,           }, "Right",     function () awful.tag.incmwfact( 0.05)    end),
-    awful.key({ modkey,           }, "Left",     function () awful.tag.incmwfact(-0.05)    end),
+    -- awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
+    -- awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
+    -- awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1)      end),
+    -- awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end),
+    awful.key({ modkey,           }, ".",     function () awful.tag.incmwfact( 0.05)    end),
+    awful.key({ modkey,           }, ",",     function () awful.tag.incmwfact(-0.05)    end),
 
     awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)         end),
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
@@ -285,7 +285,18 @@ globalkeys = awful.util.table.join(
                   awful.util.getdir("cache") .. "/history_eval")
               end),
     -- Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end)
+    awful.key({ modkey }, "p", function() menubar.show() end),
+
+    -- Move floating window with arrow keys
+    awful.key({ modkey }, "Left", function () awful.client.moveresize(-20, 0, 0, 0) end),
+    awful.key({ modkey }, "Right", function () awful.client.moveresize(20, 0, 0, 0) end),
+    awful.key({ modkey }, "Up", function () awful.client.moveresize(0, -20, 0, 0) end),
+    awful.key({ modkey }, "Down", function () awful.client.moveresize(0, 20, 0, 0) end),
+    -- Resize window with arrow keys
+    awful.key({ modkey, "Control" }, "Left", function () awful.client.moveresize(0, 0, -20, 0) end),
+    awful.key({ modkey, "Control" }, "Right", function () awful.client.moveresize(0, 0, 20, 0) end),
+    awful.key({ modkey, "Control" }, "Up", function () awful.client.moveresize(0, 0, 0, -20) end),
+    awful.key({ modkey, "Control" }, "Down", function () awful.client.moveresize(0, 0, 0, 20) end)
 )
 
 clientkeys = awful.util.table.join(
