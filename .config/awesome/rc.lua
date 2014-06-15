@@ -287,6 +287,13 @@ globalkeys = awful.util.table.join(
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end),
 
+    -- Multimedia keys
+    awful.key({ }, "XF86AudioRaiseVolume", function () awful.util.spawn("amixer set Master 5%+", false) end),
+    awful.key({ }, "XF86AudioLowerVolume", function () awful.util.spawn("amixer set Master 5%-", false) end),
+    awful.key({ }, "XF86AudioMute", function () awful.util.spawn("amixer set Master toggle", false) end),
+    awful.key({ }, "XF86MonBrightnessDown", function () awful.util.spawn("xbacklight -10", false) end),
+    awful.key({ }, "XF86MonBrightnessUp", function () awful.util.spawn("xbacklight +10", false) end),
+
     -- Move floating window with arrow keys
     awful.key({ modkey }, "Left", function () awful.client.moveresize(-20, 0, 0, 0) end),
     awful.key({ modkey }, "Right", function () awful.client.moveresize(20, 0, 0, 0) end),
@@ -471,7 +478,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 
 local gtk = [[
-gtk-font-name="VL Gothic 9"
+gtk-font-name="07YasashisaGothic 12"
 gtk-theme-name="Numix Frost"
 gtk-icon-theme-name="Numix-Square"
 gtk-fallback-icon-theme="gnome"
@@ -485,6 +492,7 @@ gtk-xft-antialias=1
 gtk-xft-hinting=1
 gtk-xft-hintstyle="hintfull"
 gtk-xft-rgba="rgb"
+gtk-xft-dpi=120
 ]]
 
 
