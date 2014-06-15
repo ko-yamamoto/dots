@@ -294,16 +294,39 @@ globalkeys = awful.util.table.join(
     awful.key({ }, "XF86MonBrightnessDown", function () awful.util.spawn("xbacklight -10", false) end),
     awful.key({ }, "XF86MonBrightnessUp", function () awful.util.spawn("xbacklight +10", false) end),
 
+
+    -- Centering
+    -- ウィンドウをセンタリング
+    awful.key({ modkey , "Control", }, "u",
+           function ()
+              local s = 1
+              local w = screen[s].workarea
+              local c = client.focus:geometry()
+
+              awful.client.moveresize(-c.x + (w.width - c.width) / 2,
+                                   -c.y + (w.height - c.height) / 2,
+                                0, 0)
+           end),
+
     -- Move floating window with arrow keys
     awful.key({ modkey }, "Left", function () awful.client.moveresize(-20, 0, 0, 0) end),
     awful.key({ modkey }, "Right", function () awful.client.moveresize(20, 0, 0, 0) end),
     awful.key({ modkey }, "Up", function () awful.client.moveresize(0, -20, 0, 0) end),
     awful.key({ modkey }, "Down", function () awful.client.moveresize(0, 20, 0, 0) end),
+    awful.key({ modkey, "Shift"}, "Left", function () awful.client.moveresize(-60, 0, 0, 0) end),
+    awful.key({ modkey, "Shift" }, "Right", function () awful.client.moveresize(60, 0, 0, 0) end),
+    awful.key({ modkey, "Shift" }, "Up", function () awful.client.moveresize(0, -60, 0, 0) end),
+    awful.key({ modkey, "Shift" }, "Down", function () awful.client.moveresize(0, 60, 0, 0) end),
     -- Resize window with arrow keys
     awful.key({ modkey, "Control" }, "Left", function () awful.client.moveresize(0, 0, -20, 0) end),
     awful.key({ modkey, "Control" }, "Right", function () awful.client.moveresize(0, 0, 20, 0) end),
     awful.key({ modkey, "Control" }, "Up", function () awful.client.moveresize(0, 0, 0, -20) end),
-    awful.key({ modkey, "Control" }, "Down", function () awful.client.moveresize(0, 0, 0, 20) end)
+    awful.key({ modkey, "Control" }, "Down", function () awful.client.moveresize(0, 0, 0, 20) end),
+    awful.key({ modkey, "Control", "Shift"  }, "Left", function () awful.client.moveresize(0, 0, -60, 0) end),
+    awful.key({ modkey, "Control", "Shift"  }, "Right", function () awful.client.moveresize(0, 0, 60, 0) end),
+    awful.key({ modkey, "Control", "Shift"  }, "Up", function () awful.client.moveresize(0, 0, 0, -60) end),
+    awful.key({ modkey, "Control", "Shift"  }, "Down", function () awful.client.moveresize(0, 0, 0, 60) end)
+
 )
 
 clientkeys = awful.util.table.join(
