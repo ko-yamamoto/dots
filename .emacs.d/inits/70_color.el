@@ -10,12 +10,12 @@
 ;; (color-theme-tomorrow-night-eighties)
 ;; (color-theme-tomorrow)
 ;; (color-theme-solarized-light)
-;; (color-theme-hybrid)
+(color-theme-hybrid)
 ;; (color-theme-mccarthy)
 
 ;; after emacs24
-(setq custom-theme-directory "~/.emacs.d/elisp/themes/")
-(load-theme 'ns-milk t)
+;; (setq custom-theme-directory "~/.emacs.d/elisp/themes/")
+;; (load-theme 'ns-milk t)
 
 ;; ウィンドウを透明化
 (add-to-list 'default-frame-alist '(alpha . (0.9 0.9)))

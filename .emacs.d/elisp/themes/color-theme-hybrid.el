@@ -19,7 +19,8 @@ https://github.com/chriskempson/tomorrow-theme/blob/master/vim/colors/Tomorrow-N
 vim: ft=xdefaults"
   (interactive t)
   (let (
-        (background  "#1d1f21")
+        ;; (background  "#1d1f21")
+        (background  "#2E3436")
         (foreground  "#c5c8c6")
         (selection   "#373b41")
         (line        "#282a2e")
