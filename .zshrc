@@ -439,12 +439,6 @@ fi
 
 
 
-# rbenv
-export PATH=$HOME/.rbenv/bin:$PATH
-eval "$(rbenv init - zsh)"
-
-
-
 # plugins######################################################
 
 # zaw
