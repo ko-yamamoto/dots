@@ -41,7 +41,8 @@ end
 beautiful.init("/home/nishikawasasaki/.config/awesome/themes/default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "gnome-terminal"
+-- terminal = "gnome-terminal"
+terminal = "lilyterm"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
