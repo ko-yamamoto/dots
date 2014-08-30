@@ -44,16 +44,16 @@
   ;; バラバラに設定する場合
   ;; 英字フォント
   (set-face-attribute 'default nil
-                      :family "Hermit"
+                      :family "ricty"
                       :height 150)
   ;; 漢字フォント
   (set-fontset-font
    nil 'japanese-jisx0208
-   (font-spec :family "Koruri"))
+   (font-spec :family "07YasashisaGothic"))
   ;; ひらがなかたかな
   (set-fontset-font
    nil '(#x3040 . #x30ff)
-   (font-spec :family "Koruri"))
+   (font-spec :family "07YasashisaGothic"))
 
   (setq face-font-rescale-alist
         '((".Hermit.*" . 1.0)
