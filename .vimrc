@@ -41,6 +41,8 @@ NeoBundle 'ujihisa/vimshell-ssh'
 
 NeoBundle 'kana/vim-submode'
 
+NeoBundle 'tyru/caw.vim'
+
 " git
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'gregsexton/gitv'
@@ -291,3 +293,10 @@ nnoremap <silent> [git]f :Gfetch<CR>
 
 nnoremap <silent> [git]l :Gitv<CR>
 nnoremap <silent> [git]L :Gitv!<CR>
+
+
+" tyru/caw.vim
+"------------------------------------
+nmap <Leader>cc <Plug>(caw:i:toggle)
+vmap <Leader>cc <Plug>(caw:i:toggle)
+
