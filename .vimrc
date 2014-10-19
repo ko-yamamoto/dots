@@ -75,10 +75,28 @@ augroup END
 
 
 " 動作・挙動設定 """"""""""""""""""""""""""""""""""""""""""""""
+" *での検索時は次候補ではなくカーソル下結果から動かないように
+nnoremap * *N
 
 
 
 " キーバインディング設定 """"""""""""""""""""""""""""""""""""""""""""""
+
+" ハイライト消去
+nmap <ESC><ESC> :nohlsearch<CR><ESC>
+
+" ウィンドウをひとつに
+nnoremap <Esc><Esc><Esc> :only<CR>
+
+" 選択した文字列を検索
+vnoremap <silent> // y/<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
+
+" 選択した文字列を置換
+vnoremap /r "xy:%s/<C-R>=escape(@x, '\\/.*$^~[]')<CR>//gc<Left><Left><Left>
+
+" カーソル下のキーワードを置換
+nnoremap <expr> sr ':%substitute/\<' . expand('<cword>') . '\>//gc<Left><Left><Left>'
+
 
 " http://qiita.com/tekkoc/items/98adcadfa4bdc8b5a6ca
 " ウインドウとタブの操作"""""""""
@@ -97,7 +115,6 @@ nnoremap sJ <C-w>J
 nnoremap sK <C-w>K
 nnoremap sL <C-w>L
 nnoremap sH <C-w>H
-nnoremap sr <C-w>r " 回転
 " ウインドウサイズ変更
 nnoremap s= <C-w>= " 均等化
 call submode#enter_with('bufmove', 'n', '', 's>', '<C-w>>') " 幅を増やす
