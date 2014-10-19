@@ -41,6 +41,8 @@ NeoBundle 'ujihisa/vimshell-ssh'
 
 NeoBundle 'kana/vim-submode'
 
+NeoBundle 'tpope/vim-fugitive'
+
 " color scheme
 NeoBundle 'w0ng/vim-hybrid'
 
@@ -68,6 +70,9 @@ augroup source-vimrc
 augroup END
 
 
+
+
+" 動作・挙動設定 """"""""""""""""""""""""""""""""""""""""""""""
 
 
 
@@ -148,16 +153,14 @@ nmap    <Space> [unite]
 
 nnoremap <silent> [unite];   :<C-u>Unite buffer tab file_mru directory_mru<CR>
 
-nnoremap sT :<C-u>Unite tab<CR>
-nnoremap sb :<C-u>Unite buffer_tab -buffer-name=file<CR>
-nnoremap sB :<C-u>Unite buffer -buffer-name=file<CR>
-
 
 
 " vimfiler.vim
 "------------------------------------
 " vimfiler をデフォルトのファイラに
 :let g:vimfiler_as_default_explorer = 1
+" 開いているファイルのディレクトリに移動
+let g:vimfiler_enable_auto_cd = 1
 
 nnoremap <leader>xj  :VimFilerBufferDir<CR>
 nnoremap <leader>xJ  :VimFilerTab<CR>
@@ -251,3 +254,10 @@ let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
 
 
+" vim-fugitive
+"------------------------------------
+nnoremap    [fugitive]   <Nop>
+nmap    <Space>g [fugitive]
+
+nnoremap <silent> [fugitive]s :Gstatus<CR>
+nnoremap <silent> [fugitive]a :Gwrite<CR>
