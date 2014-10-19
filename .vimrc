@@ -41,7 +41,9 @@ NeoBundle 'ujihisa/vimshell-ssh'
 
 NeoBundle 'kana/vim-submode'
 
+" git
 NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'gregsexton/gitv'
 
 " color scheme
 NeoBundle 'w0ng/vim-hybrid'
@@ -254,10 +256,16 @@ let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
 
 
-" vim-fugitive
+" vim-fugitive and gitv
 "------------------------------------
-nnoremap    [fugitive]   <Nop>
-nmap    <Space>g [fugitive]
+nnoremap    [git]   <Nop>
+nmap    <Space>g [git]
 
-nnoremap <silent> [fugitive]s :Gstatus<CR>
-nnoremap <silent> [fugitive]a :Gwrite<CR>
+nnoremap <silent> [git]s :Gstatus<CR>
+nnoremap <silent> [git]a :Gwrite<CR>
+nnoremap <silent> [git]P :Gpush<CR>
+nnoremap <silent> [git]p :Gpull<CR>
+nnoremap <silent> [git]f :Gfetch<CR>
+
+nnoremap <silent> [git]l :Gitv<CR>
+nnoremap <silent> [git]L :Gitv!<CR>
