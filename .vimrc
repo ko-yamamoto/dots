@@ -49,7 +49,9 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'gregsexton/gitv'
 
 " markdown """""""""""""""""""""""
-
+NeoBundle 'plasticboy/vim-markdown'
+NeoBundle 'kannokanno/previm'
+NeoBundle 'tyru/open-browser.vim'
 
 " color scheme
 NeoBundle 'w0ng/vim-hybrid'
@@ -309,4 +311,21 @@ nnoremap <silent> [git]L :Gitv!<CR>
 "------------------------------------
 nmap <Leader>cc <Plug>(caw:i:toggle)
 vmap <Leader>cc <Plug>(caw:i:toggle)
+
+
+
+
+" plasticboy/vim-markdown
+"------------------------------------
+" .md を markdown として開く
+au BufRead,BufNewFile *.md set filetype=markdown
+" 折りたたみを行なう階層の深さ
+let g:vim_markdown_initial_foldlevel=3
+" デフォルトのキーバインドを無効に
+let g:vim_markdown_no_default_key_mappings=1
+" ブラウザで開く
+nnoremap <leader>bo :PrevimOpen<CR>
+
+
+
 
