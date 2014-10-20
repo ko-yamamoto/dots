@@ -29,10 +29,11 @@ NeoBundle 'Shougo/vimproc.vim', {
 \    },
 \ }
 
-" unite
+" unite """"""""""""""""""""""""""
 NeoBundle 'Shougo/unite.vim.git'
 NeoBundle 'Shougo/neomru.vim'
 
+" utils """"""""""""""""""""""""""
 NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/neossh.vim'
@@ -46,6 +47,9 @@ NeoBundle 'tyru/caw.vim'
 " git
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'gregsexton/gitv'
+
+" markdown """""""""""""""""""""""
+
 
 " color scheme
 NeoBundle 'w0ng/vim-hybrid'
@@ -77,13 +81,19 @@ augroup END
 
 
 " 動作・挙動設定 """"""""""""""""""""""""""""""""""""""""""""""
+set clipboard=unnamed,autoselect
+
 
 
 
 " キーバインディング設定 """"""""""""""""""""""""""""""""""""""""""""""
+" OS からの貼り付け
+nnoremap <C-y> "+p
+nnoremap <C-Y> "+P
+
 " insertモードから抜ける
 inoremap <silent> jj <ESC>
-inoremap <silent> ll <ESC>
+inoremap <silent> hh <ESC>
 
 " *での検索時は次候補ではなくカーソル下結果から動かないように
 nnoremap * *N
