@@ -83,8 +83,12 @@ augroup END
 
 
 " 動作・挙動設定 """"""""""""""""""""""""""""""""""""""""""""""
-set clipboard=unnamed,autoselect
+" statusline を常に表示
+set laststatus=2 
+set statusline=[%l/%L]\ %r%F%m%r%h%w\%=[TYPE=%Y]\[%{&ff}:%{&fileencoding}]
 
+" クリップボードを OS と共有
+set clipboard=unnamed,autoselect
 
 
 
