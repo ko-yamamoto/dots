@@ -90,6 +90,18 @@ set statusline=[%l/%L]\ %r%F%m%r%h%w\%=[TYPE=%Y]\[%{&ff}:%{&fileencoding}]
 " クリップボードを OS と共有
 set clipboard=unnamed,autoselect
 
+" 終了時のカーソル位置を記憶
+if has("autocmd")
+  augroup redhat
+    " In text files, always limit the width of text to 78 characters
+    autocmd BufRead *.txt set tw=78
+    " When editing a file, always jump to the last cursor position
+    autocmd BufReadPost *
+    \ if line("'\"") > 0 && line ("'\"") <= line("$") |
+    \   exe "normal! g'\"" |
+    \ endif
+  augroup END
+endif
 
 
 " キーバインディング設定 """"""""""""""""""""""""""""""""""""""""""""""
@@ -168,6 +180,8 @@ let mapleader = " "
 "------------------------------------
 "mruの保存件数
 let g:unite_source_file_mru_limit = 200
+" Follow symlinks
+let g:unite_source_find_default_opts = "-L"
 
 "uniteを開いている間のキーマッピング
 autocmd FileType unite call s:unite_my_settings()
