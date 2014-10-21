@@ -103,6 +103,20 @@ if has("autocmd")
   augroup END
 endif
 
+"タブ入力を複数の空白入力に置き換える
+" set expandtab 
+"画面上でタブ文字が占める幅
+set tabstop=4 
+"自動インデントでずれる幅
+set shiftwidth=4 
+"連続した空白に対してタブキーやバックスペースキーでカーソルが動く幅
+set softtabstop=2 
+"改行時に前の行のインデントを継続する
+set autoindent 
+"改行時に入力された行の末尾に合わせて次の行のインデントを増減する
+set smartindent 
+
+
 
 " キーバインディング設定 """"""""""""""""""""""""""""""""""""""""""""""
 " OS からの貼り付け
@@ -218,7 +232,8 @@ nnoremap <silent> [unite];   :<C-u>Unite buffer tab file_mru directory_mru<CR>
 let g:vimfiler_enable_auto_cd = 1
 
 nnoremap <leader>xj  :VimFilerBufferDir<CR>
-nnoremap <leader>xJ  :VimFilerTab<CR>
+nnoremap <leader>xJ  :VimFiler<CR>
+" nnoremap <leader>XJ  :VimFilerTab<CR>
 
 
 
