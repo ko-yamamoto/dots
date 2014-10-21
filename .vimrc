@@ -92,7 +92,7 @@ set laststatus=2
 set statusline=[%l/%L]%Y\ %r%F%m%r%h%w\%=\[%{&ff}:%{&fileencoding}]%{fugitive#statusline()}
 
 " クリップボードを OS と共有
-set clipboard=unnamed,autoselect
+set clipboard=unnamedplus,autoselect
 
 " 終了時のカーソル位置を記憶
 if has("autocmd")
