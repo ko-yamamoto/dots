@@ -48,10 +48,14 @@ NeoBundle 'tyru/caw.vim'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'gregsexton/gitv'
 
-" markdown """""""""""""""""""""""
+" lang """""""""""""""""""""""
+" markdown
 NeoBundle 'plasticboy/vim-markdown'
 NeoBundle 'kannokanno/previm'
 NeoBundle 'tyru/open-browser.vim'
+" scala
+NeoBundle 'derekwyatt/vim-scala'
+
 
 " color scheme
 NeoBundle 'w0ng/vim-hybrid'
