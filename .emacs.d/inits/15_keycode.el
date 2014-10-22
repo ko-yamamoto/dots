@@ -13,4 +13,4 @@
     (setq input-method-function input-method-function-save)))
 (key-chord-define-global "mk" 'kill-buffer)
 (key-chord-define-global "MK" 'my/buffer-kill-and-delete-window)
-(key-chord-define-global ".." 'set-mark-command)
+;; (key-chord-define-global ".." 'set-mark-command)
