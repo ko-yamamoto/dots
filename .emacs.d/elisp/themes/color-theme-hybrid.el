@@ -229,6 +229,20 @@ vim: ft=xdefaults"
        (skk-dcomp-face ((t (:foreground ,addbg))))
        (skk-show-mode-inline-face ((t (:background ,background))))
 
+       ;; markdown
+       (markdown-header-face-1 ((t (:foreground ,red :bold t))))
+       (markdown-header-face-2 ((t (:foreground ,yellow :bold t))))
+       (markdown-header-face-3 ((t (:foreground ,blue :bold t))))
+       (markdown-header-face-4 ((t (:foreground ,lgreen :bold t))))
+       (markdown-header-face-5 ((t (:foreground ,orange :bold t))))
+
+       ;; rst
+       (rst-level-1-face ((t (:foreground ,red :background ,background :bold t))))
+       (rst-level-2-face ((t (:foreground ,blue :background ,background :bold t))))
+       (rst-level-3-face ((t (:foreground ,lgreen :background ,background :bold t))))
+       (rst-level-4-face ((t (:foreground ,orange :background ,background :bold t))))
+       (rst-level-5-face ((t (:foreground ,yellow :background ,background :bold t))))
+
        ))))
 
 

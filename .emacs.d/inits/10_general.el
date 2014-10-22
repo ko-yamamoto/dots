@@ -14,22 +14,22 @@
 ;; C-hをヘルプから外すための設定
 (load "term/bobcat")
 (when (fboundp 'terminal-init-bobcat) (terminal-init-bobcat))
+;; ヘルプコマンドをC-^に割り当てる
+(global-set-key "\C-^" 'help-command)
 
 ;; 共通ロードパスを通す OSごと設定は下の方で
 (setq load-path (cons "~/.emacs.d/elisp" load-path))
-;; emacs.d/elisp以下を再帰的にload-pathへ追加
-(let ((default-directory (expand-file-name "~/.emacs.d/elisp")))
-  (add-to-list 'load-path default-directory)
-  (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
-      (normal-top-level-add-subdirs-to-load-path)))
+;; ;; emacs.d/elisp以下を再帰的にload-pathへ追加
+;; (let ((default-directory (expand-file-name "~/.emacs.d/elisp")))
+;;   (add-to-list 'load-path default-directory)
+;;   (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
+;;       (normal-top-level-add-subdirs-to-load-path)))
 
 ;; package.elでインストールしたelispをload-pathへ追加
 (let ((default-directory (expand-file-name "~/.emacs.d/elpa")))
   (add-to-list 'load-path default-directory)
   (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
       (normal-top-level-add-subdirs-to-load-path)))
-
-
 
 ;; language & code
 (set-language-environment 'Japanese)
@@ -41,22 +41,14 @@
 (setq visible-bell t)
 (setq ring-bell-function 'ignore)
 
-
 ;; 起動時のメッセージを非表示
 (setq inhibit-startup-message t)
-
-
-;; ヘルプコマンドをC-^に割り当てる
-(global-set-key "\C-^" 'help-command)
-
 
 ;; "yes or no"を"y or n"に
 (fset 'yes-or-no-p 'y-or-n-p)
 
-
 ;; 現在カーソル位置のファイルパス/URLを開く
 ;; (ffap-bindings)
-
 
 ;; タブは4
 (setq-default tab-width 4)
@@ -77,11 +69,6 @@
 ;; 最近使ったファイルに加えないファイルを正規表現で指定する
 (setq recentf-exclude '("/TAGS$" "/var/tmp/" "^/[^/:]+:"))
 
-
-
-;; ごみ箱を有効
-;; (setq delete-by-moving-to-trash t)
-
 ;; バックアップファイルを作らない
 (setq backup-inhibited t)
 
@@ -98,21 +85,13 @@
 (load "saveplace")
 (setq-default save-place t)
 
-
 ;; 起動画面を表示しない
 (setq inhibit-startup-message t)
-
 
 ;; Emacs serverを起動
 (server-start)
 ;;クライアントを終了するとき終了するかどうかを聞かない
 (remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)
-
-;; (global-set-key (kbd "C-x c") 'server-edit)
-
-
-;; 1画面戻る(M-v)を"Ctr-Shift-v"にも
-(global-set-key (kbd "C-S-v") 'scroll-down)
 
 ;; リージョン選択した状態でisearchすると選択後を検索
 (defadvice isearch-mode (around isearch-mode-default-string (forward &optional regexp op-fun recursive-edit word-p) activate)
@@ -126,8 +105,6 @@
           (goto-char (mark))
           (isearch-repeat-forward)))
     ad-do-it))
-
-
 
 ;; ビューモード
 ;; (setq view-read-only t)
@@ -196,17 +173,10 @@
 (do-not-exit-view-mode-unless-writable-advice view-mode-exit)
 (do-not-exit-view-mode-unless-writable-advice view-mode-disable)
 
-
-;; M-Yで1行コピー
-;; (global-set-key (kbd "M-Y") 'copy-line)
-
-
 ;; C-q -> pre-fix key
 (define-key global-map "\C-q" (make-sparse-keymap))
-
 ;; quoted-insert -> C-q C-q
 (global-set-key "\C-q\C-q" 'quoted-insert)
-
 
 ;; window move
 (global-set-key "\C-ql" 'windmove-right)
@@ -215,9 +185,10 @@
 (global-set-key "\C-qk" 'windmove-up)
 
 ;; window split
-(global-set-key "\C-q1" 'delete-other-windows)
-(global-set-key "\C-q2" 'split-window-vertically)
-(global-set-key "\C-q3" 'split-window-horizontally)
+(global-set-key "\C-qsq" 'my/buffer-kill-and-delete-window)
+(global-set-key "\C-qs1" 'delete-other-windows)
+(global-set-key "\C-qsv" 'split-window-vertically)
+(global-set-key "\C-qsp" 'split-window-horizontally)
 
 
 (defun window-toggle-division ()
@@ -236,8 +207,7 @@
 
     (switch-to-buffer-other-window other-buf)
     (other-window -1)))
-(global-set-key (kbd "C-q 0") 'window-toggle-division)
-
+(global-set-key (kbd "C-q s r") 'window-toggle-division)
 
 
 (defun reopen-file ()
@@ -290,12 +260,10 @@
                 (message (concat "Wrote " name " (+x)"))))))))
 (add-hook 'after-save-hook 'make-file-executable)
 
-
 ;; 折り返しあり
 (setq truncate-lines nil)
 ;; 画面分割してもデフォルトで折り返す
 (setq truncate-partial-width-windows nil)
-
 
 ;; Emacs 終了時にプロセスを自動で殺す
 (defadvice save-buffers-kill-terminal (before my-save-buffers-kill-terminal activate)
@@ -409,3 +377,6 @@
 
 ;; ウィンドウと同時にバッファも閉じる
 (substitute-key-definition 'kill-buffer 'kill-buffer-and-its-windows global-map)
+
+;; 同名の .el と .elc があれば新しい方を読み込む
+(setq load-prefer-newer t)
