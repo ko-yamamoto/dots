@@ -54,6 +54,14 @@
 
 
 
+(defun my/view-as-orgtbl ()
+  (interactive)
+  (orgtbl-mode)
+  (mark-whole-buffer)
+  (org-table-convert-region (region-beginning) (region-end))
+  (setq truncate-lines t))
+
+
 
 ;; key ;;;;;;;;;;;;;;;;;;;;;;;;
 

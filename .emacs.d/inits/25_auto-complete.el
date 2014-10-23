@@ -19,7 +19,8 @@
 ;; 補完選択時にTABをRETの挙動にしない
 (setq ac-dwim nil)
 ;; 表示崩れ防止
-(setq popup-use-optimized-column-computation nil)
+;; (setq popup-use-optimized-column-computation nil)
 
 ;; 追加モード
 (add-to-list 'ac-modes 'org-mode)
+(add-to-list 'ac-modes 'gfm-mode)

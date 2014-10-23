@@ -11,12 +11,10 @@
 ;;====================
 ;; cua
 ;;====================
-;; 矩形選択開始キーの変更
-(setq cua-rectangle-mark-key (kbd "C-S-<return>"))
-;; 矩形処理にcuaを利用
-(cua-mode t)
-;; 矩形以外のcuaの機能をオフ
-(setq cua-enable-cua-keys nil)
+;; 矩形選択開始キーの変更 from 24.4
+;; (global-set-key (kbd "C-S-<return>") 'cua-rectangle-mark-mode)
+;; → 標準機能化され C-x SPC で使えるため不要
+
 
 
 ;;====================
