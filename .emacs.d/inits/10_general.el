@@ -380,3 +380,6 @@
 
 ;; 同名の .el と .elc があれば新しい方を読み込む
 (setq load-prefer-newer t)
+
+;; スペース 1 つ残し、スペースなしをトグル
+(global-set-key (kbd "M-SPC") 'cycle-spacing)

@@ -90,8 +90,7 @@
   (interactive)
   (if truncate-lines
       (setq truncate-lines nil)
-    (setq truncate-lines t))
-  (recenter))
+    (setq truncate-lines t)))
 (global-set-key (kbd "C-c l") 'toggle-truncate-lines) ; 折り返し表示ON/OFF
 (key-chord-define-global "cl" 'toggle-truncate-lines)
 
@@ -253,10 +252,10 @@
   ;; 丁度良くウィンドウを分割
   (interactive)
   ;; (progn
-    (let* ((ration
-            (if (> (frame-width) 220)
-                0.375 ;; 画面が広い場合は黄金比
-              0.3)))
+  (let* ((ration
+          (if (> (frame-width) 220)
+              0.375 ;; 画面が広い場合は黄金比
+            0.3)))
     (split-window (selected-window) (round (* ration (window-width))) t)))
 (global-set-key (kbd "C-q 7") 'my/split-v-gration-windows)
 
@@ -307,7 +306,7 @@
   (if (and mark-active transient-mark-mode)
       (comment-or-uncomment-region (region-beginning) (region-end) arg)
     (if (save-excursion (beginning-of-line) (not (looking-at "\\s-*$")))
-	(if arg (comment-kill (and (integerp arg) arg)) (my-comment-line))
+        (if arg (comment-kill (and (integerp arg) arg)) (my-comment-line))
       (if comment-insert-comment-function
           (funcall comment-insert-comment-function)
         (let ((add (comment-add arg)))
@@ -362,3 +361,29 @@
 (smartrep-define-key
     global-map  "C-x" '((";" . 'my/forward-last-char)
                         (":" . 'my/backward-last-char)))
+
+
+(defun my/byte-compile-directory-recursively ()
+  (interactive)
+  (defun byte-compile-directories (dir)
+    (if (file-directory-p dir)
+        (byte-compile-directory-r (mapcar (function (lambda (f) (concat dir "/" f)))
+                                          (directory-files dir)))))
+  (defun byte-compile-directory-r (file-list)
+    (cond ((null (car file-list))
+           nil)
+          ((and (file-directory-p (car file-list))
+                (not (string-match "/\.\.?$" (car file-list))))
+           (byte-compile-directories (car file-list))
+           (if (not (null (cdr file-list)))
+               (progn
+                 (byte-compile-directories (cadr file-list))
+                 (byte-compile-directory-r (cdr file-list)))))
+          ((string-match "\.el$" (car file-list))
+           (progn
+             (byte-compile-file (car file-list))
+             (byte-compile-directory-r (cdr file-list))))
+          (t
+           (if (not (null (cdr file-list)))
+               (byte-compile-directory-r (cdr file-list))))))
+  (byte-compile-directories (replace-regexp-in-string "/$" "" default-directory)))

@@ -341,3 +341,6 @@ When using this mode the value of `dired-listing-switches' should not contain \"
     (my/split-v-gration-windows)
     (dired-jump)))
 (global-set-key (kbd "C-c d g") 'dired-split-gration-windows)
+
+;; ファイル名以外を隠す・表示する
+(define-key dired-mode-map (kbd "h") 'dired-hide-details-mode)
