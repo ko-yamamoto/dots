@@ -383,3 +383,7 @@
 
 ;; スペース 1 つ残し、スペースなしをトグル
 (global-set-key (kbd "M-SPC") 'cycle-spacing)
+
+
+;; リージョンで C-d したらリージョンごと削除できるように
+(delete-selection-mode t)
