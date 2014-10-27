@@ -163,9 +163,9 @@
 ;;====================
 ;; emacs-historyf
 ;;====================
-;; (require 'historyf)
-;; (define-key global-map (kbd "C-q l") 'historyf-forward)
-;; (define-key global-map (kbd "C-q h") 'historyf-back)
+(require 'historyf)
+(define-key global-map (kbd "C-x C-<left>") 'historyf-back)
+(define-key global-map (kbd "C-x C-<right>") 'historyf-forward)
 ;; (key-chord-define-global "bn" 'historyf-forward)
 ;; (key-chord-define-global "bp" 'historyf-back)
 
