@@ -24,3 +24,14 @@
     ("i"        . 'mc/insert-numbers)
     ("o"        . 'mc/sort-regions)
     ("O"        . 'mc/reverse-regions)))
+
+
+(smartrep-define-key global-map (kbd "C-q")
+  '(("["        . 'historyf-back)
+    ("]"        . 'historyf-forward)))
+
+(smartrep-define-key global-map (kbd "C-q")
+  '(("l"        . 'windmove-right)
+    ("h"        . 'windmove-left)
+    ("j"        . 'windmove-down)
+    ("k"        . 'windmove-up)))
