@@ -40,5 +40,6 @@
 (quelpa '(highlight-symbol :repo "tsdh/highlight-symbol.el" :fetcher github))
 (quelpa '(ace-jump-mode :repo "winterTTr/ace-jump-mode" :fetcher github))
 (quelpa '(ace-isearch :repo "tam17aki/ace-isearch" :fetcher github))
+(quelpa '(historyf :repo "k1LoW/emacs-historyf" :fetcher github))
 
 (quelpa 'undo-tree)
