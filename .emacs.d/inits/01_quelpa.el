@@ -42,5 +42,7 @@
 (quelpa '(ace-isearch :repo "tam17aki/ace-isearch" :fetcher github))
 (quelpa '(historyf :repo "k1LoW/emacs-historyf" :fetcher github))
 (quelpa '(migemo :repo "emacs-jp/migemo" :fetcher github))
+(quelpa '(swoop :repo "ShingoFukuyama/emacs-swoop" :fetcher github))
+
 
 (quelpa 'undo-tree)
