@@ -42,6 +42,7 @@
   ;; (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
 
-  ;; (define-key global-map [?\] [?\\])  ;; \の代わりにバックスラッシュを入力する
+  ;; \の代わりにバックスラッシュを入力する
+  (define-key global-map [165] [92])
 
   )
