@@ -358,9 +358,9 @@
 (global-set-key (kbd "C-S-s") 'my/forward-to-char)
 (global-set-key (kbd "C-S-r") 'my/backward-to-char)
 
-(smartrep-define-key
-    global-map  "C-x" '((";" . 'my/forward-last-char)
-                        (":" . 'my/backward-last-char)))
+;; (smartrep-define-key
+    ;; global-map  "C-x" '((";" . 'my/forward-last-char)
+                        ;; (":" . 'my/backward-last-char)))
 
 
 (defun my/byte-compile-directory-recursively ()
