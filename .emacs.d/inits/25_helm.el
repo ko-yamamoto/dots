@@ -14,6 +14,11 @@
 
 (require 'helm-files)
 
+
+;; 絞り込みでバッファがバッファ名の文字数順で並ぶのを回避
+(defadvice helm-buffers-sort-transformer (around ignore activate)
+  (setq ad-return-value (ad-get-arg 0)))
+
 ;; action を buffer kill に入れ替えたものソース
 (defun helm-c-buffers-list-R-persistent-action (candidate)
   (if current-prefix-arg
