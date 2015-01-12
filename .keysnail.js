@@ -1,8 +1,9 @@
-// // ========================== KeySnail Init File =========================== //
-// // この領域は, GUI により設定ファイルを生成した際にも引き継がれます
-// // 特殊キー, キーバインド定義, フック, ブラックリスト以外のコードは, この中に書くようにして下さい
-// // ========================================================================= //
-// //{{%PRESERVE%
+// ========================== KeySnail Init File =========================== //
+
+// この領域は, GUI により設定ファイルを生成した際にも引き継がれます
+// 特殊キー, キーバインド定義, フック, ブラックリスト以外のコードは, この中に書くようにして下さい
+// ========================================================================= //
+//{{%PRESERVE%
 
 plugins.options["metaplus.metakeys"] = ["ESC", "`"];
 
@@ -61,11 +62,14 @@ plugins.options["twitter_client.dm_update_interval"]       = 60 * 1000 * 10;
 
 
 
-// // 外部エディタの設定
-// plugins.options["K2Emacs.editor"] = "/usr/bin/emacsclient -n";
-// // plugins.options["K2Emacs.ext"] = "html";
-// // plugins.options["K2Emacs.encode"] = "UTF-8";
-// // plugins.options["K2Emacs.sep"] = "/";
+// 外部エディタの設定
+key.setEditKey(["C-c", "e"], function (ev, arg) {
+    ext.exec("edit_text", arg);
+}, "外部エディタで編集", true);
+plugins.options["K2Emacs.editor"] = "C:\\my\\programs\\emacs\\emacs-23.3\\bin\\emacsclientw.exe -n";
+plugins.options["K2Emacs.ext"] = "html";
+plugins.options["K2Emacs.encode"] = "UTF-8";
+plugins.options["K2Emacs.sep"] = "\\";
 
 
 // ヒントの見た目設定
@@ -92,7 +96,7 @@ plugins.options["hok.hint_color_focused"] = 'rgba(204, 102, 102, 0.5)';
 
 // migemo
 prompt.useMigemo = true;
-prompt.migemoMinWordLength = 2;
+prompt.migemoMinWordLength = 3;
 
 
 plugins.options["hitsory.keymap"] = {
@@ -144,15 +148,15 @@ plugins.options["tanything_opt.keymap"] = {
 
 
 
-// // Tombloo連携でGoogleReader
-// // local["^http://www.google.(co.jp|com)/reader/view/"] = [
-// //     // Your local keybind settings here
-// //     ["r", function () {
-// //          let link = content.document.querySelector("#current-entry a.entry-title-link");
-// //          if (link && plugins.kungfloo)
-// //              plugins.kungfloo.reblog(link, false, false, ["FFFFOUND", "Flickr", "Tumblr"]);
-// //      }]
-// // ];
+// Tombloo連携でGoogleReader
+// local["^http://www.google.(co.jp|com)/reader/view/"] = [
+//     // Your local keybind settings here
+//     ["r", function () {
+//          let link = content.document.querySelector("#current-entry a.entry-title-link");
+//          if (link && plugins.kungfloo)
+//              plugins.kungfloo.reblog(link, false, false, ["FFFFOUND", "Flickr", "Tumblr"]);
+//      }]
+// ];
 
 
 plugins.options["kkk.sites"] = ["^https://([0-9a-zA-Z]+\\.)?github\\.com/",
@@ -181,7 +185,7 @@ plugins.options["ril.keymap"] = {
     "r" : "sync"
 };
 
-// // Site local keymap {{ ===================================================== //
+// Site local keymap {{ ===================================================== //
 
 var local = {};
 plugins.options["remap_pages.local_keymap"] = local;
@@ -247,11 +251,11 @@ local["^https?://mail.google.com/mail/"] = [
     ['T', null]
 ];
 
-// // local["^https?://www.facebook.com/"] = [
-// //     // navigation
-// //     ['k', null],
-// //     ['j', null]
-// // ];
+// local["^https?://www.facebook.com/"] = [
+//     // navigation
+//     ['k', null],
+//     ['j', null]
+// ];
 
 
 
@@ -259,62 +263,62 @@ local["^https?://mail.google.com/mail/"] = [
 
 
 
-// // 辞書引き
-// (function () {
-//     function googleSuggest(word) {
-//         const domain = "com";
-//         const base = "http://www.google.%s/complete/search?output=toolbar&q=%s";
+// 辞書引き
+(function () {
+    function googleSuggest(word) {
+        const domain = "com";
+        const base = "http://www.google.%s/complete/search?output=toolbar&q=%s";
 
-//         let ep  = util.format(base, domain, encodeURIComponent(word));
-//         let res = util.httpGet(ep);
+        let ep  = util.format(base, domain, encodeURIComponent(word));
+        let res = util.httpGet(ep);
 
-//         let matched = res.responseText.match("(<toplevel>.*</toplevel>)");
+        let matched = res.responseText.match("(<toplevel>.*</toplevel>)");
 
-//         if (!matched)
-//             return null;
+        if (!matched)
+            return null;
 
-//         let xml = util.xmlToDom(matched[1], util.XHTML);
+        let xml = util.xmlToDom(matched[1], util.XHTML);
 
-//         return Array.slice(xml.querySelectorAll("suggestion[data]")).map(function (suggestion) suggestion.getAttribute("data"));
-//     }
+        return Array.slice(xml.querySelectorAll("suggestion[data]")).map(function (suggestion) suggestion.getAttribute("data"));
+    }
 
-//     function googleCompleter(args, extra) {
-//         let suggestions = googleSuggest(extra.query || "");
+    function googleCompleter(args, extra) {
+        let suggestions = googleSuggest(extra.query || "");
 
-//         return { collection : suggestions, origin : extra.whole.indexOf(extra.left) };
-//     }
+        return { collection : suggestions, origin : extra.whole.indexOf(extra.left) };
+    }
 
-//     shell.add("udic", "Urban dictionary", function (args, extra) {
-//         const base = "http://www.urbandictionary.com/define.php?term=%s";
+    shell.add("udic", "Urban dictionary", function (args, extra) {
+        const base = "http://www.urbandictionary.com/define.php?term=%s";
 
-//         util.setBoolPref("accessibility.browsewithcaret", false);
-//         gBrowser.loadOneTab(util.format(base, encodeURIComponent(args[0])),
-//                             null, null, null, extra.bang);
-//     }, { bang: true, completer: googleCompleter });
+        util.setBoolPref("accessibility.browsewithcaret", false);
+        gBrowser.loadOneTab(util.format(base, encodeURIComponent(args[0])),
+                            null, null, null, extra.bang);
+    }, { bang: true, completer: googleCompleter });
 
-//     shell.add("goodic", M({ja: "Goo 辞書", en: "Goo dic"}), function (args, extra) {
-//         const base = "http://dictionary.goo.ne.jp/search.php?MT=%s&kind=all&mode=0&IE=UTF-8";
+    shell.add("goodic", M({ja: "Goo 辞書", en: "Goo dic"}), function (args, extra) {
+        const base = "http://dictionary.goo.ne.jp/search.php?MT=%s&kind=all&mode=0&IE=UTF-8";
 
-//         util.setBoolPref("accessibility.browsewithcaret", false);
-//         gBrowser.loadOneTab(util.format(base, encodeURIComponent(args[0])),
-//                             null, null, null, extra.bang);
-//     }, { bang: true, completer: googleCompleter });
+        util.setBoolPref("accessibility.browsewithcaret", false);
+        gBrowser.loadOneTab(util.format(base, encodeURIComponent(args[0])),
+                            null, null, null, extra.bang);
+    }, { bang: true, completer: googleCompleter });
 
-//     shell.add("weblio", M({ja: "Weblio", en: "Weblio"}), function (args, extra) {
-//         const base = "http://ejje.weblio.jp/content/%s";
+    shell.add("weblio", M({ja: "Weblio", en: "Weblio"}), function (args, extra) {
+        const base = "http://ejje.weblio.jp/content/%s";
 
-//         util.setBoolPref("accessibility.browsewithcaret", false);
-//         gBrowser.loadOneTab(util.format(base, encodeURIComponent(args[0])),
-//                             null, null, null, extra.bang);
-//     }, { bang: true, completer: googleCompleter });
-
-
+        util.setBoolPref("accessibility.browsewithcaret", false);
+        gBrowser.loadOneTab(util.format(base, encodeURIComponent(args[0])),
+                            null, null, null, extra.bang);
+    }, { bang: true, completer: googleCompleter });
 
 
 
 
 
-// })();
+
+
+})();
 
 
 
@@ -330,170 +334,170 @@ local["^https?://mail.google.com/mail/"] = [
 // '}'].join("\n"));
 
 
-// // ===== Add exts =====
+// ===== Add exts =====
 
-// //最近閉じたタブ
-// ext.add("list-closed-tabs", function () {
-//     const fav = "chrome://mozapps/skin/places/defaultFavicon.png";
-//     var ss = Cc["@mozilla.org/browser/sessionstore;1"].getService(Ci.nsISessionStore);
-//     var json = Cc["@mozilla.org/dom/json;1"].createInstance(Ci.nsIJSON);
-//     var closedTabs = [[tab.image || fav, tab.title] for each (tab in json.decode(ss.getClosedTabData(window)))];
-//     if (!closedTabs.length)
-//         return void display.echoStatusBar("最近閉じたタブが見つかりませんでした", 2000);
-//     prompt.selector({
-//         message : "select tab to undo:",
-//         collection : closedTabs,
-//         keymap : plugins.options['default.keymap'],
-//         flags : [ICON | IGNORE, 0],
-//         callback : function (i) { if (i >= 0) window.undoCloseTab(i); }
-//     });
-// }, "List closed tabs");
+//最近閉じたタブ
+ext.add("list-closed-tabs", function () {
+    const fav = "chrome://mozapps/skin/places/defaultFavicon.png";
+    var ss = Cc["@mozilla.org/browser/sessionstore;1"].getService(Ci.nsISessionStore);
+    var json = Cc["@mozilla.org/dom/json;1"].createInstance(Ci.nsIJSON);
+    var closedTabs = [[tab.image || fav, tab.title] for each (tab in json.decode(ss.getClosedTabData(window)))];
+    if (!closedTabs.length)
+        return void display.echoStatusBar("最近閉じたタブが見つかりませんでした", 2000);
+    prompt.selector({
+        message : "select tab to undo:",
+        collection : closedTabs,
+        keymap : plugins.options['default.keymap'],
+        flags : [ICON | IGNORE, 0],
+        callback : function (i) { if (i >= 0) window.undoCloseTab(i); }
+    });
+}, "List closed tabs");
 
-// //ブラウザの戻る履歴
-// ext.add("list-tab-history", function () {
-//     var tabHistory = [];
-//     var sessionHistory = gBrowser.webNavigation.sessionHistory;
-//     if (sessionHistory.count < 1)
-//         return void display.echoStatusBar("Tab history not exist", 2000);
-//     var curIdx = sessionHistory.index;
-//     for (var i = 0; i < sessionHistory.count; i++) {
-//         var entry = sessionHistory.getEntryAtIndex(i, false);
-//         if (!entry)
-//             continue;
-//         tabHistory.push([util.getFaviconPath(entry.URI.spec), entry.title, entry.URI.spec, i]);
-//     }
-//     for (var thIdx = 0; thIdx < tabHistory.length; thIdx++) {
-//         if (tabHistory[thIdx][3] == curIdx) break;
-//     }
-//     prompt.selector({
-//         message : "select history in tab",
-//         collection : tabHistory,
-//         flags : [ICON | IGNORE, 0, 0, IGNORE | HIDDEN],
-//         header : ["Title", "URL"],
-//         initialIndex: thIdx,
-//         callback : function(i) { if (i >= 0) gBrowser.webNavigation.gotoIndex(tabHistory[i][3]); },
-//         keymap : plugins.options['default.keymap'],
-//         stylist : function (args, n, current) {
-//             let style = '';
-//             if (args[3]== thIdx) style += 'font-weight:bold;';
-//             return style;
-//         }
-//     });
-// }, 'List tab history');
-
-
-
-// // ===== plugins.lib extends =====
-// plugins.lib = _.extend(plugins.lib, {
-//     shortenURL: function (longURL, callback) {
-//         let url = 'https://www.googleapis.com/urlshortener/v1/url';
-//         let xhr = new XMLHttpRequest();
-//         xhr.open("POST", url, true);
-//         xhr.setRequestHeader("Content-Type", "application/json");
-//         xhr.onreadystatechange = function () {
-//             if (xhr.readyState == 4) {
-//                 let url = JSON.parse(xhr.responseText).id;
-//                 callback(url);
-//             }
-//         };
-//         xhr.send(JSON.stringify({ longUrl: longURL }));
-//     }
-// });
+//ブラウザの戻る履歴
+ext.add("list-tab-history", function () {
+    var tabHistory = [];
+    var sessionHistory = gBrowser.webNavigation.sessionHistory;
+    if (sessionHistory.count < 1)
+        return void display.echoStatusBar("Tab history not exist", 2000);
+    var curIdx = sessionHistory.index;
+    for (var i = 0; i < sessionHistory.count; i++) {
+        var entry = sessionHistory.getEntryAtIndex(i, false);
+        if (!entry)
+            continue;
+        tabHistory.push([util.getFaviconPath(entry.URI.spec), entry.title, entry.URI.spec, i]);
+    }
+    for (var thIdx = 0; thIdx < tabHistory.length; thIdx++) {
+        if (tabHistory[thIdx][3] == curIdx) break;
+    }
+    prompt.selector({
+        message : "select history in tab",
+        collection : tabHistory,
+        flags : [ICON | IGNORE, 0, 0, IGNORE | HIDDEN],
+        header : ["Title", "URL"],
+        initialIndex: thIdx,
+        callback : function(i) { if (i >= 0) gBrowser.webNavigation.gotoIndex(tabHistory[i][3]); },
+        keymap : plugins.options['default.keymap'],
+        stylist : function (args, n, current) {
+            let style = '';
+            if (args[3]== thIdx) style += 'font-weight:bold;';
+            return style;
+        }
+    });
+}, 'List tab history');
 
 
-// // imenu 的なものを追加
-// ext.add("imenu-headers", function () {
-//     let anchorSelector = [
-//         "h1",
-//         "h2",
-//         "h3",
-//         "h4"
-//     ].join(",");
 
-//     let elements = Array.slice(content.document.querySelectorAll(anchorSelector));
-
-//     function elementToString(element) {
-//         let headerString = "",
-//             matched = null;
-//         if ((matched = element.localName.match(/h([0-9])/))) {
-//             let headerCount = parseInt(matched[1], 10);
-//             headerString = (new Array(headerCount)).join("  ");
-
-//             let headerMarks = {
-//                 1: '',            /* none */
-//                 2: "\u2023",      /* right arrow */
-//                 3: "\u2022",      /* bullet */
-//                 4: "\u25E6"       /* white bullet */
-//             };
-
-//             if (headerMarks[headerCount])
-//                 headerString = headerString + headerMarks[headerCount] + " ";
-//         }
-
-//         return headerString + element.textContent;
-//     }
-
-//     function scrollToElement(element) {
-//         let anchor = element.getAttribute("id") || element.getAttribute("name");
-//         if (anchor)
-//             content.location.hash = anchor;
-//         else
-//             element.scrollIntoView();
-//     }
-
-//     prompt.selector({
-//         message: "jump to: ",
-//         collection: elements.map(function (element) elementToString(element)),
-//         callback: function (selectedIndex) {
-//             if (selectedIndex < 0)
-//                 return;
-//             scrollToElement(elements[selectedIndex]);
-//         }
-//     });
-// }, "imenu-headers", true);
+// ===== plugins.lib extends =====
+plugins.lib = _.extend(plugins.lib, {
+    shortenURL: function (longURL, callback) {
+        let url = 'https://www.googleapis.com/urlshortener/v1/url';
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                let url = JSON.parse(xhr.responseText).id;
+                callback(url);
+            }
+        };
+        xhr.send(JSON.stringify({ longUrl: longURL }));
+    }
+});
 
 
-// //}}%PRESERVE%
-// // ========================================================================= //
+// imenu 的なものを追加
+ext.add("imenu-headers", function () {
+    let anchorSelector = [
+        "h1",
+        "h2",
+        "h3",
+        "h4"
+    ].join(",");
 
-// // ========================= Special key settings ========================== //
+    let elements = Array.slice(content.document.querySelectorAll(anchorSelector));
 
-// key.quitKey              = "C-g";
-// key.helpKey              = "<f1>";
-// key.escapeKey            = "C-q";
-// key.macroStartKey        = "<f3>";
-// key.macroEndKey          = "<f4>";
-// key.universalArgumentKey = "C-u";
-// key.negativeArgument1Key = "C--";
-// key.negativeArgument2Key = "C-M--";
-// key.negativeArgument3Key = "M--";
-// key.suspendKey           = "<f2>";
+    function elementToString(element) {
+        let headerString = "",
+            matched = null;
+        if ((matched = element.localName.match(/h([0-9])/))) {
+            let headerCount = parseInt(matched[1], 10);
+            headerString = (new Array(headerCount)).join("  ");
 
-// // ================================= Hooks ================================= //
+            let headerMarks = {
+                1: '',            /* none */
+                2: "\u2023",      /* right arrow */
+                3: "\u2022",      /* bullet */
+                4: "\u25E6"       /* white bullet */
+            };
 
-// hook.setHook('KeyBoardQuit', function (aEvent) {
-//     if (key.currentKeySequence.length) {
-//         return;
-//     }
-//     command.closeFindBar();
-//     var marked = command.marked(aEvent);
-//     if (util.isCaretEnabled()) {
-//         if (marked) {
-//             command.resetMark(aEvent);
-//         } else {
-//             if ("blur" in aEvent.target) {
-//                 aEvent.target.blur();
-//             }
-//             gBrowser.focus();
-//             _content.focus();
-//         }
-//     } else {
-//         goDoCommand("cmd_selectNone");
-//     }
-//     if (KeySnail.windowType === "navigator:browser" && !marked) {
-//         key.generateKey(aEvent.originalTarget, KeyEvent.DOM_VK_ESCAPE, true);
-//     }
-// });
+            if (headerMarks[headerCount])
+                headerString = headerString + headerMarks[headerCount] + " ";
+        }
+
+        return headerString + element.textContent;
+    }
+
+    function scrollToElement(element) {
+        let anchor = element.getAttribute("id") || element.getAttribute("name");
+        if (anchor)
+            content.location.hash = anchor;
+        else
+            element.scrollIntoView();
+    }
+
+    prompt.selector({
+        message: "jump to: ",
+        collection: elements.map(function (element) elementToString(element)),
+        callback: function (selectedIndex) {
+            if (selectedIndex < 0)
+                return;
+            scrollToElement(elements[selectedIndex]);
+        }
+    });
+}, "imenu-headers", true);
+
+
+//}}%PRESERVE%
+// ========================================================================= //
+
+// ========================= Special key settings ========================== //
+
+key.quitKey              = "C-g";
+key.helpKey              = "<f1>";
+key.escapeKey            = "C-q";
+key.macroStartKey        = "<f3>";
+key.macroEndKey          = "<f4>";
+key.universalArgumentKey = "C-u";
+key.negativeArgument1Key = "C--";
+key.negativeArgument2Key = "C-M--";
+key.negativeArgument3Key = "M--";
+key.suspendKey           = "<f2>";
+
+// ================================= Hooks ================================= //
+
+hook.setHook('KeyBoardQuit', function (aEvent) {
+    if (key.currentKeySequence.length) {
+        return;
+    }
+    command.closeFindBar();
+    var marked = command.marked(aEvent);
+    if (util.isCaretEnabled()) {
+        if (marked) {
+            command.resetMark(aEvent);
+        } else {
+            if ("blur" in aEvent.target) {
+                aEvent.target.blur();
+            }
+            gBrowser.focus();
+            _content.focus();
+        }
+    } else {
+        goDoCommand("cmd_selectNone");
+    }
+    if (KeySnail.windowType === "navigator:browser" && !marked) {
+        key.generateKey(aEvent.originalTarget, KeyEvent.DOM_VK_ESCAPE, true);
+    }
+});
 
 
 
@@ -808,11 +812,11 @@ key.setViewKey('L', function (ev) {
 }, '進む');
 
 key.setViewKey([['C-n'], ['j']], function (ev) {
-    plugins.scrollet.scrollLines(8);
+    plugins.scrollet.scrollLines(15);
 }, '4行スクロールダウン');
 
 key.setViewKey([['C-p'], ['k']], function (ev) {
-    plugins.scrollet.scrollLines(-8);
+    plugins.scrollet.scrollLines(-15);
 }, '4行スクロールアップ');
 
 key.setViewKey([['M-m'], ['i']], function (ev) {
@@ -915,7 +919,7 @@ key.setViewKey(['ESC', 'ESC'], function (ev) {
     userscript.loadPlugins();
 }, 'プラグインのリロード');
 
-key.setEditKey(['C-c', 'o'], function (ev, arg) {
+key.setEditKey(['C-c', 'e'], function (ev, arg) {
     ext.exec("edit_text", arg);
 }, '外部エディタで編集', true);
 
