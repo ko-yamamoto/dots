@@ -46,3 +46,7 @@
 
 
 (quelpa 'undo-tree)
+
+
+(quelpa 'slime)
+(quelpa 'ac-slime)
