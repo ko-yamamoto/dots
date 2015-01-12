@@ -322,16 +322,16 @@ local["^https?://mail.google.com/mail/"] = [
 
 
 
-// promptで自動日本語入力オフ
-// style.register(<><![CDATA[
-//     #keysnail-prompt-textbox *|input {
-//         ime-mode : inactive !important;
-//     }
-// ]]></>);
-// E4X が廃止のため書き換え
-style.register(['#keysnail-prompt-textbox *|input {',
-'ime-mode : inactive !important;',
-'}'].join("\n"));
+// // promptで自動日本語入力オフ
+// // style.register(<><![CDATA[
+// //     #keysnail-prompt-textbox *|input {
+// //         ime-mode : inactive !important;
+// //     }
+// // ]]></>);
+// // E4X が廃止のため書き換え
+// style.register(['#keysnail-prompt-textbox *|input {',
+// 'ime-mode : inactive !important;',
+// '}'].join("\n"));
 
 
 // ===== Add exts =====
@@ -812,11 +812,11 @@ key.setViewKey('L', function (ev) {
 }, '進む');
 
 key.setViewKey([['C-n'], ['j']], function (ev) {
-    plugins.scrollet.scrollLines(8);
+    plugins.scrollet.scrollLines(15);
 }, '4行スクロールダウン');
 
 key.setViewKey([['C-p'], ['k']], function (ev) {
-    plugins.scrollet.scrollLines(-8);
+    plugins.scrollet.scrollLines(-15);
 }, '4行スクロールアップ');
 
 key.setViewKey([['M-m'], ['i']], function (ev) {
