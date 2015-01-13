@@ -3,7 +3,7 @@
 ;;====================
 ;; Keycordの設定
 (use-package key-chord
-  :defer t
+  ;; :defer t
   :config
   (key-chord-mode 1)
   (setq key-chord-one-keys-delay 0.04)
