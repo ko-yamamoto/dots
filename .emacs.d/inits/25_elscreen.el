@@ -1,17 +1,20 @@
 (use-package elscreen
   :ensure t
- :defer t
+  :defer t
   :bind (("<C-tab>" . elscreen-next)
          ("<C-S-tab>" . elscreen-previous)
          ("<C-S-iso-lefttab>" . elscreen-previous)
          ("C-:" . helm-with-new-elscreen)
          ("C-x j" . dired-with-new-elscreen)
-         ("C-q c" . elscreen-clone)
+         ("C-q c" . elscreen-create)
+         ("C-q C-c" . elscreen-clone)
          ("C-q x" . elscreen-kill)
-         ("C-q X" . elscreen-kill-screen-and-buffers))
+         ("C-q X" . elscreen-kill-screen-and-buffers)
+         ("C-q C-x" . elscreen-kill-screen-and-buffers))
   :init
   (elscreen-start)
   :config
+  (setq elscreen-prefix-key "\C-q")
   ;; タブコントロールを左端に表示しない
   (setq elscreen-tab-display-control nil)
   ;; タブを閉じる [X] を表示しない
