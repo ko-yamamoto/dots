@@ -1,4 +1,3 @@
-;; org-modeの初期化
 (use-package org
   :defer t
   :bind (("C-c o o" . open-my-org-directory)
