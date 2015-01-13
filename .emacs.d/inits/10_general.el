@@ -8,7 +8,7 @@
                     (global-unset-key [down-mouse-3])
                     ;; マウスの右クリックメニューを使えるようにする
                     (defun bingalls-edit-menu (event)  (interactive "e")
-                      (popup-menu menu-bar-edit-menu))
+                           (popup-menu menu-bar-edit-menu))
                     (global-set-key [mouse-3] 'bingalls-edit-menu)))
 
 ;; C-hをヘルプから外すための設定
@@ -155,7 +155,7 @@
 
 ;; 書き込み不能なファイルはview-modeで開くように
 (defadvice find-file
-  (around find-file-switch-to-view-file (file &optional wild) activate)
+    (around find-file-switch-to-view-file (file &optional wild) activate)
   (if (and (not (file-writable-p file))
            (not (file-directory-p file)))
       (view-file file)
@@ -231,22 +231,12 @@
 (global-set-key (kbd "C-x C-r") 'reopen-file)
 
 ;; ウィンドウ移動を楽に
-;; (define-key global-map (kbd "C-t") 'other-window)
 (defun other-window-or-split ()
   (interactive)
   (when (one-window-p)
     (split-window-horizontally))
   (other-window 1))
 (global-set-key (kbd "C-t") 'other-window-or-split)
-(define-key dired-mode-map (kbd "C-t") 'other-window-or-split)
-
-;; (makunbound 'overriding-minor-mode-map)
-;; (define-minor-mode overriding-minor-mode
-;;   "強制的にC-tを割り当てる"             ;説明文字列
-;;   t                                     ;デフォルトで有効にする
-;;   ""                                    ;モードラインに表示しない
-;;   `((,(kbd "C-t") . other-window-or-split)))
-
 
 ;; 自動でchmod+x
 (defun make-file-executable ()
@@ -278,6 +268,13 @@
 ;; ミニバッファで C-w すると単語ではなく1つ上のパスまでを削除
 (define-key minibuffer-local-completion-map "\C-w" 'backward-kill-word)
 
+(defun kill-region-or-backward-word ()
+  "If the region is active and non-empty, call `kill-region'.
+Otherwise, call `backward-kill-word'."
+  (interactive)
+  (call-interactively
+   (if (use-region-p) 'kill-region 'backward-kill-word)))
+(global-set-key (kbd "C-w") 'kill-region-or-backward-word)
 
 ;; Autosave every 500 typed characters
 (setq auto-save-interval 500)
@@ -350,15 +347,6 @@
 ;;     (and transient-mark-mode mark-active)))
 ;; (global-set-key (kbd "M-f") 'my-forward-word)
 
-;; 「Emacsのトラノマキ」連載第16回「元Vimmerが考えるEmacsの再設計」(深町英太郎) | ありえるえりあ - http://dev.ariel-networks.com/wp/documents/aritcles/emacs/part16
-;; 範囲指定していないとき、C-wで前の単語を削除
-(defadvice kill-region (around kill-word-or-kill-region activate)
-  (if (and (interactive-p) transient-mark-mode (not mark-active))
-      (backward-kill-word 1)
-    ad-do-it))
-;; minibuffer用
-(define-key minibuffer-local-completion-map (kbd "C-w") 'backward-kill-word)
-
 ;; カーソル位置の単語を削除
 (defun kill-word-at-point ()
   (interactive)
@@ -388,3 +376,18 @@
 
 ;; リージョンで C-d したらリージョンごと削除できるように
 (delete-selection-mode t)
+
+
+;; 折り返し表示をトグル
+(defun toggle-truncate-lines ()
+  "折り返し表示をトグル動作します."
+  (interactive)
+  (if truncate-lines
+      (setq truncate-lines nil)
+    (setq truncate-lines t)))
+(global-set-key (kbd "C-c l") 'toggle-truncate-lines) ; 折り返し表示ON/OFF
+
+;; コマンド履歴を永続的に残す
+(setq desktop-globals-to-save '(extended-command-history))
+(setq desktop-files-not-to-save "")
+(desktop-save-mode 1)

@@ -1,6 +1,5 @@
 (use-package smartrep
   :ensure t
-  :defer t
   :config
   (smartrep-define-key
    global-map "C-z" '(("c" . 'elscreen-create)

@@ -1,6 +1,6 @@
 (use-package elscreen
   :ensure t
- :defer t
+  :defer t
   :bind (("<C-tab>" . elscreen-next)
          ("<C-S-tab>" . elscreen-previous)
          ("<C-S-iso-lefttab>" . elscreen-previous)
