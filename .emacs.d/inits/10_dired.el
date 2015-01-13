@@ -2,7 +2,10 @@
 ;; Dired
 ;;====================
 (use-package dired
-  ;; :defer t
+  :defer t
+  :bind (("C-c d g" . dired-split-gration-windows)
+         ("C-x C-j" . dired-jump)
+         ("C-x j" . dired-with-new-elscreen))
   :config
   (require 'dired-x)
   (require 'wdired)
@@ -268,7 +271,6 @@ When using this mode the value of `dired-listing-switches' should not contain \"
     (progn
       (my/split-v-gration-windows)
       (dired-jump)))
-  (global-set-key (kbd "C-c d g") 'dired-split-gration-windows)
 
   (bind-keys :map dired-mode-map
              ("a" . dired-list-all-mode)
@@ -292,10 +294,9 @@ When using this mode the value of `dired-listing-switches' should not contain \"
 
              ("C-c o" . dired-open-dwim)
              ("C-c ." . dired-open-here)
+             ("C-t" . other-window-or-split)
 
-             ("RET" . dired-open-in-accordance-with-situation)
-
-             )
+             ("RET" . dired-open-in-accordance-with-situation))
 
 
   )

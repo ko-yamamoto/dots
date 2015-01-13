@@ -2,8 +2,11 @@
 ;; color-moccur
 ;;====================
 (use-package color-moccur
+  :defer t
+  :ensure t
+  :bind (("M-o" . occur-by-moccur)
+         ("C-M-o" . moccur-grep-find))
   :config
-
   ;; スペース区切りの複数語での検索を行う場合は t
   (setq moccur-split-word t)
   ;; q で終了したらバッファも閉じる
@@ -18,17 +21,11 @@
   (add-to-list 'dmoccur-exclusion-mask "^#.+#$")
   (add-to-list 'dmoccur-exclusion-mask "\\.git\\/\*")
 
-  (global-set-key (kbd "M-o") 'occur-by-moccur)
-  (global-set-key (kbd "C-M-o") 'moccur-grep-find)
   (add-hook 'dired-mode-hook ;dired
             '(lambda ()
                (local-set-key (kbd "O") 'dired-do-moccur)))
 
-  ;;====================
-  ;; moccur-edit
-  ;;====================
   (require 'moccur-edit nil t)
-
   ;; moccur-edit-finish-editと同時にファイルを保存する
   (defadvice moccur-edit-change-file
     (after save-after-moccur-edit-buffer activate)

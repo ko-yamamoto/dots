@@ -1,5 +1,10 @@
 (use-package helm
+  :defer t
   :ensure t
+  :bind (("C-;" . helm-my)
+         ("M-y" . helm-show-kill-ring)
+         ("M-i" . helm-imenu)
+         ("C-q ;" . helm-git-project))
   :config
   (require 'helm-config)
   (helm-mode 1)
@@ -115,13 +120,6 @@
                          helm-c-source-buffer-not-found)
                        "*helm my*"))
 
-  (define-key global-map (kbd "C-;") 'helm-my)
-  ;; (global-set-key (kbd "C-x C-f") 'helm-find-files)
-  (global-set-key (kbd "M-y") 'helm-show-kill-ring)
-
-  (global-set-key (kbd "M-i") 'helm-imenu)
-
-
   ;; git 管理ファイルを状態に応じて表示
   (defun helm-c-sources-git-project-for (pwd)
     (loop for elt in
@@ -152,6 +150,4 @@
       (let* ((default-directory topdir)
              (sources (helm-c-sources-git-project-for default-directory)))
         (helm-other-buffer sources "*helm git project*"))))
-
-  (global-set-key (kbd "C-q ;") 'helm-git-project)
   )
