@@ -1,6 +1,5 @@
 ./Makefile.in
 ./aclocal.m4
-./CONTRIBUTORS
 ./.dir-locals.el
 ./lisp/Makefile.in
 ./lisp/tramp-ftp.el

@@ -1,3 +1,357 @@
+2014-06-15  Michael Albinus  <michael.albinus@gmx.de>
+
+	Version 2.2.10 released.
+
+	* tramp.el (tramp-check-cached-permissions): Use
+	`tramp-compat-file-attributes'.
+
+	* tramp-cache.el (tramp-flush-file-function): Do not flush file
+	properties of temporary buffers.
+
+	* tramp-sh.el (tramp-call-local-coding-command): Use nil as
+	argument of `tramp-call-process'.
+
+2014-06-13  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp.el (tramp-call-process): Add new argument VEC.
+	(tramp-set-completion-function, tramp-parse-putty)
+	* tramp-adb.el (tramp-adb-execute-adb-command)
+	* tramp-sh.el (tramp-sh-handle-set-file-times)
+	(tramp-set-file-uid-gid, tramp-do-copy-or-rename-file-out-of-band)
+	(tramp-sh-handle-write-region, tramp-call-local-coding-command):
+	Adapt callees.
+
+	* tramp-adb.el (tramp-adb-maybe-open-connection): Don't set
+	`tramp-current-*' variables.
+
+	* tramp-gvfs.el (tramp-gvfs-handle-file-name-all-completions):
+	Use "-h" option for "gvfs-ls".
+	(tramp-gvfs-send-command): Simplify traces.
+
+	* tramp-smb.el (tramp-smb-handle-insert-directory): Use progress
+	reporter.
+
+2014-06-03  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp.el (tramp-ssh-controlmaster-options): Improve search
+	regexp.  (Bug#17653)
+
+2014-06-02  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp.el (tramp-call-process): Add traces.
+	(tramp-handle-unhandled-file-name-directory): Return "/".
+
+2014-05-31  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-adb.el (tramp-adb-handle-write-region): Improve messages.
+
+	* tramp-efs.el (top):
+	* tramp-ftp.el (top): Remove special handling for URL syntax.
+
+	* tramp-gvfs.el (tramp-gvfs-handle-delete-file): Flush file
+	properties, not directory properties.
+
+	* tramp-smb.el (tramp-smb-handle-copy-directory)
+	(tramp-smb-handle-set-file-acl): Use `start-process'.
+	(tramp-smb-handle-rename-file): Flush also file properties of
+	FILENAME.
+
+2014-05-26  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-gvfs.el (tramp-gvfs-methods) <sftp>: Add.
+	(tramp-gvfs-handle-file-attributes): Use `string-to-number' when
+	reading "unix::mode".
+	(tramp-gvfs-url-file-name): `user' and `localname' could be nil.
+
+	* tramp-sh.el (tramp-methods) <sftp>: Remove.  It has never worked
+	satisfactorily.
+	(top): Remove completion function for "sftp".
+
+2014-05-17  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-sh.el (tramp-find-inline-encoding): Do not match "%%t" for
+	a temporary file name.
+
+2014-05-13  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-sh.el (tramp-methods) <plinkx>: Reinsert.  There are
+	cases, where "plink -ssh" is not desired.
+	(top): Reinsert completion function for "plinkx".
+
+2014-05-12  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp.el (tramp-handle-file-accessible-directory-p): Check for
+	`file-readable-p' instead of `file-executable-p'.
+
+2014-05-06  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-sh.el (tramp-uudecode): Replace the hard-coded temporary
+	file name by a format specifier.
+	(tramp-remote-coding-commands): Enhance docstring.
+	(tramp-find-inline-encoding): Replace "%t" by a temporary file
+	name.  (Bug#17415)
+	This is CVE-2014-3424.
+
+2014-05-05  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-sh.el (tramp-remote-process-environment): Change :version
+	to "24.4".
+	(tramp-open-shell): Do not let-bind `tramp-end-of-output'.
+
+2014-04-22  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-sh.el (tramp-sh-handle-file-name-all-completions):
+	Set IFS=" when using read builtin, in order to preserve spaces in
+	the file name.
+
+2014-04-16  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp.el (tramp-run-real-handler, tramp-file-name-handler):
+	Do not autoload.
+	(tramp-file-name-handler, tramp-completion-file-name-handler):
+	Revert patch from 2014-04-10, it isn't necessary anymore.
+	(tramp-autoload-file-name-handler)
+	(tramp-register-autoload-file-name-handlers): New defuns.
+	(top): Autoload call of `tramp-register-autoload-file-name-handlers'.
+	(tramp-register-file-name-handlers): Remove also
+	`tramp-autoload-file-name-handler' from `file-name-handler-list'.
+	Do not autoload its invocation, but eval it after loading of 'tramp.
+
+2014-04-13  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-sh.el (tramp-sh-handle-file-truename): Revert previous
+	patch, there are new problems with file names containing spaces.
+	Get rid of backticks.  (Bug#17238)
+
+2014-04-11  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-sh.el (tramp-sh-handle-file-truename): Quote the file name
+	twice due to backticks.  (Bug#17238)
+	(tramp-sh-handle-expand-file-name): Tweak docstring.
+
+2014-04-10  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp.el (tramp-methods): Tweak docstring.
+	(tramp-file-name-handler, tramp-completion-file-name-handler):
+	Avoid recursive loading.
+
+	* tramp-adb.el (tramp-unload-hook): Unload `tramp-adb'.
+
+	* tramp-compat.el (tramp-unload-hook): Unload `tramp-loaddefs'.
+
+	* tramp-sh.el (tramp-do-copy-or-rename-file-out-of-band):
+	Tweak docstring.
+	(tramp-sh-handle-write-region): Tweak error message.
+	(tramp-make-copy-program-file-name): Tweak docstring.  Quote
+	result also locally.
+
+2014-03-31  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-sh.el (tramp-remote-process-environment): Remove HISTFILE
+	and HISTSIZE; it's too late to set them here.  Add :version entry.
+	(tramp-open-shell): Add "HISTFILE=/dev/null" to the shell's env
+	arguments.  Do not send extra "PSx=..." commands.
+	(tramp-maybe-open-connection): Setenv HISTFILE to /dev/null.
+
+2014-03-25  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp.el (tramp-connection-timeout): Fix docstring.
+
+	* tramp-sh.el (tramp-sh-handle-vc-registered): Revert change from
+	2014-03-07, it decreases performance unnecessarily.  Let-bind
+	`remote-file-name-inhibit-cache' to nil in the second pass.
+	(tramp-do-copy-or-rename-file-directly): In the `rename' case,
+	check whether source directory has set the sticky bit.
+
+2014-03-24  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-sh.el (tramp-methods) <plinkx>: Remove.  Use its
+	`tramp-login-args' for "plink", "pscp" and "psftp".
+	(top): Remove completion function for "plinkx".  Completion
+	function for "psftp" is `tramp-completion-function-alist-ssh'.
+	(tramp-find-executable): Do not call "which" on SunOS.
+
+2014-03-23  Thierry Volpiatto  <thierry.volpiatto@gmail.com>
+
+	* tramp.el (tramp-read-passwd): Suspend the timers while reading
+	the password.
+
+2014-03-21  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp.el (tramp-methods): Add docstring for `tramp-login-env'
+	and `tramp-copy-env'.
+
+	* tramp-sh.el (tramp-methods) <sudo>: Add `tramp-login-env'.
+	(tramp-maybe-open-connection): Handle `tramp-login-env'.
+
+2014-03-20  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-sh.el (vc-handled-backends, vc-bzr-program)
+	(vc-git-program, vc-hg-program): Declare.
+	(tramp-sh-handle-vc-registered): Remove backends when the remote
+	binary does not exist.
+
+2014-03-17  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp.el (tramp-action-out-of-band): Read pending output.
+
+	* tramp-sh.el (tramp-methods) <telnet, nc>: Redirect stderr to
+	"/dev/null".
+	(tramp-do-copy-or-rename-file-out-of-band): Simplify assembling of
+	remote command.
+	(tramp-find-inline-encoding): Do not raise an error.
+	(tramp-send-command-and-check): Fix docstring.
+
+2014-03-16  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-sh.el (tramp-methods) <nc>:  Tune `tramp-remote-copy-*'.
+	(tramp-do-copy-or-rename-file-out-of-band): Fiddle with the remote
+	commands.
+
+2014-03-14  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp.el (tramp-methods): Add docstring for
+	`tramp-remote-copy-program' and `tramp-remote-copy-args'.
+
+	* tramp-sh.el (tramp-methods) <nc>: Add `tramp-remote-copy-*'.
+	(tramp-do-copy-or-rename-file-out-of-band): Merge
+	`tramp-do-copy-or-rename-file-with-nc'.
+	(tramp-do-copy-or-rename-file-with-nc, tramp-get-remote-nc): Remove.
+	(tramp-make-copy-program-file-name): Handle also the "nc" case.
+
+2014-03-13  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp.el (tramp-methods): Fix docstring for `tramp-copy-program'.
+	(tramp-call-process): Trace also DESTINATION.
+
+	* tramp-sh.el (tramp-methods, tramp-default-user-alist): Add "nc".
+	(top): Completion function for "nc" is
+	`tramp-completion-function-alist-telnet'.
+	(tramp-do-copy-or-rename-file-out-of-band): Call function if
+	adviced in `tramp-methods'.  Do not set `default-directory' for
+	`start-process-shell-command' call, not needed anymore.
+	(tramp-do-copy-or-rename-file-with-nc, tramp-get-remote-nc): New defuns.
+
+2014-03-10  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-sh.el (tramp-open-connection-setup-interactive-shell):
+	Do not add nil to the environment, when there's no remote `locale'.
+	(tramp-find-inline-encoding): Check, that the remote host has
+	installed perl, before sending scripts.
+
+2014-03-07  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-sh.el (tramp-sh-handle-vc-registered): Run first pass only
+	when `remote-file-name-inhibit-cache' is nil.
+	(tramp-sh-file-name-handler): Use `tramp-error'.  Simplify code.
+
+2014-03-06  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp.el (tramp-error): VEC-OR-PROC can be nil.
+	(tramp-action-password): Clear password cache if needed.
+	(tramp-read-passwd): Do not clear password cache.
+
+	* tramp-gvfs.el (tramp-gvfs-handler-askpassword): Clear password
+	cache unless it is the first password request.
+
+2014-03-04  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-sh.el (tramp-sh-handle-vc-registered): Do not call
+	`tramp-send-command-and-check'.
+
+2014-02-28  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-adb.el (tramp-adb-parse-device-names):
+	Use `accept-process-output'.
+	(tramp-adb-handle-file-truename): Cache the localname only.
+	(tramp-adb-handle-make-directory)
+	(tramp-adb-handle-delete-directory): Flush file properties correctly.
+	(tramp-adb-handle-set-file-modes): Do not raise an error when file
+	modes cannot be changed.
+
+	* tramp-cache.el (tramp-flush-directory-property): Remove also
+	file properties of symlinks.
+
+2014-02-27  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp.el (tramp-call-process): Improve trace message.
+	(tramp-handle-insert-file-contents): Trace error case.
+
+	* tramp-adb.el (tramp-adb-file-name-handler-alist)
+	<insert-directory>: Use `tramp-handle-insert-directory'.
+	(tramp-adb-handle-insert-directory): Remove function.
+	(tramp-adb-send-command-and-check): New defun, replacing
+	`tramp-adb-command-exit-status'.  Change all callees.
+	(tramp-adb-handle-file-attributes)
+	(tramp-adb-handle-directory-files-and-attributes): Use it.
+	(tramp-adb-ls-output-name-less-p): Use
+	`directory-listing-before-filename-regexp'.
+	(tramp-adb-handle-delete-directory): Flush also file properties of
+	the truename of directory.
+	(tramp-adb-handle-file-name-all-completions): Add "./" and "../".
+	(tramp-adb-handle-file-local-copy): Make the local copy readable.
+	(tramp-adb-handle-write-region): Implement APPEND.
+	(tramp-adb-handle-rename-file): Make it more robust.  Flush file
+	properties correctly.
+	(tramp-adb-maybe-open-connection): Set `tramp-current-*'
+	variables.  Check for connected devices only when needed.
+
+2014-02-27  Daniel Colascione  <dancol@dancol.org>
+
+	* tramp-sh.el (tramp-get-remote-path): Don't signal error when
+	explicit tramp path is empty.
+
+2014-02-24  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-sh.el (tramp-sh-handle-file-truename): Improve last fix.
+
+2014-02-23  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp-sh.el (tramp-sh-handle-file-truename):
+	Preserve trailing "/".  (Bug#16851)
+
+2014-02-21  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp.el (tramp-check-cached-permissions):
+	Call `file-attributes' with `suffix' being a symbol but a string.
+
+2014-02-20  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp.el (ls-lisp-use-insert-directory-program): Declare.
+	(tramp-handle-insert-directory): New defun, taken from tramp-gvfs.el.
+
+	* tramp-gvfs.el (tramp-gvfs-file-name-handler-alist)
+	<insert-directory>: Use `tramp-handle-insert-directory'.
+	(tramp-gvfs-handle-insert-directory): Remove function.
+
+	* tramp-sh.el (tramp-sh-handle-insert-directory):
+	Call `tramp-handle-insert-directory'.
+
+2014-02-19  Michael Albinus  <michael.albinus@gmx.de>
+
+	* tramp.el (tramp-handle-make-symbolic-link): New defun.
+	(tramp-check-cached-permissions): Call `file-attributes' if the
+	cache is empty.
+
+	* tramp-adb.el (tramp-adb-file-name-handler-alist)
+	<make-symbolic-link>: Use `tramp-handle-make-symbolic-link'.
+
+	* tramp-gvfs.el (tramp-gvfs-file-name-handler-alist)
+	<make-symbolic-link>: Use `tramp-handle-make-symbolic-link'.
+	(tramp-gvfs-maybe-open-connection): Set always connection
+	properties, even if target is mounted already.
+
+	* tramp-sh.el (tramp-color-escape-sequence-regexp):
+	Set tramp-autoload cookie.
+	(tramp-get-remote-touch): New defun.
+	(tramp-sh-handle-set-file-times): Use it.
+	(tramp-sh-handle-directory-files-and-attributes):
+	Use `tramp-handle-directory-files-and-attributes' if neither stat
+	nor perl are available on the remote host.
+
+	* tramp-smb.el (tramp-smb-handle-insert-directory): Mark trailing
+	"/".  Write long listing only when "l" belongs to the switches.
+
 2014-02-16  Michael Albinus  <michael.albinus@gmx.de>
 
 	Version 2.2.9 released.
@@ -204,7 +558,7 @@
 	* tramp-smb.el (tramp-smb-acl-program): New customer option.
 	(tramp-smb-errors): Add error messages.
 	(tramp-smb-actions-with-acl): New defconst.
-	(tramp-smb-file-name-handler-alist) [set-file-acl]: Add handler.
+	(tramp-smb-file-name-handler-alist) <set-file-acl>: Add handler.
 	(tramp-smb-action-with-acl, tramp-smb-handle-set-file-acl): New defuns.
 	(tramp-smb-handle-file-acl): Rewrite, using "smbcacls".
 	(tramp-smb-handle-file-attributes): Simplify test for "stat" capability.
@@ -474,18 +828,18 @@
 
 	* tramp-adb.el (tramp-adb-file-name-handler-alist): Order
 	alphabetically.
-	[access-file, add-name-to-file, dired-call-process]:
-	[dired-compress-file, file-acl, file-notify-rm-watch]:
-	[file-ownership-preserved-p, file-selinux-context]:
-	[make-directory-internal, make-symbolic-link, set-file-acl]:
-	[set-file-selinux-context, set-visited-file-modtime]:
-	[verify-visited-file-modtime]: Add handler.
+	<access-file, add-name-to-file, dired-call-process>:
+	<dired-compress-file, file-acl, file-notify-rm-watch>:
+	<file-ownership-preserved-p, file-selinux-context>:
+	<make-directory-internal, make-symbolic-link, set-file-acl>:
+	<set-file-selinux-context, set-visited-file-modtime>:
+	<verify-visited-file-modtime>: Add handler.
 	(tramp-adb-handle-write-region): Apply `set-visited-file-modtime'.
 
 	* tramp-gvfs.el (tramp-gvfs-file-name-handler-alist)
-	[file-notify-add-watch, file-notify-rm-watch]:
-	[set-file-times, set-visited-file-modtime]:
-	[verify-visited-file-modtime]: Add handler.
+	<file-notify-add-watch, file-notify-rm-watch>:
+	<set-file-times, set-visited-file-modtime>:
+	<verify-visited-file-modtime>: Add handler.
 	(with-tramp-gvfs-error-message)
 	(tramp-gvfs-handle-set-visited-file-modtime)
 	(tramp-gvfs-fuse-file-name): Remove.
@@ -495,8 +849,8 @@
 
 	* tramp-sh.el (tramp-sh-file-name-handler-alist): Order
 	alphabetically.
-	[file-notify-rm-watch ]: Use default Tramp handler.
-	[executable-find]: Remove private handler.
+	<file-notify-rm-watch>: Use default Tramp handler.
+	<executable-find>: Remove private handler.
 	(tramp-do-copy-or-rename-file-out-of-band): Do not bind
 	`default-directory'.
 	(tramp-sh-handle-executable-find)
@@ -506,8 +860,8 @@
 	Do not use `format' in `tramp-message'.
 
 	* tramp-smb.el (tramp-smb-file-name-handler-alist)
-	[file-notify-rm-watch, set-visited-file-modtime]:
-	[verify-visited-file-modtime]: Add handler.
+	<file-notify-rm-watch, set-visited-file-modtime>:
+	<verify-visited-file-modtime>: Add handler.
 	(tramp-smb-call-winexe): Do not bind `default-directory'.
 
 2013-07-29  Michael Albinus  <michael.albinus@gmx.de>
@@ -565,7 +919,7 @@
 	* tramp-gvfs.el (tramp-gvfs-maybe-open-connection):
 	* tramp-sh.el (tramp-maybe-open-connection):
 	Use `tramp-connection-timeout'.
-	(tramp-methods) [su, sudo, ksu]: Add method specific timeouts.
+	(tramp-methods) <su, sudo, ksu>: Add method specific timeouts.
 
 2013-07-10  Michael Albinus  <michael.albinus@gmx.de>
 
@@ -709,13 +1063,13 @@
 	(tramp-gvfs-methods-mounttracker, tramp-gvfs-listmounts)
 	(tramp-gvfs-mountlocation, tramp-gvfs-mountlocation-signature):
 	New defconst.
-	(tramp-gvfs-file-name-handler-alist) [directory-files]:
-	[directory-files-and-attributes, file-exists-p, file-modes]: Use
+	(tramp-gvfs-file-name-handler-alist) <directory-files>:
+	<directory-files-and-attributes, file-exists-p, file-modes>: Use
 	Tramp default handler.
-	[file-acl, file-selinux-context, process-file, set-file-acl]:
-	[set-file-modes, set-file-selinux-context, shell-command]:
-	[start-file-process ]: Remove handler.
-	[verify-visited-file-modtime]: New handler.
+	<file-acl, file-selinux-context, process-file, set-file-acl>:
+	<set-file-modes, set-file-selinux-context, shell-command>:
+	<start-file-process>: Remove handler.
+	<verify-visited-file-modtime>: New handler.
 	(tramp-gvfs-dbus-string-to-byte-array)
 	(tramp-gvfs-dbus-byte-array-to-string): New defuns.  Replace all
 	calls of `dbus-string-to-byte-array' and
@@ -792,7 +1146,7 @@
 	(tramp-find-method): Check for obsolete methods.  Map them to a
 	replacement method if appropriate.
 
-	* tramp-sh.el (tramp-methods) [scp1, scp2, ssh1, ssh2, plink1]:
+	* tramp-sh.el (tramp-methods) <scp1, scp2, ssh1, ssh2, plink1>:
 	Remove methods.
 	(top): Remove completion functions for "scp1", "scp2", "ssh1",
 	"ssh2" and "plink1".
@@ -892,10 +1246,10 @@
 	replacing `tramp-detect-ssh-controlmaster'.
 	(tramp-default-method): Use it.
 
-	* tramp-sh.el (tramp-methods) [scp, scp1, scp2, scpx, sftp]:
-	[rsync, ssh, ssh1, ssh2, sshx]: Add ControlPath and ControlMaster
+	* tramp-sh.el (tramp-methods) <scp, scp1, scp2, scpx, sftp>:
+	<rsync, ssh, ssh1, ssh2, sshx>: Add ControlPath and ControlMaster
 	arguments.
-	[scpc, rsyncc]: Remove methods.
+	<scpc, rsyncc>: Remove methods.
 	(top): Remove completion functions for "scpc", "rsyncc", "ssh1_old"
 	and "ssh2_old".
 	(tramp-do-copy-or-rename-file-out-of-band):  Change trace level.
@@ -5532,7 +5886,7 @@
 	macros by their implementations where necessary.  Requested by
 	Richard Stallman <rms@gnu.org>.
 
-	* tramp.el (tramp-file-name-p, tramp-file-name-method,
+	* tramp.el (tramp-file-name-p, tramp-file-name-method)
 	(tramp-file-name-user, tramp-file-name-host)
 	(tramp-file-name-localname): New defuns, replacing defstruct
 	`tramp-file-name'.
@@ -6655,7 +7009,7 @@
 
 2006-01-27  Michael Albinus  <michael.albinus@gmx.de>
 
-	* tramp.el, tramp-cache.el, tramp-ftp.el, tramp-util.el,
+	* tramp.el, tramp-cache.el, tramp-ftp.el, tramp-util.el:
 	* tramp-vc.el: Add code for unloading Tramp.  See comment before
 	`tramp-unload-tramp' for checklist.
 
@@ -10237,8 +10591,8 @@
 
 	Version 2.0.10 released.
 
-	* tramp.el (tramp-perl-encode-with-module,
-	tramp-perl-decode-with-module)
+	* tramp.el (tramp-perl-encode-with-module)
+	(tramp-perl-decode-with-module)
 	(tramp-perl-encode, tramp-perl-decode): Doc fix.  From Andreas
 	Schwab.
 	(tramp-bug): New variables to report.
@@ -11272,8 +11626,8 @@
 	meridian-enviro dot com.
 	(tramp-find-executable): Use a shell-based implementation for
 	tramp-find-executable.  Suggestion from Francesco Potortì.
-	(tramp-buffer-name, tramp-buffer-name-multi-method,
-	tramp-debug-buffer-name): Better buffer name format for omitted
+	(tramp-buffer-name, tramp-buffer-name-multi-method)
+	(tramp-debug-buffer-name): Better buffer name format for omitted
 	user names.
 
 2001-01-19  Kai Großjohann  <Kai.Grossjohann@CS.Uni-Dortmund.DE>
@@ -11283,9 +11637,9 @@
 
 2001-01-18  Kai Großjohann  <Kai.Grossjohann@CS.Uni-Dortmund.DE>
 
-	* tramp.el (tramp-open-connection-telnet,
-	tramp-open-connection-rsh, tramp-open-connection-su,
-	tramp-open-connection-multi): Locally bind TERM env var to "dumb"
+	* tramp.el (tramp-open-connection-telnet)
+	(tramp-open-connection-rsh, tramp-open-connection-su)
+	(tramp-open-connection-multi): Locally bind TERM env var to "dumb"
 	before starting the login on the remote host.
 
 2001-01-13  Kai Großjohann  <Kai.Grossjohann@CS.Uni-Dortmund.DE>
@@ -11343,8 +11697,8 @@
 2000-11-01  Kai Großjohann  <Kai.Grossjohann@CS.Uni-Dortmund.DE>
 
 	* tramp.el (tramp-dos-coding-system): New variable.
-	(tramp-open-connection-telnet, tramp-open-connection-rsh,
-	tramp-open-connection-su, tramp-open-connection-multi): Use it.
+	(tramp-open-connection-telnet, tramp-open-connection-rsh)
+	(tramp-open-connection-su, tramp-open-connection-multi): Use it.
 	(tramp-coding-system-change-eol-conversion): New compat function.
 	(tramp-open-connection-setup-interactive-shell): Use it.
 
