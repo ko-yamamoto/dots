@@ -168,7 +168,7 @@ Returns VALUE."
 ;;;###tramp-autoload
 (defun tramp-flush-file-property (key file)
   "Remove all properties of FILE in the cache context of KEY."
-  ;; Remove file property of symlinks.
+  ;; Remove file properties of symlinks.
   (let ((truename (tramp-get-file-property key file "file-truename" nil)))
     (when (and (stringp truename)
 	       (not (string-equal file truename)))
@@ -183,8 +183,13 @@ Returns VALUE."
 (defun tramp-flush-directory-property (key directory)
   "Remove all properties of DIRECTORY in the cache context of KEY.
 Remove also properties of all files in subdirectories."
-  (let ((directory (tramp-run-real-handler
-		    'directory-file-name (list directory))))
+  (let* ((directory (tramp-run-real-handler
+		    'directory-file-name (list directory)))
+	 (truename (tramp-get-file-property key directory "file-truename" nil)))
+    ;; Remove file properties of symlinks.
+    (when (and (stringp truename)
+	       (not (string-equal directory truename)))
+      (tramp-flush-directory-property key truename))
     (tramp-message key 8 "%s" directory)
     (maphash
      (lambda (key _value)
@@ -198,13 +203,15 @@ Remove also properties of all files in subdirectories."
 ;; not show proper directory contents when a file has been copied or
 ;; deleted before.
 (defun tramp-flush-file-function ()
-  "Flush all Tramp cache properties from `buffer-file-name'."
-  (let ((bfn (if (stringp (buffer-file-name))
-		 (buffer-file-name)
-	       default-directory)))
-    (when (tramp-tramp-file-p bfn)
-      (with-parsed-tramp-file-name bfn nil
-	(tramp-flush-file-property v localname)))))
+  "Flush all Tramp cache properties from `buffer-file-name'.
+This is suppressed for temporary buffers."
+  (unless (string-match "^ \\*temp\\*" (or (buffer-name) ""))
+    (let ((bfn (if (stringp (buffer-file-name))
+		   (buffer-file-name)
+		 default-directory)))
+      (when (tramp-tramp-file-p bfn)
+	(with-parsed-tramp-file-name bfn nil
+	  (tramp-flush-file-property v localname))))))
 
 (add-hook 'before-revert-hook 'tramp-flush-file-function)
 (add-hook 'eshell-pre-command-hook 'tramp-flush-file-function)

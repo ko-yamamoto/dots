@@ -1,3 +1,26 @@
+2014-06-15  Michael Albinus  <michael.albinus@gmx.de>
+
+	Version 2.2.10 released.
+
+	* configure.ac: Bump version.
+
+2014-05-05  Michael Albinus  <michael.albinus@gmx.de>
+
+	* CONTRIBUTORS: Removed, file is out-of-date.
+
+	* Makefile.in (XEMACS_FILES):
+	* README: Remove CONTRIBUTORS.
+
+2014-02-28  Michael Albinus  <michael.albinus@gmx.de>
+
+	* Makefile.in (test): New target.
+	(.PHONY): Add it.
+
+2014-02-19  Michael Albinus  <michael.albinus@gmx.de>
+
+	* configure.ac: Bump version (to 2.2.10-pre).  Update merge
+	version to 2.2.9.
+
 2014-02-16  Michael Albinus  <michael.albinus@gmx.de>
 
 	Version 2.2.9 released.
