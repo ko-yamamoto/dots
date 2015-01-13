@@ -54,3 +54,8 @@ elisp/*.elc
 .config/fish/fishd.*
 /.emacs.d/helm-adaptive-history
 /.emacs.d/.cask/
+/.emacs.d/.emacs.desktop
+/.emacs.d/.emacs.desktop.lock
+/.emacs.d/elscreen
+/.emacs.d/places
+/.emacs.d/recentf
