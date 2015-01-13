@@ -56,7 +56,7 @@
 ;;   (setq cygwin-mount-cygwin-bin-directory "c:/cygwin/bin")
 ;;   (require 'cygwin-mount)
 ;;   (cygwin-mount-activate)
-;;   )
+;; )
 
 
 ;;====================
@@ -156,7 +156,7 @@
 ;;====================
 ;; save-frame-posize.el
 ;;====================
-(require 'save-frame-posize)
+; (require 'save-frame-posize)
 
 
 
@@ -201,10 +201,10 @@
 
 
 
-;; ace-jump
-(autoload
-  'ace-jump-mode
-  "ace-jump-mode"
-  "Emacs quick move minor mode"
-  t)
-(global-ace-isearch-mode 1)
+;; ;; ace-jump
+;; (autoload
+;;   'ace-jump-mode
+;;   "ace-jump-mode"
+;;   "Emacs quick move minor mode"
+;;   t)
+;; (global-ace-isearch-mode 1)
