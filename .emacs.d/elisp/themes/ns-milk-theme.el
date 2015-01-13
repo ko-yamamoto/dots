@@ -173,7 +173,7 @@
    `(helm-header ((t (:background ,*mode-line-bg* :foreground ,*mode-line-fg*))))
    `(header-line ((t (:background ,*mode-line-bg* :foreground ,*mode-line-fg*))))
    `(helm-source-header ((t (:background ,*mode-line-bg* :foreground ,*mode-line-fg*))))
-   `(helm-selection ((t (:background ,*visual-selection*))))
+   `(helm-selection ((t (:background ,*visual-selection* :foreground ,*mode-line-fg* :bold t))))
    `(helm-visible-mark ((t (:background ,red :foreground ,*normal*))))
    `(helm-ff-directory ((t (:background ,nil :foreground ,blue))))
    `(helm-candidate-number ((t (:background ,nil :foreground ,orange))))
