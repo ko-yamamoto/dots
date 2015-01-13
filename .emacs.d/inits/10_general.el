@@ -61,6 +61,7 @@
 ;; バッファ一覧をまともに
 (global-set-key "\C-x\C-b" 'bs-show)
 
+(recentf-mode 1)
 ;; 最近のファイル500個を保存する
 (setq recentf-max-saved-items 500)
 (setq recentf-max-menu-items 30)
