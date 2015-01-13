@@ -1,6 +1,23 @@
 ;; 辞書ファイル
 (setq skk-large-jisyo "~/.emacs.d/skk/SKK-JISYO.L")
 
+;; 動的補完オン
+(setq skk-dcomp-activate t)
+
+;; 送りかな設定
+(setq skk-auto-okuri-process t)
+(setq skk-auto-start-henkan t)
+
+;; 全角ｗを入力
+(setq skk-rom-kana-rule-list
+      (append '(("wq" nil "ｗ")
+                )
+              skk-rom-kana-rule-list))
+
+;; skk でのカーソル色
+(setq skk-use-color-cursor t)
+(setq skk-cursor-hiragana-color "#d33682")
+(setq skk-cursor-latin-color "#4271ae")
 
 ;; 辞書指定
 (setq skk-search-prog-list
@@ -13,45 +30,39 @@
         (skk-search-jisyo-file skk-large-jisyo 10000)
         ))
 
+;; Google サジェストする
+(require 'skk-search-web)
 ;; (1) かな漢字変換の候補に Google サジェストを利用する
 (add-to-list 'skk-search-prog-list
              ;;'(skk-search-web 'skk-google-suggest)
-              '(skk-search-web 'skk-google-cgi-api-for-japanese-input)
+             '(skk-search-web 'skk-google-cgi-api-for-japanese-input)
              t)
 ;; (2) skk-search-web 辞書登録モードへの突入時の初期値に Google サジェストを利用する
+
+
+;; ddskk 起動時のみ, インクリメンタルサーチを使用
+;; Isearch setting.
+(add-hook 'isearch-mode-hook
+          #'(lambda ()
+              (when (and (boundp 'skk-mode)
+                         skk-mode
+                         skk-isearch-mode-enable)
+                (skk-isearch-mode-setup))))
+(add-hook 'isearch-mode-end-hook
+          #'(lambda ()
+              (when (and (featurep 'skk-isearch)
+                         skk-isearch-mode-enable)
+                (skk-isearch-mode-cleanup))))
+
 ;; (setq skk-read-from-minibuffer-function
 ;;       (lambda ()
 ;;         ;; (car (skk-google-suggest skk-henkan-key))))
 ;;         (car (skk-google-cgi-api-for-japanese-input skk-henkan-key))))
 
-;; 動的補完オン
-(setq skk-dcomp-activate t)
-
-;; 送りかな設定
-(setq skk-auto-okuri-process t)
-(setq skk-auto-start-henkan t)
+(when is_mac
+  ;;skk-server AquaSKK
+  (setq skk-server-portnum 1178)
+  (setq skk-server-host "localhost"))
 
 ;; カーソル付近に入力モードを表示する
 (setq skk-show-mode-show t)
-
-;; 全角ｗを入力
-(setq skk-rom-kana-rule-list
-      (append '(("wq" nil "ｗ")
-                )
-              skk-rom-kana-rule-list))
-
-;; skk でのカーソル色
-;; (magenta "#d33682")
-;; (violet  "#6c71c4")
-;; (cyan    "#2aa198")
-;; (red "#d12a2b")
-;; (orange "#f79b45")
-;; (yellow "#eab700")
-;; (green "#718c00")
-;; (aqua "#3e999f")
-;; (blue "#4271ae")
-;; (purple "#8959a8")
-;; (white "#ffffff")
-;; (black "#2d282a")
-(setq skk-cursor-hiragana-color "#d33682")
-(setq skk-cursor-latin-color "#4271ae")
