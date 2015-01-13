@@ -34,3 +34,10 @@
 
 ;; Winでない場合
 (defvar is_not_win (or is_mac is_linux))
+
+(when is_winnt
+;;   (setq cygwin-mount-cygwin-bin-directory "c:/cygwin/bin")
+  (require 'cygwin-mount)
+  (cygwin-mount-activate)
+  )
+

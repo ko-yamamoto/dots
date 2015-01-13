@@ -22,11 +22,11 @@
       (setq exec-path (append (list dir) exec-path))))
 
     ;; ファイル名の文字コード指定
-    (setq file-name-coding-system 'shift_jis)
+    ;; (setq file-name-coding-system 'shift_jis)
 
     ;; "Emacs 23.1.50.1 hangs ramdomly for 6-8 seconds on Windows XP - Stack Overflow"
     ;; http://stackoverflow.com/questions/2007329/emacs-23-1-50-1-hangs-ramdomly-for-6-8-seconds-on-windows-xp
-    (setq w32-get-true-file-attributes nil)
+    ;; (setq w32-get-true-file-attributes nil)
 
 
 )

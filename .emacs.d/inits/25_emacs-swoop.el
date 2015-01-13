@@ -15,12 +15,14 @@
 ;; isearch     > press [C-o] > swoop
 ;; evil-search > press [C-o] > swoop
 ;; swoop       > press [C-o] > swoop-multi
-(define-key isearch-mode-map (kbd "C-o") 'swoop-from-isearch)
+;; (define-key isearch-mode-map (kbd "C-o") 'swoop-from-isearch)
+(define-key isearch-mode-map (kbd "C-o") 'my/swoop-from-isearch-migemo)
 ;; (define-key evil-motion-state-map (kbd "C-o") 'swoop-from-evil-search)
 (define-key swoop-map (kbd "C-o") 'swoop-multi-from-swoop)
 
 ;; migemo を使う
 (defun my/swoop-from-isearch-migemo ()
+  (interactive)
   (setq swoop-use-migemo t)
   (swoop-from-isearch))
 
