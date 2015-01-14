@@ -186,11 +186,10 @@
 (global-set-key "\C-qk" 'windmove-up)
 
 ;; window split
-(global-set-key "\C-qsq" 'my/buffer-kill-and-delete-window)
-(global-set-key "\C-qs1" 'delete-other-windows)
-(global-set-key "\C-qsv" 'split-window-vertically)
-(global-set-key "\C-qsp" 'split-window-horizontally)
-
+;; (global-set-key "\C-qsq" 'my/buffer-kill-and-delete-window)
+(global-set-key "\C-q1" 'delete-other-windows)
+(global-set-key "\C-q2" 'split-window-vertically)
+(global-set-key "\C-q3" 'split-window-horizontally)
 
 (defun window-toggle-division ()
   "ウィンドウ 2 分割時に、縦分割<->横分割"
@@ -208,7 +207,7 @@
 
     (switch-to-buffer-other-window other-buf)
     (other-window -1)))
-(global-set-key (kbd "C-q s r") 'window-toggle-division)
+(global-set-key (kbd "C-q SPC") 'window-toggle-division)
 
 
 (defun reopen-file ()
