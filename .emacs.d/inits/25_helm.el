@@ -4,6 +4,7 @@
   :bind (("C-;" . helm-my)
          ("M-y" . helm-show-kill-ring)
          ("M-i" . helm-imenu)
+         ("M-x" . helm-M-x)
          ("C-q ;" . helm-git-project))
   :config
   (require 'helm-config)
