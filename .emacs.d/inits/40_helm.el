@@ -152,3 +152,10 @@
              (sources (helm-c-sources-git-project-for default-directory)))
         (helm-other-buffer sources "*helm git project*"))))
   )
+
+
+(use-package helm-descbinds
+  :ensure t
+  :defer t
+  :bind (("C-^ b" . helm-descbinds))
+  :config (helm-descbinds-install))
