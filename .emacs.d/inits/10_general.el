@@ -390,3 +390,9 @@ Otherwise, call `backward-kill-word'."
 (setq desktop-globals-to-save '(extended-command-history))
 (setq desktop-files-not-to-save "")
 (desktop-save-mode 1)
+
+
+;; 折り返しあり
+(setq truncate-lines nil)
+;; 画面分割してもデフォルトで折り返す
+(setq truncate-partial-width-windows nil)
