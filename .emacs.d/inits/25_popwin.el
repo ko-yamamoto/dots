@@ -1,6 +1,6 @@
 (use-package popwin
   :ensure t
-  :defer t
+  ;; :defer t
   :config
   (setq display-buffer-function 'popwin:display-buffer)
 
@@ -15,7 +15,8 @@
                   ("*Compile-Log*")
                   ("*compilation*") ; for rst-compile
                   ("*sdic*" :noselect t)
-                  ("*helm \\(.*\\)*" :regexp t :height 0.35)
+                  ;; ("*helm \\(.*\\)*" :regexp t :height 0.35 )
+                  ("*helm my*" :position bottom)
                   ;; ("\\(.*\\) \\[Dired\\]" :regexp t :height 0.4 :position top :stick t)
                   ;;("*Moccur*" :height 20)
                   ("*Directory*" :height 20)
