@@ -364,7 +364,7 @@ Otherwise, call `backward-kill-word'."
     (backward-char)))
 
 ;; ウィンドウと同時にバッファも閉じる
-(substitute-key-definition 'kill-buffer 'kill-buffer-and-its-windows global-map)
+;; (substitute-key-definition 'kill-buffer 'kill-buffer-and-its-windows global-map)
 
 ;; 同名の .el と .elc があれば新しい方を読み込む
 (setq load-prefer-newer t)
