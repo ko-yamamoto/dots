@@ -34,7 +34,10 @@ file is a remote file (include directory)."
   (add-to-list 'tramp-default-proxies-alist
                '((regexp-quote (system-name)) nil nil))
 
-
+  (when is_winnt
+    (setq tramp-default-method "sshx")
+    (setq tramp-shell-prompt-pattern "^[ $]+")
+    )
 
   (defun my-tramp-closing ()
     "tramp のバッファを全て閉じ、全接続を終了する"
