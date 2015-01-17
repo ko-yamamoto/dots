@@ -46,3 +46,14 @@
   (define-key global-map [165] [92])
 
   )
+
+
+(when is_winnt
+  (setq default-input-method "W32-IME")
+  (setq-default w32-ime-mode-line-state-indicator "[--]")
+  (setq w32-ime-mode-line-state-indicator-list '("[--]" "[あ]" "[--]"))
+  (w32-ime-initialize)
+  ;; 日本語入力時にカーソルの色を変える設定
+  (add-hook 'w32-ime-on-hook '(lambda () (set-cursor-color "#d33682")))
+  (add-hook 'w32-ime-off-hook '(lambda () (set-cursor-color "#4271ae")))
+  )
