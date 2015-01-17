@@ -43,7 +43,7 @@
         '(":replies"
           ":home"))
 
-  (bind-keys :map twittering-mode-hook
+  (bind-keys :map twittering-mode-map
              ("F" . twittering-favorite)
              ("." . twittering-current-timeline) ; 更新
              ("R" . twittering-reply-to-user)
