@@ -106,12 +106,6 @@
   )
 
 
-(use-package yalinum
-  :ensure t
-  :defer t
-  :bind (("M-n" . yalinum-mode)))
-
-
 (use-package scratch-log
   :ensure t
   :config

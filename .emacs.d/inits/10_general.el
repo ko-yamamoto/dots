@@ -404,3 +404,7 @@ Otherwise, call `backward-kill-word'."
 (setq truncate-lines nil)
 ;; 画面分割してもデフォルトで折り返す
 (setq truncate-partial-width-windows nil)
+
+
+;; 行数表示
+(global-set-key "\M-n" 'linum-mode)
