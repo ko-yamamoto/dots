@@ -33,9 +33,10 @@
 (defvar is_not_win (or is_mac is_linux))
 
 (when is_winnt
-;;   (setq cygwin-mount-cygwin-bin-directory "c:/cygwin/bin")
+  ;; (setq cygwin-mount-cygwin-bin-directory "c:/cygwin/bin")
   (require 'cygwin-mount)
   (cygwin-mount-activate)
+  (eval-after-load "gnutls" '(setq gnutls-trustfiles (mapcar 'expand-file-name gnutls-trustfiles)))
   )
 
 
