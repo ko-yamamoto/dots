@@ -61,6 +61,9 @@
 ;; バッファ一覧をまともに
 (global-set-key "\C-x\C-b" 'bs-show)
 
+;; ディレクトリも履歴に残るように
+(use-package recentf-ext :ensure t)
+
 (recentf-mode 1)
 ;; 最近のファイル500個を保存する
 (setq recentf-max-saved-items 500)
@@ -387,7 +390,12 @@ Otherwise, call `backward-kill-word'."
 (global-set-key (kbd "C-c l") 'toggle-truncate-lines) ; 折り返し表示ON/OFF
 
 ;; コマンド履歴を永続的に残す
-(setq desktop-globals-to-save '(extended-command-history))
+(setq history-length 250)
+(setq desktop-globals-to-save '(extended-command-history
+                                desktop-missing-file-warning
+                                search-ring
+                                regexp-search-ring
+                                file-name-history))
 (setq desktop-files-not-to-save "")
 (desktop-save-mode 1)
 
