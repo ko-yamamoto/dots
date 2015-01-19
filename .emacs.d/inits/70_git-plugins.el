@@ -45,8 +45,7 @@
   ;; (global-git-gutter+-mode t)
   ;; 指定したモードで有効に
   (let ((mode-hooks
-         '(emacs-lisp-mode-hook
-           org-mode-hook
+         '(org-mode-hook
            rst-mode-hook
            java-mode-hook
            lisp-mode-hook
