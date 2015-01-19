@@ -68,6 +68,7 @@
              ("<C-down>" . outline-next-visible-heading)
              ("<C-S-up>" . outline-backward-same-level)
              ("<C-S-down>" . outline-forward-same-level)
-             ("C-a" . my-toggle-beginning-of-line-and-sentence))
+             ("C-a" . my-toggle-beginning-of-line-and-sentence)
+             ("C-c SPC" . ace-jump-mode))
 
   )

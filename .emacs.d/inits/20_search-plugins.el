@@ -39,7 +39,20 @@
   (require 'moccur-edit nil t)
   ;; moccur-edit-finish-editと同時にファイルを保存する
   (defadvice moccur-edit-change-file
-    (after save-after-moccur-edit-buffer activate)
+      (after save-after-moccur-edit-buffer activate)
     (save-buffer))
 
   )
+
+
+(use-package ace-jump-mode
+  :ensure t
+  :defer t
+  :bind (("C-c SPC" . ace-jump-mode))
+  :config
+  ;; C-u プレフィックスで起動する順番変更
+  (setq ace-jump-mode-submode-list
+        '(ace-jump-line-mode              ;; the third one always map to ：C-u C-u C-c SPC
+          ace-jump-char-mode              ;; the second one always map to: C-u C-c SPC
+          ace-jump-word-mode              ;; the first one always map to : C-c SPC
+          )))
