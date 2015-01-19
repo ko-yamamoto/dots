@@ -10,6 +10,9 @@
   (require 'helm-config)
   (helm-mode 1)
 
+  ;; helm バッファは保存しないように
+  (add-to-list 'desktop-modes-not-to-save 'helm-mode)
+
   ;; find-file では邪魔なので helm を使わない
   (add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
 
