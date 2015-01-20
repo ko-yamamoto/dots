@@ -254,6 +254,11 @@
 
 ;; -> el-get の powerline で設定
 
+;; git ブランチ名を表示
+;; (vc-mode vc-mode) が置き換わる
+(require 'modeline-git-branch)
+(modeline-git-branch-mode 1)
+
 ;; モード名をエイリアス
 (defvar mode-line-cleaner-alist
   '( ;; For minor-mode, first char is 'space'
