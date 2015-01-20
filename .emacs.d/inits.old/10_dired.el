@@ -1,14 +1,17 @@
 ;;====================
 ;; Dired
 ;;====================
+;; dired-x
+(use-package dired-x)
+
+;; wdired
+(use-package wdired
+  :init
+  (bind-keys :map dired-mode-map
+             ("r" 'wdired-change-to-wdired-mode)))
+
 (use-package dired
-  :defer t
-  :bind (("C-c d g" . dired-split-gration-windows)
-         ("C-x C-j" . dired-jump)
-         ("C-x j" . dired-with-new-elscreen))
   :config
-  (require 'dired-x)
-  (require 'wdired)
   ;; 並び替えのキー
   (defvar dired-various-sort-type
     '(("S" . "size")
@@ -62,19 +65,33 @@
                                       (dired-various-sort-change dired-various-sort-type candidate)))))
       ))
 
+
+  (add-hook 'dired-mode-hook
+            '(lambda ()
+               (define-key dired-mode-map "s" 'dired-various-sort-change-or-edit)
+               (define-key dired-mode-map "c"
+                 '(lambda ()
+                    (interactive)
+                    (helm '(helm-c-source-dired-various-sort))))
+               ))
+
+
   ;; diredでマークをつけたファイルをfind/view
+  (eval-after-load "dired"
+    '(progn
+       (define-key dired-mode-map "F" 'my-dired-find-file)
+       (defun my-dired-find-file (&optional arg)
+         "Open each of the marked files, or the file under the point, or when prefix arg, the next N files "
+         (interactive "P")
+         (let* ((fn-list (dired-get-marked-files nil arg)))
+           (mapc 'find-file fn-list)))
+       (define-key dired-mode-map "V" 'my-dired-view-file)
+       (defun my-dired-view-file (&optional arg)
+         "Open each of the marked files, or the file under the point, or when prefix arg, the next N files "
+         (interactive "P")
+         (let* ((fn-list (dired-get-marked-files nil arg)))
+           (mapc 'view-file fn-list)))))
 
-  (defun my-dired-find-file (&optional arg)
-    "Open each of the marked files, or the file under the point, or when prefix arg, the next N files "
-    (interactive "P")
-    (let* ((fn-list (dired-get-marked-files nil arg)))
-      (mapc 'find-file fn-list)))
-
-  (defun my-dired-view-file (&optional arg)
-    "Open each of the marked files, or the file under the point, or when prefix arg, the next N files "
-    (interactive "P")
-    (let* ((fn-list (dired-get-marked-files nil arg)))
-      (mapc 'view-file fn-list)))
 
   ;; diredでのファイルコピーを便利に
   (setq dired-dwim-target t)
@@ -110,6 +127,16 @@
 
   ;; dired-find-alternate-file の有効化
   (put 'dired-find-alternate-file 'disabled nil)
+  ;; RET 標準の dired-find-file では dired バッファが複数作られるので
+  ;; dired-find-alternate-file を代わりに使う
+  (define-key dired-mode-map (kbd "RET") 'dired-open-in-accordance-with-situation)
+  (define-key dired-mode-map (kbd "a") 'dired-find-file)
+
+
+  ;; ディレクトリの移動キーを追加(wdired 中は無効)
+  (define-key dired-mode-map (kbd "<left>") 'dired-up-directory)
+  (define-key dired-mode-map (kbd "<right>") 'dired-open-in-accordance-with-situation)
+
 
   ;; フルパスファイル名コピー(ファイル名だけは"w")
   (defun dired-get-fullpath-filename ()
@@ -117,6 +144,8 @@
     (interactive)
     (kill-new (dired-get-filename))
     (message (dired-get-filename)))
+  (define-key dired-mode-map (kbd "W") 'dired-get-fullpath-filename)
+
 
 
   ;; Quick Look
@@ -156,6 +185,14 @@
     (interactive)
     (open-file-dwim (expand-file-name dired-directory)))
 
+  ;; キーバインド
+  (add-hook 'dired-mode-hook
+            (lambda ()
+              (define-key dired-mode-map (kbd "C-c o") 'dired-open-dwim)
+              (define-key dired-mode-map (kbd "C-c .") 'dired-open-here)
+              ))
+
+
   ;; helm in dired
   (defun my/helm-dired ()
     (interactive)
@@ -164,6 +201,9 @@
            '(helm-c-source-files-in-current-dir)
            "*helm-dired*")
           (kill-buffer curbuf))))
+  (define-key dired-mode-map (kbd "p") 'my/helm-dired)
+
+  (define-key dired-mode-map (kbd "f") 'find-dired)
 
   ;; Dired バッファに [Dired] を追加する
   (defun dired-my-append-buffer-name-hint ()
@@ -177,9 +217,13 @@
   (add-hook 'dired-mode-hook 'dired-my-append-buffer-name-hint)
 
 
-  ;; dired を使って、一気にファイルの coding system (漢字) を変換する
+;;; dired を使って、一気にファイルの coding system (漢字) を変換する
   ;; m でマークして T で一括変換
   (require 'dired-aux)
+  (add-hook 'dired-mode-hook
+            (lambda ()
+              (define-key (current-local-map) "T"
+                'dired-do-convert-coding-system)))
 
   (defvar dired-default-file-coding-system nil
     "*Default coding system for converting file (s).")
@@ -215,6 +259,9 @@
     (dired-map-over-marks-check
      (function dired-convert-coding-system) arg 'convert-coding-system t))
 
+
+
+
   ;; dired でのファイルサイズ表示のオプション
   (setq dired-listing-switches "-FlhA")
 
@@ -240,6 +287,7 @@ When using this mode the value of `dired-listing-switches' should not contain \"
       (revert-buffer)))
 
   (defun dired-list-all-set ()
+    ""
     (if dired-list-all-mode
         (or (string-match-p dired-list-all-switch
                             dired-actual-switches)
@@ -256,14 +304,23 @@ When using this mode the value of `dired-listing-switches' should not contain \"
             'dired-list-all-set)
   (provide 'dired-list-all-mode)
   ;; a で dired の隠しファイル表示をトグル
-  (require 'dired-list-all-mode nil t)
-  (setq dired-listing-switches "-lhFG")
+  (when (require 'dired-list-all-mode nil t)
+    (setq dired-listing-switches "-lhFG")
+    (add-hook 'dired-mode-hook
+              (lambda ()
+                (define-key dired-mode-map "a" 'dired-list-all-mode)
+                )))
 
 
   (defun dired-find-file-other-exist-window ()
     "ウィンドウを再利用してもう片方のウィンドウで開く"
     (interactive)
     (find-file-other-exist-window (dired-get-file-for-visit)))
+  (add-hook 'dired-mode-hook
+            (lambda ()
+              (define-key dired-mode-map "o" 'dired-find-file-other-exist-window)
+              ))
+
 
   (defun dired-split-gration-windows ()
     ;; 7:3 にウィンドウを分割して dired
@@ -271,32 +328,10 @@ When using this mode the value of `dired-listing-switches' should not contain \"
     (progn
       (my/split-v-gration-windows)
       (dired-jump)))
+  (global-set-key (kbd "C-c d g") 'dired-split-gration-windows)
 
-  (bind-keys :map dired-mode-map
-             ("a" . dired-list-all-mode)
-             ("c" . (lambda ()
-                      (interactive)
-                      (helm '(helm-c-source-dired-various-sort))))
-             ("f" . find-dired)
-             ("h" . dired-hide-details-mode) ;; ファイル名以外を隠す・表示する
-             ("o" . dired-find-file-other-exist-window)
-             ("p" . my/helm-dired)
-             ("r" . wdired-change-to-wdired-mode)
-             ("s" . dired-various-sort-change-or-edit)
-             ("F" . my-dired-find-file)
-             ("T" . dired-do-convert-coding-system)
-             ("V" . my-dired-view-file)
-             ("W" . dired-get-fullpath-filename)
-
-             ;; ディレクトリの移動キーを追加(wdired 中は無効)
-             ("<left>" . dired-up-directory)
-             ("<right>" . dired-open-in-accordance-with-situation)
-
-             ("C-c o" . dired-open-dwim)
-             ("C-c ." . dired-open-here)
-             ("C-t" . other-window-or-split)
-
-             ("RET" . dired-open-in-accordance-with-situation))
+  ;; ファイル名以外を隠す・表示する
+  (define-key dired-mode-map (kbd "h") 'dired-hide-details-mode)
 
 
   )

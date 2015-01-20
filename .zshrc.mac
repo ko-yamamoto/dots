@@ -8,7 +8,7 @@ alias updatedb='/usr/libexec/locate.updatedb'
 
 
 alias emacsclient='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -n'
-alias ec='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -n'
+alias ec='/usr/local/bin/emacsclient -n'
 
 alias top='top -R -F -u'
 

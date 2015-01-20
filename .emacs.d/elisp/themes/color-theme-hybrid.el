@@ -62,7 +62,7 @@ vim: ft=xdefaults"
        (fringe ((t (:foreground ,addbg :background ,background))))
        (highlight ((t (:background ,line))))
        (match ((t (:background ,background :foreground ,nil))))
-       (isearch ((t (:background ,yellow :foreground ,white))))
+       (isearch ((t (:background ,yellow :foreground ,black))))
        (isearch-lazy-highlight-face ((t (:background ,background :foreground ,nil))))
        (isearch-fail ((t (:background ,orange))))
        (menu ((t (:foreground ,foreground :background ,selection))))
@@ -242,6 +242,13 @@ vim: ft=xdefaults"
        (rst-level-3-face ((t (:foreground ,lgreen :background ,background :bold t))))
        (rst-level-4-face ((t (:foreground ,orange :background ,background :bold t))))
        (rst-level-5-face ((t (:foreground ,yellow :background ,background :bold t))))
+
+       ;; emacs-swoop
+
+       (swoop-face-target-words ((t (:background ,yellow :foreground ,black))))
+       (swoop-face-target-line ((t (:background ,selection))))
+       (swoop-face-line-number ((t (:foreground ,blue))))
+       (swoop-face-line-buffer-name ((t (:background ,blue))))
 
        ))))
 

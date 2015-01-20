@@ -2,14 +2,13 @@
 ;; General Settings
 ;; ---------------------------------------------------------------------------------
 
-(set-time-zone-rule "GMT-9")
 
 ;; マウスの右クリックの割り当て(押しながらの操作)をはずす
 (if window-system (progn
                     (global-unset-key [down-mouse-3])
                     ;; マウスの右クリックメニューを使えるようにする
                     (defun bingalls-edit-menu (event)  (interactive "e")
-                           (popup-menu menu-bar-edit-menu))
+                      (popup-menu menu-bar-edit-menu))
                     (global-set-key [mouse-3] 'bingalls-edit-menu)))
 
 ;; C-hをヘルプから外すための設定
@@ -62,10 +61,6 @@
 ;; バッファ一覧をまともに
 (global-set-key "\C-x\C-b" 'bs-show)
 
-;; ディレクトリも履歴に残るように
-(use-package recentf-ext :ensure t)
-
-(recentf-mode 1)
 ;; 最近のファイル500個を保存する
 (setq recentf-max-saved-items 500)
 (setq recentf-max-menu-items 30)
@@ -159,7 +154,7 @@
 
 ;; 書き込み不能なファイルはview-modeで開くように
 (defadvice find-file
-    (around find-file-switch-to-view-file (file &optional wild) activate)
+  (around find-file-switch-to-view-file (file &optional wild) activate)
   (if (and (not (file-writable-p file))
            (not (file-directory-p file)))
       (view-file file)
@@ -190,10 +185,11 @@
 (global-set-key "\C-qk" 'windmove-up)
 
 ;; window split
-;; (global-set-key "\C-qsq" 'my/buffer-kill-and-delete-window)
-(global-set-key "\C-q1" 'delete-other-windows)
-(global-set-key "\C-q2" 'split-window-vertically)
-(global-set-key "\C-q3" 'split-window-horizontally)
+(global-set-key "\C-qsq" 'my/buffer-kill-and-delete-window)
+(global-set-key "\C-qs1" 'delete-other-windows)
+(global-set-key "\C-qsv" 'split-window-vertically)
+(global-set-key "\C-qsp" 'split-window-horizontally)
+
 
 (defun window-toggle-division ()
   "ウィンドウ 2 分割時に、縦分割<->横分割"
@@ -211,7 +207,7 @@
 
     (switch-to-buffer-other-window other-buf)
     (other-window -1)))
-(global-set-key (kbd "C-q SPC") 'window-toggle-division)
+(global-set-key (kbd "C-q s r") 'window-toggle-division)
 
 
 (defun reopen-file ()
@@ -234,12 +230,22 @@
 (global-set-key (kbd "C-x C-r") 'reopen-file)
 
 ;; ウィンドウ移動を楽に
+;; (define-key global-map (kbd "C-t") 'other-window)
 (defun other-window-or-split ()
   (interactive)
   (when (one-window-p)
     (split-window-horizontally))
   (other-window 1))
 (global-set-key (kbd "C-t") 'other-window-or-split)
+(define-key dired-mode-map (kbd "C-t") 'other-window-or-split)
+
+;; (makunbound 'overriding-minor-mode-map)
+;; (define-minor-mode overriding-minor-mode
+;;   "強制的にC-tを割り当てる"             ;説明文字列
+;;   t                                     ;デフォルトで有効にする
+;;   ""                                    ;モードラインに表示しない
+;;   `((,(kbd "C-t") . other-window-or-split)))
+
 
 ;; 自動でchmod+x
 (defun make-file-executable ()
@@ -271,13 +277,6 @@
 ;; ミニバッファで C-w すると単語ではなく1つ上のパスまでを削除
 (define-key minibuffer-local-completion-map "\C-w" 'backward-kill-word)
 
-(defun kill-region-or-backward-word ()
-  "If the region is active and non-empty, call `kill-region'.
-Otherwise, call `backward-kill-word'."
-  (interactive)
-  (call-interactively
-   (if (use-region-p) 'kill-region 'backward-kill-word)))
-(global-set-key (kbd "C-w") 'kill-region-or-backward-word)
 
 ;; Autosave every 500 typed characters
 (setq auto-save-interval 500)
@@ -350,6 +349,15 @@ Otherwise, call `backward-kill-word'."
 ;;     (and transient-mark-mode mark-active)))
 ;; (global-set-key (kbd "M-f") 'my-forward-word)
 
+;; 「Emacsのトラノマキ」連載第16回「元Vimmerが考えるEmacsの再設計」(深町英太郎) | ありえるえりあ - http://dev.ariel-networks.com/wp/documents/aritcles/emacs/part16
+;; 範囲指定していないとき、C-wで前の単語を削除
+(defadvice kill-region (around kill-word-or-kill-region activate)
+  (if (and (interactive-p) transient-mark-mode (not mark-active))
+      (backward-kill-word 1)
+    ad-do-it))
+;; minibuffer用
+(define-key minibuffer-local-completion-map (kbd "C-w") 'backward-kill-word)
+
 ;; カーソル位置の単語を削除
 (defun kill-word-at-point ()
   (interactive)
@@ -368,7 +376,7 @@ Otherwise, call `backward-kill-word'."
     (backward-char)))
 
 ;; ウィンドウと同時にバッファも閉じる
-;; (substitute-key-definition 'kill-buffer 'kill-buffer-and-its-windows global-map)
+(substitute-key-definition 'kill-buffer 'kill-buffer-and-its-windows global-map)
 
 ;; 同名の .el と .elc があれば新しい方を読み込む
 (setq load-prefer-newer t)
@@ -379,33 +387,3 @@ Otherwise, call `backward-kill-word'."
 
 ;; リージョンで C-d したらリージョンごと削除できるように
 (delete-selection-mode t)
-
-
-;; 折り返し表示をトグル
-(defun toggle-truncate-lines ()
-  "折り返し表示をトグル動作します."
-  (interactive)
-  (if truncate-lines
-      (setq truncate-lines nil)
-    (setq truncate-lines t)))
-(global-set-key (kbd "C-c l") 'toggle-truncate-lines) ; 折り返し表示ON/OFF
-
-;; コマンド履歴を永続的に残す
-(setq history-length 250)
-(setq desktop-globals-to-save '(extended-command-history
-                                desktop-missing-file-warning
-                                search-ring
-                                regexp-search-ring
-                                file-name-history))
-(setq desktop-files-not-to-save "")
-(desktop-save-mode 1)
-
-
-;; 折り返しあり
-(setq truncate-lines nil)
-;; 画面分割してもデフォルトで折り返す
-(setq truncate-partial-width-windows nil)
-
-
-;; 行数表示
-(global-set-key "\M-n" 'linum-mode)

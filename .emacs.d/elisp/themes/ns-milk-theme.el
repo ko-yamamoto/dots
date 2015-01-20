@@ -19,8 +19,7 @@
 
 (deftheme ns-milk)
 
-;; (let ((*background*         "#f6f7f8")
-(let ((*background*         "#fffff4")
+(let ((*background*         "#f9f9f8")
       (*comments*           "#919398")
       (*constant*           "#8abeb7")
       (*current-line*       "#e8eaed")
@@ -173,7 +172,7 @@
    `(helm-header ((t (:background ,*mode-line-bg* :foreground ,*mode-line-fg*))))
    `(header-line ((t (:background ,*mode-line-bg* :foreground ,*mode-line-fg*))))
    `(helm-source-header ((t (:background ,*mode-line-bg* :foreground ,*mode-line-fg*))))
-   `(helm-selection ((t (:background ,*visual-selection*))))
+   `(helm-selection ((t (:background ,*current-line* :bold t))))
    `(helm-visible-mark ((t (:background ,red :foreground ,*normal*))))
    `(helm-ff-directory ((t (:background ,nil :foreground ,blue))))
    `(helm-candidate-number ((t (:background ,nil :foreground ,orange))))
