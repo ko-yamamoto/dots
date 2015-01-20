@@ -38,7 +38,8 @@
 
 (use-package git-gutter+
   :ensure t
-  :bind (("C-c g c" . git-gutter:toggle))
+  :defer t
+  :bind (("C-c g c" . global-git-gutter+-mode))
   :config
   ;; (global-git-gutter+-mode t)
   ;; 指定したモードで有効に
@@ -69,104 +70,106 @@
 
   ;; Ignore all spaces
   (setq git-gutter+-diff-options '("-w"))
+
+  (use-package git-gutter-fringe+
+    :ensure t
+    :config
+    (setq-default left-fringe-width  10)
+    (setq-default right-fringe-width 10)
+    ;; 形変更 (上下くっつけるため目一杯長く)
+    (fringe-helper-define 'git-gutter-fr+-added nil
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX")
+    (fringe-helper-define 'git-gutter-fr+-deleted nil
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX")
+    (fringe-helper-define 'git-gutter-fr+-modified nil
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX"
+                          "XXXXXXXXX")
+
+    )
   )
 
 
-(use-package git-gutter-fringe+
-  :ensure t
-  :config
-  (setq-default left-fringe-width  10)
-  (setq-default right-fringe-width 10)
-  ;; 形変更 (上下くっつけるため目一杯長く)
-  (fringe-helper-define 'git-gutter-fr+-added nil
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX")
-  (fringe-helper-define 'git-gutter-fr+-deleted nil
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX")
-  (fringe-helper-define 'git-gutter-fr+-modified nil
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX"
-    "XXXXXXXXX")
 
-  )
 
 ;; vcを起動しないようにする
 (custom-set-variables
