@@ -46,7 +46,7 @@ export PATH=$GOPATH/bin:$PATH
 
 
 # git のログには emacs を
-export GIT_EDITOR="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient"
+export GIT_EDITOR="/usr/local/Cellar/emacs/24.4/bin/emacsclient"
 
 
 # autojump
