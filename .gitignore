@@ -59,3 +59,4 @@ elisp/*.elc
 /.emacs.d/elscreen
 /.emacs.d/places
 /.emacs.d/recentf
+\#*\#

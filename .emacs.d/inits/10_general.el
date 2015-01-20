@@ -18,8 +18,6 @@
   )
 
 
-(set-time-zone-rule "GMT-9")
-
 ;; マウスの右クリックの割り当て(押しながらの操作)をはずす
 (if window-system (progn
                     (global-unset-key [down-mouse-3])
@@ -53,13 +51,11 @@
 (prefer-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
+(set-time-zone-rule "GMT-9")
 
 ;; beepを消す
 (setq visible-bell t)
 (setq ring-bell-function 'ignore)
-
-;; 起動時のメッセージを非表示
-(setq inhibit-startup-message t)
 
 ;; "yes or no"を"y or n"に
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -126,52 +122,6 @@
           (goto-char (mark))
           (isearch-repeat-forward)))
     ad-do-it))
-
-;; ビューモード
-;; (setq view-read-only t)
-;; (defvar pager-keybind
-;;   `( ;; vi-like
-;;     ("h" . backward-word)
-;;     ("l" . forward-word)
-;;     ("j" . next-line)
-;;     ("k" . previous-line)
-;;     (";" . gene-word)
-;;     ("b" . scroll-down)
-;;     (" " . scroll-up)
-;;     ;; w3m-like
-;;     ("m" . gene-word)
-;;     ("i" . win-delete-current-window-and-squeeze)
-;;     ("w" . forward-word)
-;;     ("e" . backward-word)
-;;     ("(" . point-undo)
-;;     (")" . point-redo)
-;;     ("J" . ,(lambda () (interactive) (scroll-up 1)))
-;;     ("K" . ,(lambda () (interactive) (scroll-down 1)))
-;;     ;; bm-easy
-;;     ("." . bm-toggle)
-;;     ("[" . bm-previous)
-;;     ("]" . bm-next)
-;;     ;; langhelp-like
-;;     ("c" . scroll-other-window-down)
-;;     ("v" . scroll-other-window)
-;;     ))
-
-;; (defun define-many-keys (keymap key-table &optional includes)
-;;   (let (key cmd)
-;;     (dolist (key-cmd key-table)
-;;       (setq key (car key-cmd)
-;;             cmd (cdr key-cmd))
-;;       (if (or (not includes) (member key includes))
-;;           (define-key keymap key cmd))))
-;;   keymap)
-
-
-;; (defun view-mode-hook0 ()
-;;   (define-many-keys view-mode-map pager-keybind)
-;;   (hl-line-mode 1)
-;;   (define-key view-mode-map " " 'scroll-up))
-;; (add-hook 'view-mode-hook 'view-mode-hook0)
-
 
 ;; 書き込み不能なファイルはview-modeで開くように
 (defadvice find-file
@@ -270,11 +220,6 @@
                 (message (concat "Wrote " name " (+x)"))))))))
 (add-hook 'after-save-hook 'make-file-executable)
 
-;; 折り返しあり
-(setq truncate-lines nil)
-;; 画面分割してもデフォルトで折り返す
-(setq truncate-partial-width-windows nil)
-
 ;; Emacs 終了時にプロセスを自動で殺す
 (defadvice save-buffers-kill-terminal (before my-save-buffers-kill-terminal activate)
   (when (process-list)
@@ -352,19 +297,19 @@ Otherwise, call `backward-kill-word'."
 
 ;; forward-word は単語頭に移動する
 ;; my-forward-word.el - https://gist.github.com/mori-dev/409070
-;; (defun my-forward-word (arg)
-;;   (interactive "p")
-;;   (cond
-;;    ((region-active-p) (forward-word arg))
-;;    ((looking-at ".$") (re-search-forward "\\W\\b\\"))
-;;    ((looking-at "\\cj") (forward-word arg))
-;;    ((looking-at "\\(。\\|、\\|．\\|，\\)") (re-search-forward "\[。、．，\]+"))
-;;    (t (re-search-forward "\\(.$\\|\\W\\b\\)"))))
-;; ;;; For compatibility
-;; (unless (fboundp 'region-active-p)
-;;   (defun region-active-p ()
-;;     (and transient-mark-mode mark-active)))
-;; (global-set-key (kbd "M-f") 'my-forward-word)
+(defun my-forward-word (arg)
+  (interactive "p")
+  (cond
+   ((region-active-p) (forward-word arg))
+   ((looking-at ".$") (re-search-forward "\\W\\b\\"))
+   ((looking-at "\\cj") (forward-word arg))
+   ((looking-at "\\(。\\|、\\|．\\|，\\)") (re-search-forward "\[。、．，\]+"))
+   (t (re-search-forward "\\(.$\\|\\W\\b\\)"))))
+;;; For compatibility
+(unless (fboundp 'region-active-p)
+  (defun region-active-p ()
+    (and transient-mark-mode mark-active)))
+(global-set-key (kbd "M-f") 'my-forward-word)
 
 ;; カーソル位置の単語を削除
 (defun kill-word-at-point ()
@@ -383,28 +328,14 @@ Otherwise, call `backward-kill-word'."
     (fixup-whitespace)
     (backward-char)))
 
-;; ウィンドウと同時にバッファも閉じる
-;; (substitute-key-definition 'kill-buffer 'kill-buffer-and-its-windows global-map)
-
 ;; 同名の .el と .elc があれば新しい方を読み込む
 (setq load-prefer-newer t)
 
 ;; スペース 1 つ残し、スペースなしをトグル
 (global-set-key (kbd "M-SPC") 'cycle-spacing)
 
-
 ;; リージョンで C-d したらリージョンごと削除できるように
 (delete-selection-mode t)
-
-
-;; 折り返し表示をトグル
-(defun toggle-truncate-lines ()
-  "折り返し表示をトグル動作します."
-  (interactive)
-  (if truncate-lines
-      (setq truncate-lines nil)
-    (setq truncate-lines t)))
-(global-set-key (kbd "C-c l") 'toggle-truncate-lines) ; 折り返し表示ON/OFF
 
 ;; コマンド履歴を永続的に残す
 (setq history-length 250)
@@ -415,13 +346,3 @@ Otherwise, call `backward-kill-word'."
                                 file-name-history))
 (setq desktop-files-not-to-save "")
 (desktop-save-mode 1)
-
-
-;; 折り返しあり
-(setq truncate-lines nil)
-;; 画面分割してもデフォルトで折り返す
-(setq truncate-partial-width-windows nil)
-
-
-;; 行数表示
-(global-set-key "\M-n" 'linum-mode)
