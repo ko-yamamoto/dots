@@ -69,7 +69,7 @@
   (set-face-foreground 'git-gutter+-deleted "#c82829")
 
   ;; Ignore all spaces
-  (setq git-gutter+-diff-options '("-w"))
+  ;; (setq git-gutter+-diff-options '("-w"))
 
   (use-package git-gutter-fringe+
     :ensure t

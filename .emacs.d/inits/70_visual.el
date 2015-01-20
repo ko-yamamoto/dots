@@ -1,10 +1,5 @@
-;; ---------------------------------------------------------------------------------
-;; Visual Settings
-;; ---------------------------------------------------------------------------------
-
 ;; タイトルバー
 (setq frame-title-format (format "%%b - Emacs@%s" (system-name)))
-
 
 ;; 対応するカッコをハイライト
 (show-paren-mode 1)
@@ -12,40 +7,12 @@
 ;; ハイライト
 (transient-mark-mode t)
 
-;; 行数表示
-;; (global-set-key "\M-n" 'linum-mode)
-;; -> yalinum-mode
-
 ;; カーソル点滅
 (blink-cursor-mode t)
-
-
 
 ;; カーソル行ハイライト
 ;; (setq hl-line-face 'underline) ; 下線
 (global-hl-line-mode)
-
-
-
-;; タブ, 全角スペース, 行末空白表示
-(defface my-face-b-1 '((t (:background "gray80"))) nil) ; 全角スペース
-(defface my-face-b-2 '((t (:background "gray80"))) nil) ; タブ
-(defface my-face-u-1 '((t (:background "SteelBlue" :underline t))) nil) ; 行末空白
-(defface my-face-u-1 '((t (:background "gray80"))) nil) ; 行末空白
-(defvar my-face-b-1 'my-face-b-1)
-(defvar my-face-b-2 'my-face-b-2)
-(defvar my-face-u-1 'my-face-u-1)
-
-(defadvice font-lock-mode (before my-font-lock-mode ())
-  (font-lock-add-keywords
-   major-mode
-   '(
-     ;; ("\t" 0 my-face-b-2 append)
-     ("　" 0 my-face-b-1 append)
-     ("[ \t]+$" 0 my-face-u-1 append)
-     )))
-(ad-enable-advice 'font-lock-mode 'before 'my-font-lock-mode)
-(ad-activate 'font-lock-mode)
 
 ;; カーソルの形
 (set-default 'cursor-type '(hbar . 5))
@@ -67,8 +34,6 @@
 ;; スクロールバーを消す
 (set-scroll-bar-mode nil)
 
-
-
 ;; color-themeの設定
 ;; (require 'color-theme)
 ;; (color-theme-initialize)
@@ -88,6 +53,26 @@
 (setq custom-theme-directory "~/.emacs.d/elisp/themes/")
 (load-theme 'ns-milk t)
 
+;; タブ, 全角スペース, 行末空白表示
+(defface my-face-b-1 '((t (:background "#ffe174" :underline t))) nil) ; 全角スペース
+(defface my-face-b-2 '((t (:background "#ffe174" :underline t))) nil) ; タブ
+(defface my-face-u-1 '((t (:background "#ffe174" :underline t))) nil) ; 行末空白
+(defface my-face-u-1 '((t (:background "#ffe174" :underline t))) nil) ; 行末空白
+(defvar my-face-b-1 'my-face-b-1)
+(defvar my-face-b-2 'my-face-b-2)
+(defvar my-face-u-1 'my-face-u-1)
+
+(defadvice font-lock-mode (before my-font-lock-mode ())
+  (font-lock-add-keywords
+   major-mode
+   '(
+     ;; ("\t" 0 my-face-b-2 append)
+     ("　" 0 my-face-b-1 append)
+     ("[ \t]+$" 0 my-face-u-1 append)
+     )))
+(ad-enable-advice 'font-lock-mode 'before 'my-font-lock-mode)
+(ad-activate 'font-lock-mode)
+
 ;; ウィンドウを透明化
 (add-to-list 'default-frame-alist '(alpha . (0.9 0.9)))
 
@@ -96,8 +81,6 @@
 
 ;; 選択範囲をハイライト
 (setq-default transient-mark-mode t)
-
-
 
 ;;====================
 ;; フォント
@@ -222,7 +205,6 @@
 ;; モード名をエイリアス
 (defvar mode-line-cleaner-alist
   '( ;; For minor-mode, first char is 'space'
-    (yas-minor-mode . " Yas")
     (abbrev-mode . "")
     (guide-key-mode . "")
     (undo-tree-mode . "")
@@ -231,12 +213,13 @@
     (helm-mode . "")
     (back-button-mode . "")
     ;; Major modes
-    (lisp-interaction-mode . "Li")
-    (python-mode . "Py")
-    (ruby-mode   . "Rb")
-    (emacs-lisp-mode . "El")
-    (lisp-mode . "Li")
-    (markdown-mode . "Md")))
+    ;; (lisp-interaction-mode . "Li")
+    ;; (python-mode . "Py")
+    ;; (ruby-mode   . "Rb")
+    ;; (emacs-lisp-mode . "El")
+    ;; (lisp-mode . "Li")
+    ;; (markdown-mode . "Md")
+    ))
 
 (defun clean-mode-line ()
   (interactive)

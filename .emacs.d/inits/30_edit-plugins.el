@@ -39,6 +39,7 @@
 
 (use-package anzu
   :ensure t
+  :defer t
   :bind (("M-%" . anzu-query-replace)
          ("C-M-%" . anzu-query-replace-regexp))
   :init
@@ -53,8 +54,6 @@
          ("C-=" . er/expand-region)
          ("C-M-=" . er/contract-region) ;; リージョンを狭める
          ("C-o" . er/expand-region)))
-
-
 
 (use-package multiple-cursors
   :ensure t
@@ -93,40 +92,40 @@
   :ensure t
   :config
   (smartrep-define-key
-   global-map "C-q" '(("c" . 'elscreen-create)
-                      ("n" . 'elscreen-next)
-                      ("p" . 'elscreen-previous)
-                      ("a" . 'elscreen-toggle)
-                      ("k" . 'elscreen-kill)
-                      ("x" . 'elscreen-kill)
-                      ))
+      global-map "C-q" '(("c" . 'elscreen-create)
+                         ("n" . 'elscreen-next)
+                         ("p" . 'elscreen-previous)
+                         ("a" . 'elscreen-toggle)
+                         ("k" . 'elscreen-kill)
+                         ("x" . 'elscreen-kill)
+                         ))
   ;; ("a" . (lambda () (beginning-of-buffer-other-window 0)))
   ;; ("e" . (lambda () (end-of-buffer-other-window 0)))))
 
   ;; multiple-cursors
   (global-unset-key (kbd "C-c m"))
   (smartrep-define-key global-map (kbd "C-c m")
-                       '(("n"        . 'mc/mark-next-like-this)
-                         ("p"        . 'mc/mark-previous-like-this)
-                         ("m"        . 'mc/mark-more-like-this-extended)
-                         ("u"        . 'mc/unmark-next-like-this)
-                         ("U"        . 'mc/unmark-previous-like-this)
-                         ("s"        . 'mc/skip-to-next-like-this)
-                         ("S"        . 'mc/skip-to-previous-like-this)
-                         ("*"        . 'mc/mark-all-like-this)
-                         ("d"        . 'mc/mark-all-like-this-dwim)
-                         ("i"        . 'mc/insert-numbers)
-                         ("o"        . 'mc/sort-regions)
-                         ("O"        . 'mc/reverse-regions)))
+    '(("n"        . 'mc/mark-next-like-this)
+      ("p"        . 'mc/mark-previous-like-this)
+      ("m"        . 'mc/mark-more-like-this-extended)
+      ("u"        . 'mc/unmark-next-like-this)
+      ("U"        . 'mc/unmark-previous-like-this)
+      ("s"        . 'mc/skip-to-next-like-this)
+      ("S"        . 'mc/skip-to-previous-like-this)
+      ("*"        . 'mc/mark-all-like-this)
+      ("d"        . 'mc/mark-all-like-this-dwim)
+      ("i"        . 'mc/insert-numbers)
+      ("o"        . 'mc/sort-regions)
+      ("O"        . 'mc/reverse-regions)))
 
 
   (smartrep-define-key global-map (kbd "C-q")
-                       '(("["        . 'historyf-back)
-                         ("]"        . 'historyf-forward)))
+    '(("["        . 'historyf-back)
+      ("]"        . 'historyf-forward)))
 
   (smartrep-define-key global-map (kbd "C-q")
-                       '(("l"        . 'windmove-right)
-                         ("h"        . 'windmove-left)
-                         ("j"        . 'windmove-down)
-                         ("k"        . 'windmove-up)))
+    '(("l"        . 'windmove-right)
+      ("h"        . 'windmove-left)
+      ("j"        . 'windmove-down)
+      ("k"        . 'windmove-up)))
   )
