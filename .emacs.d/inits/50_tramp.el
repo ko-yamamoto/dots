@@ -44,4 +44,10 @@ file is a remote file (include directory)."
     (interactive)
     (tramp-cleanup-all-buffers)
     (tramp-cleanup-all-connections))
+
+  ;; vc が無視するファイルに tramp 接続したファイルを追加
+  (setq vc-ignore-dir-regexp
+        (format "\\(%s\\)\\|\\(%s\\)"
+                vc-ignore-dir-regexp
+                tramp-file-name-regexp))
   )
