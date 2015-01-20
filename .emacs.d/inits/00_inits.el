@@ -61,6 +61,7 @@
 
 ;; Keycord ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package key-chord
+  :ensure t
   ;; :defer t
   :config
   (key-chord-mode 1)
