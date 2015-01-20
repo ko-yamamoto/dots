@@ -252,34 +252,6 @@ Otherwise, call `backward-kill-word'."
       redisplay-dont-pause            t             ; this will be default in emacs24
       )
 
-;; tail -f
-;;http://d.hatena.ne.jp/kitokitoki/20100706/p1
-(make-face 'my-highlight-face)
-(set-face-foreground 'my-highlight-face "#de935f")
-;;(set-face-background 'my-highlight-face "yellow")
-(setq my-highlight-face 'my-highlight-face)
-
-(defun my-keep-highlight-regexp (re)
-  (interactive "sRegexp: \n")
-  (setq my-highlight-keyword re)
-  (my-keep-highlight-set-font-lock my-highlight-keyword))
-
-(defun my-keep-highlight-symbole-at-point ()
-  (interactive)
-  (setq my-highlight-keyword (or (thing-at-point 'symbol) ""))
-  (my-keep-highlight-set-font-lock my-highlight-keyword))
-
-(defun my-keep-highlight-set-font-lock (re)
-  (font-lock-add-keywords 'nil (list (list re 0 my-highlight-face t)))
-  (font-lock-fontify-buffer))
-
-(defun my-cancel-highlight-regexp ()
-  (interactive)
-  (font-lock-remove-keywords 'nil (list (list my-highlight-keyword 0 my-highlight-face t)))
-  (font-lock-fontify-buffer))
-
-;; (defalias 'h 'my-keep-highlight-regexp)
-
 ;; 保存時に余計なスペースとタブを取り除く
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
