@@ -1,4 +1,5 @@
 ;; (setq debug-on-error t)
+(setq gc-cons-threshold (* 128 1024 1024))
 
 ;; load-path 追加
 (setq load-path
