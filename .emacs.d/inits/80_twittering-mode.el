@@ -88,7 +88,4 @@
   ;;                       You can use any other specifiers in braces.
   ;;  %f - source
   ;;  %# - id
-
-
-  (require 'twittering-stream)
   )
