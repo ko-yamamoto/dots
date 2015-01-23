@@ -141,28 +141,12 @@
           ("-cdac$" . 1.0)))
   )
 (when is_mac
-  ;; バラバラに設定する場合
-  ;; 英字フォント
-  (set-face-attribute 'default nil
-                      :family "M+ 1mn"
-                      :height 180)
-  ;; 漢字フォント
-  (set-fontset-font
-   nil 'japanese-jisx0208
-   (font-spec :family "M+ 1mn"))
-  ;; ひらがなかたかな
-  (set-fontset-font
-   nil '(#x3040 . #x30ff)
-   (font-spec :family "M+ 1mn"))
-
-  (setq face-font-rescale-alist
-        '((".Hermit.*" . 1.0)
-          (".ricty.*" . 1.2)
-          (".Koruri.*" . 1.2)
-          ("-cdac$" . 1.0)))
-  )
-
-
+  (set-face-attribute 'default nil :family "M+ 1mn" :height 180 :weight 'light)
+  (set-fontset-font (frame-parameter nil 'font)
+                    'japanese-jisx0208
+                    (font-spec :family "M+ 1mn"))
+  (add-to-list 'face-font-rescale-alist
+               '(".*M+ 1mn.*" . 1.0)))
 
 
 ;; モードライン (mode-line-format)での書式記号
