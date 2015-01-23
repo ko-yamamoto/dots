@@ -48,6 +48,10 @@
   (when (fboundp 'skk-mode)
     (fset 'ido-select-text 'skk-mode)))
 
+(use-package imenu
+  :config
+  (setq imenu-auto-rescan t))
+
 (use-package imenu-anywhere
   ;; imenu を同一メジャーモードのマルチバッファ化
   :ensure t
