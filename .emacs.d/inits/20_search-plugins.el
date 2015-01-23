@@ -15,7 +15,7 @@
 (use-package color-moccur
   :defer t
   :ensure t
-  :bind (("M-o" . occur-by-moccur)
+  :bind (;; ("M-o" . occur-by-moccur) -> swoop
          ("C-M-o" . moccur-grep-find))
   :config
   ;; スペース区切りの複数語での検索を行う場合は t
@@ -56,3 +56,20 @@
           ace-jump-char-mode              ;; the second one always map to: C-u C-c SPC
           ace-jump-word-mode              ;; the first one always map to : C-c SPC
           )))
+
+
+(use-package swoop
+  :ensure t
+  ;; :defer t
+  :bind (("M-o" . swoop-migemo))
+  :config
+  ;; フォントサイズは変えない
+  (setq swoop-font-size-change: nil)
+  ;; 強制 migemo 起動
+  (defun swoop-from-isearch-migemo ()
+    (interactive)
+    (setq swoop-use-migemo t)
+    (swoop-from-isearch))
+
+  (bind-keys :map isearch-mode-map
+             ("C-o" . swoop-from-isearch-migemo)))

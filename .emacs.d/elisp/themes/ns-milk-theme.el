@@ -118,9 +118,9 @@
    `(show-paren-match ((t (:background, *keywords* :foreground, *normal* :weight bold))))
 
    ;; search
-   `(isearch ((t (:background, *regexp* :foreground, *visual-selection*))))
+   `(isearch ((t (:background, *regexp*))))
    `(isearch-fail ((t (:background, *warning*))))
-   `(lazy-highlight ((t (:background, *operators* :foreground, *visual-selection*))))
+   `(lazy-highlight ((t (:background, *operators*))))
 
    ;; rainbow-delimiters
    `(rainbow-delimiters-depth-1-face ((t (:foreground ,orange :bold t))))
@@ -243,10 +243,14 @@
    `(mozc-cand-overlay-footer-face ((t (:foreground ,*normal* :background ,yellow))))
    `(mozc-preedit-selected-face ((t (:foreground ,*normal* :background ,yellow))))
 
-
    `(ido-subdir ((t (:foreground ,blue))))
    `(ido-first-match ((t (:foreground ,red :bold t))))
 
+   `(swoop-face-target-line ((t (:background ,*current-line* :bold t))))
+   `(swoop-face-target-words ((t (:background ,*regexp* :bold t))))
+   `(swoop-face-header-format-line ((t (:background ,*mode-line-bg*))))
+   `(swoop-face-line-buffer-name ((t (:background ,*mode-inactive-bg*))))
+   `(swoop-face-line-number ((t (:foreground ,blue))))
 
    ))
 
