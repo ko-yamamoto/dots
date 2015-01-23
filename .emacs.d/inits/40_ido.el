@@ -42,6 +42,7 @@
   :bind ("M-x" . smex))
 
 (use-package ido-ubiquitous
+  :ensure t
   ;; どこでも ido
   :config
   (ido-ubiquitous-mode 1)
