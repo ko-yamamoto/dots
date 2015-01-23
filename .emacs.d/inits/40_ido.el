@@ -50,7 +50,9 @@
 
 (use-package imenu
   :config
-  (setq imenu-auto-rescan t))
+  (setq imenu-auto-rescan t)
+  ;; imenu で表示する階層の深さ
+  (setq org-imenu-depth 3))
 
 (use-package imenu-anywhere
   ;; imenu を同一メジャーモードのマルチバッファ化
