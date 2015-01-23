@@ -72,7 +72,7 @@
 (setq-default tab-width 4 indent-tabs-mode nil)
 
 ;; バッファ一覧をまともに
-(global-set-key "\C-x\C-b" 'bs-show)
+;; (global-set-key "\C-x\C-b" 'bs-show)
 
 ;; ディレクトリも履歴に残るように
 (use-package recentf-ext :ensure t)

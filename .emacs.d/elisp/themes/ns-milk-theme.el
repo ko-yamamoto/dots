@@ -244,6 +244,10 @@
    `(mozc-preedit-selected-face ((t (:foreground ,*normal* :background ,yellow))))
 
 
+   `(ido-subdir ((t (:foreground ,blue))))
+   `(ido-first-match ((t (:foreground ,red :bold t))))
+
+
    ))
 
 ;;;###autoload

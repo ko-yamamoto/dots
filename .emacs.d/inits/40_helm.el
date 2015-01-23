@@ -1,4 +1,5 @@
 (use-package helm
+  :disabled t
   :defer t
   :ensure t
   :bind (("C-;" . helm-my)
@@ -158,6 +159,7 @@
 
 
 (use-package helm-descbinds
+  :disabled t
   :ensure t
   :defer t
   :bind (("C-^ b" . helm-descbinds))
