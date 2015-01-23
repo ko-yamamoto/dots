@@ -4,11 +4,9 @@
          ("M-y" . kill-ring-insert)
          ("C-;" . recentf-ido-find-file))
   :config
-  ;; あいまいマッチ
-  (setq ido-enable-flex-matching t)
-
+  (setq ido-enable-flex-matching t) ; あいまいマッチ
   (setq ido-max-window-height 0.75)
-
+  (setq ido-case-fold t) ; 大文字小文字の区別なし
   (ido-mode 1)
 
   ;; ido で最近開いたファイルとディレクトリを選択
