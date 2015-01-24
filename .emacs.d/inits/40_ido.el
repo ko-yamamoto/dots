@@ -26,6 +26,10 @@
         ;; the currently highlighted section is to be replaced by the yank
         (delete-region (region-beginning) (region-end)))
       (insert to_insert)))
+
+    (bind-keys :map ido-file-completion-map
+             ("<left>" . ido-up-directory))
+
   )
 
 (use-package ido-vertical-mode
