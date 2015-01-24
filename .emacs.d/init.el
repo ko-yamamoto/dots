@@ -33,5 +33,6 @@
   :pin melpa
   :ensure t
   :config
+  (setq init-loader-byte-compile t) ; 起動時にコンパイル
   (init-loader-load "~/.emacs.d/inits") ; 設定ファイルがあるディレクトリを指定
   )
