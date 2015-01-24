@@ -25,6 +25,12 @@
   ;; 標準の祝日を利用しない
   (setq calendar-holidays nil)
 
+  ;; ブラウザで確認
+  (defun org-render-browser (n)
+    (interactive "p")
+    (message (buffer-file-name))
+    (browse-url-of-file (org-html-export-to-html)))
+
   ;; org-directory を開く
   (defun open-my-org-directory ()
     (interactive)
@@ -61,6 +67,8 @@
     (org-table-convert-region (region-beginning) (region-end))
     (setq truncate-lines t))
 
+  (use-package ox-gfm :ensure t)
+
   (bind-keys :map org-mode-map
              ("<C-tab>" . elscreen-next)
              ("<C-S-iso-lefttab>" . elscreen-previous)
@@ -69,6 +77,7 @@
              ("<C-S-up>" . outline-backward-same-level)
              ("<C-S-down>" . outline-forward-same-level)
              ("C-a" . my-toggle-beginning-of-line-and-sentence)
-             ("C-c SPC" . ace-jump-mode))
-
+             ("C-c SPC" . ace-jump-mode) ; 上書き
+             ("C-c C-c" . org-render-browser))
   )
+
