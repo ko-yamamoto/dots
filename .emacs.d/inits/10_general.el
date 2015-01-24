@@ -316,5 +316,5 @@ Otherwise, call `backward-kill-word'."
                                 search-ring
                                 regexp-search-ring
                                 file-name-history))
-(setq desktop-files-not-to-save "")
+;; (setq desktop-files-not-to-save "")
 (desktop-save-mode 1)
