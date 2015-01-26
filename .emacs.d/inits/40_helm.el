@@ -1,11 +1,12 @@
 (use-package helm
-  :disabled t
+  ;; :disabled t
   :defer t
   :ensure t
   :bind (("C-;" . helm-my)
          ("M-y" . helm-show-kill-ring)
          ("M-i" . helm-imenu)
          ("M-x" . helm-M-x)
+         ("C-x C-b" . helm-buffers-list)
          ("C-q ;" . helm-git-project))
   :config
   (require 'helm-config)
@@ -15,7 +16,7 @@
   (add-to-list 'desktop-modes-not-to-save 'helm-mode)
 
   ;; find-file では邪魔なので helm を使わない
-  (add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
+  ;; (add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
 
   ;; configuration helm variable
   (setq helm-idle-delay 0.1)
@@ -159,7 +160,7 @@
 
 
 (use-package helm-descbinds
-  :disabled t
+  ;; :disabled t
   :ensure t
   :defer t
   :bind (("C-^ b" . helm-descbinds))

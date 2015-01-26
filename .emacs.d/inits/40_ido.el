@@ -1,4 +1,5 @@
 (use-package ido
+  :disabled t
   :defer t
   :bind (("C-x C-b" . ido-switch-buffer)
          ("M-y" . kill-ring-insert)
@@ -37,6 +38,7 @@
   :config (ido-vertical-mode 1))
 
 (use-package smex
+  :disabled t
   ;; M-x を ido で
   :ensure t
   :defer t
@@ -51,15 +53,3 @@
   ;; C-j を skk-mode にする
   (when (fboundp 'skk-mode)
     (fset 'ido-select-text 'skk-mode)))
-
-(use-package imenu
-  :config
-  (setq imenu-auto-rescan t)
-  ;; imenu で表示する階層の深さ
-  (setq org-imenu-depth 3))
-
-(use-package imenu-anywhere
-  ;; imenu を同一メジャーモードのマルチバッファ化
-  :ensure t
-  :defer t
-  :bind (("M-i" . ido-imenu-anywhere)))
