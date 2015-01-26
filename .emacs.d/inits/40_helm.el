@@ -4,7 +4,7 @@
   :ensure t
   :bind (("C-;" . helm-my)
          ("M-y" . helm-show-kill-ring)
-         ("M-i" . helm-imenu)
+         ("M-i" . helm-imenu-anywhere)
          ("M-x" . helm-M-x)
          ("C-x C-b" . helm-buffers-list)
          ("C-q ;" . helm-git-project))

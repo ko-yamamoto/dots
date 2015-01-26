@@ -62,3 +62,4 @@ elisp/*.elc
 \#*\#
 .emacs.d/ido.last
 .emacs.d/smex-items
+/.emacs.d/games/
