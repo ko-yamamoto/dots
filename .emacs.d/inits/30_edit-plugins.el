@@ -1,40 +1,34 @@
+(use-package fuzzy :ensure t)
+
 (use-package auto-complete
+  ;; :disabled t
   :ensure t
   :config
   (require 'auto-complete-config)
   (ac-config-default)
   (global-auto-complete-mode t)
 
-  ;; 補完メニュー表示時に特別なキーマップを有効にするか
-  (setq ac-use-menu-map t)
-  ;; 辞書ファイルの位置
-  (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
-  ;; 補完の開始キー
-  (define-key ac-mode-map (kbd "M-c") 'auto-complete)
-  ;; 補完を止めるキー
-  (define-key ac-menu-map "q" 'ac-stop)
-  ;; 補完メニュー表示までのディレイ
-  (setq ac-auto-show-menu 0.3)
-  ;;補完メニューの行数
-  (setq ac-menu-height 15)
-  ;; 大文字・小文字の区別方法
-  (setq ac-ignore-case 'smart)
-  ;; 補完選択時にTABをRETの挙動にしない
-  (setq ac-dwim nil)
-  ;; 表示崩れ防止
-  ;; (setq popup-use-optimized-column-computation nil)
+  (add-to-list 'ac-sources 'ac-source-filename)
+  (add-to-list 'ac-sources 'ac-source-files-in-current-dir)
+  (add-to-list 'ac-sources 'ac-source-words-in-all-buffer)
+
+  (setq ac-use-menu-map t) ;; 補完メニュー表示時に特別なキーマップを有効にするか
+  (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict") ;; 辞書ファイルの位置
+  (define-key ac-mode-map (kbd "M-c") 'auto-complete) ;; 補完の開始キー
+  ;; (define-key ac-menu-map "q" 'ac-stop) ;; 補完を止めるキー
+  (setq ac-auto-show-menu 0.1) ;; 補完メニュー表示までのディレイ
+  (setq ac-menu-height 15) ;;補完メニューの行数
+  (setq ac-ignore-case 'smart) ;; 大文字・小文字の区別方法
+  (setq ac-dwim t) ;; 補完選択時にTABをRETの挙動にしない
+  ;; (setq popup-use-optimized-column-computation nil) ;; 表示崩れ防止
+  (setq ac-auto-start 2) ;; n文字以上の単語の時に補完を開始
+  (setq ac-use-fuzzy t) ;; あいまい有効
+  (setq ac-use-comphist t)  ;; 補完推測機能有効
+  (ac-set-trigger-key "TAB")
 
   ;; 追加モード
   (add-to-list 'ac-modes 'org-mode)
   (add-to-list 'ac-modes 'gfm-mode)
-
-
-                                        ;  (require 'ac-slime)
-                                        ;  (add-hook 'slime-mode-hook 'set-up-slime-ac)
-                                        ;  (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
-                                        ;  (eval-after-load "auto-complete"
-                                        ;    '(add-to-list 'ac-modes 'slime-repl-mode))
-
   )
 
 (use-package anzu

@@ -27,7 +27,7 @@
         (delete-region (region-beginning) (region-end)))
       (insert to_insert)))
 
-    (bind-keys :map ido-file-completion-map
+  (bind-keys :map ido-file-completion-map
              ("<left>" . ido-up-directory))
 
   )

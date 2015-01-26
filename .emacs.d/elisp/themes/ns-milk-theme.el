@@ -227,10 +227,13 @@
 
    ;; auto-complete
    `(ac-candidate-face ((t (:background ,blue :foreground ,*background*))))
-   `(ac-selection-face ((t (:background ,blue :foreground ,*normal* :bold t))))
+   `(ac-selection-face ((t (:background ,*background* :foreground ,blue :bold t))))
+   `(ac-completion-face ((t (:foreground ,red :background ,*current-line*))))
+   `(popup-scroll-bar-foreground-face ((t (:background ,yellow))))
+   `(popup-scroll-bar-background-face ((t (:background ,blue))))
+   `(popup-tip-face ((t (:background ,yellow))))
 
    `(sh-heredoc ((t (:foreground ,yellow))))
-
 
    `(py-builtins-face ((t (:foreground ,green))))
 
