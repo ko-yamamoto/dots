@@ -118,9 +118,9 @@
    `(show-paren-match ((t (:background, *keywords* :foreground, *normal* :weight bold))))
 
    ;; search
-   `(isearch ((t (:background, *regexp*))))
+   `(isearch ((t (:background ,yellow :foreground ,red :bold t))))
    `(isearch-fail ((t (:background, *warning*))))
-   `(lazy-highlight ((t (:background, *operators*))))
+   `(lazy-highlight ((t (:background ,yellow))))
 
    ;; rainbow-delimiters
    `(rainbow-delimiters-depth-1-face ((t (:foreground ,orange :bold t))))
@@ -144,6 +144,8 @@
    ;; moccur
    `(moccur-face ((t (:background ,*background*))))
    `(moccur-current-line-face ((t (:background ,green))))
+   `(moccur-edit-face ((t (:background ,yellow :foreground ,red))))
+   `(moccur-edit-done-face ((t (:foreground ,blue))))
 
    ;;emacs-anzu
    `(anzu-mode-line ((t (:foreground ,blue :bold t))))
@@ -254,6 +256,15 @@
    `(swoop-face-header-format-line ((t (:background ,*mode-line-bg*))))
    `(swoop-face-line-buffer-name ((t (:background ,*mode-inactive-bg*))))
    `(swoop-face-line-number ((t (:foreground ,blue))))
+
+   `(wgrep-face ((t (:background ,yellow :foreground ,red))))
+   `(wgrep-delete-face ((t (:foreground ,red))))
+   ;; `(wgrep-file-face ((t (:background ,*current-line* :bold t))))
+   ;; `(wgrep-reject-face ((t (:background ,*current-line* :bold t))))
+   `(wgrep-done-face ((t (:foreground ,blue))))
+
+   `(compilation-info ((t (:foreground ,green))))
+
 
    ))
 
