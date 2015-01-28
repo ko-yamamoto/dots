@@ -1,6 +1,6 @@
 (use-package ido
-  :disabled t
-  :defer t
+  ;; :disabled t
+  ;; :defer t
   :bind (("C-x C-b" . ido-switch-buffer)
          ("M-y" . kill-ring-insert)
          ("C-;" . recentf-ido-find-file))
@@ -9,6 +9,34 @@
   (setq ido-max-window-height 0.75)
   (setq ido-case-fold t) ; 大文字小文字の区別なし
   (ido-mode 1)
+
+  (use-package flx-ido
+    :ensure t
+    :config
+    (flx-ido-mode 1)
+    (setq ido-enable-flex-matching t)
+    (setq ido-use-faces t))
+
+  (use-package ido-vertical-mode
+    :ensure t
+    :config (ido-vertical-mode 1))
+
+  (use-package smex
+    ;; :disabled t
+    ;; M-x を ido で
+    :ensure t
+    ;; :defer t
+    :init (smex-initialize)
+    :bind ("M-x" . smex))
+
+  (use-package ido-ubiquitous
+    :ensure t
+    ;; どこでも ido
+    :config
+    (ido-ubiquitous-mode 1)
+    ;; C-j を skk-mode にする
+    (when (fboundp 'skk-mode)
+      (fset 'ido-select-text 'skk-mode)))
 
   ;; ido で最近開いたファイルとディレクトリを選択
   (defun recentf-ido-find-file ()
@@ -32,24 +60,3 @@
              ("<left>" . ido-up-directory))
 
   )
-
-(use-package ido-vertical-mode
-  :ensure t
-  :config (ido-vertical-mode 1))
-
-(use-package smex
-  :disabled t
-  ;; M-x を ido で
-  :ensure t
-  :defer t
-  :init (smex-initialize)
-  :bind ("M-x" . smex))
-
-(use-package ido-ubiquitous
-  :ensure t
-  ;; どこでも ido
-  :config
-  (ido-ubiquitous-mode 1)
-  ;; C-j を skk-mode にする
-  (when (fboundp 'skk-mode)
-    (fset 'ido-select-text 'skk-mode)))

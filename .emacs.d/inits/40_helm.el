@@ -1,5 +1,5 @@
 (use-package helm
-  ;; :disabled t
+  :disabled t
   :defer t
   :ensure t
   :bind (("C-;" . helm-my)
@@ -156,12 +156,10 @@
       (let* ((default-directory topdir)
              (sources (helm-c-sources-git-project-for default-directory)))
         (helm-other-buffer sources "*helm git project*"))))
+
+  (use-package helm-descbinds
+    :ensure t
+    :bind (("C-^ b" . helm-descbinds))
+    :config (helm-descbinds-install))
+
   )
-
-
-(use-package helm-descbinds
-  ;; :disabled t
-  :ensure t
-  :defer t
-  :bind (("C-^ b" . helm-descbinds))
-  :config (helm-descbinds-install))
