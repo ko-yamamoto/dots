@@ -15,7 +15,7 @@
 (use-package color-moccur
   :defer t
   :ensure t
-  :bind (;; ("M-o" . occur-by-moccur) -> swoop
+  :bind (("M-o" . occur-by-moccur)
          ("C-M-o" . moccur-grep-find))
   :config
   ;; スペース区切りの複数語での検索を行う場合は t
@@ -59,6 +59,7 @@
 
 
 (use-package swoop
+  :disabled t
   :ensure t
   ;; :defer t
   :bind (("M-o" . swoop-migemo))
@@ -85,5 +86,6 @@
   ;; imenu を同一メジャーモードのマルチバッファ化
   :ensure t
   :defer t
-  ;; :bind (("M-i" . ido-imenu-anywhere)))
-  :bind (("M-i" . helm-imenu-anywhere)))
+  :bind (("M-i" . ido-imenu-anywhere)))
+  ;; :bind (("M-i" . helm-imenu-anywhere)))
+
