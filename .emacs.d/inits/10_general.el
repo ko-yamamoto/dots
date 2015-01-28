@@ -256,7 +256,7 @@ Otherwise, call `backward-kill-word'."
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; 改行とインデント
-(global-set-key (kbd "C-m") 'newline-and-indent)
+;; (global-set-key (kbd "C-m") 'newline-and-indent)
 
 ;; 変更のあったファイルの自動再読み込み
 (global-auto-revert-mode t)

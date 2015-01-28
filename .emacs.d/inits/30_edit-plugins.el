@@ -123,3 +123,18 @@
       ("j"        . 'windmove-down)
       ("k"        . 'windmove-up)))
   )
+
+(use-package smart-newline
+  :ensure t
+  :bind (("C-m" . smart-newline))
+  :config
+  (add-hook 'emacs-lisp-mode-hook 'smart-newline-mode)
+  (add-hook 'org-mode-hook 'smart-newline-mode)
+
+  (defadvice smart-newline (around C-u activate)
+    "C-u を押したら元の C-m の挙動をするように"
+    (if (not current-prefix-arg)
+        ad-do-it
+      (let (current-prefix-arg)
+        (let (smart-newline-mode)
+          (call-interactively (key-binding (kbd "C-m"))))))))
