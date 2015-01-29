@@ -28,10 +28,12 @@
       (*line-number*        "#EEE")
       (*method-declaration* "#b294bb")
       ;; (*mode-line-bg*       "#555")
-      (*mode-line-bg*       "#f0c674")
+      ;; (*mode-line-bg*       "#f0c674")
+      (*mode-line-bg*       "#8abeb7")
       (*mode-inactive-bg*   "#999")
       ;; (*mode-line-fg*       "#EEE")
-      (*mode-line-fg*       "#cc6666")
+      ;; (*mode-line-fg*       "#cc6666")
+      (*mode-line-fg*       "#ffffff")
       (*normal*             "#191919")
       (*number*             "#5b93fc")
       (*operators*          "#a7b14d")
@@ -148,7 +150,7 @@
    `(moccur-edit-done-face ((t (:foreground ,blue))))
 
    ;;emacs-anzu
-   `(anzu-mode-line ((t (:foreground ,blue :bold t))))
+   `(anzu-mode-line ((t (:foreground ,yellow :bold t))))
 
    ;; skk
    `(skk-dcomp-face ((t (:foreground ,addbg))))
