@@ -274,13 +274,22 @@ fi
 
 
 
-# 自動/Tram 用プロンプト
+# Emacs Tramp 用プロンプト
+# set terminal title including current directory
 case "${TERM}" in
-    dumb | emacs)
-        PROMPT="%n@%~%(!.#.$)"
-        RPROMPT=""
-        unsetopt zle
-        ;;
+# for emacs tramp setting
+dumb | emacs)
+    PROMPT="%n@%~%(!.#.$)"
+    RPROMPT=""
+    PS1='%(?..[%?])%!:%~%# '
+    # for tramp to not hang, need the following. cf:
+    # http://www.emacswiki.org/emacs/TrampMode
+    unsetopt zle
+    unsetopt prompt_cr
+    unsetopt prompt_subst
+    unfunction precmd
+    unfunction preexec
+    ;;
 esac
 
 
