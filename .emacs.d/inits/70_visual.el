@@ -23,6 +23,28 @@
   (interactive)
   (message "%s" (get-char-property (point) 'face)))
 
+;; 折り返しあり
+(setq truncate-lines nil)
+;; 画面分割してもデフォルトで折り返す
+(setq truncate-partial-width-windows nil)
+
+;; 折り返し表示をトグル
+(defun toggle-truncate-lines ()
+  "折り返し表示をトグル動作します."
+  (interactive)
+  (if truncate-lines
+      (setq truncate-lines nil)
+    (setq truncate-lines t)))
+(global-set-key (kbd "C-c l") 'toggle-truncate-lines) ; 折り返し表示ON/OFF
+
+;; 行数表示
+;; (global-set-key "\M-n" 'linum-mode)
+
+(use-package yalinum
+  :ensure t
+  :bind (("M-n" . yalinum-mode)))
+
+
 ;; ツールバーを消す
 (cond
  (is_emacs23
@@ -141,7 +163,7 @@
           ("-cdac$" . 1.0)))
   )
 (when is_mac
-  (set-face-attribute 'default nil :family "M+ 1mn" :height 180 :weight 'light)
+  (set-face-attribute 'default nil :family "M+ 1mn" :height 160 :weight 'light)
   (set-fontset-font (frame-parameter nil 'font)
                     'japanese-jisx0208
                     (font-spec :family "M+ 1mn"))
@@ -217,20 +239,3 @@
             (setq mode-name mode-str)))))
 
 (add-hook 'after-change-major-mode-hook 'clean-mode-line)
-
-;; 折り返しあり
-(setq truncate-lines nil)
-;; 画面分割してもデフォルトで折り返す
-(setq truncate-partial-width-windows nil)
-
-;; 折り返し表示をトグル
-(defun toggle-truncate-lines ()
-  "折り返し表示をトグル動作します."
-  (interactive)
-  (if truncate-lines
-      (setq truncate-lines nil)
-    (setq truncate-lines t)))
-(global-set-key (kbd "C-c l") 'toggle-truncate-lines) ; 折り返し表示ON/OFF
-
-;; 行数表示
-(global-set-key "\M-n" 'linum-mode)
