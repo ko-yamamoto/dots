@@ -65,6 +65,22 @@ file is a remote file (include directory)."
     (let ((process-environment tramp-remote-process-environment))
       (setenv "LC_ALL" nil)
       (setq tramp-remote-process-environment process-environment))
+
+    (defadvice tramp-find-inline-encoding (before win-tramp activate)
+      "base64 デコード失敗するため他のコーディングしか使わない"
+      (setq tramp-remote-coding-commands '((uu "uuencode xxx" "uudecode -o /dev/stdout" "test -c /dev/stdout")
+                                           (uu "uuencode xxx" "uudecode -o -")
+                                           (uu "uuencode xxx" "uudecode -p")
+                                           (uu "uuencode xxx" tramp-uudecode)
+                                           ;; (b64 "base64" "base64 -d -i")
+                                           ;; (b64 "base64" "base64 -d")
+                                           (b64 "mimencode -b" "mimencode -u -b")
+                                           (b64 "mmencode -b" "mmencode -u -b")
+                                           (b64 "recode data..base64" "recode base64..data")
+                                           ;; (b64 tramp-perl-encode-with-module tramp-perl-decode-with-module)
+                                           ;; (b64 tramp-perl-encode tramp-perl-decode)
+                                           (pack tramp-perl-pack tramp-perl-unpack))))
+
     )
 
   (defun my-tramp-closing ()
