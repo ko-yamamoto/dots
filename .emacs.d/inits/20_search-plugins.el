@@ -89,3 +89,9 @@
   :bind (("M-i" . ido-imenu-anywhere)))
   ;; :bind (("M-i" . helm-imenu-anywhere)))
 
+
+(use-package isearch-dabbrev
+  :ensure t
+  :config
+  (bind-keys :map isearch-mode-map
+             ("<tab>" . isearch-dabbrev-expand)))
