@@ -34,11 +34,16 @@ file is a remote file (include directory)."
   (add-to-list 'tramp-default-proxies-alist
                '((regexp-quote (system-name)) nil nil))
 
+  (add-to-list 'backup-directory-alist
+               (cons "." "~/.emacs.d/backup/"))
+  (setq tramp-backup-directory-alist backup-directory-alist)
+  (setq tramp-auto-save-directory "~/.emacs.d/backup/")
+
   (when is_winnt
     ;; NTEmacs @ ウィキ - tramp を tramp-method “scp” で使うための設定 - http://www49.atwiki.jp/ntemacs/pages/17.html
     (setq tramp-default-method "scpx")
-    ;; (setq explicit-shell-file-name "bash")
     ;; (setq tramp-encoding-shell "bash")
+    (eval-after-load 'tramp '(setenv "SHELL" "/usr/bin/bash"))
 
     ;; ドライブレターの後の「：」が tramp-method の後の「：」と混同されるのを対策する
     (defadvice tramp-do-copy-or-rename-file-out-of-band (around ad-tramp-do-copy-or-rename-file-out-of-band activate)
