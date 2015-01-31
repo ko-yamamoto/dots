@@ -79,7 +79,7 @@
 
 (recentf-mode 1)
 ;; 最近のファイル500個を保存する
-(setq recentf-max-saved-items 500)
+(setq recentf-max-saved-items 100)
 (setq recentf-max-menu-items 30)
 (setq recentf-keep '(file-remote-p file-readable-p))
 (setq recentf-auto-cleanup 'never)
