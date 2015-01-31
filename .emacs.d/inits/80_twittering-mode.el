@@ -50,7 +50,8 @@
              ("Q" . twittering-organic-retweet)
              ("T" . twittering-native-retweet)
              ("M" . twittering-direct-message)
-             ("N" . twittering-update-status-interactive))
+             ("N" . twittering-update-status-interactive)
+             ("g" . twittering-goto-first-status))
 
   ;; Format string for rendering statuses.
   ;; Ex. \"%i %s,  %@:\\n%FILL{  %T // from %f%L%r%R}\n \"
