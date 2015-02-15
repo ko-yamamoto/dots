@@ -1,0 +1,11 @@
+[Unit]
+Description=rbindkeys
+
+[Service]
+ExecStart=/usr/bin/sudo /home/nishikawasasaki/.rbenv/versions/2.1.5/bin/rbindkeys -c /home/nishikawasasaki/.rbindkeys.rb /dev/input/event0
+ExecStop=/usr/bin/sudo /usr/bin/killall rbindkeys
+Restart=always
+Environment=DISPLAY=:0.0
+
+[Install]
+WantedBy=graphical.target
