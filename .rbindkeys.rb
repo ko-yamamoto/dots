@@ -44,6 +44,8 @@ bind_key [KEY_LEFTCTRL, KEY_I], KEY_TAB
 bind_key [KEY_LEFTCTRL, KEY_LEFTBRACE], KEY_ESC
 bind_key [KEY_LEFTCTRL, KEY_G], KEY_ESC
 
+bind_key [KEY_LEFTCTRL, KEY_S], [KEY_LEFTCTRL, KEY_F]
+
 # give a block sample
 @caps_led_state = 0
 bind_key KEY_CAPSLOCK do |event, operator|
@@ -99,7 +101,7 @@ window(:through, :class => /gnome-terminal/)
 window(:through, :class => /lilyterm/)
 window(:through, :class => /emacs/)
 
-# add new bind_key to default binds
-window(@default_bind_resolver, :class => /google-chrome/) do
-  bind_key [KEY_LEFTCTRL, KEY_S], [KEY_LEFTCTRL, KEY_F]
-end
+# # add new bind_key to default binds
+# window(@default_bind_resolver, :class => /google-chrome/) do
+#   bind_key [KEY_LEFTCTRL, KEY_S], [KEY_LEFTCTRL, KEY_F]
+# end
