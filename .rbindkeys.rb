@@ -45,6 +45,12 @@ bind_key [KEY_LEFTCTRL, KEY_LEFTBRACE], KEY_ESC
 bind_key [KEY_LEFTCTRL, KEY_G], KEY_ESC
 
 bind_key [KEY_LEFTCTRL, KEY_S], [KEY_LEFTCTRL, KEY_F]
+bind_key [KEY_LEFTCTRL, KEY_R], [KEY_LEFTCTRL, KEY_LEFTSHIFT, KEY_F]
+
+bind_key [KEY_LEFTCTRL, KEY_SLASH], [KEY_LEFTCTRL, KEY_Z]
+bind_key [KEY_LEFTALT, KEY_SLASH], [KEY_LEFTCTRL, KEY_Y]
+
+bind_key [KEY_LEFTALT, KEY_Y], [KEY_LEFTCTRL, KEY_LEFTALT, KEY_Y]
 
 # give a block sample
 @caps_led_state = 0
@@ -92,6 +98,17 @@ bind_prefix_key [KEY_LEFTCTRL, KEY_X] do
 
   # C-xC-c: close window
   bind_key [KEY_LEFTCTRL, KEY_C], [KEY_LEFTALT, KEY_F4]
+
+  # C-xC-r: reload window
+  bind_key [KEY_LEFTCTRL, KEY_R], [KEY_LEFTCTRL, KEY_R]
+
+end
+
+bind_prefix_key [KEY_LEFTCTRL, KEY_Q] do
+
+  # C-qx: close tab, etc.
+  bind_key KEY_X, [KEY_LEFTCTRL, KEY_W]
+
 end
 
 # settings per window class (or title)
