@@ -17,25 +17,25 @@
 (unless (>= 24 emacs-major-version)
   (error "requires Emacs 24 or later."))
 
-(deftheme ns-bright)
+(deftheme ns-eighties-dark)
 
 (let* (
-       (base00 "#000000")
-       (base01 "#303030")
-       (base02 "#505050")
-       (base03 "#b0b0b0")
-       (base04 "#d0d0d0")
-       (base05 "#e0e0e0")
-       (base06 "#f5f5f5")
-       (base07 "#ffffff")
-       (base08 "#fb0120")
-       (base09 "#fc6d24")
-       (base0A "#fda331")
-       (base0B "#a1c659")
-       (base0C "#76c7b7")
-       (base0D "#6fb3d2")
-       (base0E "#d381c3")
-       (base0F "#be643c")
+       (base00 "#2d2d2d")
+       (base01 "#393939")
+       (base02 "#515151")
+       (base03 "#747369")
+       (base04 "#a09f93")
+       (base05 "#d3d0c8")
+       (base06 "#e8e6df")
+       (base07 "#f2f0ec")
+       (base08 "#f2777a")
+       (base09 "#f99157")
+       (base0A "#ffcc66")
+       (base0B "#99cc99")
+       (base0C "#66cccc")
+       (base0D "#6699cc")
+       (base0E "#cc99cc")
+       (base0F "#d27b53")
 
        (red         base08)
        (orange      base09)
@@ -46,23 +46,23 @@
        (purple      base0E)
        (magenta     base0F)
 
-       (*background*         base07)
-       (*comments*           base02)
+       (*normal*             base07)
+       (*background*         base01)
+       (*comments*           base04)
        (*constant*           aqua)
-       (*current-line*       base05)
-       (*cursor-underscore*  base02)
-       (*keywords*           yellow)
+       (*current-line*       base02)
+       (*cursor-underscore*  base04)
+       (*keywords*           purple)
        (*line-number*        base04)
        (*method-declaration* red)
        (*mode-line-bg*       blue)
        (*mode-inactive-bg*   base03)
        (*mode-line-fg*       base07)
-       (*normal*             base00)
        (*number*             blue)
-       (*operators*          green)
+       (*operators*          yellow)
        (*warning*            red)
        (*regexp*             purple)
-       (*string*             base02)
+       (*string*             base04)
        (*variable*           blue)
        (*visual-selection*   base03)
 
@@ -71,7 +71,7 @@
        )
 
   (custom-theme-set-faces
-   'ns-bright
+   'ns-eighties-dark
 
    `(bold ((t (:bold t))))
    `(button ((t (:foreground, *keywords* :underline t :bold t))))
@@ -110,7 +110,7 @@
    `(linum ((t (:background, *line-number*))))
    `(minibuffer-prompt ((t (:foreground, *variable*))))
    `(mode-line ((t (:background, *mode-line-bg* :foreground, *mode-line-fg* :bold t))))
-   `(mode-line-inactive ((t (:background, *mode-inactive-bg* :foreground, *background* :bold t))))
+   `(mode-line-inactive ((t (:background, *mode-inactive-bg* :foreground, *normal* :bold t))))
    `(cursor ((t (:background, *cursor-underscore*))))
    `(text-cursor ((t (:background, *cursor-underscore*))))
    `(vertical-border ((t (:foreground, *visual-selection*)))) ;; between splits
@@ -275,4 +275,4 @@
   (add-to-list 'custom-theme-load-path
                (file-name-as-directory (file-name-directory load-file-name))))
 
-(provide-theme 'ns-bright)
+(provide-theme 'ns-eighties-dark)

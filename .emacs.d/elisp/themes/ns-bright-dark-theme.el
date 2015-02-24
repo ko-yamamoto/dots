@@ -17,7 +17,7 @@
 (unless (>= 24 emacs-major-version)
   (error "requires Emacs 24 or later."))
 
-(deftheme ns-bright)
+(deftheme ns-bright-dark)
 
 (let* (
        (base00 "#000000")
@@ -46,23 +46,23 @@
        (purple      base0E)
        (magenta     base0F)
 
-       (*background*         base07)
-       (*comments*           base02)
+       (*normal*             base07)
+       (*background*         base01)
+       (*comments*           base03)
        (*constant*           aqua)
-       (*current-line*       base05)
-       (*cursor-underscore*  base02)
+       (*current-line*       base02)
+       (*cursor-underscore*  base03)
        (*keywords*           yellow)
        (*line-number*        base04)
        (*method-declaration* red)
        (*mode-line-bg*       blue)
        (*mode-inactive-bg*   base03)
        (*mode-line-fg*       base07)
-       (*normal*             base00)
        (*number*             blue)
        (*operators*          green)
        (*warning*            red)
        (*regexp*             purple)
-       (*string*             base02)
+       (*string*             base03)
        (*variable*           blue)
        (*visual-selection*   base03)
 
@@ -71,7 +71,7 @@
        )
 
   (custom-theme-set-faces
-   'ns-bright
+   'ns-bright-dark
 
    `(bold ((t (:bold t))))
    `(button ((t (:foreground, *keywords* :underline t :bold t))))
@@ -110,7 +110,7 @@
    `(linum ((t (:background, *line-number*))))
    `(minibuffer-prompt ((t (:foreground, *variable*))))
    `(mode-line ((t (:background, *mode-line-bg* :foreground, *mode-line-fg* :bold t))))
-   `(mode-line-inactive ((t (:background, *mode-inactive-bg* :foreground, *background* :bold t))))
+   `(mode-line-inactive ((t (:background, *mode-inactive-bg* :foreground, *normal* :bold t))))
    `(cursor ((t (:background, *cursor-underscore*))))
    `(text-cursor ((t (:background, *cursor-underscore*))))
    `(vertical-border ((t (:foreground, *visual-selection*)))) ;; between splits
@@ -193,8 +193,8 @@
    `(elscreen-tab-other-screen-face ((t (:background ,*background* :foreground ,*comments* :bold t))))
 
    ;; yalinum
-   `(yalinum-face ((t (:background ,*background* :foreground ,*comments*))))
-   `(yalinum-bar-face ((t (:background ,*mode-line-bg* :foreground ,*background*))))
+   `(yalinum-face ((t (:background ,base02 :foreground ,base07))))
+   `(yalinum-bar-face ((t (:background ,*mode-line-bg* :foreground ,base07 :bold t))))
 
    ;; speebar
    `(speedbar-tag-face ((t (:background ,*background* :foreground ,*normal*))))
@@ -227,7 +227,7 @@
    `(magit-diff-del ((t (:foreground ,red :background ,*background*))))
    `(magit-diff-none ((t (:background ,*background*))))
    `(magit-header ((t (:foreground ,green :box (:line-width 1)))))
-   `(magit-item-highlight ((t (:foreground nil :background ,*visual-selection*))))
+   `(magit-item-highlight ((t (:foreground nil :background ,*current-line*))))
 
    ;; auto-complete
    `(ac-candidate-face ((t (:background ,blue :foreground ,*background*))))
@@ -275,4 +275,4 @@
   (add-to-list 'custom-theme-load-path
                (file-name-as-directory (file-name-directory load-file-name))))
 
-(provide-theme 'ns-bright)
+(provide-theme 'ns-bright-dark)
