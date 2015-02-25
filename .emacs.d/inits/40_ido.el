@@ -35,8 +35,9 @@
     :config
     (ido-ubiquitous-mode 1)
     ;; C-j を skk-mode にする
-    (when (fboundp 'skk-mode)
-      (fset 'ido-select-text 'skk-mode)))
+    ;; (when (fboundp 'skk-mode)
+      ;; (fset 'ido-select-text 'skk-mode))
+    )
 
   ;; ido で最近開いたファイルとディレクトリを選択
   (defun recentf-ido-find-file ()
