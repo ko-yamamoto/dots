@@ -162,7 +162,7 @@
    `(org-done ((t (:foreground ,green :bold t))))
    `(org-date ((t (:foreground ,*comments* :bold t))))
    `(org-level-1 ((t (:foreground ,*normal* :bold t))))
-   `(org-level-2 ((t (:foreground ,red :bold t))))
+   `(org-level-2 ((t (:foreground ,yellow :bold t))))
    `(org-level-3 ((t (:foreground ,blue :bold t))))
    `(org-level-4 ((t (:foreground ,green :bold t))))
    `(org-level-5 ((t (:foreground ,purple :bold t))))
