@@ -1,43 +1,35 @@
-# virtualbox のコピペ共有などを有効にする（sudo設定が必要）
-sudo VBoxClient-all &
+#!/bin/sh
 
-# インプットメソッドの起動
-export GTK_IM_MODULE='uim'
-export QT_IM_MODULE='uim'
-uim-xim &
-export XMODIFIERS=@im='uim'
-uim-toolbar-gtk &
-
+#
+# ~/.xinitrc
+#
+# Executed by startx (run your window manager from here)
+#
 xrdb -merge $HOME/.Xresources
 
-# 解像度調整
-# xrandr -s 1280x720
+VBoxClient-all &
 
-# タッチパッド関連 ##########
-# 感度
-# synclient FingerHigh=70
-# 2本タップを右、3本タップを中クリックに
-# synclient TapButton1=1
-# synclient TapButton2=2
-# synclient TapButton3=3
-# 手の平での誤爆防止
-# synclient PalmDetect=1
-# syndaemon -t -k -d &
+nm-applet &
 
+/usr/bin/autokey-gtk &
 
-# キー変更 #################
-# xmodmap ~/.xmodmaprc
-
+input method
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS="@im=fcitx"
+fcitx
+# export GTK_IM_MODULE='uim'
+# export QT_IM_MODULE='uim'
+# export XMODIFIERS=@im='uim'
+# uim-xim &
+# uim-toolbar-gtk &
 
 
-# hsetroot
-xsetroot -cursor_name left_ptr
+eval $(ssh-agent)
 
-# 日本語キーボードの設定
-# setxkbmap -layout jp
-setxkbmap -model us -layout us
+xhost local:0.0
+systemctl --user restart rbindkeys.service
 
-google-ime-skk &
+compton &
 
-exec xmonad
-
+exec $1
