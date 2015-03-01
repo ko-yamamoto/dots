@@ -140,9 +140,9 @@
 ;; (color-theme-mccarthy)
 
 ;; after emacs24
-(setq custom-theme-directory "~/.emacs.d/elisp/themes/")
+(setq custom-theme-directory "~/.emacs.d/themes/")
 ;; (load-theme 'ns-milk t)
-(load-theme 'ns-bright t)
+(load-theme 'ns-eighties-dark t)
 
 ;; タブ, 全角スペース, 行末空白表示
 (defface my-face-b-1 '((t (:background "#ffe174" :underline t))) nil) ; 全角スペース

@@ -17,61 +17,52 @@
 (unless (>= 24 emacs-major-version)
   (error "requires Emacs 24 or later."))
 
-(deftheme ns-bright)
+(deftheme ns-eighties-dark)
 
 (let* (
-       (base00 "#000000")
-       (base01 "#303030")
-       (base02 "#505050")
-       (base03 "#b0b0b0")
-       (base04 "#d0d0d0")
-       (base05 "#e0e0e0")
-       (base06 "#f5f5f5")
-       (base07 "#ffffff")
-       (base08 "#fb0120")
-       (base09 "#fc6d24")
-       (base0A "#fda331")
-       (base0B "#a1c659")
-       (base0C "#76c7b7")
-       (base0D "#6fb3d2")
-       (base0E "#d381c3")
-       (base0F "#be643c")
+       (red "#f2777a")
+       (orange "#f99157")
+       (yellow "#ffcc66")
+       (green "#99cc99")
+       (aqua "#66cccc")
+       (blue "#6699cc")
+       (purple "#cc99cc")
 
-       (red         base08)
-       (orange      base09)
-       (yellow      base0A)
-       (green       base0B)
-       (aqua        base0C)
-       (blue        base0D)
-       (purple      base0E)
-       (magenta     base0F)
+       (base00 "#2d2d2d")
+       (base01 "#393939")
+       (base02 "#515151")
+       (base03 "#747369")
+       (base04 "#a09f93")
+       (base05 "#d3d0c8")
+       (base06 "#e8e6df")
+       (base07 "#f2f0ec")
 
-       (*background*         base07)
-       (*comments*           base02)
+       (*background*         base00)
+       (*comments*           base03)
        (*constant*           aqua)
-       (*current-line*       base05)
-       (*cursor-underscore*  base02)
+       (*current-line*       base01)
+       (*cursor-underscore*  base03)
        (*keywords*           yellow)
-       (*line-number*        base04)
+       (*line-number*        base06)
        (*method-declaration* red)
-       (*mode-line-bg*       blue)
-       (*mode-inactive-bg*   base03)
+       (*mode-line-bg*       base01)
+       (*mode-inactive-bg*   base04)
        (*mode-line-fg*       base07)
-       (*normal*             base00)
+       (*normal*             base05)
        (*number*             blue)
        (*operators*          green)
        (*warning*            red)
-       (*regexp*             purple)
-       (*string*             base02)
+       (*regexp*             blue)
+       (*string*             base04)
        (*variable*           blue)
-       (*visual-selection*   base03)
+       (*visual-selection*   base02)
 
 
 
        )
 
   (custom-theme-set-faces
-   'ns-bright
+   'ns-eighties-dark
 
    `(bold ((t (:bold t))))
    `(button ((t (:foreground, *keywords* :underline t :bold t))))
@@ -117,7 +108,7 @@
 
    ;; show-paren
    `(show-paren-mismatch ((t (:background, *warning* :foreground, *normal* :weight bold))))
-   `(show-paren-match ((t (:background, *keywords* :foreground, *normal* :weight bold))))
+   `(show-paren-match ((t (:background, yellow :foreground, base00 :weight bold))))
 
    ;; search
    `(isearch ((t (:background ,blue :bold t))))
@@ -127,10 +118,9 @@
    ;; rainbow-delimiters
    `(rainbow-delimiters-depth-1-face ((t (:foreground ,orange :bold t))))
    `(rainbow-delimiters-depth-2-face ((t (:foreground ,blue :bold t))))
-   `(rainbow-delimiters-depth-3-face ((t (:foreground ,magenta :bold t))))
-   `(rainbow-delimiters-depth-4-face ((t (:foreground ,yellow :bold t))))
-   `(rainbow-delimiters-depth-5-face ((t (:foreground ,green :bold t))))
-   ;; `(rainbow-delimiters-depth-6-face ((t (:foreground ,yellow :bold t))))
+   `(rainbow-delimiters-depth-3-face ((t (:foreground ,yellow :bold t))))
+   `(rainbow-delimiters-depth-4-face ((t (:foreground ,green :bold t))))
+   `(rainbow-delimiters-depth-5-face ((t (:foreground ,aqua :bold t))))
    `(rainbow-delimiters-depth-6-face ((t (:foreground ,purple :bold t))))
    `(rainbow-delimiters-depth-7-face ((t (:foreground ,orange :bold t))))
    `(rainbow-delimiters-depth-8-face ((t (:foreground ,blue :bold t))))
@@ -150,7 +140,7 @@
    `(moccur-edit-done-face ((t (:foreground ,blue))))
 
    ;;emacs-anzu
-   `(anzu-mode-line ((t (:foreground ,yellow :bold t))))
+   `(anzu-mode-line ((t (:foreground ,red :bold t))))
 
    ;; skk
    `(skk-dcomp-face ((t (:foreground ,red))))
@@ -162,15 +152,11 @@
    `(org-done ((t (:foreground ,green :bold t))))
    `(org-date ((t (:foreground ,*comments* :bold t))))
    `(org-level-1 ((t (:foreground ,*normal* :bold t))))
-   `(org-level-2 ((t (:foreground ,yellow :bold t))))
+   `(org-level-2 ((t (:foreground ,red :bold t))))
    `(org-level-3 ((t (:foreground ,blue :bold t))))
    `(org-level-4 ((t (:foreground ,green :bold t))))
    `(org-level-5 ((t (:foreground ,purple :bold t))))
    `(org-link ((t (:foreground ,blue :bold t))))
-
-   ;; show-paren
-   `(show-paren-match-face ((t (:background ,orange :foreground ,base06 :bold t))))
-   `(show-paren-mismatch-face ((t (:background ,red :foreground ,base06 :bold t))))
 
    ;; helm
    `(helm-header ((t (:background ,*mode-line-bg* :foreground ,*mode-line-fg*))))
@@ -179,12 +165,17 @@
    `(helm-selection ((t (:background ,*current-line* :bold t))))
    `(helm-visible-mark ((t (:background ,red :foreground ,*normal*))))
    `(helm-ff-directory ((t (:background ,nil :foreground ,blue))))
-   `(helm-candidate-number ((t (:background ,nil :foreground ,orange))))
-   `(helm-ff-prefix ((t (:background ,red :foreground ,base06 :bold t))))
+   `(helm-candidate-number ((t (:background ,nil :foreground ,red))))
+   `(helm-ff-prefix ((t (:background ,red :bold t))))
    `(helm-ff-symlink ((t (:foreground ,*comments*))))
+   `(helm-ff-file ((t (:background ,*background* :foreground ,*comments*))))
    `(helm-buffer-size ((t (:foreground ,*comments*))))
    `(helm-buffer-process ((t (:foreground ,*comments*))))
-   `(helm-match ((t (:background ,*regexp*))))
+   `(helm-buffer-file ((t (:foreground ,*comments*))))
+   `(helm-match ((t (:background nil :foreground ,red))))
+   `(helm-buffer-saved-out ((t (:foreground ,yellow :bold t))))
+   `(helm-buffer-not-saved ((t (:foreground ,red :bold t))))
+   `(helm-visible-mark ((t (:background ,green :bold t))))
 
    ;; elscreen
    `(elscreen-tab-background-face ((t (:background ,*background*))))
@@ -230,12 +221,13 @@
    `(magit-item-highlight ((t (:foreground nil :background ,*visual-selection*))))
 
    ;; auto-complete
-   `(ac-candidate-face ((t (:background ,blue :foreground ,*background*))))
-   `(ac-selection-face ((t (:background ,*background* :foreground ,blue :bold t))))
+   `(ac-candidate-face ((t (:background ,base02 :foreground ,*background*))))
+   ;; ac
+   `(ac-selection-face ((t (:background ,base01 :foreground ,base05 :bold t))))
    `(ac-completion-face ((t (:foreground ,red :background ,*current-line*))))
-   `(popup-scroll-bar-foreground-face ((t (:background ,yellow))))
-   `(popup-scroll-bar-background-face ((t (:background ,blue))))
-   `(popup-tip-face ((t (:background ,yellow))))
+   `(popup-scroll-bar-foreground-face ((t (:background ,base02))))
+   `(popup-scroll-bar-background-face ((t (:background ,base01))))
+   `(popup-tip-face ((t (:background ,base02))))
 
    `(sh-heredoc ((t (:foreground ,yellow))))
 
@@ -275,4 +267,4 @@
   (add-to-list 'custom-theme-load-path
                (file-name-as-directory (file-name-directory load-file-name))))
 
-(provide-theme 'ns-bright)
+(provide-theme 'ns-eighties-dark)

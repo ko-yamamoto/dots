@@ -17,9 +17,17 @@
 (unless (>= 24 emacs-major-version)
   (error "requires Emacs 24 or later."))
 
-(deftheme ns-eighties-dark)
+(deftheme ns-eighties)
 
 (let* (
+       (red "#f2777a")
+       (orange "#f99157")
+       (yellow "#ffcc66")
+       (green "#99cc99")
+       (aqua "#66cccc")
+       (blue "#6699cc")
+       (purple "#cc99cc")
+
        (base00 "#2d2d2d")
        (base01 "#393939")
        (base02 "#515151")
@@ -28,50 +36,33 @@
        (base05 "#d3d0c8")
        (base06 "#e8e6df")
        (base07 "#f2f0ec")
-       (base08 "#f2777a")
-       (base09 "#f99157")
-       (base0A "#ffcc66")
-       (base0B "#99cc99")
-       (base0C "#66cccc")
-       (base0D "#6699cc")
-       (base0E "#cc99cc")
-       (base0F "#d27b53")
 
-       (red         base08)
-       (orange      base09)
-       (yellow      base0A)
-       (green       base0B)
-       (aqua        base0C)
-       (blue        base0D)
-       (purple      base0E)
-       (magenta     base0F)
-
-       (*normal*             base07)
-       (*background*         base01)
-       (*comments*           base04)
+       (*background*         base07)
+       (*comments*           base03)
        (*constant*           aqua)
-       (*current-line*       base02)
-       (*cursor-underscore*  base04)
-       (*keywords*           purple)
-       (*line-number*        base04)
+       (*current-line*       base06)
+       (*cursor-underscore*  base06)
+       (*keywords*           yellow)
+       (*line-number*        base06)
        (*method-declaration* red)
-       (*mode-line-bg*       blue)
-       (*mode-inactive-bg*   base03)
-       (*mode-line-fg*       base07)
+       (*mode-line-bg*       base04)
+       (*mode-inactive-bg*   base05)
+       (*mode-line-fg*       *background*)
+       (*normal*             base00)
        (*number*             blue)
-       (*operators*          yellow)
+       (*operators*          green)
        (*warning*            red)
-       (*regexp*             purple)
-       (*string*             base04)
+       (*regexp*             green)
+       (*string*             aqua)
        (*variable*           blue)
-       (*visual-selection*   base03)
+       (*visual-selection*   base05)
 
 
 
        )
 
   (custom-theme-set-faces
-   'ns-eighties-dark
+   'ns-eighties
 
    `(bold ((t (:bold t))))
    `(button ((t (:foreground, *keywords* :underline t :bold t))))
@@ -110,7 +101,7 @@
    `(linum ((t (:background, *line-number*))))
    `(minibuffer-prompt ((t (:foreground, *variable*))))
    `(mode-line ((t (:background, *mode-line-bg* :foreground, *mode-line-fg* :bold t))))
-   `(mode-line-inactive ((t (:background, *mode-inactive-bg* :foreground, *normal* :bold t))))
+   `(mode-line-inactive ((t (:background, *mode-inactive-bg* :foreground, *background* :bold t))))
    `(cursor ((t (:background, *cursor-underscore*))))
    `(text-cursor ((t (:background, *cursor-underscore*))))
    `(vertical-border ((t (:foreground, *visual-selection*)))) ;; between splits
@@ -120,17 +111,16 @@
    `(show-paren-match ((t (:background, *keywords* :foreground, *normal* :weight bold))))
 
    ;; search
-   `(isearch ((t (:background ,blue :bold t))))
+   `(isearch ((t (:background ,green :bold t))))
    `(isearch-fail ((t (:background, *warning*))))
-   `(lazy-highlight ((t (:background ,blue))))
+   `(lazy-highlight ((t (:background ,green))))
 
    ;; rainbow-delimiters
    `(rainbow-delimiters-depth-1-face ((t (:foreground ,orange :bold t))))
    `(rainbow-delimiters-depth-2-face ((t (:foreground ,blue :bold t))))
-   `(rainbow-delimiters-depth-3-face ((t (:foreground ,magenta :bold t))))
-   `(rainbow-delimiters-depth-4-face ((t (:foreground ,yellow :bold t))))
-   `(rainbow-delimiters-depth-5-face ((t (:foreground ,green :bold t))))
-   ;; `(rainbow-delimiters-depth-6-face ((t (:foreground ,yellow :bold t))))
+   `(rainbow-delimiters-depth-3-face ((t (:foreground ,yellow :bold t))))
+   `(rainbow-delimiters-depth-4-face ((t (:foreground ,green :bold t))))
+   `(rainbow-delimiters-depth-5-face ((t (:foreground ,aqua :bold t))))
    `(rainbow-delimiters-depth-6-face ((t (:foreground ,purple :bold t))))
    `(rainbow-delimiters-depth-7-face ((t (:foreground ,orange :bold t))))
    `(rainbow-delimiters-depth-8-face ((t (:foreground ,blue :bold t))))
@@ -150,7 +140,7 @@
    `(moccur-edit-done-face ((t (:foreground ,blue))))
 
    ;;emacs-anzu
-   `(anzu-mode-line ((t (:foreground ,yellow :bold t))))
+   `(anzu-mode-line ((t (:foreground ,blue :bold t))))
 
    ;; skk
    `(skk-dcomp-face ((t (:foreground ,red))))
@@ -169,22 +159,26 @@
    `(org-link ((t (:foreground ,blue :bold t))))
 
    ;; show-paren
-   `(show-paren-match-face ((t (:background ,orange :foreground ,base06 :bold t))))
-   `(show-paren-mismatch-face ((t (:background ,red :foreground ,base06 :bold t))))
+   `(show-paren-match-face ((t (:background ,orange :bold t))))
+   `(show-paren-mismatch-face ((t (:background ,red :bold t))))
 
    ;; helm
    `(helm-header ((t (:background ,*mode-line-bg* :foreground ,*mode-line-fg*))))
    `(header-line ((t (:background ,*mode-line-bg* :foreground ,*mode-line-fg*))))
    `(helm-source-header ((t (:background ,*mode-line-bg* :foreground ,*mode-line-fg*))))
-   `(helm-selection ((t (:background ,*current-line* :bold t))))
+   `(helm-selection ((t (:background ,*current-line*))))
    `(helm-visible-mark ((t (:background ,red :foreground ,*normal*))))
    `(helm-ff-directory ((t (:background ,nil :foreground ,blue))))
-   `(helm-candidate-number ((t (:background ,nil :foreground ,orange))))
-   `(helm-ff-prefix ((t (:background ,red :foreground ,base06 :bold t))))
+   `(helm-candidate-number ((t (:background ,nil :foreground ,blue))))
+   `(helm-ff-prefix ((t (:background ,red :bold t))))
    `(helm-ff-symlink ((t (:foreground ,*comments*))))
+   `(helm-ff-file ((t (:foreground ,*comments* :background ,*background*))))
    `(helm-buffer-size ((t (:foreground ,*comments*))))
    `(helm-buffer-process ((t (:foreground ,*comments*))))
    `(helm-match ((t (:background ,*regexp*))))
+   `(helm-buffer-saved-out ((t (:foreground ,yellow :bold t))))
+   `(helm-buffer-not-saved ((t (:foreground ,red :bold t))))
+   `(helm-visible-mark ((t (:background ,green :bold t))))
 
    ;; elscreen
    `(elscreen-tab-background-face ((t (:background ,*background*))))
@@ -275,4 +269,4 @@
   (add-to-list 'custom-theme-load-path
                (file-name-as-directory (file-name-directory load-file-name))))
 
-(provide-theme 'ns-eighties-dark)
+(provide-theme 'ns-eighties)

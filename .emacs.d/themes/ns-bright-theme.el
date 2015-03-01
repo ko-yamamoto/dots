@@ -17,25 +17,25 @@
 (unless (>= 24 emacs-major-version)
   (error "requires Emacs 24 or later."))
 
-(deftheme ns-eighties)
+(deftheme ns-bright)
 
 (let* (
-       (base00 "#2d2d2d")
-       (base01 "#393939")
-       (base02 "#515151")
-       (base03 "#747369")
-       (base04 "#a09f93")
-       (base05 "#d3d0c8")
-       (base06 "#e8e6df")
-       (base07 "#f2f0ec")
-       (base08 "#f2777a")
-       (base09 "#f99157")
-       (base0A "#ffcc66")
-       (base0B "#99cc99")
-       (base0C "#66cccc")
-       (base0D "#6699cc")
-       (base0E "#cc99cc")
-       (base0F "#d27b53")
+       (base00 "#000000")
+       (base01 "#303030")
+       (base02 "#505050")
+       (base03 "#b0b0b0")
+       (base04 "#d0d0d0")
+       (base05 "#e0e0e0")
+       (base06 "#f5f5f5")
+       (base07 "#ffffff")
+       (base08 "#fb0120")
+       (base09 "#fc6d24")
+       (base0A "#fda331")
+       (base0B "#a1c659")
+       (base0C "#76c7b7")
+       (base0D "#6fb3d2")
+       (base0E "#d381c3")
+       (base0F "#be643c")
 
        (red         base08)
        (orange      base09)
@@ -49,12 +49,12 @@
        (*background*         base07)
        (*comments*           base02)
        (*constant*           aqua)
-       (*current-line*       base06)
+       (*current-line*       base05)
        (*cursor-underscore*  base02)
        (*keywords*           yellow)
        (*line-number*        base04)
        (*method-declaration* red)
-       (*mode-line-bg*       blue)
+       (*mode-line-bg*       base05)
        (*mode-inactive-bg*   base03)
        (*mode-line-fg*       base07)
        (*normal*             base00)
@@ -71,7 +71,7 @@
        )
 
   (custom-theme-set-faces
-   'ns-eighties
+   'ns-bright
 
    `(bold ((t (:bold t))))
    `(button ((t (:foreground, *keywords* :underline t :bold t))))
@@ -121,7 +121,7 @@
 
    ;; search
    `(isearch ((t (:background ,blue :bold t))))
-   `(isearch-fail ((t (:background, *warning*))))
+   `(isearch-fail ((t (:background, *warning* :foreground ,base07 :bold t))))
    `(lazy-highlight ((t (:background ,blue))))
 
    ;; rainbow-delimiters
@@ -162,7 +162,7 @@
    `(org-done ((t (:foreground ,green :bold t))))
    `(org-date ((t (:foreground ,*comments* :bold t))))
    `(org-level-1 ((t (:foreground ,*normal* :bold t))))
-   `(org-level-2 ((t (:foreground ,red :bold t))))
+   `(org-level-2 ((t (:foreground ,yellow :bold t))))
    `(org-level-3 ((t (:foreground ,blue :bold t))))
    `(org-level-4 ((t (:foreground ,green :bold t))))
    `(org-level-5 ((t (:foreground ,purple :bold t))))
@@ -176,15 +176,20 @@
    `(helm-header ((t (:background ,*mode-line-bg* :foreground ,*mode-line-fg*))))
    `(header-line ((t (:background ,*mode-line-bg* :foreground ,*mode-line-fg*))))
    `(helm-source-header ((t (:background ,*mode-line-bg* :foreground ,*mode-line-fg*))))
-   `(helm-selection ((t (:background ,*current-line* :bold t))))
-   `(helm-visible-mark ((t (:background ,red :foreground ,*normal*))))
+   `(helm-selection ((t (:background ,*current-line*))))
    `(helm-ff-directory ((t (:background ,nil :foreground ,blue))))
    `(helm-candidate-number ((t (:background ,nil :foreground ,orange))))
    `(helm-ff-prefix ((t (:background ,red :foreground ,base06 :bold t))))
    `(helm-ff-symlink ((t (:foreground ,*comments*))))
+   `(helm-ff-file ((t (:foreground ,base00 :bold t))))
    `(helm-buffer-size ((t (:foreground ,*comments*))))
    `(helm-buffer-process ((t (:foreground ,*comments*))))
-   `(helm-match ((t (:background ,*regexp*))))
+   `(helm-buffer-directory ((t (:foreground ,blue :bold t))))
+   `(helm-buffer-file ((t (:foreground ,base00 :bold nil))))
+   `(helm-match ((t (:background ,blue :foreground ,base00))))
+   `(helm-buffer-saved-out ((t (:foreground ,yellow :bold t))))
+   `(helm-buffer-not-saved ((t (:foreground ,red :bold t))))
+   `(helm-visible-mark ((t (:background ,green :bold t))))
 
    ;; elscreen
    `(elscreen-tab-background-face ((t (:background ,*background*))))
@@ -212,7 +217,7 @@
 
    ;; dired
    `(dired-flagged ((t (:background ,*background* :foreground ,orange))))
-   `(dired-directory ((t (:background ,*background* :foreground ,*variable*))))
+   `(dired-directory ((t (:background ,*background* :foreground ,*variable* :bold t))))
 
    ;; slime
    `(slime-repl-inputed-output-face ((t (:foreground ,red))))
@@ -275,4 +280,4 @@
   (add-to-list 'custom-theme-load-path
                (file-name-as-directory (file-name-directory load-file-name))))
 
-(provide-theme 'ns-eighties)
+(provide-theme 'ns-bright)
