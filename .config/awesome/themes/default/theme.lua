@@ -4,7 +4,7 @@
 
 theme = {}
 
-theme.font          = "07YasashisaGothic 12"
+theme.font          = "M+ 1mn 13"
 
 theme.bg_normal     = "#222222"
 theme.bg_focus      = "#535d6c"
@@ -74,7 +74,8 @@ theme.titlebar_maximized_button_normal_active = "/usr/share/awesome/themes/defau
 theme.titlebar_maximized_button_focus_active  = "/usr/share/awesome/themes/default/titlebar/maximized_focus_active.png"
 
 -- theme.wallpaper = "/usr/share/awesome/themes/default/background.png"
-theme.wallpaper = "/usr/share/antergos/wallpapers/early_morning_by_kylekc.jpg"
+-- theme.wallpaper = "/usr/share/antergos/wallpapers/early_morning_by_kylekc.jpg"
+theme.wallpaper = "/home/nishikawasasaki/Pictures/Earth.png"
 
 -- You can use your own layout icons like this:
 theme.layout_fairh = "/usr/share/awesome/themes/default/layouts/fairhw.png"

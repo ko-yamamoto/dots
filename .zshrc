@@ -57,7 +57,7 @@ setopt prompt_subst
 
 # PROMPT='%F{green}%n%f/%m  %F{blue}%(10~,%-4~/.../%6~,%~)%f
 # %B%(?.%F{blue}%(!.#.／^o^＼)%f.%F{red}%(!.#.＼^o^／)%f)%b '
-PROMPT='%F{green}%n%f/%m  %F{blue}%(10~,%-4~/.../%6~,%~)%f
+PROMPT='%B%F{yellow}%n%f%b/%m  %B%F{blue}%(10~,%-4~/.../%6~,%~)%f%b
 %B%(?.%F{blue}%(!.#.>)%f.%F{red}%(!.#.!)%f)%b '
 
 
@@ -257,9 +257,9 @@ else
         # vcs_info で情報を取得した場合
         # $vcs_info_msg_0_ , $vcs_info_msg_1_ , $vcs_info_msg_2_ を
         # それぞれ緑、黄色、赤で表示する
-            [[ -n "$vcs_info_msg_0_" ]] && messages+=( "%F{green}${vcs_info_msg_0_}%f" )
-            [[ -n "$vcs_info_msg_1_" ]] && messages+=( "%F{yellow}${vcs_info_msg_1_}%f" )
-            [[ -n "$vcs_info_msg_2_" ]] && messages+=( "%F{red}${vcs_info_msg_2_}%f" )
+            [[ -n "$vcs_info_msg_0_" ]] && messages+=( "%B%F{green}${vcs_info_msg_0_}%f%b" )
+            [[ -n "$vcs_info_msg_1_" ]] && messages+=( "%B%F{yellow}${vcs_info_msg_1_}%f%b" )
+            [[ -n "$vcs_info_msg_2_" ]] && messages+=( "%B%F{red}${vcs_info_msg_2_}%f%b" )
 
         # 間にスペースを入れて連結する
             prompt="${(j: :)messages}"
@@ -291,7 +291,6 @@ dumb | emacs)
     unfunction preexec
     ;;
 esac
-
 
 
 # lsカラー表示
