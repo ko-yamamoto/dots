@@ -117,6 +117,8 @@ end
 window(:through, :class => /gnome-terminal/)
 window(:through, :class => /lilyterm/)
 window(:through, :class => /emacs/)
+window(:through, :class => /gvim/)
+window(:through, :class => /Navigator/) # firefox
 
 # # add new bind_key to default binds
 # window(@default_bind_resolver, :class => /google-chrome/) do
