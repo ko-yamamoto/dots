@@ -83,7 +83,7 @@
 (global-hl-line-mode)
 
 ;; カーソルの形
-(set-default 'cursor-type '(hbar . 5))
+(set-default 'cursor-type 'hollow)
 
 ;; カーソル位置のフェースを調べる関数
 (defun describe-face-at-point ()
@@ -165,7 +165,7 @@
 (ad-activate 'font-lock-mode)
 
 ;; ウィンドウを透明化
-(add-to-list 'default-frame-alist '(alpha . (0.9 0.9)))
+(add-to-list 'default-frame-alist '(alpha . (1.0 1.0)))
 
 ;; キーワードのカラー表示を有効化
 (global-font-lock-mode t)
