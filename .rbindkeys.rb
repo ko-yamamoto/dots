@@ -106,6 +106,9 @@ end
 
 bind_prefix_key [KEY_LEFTCTRL, KEY_Q] do
 
+  # C-qC-g: ignore C-q prefix bind
+  bind_key [KEY_LEFTCTRL, KEY_G], :ignore
+
   # C-qx: close tab, etc.
   bind_key KEY_X, [KEY_LEFTCTRL, KEY_W]
 
