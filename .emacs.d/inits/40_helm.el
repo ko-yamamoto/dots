@@ -1,5 +1,5 @@
 (use-package helm
-  :disabled t
+  ;; :disabled t
   :defer t
   :ensure t
   :bind (("C-;" . helm-my)
@@ -16,7 +16,7 @@
   (add-to-list 'desktop-modes-not-to-save 'helm-mode)
 
   ;; find-file では邪魔なので helm を使わない
-  ;; (add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
+  (add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
 
   ;; configuration helm variable
   (setq helm-idle-delay 0.1)
@@ -25,7 +25,7 @@
   (setq helm-buffer-max-length 80) ; バッファ名の最大長
   (setq enable-recursive-minibuffers t)
 
-  (require 'helm-files)
+  ;; (require 'helm-files)
 
 
   ;; 絞り込みでバッファがバッファ名の文字数順で並ぶのを回避

@@ -1,5 +1,5 @@
 (use-package ido
-  ;; :disabled t
+  :disabled t
   ;; :defer t
   :bind (("C-x C-b" . ido-switch-buffer)
          ("M-y" . kill-ring-insert)
@@ -22,7 +22,7 @@
     :config (ido-vertical-mode 1))
 
   (use-package smex
-    ;; :disabled t
+    :disabled t
     ;; M-x を ido で
     :ensure t
     ;; :defer t
