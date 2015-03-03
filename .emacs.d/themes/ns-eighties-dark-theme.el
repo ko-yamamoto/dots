@@ -185,7 +185,7 @@
 
    ;; yalinum
    `(yalinum-face ((t (:background ,*background* :foreground ,*comments*))))
-   `(yalinum-bar-face ((t (:background ,*mode-line-bg* :foreground ,*background*))))
+   `(yalinum-bar-face ((t (:background ,*mode-line-bg* :foreground ,blue))))
 
    ;; speebar
    `(speedbar-tag-face ((t (:background ,*background* :foreground ,*normal*))))
