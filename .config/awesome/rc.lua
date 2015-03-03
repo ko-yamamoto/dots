@@ -121,7 +121,19 @@ function getBatteryStatus()
    local status = fd:read()
    fd:close()
    return status
-end
+   end
+
+
+-- -- Maic imap checker
+-- -- /usr/local/bin/maic.py
+-- imapStatus = wibox.widget.textbox()
+-- function getImapStatus()
+--     imapStatus.text = "Init"
+--    local fd= io.popen("/usr/local/bin/maic.py")
+--    local status = fd:read()
+--    fd:close()
+--    return status
+--    end
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -203,6 +215,7 @@ for s = 1, screen.count() do
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
     right_layout:add(battery)
+--     right_layout:add(imapStatus)
     right_layout:add(mytextclock)
     right_layout:add(mylayoutbox[s])
 
@@ -503,9 +516,9 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 
 local gtk = [[
-gtk-font-name="07YasashisaGothic 12"
-gtk-theme-name="Numix Frost"
-gtk-icon-theme-name="Numix-Square"
+gtk-font-name="M+ 1mn 13"
+gtk-theme-name="Ultra-Flat"
+gtk-icon-theme-name="UltraFlatIcons"
 gtk-fallback-icon-theme="gnome"
 gtk-cursor-theme-name="oxy-cherry"
 gtk-cursor-theme-size=0
@@ -521,19 +534,6 @@ gtk-xft-dpi=120
 ]]
 
 
-local gtk2 = io.open(os.getenv("HOME") .. "/.gtkrc-2.0", "w")
-gtk2:write(gtk)
-gtk2:write([[
-gtk-key-theme-name="Emacs"
-binding "does-not-intercept-ctrl-w" {
-  unbind "<ctrl>w"
-  bind "<alt>BackSpace" { "delete-from-cursor" (word-ends, -1) }
-}
-class "GtkEntry" binding "does-not-intercept-ctrl-w"
-class "GtkTextView" binding "does-not-intercept-ctrl-w"
-]])
-gtk2:close()
-
 -- GTK3 is the same, but no double quotes for strings
 os.execute("test -d ~/.config/gtk-3.0 || mkdir -p ~/.config/gtk-3.0")
 local gtk3 = io.open(os.getenv("HOME") .. "/.config/gtk-3.0/settings.ini", "w")
@@ -541,94 +541,6 @@ gtk, _ = gtk:gsub('"', '')
 gtk3:write("[Settings]\n")
 gtk3:write(gtk)
 gtk3:close()
-local gtk3 = io.open(os.getenv("HOME") .. "/.config/gtk-3.0/gtk.css", "w")
-gtk3:write([[
-/* Useless: we cannot override properly by unbinding some keys */
-/* @import url("/usr/share/themes/Emacs/gtk-3.0/gtk-keys.css"); */
-
-@binding-set custom-text-entry
-{
-  bind "<ctrl>b" { "move-cursor" (logical-positions, -1, 0) };
-  bind "<shift><ctrl>b" { "move-cursor" (logical-positions, -1, 1) };
-  bind "<ctrl>f" { "move-cursor" (logical-positions, 1, 0) };
-  bind "<shift><ctrl>f" { "move-cursor" (logical-positions, 1, 1) };
-
-  bind "<alt>b" { "move-cursor" (words, -1, 0) };
-  bind "<shift><alt>b" { "move-cursor" (words, -1, 1) };
-  bind "<alt>f" { "move-cursor" (words, 1, 0) };
-  bind "<shift><alt>f" { "move-cursor" (words, 1, 1) };
-
-  bind "<ctrl>a" { "move-cursor" (paragraph-ends, -1, 0) };
-  bind "<shift><ctrl>a" { "move-cursor" (paragraph-ends, -1, 1) };
-  bind "<ctrl>e" { "move-cursor" (paragraph-ends, 1, 0) };
-  bind "<shift><ctrl>e" { "move-cursor" (paragraph-ends, 1, 1) };
-
-  /* bind "<ctrl>w" { "cut-clipboard" () }; */
-  bind "<ctrl>y" { "paste-clipboard" () };
-
-  bind "<ctrl>d" { "delete-from-cursor" (chars, 1) };
-  bind "<alt>d" { "delete-from-cursor" (word-ends, 1) };
-  bind "<ctrl>k" { "delete-from-cursor" (paragraph-ends, 1) };
-  bind "<alt>backslash" { "delete-from-cursor" (whitespace, 1) };
-  bind "<alt>BackSpace" { "delete-from-cursor" (word-ends, -1) };
-
-  bind "<alt>space" { "delete-from-cursor" (whitespace, 1)
-                      "insert-at-cursor" (" ") };
-  bind "<alt>KP_Space" { "delete-from-cursor" (whitespace, 1)
-                         "insert-at-cursor" (" ")  };
-}
-
-/*
- * Bindings for GtkTreeView
- */
-@binding-set gtk-emacs-tree-view
-{
-  bind "<ctrl>s" { "start-interactive-search" () };
-  bind "<ctrl>f" { "move-cursor" (logical-positions, 1) };
-  bind "<ctrl>b" { "move-cursor" (logical-positions, -1) };
-}
-
-/*
- * Bindings for menus
- */
-@binding-set gtk-emacs-menu
-{
-  bind "<ctrl>n" { "move-current" (next) };
-  bind "<ctrl>p" { "move-current" (prev) };
-  bind "<ctrl>f" { "move-current" (child) };
-  bind "<ctrl>b" { "move-current" (parent) };
-}
-
-GtkEntry {
-  gtk-key-bindings: gtk-emacs-text-entry;
-}
-
-GtkTextView {
-  gtk-key-bindings: gtk-emacs-text-entry, gtk-emacs-text-view;
-}
-
-GtkTreeView {
-  gtk-key-bindings: gtk-emacs-tree-view;
-}
-
-GtkMenuShell {
-  gtk-key-bindings: gtk-emacs-menu;
-}
-
-
-.window-frame, .window-frame:backdrop {
-  box-shadow: 0 0 0 black;
-  border-style: none;
-  margin: 0;
-  border-radius: 0;
-}
-
-.titlebar {
-  border-radius: 0;
-}
-]])
-gtk3:close()
-
 
 -- Battery status timer
 batteryTimer = timer({timeout = 30})
@@ -637,3 +549,11 @@ batteryTimer:connect_signal("timeout", function()
 end)
 batteryTimer:start()
 battery:set_markup(getBatteryStatus())
+
+-- -- imap status timer
+-- imapStatusTimer = timer({timeout = 60})
+-- imapStatusTimer:connect_signal("timeout", function()
+--   imapStatus:set_markup(getImapStatus())
+--   end)
+--   imapStatusTimer:start()
+--   imapStatus:set_markup(getImapStatus())
