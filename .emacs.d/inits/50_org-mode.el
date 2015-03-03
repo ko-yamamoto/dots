@@ -79,5 +79,5 @@
              ("C-a" . my-toggle-beginning-of-line-and-sentence)
              ("C-c SPC" . ace-jump-mode) ; 上書き
              ("C-m" . org-return-indent)
-             ("C-c C-c" . org-render-browser))
+             ("C-c c" . org-render-browser))
   )

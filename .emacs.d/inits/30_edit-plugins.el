@@ -8,6 +8,13 @@
   (ac-config-default)
   (global-auto-complete-mode t)
 
+  (use-package ac-dabbrev
+    :ensure
+    :config
+    (add-to-list 'ac-sources 'ac-source-dabbrev))
+
+
+
   (add-to-list 'ac-sources 'ac-source-filename)
   (add-to-list 'ac-sources 'ac-source-files-in-current-dir)
   (add-to-list 'ac-sources 'ac-source-words-in-all-buffer)

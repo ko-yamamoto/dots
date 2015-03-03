@@ -83,7 +83,7 @@
                   ;; ("\\(.*\\) \\[Dired\\]" :regexp t :height 0.4 :position top :stick t)
                   ;;("*Moccur*" :height 20)
                   ("*Directory*" :height 20)
-                  ("\\*magit*" :regexp t :height 30)
+                  ("\\*magit*" :regexp t :height 0.75)
                   ;; slime
                   ("*slime-apropos*")
                   ("*slime-macroexpansion*")

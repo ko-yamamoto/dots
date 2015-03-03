@@ -31,9 +31,8 @@
   )
 
 
-(use-package git-commit
-  :ensure t
-  :defer t)
+(use-package git-commit-mode
+  :ensure t)
 
 
 (use-package git-gutter+
