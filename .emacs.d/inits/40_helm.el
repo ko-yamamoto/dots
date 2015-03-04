@@ -12,6 +12,12 @@
   (require 'helm-config)
   (helm-mode 1)
 
+  ;; あいまい有効化
+  (setq helm-M-x-fuzzy-match t)
+  (setq helm-recentf-fuzzy-match t)
+  (setq helm-buffers-fuzzy-matching t)
+  (setq helm-imenu-fuzzy-match t)
+
   ;; helm バッファは保存しないように
   (add-to-list 'desktop-modes-not-to-save 'helm-mode)
 
