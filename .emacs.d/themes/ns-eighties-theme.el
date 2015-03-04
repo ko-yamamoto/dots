@@ -41,7 +41,7 @@
        (*comments*           base03)
        (*constant*           aqua)
        (*current-line*       base06)
-       (*cursor-underscore*  base06)
+       (*cursor-underscore*  base04)
        (*keywords*           yellow)
        (*line-number*        base06)
        (*method-declaration* red)
@@ -53,7 +53,7 @@
        (*operators*          green)
        (*warning*            red)
        (*regexp*             green)
-       (*string*             aqua)
+       (*string*             base04)
        (*variable*           blue)
        (*visual-selection*   base05)
 
@@ -183,8 +183,8 @@
    ;; elscreen
    `(elscreen-tab-background-face ((t (:background ,*background*))))
    `(elscreen-tab-control-face ((t (:background ,*background* :foreground ,*normal*))))
-   `(elscreen-tab-current-screen-face ((t (:background ,*background* :foreground ,*keywords* :bold t))))
-   `(elscreen-tab-other-screen-face ((t (:background ,*background* :foreground ,*comments* :bold t))))
+   `(elscreen-tab-current-screen-face ((t (:background ,*background* :foreground ,red :bold t))))
+   `(elscreen-tab-other-screen-face ((t (:background ,*background* :foreground ,base04 :bold t))))
 
    ;; yalinum
    `(yalinum-face ((t (:background ,*background* :foreground ,*comments*))))
@@ -224,12 +224,13 @@
    `(magit-item-highlight ((t (:foreground nil :background ,*visual-selection*))))
 
    ;; auto-complete
-   `(ac-candidate-face ((t (:background ,blue :foreground ,*background*))))
-   `(ac-selection-face ((t (:background ,*background* :foreground ,blue :bold t))))
+   `(ac-candidate-face ((t (:background ,base05 :foreground ,*normal*))))
+   `(ac-selection-face ((t (:background ,base06 :foreground ,base02 :bold t))))
    `(ac-completion-face ((t (:foreground ,red :background ,*current-line*))))
-   `(popup-scroll-bar-foreground-face ((t (:background ,yellow))))
-   `(popup-scroll-bar-background-face ((t (:background ,blue))))
-   `(popup-tip-face ((t (:background ,yellow))))
+   `(popup-scroll-bar-foreground-face ((t (:background ,base05))))
+   `(popup-scroll-bar-background-face ((t (:background ,base06))))
+   `(popup-tip-face ((t (:background ,base05))))
+   ;; ac
 
    `(sh-heredoc ((t (:foreground ,yellow))))
 
