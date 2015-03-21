@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<root>
+  <item>
+    <name>My Emacs Mode (except in emacs)</name>
+    <item>
+      <name>Change Command+W to Command+C (except in emacs)</name>
+      <appendix>Change Command+W to Command+C (except in emacs)</appendix>
+      <identifier>private.commandw_to_commandc</identifier>
+      <not>EMACS</not>
+      <autogen>__KeyToKey__ KeyCode::W, ModifierFlag::COMMAND_L, KeyCode::C, ModifierFlag::COMMAND_L</autogen>
+    </item>
+    <item>
+      <name>[ex] Use Control+Space as MarkSet</name>
+      <item>
+        <!-- MarkSet Mode Core -->
+        <name>My MarkSet Mode detail</name>
+        <appendix>Control+W to Command_L+X</appendix>
+        <appendix>Command+W to Command_L+C</appendix>
+        <appendix>Control+G to turn off MarkSet</appendix>
+        <appendix>Control+Space to turn off MarkSet</appendix>
+        <identifier vk_config="true">notsave.emacsmode_ex_controlSpace_core_my</identifier>
+        <autogen>__ShowStatusMessage__ MarkSet</autogen>
+        {{ EMACS_MODE_MARKSET_EXTRA }}
+        <autogen>
+          __KeyToKey__
+          KeyCode::W, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL | ModifierFlag::SHIFT_L | ModifierFlag::NONE,
+          KeyCode::VK_LOCK_SHIFT_L_FORCE_OFF,
+          KeyCode::X, ModifierFlag::COMMAND_L,
+          KeyCode::VK_CONFIG_FORCE_OFF_notsave_emacsmode_ex_controlSpace_core_my,
+          Option::NOREPEAT,
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::W, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_COMMAND | ModifierFlag::SHIFT_L | ModifierFlag::NONE,
+          KeyCode::VK_LOCK_SHIFT_L_FORCE_OFF,
+          KeyCode::C, ModifierFlag::COMMAND_L,
+          KeyCode::VK_CONFIG_FORCE_OFF_notsave_emacsmode_ex_controlSpace_core_my,
+          Option::NOREPEAT,
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::D, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL | ModifierFlag::SHIFT_L | ModifierFlag::NONE,
+          KeyCode::VK_LOCK_SHIFT_L_FORCE_OFF,
+          KeyCode::D, ModifierFlag::CONTROL_L,
+          KeyCode::VK_CONFIG_FORCE_OFF_notsave_emacsmode_ex_controlSpace_core_my,
+          Option::NOREPEAT,
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::H, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL | ModifierFlag::SHIFT_L | ModifierFlag::NONE,
+          KeyCode::VK_LOCK_SHIFT_L_FORCE_OFF,
+          KeyCode::H, ModifierFlag::CONTROL_L,
+          KeyCode::VK_CONFIG_FORCE_OFF_notsave_emacsmode_ex_controlSpace_core_my,
+          Option::NOREPEAT,
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::G, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL | ModifierFlag::SHIFT_L | ModifierFlag::NONE,
+          KeyCode::VK_LOCK_SHIFT_L_FORCE_OFF,
+          KeyCode::VK_CONFIG_FORCE_OFF_notsave_emacsmode_ex_controlSpace_core_my,
+          Option::NOREPEAT,
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::SPACE, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL | ModifierFlag::SHIFT_L | ModifierFlag::NONE,
+          KeyCode::VK_LOCK_SHIFT_L_FORCE_OFF,
+          KeyCode::VK_CONFIG_FORCE_OFF_notsave_emacsmode_ex_controlSpace_core_my,
+          Option::NOREPEAT,
+        </autogen>
+      </item>
+      <item>
+        <name>Enable Control+Space</name>
+        <identifier>option.emacsmode_ex_controlSpace_my</identifier>
+        <not>{{EMACS_MODE_IGNORE_APPS}}</not>
+        <autogen>
+          __KeyToKey__
+          KeyCode::SPACE, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL | ModifierFlag::NONE,
+          KeyCode::VK_LOCK_SHIFT_L_FORCE_ON,
+          KeyCode::VK_CONFIG_FORCE_ON_notsave_emacsmode_ex_controlSpace_core_my
+        </autogen>
+      </item>
+    </item>
+  </item>
+</root>
