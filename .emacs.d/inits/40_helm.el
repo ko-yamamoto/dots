@@ -120,17 +120,38 @@
                             collect file)))
       (type . file)))
 
+  ;; (defun helm-my ()
+  ;;   (interactive)
+  ;;   (helm-other-buffer '(
+  ;;                        ;; helm-c-source-elscreen
+  ;;                        helm-source-buffers-list-R
+  ;;                        ;; helm-source-buffers-list
+  ;;                        ;; helm-c-source-buffers-list
+  ;;                        ;; helm-c-recentf-file-source
+  ;;                        helm-source-recentf
+  ;;                        helm-c-recentf-directory-source
+  ;;                        helm-c-source-buffer-not-found)
+  ;;                      "*helm my*"))
+
+  (defcustom helm-my-default-sources '(helm-source-buffers-list
+                                       helm-c-recentf-file-source
+                                       helm-c-recentf-directory-source
+                                       helm-source-buffer-not-found)
+    "Default sources list used in `helm-my'."
+    :group 'helm-misc
+    :type '(repeat (choice symbol)))
+
   (defun helm-my ()
+    "Preconfigured `helm' lightweight version \(buffer -> recentf\)."
     (interactive)
-    (helm-other-buffer '(
-                         ;; helm-c-source-elscreen
-                         helm-source-buffers-list-R
-                         ;; helm-source-buffers-list
-                         ;; helm-c-source-buffers-list
-                         helm-c-recentf-file-source
-                         helm-c-recentf-directory-source
-                         helm-c-source-buffer-not-found)
-                       "*helm my*"))
+    (require 'helm-files)
+    (unless helm-source-buffers-list
+      (setq helm-source-buffers-list
+            (helm-make-source "Buffers" 'helm-source-buffers)))
+    (let ((helm-ff-transformer-show-only-basename nil))
+      (helm :sources helm-my-default-sources
+            :buffer "*helm my*"
+            :truncate-lines t)))
 
   ;; git 管理ファイルを状態に応じて表示
   (defun helm-c-sources-git-project-for (pwd)
