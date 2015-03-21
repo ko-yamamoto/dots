@@ -169,6 +169,7 @@
    `(helm-selection ((t (:background ,*current-line*))))
    `(helm-visible-mark ((t (:background ,red :foreground ,*normal*))))
    `(helm-ff-directory ((t (:background ,nil :foreground ,blue))))
+   `(helm-buffer-directory ((t (:background ,nil :foreground ,blue))))
    `(helm-candidate-number ((t (:background ,nil :foreground ,blue))))
    `(helm-ff-prefix ((t (:background ,red :bold t))))
    `(helm-ff-symlink ((t (:foreground ,*comments*))))

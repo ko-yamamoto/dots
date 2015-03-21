@@ -45,8 +45,8 @@
        (*keywords*           yellow)
        (*line-number*        base06)
        (*method-declaration* red)
-       (*mode-line-bg*       base01)
-       (*mode-inactive-bg*   base04)
+       (*mode-line-bg*       base02)
+       (*mode-inactive-bg*   base01)
        (*mode-line-fg*       base07)
        (*normal*             base05)
        (*number*             blue)
@@ -101,7 +101,7 @@
    `(linum ((t (:background, *line-number*))))
    `(minibuffer-prompt ((t (:foreground, *variable*))))
    `(mode-line ((t (:background, *mode-line-bg* :foreground, *mode-line-fg* :bold t))))
-   `(mode-line-inactive ((t (:background, *mode-inactive-bg* :foreground, *background* :bold t))))
+   `(mode-line-inactive ((t (:background, *mode-inactive-bg* :foreground, base03 :bold t))))
    `(cursor ((t (:background, *cursor-underscore*))))
    `(text-cursor ((t (:background, *cursor-underscore*))))
    `(vertical-border ((t (:foreground, *visual-selection*)))) ;; between splits
@@ -165,10 +165,11 @@
    `(helm-selection ((t (:background ,*current-line* :bold t))))
    `(helm-visible-mark ((t (:background ,red :foreground ,*normal*))))
    `(helm-ff-directory ((t (:background ,nil :foreground ,blue))))
+   `(helm-buffer-directory ((t (:background ,nil :foreground ,blue))))
    `(helm-candidate-number ((t (:background ,nil :foreground ,red))))
    `(helm-ff-prefix ((t (:background ,red :bold t))))
    `(helm-ff-symlink ((t (:foreground ,*comments*))))
-   `(helm-ff-file ((t (:background ,*background* :foreground ,*comments*))))
+   `(helm-ff-file ((t (:background ,*background* :foreground ,*normal*))))
    `(helm-buffer-size ((t (:foreground ,*comments*))))
    `(helm-buffer-process ((t (:foreground ,*comments*))))
    `(helm-buffer-file ((t (:foreground ,*comments*))))
@@ -185,7 +186,7 @@
 
    ;; yalinum
    `(yalinum-face ((t (:background ,*background* :foreground ,*comments*))))
-   `(yalinum-bar-face ((t (:background ,*mode-line-bg* :foreground ,blue))))
+   `(yalinum-bar-face ((t (:background ,base04 :foreground ,base01))))
 
    ;; speebar
    `(speedbar-tag-face ((t (:background ,*background* :foreground ,*normal*))))
