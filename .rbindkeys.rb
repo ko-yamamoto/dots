@@ -24,33 +24,249 @@ if @swap_left_opt_with_left_cmd
   pre_bind_key KEY_LEFTALT, KEY_LEFTMETA
 end
 
-# cursor move
-bind_key [KEY_LEFTCTRL, KEY_F], KEY_RIGHT
-bind_key [KEY_LEFTCTRL, KEY_B], KEY_LEFT
-bind_key [KEY_LEFTCTRL, KEY_P], KEY_UP
-bind_key [KEY_LEFTCTRL, KEY_N], KEY_DOWN
-bind_key [KEY_LEFTCTRL, KEY_A], KEY_HOME
-bind_key [KEY_LEFTCTRL, KEY_E], KEY_END
+
+@pre_spc_flg = false
+
+
+def quit(operator)
+  if !@pre_spc_flg
+    operator.press_key KEY_ESC
+    operator.release_key KEY_ESC
+  end
+  @pre_spc_flg = false
+end
+
+def delete_char(operator)
+  operator.release_key KEY_LEFTCTRL
+  operator.press_key KEY_DELETE
+  operator.release_key KEY_DELETE
+  @pre_spc_flg = false
+end
+
+def delete_backward_char(operator)
+  operator.release_key KEY_LEFTCTRL
+  operator.press_key KEY_BACKSPACE
+  operator.release_key KEY_BACKSPACE
+  @pre_spc_flg = false
+end
+
+def kill_region(operator)
+  operator.press_key KEY_LEFTCTRL
+  operator.press_key KEY_X
+  operator.release_key KEY_X
+  operator.release_key KEY_LEFTCTRL
+  @pre_spc_flg = false
+end
+
+def kill_ring_save(operator)
+  operator.release_key KEY_LEFTALT
+  operator.press_key KEY_LEFTCTRL
+  operator.press_key KEY_C
+  operator.release_key KEY_C
+  operator.release_key KEY_LEFTCTRL
+  @pre_spc_flg = false
+end
+
+def yank_paste(operator)
+  operator.release_key KEY_LEFTALT
+  operator.press_key KEY_LEFTCTRL
+  operator.press_key KEY_V
+  operator.release_key KEY_V
+  operator.release_key KEY_LEFTCTRL
+  @pre_spc_flg = false
+end
+
+def move_caret(operator, direction)
+  operator.release_key KEY_LEFTCTRL
+  if @pre_spc_flg
+    operator.press_key KEY_LEFTSHIFT
+    operator.press_key direction
+    operator.release_key direction
+    operator.release_key KEY_LEFTSHIFT
+  else
+    operator.press_key direction
+    operator.release_key direction
+  end
+end
+
+def forward_char(operator)
+  move_caret(operator, KEY_RIGHT)
+end
+
+def backward_char(operator)
+  move_caret(operator, KEY_LEFT)
+end
+
+def next_line(operator)
+  move_caret(operator, KEY_DOWN)
+end
+
+def previous_line(operator)
+  move_caret(operator, KEY_UP)
+end
+
+def forward_word(operator)
+  operator.release_key KEY_LEFTALT
+  if @pre_spc_flg
+    operator.press_key KEY_LEFTSHIFT
+    operator.press_key KEY_LEFTCTRL
+    operator.press_key KEY_RIGHT
+    operator.release_key KEY_RIGHT
+    operator.release_key KEY_LEFTCTRL
+    operator.release_key KEY_LEFTSHIFT
+  else
+    operator.press_key KEY_LEFTCTRL
+    operator.press_key KEY_RIGHT
+    operator.release_key KEY_RIGHT
+    operator.release_key KEY_LEFTCTRL
+  end
+end
+
+def backward_word(operator)
+  operator.release_key KEY_LEFTALT
+  if @pre_spc_flg
+    operator.press_key KEY_LEFTSHIFT
+    operator.press_key KEY_LEFTCTRL
+    operator.press_key KEY_LEFT
+    operator.release_key KEY_LEFT
+    operator.release_key KEY_LEFTCTRL
+    operator.release_key KEY_LEFTSHIFT
+  else
+    operator.press_key KEY_LEFTCTRL
+    operator.press_key KEY_LEFT
+    operator.release_key KEY_LEFT
+    operator.release_key KEY_LEFTCTRL
+  end
+end
+
+
+def move_beginning_of_line(operator)
+  operator.release_key KEY_LEFTCTRL
+  if @pre_spc_flg
+    operator.press_key KEY_LEFTSHIFT
+    operator.press_key KEY_HOME
+    operator.release_key KEY_HOME
+    operator.release_key KEY_LEFTSHIFT
+  else
+    operator.press_key KEY_HOME
+    operator.release_key KEY_HOME
+  end
+end
+
+def move_end_of_line(operator)
+  operator.release_key KEY_LEFTCTRL
+  if @pre_spc_flg
+    operator.press_key KEY_LEFTSHIFT
+    operator.press_key KEY_END
+    operator.release_key KEY_END
+    operator.release_key KEY_LEFTSHIFT
+  else
+    operator.press_key KEY_END
+    operator.release_key KEY_END
+  end
+end
+
+
+def undo(operator)
+  operator.press_key KEY_LEFTCTRL
+  operator.press_key KEY_Z
+  operator.release_key KEY_Z
+  operator.release_key KEY_LEFTCTRL
+  @pre_spc_flg = false
+end
+
+def undo_redo(operator)
+  operator.release_key KEY_LEFTALT
+  operator.press_key KEY_LEFTCTRL
+  operator.press_key KEY_Y
+  operator.release_key KEY_Y
+  operator.release_key KEY_LEFTCTRL
+  @pre_spc_flg = false
+end
+
+bind_key [KEY_LEFTCTRL, KEY_SPACE] do
+  if @pre_spc_flg
+    @pre_spc_flg = false
+  else
+    @pre_spc_flg = true
+  end
+  operator.press_key KEY_LEFTCTRL
+  operator.press_key KEY_SPACE
+  operator.release_key KEY_SPACE
+  operator.release_key KEY_LEFTCTRL
+end
+
+
+bind_key [KEY_LEFTCTRL, KEY_F] do |event, operator|
+  forward_char(operator)
+end
+
+# bind_key [KEY_LEFTCTRL, KEY_B], KEY_LEFT
+bind_key [KEY_LEFTCTRL, KEY_B] do |event, operator|
+  backward_char(operator)
+end
+
+bind_key [KEY_LEFTCTRL, KEY_P] do |event, operator|
+  previous_line(operator)
+end
+
+bind_key [KEY_LEFTCTRL, KEY_N] do |event, operator|
+  next_line(operator)
+end
+
+bind_key [KEY_LEFTALT, KEY_F] do |event, operator|
+  forward_word(operator)
+end
+
+bind_key [KEY_LEFTALT, KEY_B] do |event, operator|
+  backward_word(operator)
+end
+
+
+bind_key [KEY_LEFTCTRL, KEY_A] do |event, operator|
+  move_beginning_of_line(operator)
+end
+
+bind_key [KEY_LEFTCTRL, KEY_E] do |event, operator|
+  move_end_of_line(operator)
+end
 
 # page scroll
 bind_key [KEY_LEFTCTRL, KEY_V], KEY_PAGEDOWN
 bind_key [KEY_LEFTALT, KEY_V], KEY_PAGEUP
 
 # edit
-bind_key [KEY_LEFTCTRL, KEY_D], KEY_DELETE
-bind_key [KEY_LEFTCTRL, KEY_H], KEY_BACKSPACE
+bind_key [KEY_LEFTCTRL, KEY_D] do |event, operator|
+  delete_char(operator)
+end
+
+bind_key [KEY_LEFTCTRL, KEY_H] do |event, operator|
+  delete_backward_char(operator)
+end
+
 bind_key [KEY_LEFTCTRL, KEY_M], KEY_ENTER
 bind_key [KEY_LEFTCTRL, KEY_I], KEY_TAB
-bind_key [KEY_LEFTCTRL, KEY_LEFTBRACE], KEY_ESC
-bind_key [KEY_LEFTCTRL, KEY_G], KEY_ESC
+
+bind_key [KEY_LEFTCTRL, KEY_LEFTBRACE] do |event, operator|
+  quit(operator)
+end
+
+bind_key [KEY_LEFTCTRL, KEY_G] do |event, operator|
+  quit(operator)
+end
 
 bind_key [KEY_LEFTCTRL, KEY_S], [KEY_LEFTCTRL, KEY_F]
 bind_key [KEY_LEFTCTRL, KEY_R], [KEY_LEFTCTRL, KEY_LEFTSHIFT, KEY_F]
 
-bind_key [KEY_LEFTCTRL, KEY_SLASH], [KEY_LEFTCTRL, KEY_Z]
-bind_key [KEY_LEFTALT, KEY_SLASH], [KEY_LEFTCTRL, KEY_Y]
+bind_key [KEY_LEFTCTRL, KEY_SLASH]  do |event, operator|
+  undo(operator)
+end
 
-bind_key [KEY_LEFTALT, KEY_Y], [KEY_LEFTCTRL, KEY_LEFTALT, KEY_Y]
+bind_key [KEY_LEFTALT, KEY_SLASH]  do |event, operator|
+  undo_redo(operator)
+end
+
+# bind_key [KEY_LEFTALT, KEY_Y], [KEY_LEFTCTRL, KEY_LEFTALT, KEY_Y]
 
 # give a block sample
 @caps_led_state = 0
@@ -61,9 +277,17 @@ bind_key KEY_CAPSLOCK do |event, operator|
 end
 
 # cut, copy and paste
-bind_key [KEY_LEFTCTRL, KEY_W], [KEY_LEFTCTRL,KEY_X]
-bind_key [KEY_LEFTALT, KEY_W], [KEY_LEFTCTRL,KEY_C]
-bind_key [KEY_LEFTCTRL, KEY_Y], [KEY_LEFTCTRL,KEY_V]
+bind_key [KEY_LEFTCTRL, KEY_W] do |event, operator|
+  kill_region(operator)
+end
+
+bind_key [KEY_LEFTALT, KEY_W] do |event, operator|
+  kill_ring_save(operator)
+end
+
+bind_key [KEY_LEFTCTRL, KEY_Y] do |event, operator|
+  yank_paste(operator)
+end
 
 # kill line
 bind_key [KEY_LEFTCTRL, KEY_K] do |event, operator|
