@@ -42,7 +42,7 @@ file is a remote file (include directory)."
   (when is_winnt
     ;; NTEmacs @ ウィキ - tramp を tramp-method “scp” で使うための設定 - http://www49.atwiki.jp/ntemacs/pages/17.html
     (setq tramp-default-method "scpx")
-    ;; (setq tramp-encoding-shell "bash")
+    (setq tramp-encoding-shell "f_bash")
     (eval-after-load 'tramp '(setenv "SHELL" "/usr/bin/bash"))
 
     ;; ドライブレターの後の「：」が tramp-method の後の「：」と混同されるのを対策する
@@ -71,20 +71,21 @@ file is a remote file (include directory)."
       (setenv "LC_ALL" nil)
       (setq tramp-remote-process-environment process-environment))
 
-    (defadvice tramp-find-inline-encoding (before win-tramp activate)
-      "base64 デコード失敗するため他のコーディングしか使わない"
-      (setq tramp-remote-coding-commands '((uu "uuencode xxx" "uudecode -o /dev/stdout" "test -c /dev/stdout")
-                                           (uu "uuencode xxx" "uudecode -o -")
-                                           (uu "uuencode xxx" "uudecode -p")
-                                           (uu "uuencode xxx" tramp-uudecode)
-                                           ;; (b64 "base64" "base64 -d -i")
-                                           ;; (b64 "base64" "base64 -d")
-                                           (b64 "mimencode -b" "mimencode -u -b")
-                                           (b64 "mmencode -b" "mmencode -u -b")
-                                           (b64 "recode data..base64" "recode base64..data")
-                                           ;; (b64 tramp-perl-encode-with-module tramp-perl-decode-with-module)
-                                           ;; (b64 tramp-perl-encode tramp-perl-decode)
-                                           (pack tramp-perl-pack tramp-perl-unpack))))
+    ;; base64 不使用にすると sudo でリモート接続した際に Encoding remote file で失敗してしまうためコメントアウト
+    ;; (defadvice tramp-find-inline-encoding (before win-tramp activate)
+    ;;   "base64 デコード失敗するため他のコーディングしか使わない"
+    ;;   (setq tramp-remote-coding-commands '((uu "uuencode xxx" "uudecode -o /dev/stdout" "test -c /dev/stdout")
+    ;;                                        (uu "uuencode xxx" "uudecode -o -")
+    ;;                                        (uu "uuencode xxx" "uudecode -p")
+    ;;                                        (uu "uuencode xxx" tramp-uudecode)
+    ;;                                        (b64 "base64" "base64 -d -i")
+    ;;                                        (b64 "base64" "base64 -d")
+    ;;                                        (b64 "mimencode -b" "mimencode -u -b")
+    ;;                                        (b64 "mmencode -b" "mmencode -u -b")
+    ;;                                        (b64 "recode data..base64" "recode base64..data")
+    ;;                                        ;; (b64 tramp-perl-encode-with-module tramp-perl-decode-with-module)
+    ;;                                        ;; (b64 tramp-perl-encode tramp-perl-decode)
+    ;;                                        (pack tramp-perl-pack tramp-perl-unpack))))
 
     )
 
