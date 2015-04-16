@@ -272,6 +272,8 @@ When using this mode the value of `dired-listing-switches' should not contain \"
       (my/split-v-gration-windows)
       (dired-jump)))
 
+  (use-package dired-filter :ensure)
+
   (bind-keys :map dired-mode-map
              ("a" . dired-list-all-mode)
              ("c" . (lambda ()
@@ -296,7 +298,8 @@ When using this mode the value of `dired-listing-switches' should not contain \"
              ("C-c ." . dired-open-here)
              ("C-t" . other-window-or-split)
 
-             ("RET" . dired-open-in-accordance-with-situation))
+             ("RET" . dired-open-in-accordance-with-situation)
+             ("/" . dired-filter-map))
 
 
   )
