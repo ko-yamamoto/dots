@@ -1,3 +1,11 @@
+;; vcを起動しないようにする
+(custom-set-variables
+ '(vc-handled-backends nil))
+
+;; 不要なhookを外す
+(remove-hook 'find-file-hook 'vc-find-file-hook)
+(remove-hook 'kill-buffer-hook 'vc-kill-buffer-hook)
+
 (use-package magit
   :defer t
   :ensure t
@@ -5,6 +13,10 @@
          ("C-c g d" . magit-diff-working-tree)
          ("C-c g f" . magit-file-log))
   :config
+
+  ;; 起動時に表示される 1.4 から挙動注意の警告をとめる
+  (setq magit-last-seen-setup-instructions "1.4.0")
+
   (defun my/git-commit-commit ()
     (interactive)
     (git-commit-commit)
@@ -40,21 +52,21 @@
   :defer t
   :bind (("C-c g c" . global-git-gutter+-mode))
   :config
-  ;; (global-git-gutter+-mode t)
+  (global-git-gutter+-mode t)
   ;; 指定したモードで有効に
-  (let ((mode-hooks
-         '(org-mode-hook
-           rst-mode-hook
-           java-mode-hook
-           lisp-mode-hook
-           clojure-mode-hook
-           scala-mode-hook
-           haskell-mode-hook
-           sh-mode-hook
-           go-mode-hook
-           python-mode-hook
-           ruby-mode-hook)))
-    (mapcar (lambda (mode-hook) (add-hook mode-hook 'git-gutter+-mode)) mode-hooks))
+  ;; (let ((mode-hooks
+         ;; '(org-mode-hook
+           ;; rst-mode-hook
+           ;; java-mode-hook
+           ;; lisp-mode-hook
+           ;; clojure-mode-hook
+           ;; scala-mode-hook
+           ;; haskell-mode-hook
+           ;; sh-mode-hook
+           ;; go-mode-hook
+           ;; python-mode-hook
+           ;; ruby-mode-hook)))
+    ;; (mapc (lambda (mode-hook) (add-hook mode-hook 'git-gutter+-mode)) mode-hooks))
 
   ;; 表示変更
   (setq git-gutter+-window-width 1)
@@ -70,110 +82,103 @@
   ;; Ignore all spaces
   ;; (setq git-gutter+-diff-options '("-w"))
 
-  (use-package git-gutter-fringe+
-    :ensure t
-    :config
-    (setq-default left-fringe-width  10)
-    (setq-default right-fringe-width 10)
-    ;; 形変更 (上下くっつけるため目一杯長く)
-    (fringe-helper-define 'git-gutter-fr+-added nil
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX")
-    (fringe-helper-define 'git-gutter-fr+-deleted nil
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX")
-    (fringe-helper-define 'git-gutter-fr+-modified nil
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX"
-                          "XXXXXXXXX")
-
-    )
   )
 
+(use-package fringe-helper :ensure t)
 
+(use-package git-gutter-fringe+
+  :ensure t
+  :defer t
+  :config
+  (setq-default left-fringe-width  10)
+  (setq-default right-fringe-width 10)
+  ;; 形変更 (上下くっつけるため目一杯長く)
+  (fringe-helper-define 'git-gutter-fr+-added nil
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX")
+  (fringe-helper-define 'git-gutter-fr+-deleted nil
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX")
+  (fringe-helper-define 'git-gutter-fr+-modified nil
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX"
+    "XXXXXXXXX")
 
-
-;; vcを起動しないようにする
-(custom-set-variables
- '(vc-handled-backends nil))
-
-;; 不要なhookを外す
-(remove-hook 'find-file-hook 'vc-find-file-hook)
-(remove-hook 'kill-buffer-hook 'vc-kill-buffer-hook)
+  )
