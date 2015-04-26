@@ -321,7 +321,7 @@ bind_prefix_key [KEY_LEFTCTRL, KEY_X] do
   bind_key [KEY_LEFTCTRL, KEY_G], :ignore
 
   # C-xC-c: close window
-  bind_key [KEY_LEFTCTRL, KEY_C], [KEY_LEFTALT, KEY_F4]
+  bind_key [KEY_LEFTCTRL, KEY_C], [KEY_LEFTMETA, KEY_Q] # awesome
 
   # C-xC-r: reload window
   bind_key [KEY_LEFTCTRL, KEY_R], [KEY_LEFTCTRL, KEY_R]
