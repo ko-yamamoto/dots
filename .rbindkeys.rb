@@ -29,10 +29,11 @@ end
 
 
 def quit(operator)
-  if !@pre_spc_flg
+  # if !@pre_spc_flg
+    operator.release_key KEY_LEFTCTRL
     operator.press_key KEY_ESC
     operator.release_key KEY_ESC
-  end
+  # end
   @pre_spc_flg = false
 end
 
@@ -68,7 +69,6 @@ def kill_ring_save(operator)
 end
 
 def yank_paste(operator)
-  operator.release_key KEY_LEFTALT
   operator.press_key KEY_LEFTCTRL
   operator.press_key KEY_V
   operator.release_key KEY_V
@@ -184,6 +184,14 @@ def undo_redo(operator)
   @pre_spc_flg = false
 end
 
+def select_all(operator)
+  operator.press_key KEY_LEFTCTRL
+  operator.press_key KEY_A
+  operator.release_key KEY_A
+  operator.release_key KEY_LEFTCTRL
+end
+
+
 bind_key [KEY_LEFTCTRL, KEY_SPACE] do
   if @pre_spc_flg
     @pre_spc_flg = false
@@ -292,6 +300,7 @@ end
 # kill line
 bind_key [KEY_LEFTCTRL, KEY_K] do |event, operator|
   # Shift+End : select text to end of line
+  operator.release_key KEY_LEFTCTRL
   operator.press_key KEY_LEFTSHIFT
   operator.press_key KEY_END
   operator.release_key KEY_END
@@ -302,6 +311,9 @@ bind_key [KEY_LEFTCTRL, KEY_K] do |event, operator|
   operator.press_key KEY_X
   operator.release_key KEY_X
   operator.release_key KEY_LEFTCTRL
+
+  # operator.press_key KEY_DELETE
+  # operator.release_key KEY_DELETE
 end
 
 # 2 stroke key binds
@@ -316,6 +328,12 @@ bind_prefix_key [KEY_LEFTCTRL, KEY_X] do
 
   # C-xb: next tab, etc.
   bind_key KEY_B, [KEY_LEFTCTRL, KEY_TAB]
+
+  # C-xh: select all
+  bind_key KEY_H do |event, operator|
+    select_all(operator)
+  end
+
 
   # C-xC-g: ignore C-x prefix bind
   bind_key [KEY_LEFTCTRL, KEY_G], :ignore
@@ -347,7 +365,7 @@ window(:through, :class => /emacs/)
 window(:through, :class => /gvim/)
 window(:through, :class => /Navigator/) # firefox
 
-# # add new bind_key to default binds
-# window(@default_bind_resolver, :class => /google-chrome/) do
-#   bind_key [KEY_LEFTCTRL, KEY_S], [KEY_LEFTCTRL, KEY_F]
-# end
+# add new bind_key to default binds
+window(@default_bind_resolver, :class => /google-chrome/) do
+  bind_key [KEY_LEFTCTRL, KEY_Y], [KEY_LEFTCTRL, KEY_V]
+end
