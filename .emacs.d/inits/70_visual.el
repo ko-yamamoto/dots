@@ -79,8 +79,15 @@
 (blink-cursor-mode t)
 
 ;; カーソル行ハイライト
-;; (setq hl-line-face 'underline) ; 下線
-(global-hl-line-mode)
+;; (global-hl-line-mode)
+(use-package hl-line+
+  :ensure t
+  ;; :defer t
+  :config
+  ;; 一定時間後に現在行ハイライト
+  (toggle-hl-line-when-idle)
+  ;; 2 秒後に変更
+  (hl-line-when-idle-interval 2))
 
 ;; カーソルの形
 (set-default 'cursor-type 'hollow)
@@ -185,6 +192,13 @@
 ;; | 0123 | abcdefghijklmn | こんにちは |
 
 (when is_linux
+  (set-face-attribute 'default nil :family "Gen Shin Gothic Monospace" :height 120 :weight 'regular)
+  (set-fontset-font (frame-parameter nil 'font)
+                    'japanese-jisx0208
+                    (font-spec :family "Gen Shin Gothic Monospace"))
+  (add-to-list 'face-font-rescale-alist
+               '(".*Gen.*" . 1.1))
+  )
 
   ;; バラバラに設定する場合
   ;; 英字フォント
