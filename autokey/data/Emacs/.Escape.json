@@ -1,0 +1,30 @@
+{
+    "usageCount": 37, 
+    "omitTrigger": false, 
+    "prompt": false, 
+    "description": "Escape", 
+    "abbreviation": {
+        "wordChars": "[\\w]", 
+        "abbreviations": [], 
+        "immediate": false, 
+        "ignoreCase": false, 
+        "backspace": true, 
+        "triggerInside": false
+    }, 
+    "hotkey": {
+        "hotKey": "g", 
+        "modifiers": [
+            "<ctrl>"
+        ]
+    }, 
+    "modes": [
+        3
+    ], 
+    "showInTrayMenu": false, 
+    "filter": {
+        "regex": "(.*Google.*chrome.*|Thunderbird|jetbrains-idea-ce)", 
+        "isRecursive": false
+    }, 
+    "type": "script", 
+    "store": {}
+}
