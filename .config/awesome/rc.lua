@@ -1,3 +1,5 @@
+vicious = require("vicious")
+
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
@@ -9,6 +11,12 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
+naughty.config.defaults.timeout          = 10
+naughty.config.defaults.position         = "top_right"
+naughty.config.defaults.margin           = 4
+naughty.config.defaults.width            = 500
+naughty.config.defaults.height           = nil
+naughty.config.defaults.hover_timeout    = nil
 local menubar = require("menubar")
 
 -- {{{ Error handling
@@ -124,6 +132,12 @@ function getBatteryStatus()
    end
 
 
+-- Create a memory usage widget
+-- Initialize widget
+memwidget = wibox.widget.textbox()
+-- Register widget
+vicious.register(memwidget, vicious.widgets.mem, "$1% ($2MB/$3MB)", 13)
+
 -- -- Maic imap checker
 -- -- /usr/local/bin/maic.py
 -- imapStatus = wibox.widget.textbox()
@@ -214,6 +228,7 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
+    right_layout:add(memwidget)
     right_layout:add(battery)
 --     right_layout:add(imapStatus)
     right_layout:add(mytextclock)
@@ -516,7 +531,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 
 local gtk = [[
-gtk-font-name="M+ 1mn 13"
+gtk-font-name="Gen Shin Gothic Monospace Light 12"
 gtk-theme-name="Ultra-Flat"
 gtk-icon-theme-name="UltraFlatIcons"
 gtk-fallback-icon-theme="gnome"
