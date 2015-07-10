@@ -46,7 +46,7 @@ elseif has("mac")
     set guifont=ricty:h18
 
 elseif has("unix")
-    set gfn=ricty\ 10
+    set gfn=Gen\ Shin\ Gothic\ Monospace\ 13
 endif
 
 if has('gui_macvim')

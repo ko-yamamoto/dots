@@ -39,10 +39,9 @@ NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/neossh.vim'
 NeoBundle 'Shougo/vimshell.vim'
 NeoBundle 'ujihisa/vimshell-ssh'
-
 NeoBundle 'kana/vim-submode'
-
 NeoBundle 'tyru/caw.vim'
+NeoBundle 'terryma/vim-expand-region'
 
 " git
 NeoBundle 'tpope/vim-fugitive'
@@ -55,7 +54,7 @@ NeoBundle 'kannokanno/previm'
 NeoBundle 'tyru/open-browser.vim'
 " scala
 NeoBundle 'derekwyatt/vim-scala'
-
+NeoBundle 'jceb/vim-orgmode'
 
 " color scheme
 NeoBundle 'w0ng/vim-hybrid'
@@ -92,7 +91,8 @@ set laststatus=2
 set statusline=[%l/%L]%Y\ %r%F%m%r%h%w\%=\[%{&ff}:%{&fileencoding}]%{fugitive#statusline()}
 
 " クリップボードを OS と共有
-set clipboard=unnamedplus,autoselect
+set clipboard=unnamedplus
+
 
 " 終了時のカーソル位置を記憶
 if has("autocmd")
@@ -120,6 +120,7 @@ set autoindent
 "改行時に入力された行の末尾に合わせて次の行のインデントを増減する
 set smartindent 
 
+set wildmode=list,full
 
 
 " キーバインディング設定 """"""""""""""""""""""""""""""""""""""""""""""
@@ -188,6 +189,13 @@ nnoremap sQ :<C-u>bd<CR> " バッファを閉じる
 nnoremap L :<C-u>bn<CR>
 nnoremap H :<C-u>bp<CR>
 
+" 貼り付けたテキストの末尾へ自動的に移動する
+vnoremap <silent> y y`]
+vnoremap <silent> p p`]
+nnoremap <silent> p p`]
+
+" 貼り付けたテキストを素早く選択する
+noremap gV `[v`]
 
 
 " プラグイン設定 """"""""""""""""""""""""""""""""""""""""""""""
@@ -224,7 +232,7 @@ endfunction"}}}
 nnoremap    [unite]   <Nop>
 nmap    <Space> [unite]
 
-nnoremap <silent> [unite];   :<C-u>Unite buffer tab file_mru directory_mru<CR>
+nnoremap <silent> [unite];   :<C-u>Unite buffer file_mru directory_mru<CR>
 
 
 
@@ -365,4 +373,32 @@ nnoremap <leader>bo :PrevimOpen<CR>
 
 
 
+" terryma/vim-expand-region
+"------------------------------------
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+" 貼り付け時にペーストバッファが上書きされないようにする
+" vp doesn't replace paste buffer
+function! RestoreRegister()
+  let @" = s:restore_reg
+  return ''
+endfunction
+function! s:Repl()
+  let s:restore_reg = @"
+  return "p@=RestoreRegister()\<cr>"
+endfunction
+vmap <silent> <expr> p <sid>Repl()
