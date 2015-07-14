@@ -1,4 +1,4 @@
-Config { font = "xft:07YasashisaGothic-11"
+Config { font = "xft:源真ゴシック等幅-12"
        , bgColor = "black"
        , fgColor = "grey"
        , position = Top
@@ -8,12 +8,12 @@ Config { font = "xft:07YasashisaGothic-11"
                     , Run Cpu ["-t","CPU: <total>%", "-L","3","-H","50","--normal","#b5bd68","--high","#cc6666"] 10
                     , Run Memory ["-t","M: <usedratio>%", "-L", "50", "-H", "70", "-h", "#cc6666", "-l", "#b5bd68"] 10
                     , Run Swap ["-t","S: <usedratio>%"] 10
-                    , Run BatteryP ["BAT0"] ["-t", "<acstatus><left>%(<timeleft>)", "-L", "25", "-H", "85", "-l", "#cc6666", "-h", "#b5bd68", "-n", "#ffe174", "-p", "3", "--", "-O", "<fc=#b5bd68>C</fc>", "-o", "<fc=#cc6666>B</fc>"] 100
+                    , Run BatteryP ["BAT0"] ["-t", "<acstatus> <left>% (<timeleft>)", "-L", "25", "-H", "85", "-l", "#cc6666", "-h", "#b5bd68", "-n", "#ffe174", "-p", "3", "--", "-O", "<fc=#b5bd68>C</fc>", "-o", "<fc=#cc6666>B</fc>"] 100
                     , Run Com "uname" ["-s","-r"] "" 36000
                     , Run Date "%m/%d %a %H:%M" "date" 10
          		    , Run StdinReader
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ <fc=#b5bd68>%uname%</fc> | %cpu% | %memory% %swap% | %eth0% | %battery% | <fc=#95D9FF>%date%</fc> "
+       , template = "%StdinReader% }{ <fc=#b5bd68>%uname%</fc> | %cpu% | %memory% %swap% | %eth0% | %battery% | <fc=#95D9FF>%date%</fc>                    "
        }

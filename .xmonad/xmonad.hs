@@ -45,7 +45,8 @@ myGsconfig = defaultGSConfig { gs_cellheight = 100, gs_cellwidth = 260 }
 -- certain contrib modules.
 --
 -- myTerminal      = "xterm -fa ricty +cjk_width -fs 9"
-myTerminal      = "xterm -fa Hermit -fd 07YasashisaGothic +cjk_width -fs 10"
+-- myTerminal      = "xterm -fa Hermit -fd 07YasashisaGothic +cjk_width -fs 10"
+myTerminal      = "lilyterm"
 
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
@@ -86,7 +87,7 @@ myKeys = \conf -> mkKeymap conf $
     [ ("M-S-<Return>", spawn $ XMonad.terminal conf)
 
     -- launch dmenu
-    , ("M-p", spawn "dmenu_run -fn 07YasashisaGothic")
+    , ("M-p", spawn "dmenu_run -fn \"Gen Shin Gothic Monospace-12\"")
 
     -- launch gmrun
     , ("M-S-p", spawn "gmrun")
