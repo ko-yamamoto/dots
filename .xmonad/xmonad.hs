@@ -256,6 +256,7 @@ myLayout = (ResizableTall 1 (3/100) (3/5) [])||| (ResizableTall 2 (3/100) (2/5) 
 myManageHook = composeAll
     [ className =? "MPlayer"        --> doFloat
     , className =? "Gimp"           --> doFloat
+    , role =? "Msgcompose"           --> doFloat -- Thunderbird
     , appName =? "mikutter.rb"           --> doFloat
     , appName =? "crx_hmjkmjkepdijhoojdojkdfohbdgmmhki"           --> doFloat -- google keep
     , appName =? "crx_nckgahadagoaajjgafhacjanaoiihapd"           --> doFloat -- google hangouts
@@ -263,6 +264,7 @@ myManageHook = composeAll
     , title =? "Firebug"           --> doFloat
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore ]
+	where role = stringProperty "WM_WINDOW_ROLE"
 
 ------------------------------------------------------------------------
 -- Event handling
