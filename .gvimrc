@@ -1,66 +1,26 @@
-" ========== Color Scheme ==========
-let g:hybrid_use_Xresources = 1
-colorscheme hybrid
+colorscheme Tomorrow-Night-Eighties
 
+"フォントの設定
+set guifont=源真ゴシック等幅\ 13
 
-
-" ========== メニューバー関連の設定 ==========
-
-" menu setting
-set guioptions-=T "ツールバーなし
-set guioptions-=m "メニューバーなし
+" メニューバーを非表示にする
+set guioptions-=m
+" ツールバーを非表示にする
+set guioptions-=T
+" 左右のスクロールバーを非表示にする
+set guioptions-=r
 set guioptions-=R
-set guioptions-=l "左スクロールバーなし
+set guioptions-=l
 set guioptions-=L
-set guioptions-=b "下スクロールバーなし
-set guioptions-=r "右カーソルバー
+" 水平スクロールバーを非表示にする
+set guioptions-=b
 
 
-" ステータスライン下の行数
-set cmdheight=1
-" 画面でベルしない
-set novisualbell
+" カーソルを行頭、行末で止まらないようにする  
+set whichwrap=b,s,h,l,<,>,[,]
 
-
-
-
-
-
-" 動作・挙動設定 """"""""""""""""""""""""""""""""""""""""""""""
-" クリップボードを OS と共有
-set guioptions+=a
-
-
-
-
-" ========== 環境別の設定 ==========
-
-if has("win32")
-    " Windows用設定
-    set guifont=ricty:h10:cSHIFTJIS
-    " 透明度を指定
-    au GUIEnter * set transparency=220
-
-elseif has("mac")
-    " Mac用設定
-    set guifont=ricty:h18
-
-elseif has("unix")
-    set gfn=Gen\ Shin\ Gothic\ Monospace\ 13
-endif
-
-if has('gui_macvim')
-    " MacVim用設定
-    set showtabline=2 " タブを常に表示
-    " set showtabline=0 " タブを非表示
-    set imdisable " IMを無効化
-    au GUIEnter * set transparency=15 " 透明度を指定
-    set antialias
-endif
-
-
-" gVimの位置とサイズを記憶
-let g:save_window_file = expand('~/.vim/.vimwinpos')
+" ウィンドウ位置と大きさを保存
+let g:save_window_file = expand('~/.vimwinpos')
 augroup SaveWindow
   autocmd!
   autocmd VimLeavePre * call s:save_window()
@@ -77,3 +37,5 @@ augroup END
 if filereadable(g:save_window_file)
   execute 'source' g:save_window_file
 endif
+
+
