@@ -64,7 +64,7 @@
     # the top and down respectevly.
     # The width can be negative.  In this case the actual width is the
     # screen width minus the width defined in within the geometry option.
-    geometry = "400x4-5+10"
+    geometry = "400x4-0+25"
     
     # Shrink window if it's smaller than the width.  Will be ignored if
     # width is 0.
@@ -148,8 +148,8 @@
     icon_folders = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
 
 [frame]
-    width = 1
-    color = "#aaaaaa"
+    width = 0
+    color = "#000000"
 
 [shortcuts]
 
