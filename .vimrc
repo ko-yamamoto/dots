@@ -31,19 +31,23 @@ NeoBundle 'Shougo/vimproc.vim', {
 " Refer to |:NeoBundle-examples|.
 " Note: You don't set neobundle setting in .gvimrc!
 NeoBundle "chriskempson/vim-tomorrow-theme"
-NeoBundle "Shougo/unite.vim"
 NeoBundle "terryma/vim-expand-region"
+NeoBundle "Shougo/unite.vim"
+NeoBundle "Shougo/unite-sudo"
 NeoBundle "Shougo/neocomplete.vim"
 NeoBundle "Shougo/neomru.vim"
 NeoBundle "Shougo/vimfiler"
 NeoBundle "Shougo/neossh.vim"
 NeoBundle "kana/vim-submode"
 NeoBundle "tyru/caw.vim.git"
+NeoBundle "tyru/open-browser.vim"
 NeoBundle "tpope/vim-surround"
 NeoBundle "tpope/vim-fugitive"
-
-NeoBundle 'chriskempson/base16-vim'
-
+NeoBundle "plasticboy/vim-markdown"
+NeoBundle "kannokanno/previm"
+NeoBundle "vim-scripts/SearchComplete"
+NeoBundle "chriskempson/base16-vim"
+NeoBundle "jceb/vim-orgmode"
 
 call neobundle#end()
 
@@ -285,6 +289,11 @@ autocmd FileType vimfiler nmap <buffer> <CR> <Plug>(vimfiler_expand_or_edit)
 
 " fugitiv
 
+
+
+" vim-markdown
+" 折りたたまない
+let g:vim_markdown_folding_disabled=1
 
 
 
