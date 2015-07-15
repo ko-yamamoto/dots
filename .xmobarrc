@@ -1,4 +1,4 @@
-Config { font = "xft:源真ゴシック等幅-12"
+Config { font = "xft:源真ゴシック等幅-13"
        , bgColor = "black"
        , fgColor = "grey"
        , position = Top
@@ -15,5 +15,5 @@ Config { font = "xft:源真ゴシック等幅-12"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ <fc=#b5bd68>%uname%</fc> | %cpu% | %memory% %swap% | %eth0% | %battery% | <fc=#95D9FF>%date%</fc>                        "
+       , template = "%StdinReader% }{ <fc=#b5bd68>%uname%</fc> | %cpu% | %memory% %swap% | %eth0% | %battery% | <fc=#95D9FF>%date%</fc>                           "
        }
