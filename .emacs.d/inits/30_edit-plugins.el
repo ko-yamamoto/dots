@@ -54,7 +54,8 @@
          ("C-M-@" . er/contract-region) ;; リージョンを狭める
          ("C-=" . er/expand-region)
          ("C-M-=" . er/contract-region) ;; リージョンを狭める
-         ("C-o" . er/expand-region)))
+         ("C-o" . er/expand-region)
+         ("C-M-o" . er/contract-region)))
 
 (use-package multiple-cursors
   :ensure t
