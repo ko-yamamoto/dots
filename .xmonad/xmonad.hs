@@ -73,7 +73,7 @@ myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
 
 -- Width of the window border in pixels.
 --
-myBorderWidth   = 3
+myBorderWidth   = 1
 -- Border colors for unfocused and focused windows, respectively.
 --
 myNormalBorderColor  = "#dddddd"
@@ -84,7 +84,7 @@ myFocusedBorderColor = "#cc6666"
 -- myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 myKeys = \conf -> mkKeymap conf $
     -- launch a terminal
-    [ ("M-S-<Return>", spawn $ XMonad.terminal conf)
+    [ ("M-<Return>", spawn $ XMonad.terminal conf)
 
     -- launch dmenu
     , ("M-p", spawn "dmenu_run -fn \"Gen Shin Gothic Monospace-13\"")
@@ -120,7 +120,7 @@ myKeys = \conf -> mkKeymap conf $
     , ("M-m", windows W.focusMaster  )
 
     -- Swap the focused window and the master window
-    , ("M-<Return>", windows W.swapMaster)
+    , ("M-S-<Return>", windows W.swapMaster)
 
     -- Swap the focused window with the next window
     , ("M-S-j", windows W.swapDown  )
@@ -129,11 +129,9 @@ myKeys = \conf -> mkKeymap conf $
     , ("M-S-k", windows W.swapUp    )
 
     -- Shrink the master area
-    , ("M-h", sendMessage Shrink)
     , ("M--", sendMessage Shrink)
 
     -- Expand the master area
-    , ("M-l", sendMessage Expand)
     , ("M-=", sendMessage Expand)
 
     -- Shrink a window vertically
