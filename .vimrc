@@ -50,6 +50,7 @@ NeoBundle "chriskempson/base16-vim"
 NeoBundle "jceb/vim-orgmode"
 NeoBundle "glidenote/memolist.vim"
 NeoBundle "cohama/agit.vim"
+NeoBundle "itchyny/lightline.vim"
 
 call neobundle#end()
 
@@ -326,6 +327,33 @@ let g:memolist_prompt_tags = 1
 let g:memolist_prompt_categories = 0
 noremap <Leader>ml  :MemoList<CR>
 noremap <Leader>mn  :MemoNew<CR>
+
+
+" lightline
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component': {
+      \   'readonly': '%{&readonly?"x":""}',
+      \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
+      \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
+      \ },
+      \ 'component_visible_condition': {
+      \   'readonly': '(&filetype!="help"&& &readonly)',
+      \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
+      \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
+      \ },
+      \ 'separator': { 'left': '', 'right': '' },
+      \ 'subseparator': { 'left': '|', 'right': '|' }
+      \ }
+
+
+
+
+
 
 
 " 貼り付け時にペーストバッファが上書きされないようにする
