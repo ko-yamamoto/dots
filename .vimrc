@@ -305,6 +305,8 @@ autocmd FileType vimfiler nmap <buffer> <CR> <Plug>(vimfiler_expand_or_edit)
 
 
 " fugitiv
+noremap <Leader>gs  :Gstatus<CR>
+noremap <Leader>gg  :Gstatus<CR>
 
 
 
@@ -318,8 +320,8 @@ let g:memolist_unite = 1
 let g:memolist_unite_option = "-auto-preview -start-insert"
 let g:memolist_prompt_tags = 1
 let g:memolist_prompt_categories = 0
-map <Leader>ml  :MemoList<CR>
-map <Leader>mn  :MemoNew<CR>
+noremap <Leader>ml  :MemoList<CR>
+noremap <Leader>mn  :MemoNew<CR>
 
 
 " 貼り付け時にペーストバッファが上書きされないようにする
