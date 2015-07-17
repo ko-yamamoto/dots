@@ -1,14 +1,15 @@
+-- icons -> gmmeyer/awesome-dangerzone - https://github.com/gmmeyer/awesome-dangerzone
 Config { font = "xft:源真ゴシック等幅-13"
        , bgColor = "black"
        , fgColor = "grey"
        , position = Top
        , lowerOnStart = True
-       , commands = [ Run Network "eth0" ["-L","0","-H","32","--normal","#b5bd68","--high","#cc6666"] 10
+       , commands = [ Run Network "eth0" ["-t", "<icon=/home/nishikawasasaki/.icons/sm4tik-icon-pack/xbm/net_down_03.xbm/> <rx>   <icon=/home/nishikawasasaki/.icons/sm4tik-icon-pack/xbm/net_up_03.xbm/> <tx> ","-L","0","-H","32","--normal","#b5bd68","--high","#cc6666"] 10
                     , Run Network "eth1" ["-L","0","-H","32","--normal","#b5bd68","--high","#cc6666"] 10
-                    , Run Cpu ["-t","CPU: <total>%", "-L","3","-H","50","--normal","#b5bd68","--high","#cc6666"] 10
-                    , Run Memory ["-t","M: <usedratio>%", "-L", "50", "-H", "70", "-h", "#cc6666", "-l", "#b5bd68"] 10
-                    , Run Swap ["-t","S: <usedratio>%"] 10
-                    , Run BatteryP ["BAT0"] ["-t", "<acstatus> <left>% (<timeleft>)", "-L", "25", "-H", "85", "-l", "#cc6666", "-h", "#b5bd68", "-n", "#ffe174", "-p", "3", "--", "-O", "<fc=#b5bd68>C</fc>", "-o", "<fc=#cc6666>B</fc>"] 100
+                    , Run Cpu ["-t","<icon=/home/nishikawasasaki/.icons/sm4tik-icon-pack/xbm/cpu.xbm/>: <total>%", "-L","3","-H","50","--normal","#b5bd68","--high","#cc6666"] 10
+                    , Run Memory ["-t","<icon=/home/nishikawasasaki/.icons/sm4tik-icon-pack/xbm/mem.xbm/>: <usedratio>%", "-L", "50", "-H", "70", "-h", "#cc6666", "-l", "#b5bd68"] 10
+                    , Run Swap ["-t","/ <usedratio>%"] 10
+                    , Run BatteryP ["BAT0"] ["-t", "<icon=/home/nishikawasasaki/.icons/sm4tik-icon-pack/xbm/bat_full_02.xbm/>  <acstatus> <left>% ", "-L", "25", "-H", "85", "-l", "#cc6666", "-h", "#b5bd68", "-n", "#ffe174", "-p", "3", "--", "-O", "<fc=#b5bd68>C</fc>", "-o", "<fc=#cc6666>B</fc>"] 100
                     , Run Com "uname" ["-s","-r"] "" 36000
                     , Run Date "%m/%d %a %H:%M" "date" 10
          		    , Run StdinReader
