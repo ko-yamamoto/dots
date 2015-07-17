@@ -92,6 +92,9 @@ myKeys = \conf -> mkKeymap conf $
     -- launch gmrun
     , ("M-S-p", spawn "gmrun")
 
+    -- launch gvim
+    , ("M-S-g", spawn "gvim")
+
     -- close focused window -> Close the focused window
     , ("M-S-c", kill)
     , ("M-w", kill1)
@@ -108,7 +111,6 @@ myKeys = \conf -> mkKeymap conf $
 
     -- Move focus to the next window
     , ("M-<Tab>", windows W.focusDown)
-    , ("M-t", windows W.focusDown)
 
     -- Move focus to the next window
     , ("M-j", windows W.focusDown)

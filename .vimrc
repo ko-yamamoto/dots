@@ -48,6 +48,7 @@ NeoBundle "kannokanno/previm"
 NeoBundle "vim-scripts/SearchComplete"
 NeoBundle "chriskempson/base16-vim"
 NeoBundle "jceb/vim-orgmode"
+NeoBundle 'glidenote/memolist.vim'
 
 call neobundle#end()
 
@@ -93,6 +94,10 @@ set wildmode=list:longest,full
 
 "左右のカーソル移動で行間移動可能にする。
 set whichwrap=b,s,<,>,[,],~
+
+
+" vimgrep で自動的に quickfix-window を開く
+autocmd QuickFixCmdPost *grep* cwindow
 
 " キーバインドの設定 """"""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = "\<Space>"
@@ -155,14 +160,18 @@ nnoremap H :<C-u>bp<CR>
 " プラグインの設定 """"""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Unite
-let g:unite_enable_start_insert=1
+let g:unite_enable_start_insert=0
 let g:unite_source_history_yank_enable =1
+" 大文字小文字を区別しない
+let g:unite_enable_ignore_case = 1
+let g:unite_enable_smart_case = 1
+" mru 件数
 let g:unite_source_file_mru_limit = 200
-nnoremap <silent> <Leader>uy :<C-u>Unite history/yank<CR>
-nnoremap <silent> <Leader>ub :<C-u>Unite buffer<CR>
-nnoremap <silent> <Leader>uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-nnoremap <silent> <Leader>ur :<C-u>Unite -buffer-name=register register<CR>
+
 nnoremap <silent> <Leader>uu :<C-u>Unite file_mru buffer<CR>
+nnoremap <silent> <Leader>uy :<C-u>Unite history/yank<CR>
+nnoremap <silent> <Leader>ug :<C-u>Unite grep<CR>
+nnoremap <silent> <Leader>ur :<C-u>UniteResume<CR>
 nnoremap <silent> <Leader>us :<C-u>Unite ssh://
 
 autocmd FileType unite call s:unite_my_settings()
@@ -173,6 +182,14 @@ function! s:unite_my_settings()
   nnoremap <buffer> t G
   startinsert
 endfunction
+
+" unite grep に ag(The Silver Searcher) を使う
+if executable('ag')
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
+  let g:unite_source_grep_recursive_opt = ''
+endif
+
 
 " vim-expand-region
 vmap v <Plug>(expand_region_expand)
@@ -295,6 +312,14 @@ autocmd FileType vimfiler nmap <buffer> <CR> <Plug>(vimfiler_expand_or_edit)
 " 折りたたまない
 let g:vim_markdown_folding_disabled=1
 
+" memolist
+let g:memolist_memo_suffix = "md"
+let g:memolist_unite = 1
+let g:memolist_unite_option = "-auto-preview -start-insert"
+let g:memolist_prompt_tags = 1
+let g:memolist_prompt_categories = 0
+map <Leader>ml  :MemoList<CR>
+map <Leader>mn  :MemoNew<CR>
 
 
 " 貼り付け時にペーストバッファが上書きされないようにする

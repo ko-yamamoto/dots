@@ -14,6 +14,8 @@ set guioptions-=l
 set guioptions-=L
 " 水平スクロールバーを非表示にする
 set guioptions-=b
+" 行数表示
+set nu
 
 
 " カーソルを行頭、行末で止まらないようにする  
