@@ -48,7 +48,8 @@ NeoBundle "kannokanno/previm"
 NeoBundle "vim-scripts/SearchComplete"
 NeoBundle "chriskempson/base16-vim"
 NeoBundle "jceb/vim-orgmode"
-NeoBundle 'glidenote/memolist.vim'
+NeoBundle "glidenote/memolist.vim"
+NeoBundle "cohama/agit.vim"
 
 call neobundle#end()
 
@@ -307,7 +308,10 @@ autocmd FileType vimfiler nmap <buffer> <CR> <Plug>(vimfiler_expand_or_edit)
 " fugitiv
 noremap <Leader>gs  :Gstatus<CR>
 noremap <Leader>gg  :Gstatus<CR>
+noremap <Leader>gp  :Gpush<CR>
 
+" Agit
+noremap <Leader>gl  :Agit<CR>
 
 
 " vim-markdown
