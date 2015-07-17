@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t -*-
 (use-package helm
   ;; :disabled t
   :defer t
