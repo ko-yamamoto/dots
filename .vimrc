@@ -119,6 +119,10 @@ autocmd QuickFixCmdPost *grep* cwindow
 " 折りたたみしない
 set nofoldenable
 
+" 検索部分ハイライト
+set hlsearch
+
+
 " キーバインドの設定 """"""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = "\<Space>"
 
@@ -139,7 +143,15 @@ nnoremap Y y$
 " x でのヤンク避け
 nnoremap x "_x
 
+"選択した文字列を検索
+vnoremap <silent> // y/<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
+"選択した文字列を置換
+vnoremap /r "xy:%s/<C-R>=escape(@x, '\\/.*$^~[]')<CR>//gc<Left><Left><Left>
+"s*でカーソル下のキーワードを置換
+nnoremap <expr> s* ':%substitute/\<' . expand('<cword>') . '\>/'
 
+"Escの2回押しでハイライト消去
+nnoremap <ESC><ESC> :nohlsearch<CR>
 
 " http://qiita.com/tekkoc/items/98adcadfa4bdc8b5a6ca
 " ウインドウとタブの操作"""""""""
