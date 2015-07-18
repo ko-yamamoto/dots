@@ -311,7 +311,7 @@ let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
 " Open filer
 noremap <silent> :tree :VimFiler -split -simple -winwidth=45 -no-quit
-noremap <Leader>ff :VimFilerBufferDir -no-split -no-quit<ENTER>
+noremap <Leader>ff :VimFilerBufferDir -no-split<ENTER>
 noremap <Leader>ft :VimFilerBufferDir -split -simple -winwidth=45 -no-quit<ENTER>
 " Don't let <CR> enter the directory but let it open the directory
 autocmd FileType vimfiler nmap <buffer> <CR> <Plug>(vimfiler_expand_or_edit)
