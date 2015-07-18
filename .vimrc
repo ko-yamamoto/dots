@@ -306,7 +306,8 @@ let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
 
 " caw.vim
-nmap <Leader>c <Plug>(caw:i:toggle)
+" nmap <Leader>c <Plug>(caw:i:toggle)
+nmap <Leader>c <Plug>(caw:i:toggle)<CR> " コメントアウトして次の行へ
 vmap <Leader>c <Plug>(caw:i:toggle)
 
 
