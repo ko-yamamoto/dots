@@ -12,6 +12,7 @@ import Data.Monoid
 import System.Exit
 
 import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.ManageHelpers
 import XMonad.Actions.GridSelect
 import XMonad.Actions.CycleWS
 
@@ -27,9 +28,7 @@ import qualified Data.Map        as M
 import XMonad.Hooks.SetWMName
 
 import XMonad.Actions.CopyWindow
-
 import XMonad.Actions.FloatKeys
-
 
 -- bar
 myBar = "xmobar"
@@ -171,8 +170,6 @@ myKeys = \conf -> mkKeymap conf $
     ]
 
     ++
-
-    --
     -- mod-[1..9], Switch to workspace N
     -- mod-shift-[1..9], Move client to workspace N
     --
@@ -182,13 +179,13 @@ myKeys = \conf -> mkKeymap conf $
     ]
 
     ++
-
     -- moving and resizing floating window with key
     [(c ++ m ++ k, withFocused $ f (d x))
          | (d, k) <- zip [\a->(a, 0), \a->(0, a), \a->(0-a, 0), \a->(0, 0-a)] ["<Right>", "<Down>", "<Left>", "<Up>"]
          , (f, m) <- zip [keysMoveWindow, \d -> keysResizeWindow d (0, 0)] ["M-", "M-S-"]
          , (c, x) <- zip ["", "C-"] [60, 20]
     ]
+
 
 ------------------------------------------------------------------------
 -- Mouse bindings: default actions bound to mouse events
@@ -260,6 +257,8 @@ myManageHook = composeAll
     , role =? "mikutter_image_preview"           --> doFloat
     , appName =? "crx_hmjkmjkepdijhoojdojkdfohbdgmmhki"           --> doFloat -- google keep
     , appName =? "crx_nckgahadagoaajjgafhacjanaoiihapd"           --> doFloat -- google hangouts
+    , appName =? "crx_knipolnnllmklapflnccelgolnpehhpl"           --> doFloat -- google hangouts
+    , title =? "Pocket" --> doCenterFloat
     , title =? "Ediff"           --> doFloat
     , title =? "Firebug"           --> doFloat
     , resource  =? "desktop_window" --> doIgnore
