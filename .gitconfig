@@ -11,7 +11,7 @@
 	filemode = false
     excludesfile = ~/.gitignore  # globalな.gitignoreの指定
     autocrlf = false                 # CRLFを自動変換するかどうか
-    editor = gvim --alternate-editor vim
+    editor = gvim --remote-tab-wait-silent
     pager = LESS=-R less
 	ignorecase = false
 
