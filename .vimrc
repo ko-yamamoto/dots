@@ -337,6 +337,7 @@ let g:memolist_unite_option = "-auto-preview -start-insert"
 let g:memolist_prompt_tags = 1
 let g:memolist_prompt_categories = 0
 noremap <Leader>ml  :MemoList<CR>
+noremap <Leader>mm  :MemoList<CR>
 noremap <Leader>mn  :MemoNew<CR>
 
 
