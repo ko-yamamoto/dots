@@ -57,6 +57,11 @@ NeoBundle "guns/vim-clojure-static"
 NeoBundle "tpope/vim-fireplace"
 NeoBundle "tpope/vim-classpath"
 
+" haskell
+NeoBundle "dag/vim2hs"
+NeoBundle "eagletmt/neco-ghc"
+
+
 " theme
 NeoBundle "chriskempson/vim-tomorrow-theme"
 NeoBundle "jonathanfilip/vim-lucius"
@@ -108,9 +113,11 @@ set wildmode=list:longest,full
 "左右のカーソル移動で行間移動可能にする。
 set whichwrap=b,s,<,>,[,],~
 
-
 " vimgrep で自動的に quickfix-window を開く
 autocmd QuickFixCmdPost *grep* cwindow
+
+" 折りたたみしない
+set nofoldenable
 
 " キーバインドの設定 """"""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = "\<Space>"
@@ -381,6 +388,11 @@ let g:lightline.tab = {
       \ 'active': [ 'tabnum', 'filename', 'modified' ],
       \ 'inactive': [ 'tabnum', 'filename', 'modified' ] }
 
+
+
+" haskell
+" ラムダを置き換えない
+let g:haskell_conceal = 0
 
 
 
