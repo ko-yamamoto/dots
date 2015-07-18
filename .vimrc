@@ -36,6 +36,7 @@ NeoBundle "Shougo/unite-sudo"
 NeoBundle "Shougo/neocomplete.vim"
 NeoBundle "Shougo/neomru.vim"
 NeoBundle "Shougo/vimfiler"
+NeoBundle "Shougo/vimshell.vim"
 NeoBundle "Shougo/neossh.vim"
 NeoBundle "kana/vim-submode"
 NeoBundle "tyru/caw.vim.git"
@@ -50,6 +51,11 @@ NeoBundle "jceb/vim-orgmode"
 NeoBundle "glidenote/memolist.vim"
 NeoBundle "cohama/agit.vim"
 NeoBundle "itchyny/lightline.vim"
+
+" clojure
+NeoBundle "guns/vim-clojure-static"
+NeoBundle "tpope/vim-fireplace"
+NeoBundle "tpope/vim-classpath"
 
 " theme
 NeoBundle "chriskempson/vim-tomorrow-theme"
@@ -315,6 +321,12 @@ noremap <Leader>ff :VimFilerBufferDir -no-split<ENTER>
 noremap <Leader>ft :VimFilerBufferDir -split -simple -winwidth=45 -no-quit<ENTER>
 " Don't let <CR> enter the directory but let it open the directory
 autocmd FileType vimfiler nmap <buffer> <CR> <Plug>(vimfiler_expand_or_edit)
+
+
+" vimshell
+nnoremap <Leader>si :VimShellInteractive<CR>
+nnoremap <Leader>ss :VimShellSendString<CR>
+vmap <silent> <Leader>ss :VimShellSendString<CR>
 
 
 " fugitiv
