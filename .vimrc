@@ -38,6 +38,7 @@ NeoBundle "Shougo/neomru.vim"
 NeoBundle "Shougo/vimfiler"
 NeoBundle "Shougo/vimshell.vim"
 NeoBundle "Shougo/neossh.vim"
+NeoBundle "Shougo/unite-outline"
 NeoBundle "kana/vim-submode"
 NeoBundle "tyru/caw.vim.git"
 NeoBundle "tyru/open-browser.vim"
@@ -61,6 +62,8 @@ NeoBundle "tpope/vim-classpath"
 NeoBundle "dag/vim2hs"
 NeoBundle "eagletmt/neco-ghc"
 
+" scala
+NeoBundle "derekwyatt/vim-scala"
 
 " theme
 NeoBundle "chriskempson/vim-tomorrow-theme"
@@ -210,6 +213,7 @@ nnoremap <silent> <Leader>uy :<C-u>Unite history/yank<CR>
 nnoremap <silent> <Leader>ug :<C-u>Unite grep<CR>
 nnoremap <silent> <Leader>ur :<C-u>UniteResume<CR>
 nnoremap <silent> <Leader>us :<C-u>Unite ssh://
+nnoremap <silent> <Leader>uo :<C-u>Unite outline<CR>
 
 autocmd FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()
