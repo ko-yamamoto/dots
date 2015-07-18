@@ -30,7 +30,6 @@ NeoBundle 'Shougo/vimproc.vim', {
 " My Bundles here:
 " Refer to |:NeoBundle-examples|.
 " Note: You don't set neobundle setting in .gvimrc!
-NeoBundle "chriskempson/vim-tomorrow-theme"
 NeoBundle "terryma/vim-expand-region"
 NeoBundle "Shougo/unite.vim"
 NeoBundle "Shougo/unite-sudo"
@@ -51,6 +50,12 @@ NeoBundle "jceb/vim-orgmode"
 NeoBundle "glidenote/memolist.vim"
 NeoBundle "cohama/agit.vim"
 NeoBundle "itchyny/lightline.vim"
+
+" theme
+NeoBundle "chriskempson/vim-tomorrow-theme"
+NeoBundle "jonathanfilip/vim-lucius"
+NeoBundle "w0ng/vim-hybrid"
+
 
 call neobundle#end()
 
@@ -117,6 +122,11 @@ inoremap <silent> jj <ESC>
 
 " Y を行末までのヤンクにする
 nnoremap Y y$
+
+" x でのヤンク避け
+nnoremap x "_x
+
+
 
 " http://qiita.com/tekkoc/items/98adcadfa4bdc8b5a6ca
 " ウインドウとタブの操作"""""""""

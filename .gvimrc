@@ -1,4 +1,7 @@
-colorscheme Tomorrow-Night-Eighties
+" colorscheme Tomorrow-Night-Eighties
+colorscheme lucius
+LuciusDarkLowContrast
+" colorscheme hybrid
 
 "フォントの設定
 set guifont=源真ゴシック等幅\ 13
