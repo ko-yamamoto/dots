@@ -39,6 +39,7 @@ NeoBundle "Shougo/vimfiler"
 NeoBundle "Shougo/vimshell.vim"
 NeoBundle "Shougo/neossh.vim"
 NeoBundle "Shougo/unite-outline"
+NeoBundle "majutsushi/tagbar"
 NeoBundle "kana/vim-submode"
 NeoBundle "tyru/caw.vim.git"
 NeoBundle "tyru/open-browser.vim"
@@ -408,6 +409,12 @@ let g:lightline.tab = {
 " haskell
 " ラムダを置き換えない
 let g:haskell_conceal = 0
+
+
+" tagbar
+nmap <F8> :TagbarToggle<CR>
+
+
 
 
 
