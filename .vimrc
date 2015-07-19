@@ -73,6 +73,8 @@ NeoBundle "derekwyatt/vim-scala"
 NeoBundle "chriskempson/vim-tomorrow-theme"
 NeoBundle "jonathanfilip/vim-lucius"
 NeoBundle "w0ng/vim-hybrid"
+NeoBundle "altercation/vim-colors-solarized"
+
 
 
 call neobundle#end()
@@ -212,7 +214,7 @@ let g:unite_enable_smart_case = 1
 " mru 件数
 let g:unite_source_file_mru_limit = 200
 
-nnoremap <silent> <Leader>uu :<C-u>Unite file_mru buffer<CR>
+nnoremap <silent> <Leader>uu :<C-u>Unite buffer file_mru directory_mru<CR>
 nnoremap <silent> <Leader>uy :<C-u>Unite history/yank<CR>
 nnoremap <silent> <Leader>ug :<C-u>Unite grep<CR>
 nnoremap <silent> <Leader>ur :<C-u>UniteResume<CR>
