@@ -30,6 +30,9 @@ NeoBundle 'Shougo/vimproc.vim', {
 " My Bundles here:
 " Refer to |:NeoBundle-examples|.
 " Note: You don't set neobundle setting in .gvimrc!
+NeoBundle "kana/vim-operator-user"
+NeoBundle "rhysd/vim-operator-surround"
+NeoBundle "kana/vim-operator-replace"
 NeoBundle "terryma/vim-expand-region"
 NeoBundle "Shougo/unite.vim"
 NeoBundle "Shougo/unite-sudo"
@@ -230,6 +233,15 @@ nnoremap H :<C-u>bp<CR>
 
 
 " プラグインの設定 """"""""""""""""""""""""""""""""""""""""""""""""""""
+
+" operator 系の設定 """""""""
+" surround
+map <silent>sa <Plug>(operator-surround-append)
+map <silent>sd <Plug>(operator-surround-delete)
+map <silent>sr <Plug>(operator-surround-replace)
+" replace
+nmap R <Plug>(operator-replace)
+
 
 " Unite
 let g:unite_enable_start_insert=0
