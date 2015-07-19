@@ -46,7 +46,7 @@ NeoBundle "majutsushi/tagbar"
 NeoBundle "kana/vim-submode"
 NeoBundle "tyru/caw.vim.git"
 NeoBundle "tyru/open-browser.vim"
-NeoBundle "tpope/vim-surround"
+" NeoBundle "tpope/vim-surround"
 NeoBundle "tpope/vim-fugitive"
 NeoBundle "plasticboy/vim-markdown"
 NeoBundle "kannokanno/previm"
@@ -254,7 +254,7 @@ let g:unite_source_file_mru_limit = 200
 
 nnoremap <silent> <Leader>uu :<C-u>Unite buffer file_mru directory_mru<CR>
 nnoremap <silent> <Leader>uy :<C-u>Unite history/yank<CR>
-nnoremap <silent> <Leader>ug :<C-u>Unite grep<CR>
+nnoremap <silent> <Leader>ug :<C-u>Unite -auto-preview grep<CR>
 nnoremap <silent> <Leader>ur :<C-u>UniteResume<CR>
 nnoremap <silent> <Leader>us :<C-u>Unite ssh://
 nnoremap <silent> <Leader>uo :<C-u>Unite outline<CR>
@@ -271,7 +271,8 @@ endfunction
 " unite grep に ag(The Silver Searcher) を使う
 if executable('ag')
   let g:unite_source_grep_command = 'ag'
-  let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
+  " let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
+  let g:unite_source_grep_default_opts = '--vimgrep'
   let g:unite_source_grep_recursive_opt = ''
 endif
 
