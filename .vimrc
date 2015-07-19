@@ -53,6 +53,8 @@ NeoBundle "jceb/vim-orgmode"
 NeoBundle "glidenote/memolist.vim"
 NeoBundle "cohama/agit.vim"
 NeoBundle "itchyny/lightline.vim"
+NeoBundle "basyura/twibill.vim"
+NeoBundle "basyura/TweetVim"
 
 " clojure
 NeoBundle "guns/vim-clojure-static"
@@ -436,6 +438,32 @@ let g:lightline.tab = {
 
 " tagbar
 nmap <F8> :TagbarToggle<CR>
+
+
+
+" tweetvim
+nnoremap <silent> :tw :TweetVimHomeTimeline
+" タイムライン選択用の Unite を起動する
+nnoremap <silent> t :Unite tweetvim<CR>
+" 発言用バッファを表示する
+nnoremap <silent> N           :<C-u>TweetVimSay<CR>
+" mentions を表示する
+" nnoremap <silent> <Space>re   :<C-u>TweetVimMentions<CR>
+" 特定のリストのタイムラインを表示する
+" nnoremap <silent> <Space>tt   :<C-u>TweetVimListStatuses basyura vim<CR>
+
+" スクリーン名のキャッシュを利用して、neocomplcache で補完する
+if !exists('g:neocomplcache_dictionary_filetype_lists')
+  let g:neocomplcache_dictionary_filetype_lists = {}
+endif
+let neco_dic = g:neocomplcache_dictionary_filetype_lists
+let neco_dic.tweetvim_say = $HOME . '/.tweetvim/screen_name'
+
+" タイムラインにリツイートを含める=1
+let g:tweetvim_include_rts    = 1
+" アイコン表示=1 (ImageMagick が必要)
+let g:tweetvim_display_icon = 0
+
 
 
 
