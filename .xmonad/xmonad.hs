@@ -86,7 +86,8 @@ myKeys = \conf -> mkKeymap conf $
     [ ("M-<Return>", spawn $ XMonad.terminal conf)
 
     -- launch dmenu
-    , ("M-p", spawn "dmenu_run -fn \"Gen Shin Gothic Monospace-13\"")
+    -- , ("M-p", spawn "dmenu_run -fn \"Gen Shin Gothic Monospace-13\"")
+    , ("M-p", spawn "dmenu_run -fn \"M+ 1mn-13\"")
 
     -- launch gmrun
     , ("M-S-p", spawn "gmrun")

@@ -4,7 +4,8 @@
 colorscheme hybrid
 
 "フォントの設定
-set guifont=源真ゴシック等幅\ 13
+" set guifont=源真ゴシック等幅\ 13
+set guifont=M+\ 1mn\ 13
 
 " メニューバーを非表示にする
 set guioptions-=m
