@@ -59,6 +59,9 @@ NeoBundle "guns/vim-clojure-static"
 NeoBundle "tpope/vim-fireplace"
 NeoBundle "tpope/vim-classpath"
 
+" lisp
+NeoBundle "kovisoft/slimv"
+
 " haskell
 NeoBundle "dag/vim2hs"
 NeoBundle "eagletmt/neco-ghc"
@@ -405,15 +408,21 @@ let g:lightline.tab = {
       \ 'inactive': [ 'tabnum', 'filename', 'modified' ] }
 
 
+" tagbar
+nmap <F8> :TagbarToggle<CR>
 
+
+
+" languages " """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " haskell
 " ラムダを置き換えない
 let g:haskell_conceal = 0
 
-
-" tagbar
-nmap <F8> :TagbarToggle<CR>
-
+" lisp
+let g:slimv_lisp = '/usr/bin/ccl'
+let g:slimv_impl = 'clozure'
+let g:slimv_preferred = 'clozure'
+let g:slimv_swank_cmd = '! lilyterm -T swank -e ccl --load ~/.vim/bundle/slimv/slime/start-swank.lisp &'
 
 
 
