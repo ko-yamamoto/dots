@@ -442,11 +442,10 @@ nmap <F8> :TagbarToggle<CR>
 
 
 " tweetvim
-nnoremap <silent> :tw :TweetVimHomeTimeline
 " タイムライン選択用の Unite を起動する
-nnoremap <silent> t :Unite tweetvim<CR>
+nnoremap <silent> <Leader>tt :Unite tweetvim<CR>
 " 発言用バッファを表示する
-nnoremap <silent> N           :<C-u>TweetVimSay<CR>
+nnoremap <silent> <Leader>tn :<C-u>TweetVimSay<CR>
 " mentions を表示する
 " nnoremap <silent> <Space>re   :<C-u>TweetVimMentions<CR>
 " 特定のリストのタイムラインを表示する
