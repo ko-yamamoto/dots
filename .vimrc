@@ -152,6 +152,8 @@ if has('syntax')
   call ZenkakuSpace()
 endif
 
+" カーソル行強調
+set cursorline
 
 
 " キーバインドの設定 """"""""""""""""""""""""""""""""""""""""""""""""""""
