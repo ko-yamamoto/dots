@@ -20,5 +20,5 @@ Config { font = "xft:M+ 1mn-13"
        , sepChar = "%"
        , alignSep = "}{"
        -- , template = "%StdinReader% }{ <fc=#b5bd68>%uname%</fc> | %cpu% | %memory% %swap% | %eth0% | %battery% | <fc=#95D9FF>%date%</fc>                           "
-       , template = "%StdinReader% }{ <fc=#b5bd68>%uname%</fc> | %cpu% | %memory% %swap% | %battery% | <fc=#95D9FF>%date%</fc>                "
+       , template = "%StdinReader% }{ | %cpu% | %memory% %swap% | %battery% | <fc=#95D9FF>%date%</fc>"
        }
