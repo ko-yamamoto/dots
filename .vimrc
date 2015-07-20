@@ -79,6 +79,7 @@ NeoBundle "chriskempson/vim-tomorrow-theme"
 NeoBundle "jonathanfilip/vim-lucius"
 NeoBundle "w0ng/vim-hybrid"
 NeoBundle "altercation/vim-colors-solarized"
+NeoBundle "nishikawasasaki/vim-pastel-colors-theme"
 
 
 

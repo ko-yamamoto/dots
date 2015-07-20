@@ -2,8 +2,9 @@
 " colorscheme lucius
 " LuciusDarkLowContrast
 " colorscheme hybrid
-colorscheme solarized
-set background=light
+" colorscheme solarized
+" set background=light
+colorscheme pastel-light
 
 "フォントの設定
 " set guifont=源真ゴシック等幅\ 13
