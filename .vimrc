@@ -61,6 +61,7 @@ NeoBundle "itchyny/lightline.vim"
 NeoBundle "basyura/twibill.vim"
 NeoBundle "basyura/TweetVim"
 NeoBundle "jamessan/vim-gnupg"
+NeoBundle "fuenor/im_control.vim"
 
 " clojure
 NeoBundle "guns/vim-clojure-static"
@@ -258,13 +259,13 @@ call unite#filters#matcher_default#use(['matcher_fuzzy'])
 " mru 件数
 let g:unite_source_file_mru_limit = 200
 
-nnoremap <silent> <Leader>uu :<C-u>Unite -direction=below buffer file_mru directory_mru<CR>
-nnoremap <silent> <Leader>uf :<C-u>Unite -direction=below file<CR>
-nnoremap <silent> <Leader>uy :<C-u>Unite -direction=below history/yank<CR>
-nnoremap <silent> <Leader>ug :<C-u>Unite -direction=below -auto-preview grep<CR>
+nnoremap <silent> <Leader>uu :<C-u>Unite buffer file_mru directory_mru<CR>
+nnoremap <silent> <Leader>uf :<C-u>Unite file<CR>
+nnoremap <silent> <Leader>uy :<C-u>Unite history/yank<CR>
+nnoremap <silent> <Leader>ug :<C-u>Unite -auto-preview grep<CR>
 nnoremap <silent> <Leader>ur :<C-u>UniteResume<CR>
-nnoremap <Leader>us :<C-u>Unite -direction=below ssh://
-nnoremap <silent> <Leader>uo :<C-u>Unite -direction=below outline<CR>
+nnoremap <Leader>us :<C-u>Unite ssh://
+nnoremap <silent> <Leader>uo :<C-u>Unite outline<CR>
 
 " unite grep に ag(The Silver Searcher) を使う
 if executable('ag')
@@ -428,7 +429,7 @@ let g:vim_markdown_folding_disabled=1
 " memolist
 let g:memolist_memo_suffix = "md"
 let g:memolist_unite = 1
-let g:memolist_unite_option = "-direction=below -start-insert"
+let g:memolist_unite_option = "-start-insert"
 let g:memolist_prompt_tags = 1
 let g:memolist_prompt_categories = 0
 noremap <Leader>ml  :MemoList<CR>
@@ -491,6 +492,16 @@ let g:tweetvim_include_rts    = 1
 " アイコン表示=1 (ImageMagick が必要)
 let g:tweetvim_display_icon = 0
 
+
+
+
+" im_control.vim
+" 「日本語入力固定モード」の動作設定
+let IM_CtrlMode = 6
+" 「日本語入力固定モード」切替キー
+inoremap <silent> <C-j> <C-r>=IMState('FixMode')<CR>
+" <ESC>押下後のIM切替開始までの反応が遅い場合はttimeoutlenを短く設定してみてください(ミリ秒)
+set timeout timeoutlen=3000 ttimeoutlen=100
 
 
 
