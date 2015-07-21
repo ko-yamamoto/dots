@@ -52,7 +52,7 @@ NeoBundle "tpope/vim-speeddating"
 NeoBundle "joker1007/vim-markdown-quote-syntax"
 NeoBundle "rcmdnk/vim-markdown"
 NeoBundle "kannokanno/previm"
-NeoBundle "vim-scripts/SearchComplete"
+" NeoBundle "vim-scripts/SearchComplete"
 NeoBundle "chriskempson/base16-vim"
 NeoBundle "jceb/vim-orgmode"
 NeoBundle "glidenote/memolist.vim"
@@ -62,6 +62,7 @@ NeoBundle "basyura/twibill.vim"
 NeoBundle "basyura/TweetVim"
 NeoBundle "jamessan/vim-gnupg"
 NeoBundle "fuenor/im_control.vim"
+NeoBundle "haya14busa/incsearch.vim"
 
 " clojure
 NeoBundle "guns/vim-clojure-static"
@@ -138,8 +139,10 @@ autocmd QuickFixCmdPost *grep* cwindow
 " 折りたたみしない
 set nofoldenable
 
-" 検索部分ハイライト
-set hlsearch
+set hlsearch " 検索部分ハイライト
+set incsearch "インクリメンタルサーチを行う
+set ignorecase "大文字と小文字を区別しない
+set smartcase "大文字と小文字が混在した言葉で検索を行った場合に限り、大文字と小文字を区別する
 
 "Tab、行末の半角スペースを明示的に表示する。
 set list
@@ -493,8 +496,6 @@ let g:tweetvim_include_rts    = 1
 let g:tweetvim_display_icon = 0
 
 
-
-
 " im_control.vim
 " 「日本語入力固定モード」の動作設定
 let IM_CtrlMode = 6
@@ -503,6 +504,11 @@ inoremap <silent> <C-j> <C-r>=IMState('FixMode')<CR>
 " <ESC>押下後のIM切替開始までの反応が遅い場合はttimeoutlenを短く設定してみてください(ミリ秒)
 set timeout timeoutlen=3000 ttimeoutlen=100
 
+
+" incsearch.vim
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
 
 
 " languages " """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
