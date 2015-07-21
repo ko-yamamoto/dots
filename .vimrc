@@ -253,16 +253,18 @@ let g:unite_source_history_yank_enable =1
 " 大文字小文字を区別しない
 let g:unite_enable_ignore_case = 1
 let g:unite_enable_smart_case = 1
+" あいまい
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
 " mru 件数
 let g:unite_source_file_mru_limit = 200
 
-nnoremap <silent> <Leader>uu :<C-u>Unite buffer file_mru directory_mru<CR>
-nnoremap <silent> <Leader>uf :<C-u>Unite file<CR>
-nnoremap <silent> <Leader>uy :<C-u>Unite history/yank<CR>
-nnoremap <silent> <Leader>ug :<C-u>Unite -auto-preview grep<CR>
+nnoremap <silent> <Leader>uu :<C-u>Unite -direction=below buffer file_mru directory_mru<CR>
+nnoremap <silent> <Leader>uf :<C-u>Unite -direction=below file<CR>
+nnoremap <silent> <Leader>uy :<C-u>Unite -direction=below history/yank<CR>
+nnoremap <silent> <Leader>ug :<C-u>Unite -direction=below -auto-preview grep<CR>
 nnoremap <silent> <Leader>ur :<C-u>UniteResume<CR>
-nnoremap <silent> <Leader>us :<C-u>Unite ssh://
-nnoremap <silent> <Leader>uo :<C-u>Unite outline<CR>
+nnoremap <Leader>us :<C-u>Unite -direction=below ssh://
+nnoremap <silent> <Leader>uo :<C-u>Unite -direction=below outline<CR>
 
 " unite grep に ag(The Silver Searcher) を使う
 if executable('ag')
@@ -281,6 +283,7 @@ function! s:unite_my_settings()
   nmap <buffer> <ESC> <Plug>(unite_exit)
   "入力モードのときjjでノーマルモードに移動
   imap <buffer> jj <Plug>(unite_insert_leave)
+  imap <buffer> kk <Plug>(unite_insert_leave)
   "入力モードのときctrl+wでバックスラッシュも削除
   imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
   "fでvimfiler
@@ -292,7 +295,6 @@ endfunction
 " vim-expand-region
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
-
 
 
 " neocomplete
@@ -399,6 +401,7 @@ let g:vimfiler_safe_mode_by_default = 0
 noremap <silent> :tree :VimFiler -split -simple -winwidth=45 -no-quit
 noremap <Leader>ff :VimFilerBufferDir -no-split<ENTER>
 noremap <Leader>ft :VimFilerBufferDir -split -simple -winwidth=45 -no-quit<ENTER>
+noremap <Leader>fs :VimFiler ssh:
 " Don't let <CR> enter the directory but let it open the directory
 autocmd FileType vimfiler nmap <buffer> <CR> <Plug>(vimfiler_expand_or_edit)
 
