@@ -48,7 +48,9 @@ NeoBundle "tyru/caw.vim.git"
 NeoBundle "tyru/open-browser.vim"
 " NeoBundle "tpope/vim-surround"
 NeoBundle "tpope/vim-fugitive"
-NeoBundle "plasticboy/vim-markdown"
+NeoBundle "tpope/vim-speeddating"
+NeoBundle "joker1007/vim-markdown-quote-syntax"
+NeoBundle "rcmdnk/vim-markdown"
 NeoBundle "kannokanno/previm"
 NeoBundle "vim-scripts/SearchComplete"
 NeoBundle "chriskempson/base16-vim"
@@ -58,6 +60,7 @@ NeoBundle "cohama/agit.vim"
 NeoBundle "itchyny/lightline.vim"
 NeoBundle "basyura/twibill.vim"
 NeoBundle "basyura/TweetVim"
+NeoBundle "jamessan/vim-gnupg"
 
 " clojure
 NeoBundle "guns/vim-clojure-static"
@@ -159,7 +162,7 @@ if has('syntax')
 endif
 
 " カーソル行強調
-set cursorline
+" set cursorline
 
 
 " キーバインドの設定 """"""""""""""""""""""""""""""""""""""""""""""""""""
@@ -254,20 +257,12 @@ let g:unite_enable_smart_case = 1
 let g:unite_source_file_mru_limit = 200
 
 nnoremap <silent> <Leader>uu :<C-u>Unite buffer file_mru directory_mru<CR>
+nnoremap <silent> <Leader>uf :<C-u>Unite file<CR>
 nnoremap <silent> <Leader>uy :<C-u>Unite history/yank<CR>
 nnoremap <silent> <Leader>ug :<C-u>Unite -auto-preview grep<CR>
 nnoremap <silent> <Leader>ur :<C-u>UniteResume<CR>
 nnoremap <silent> <Leader>us :<C-u>Unite ssh://
 nnoremap <silent> <Leader>uo :<C-u>Unite outline<CR>
-
-autocmd FileType unite call s:unite_my_settings()
-function! s:unite_my_settings()
-  " Overwrite settings.
-  imap <buffer> jj <Plug>(unite_insert_leave)
-  imap <buffer> <ESC> <ESC><ESC>
-  nnoremap <buffer> t G
-  startinsert
-endfunction
 
 " unite grep に ag(The Silver Searcher) を使う
 if executable('ag')
@@ -276,6 +271,22 @@ if executable('ag')
   let g:unite_source_grep_default_opts = '--vimgrep'
   let g:unite_source_grep_recursive_opt = ''
 endif
+
+"uniteを開いている間のキーマッピング
+augroup vimrc
+  autocmd FileType unite call s:unite_my_settings()
+augroup END
+function! s:unite_my_settings()
+  "ESCでuniteを終了
+  nmap <buffer> <ESC> <Plug>(unite_exit)
+  "入力モードのときjjでノーマルモードに移動
+  imap <buffer> jj <Plug>(unite_insert_leave)
+  "入力モードのときctrl+wでバックスラッシュも削除
+  imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
+  "fでvimfiler
+  nnoremap <silent><buffer><expr> f unite#smart_map('f', unite#do_action('vimfiler'))
+  inoremap <silent><buffer><expr> f unite#smart_map('f', unite#do_action('vimfiler'))
+endfunction
 
 
 " vim-expand-region
@@ -414,7 +425,7 @@ let g:vim_markdown_folding_disabled=1
 " memolist
 let g:memolist_memo_suffix = "md"
 let g:memolist_unite = 1
-let g:memolist_unite_option = "-auto-preview -start-insert"
+let g:memolist_unite_option = "-start-insert"
 let g:memolist_prompt_tags = 1
 let g:memolist_prompt_categories = 0
 noremap <Leader>ml  :MemoList<CR>
