@@ -232,8 +232,8 @@ nnoremap st :<C-u>tabnew<CR>
 nnoremap <C-Tab> gt
 nnoremap <C-S-Tab> gT
 " 閉じる
-nnoremap sQ :<C-u>q<CR> " ウインドウを閉じる
-nnoremap sq :<C-u>bd<CR> " バッファを閉じる
+nnoremap sq :<C-u>q<CR> " ウインドウを閉じる
+nnoremap sQ :<C-u>bd<CR> " バッファを閉じる
 " バッファ移動
 nnoremap L :<C-u>bn<CR>
 nnoremap H :<C-u>bp<CR>
