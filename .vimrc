@@ -53,7 +53,6 @@ NeoBundle "joker1007/vim-markdown-quote-syntax"
 NeoBundle "rcmdnk/vim-markdown"
 NeoBundle "kannokanno/previm"
 " NeoBundle "vim-scripts/SearchComplete"
-NeoBundle "chriskempson/base16-vim"
 NeoBundle "jceb/vim-orgmode"
 NeoBundle "glidenote/memolist.vim"
 NeoBundle "cohama/agit.vim"
@@ -82,6 +81,7 @@ NeoBundle "derekwyatt/vim-scala"
 " theme
 NeoBundle "chriskempson/vim-tomorrow-theme"
 NeoBundle "jonathanfilip/vim-lucius"
+NeoBundle "chriskempson/base16-vim"
 NeoBundle "w0ng/vim-hybrid"
 NeoBundle "altercation/vim-colors-solarized"
 NeoBundle "nishikawasasaki/vim-pastel-colors-theme"
@@ -401,9 +401,14 @@ vmap <Leader>c <Plug>(caw:i:toggle)
 let g:vimfiler_as_default_explorer = 1
 "セーフモードを無効にした状態で起動する
 let g:vimfiler_safe_mode_by_default = 0
+" VimFiler ははなれたら終了する
+call vimfiler#custom#profile('default', 'context', {
+			\   'force_quit' : 1
+			\ })
 " Open filer
 noremap <silent> :tree :VimFiler -split -simple -winwidth=45 -no-quit
-noremap <Leader>ff :VimFilerBufferDir -create -no-split<ENTER>
+" noremap <Leader>ff :VimFilerBufferDir -create -no-split<ENTER>
+noremap <Leader>ff :VimFilerBufferDir -no-split<ENTER>
 noremap <Leader>ft :VimFilerBufferDir -split -simple -winwidth=45 -no-quit<ENTER>
 noremap <Leader>fs :VimFiler ssh://
 " Don't let <CR> enter the directory but let it open the directory
