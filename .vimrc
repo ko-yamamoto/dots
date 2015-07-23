@@ -199,6 +199,9 @@ nnoremap <expr> s* ':%substitute/\<' . expand('<cword>') . '\>/'
 "Escの2回押しでハイライト消去
 nnoremap <ESC><ESC> :nohlsearch<CR>
 
+" 行つなぎの際にスペースを入れない
+nnoremap <S-j> gJ
+
 " http://qiita.com/tekkoc/items/98adcadfa4bdc8b5a6ca
 " ウインドウとタブの操作"""""""""
 nnoremap s <Nop>
@@ -437,7 +440,7 @@ let g:vim_markdown_folding_disabled=1
 " memolist
 let g:memolist_memo_suffix = "md"
 let g:memolist_unite = 1
-let g:memolist_unite_option = "-start-insert"
+let g:memolist_unite_option = "-no-start-insert"
 let g:memolist_prompt_tags = 1
 let g:memolist_prompt_categories = 0
 noremap <Leader>ml  :MemoList<CR>
