@@ -135,16 +135,18 @@ myKeys = \conf -> mkKeymap conf $
 
     -- Expand the master area
     , ("M-=", sendMessage Expand)
+    , ("M-^", sendMessage Expand)
 
     -- Shrink a window vertically
     , ("M-z", sendMessage MirrorShrink)
-    , ("M-S--", sendMessage MirrorShrink)
+    , ("M-S-=", sendMessage MirrorShrink)
+    , ("M-S-^", sendMessage MirrorShrink)
     -- Expand a window vertically
     , ("M-a", sendMessage MirrorExpand)
-    , ("M-S-=", sendMessage MirrorExpand)
+    , ("M-S--", sendMessage MirrorExpand)
 
     -- Push window back into tiling
-    , ("M-S-f", withFocused $ windows . W.sink)
+    , ("M-t", withFocused $ windows . W.sink)
 
     -- Toggle the status bar gap
     -- Use this binding with avoidStruts from Hooks.ManageDocks.
@@ -254,6 +256,7 @@ myLayout = (ResizableTall 1 (3/100) (3/5) [])||| (ResizableTall 2 (3/100) (2/5) 
 myManageHook = composeAll
     [ className =? "MPlayer"        --> doFloat
     , className =? "Gimp"           --> doFloat
+    , className =? "Eog"           --> doCenterFloat
     , role =? "Msgcompose"           --> doFloat -- Thunderbird
     , role =? "mikutter_image_preview"           --> doFloat
     , appName =? "crx_hmjkmjkepdijhoojdojkdfohbdgmmhki"           --> doFloat -- google keep
