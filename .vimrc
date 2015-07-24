@@ -34,6 +34,7 @@ NeoBundle "kana/vim-operator-user"
 NeoBundle "rhysd/vim-operator-surround"
 NeoBundle "kana/vim-operator-replace"
 NeoBundle "terryma/vim-expand-region"
+NeoBundle "thinca/vim-quickrun"
 NeoBundle "Shougo/unite.vim"
 NeoBundle "Shougo/unite-sudo"
 NeoBundle "Shougo/neocomplete.vim"
@@ -168,6 +169,12 @@ endif
 " カーソル行強調
 " set cursorline
 
+" コマンドライン履歴数
+set history=10000
+
+" 分割は右へ
+set splitright
+
 
 " キーバインドの設定 """"""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = "\<Space>"
@@ -240,7 +247,6 @@ nnoremap sq :<C-u>bd<CR> " バッファを閉じる
 " バッファ移動
 nnoremap L :<C-u>bn<CR>
 nnoremap H :<C-u>bp<CR>
-
 
 
 " プラグインの設定 """"""""""""""""""""""""""""""""""""""""""""""""""""
@@ -406,8 +412,10 @@ let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
 " VimFiler ははなれたら終了する
 " call vimfiler#custom#profile('default', 'context', {
-" 			\   'force_quit' : 1
-" 			\ })
+			" \   'force_quit' : 1
+			" \ })
+"alternate file として開く
+let g:vimfiler_restore_alternate_file=0
 " Open filer
 noremap <silent> :tree :VimFiler -split -simple -winwidth=45 -no-quit
 " noremap <Leader>ff :VimFilerBufferDir -create -no-split<ENTER>
