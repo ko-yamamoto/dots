@@ -235,8 +235,8 @@ nnoremap st :<C-u>tabnew<CR>
 nnoremap <C-Tab> gt
 nnoremap <C-S-Tab> gT
 " 閉じる
-nnoremap sq :<C-u>q<CR> " ウインドウを閉じる
-nnoremap sQ :<C-u>bd<CR> " バッファを閉じる
+nnoremap sQ :<C-u>q<CR> " ウインドウを閉じる
+nnoremap sq :<C-u>bd<CR> " バッファを閉じる
 " バッファ移動
 nnoremap L :<C-u>bn<CR>
 nnoremap H :<C-u>bp<CR>
@@ -405,9 +405,9 @@ let g:vimfiler_as_default_explorer = 1
 "セーフモードを無効にした状態で起動する
 let g:vimfiler_safe_mode_by_default = 0
 " VimFiler ははなれたら終了する
-call vimfiler#custom#profile('default', 'context', {
-			\   'force_quit' : 1
-			\ })
+" call vimfiler#custom#profile('default', 'context', {
+" 			\   'force_quit' : 1
+" 			\ })
 " Open filer
 noremap <silent> :tree :VimFiler -split -simple -winwidth=45 -no-quit
 " noremap <Leader>ff :VimFilerBufferDir -create -no-split<ENTER>
