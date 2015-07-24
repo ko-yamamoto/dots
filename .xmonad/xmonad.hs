@@ -259,6 +259,7 @@ myManageHook = composeAll
     , className =? "Eog"           --> doCenterFloat
     , role =? "Msgcompose"           --> doFloat -- Thunderbird
     , role =? "mikutter_image_preview"           --> doFloat
+    , role =? "bubble"           --> doFloat
     , appName =? "crx_hmjkmjkepdijhoojdojkdfohbdgmmhki"           --> doFloat -- google keep
     , appName =? "crx_nckgahadagoaajjgafhacjanaoiihapd"           --> doFloat -- google hangouts
     , appName =? "crx_knipolnnllmklapflnccelgolnpehhpl"           --> doFloat -- google hangouts
