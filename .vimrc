@@ -175,6 +175,8 @@ set history=10000
 " 分割は右へ
 set splitright
 
+" 記号がつぶれないように
+set ambiwidth=double
 
 " キーバインドの設定 """"""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = "\<Space>"
@@ -258,6 +260,7 @@ map <silent>sd <Plug>(operator-surround-delete)
 map <silent>sr <Plug>(operator-surround-replace)
 " replace
 nmap R <Plug>(operator-replace)
+vmap R <Plug>(operator-replace)
 
 
 " Unite
