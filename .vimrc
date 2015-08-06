@@ -103,6 +103,9 @@ NeoBundleCheck
 syntax on
 set clipboard=unnamedplus
 
+" 文字コード
+set encoding=utf-8
+set fileencodings=ucs-bom,iso-2022-jp-3,iso-2022-jp,eucjp-ms,euc-jisx0213,euc-jp,sjis,cp932,utf-8
 
 " カーソル位置を記憶
 if has("autocmd")
@@ -188,6 +191,9 @@ nnoremap <silent> p p`]
 
 " 貼り付けたテキストを素早く選択する
 noremap gV `[v`]
+
+" インサートモードで貼り付けを簡単に
+imap <C-Y> <C-R>"
 
 " insertモードから抜ける
 inoremap <silent> jj <ESC>
