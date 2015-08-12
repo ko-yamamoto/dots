@@ -23,7 +23,7 @@
   (add-to-list 'desktop-modes-not-to-save 'helm-mode)
 
   ;; find-file では邪魔なので helm を使わない
-  (add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
+  ;; (add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
 
   ;; configuration helm variable
   (setq helm-idle-delay 0.1)
@@ -189,5 +189,14 @@
     :ensure t
     :bind (("C-^ b" . helm-descbinds))
     :config (helm-descbinds-install))
+
+
+  (bind-keys :map helm-find-files-map
+             ("TAB" . helm-execute-persistent-action)
+             ("C-w" . kill-region-or-backward-word))
+
+  (bind-keys :map helm-read-file-map
+             ("TAB" . helm-execute-persistent-action)
+             ("C-w" . kill-region-or-backward-word))
 
   )
