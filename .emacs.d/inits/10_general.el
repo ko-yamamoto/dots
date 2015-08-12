@@ -158,9 +158,9 @@
 
 ;; window split
 ;; (global-set-key "\C-qsq" 'my/buffer-kill-and-delete-window)
-(global-set-key "\C-q1" 'delete-other-windows)
-(global-set-key "\C-q2" 'split-window-vertically)
-(global-set-key "\C-q3" 'split-window-horizontally)
+(global-set-key "\C-qo" 'delete-other-windows)
+(global-set-key "\C-qv" 'split-window-vertically)
+(global-set-key "\C-qs" 'split-window-horizontally)
 
 (defun window-toggle-division ()
   "ウィンドウ 2 分割時に、縦分割<->横分割"
