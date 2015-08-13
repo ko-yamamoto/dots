@@ -1,10 +1,8 @@
 (use-package org
   :defer t
-  :bind (("C-c o o" . open-my-org-directory)
-         ("C-c o c" . org-capture)
+  :bind (("C-c o c" . org-capture)
          ("C-c g f" . magit-file-log)
-         ("C-c o a" . org-agenda)
-         )
+         ("C-c o a" . org-agenda))
   :config
   ;; org-default-notes-fileのディレクトリ
   (setq org-directory "~/memo/")

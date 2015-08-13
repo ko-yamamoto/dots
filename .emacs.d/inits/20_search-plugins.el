@@ -15,8 +15,8 @@
 (use-package color-moccur
   :defer t
   :ensure t
-  :bind (("M-o" . occur-by-moccur)
-         ("C-M-o" . moccur-grep-find))
+  :bind (("C-c o o" . occur-by-moccur)
+         ("C-c o m" . moccur-grep-find))
   :config
   ;; スペース区切りの複数語での検索を行う場合は t
   (setq moccur-split-word t)
