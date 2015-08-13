@@ -45,37 +45,6 @@
   )
 
 
-(use-package ace-jump-mode
-  :ensure t
-  :defer t
-  :bind (("C-c SPC" . ace-jump-mode))
-  :config
-  ;; C-u プレフィックスで起動する順番変更
-  (setq ace-jump-mode-submode-list
-        '(ace-jump-line-mode              ;; the third one always map to ：C-u C-u C-c SPC
-          ace-jump-char-mode              ;; the second one always map to: C-u C-c SPC
-          ace-jump-word-mode              ;; the first one always map to : C-c SPC
-          )))
-
-
-(use-package swoop
-  :disabled t
-  :ensure t
-  ;; :defer t
-  :bind (("M-o" . swoop-migemo))
-  :config
-  ;; フォントサイズは変えない
-  (setq swoop-font-size-change: nil)
-  ;; 強制 migemo 起動
-  (defun swoop-from-isearch-migemo ()
-    (interactive)
-    (setq swoop-use-migemo t)
-    (swoop-from-isearch))
-
-  (bind-keys :map isearch-mode-map
-             ("C-o" . swoop-from-isearch-migemo)))
-
-
 (use-package imenu
   :config
   (setq imenu-auto-rescan t)
