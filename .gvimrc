@@ -26,6 +26,9 @@ set guioptions-=e
 " 行数表示
 set nu
 
+" コマンドラインの行数
+set cmdheight=1
+
 " カーソルを行頭、行末で止まらないようにする  
 set whichwrap=b,s,h,l,<,>,[,]
 
