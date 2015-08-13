@@ -184,6 +184,10 @@ set ambiwidth=double
 " キーバインドの設定 """"""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = "\<Space>"
 
+"  ; と : を入れ替え
+nnoremap ; :
+nnoremap : ;
+
 " 貼り付けたテキストの末尾へ自動的に移動する
 vnoremap <silent> y y`]
 vnoremap <silent> p p`]
