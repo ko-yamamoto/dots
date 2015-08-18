@@ -34,11 +34,6 @@
 
 ;; 共通ロードパスを通す OSごと設定は下の方で
 (setq load-path (cons "~/.emacs.d/elisp" load-path))
-;; ;; emacs.d/elisp以下を再帰的にload-pathへ追加
-;; (let ((default-directory (expand-file-name "~/.emacs.d/elisp")))
-;;   (add-to-list 'load-path default-directory)
-;;   (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
-;;       (normal-top-level-add-subdirs-to-load-path)))
 
 ;; package.elでインストールしたelispをload-pathへ追加
 (let ((default-directory (expand-file-name "~/.emacs.d/elpa")))
@@ -60,9 +55,6 @@
 ;; "yes or no"を"y or n"に
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; 現在カーソル位置のファイルパス/URLを開く
-;; (ffap-bindings)
-
 ;; タブは4
 (setq-default tab-width 4)
 (setq default-tab-width 4)
@@ -70,9 +62,6 @@
                         64 68 72 76 80 84 88 92 96 100 104 108 112 116 120))
 ;; タブはスペースで
 (setq-default tab-width 4 indent-tabs-mode nil)
-
-;; バッファ一覧をまともに
-;; (global-set-key "\C-x\C-b" 'bs-show)
 
 ;; ディレクトリも履歴に残るように
 (use-package recentf-ext :ensure t)
@@ -284,16 +273,6 @@ Otherwise, call `backward-kill-word'."
     (and transient-mark-mode mark-active)))
 (global-set-key (kbd "M-f") 'my-forward-word)
 
-;; カーソル位置の単語を削除
-(defun kill-word-at-point ()
-  (interactive)
-  (let ((char (char-to-string (char-after (point)))))
-    (cond
-     ((string= " " char) (delete-horizontal-space))
-     ((string-match "[\t\n -@\[-`{-~]" char) (kill-word 1))
-     (t (forward-char) (backward-word) (kill-word 1)))))
-(global-set-key (kbd "M-d") 'kill-word-at-point)
-
 ;; kill-lineで行が連結したときにインデントを減らす
 (defadvice kill-line (before kill-line-and-fixup activate)
   (when (and (not (bolp)) (eolp))
@@ -303,9 +282,6 @@ Otherwise, call `backward-kill-word'."
 
 ;; 同名の .el と .elc があれば新しい方を読み込む
 (setq load-prefer-newer t)
-
-;; スペース 1 つ残し、スペースなしをトグル
-(global-set-key (kbd "M-SPC") 'cycle-spacing)
 
 ;; リージョンで C-d したらリージョンごと削除できるように
 (delete-selection-mode t)
