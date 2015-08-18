@@ -1,3 +1,24 @@
+;; color-themeの設定
+;; (require 'color-theme)
+;; (color-theme-initialize)
+;; (color-theme-andreas)
+;; (color-theme-ns-w2)
+;; (color-theme-ns)
+;; (color-theme-tangotango)
+;; (color-theme-tomorrow-night-bright)
+;; (color-theme-tomorrow-night)
+;; (color-theme-tomorrow-night-eighties)
+;; (color-theme-tomorrow)
+;; (color-theme-solarized-light)
+;; (color-theme-hybrid)
+;; (color-theme-mccarthy)
+
+;; after emacs24
+(setq custom-theme-directory "~/.emacs.d/themes/")
+;; (load-theme 'ns-milk t)
+(load-theme 'ns-eighties t)
+
+
 ;; モードライン (mode-line-format)での書式記号
 ;; %b -- print buffer name.
 ;; %f -- print visited file name.
@@ -34,37 +55,37 @@
   :config
   (modeline-git-branch-mode 1))
 
-;; モード名をエイリアス
-(defvar mode-line-cleaner-alist
-  '( ;; For minor-mode, first char is 'space'
-    (abbrev-mode . "")
-    (guide-key-mode . "")
-    (undo-tree-mode . "")
-    (wrap-region-mode . "")
-    (smooth-scroll-mode . "")
-    (helm-mode . "")
-    (back-button-mode . "")
-    ;; Major modes
-    ;; (lisp-interaction-mode . "Li")
-    ;; (python-mode . "Py")
-    ;; (ruby-mode   . "Rb")
-    ;; (emacs-lisp-mode . "El")
-    ;; (lisp-mode . "Li")
-    ;; (markdown-mode . "Md")
-    ))
+;; ;; モード名をエイリアス
+;; (defvar mode-line-cleaner-alist
+;;   '( ;; For minor-mode, first char is 'space'
+;;     (abbrev-mode . "")
+;;     (guide-key-mode . "")
+;;     (undo-tree-mode . "")
+;;     (wrap-region-mode . "")
+;;     (smooth-scroll-mode . "")
+;;     (helm-mode . "")
+;;     (back-button-mode . "")
+;;     ;; Major modes
+;;     ;; (lisp-interaction-mode . "Li")
+;;     ;; (python-mode . "Py")
+;;     ;; (ruby-mode   . "Rb")
+;;     ;; (emacs-lisp-mode . "El")
+;;     ;; (lisp-mode . "Li")
+;;     ;; (markdown-mode . "Md")
+;;     ))
 
-(defun clean-mode-line ()
-  (interactive)
-  (loop for (mode . mode-str) in mode-line-cleaner-alist
-        do
-        (let ((old-mode-str (cdr (assq mode minor-mode-alist))))
-          (when old-mode-str
-            (setcar old-mode-str mode-str))
-          ;; major mode
-          (when (eq mode major-mode)
-            (setq mode-name mode-str)))))
+;; (defun clean-mode-line ()
+;;   (interactive)
+;;   (loop for (mode . mode-str) in mode-line-cleaner-alist
+;;         do
+;;         (let ((old-mode-str (cdr (assq mode minor-mode-alist))))
+;;           (when old-mode-str
+;;             (setcar old-mode-str mode-str))
+;;           ;; major mode
+;;           (when (eq mode major-mode)
+;;             (setq mode-name mode-str)))))
 
-(add-hook 'after-change-major-mode-hook 'clean-mode-line)
+;; (add-hook 'after-change-major-mode-hook 'clean-mode-line)
 
 ;; タイトルバー
 (setq frame-title-format (format "%%b - Emacs@%s" (system-name)))
@@ -130,26 +151,6 @@
 
 ;; スクロールバーを消す
 (set-scroll-bar-mode nil)
-
-;; color-themeの設定
-;; (require 'color-theme)
-;; (color-theme-initialize)
-;; (color-theme-andreas)
-;; (color-theme-ns-w2)
-;; (color-theme-ns)
-;; (color-theme-tangotango)
-;; (color-theme-tomorrow-night-bright)
-;; (color-theme-tomorrow-night)
-;; (color-theme-tomorrow-night-eighties)
-;; (color-theme-tomorrow)
-;; (color-theme-solarized-light)
-;; (color-theme-hybrid)
-;; (color-theme-mccarthy)
-
-;; after emacs24
-(setq custom-theme-directory "~/.emacs.d/themes/")
-;; (load-theme 'ns-milk t)
-(load-theme 'ns-eighties t)
 
 ;; タブ, 全角スペース, 行末空白表示
 (defface my-face-b-1 '((t (:background "#ffe174" :underline t))) nil) ; 全角スペース
