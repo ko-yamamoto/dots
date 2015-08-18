@@ -49,4 +49,4 @@
 (add-hook 'haskell-mode-hook 'my-haskell-ac-init)
 
 
-(require 'auto-complete-haskell)
+;; (require 'auto-complete-haskell)
