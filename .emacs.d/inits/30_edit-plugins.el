@@ -130,6 +130,11 @@
       ("h"        . 'windmove-left)
       ("j"        . 'windmove-down)
       ("k"        . 'windmove-up)))
+
+  (smartrep-define-key global-map (kbd "C-x")
+    '(("n"        . 'next-buffer)
+      ("p"        . 'previous-buffer)))
+
   )
 
 (use-package smart-newline
