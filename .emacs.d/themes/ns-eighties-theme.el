@@ -185,7 +185,7 @@
    `(elscreen-tab-background-face ((t (:background ,*background*))))
    `(elscreen-tab-control-face ((t (:background ,*background* :foreground ,*normal*))))
    `(elscreen-tab-current-screen-face ((t (:background ,*background* :foreground ,red :bold t))))
-   `(elscreen-tab-other-screen-face ((t (:background ,*background* :foreground ,base04 :bold t))))
+   `(elscreen-tab-other-screen-face ((t (:background ,*background* :foreground ,base03 :bold t))))
 
    ;; yalinum
    `(yalinum-face ((t (:background ,*background* :foreground ,*comments*))))
