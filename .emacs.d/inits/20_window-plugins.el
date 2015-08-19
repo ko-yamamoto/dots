@@ -1,4 +1,5 @@
 (use-package elscreen
+  :disabled t
   :ensure t
   :defer t
   :bind (("<C-tab>" . elscreen-next)
@@ -54,6 +55,7 @@
   )
 
 (use-package elscreen-persist
+  :disabled t
   :ensure t
   ;; :defer t ; can't revert if defer is t
   :config
@@ -83,8 +85,8 @@
                   ;; ("\\(.*\\) \\[Dired\\]" :regexp t :height 0.4 :position top :stick t)
                   ;;("*Moccur*" :height 20)
                   ("*Directory*" :height 20)
-                  ;; ("*magit\\(.*\\)*" :regexp t :height 0.65)
-                  ;; ("COMMIT_EDITMSG")
+                  ("*magit:\\(.*\\)*" :regexp t :height 0.65 :dedicated t)
+                  ("COMMIT_EDITMSG" :dedicated t)
                   ;; slime
                   ("*slime-apropos*")
                   ("*slime-macroexpansion*")
