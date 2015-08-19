@@ -146,10 +146,3 @@
       (let (current-prefix-arg)
         (let (smart-newline-mode)
           (call-interactively (key-binding (kbd "C-m"))))))))
-
-(use-package smart-shift
-  :ensure t
-  :config
-  (global-smart-shift-mode 1)
-  (key-chord-define-global "<<" 'smart-shift-left)
-  (key-chord-define-global ">>" 'smart-shift-right))
