@@ -20,6 +20,20 @@
   ;; (set-face-background 'magit-diff-del "#000000")
   ;; (set-face-background 'magit-item-highlight "#000000")
 
+  (defun my/commit-cancel ()
+    (interactive)
+    (with-editor-cancel t)
+    (elscreen-kill))
+
+  (defun my/commit-finish ()
+    (interactive)
+    (with-editor-finish t)
+    (elscreen-kill))
+
+  (bind-keys :map git-commit-mode-map
+             ("C-c C-c" . my/commit-finish)
+             ("C-c C-k" . my/commit-cancel))
+
   )
 
 (use-package git-gutter+
@@ -27,7 +41,7 @@
   :defer t
   :bind (("C-c g c" . global-git-gutter+-mode))
   :config
-  (global-git-gutter+-mode t)
+  ;; (global-git-gutter+-mode t)
   ;; 指定したモードで有効に
   ;; (let ((mode-hooks
          ;; '(org-mode-hook
