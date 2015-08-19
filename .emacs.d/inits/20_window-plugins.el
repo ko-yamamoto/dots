@@ -1,5 +1,5 @@
 (use-package elscreen
-  :disabled t
+  ;; :disabled t
   :ensure t
   :defer t
   :bind (("<C-tab>" . elscreen-next)
@@ -55,7 +55,7 @@
   )
 
 (use-package elscreen-persist
-  :disabled t
+  ;; :disabled t
   :ensure t
   ;; :defer t ; can't revert if defer is t
   :config

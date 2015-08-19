@@ -1,7 +1,6 @@
 (use-package fuzzy :ensure t)
 
 (use-package auto-complete
-  ;; :disabled t
   :ensure t
   :config
   (require 'auto-complete-config)
