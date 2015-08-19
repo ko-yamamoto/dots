@@ -87,6 +87,13 @@
 
 ;; (add-hook 'after-change-major-mode-hook 'clean-mode-line)
 
+
+(use-package powerline
+  :ensure t
+  :config
+  (powerline-default-theme))
+
+
 ;; タイトルバー
 (setq frame-title-format (format "%%b - Emacs@%s" (system-name)))
 
