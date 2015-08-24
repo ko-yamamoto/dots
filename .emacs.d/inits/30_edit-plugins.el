@@ -1,41 +1,37 @@
 (use-package fuzzy :ensure t)
 
-(use-package auto-complete
+(use-package company
   :ensure t
+  :bind (("M-c" . company-complete-common2))
+
   :config
-  (require 'auto-complete-config)
-  (ac-config-default)
-  (global-auto-complete-mode t)
+  (global-company-mode) ; 全バッファで有効にする
+  (setq company-idle-delay 0) ; デフォルトは0.5
+  (setq company-minimum-prefix-length 1) ; デフォルトは4
+  (setq company-selection-wrap-around t) ; 候補の一番下でさらに下に行こうとすると一番上に戻る
 
-  (use-package ac-dabbrev
-    :ensure
+  ;; 補完の使用頻度でソート
+  (use-package company-statistics
+    :ensure t
     :config
-    (add-to-list 'ac-sources 'ac-source-dabbrev))
+    (company-statistics-mode)
+    (setq company-transformers '(company-sort-by-statistics company-sort-by-backend-importance)))
 
+  (bind-keys :map company-active-map
+             ("M-n" . nil)
+             ("M-p" . nil)
+             ("C-n" . company-select-next)
+             ("C-p" . company-select-previous)
+             ("C-h" . nil)
+             ("C-w" . kill-region-or-backward-word)
+             ("<tab>" . company-complete-common-or-cycle) ; 1つしか候補がなかったらtabで補完/複数候補があればtabで次の候補へ
+             ("<iso-lefttab>" . company-complete-common-or-cycle)
+             ("<S-tab>" . company-select-previous)
+             ("<S-iso-lefttab>" . company-select-previous)
+             )
 
-
-  (add-to-list 'ac-sources 'ac-source-filename)
-  (add-to-list 'ac-sources 'ac-source-files-in-current-dir)
-  (add-to-list 'ac-sources 'ac-source-words-in-all-buffer)
-
-  (setq ac-use-menu-map t) ;; 補完メニュー表示時に特別なキーマップを有効にするか
-  (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict") ;; 辞書ファイルの位置
-  (define-key ac-mode-map (kbd "M-c") 'auto-complete) ;; 補完の開始キー
-  ;; (define-key ac-menu-map "q" 'ac-stop) ;; 補完を止めるキー
-  (setq ac-auto-show-menu 0.1) ;; 補完メニュー表示までのディレイ
-  (setq ac-menu-height 15) ;;補完メニューの行数
-  (setq ac-ignore-case 'smart) ;; 大文字・小文字の区別方法
-  (setq ac-dwim t) ;; 補完選択時にTABをRETの挙動にしない
-  ;; (setq popup-use-optimized-column-computation nil) ;; 表示崩れ防止
-  (setq ac-auto-start 2) ;; n文字以上の単語の時に補完を開始
-  (setq ac-use-fuzzy t) ;; あいまい有効
-  (setq ac-use-comphist t)  ;; 補完推測機能有効
-  (ac-set-trigger-key "TAB")
-
-  ;; 追加モード
-  (add-to-list 'ac-modes 'org-mode)
-  (add-to-list 'ac-modes 'gfm-mode)
   )
+
 
 (use-package anzu
   :ensure t
@@ -92,6 +88,8 @@
 (use-package smartrep
   :ensure t
   :config
+  (setq smartrep-mode-line-active-bg "#99cc99")
+
   (smartrep-define-key
       global-map "C-q" '(("c" . 'elscreen-create)
                          ("n" . 'elscreen-next)

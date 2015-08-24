@@ -231,7 +231,15 @@
    `(popup-scroll-bar-foreground-face ((t (:background ,base05))))
    `(popup-scroll-bar-background-face ((t (:background ,base06))))
    `(popup-tip-face ((t (:background ,base05))))
-   ;; ac
+
+   ;; company
+   `(company-tooltip-common ((t (:foreground ,blue :background ,base06))))
+   `(company-tooltip ((t (:background ,base06))))
+   `(company-tooltip-selection ((t (:background ,yellow))))
+   `(company-tooltip-common-selection ((t (:foreground ,blue :background ,yellow))))
+   `(company-scrollbar-fg ((t (:background ,blue))))
+   `(company-scrollbar-bg ((t (:background ,base06))))
+
 
    `(sh-heredoc ((t (:foreground ,yellow))))
 
