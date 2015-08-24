@@ -13,6 +13,8 @@
   (require 'helm-config)
   (helm-mode 1)
 
+  (setq helm-split-window-in-side-p t)
+
   ;; あいまい有効化
   (setq helm-M-x-fuzzy-match t)
   (setq helm-recentf-fuzzy-match t)
