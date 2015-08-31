@@ -2,7 +2,7 @@
 
 (use-package company
   :ensure t
-  :bind (("M-c" . company-complete-common2))
+  ;; :bind (("M-c" . company-complete-common2))
 
   :config
   (global-company-mode) ; 全バッファで有効にする
@@ -16,6 +16,12 @@
     :config
     (company-statistics-mode)
     (setq company-transformers '(company-sort-by-statistics company-sort-by-backend-importance)))
+
+  (use-package company-try-hard
+    :ensure t
+    :config
+    (global-set-key (kbd "M-c") #'company-try-hard)
+    (define-key company-active-map (kbd "M-c") #'company-try-hard))
 
   (bind-keys :map company-active-map
              ("M-n" . nil)
