@@ -34,6 +34,7 @@
        (base03 "#747369")
        (base04 "#e8e6df")
        (base05 "#d3d0c8")
+
        (base06 "#e8e6df")
        (base07 "#f8f4e7")
 
@@ -245,8 +246,8 @@
 
    `(py-builtins-face ((t (:foreground ,green))))
 
-   `(web-mode-html-tag-face ((t (:foreground ,*method-declaration*))))
-   `(web-mode-html-attr-name-face ((t (:foreground ,*operators*))))
+   `(web-mode-html-tag-face ((t (:foreground ,*method-declaration* :bold t))))
+   `(web-mode-html-attr-name-face ((t (:foreground ,*operators* :bold t))))
 
    `(mozc-cand-overlay-focused-face ((t (:foreground ,*normal* :background ,green))))
    `(mozc-cand-overlay-odd-face ((t (:foreground ,*normal* :background ,*current-line*))))
