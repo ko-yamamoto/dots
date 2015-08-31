@@ -9,6 +9,7 @@
   (setq company-idle-delay 0) ; デフォルトは0.5
   (setq company-minimum-prefix-length 1) ; デフォルトは4
   (setq company-selection-wrap-around t) ; 候補の一番下でさらに下に行こうとすると一番上に戻る
+  (setq company-dabbrev-downcase nil) ; 候補をすべて小文字で扱うのを停止
 
   ;; 補完の使用頻度でソート
   (use-package company-statistics
