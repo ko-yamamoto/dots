@@ -51,12 +51,20 @@
   %i
   %a
   %T")
-          ("n" "日報" entry (file+datetree "~/memo/nippo.org")
+          ("n" "日報" entry (file+datetree+prompt "~/memo/nippo.org")
            "**** %?%i
      - [
      - 00:00 - 00:00")
 
           ))
+
+
+  ;; TODO状態
+  (setq org-todo-keywords
+        '((sequence "NEW(n)" "TODO(t)" "WAIT(w)" "SOMEDAY(s)" "|" "DONE(d)")))
+
+  ;; DONE の時刻を記録
+  (setq org-log-done 'time)
 
   (defun my/view-as-orgtbl ()
     (interactive)
