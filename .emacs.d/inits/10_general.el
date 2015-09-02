@@ -140,10 +140,10 @@
 (global-set-key "\C-q\C-q" 'quoted-insert)
 
 ;; window move
-(global-set-key "\C-ql" 'windmove-right)
-(global-set-key "\C-qh" 'windmove-left)
-(global-set-key "\C-qj" 'windmove-down)
-(global-set-key "\C-qk" 'windmove-up)
+;; (global-set-key "\C-ql" 'windmove-right)
+;; (global-set-key "\C-qh" 'windmove-left)
+;; (global-set-key "\C-qj" 'windmove-down)
+;; (global-set-key "\C-qk" 'windmove-up)
 
 ;; window split
 ;; (global-set-key "\C-qsq" 'my/buffer-kill-and-delete-window)

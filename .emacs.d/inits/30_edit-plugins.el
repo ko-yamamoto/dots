@@ -135,6 +135,12 @@
       ("j"        . 'windmove-down)
       ("k"        . 'windmove-up)))
 
+  (smartrep-define-key global-map (kbd "C-q")
+    '(("L"        . 'buf-move-right)
+      ("H"        . 'buf-move-left)
+      ("J"        . 'buf-move-down)
+      ("K"        . 'buf-move-up)))
+
   (smartrep-define-key global-map (kbd "C-x")
     '(("n"        . 'next-buffer)
       ("p"        . 'previous-buffer)))

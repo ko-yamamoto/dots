@@ -154,3 +154,10 @@
   ;; nil なら スクラッチバッファを削除できるままにする。初期値は t です。
   (setq sl-prohibit-kill-scratch-buffer-p t)
   )
+
+(use-package buffer-move
+  :ensure t
+  :bind (("C-q L" . buf-move-right)
+         ("C-q H" . buf-move-left)
+         ("C-q J" . buf-move-down)
+         ("C-q K" . buf-move-up)))
