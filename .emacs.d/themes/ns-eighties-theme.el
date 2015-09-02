@@ -272,6 +272,7 @@
 
    `(compilation-info ((t (:foreground ,green))))
 
+   `(vhl/default-face ((t (:background ,yellow))))
 
    ))
 
