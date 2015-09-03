@@ -51,56 +51,32 @@
 ;; %- -- print infinitely many dashes.
 
 ;; モードライン
-(setq-default mode-line-format
-              (list "%*[" 'mode-line-mule-info "] L%l:C%c %P [" `(vc-mode vc-mode) "]   %f   (%m" 'minor-mode-alist ")"))
-
-;; git ブランチ名を表示
-;; (vc-mode vc-mode) が置き換わる
-(use-package modeline-git-branch
-  :config
-  (modeline-git-branch-mode 1))
-
-;; ;; モード名をエイリアス
-;; (defvar mode-line-cleaner-alist
-;;   '( ;; For minor-mode, first char is 'space'
-;;     (abbrev-mode . "")
-;;     (guide-key-mode . "")
-;;     (undo-tree-mode . "")
-;;     (wrap-region-mode . "")
-;;     (smooth-scroll-mode . "")
-;;     (helm-mode . "")
-;;     (back-button-mode . "")
-;;     ;; Major modes
-;;     ;; (lisp-interaction-mode . "Li")
-;;     ;; (python-mode . "Py")
-;;     ;; (ruby-mode   . "Rb")
-;;     ;; (emacs-lisp-mode . "El")
-;;     ;; (lisp-mode . "Li")
-;;     ;; (markdown-mode . "Md")
-;;     ))
-
-;; (defun clean-mode-line ()
-;;   (interactive)
-;;   (loop for (mode . mode-str) in mode-line-cleaner-alist
-;;         do
-;;         (let ((old-mode-str (cdr (assq mode minor-mode-alist))))
-;;           (when old-mode-str
-;;             (setcar old-mode-str mode-str))
-;;           ;; major mode
-;;           (when (eq mode major-mode)
-;;             (setq mode-name mode-str)))))
-
-;; (add-hook 'after-change-major-mode-hook 'clean-mode-line)
+;; (setq-default mode-line-format
+              ;; (list "%*[" 'mode-line-mule-info "] L%l:C%c %P [" `(vc-mode vc-mode) "]   %f   (%m" 'minor-mode-alist ")"))
 
 
-(use-package powerline
+(use-package telephone-line
   :ensure t
   :config
-  (powerline-default-theme))
+  (setq telephone-line-lhs
+        '((accent . (telephone-line-major-mode-segment
+                     telephone-line-erc-modified-channels-segment))
+          (nil    . (telephone-line-buffer-segment
+                     telephone-line-process-segment))))
+  (setq telephone-line-rhs
+        '((nil    . (telephone-line-misc-info-segment
+                     telephone-line-vc-segment))
+          (accent . (telephone-line-position-segment))))
+
+  (setq telephone-line-primary-left-separator 'telephone-line-identity-left)
+  (setq telephone-line-primary-right-separator 'telephone-line-identity-left)
+
+  (telephone-line-mode 1)
+  )
 
 
 ;; タイトルバー
-(setq frame-title-format (format "%%b - Emacs@%s" (system-name)))
+(setq frame-title-format (format "%%f - Emacs@%s" (system-name)))
 
 ;; 対応するカッコをハイライト
 (show-paren-mode 1)
