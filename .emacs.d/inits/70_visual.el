@@ -213,29 +213,6 @@
                '(".*Gen.*" . 1.1))
   )
 
-  ;; バラバラに設定する場合
-  ;; 英字フォント
-  (set-face-attribute 'default nil
-                      :family "Hermit"
-                      :height 90)
-  ;; 漢字フォント
-  (set-fontset-font
-   nil 'japanese-jisx0208
-   ;; (font-spec :family "ricty"))
-   (font-spec :family "07YasashisaGothic"))
-  ;; ひらがなかたかな
-  (set-fontset-font
-   nil '(#x3040 . #x30ff)
-   ;; (font-spec :family "ricty"))
-   (font-spec :family "07YasashisaGothic"))
-
-  (setq face-font-rescale-alist
-        '((".*Hermit.*" . 1.0)
-          (".*ricty.*" . 1.2)
-          (".*やさしさ.*" . 1.2)
-          ("-cdac$" . 1.0)))
-
-  )
 (when is_win
   ;; バラバラに設定する場合
   ;; 英字フォント

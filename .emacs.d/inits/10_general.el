@@ -151,6 +151,8 @@
 (global-set-key "\C-qv" 'split-window-vertically)
 (global-set-key "\C-qs" 'split-window-horizontally)
 
+(global-set-key (kbd "C-q 0") 'delete-window)
+
 (defun window-toggle-division ()
   "ウィンドウ 2 分割時に、縦分割<->横分割"
   (interactive)
