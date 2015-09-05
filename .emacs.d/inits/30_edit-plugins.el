@@ -95,7 +95,7 @@
 (use-package smartrep
   :ensure t
   :config
-  (setq smartrep-mode-line-active-bg "#99cc99")
+  (setq smartrep-mode-line-active-bg "#f2777a")
 
   (smartrep-define-key
       global-map "C-q" '(("c" . 'elscreen-create)
