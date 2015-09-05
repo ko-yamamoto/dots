@@ -52,31 +52,58 @@
 
 ;; モードライン
 ;; (setq-default mode-line-format
-              ;; (list "%*[" 'mode-line-mule-info "] L%l:C%c %P [" `(vc-mode vc-mode) "]   %f   (%m" 'minor-mode-alist ")"))
+;; (list "%*[" 'mode-line-mule-info "] L%l:C%c %P [" `(vc-mode vc-mode) "]   %f   (%m" 'minor-mode-alist ")"))
 
-
-(use-package telephone-line
+(use-package powerline
   :ensure t
   :config
-  (setq telephone-line-lhs
-        '((accent . (telephone-line-major-mode-segment
-                     telephone-line-erc-modified-channels-segment))
-          (nil    . (telephone-line-buffer-segment
-                     telephone-line-process-segment))))
-  (setq telephone-line-rhs
-        '((nil    . (telephone-line-misc-info-segment
-                     telephone-line-vc-segment))
-          (accent . (telephone-line-position-segment))))
-
-  (setq telephone-line-primary-left-separator 'telephone-line-identity-left)
-  (setq telephone-line-primary-right-separator 'telephone-line-identity-left)
-
-  (telephone-line-mode 1)
+  (setq powerline-default-separator 'zigzag) ;; arrow, slant, chamfer, wave, brace, roundstub, zigzag, butt, rounded, contour, curve
+  (defun powerline-my-theme ()
+    (interactive)
+    (setq-default mode-line-format
+                  '("%e"
+                    (:eval
+                     (let* ((active (powerline-selected-window-active))
+                            (mode-line (if active 'mode-line 'mode-line-inactive))
+                            (face1 (if active 'powerline-active1 'powerline-inactive1))
+                            (face2 (if active 'powerline-active2 'powerline-inactive2))
+                            (separator-left (intern (format "powerline-%s-%s"
+                                                            (powerline-current-separator)
+                                                            (car powerline-default-separator-dir))))
+                            (separator-right (intern (format "powerline-%s-%s"
+                                                             (powerline-current-separator)
+                                                             (cdr powerline-default-separator-dir))))
+                            (lhs (list (powerline-raw "%*" face1 'l)
+                                       (when powerline-display-mule-info
+                                         (powerline-raw mode-line-mule-info face1 'r))
+                                       (funcall separator-left face1 face2)
+                                       (powerline-major-mode face2 'l)
+                                       (when (and (boundp 'which-func-mode) which-func-mode)
+                                         (powerline-raw which-func-format face2 'l))
+                                       (powerline-raw " " face2 'l)
+                                       (powerline-vc face2 'r)
+                                       (funcall separator-left face2 mode-line)
+                                       (powerline-raw "%f" nil 'l)
+                                       ))
+                            (rhs (list (unless window-system
+                                         (powerline-raw (char-to-string #xe0a1) nil 'l))
+                                       (funcall separator-right mode-line face2)
+                                       (powerline-raw "%4l" face2 'l)
+                                       (powerline-raw ":" face2 'l)
+                                       (powerline-raw "%3c" face2 'r)
+                                       (powerline-raw "%6p" face2 'r)
+                                       (funcall separator-right face2 face1)
+                                       (powerline-raw " " face1 'r)
+                                       (when powerline-display-buffer-size
+                                         (powerline-buffer-size face1 'r)))))
+                       (concat (powerline-render lhs)
+                               (powerline-fill nil (powerline-width rhs))
+                               (powerline-render rhs)))))))
+  (powerline-my-theme)
   )
 
-
 ;; タイトルバー
-(setq frame-title-format (format "%%f - Emacs@%s" (system-name)))
+(setq frame-title-format (format "%%b - Emacs@%s" (system-name)))
 
 ;; 対応するカッコをハイライト
 (show-paren-mode 1)
