@@ -183,10 +183,10 @@
    `(helm-visible-mark ((t (:background ,green :bold t))))
 
    ;; elscreen
-   `(elscreen-tab-background-face ((t (:background ,*background*))))
+   `(elscreen-tab-background-face ((t (:background ,*mode-inactive-bg*))))
    `(elscreen-tab-control-face ((t (:background ,*background* :foreground ,*normal*))))
-   `(elscreen-tab-current-screen-face ((t (:background ,*background* :foreground ,red :bold t))))
-   `(elscreen-tab-other-screen-face ((t (:background ,*background* :foreground ,base03 :bold t))))
+   `(elscreen-tab-current-screen-face ((t (:background ,*background* :foreground ,base02 :bold t))))
+   `(elscreen-tab-other-screen-face ((t (:background ,*mode-inactive-bg* :foreground ,base03 :bold nil))))
 
    ;; yalinum
    `(yalinum-face ((t (:background ,*background* :foreground ,*comments*))))

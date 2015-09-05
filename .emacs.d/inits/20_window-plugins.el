@@ -21,7 +21,7 @@
   ;; タブを閉じる [X] を表示しない
   (setq elscreen-tab-display-kill-screen nil)
   ;; タブの幅
-  (setq elscreen-display-tab 15)
+  (setq elscreen-display-tab 22)
 
   ;; タブが1つの時にタブ移動をすると自動でスクリーンを生成する
   (defmacro elscreen-create-automatically (ad-do-it)
