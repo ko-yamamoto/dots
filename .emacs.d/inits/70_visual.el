@@ -123,7 +123,7 @@
   ;; 一定時間後に現在行ハイライト
   (toggle-hl-line-when-idle)
   ;; 2 秒後に変更
-  (hl-line-when-idle-interval 2))
+  (hl-line-when-idle-interval 1))
 
 ;; カーソルの形
 (set-default 'cursor-type 'hollow)
