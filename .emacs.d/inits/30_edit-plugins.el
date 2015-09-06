@@ -161,3 +161,9 @@
       (let (current-prefix-arg)
         (let (smart-newline-mode)
           (call-interactively (key-binding (kbd "C-m"))))))))
+
+(use-package zzz-to-char
+  :ensure t
+  :bind (("M-z" . zzz-up-to-char))
+  :config
+  (setq zzz-to-char-reach 480))
