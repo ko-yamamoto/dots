@@ -274,6 +274,8 @@
 
    `(vhl/default-face ((t (:background ,yellow))))
 
+   `(ag-match-face ((t (:background ,yellow))))
+
    ))
 
 ;;;###autoload

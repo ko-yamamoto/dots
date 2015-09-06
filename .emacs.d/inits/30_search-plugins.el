@@ -46,6 +46,24 @@
 
   )
 
+(use-package ag
+  :defer t
+  :ensure t
+  :init
+  (bind-key "C-q a" nil) ;; remove elscreen-toggle key
+  :bind (("C-q a g" . ag)
+         ("C-q a G" . ag-regexp)
+         ("C-q a f" . ag-dired)
+         ("C-q a F" . ag-dired-regexp))
+  :config
+  (use-package wgrep-ag
+    :ensure t)
+
+  (setq ag-highlight-search t)  ; 検索結果の中の検索語をハイライトする
+  (autoload 'wgrep-ag-setup "wgrep-ag")
+  (add-hook 'ag-mode-hook 'wgrep-ag-setup)
+  (setq wgrep-enable-key "r")
+  )
 
 (use-package imenu
   :config
