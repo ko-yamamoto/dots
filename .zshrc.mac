@@ -1,29 +1,19 @@
 fpath=(/usr/local/share/zsh-completions $fpath)
 
+# 環境変数
+export PATH=/usr/local/bin:/bin:/Users/nishikawasasaki/bin:$PATH
+alias updatedb='/usr/libexec/locate.updatedb'
+alias top='top -R -F -u'
+
+export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+
 # alias ls='ls -fgh'
 alias ll='ls -lh'
 alias la='ls -alfh'
 
-alias updatedb='/usr/libexec/locate.updatedb'
-
-
 alias emacsclient='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -n'
 alias ec='/usr/local/bin/emacsclient -n'
-
-alias top='top -R -F -u'
-
-alias setsuna='java -jar ~/program/git/setsuna/setsuna.jar'
-
-
-export PATH=/usr/local/bin:$PATH:/usr/local/lib/python2.7/site-packages
-
-export BYOBU_PREFIX=`brew --prefix`
-
-# 環境変数
-export PATH=/Users/nishikawasasaki/.cabal/bin:/usr/local/bin:/bin:/Users/nishikawasasaki/bin:/Users/nishikawasasaki/android/android-sdk-macosx/tools:/Users/nishikawasasaki/android/android-sdk-macosx/platform-tools:$PATH
-
-PLAY_HOME=/usr/local/play/play
-export PATH=${PLAY_HOME}:${PATH}
 
 # Android SDK
 export ANDROID_SDK_HOME=/Users/nishikawasasaki/android/android-sdk-macosx
@@ -43,20 +33,8 @@ export PATH=${CABAL_BIN}:${PATH}
 export GOPATH=$HOME/go
 export PATH=$GOPATH/bin:$PATH
 
-
+# node
+export PATH=$HOME/.nodebrew/current/bin:$PATH
 
 # git のログには emacs を
 export GIT_EDITOR="/usr/local/Cellar/emacs/24.4/bin/emacsclient"
-
-
-# autojump
-## 移動したディレクトリを記録し、 ディレクトリ間を j で補完して移動
-## https://github.com/joelthelion/autojump
-if [ -s ~/.autojump/etc/profile.d/autojump.zsh ]; then
-    source ~/.autojump/etc/profile.d/autojump.zsh
-fi
-
-
-# source-highlight
-export LESS='-R'
-export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
