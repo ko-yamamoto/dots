@@ -224,12 +224,24 @@
 ;; ミニバッファで C-w すると単語ではなく1つ上のパスまでを削除
 (define-key minibuffer-local-completion-map "\C-w" 'backward-kill-word)
 
+;; 単語削除は kill-ring に入れない
+(defun delete-word (arg)
+  "Delete characters forward until encountering the end of a word.
+With argument, do this that many times."
+  (interactive "p")
+  (delete-region (point) (progn (forward-word arg) (point))))
+(defun backward-delete-word (arg)
+  "Delete characters backward until encountering the end of a word.
+With argument, do this that many times."
+  (interactive "p")
+  (delete-word (- arg)))
+
 (defun kill-region-or-backward-word ()
   "If the region is active and non-empty, call `kill-region'.
 Otherwise, call `backward-kill-word'."
   (interactive)
   (call-interactively
-   (if (use-region-p) 'kill-region 'backward-kill-word)))
+   (if (use-region-p) 'kill-region 'backward-delete-word)))
 (global-set-key (kbd "C-w") 'kill-region-or-backward-word)
 
 ;; Autosave every 500 typed characters
