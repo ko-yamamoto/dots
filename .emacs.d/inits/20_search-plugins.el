@@ -57,8 +57,8 @@
   ;; imenu を同一メジャーモードのマルチバッファ化
   :ensure t
   :defer t
-  :bind (("M-i" . ido-imenu-anywhere)))
-  ;; :bind (("M-i" . helm-imenu-anywhere)))
+  ;; :bind (("M-i" . ido-imenu-anywhere)))
+  :bind (("M-i" . helm-imenu-anywhere)))
 
 
 (use-package isearch-dabbrev
