@@ -39,7 +39,9 @@
 (use-package git-gutter+
   :ensure t
   :defer t
-  :bind (("C-c g c" . global-git-gutter+-mode))
+  :bind (("C-c g c" . global-git-gutter+-mode)
+         ("C-c g n" . git-gutter+-next-hunk)
+         ("C-c g p" . git-gutter+-previous-hunk))
   :config
   ;; (global-git-gutter+-mode t)
   ;; 指定したモードで有効に
