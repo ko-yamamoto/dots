@@ -217,27 +217,12 @@
   )
 
 (when is_win
-  ;; バラバラに設定する場合
-  ;; 英字フォント
-  (set-face-attribute 'default nil
-                      :family "M+ 1m regular"
-                      :height 100)
-  ;; 漢字フォント
-  (set-fontset-font
-   nil 'japanese-jisx0208
-   (font-spec :family "M+ 1m"))
-  ;; ひらがなかたかな
-  (set-fontset-font
-   nil '(#x3040 . #x30ff)
-   (font-spec :family "M+ 1m"))
-
-  (setq face-font-rescale-alist
-        '((".*Hermit.*" . 1.0)
-          (".*ricty.*" . 1.2)
-          (".*やさしさ.*" . 1.2)
-          (".*Noto.*" . 1.1)
-          ("-cdac$" . 1.0)))
+  (set-face-attribute 'default nil :family "M+ 1mn" :height 160 :weight 'light)
+  (set-fontset-font (frame-parameter nil 'font)
+                    'japanese-jisx0208
+                    "-outline-源暎ゴシックM SemiLight-light-normal-normal-mono-17-*-*-*-c-*-fontset-auto3")
   )
+
 (when is_mac
   (set-face-attribute 'default nil :family "M+ 1mn" :height 160 :weight 'light)
   (set-fontset-font (frame-parameter nil 'font)
