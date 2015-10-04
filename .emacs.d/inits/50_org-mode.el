@@ -73,6 +73,9 @@
     (org-table-convert-region (region-beginning) (region-end))
     (setq truncate-lines t))
 
+  ;; ソースハイライトを有効化
+  (setq org-src-fontify-natively t)
+
   (use-package ox-gfm :ensure t)
 
   (bind-keys :map org-mode-map
