@@ -22,7 +22,7 @@
     ], 
     "showInTrayMenu": false, 
     "filter": {
-        "regex": "(.*Google.*chrome.*|.*Thunderbird.*)", 
+        "regex": "^(?!.*(Emacs|LilyTerm)).+$", 
         "isRecursive": false
     }, 
     "type": "script", 

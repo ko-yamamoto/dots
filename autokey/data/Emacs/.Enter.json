@@ -1,5 +1,5 @@
 {
-    "usageCount": 8, 
+    "usageCount": 13, 
     "omitTrigger": false, 
     "prompt": false, 
     "description": "Enter", 
@@ -22,7 +22,7 @@
     ], 
     "showInTrayMenu": false, 
     "filter": {
-        "regex": "(.*Google.*chrome.*|.*Thunderbird.*)", 
+        "regex": "^(?!.*(Emacs|LilyTerm)).+$", 
         "isRecursive": false
     }, 
     "type": "script", 

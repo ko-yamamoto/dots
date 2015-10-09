@@ -19,5 +19,5 @@
         "isRecursive": false
     }, 
     "type": "folder", 
-    "showInTrayMenu": false
+    "showInTrayMenu": true
 }

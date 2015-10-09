@@ -1,5 +1,5 @@
 {
-    "usageCount": 37, 
+    "usageCount": 47, 
     "omitTrigger": false, 
     "prompt": false, 
     "description": "Escape", 
@@ -22,7 +22,7 @@
     ], 
     "showInTrayMenu": false, 
     "filter": {
-        "regex": "(.*Google.*chrome.*|Thunderbird|jetbrains-idea-ce)", 
+        "regex": "^(?!.*(Emacs|LilyTerm)).+$", 
         "isRecursive": false
     }, 
     "type": "script", 

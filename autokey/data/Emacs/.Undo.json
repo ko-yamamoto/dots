@@ -1,5 +1,5 @@
 {
-    "usageCount": 31, 
+    "usageCount": 57, 
     "omitTrigger": false, 
     "prompt": false, 
     "description": "Undo", 
@@ -22,7 +22,7 @@
     ], 
     "showInTrayMenu": false, 
     "filter": {
-        "regex": "(.*Google.*chrome.*|.*Thunderbird.*)", 
+        "regex": "^(?!.*(Emacs|LilyTerm)).+$", 
         "isRecursive": false
     }, 
     "type": "script", 
