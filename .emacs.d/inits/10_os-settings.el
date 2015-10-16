@@ -49,6 +49,10 @@
 
 
 (when is_winnt
+
+  (require 'fakecygpty)
+  (fakecygpty-activate)
+
   (setq default-input-method "W32-IME")
   (setq-default w32-ime-mode-line-state-indicator "[--]")
   (setq w32-ime-mode-line-state-indicator-list '("[--]" "[あ]" "[--]"))

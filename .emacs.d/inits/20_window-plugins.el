@@ -6,7 +6,7 @@
          ("<C-S-tab>" . elscreen-previous)
          ("<C-S-iso-lefttab>" . elscreen-previous)
          ("C-:" . helm-with-new-elscreen)
-         ("C-x j" . dired-with-new-elscreen)
+         ;; ("C-x j" . dired-with-new-elscreen)
          ("C-q c" . elscreen-create)
          ("C-q C-c" . elscreen-clone)
          ("C-q x" . elscreen-kill)

@@ -1,10 +1,7 @@
-;; ;;====================
-;; ;; Dired
-;; ;;====================
 (use-package dired
-  :defer t
-  :bind (("C-x C-j" . dired-jump)
-         ("C-x j" . dired-with-new-elscreen))
+  ;; :defer t
+  :bind (("C-x j" . dired-jump)
+         ("C-x C-j" . dired-with-new-elscreen))
   :config
   (require 'dired-x)
   (require 'wdired)

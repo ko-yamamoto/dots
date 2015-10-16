@@ -95,11 +95,6 @@
 ;; 起動画面を表示しない
 (setq inhibit-startup-message t)
 
-;; Emacs serverを起動
-(server-start)
-;;クライアントを終了するとき終了するかどうかを聞かない
-(remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)
-
 ;; リージョン選択した状態でisearchすると選択後を検索
 (defadvice isearch-mode (around isearch-mode-default-string (forward &optional regexp op-fun recursive-edit word-p) activate)
   (if (and transient-mark-mode mark-active (not (eq (mark) (point))))
@@ -147,7 +142,7 @@
 
 ;; window split
 ;; (global-set-key "\C-qsq" 'my/buffer-kill-and-delete-window)
-(global-set-key "\C-qo" 'delete-other-windows)
+(global-set-key "\C-q1" 'delete-other-windows)
 (global-set-key "\C-qv" 'split-window-vertically)
 (global-set-key "\C-qs" 'split-window-horizontally)
 
@@ -309,3 +304,15 @@ Otherwise, call `backward-kill-word'."
                                 file-name-history))
 ;; (setq desktop-files-not-to-save "")
 (desktop-save-mode 1)
+
+
+;; Emacs serverを起動
+(require 'server)
+(when (and (>= emacs-major-version 23)
+           (equal window-system 'w32))
+  (defun server-ensure-safe-dir (dir) "Noop" t)) ; Suppress error "directory
+                                                 ; ~/.emacs.d/server is unsafe"
+                                                 ; on windows.
+(server-start)
+;;クライアントを終了するとき終了するかどうかを聞かない
+(remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)
