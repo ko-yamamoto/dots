@@ -3,6 +3,7 @@
 ;  :defer t
   ;; :bind (("C-q s s" . skk-mode))
   :init
-  (require 'ccc))
+  (require 'ccc)
+  (key-chord-define-global "jk" 'skk-mode))
 
 ;; config -> ~/.skk
