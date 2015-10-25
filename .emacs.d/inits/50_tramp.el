@@ -41,51 +41,29 @@ file is a remote file (include directory)."
 
   (when is_winnt
     ;; NTEmacs @ ウィキ - tramp を tramp-method “scp” で使うための設定 - http://www49.atwiki.jp/ntemacs/pages/17.html
+    (setq explicit-shell-file-name "bash")
     (setq tramp-default-method "scpx")
-    (setq tramp-encoding-shell "f_bash")
-    (eval-after-load 'tramp '(setenv "SHELL" "/usr/bin/bash"))
+    (setq tramp-encoding-shell "f_sh")
 
-    ;; ドライブレターの後の「：」が tramp-method の後の「：」と混同されるのを対策する
-    (defadvice tramp-do-copy-or-rename-file-out-of-band (around ad-tramp-do-copy-or-rename-file-out-of-band activate)
-      (let ((default-directory "/"))
-        (unless (tramp-tramp-file-p (ad-get-arg 1))
-          (ad-set-arg 1 (substring (shell-command-to-string
-                                    (concat "cygpath -u " (shell-quote-argument (ad-get-arg 1))))
-                                   0 -1)))
-        (unless (tramp-tramp-file-p (ad-get-arg 2))
-          (ad-set-arg 2 (substring (shell-command-to-string
-                                    (concat "cygpath -u " (shell-quote-argument (ad-get-arg 2))))
-                                   0 -1))))
-      ad-do-it
-      (sit-for 0.1)) ; delay（NTEmacs64 では必要）
-
-    ;; 通信するデータを圧縮する（オプション）
-    (setcdr (assq 'tramp-login-args (assoc "scp" tramp-methods))
-            (list (cons '("-C") (cadr (assq 'tramp-login-args (assoc "scp" tramp-methods))))))
-    (setcdr (assq 'tramp-copy-args (assoc "scp" tramp-methods))
-            (list (cons '("-C") (cadr (assq 'tramp-copy-args (assoc "scp" tramp-methods))))))
-
-    ;; リモートサーバで shell を開いた時に日本語が文字化けしないよう、LC_ALL の設定を無効にする
+    ;; リモートサーバで shell を開いた時に日本語が文字化けしないよう、LC_ALL と LC_CTYPE の設定を無効にする
     ;; http://www.gnu.org/software/emacs/manual/html_node/tramp/Remote-processes.html#Running%20a%20debugger%20on%20a%20remote%20host
     (let ((process-environment tramp-remote-process-environment))
       (setenv "LC_ALL" nil)
+      (setenv "LC_CTYPE" nil)
       (setq tramp-remote-process-environment process-environment))
 
-    ;; base64 不使用にすると sudo でリモート接続した際に Encoding remote file で失敗してしまうためコメントアウト
-    ;; (defadvice tramp-find-inline-encoding (before win-tramp activate)
-    ;;   "base64 デコード失敗するため他のコーディングしか使わない"
-    ;;   (setq tramp-remote-coding-commands '((uu "uuencode xxx" "uudecode -o /dev/stdout" "test -c /dev/stdout")
-    ;;                                        (uu "uuencode xxx" "uudecode -o -")
-    ;;                                        (uu "uuencode xxx" "uudecode -p")
-    ;;                                        (uu "uuencode xxx" tramp-uudecode)
-    ;;                                        (b64 "base64" "base64 -d -i")
-    ;;                                        (b64 "base64" "base64 -d")
-    ;;                                        (b64 "mimencode -b" "mimencode -u -b")
-    ;;                                        (b64 "mmencode -b" "mmencode -u -b")
-    ;;                                        (b64 "recode data..base64" "recode base64..data")
-    ;;                                        ;; (b64 tramp-perl-encode-with-module tramp-perl-decode-with-module)
-    ;;                                        ;; (b64 tramp-perl-encode tramp-perl-decode)
-    ;;                                        (pack tramp-perl-pack tramp-perl-unpack))))
+    ;; ドライブレターの後の「：」が tramp-method の後の「：」と混同されるのを対策する
+    (advice-add 'tramp-do-copy-or-rename-file-out-of-band
+                :around (lambda (orig-fun &rest args)
+                          (let ((default-directory "/"))
+                            (dolist (pos '(1 2))
+                              (unless (tramp-tramp-file-p (nth pos args))
+                                (setf (nth pos args)
+                                      (substring (shell-command-to-string
+                                                  (concat "cygpath -u "
+                                                          (shell-quote-argument (nth pos args))))
+                                                 0 -1)))))
+                          (apply orig-fun args)))
 
     )
 
