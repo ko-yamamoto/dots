@@ -1,9 +1,60 @@
 (use-package ddskk
   :ensure t
-;  :defer t
   ;; :bind (("C-q s s" . skk-mode))
   :init
   (require 'ccc)
-  (key-chord-define-global "jk" 'skk-mode))
+  (require 'popup)
+
+
+  ;; 文章系のバッファを開いた時には自動的に英数モード(「SKK」モード)に入る
+  (let ((function #'(lambda ()
+                      (require 'skk)
+                      (skk-latin-mode-on))))
+    (dolist (hook '(find-file-hooks
+                    mail-setup-hook
+                    message-setup-hook
+                    after-change-major-mode-hook))
+      (add-hook hook function)))
+
+  (key-chord-define-global "jk" 'skk-mode)
+
+  ;; 動作
+  (setq skk-egg-like-newline t)		          ; Enterで改行しない
+  (setq skk-delete-implies-kakutei nil)       ; ▼モードで BS を押したときには確定しないで前候補を表示する
+  (setq skk-henkan-strict-okuri-precedence t) ; 送り仮名が厳密に正しい候補を優先して表示
+  (setq skk-show-annotation t)		          ; 注釈
+  (setq skk-show-mode-show t)                 ; カーソル付近にモード切り替えを表示する
+  (setq skk-show-mode-style 'tooltip)         ; デフォルトは 'inline
+
+  (setq skk-show-tooltip t)                   ; 変換候補の表示方法
+  (setq skk-tooltip-function                  ; tooltip に popup を使う
+        #'(lambda (tooltip-str)
+            (popup-tip tooltip-str)))
+
+  (setq skk-search-katakana t)                ; カタカナ語を変換候補に加える
+
+  ;; 動的補完
+  (setq skk-dcomp-activate t)			      ; 動的補完
+  (setq skk-dcomp-multiple-activate t)        ; 動的補完の複数候補表示
+  (setq skk-dcomp-multiple-rows 5)	          ; 動的補完の候補表示件数
+  ;; 動的補完の選択に C-n C-p を使う
+  (defadvice skk-j-mode-on (after skk-settings-for-dcomp activate)
+    (define-key skk-j-mode-map "\C-n" 'skk-comp-wrapper)
+    (define-key skk-j-mode-map "\C-p" 'skk-previous-comp-maybe))
+
+  ;; isearch
+  (add-hook 'isearch-mode-hook 'skk-isearch-mode-setup) ; isearch で skk のセットアップ
+  (add-hook 'isearch-mode-end-hook 'skk-isearch-mode-cleanup) ; isearch で skk のクリーンアップ
+  (setq skk-isearch-start-mode 'latin)						; isearch で skk の初期状態
+
+  (when is_mac
+    ;;skk-server AquaSKK
+    (setq skk-server-portnum 1178)
+    (setq skk-server-host "localhost"))
+
+  )
+
+:config
+
 
 ;; config -> ~/.skk

@@ -27,6 +27,7 @@
        (aqua "#66cccc")
        (blue "#6699cc")
        (purple "#cc99cc")
+       (white "#ffffff")
 
        (base00 "#2d2d2d")
        (base01 "#393939")
@@ -146,6 +147,11 @@
    ;; skk
    `(skk-dcomp-face ((t (:foreground ,red))))
    `(skk-show-mode-inline-face ((t (:background ,*background*))))
+   `(skk-henkan-face-default ((t (:background ,blue :foreground ,white))))
+   `(skk-dcomp-multiple-face ((t (:background ,base06 :foreground ,red))))
+   `(skk-dcomp-multiple-trailing-face ((t (:background ,base06 :foreground ,blue))))
+   `(skk-dcomp-multiple-selected-face ((t (:background ,yellow))))
+
 
    ;; org
    `(org-hide ((t (:foreground ,*background*))))
