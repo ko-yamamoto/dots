@@ -21,6 +21,7 @@ import XMonad.Layout.Grid
 import XMonad.Layout.StackTile
 
 import XMonad.Util.EZConfig
+import XMonad.Util.NamedScratchpad
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
@@ -87,7 +88,7 @@ myKeys = \conf -> mkKeymap conf $
 
     -- launch dmenu
     -- , ("M-p", spawn "dmenu_run -fn \"Gen Shin Gothic Monospace-13\"")
-    , ("M-p", spawn "dmenu_run -fn \"M+ 1mn-13\"")
+    , ("M-p", spawn "dmenu_run -fn \"M+ 1mn-11\"")
 
     -- launch gmrun
     , ("M-S-p", spawn "gmrun")
@@ -258,7 +259,9 @@ myManageHook = composeAll
     , className =? "Gimp"           --> doFloat
     , className =? "Eog"           --> doCenterFloat
     , className =? "Qt4-ssh-askpass"           --> doCenterFloat
-    , role =? "Msgcompose"           --> doF W.swapDown -- Thunderbird new message window
+    , className =? "Nautilus"           --> doFloat
+    , className =? "Thunderbird" <&&> resource =? "Msgcompose" --> doRightFloat
+    -- , role =? "Msgcompose"           --> doF W.swapDown -- Thunderbird new message window
     , role =? "mikutter_image_preview"           --> doFloat
     , role =? "bubble"           --> doFloat
     , role =? "pop-up"           --> doFloat
@@ -270,7 +273,8 @@ myManageHook = composeAll
     , title =? "Firebug"           --> doFloat
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore ]
-	where role = stringProperty "WM_WINDOW_ROLE"
+    where role = stringProperty "WM_WINDOW_ROLE"
+          doRightFloat = customFloating $ W.RationalRect (4.5/6) (0.1/6) (1/4) (4.9/5)  -- 左上から x y 幅 高
 
 ------------------------------------------------------------------------
 -- Event handling
