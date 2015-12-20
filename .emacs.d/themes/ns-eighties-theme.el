@@ -23,6 +23,7 @@
        (red "#f2777a")
        (orange "#f99157")
        (yellow "#ffcc66")
+       (yellowL "#ffdd99")
        (green "#99cc99")
        (aqua "#66cccc")
        (blue "#6699cc")
@@ -43,11 +44,11 @@
        (*comments*           base03)
        (*constant*           aqua)
        (*current-line*       base06)
-       (*cursor-underscore*  blue)
+       (*cursor-underscore*  red)
        (*keywords*           yellow)
        (*line-number*        base06)
        (*method-declaration* red)
-       (*mode-line-bg*       blue)
+       (*mode-line-bg*       base03)
        (*mode-inactive-bg*   base05)
        (*mode-line-fg*       *background*)
        (*normal*             base00)
@@ -145,14 +146,13 @@
    `(anzu-mode-line ((t (:foreground ,blue :bold t))))
 
    ;; skk
-   `(skk-dcomp-face ((t (:foreground ,red))))
-   `(skk-show-mode-inline-face ((t (:background ,*background*))))
-   `(skk-henkan-face-default ((t (:background ,blue :foreground ,white))))
-   `(skk-dcomp-multiple-face ((t (:background ,base06 :foreground ,red))))
-   `(skk-dcomp-multiple-trailing-face ((t (:background ,base06 :foreground ,blue))))
-   `(skk-dcomp-multiple-selected-face ((t (:background ,yellow))))
-   `(skk-emacs-hiragana-face ((t (:background ,red))))
-
+   ;; `(skk-dcomp-face ((t (:foreground ,red))))
+   ;; `(skk-show-mode-inline-face ((t (:background ,*background*))))
+   ;; `(skk-henkan-face-default ((t (:background ,blue :foreground ,white))))
+   ;; `(skk-dcomp-multiple-face ((t (:background ,base06 :foreground ,red))))
+   ;; `(skk-dcomp-multiple-trailing-face ((t (:background ,base06 :foreground ,blue))))
+   ;; `(skk-dcomp-multiple-selected-face ((t (:background ,yellow))))
+   ;; `(skk-emacs-hiragana-face ((t (:background ,red))))
 
    ;; org
    `(org-hide ((t (:foreground ,*background*))))
@@ -166,6 +166,14 @@
    `(org-level-5 ((t (:foreground ,purple :bold t))))
    `(org-link ((t (:foreground ,blue :bold t))))
 
+   ;; markdown
+   `(markdown-header-face-1 ((t (:foreground ,*normal* :bold t))))
+   `(markdown-header-face-2 ((t (:foreground ,red :bold t))))
+   `(markdown-header-face-3 ((t (:foreground ,blue :bold t))))
+   `(markdown-header-face-4 ((t (:foreground ,green :bold t))))
+   `(markdown-header-face-5 ((t (:foreground ,purple :bold t))))
+
+   
    ;; show-paren
    `(show-paren-match-face ((t (:background ,orange :bold t))))
    `(show-paren-mismatch-face ((t (:background ,red :bold t))))
@@ -279,9 +287,13 @@
 
    `(compilation-info ((t (:foreground ,green))))
 
-   `(vhl/default-face ((t (:background ,yellow))))
+   `(vhl/default-face ((t (:background ,yellowL))))
 
    `(ag-match-face ((t (:background ,yellow))))
+   
+   
+   `(highlight-symbol-face ((t (:background ,yellowL))))
+   
    ))
 
 ;;;###autoload

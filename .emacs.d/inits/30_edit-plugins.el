@@ -153,6 +153,8 @@
   :config
   (add-hook 'emacs-lisp-mode-hook 'smart-newline-mode)
   (add-hook 'org-mode-hook 'smart-newline-mode)
+  (add-hook 'gfm-mode-hook 'smart-newline-mode)
+  (add-hook 'markdown-mode-hook 'smart-newline-mode)
 
   (defadvice smart-newline (around C-u activate)
     "C-u を押したら元の C-m の挙動をするように"
@@ -167,3 +169,9 @@
   :bind (("M-z" . zzz-up-to-char))
   :config
   (setq zzz-to-char-reach 480))
+
+
+(use-package smart-mark
+  :ensure t
+  :config
+  (smart-mark-mode))

@@ -1,7 +1,49 @@
+;;====================
+;; フォント
+;;====================
+
+;; 01234567890123456789
+;;  あいうえおかきくけこ
+;;   abcdefghijklmnopqrstuvwxyz
+;; 下の縦棒が揃うこと
+;; | 数字 | アルファベット | 日本語     |
+;; | 0123 | abcdefghijklmn | こんにちは |
+
+;; (when is_linux
+;;   (set-face-attribute 'default nil :family "Gen Shin Gothic Monospace" :height 120 :weight 'regular)
+;;   (set-fontset-font (frame-parameter nil 'font)
+;;                     'japanese-jisx0208
+;;                     (font-spec :family "Gen Shin Gothic Monospace"))
+;;   (add-to-list 'face-font-rescale-alist
+;;                '(".*Gen.*" . 1.1))
+;;   )
+
+;; (when is_win
+  ;; (set-face-attribute 'default nil :family "M+ 1mn" :height 110 :weight 'regular)
+  ;; (set-fontset-font (frame-parameter nil 'font)
+                    ;; 'japanese-jisx0208
+                    ;; "-outline-源暎ゴシックM SemiLight-light-normal-normal-mono-12-*-*-*-c-*-fontset-auto3")
+;;   )
+
+;; (when is_mac
+;;   (set-face-attribute 'default nil :family "M+ 1mn" :height 110 :weight 'light)
+;;   (set-fontset-font (frame-parameter nil 'font)
+;;                     'japanese-jisx0208
+;;                     (font-spec :family "M+ 1mn"))
+;;   (add-to-list 'face-font-rescale-alist
+;;                '(".*M+ 1mn.*" . 1.0)))
+
+
 (use-package volatile-highlights
   :ensure t
   :config
   (volatile-highlights-mode t))
+
+(use-package polymode
+  :ensure t
+  :config
+  (require 'poly-markdown)
+  (add-to-list 'auto-mode-alist '("\\.md" . poly-markdown-mode)))
 
 ;; color-themeの設定
 ;; (require 'color-theme)
@@ -122,11 +164,11 @@
   :config
   ;; 一定時間後に現在行ハイライト
   (toggle-hl-line-when-idle)
-  ;; 2 秒後に変更
-  (hl-line-when-idle-interval 1))
+  ;; n 秒後に変更
+  (hl-line-when-idle-interval 10))
 
 ;; カーソルの形
-(set-default 'cursor-type 'hollow)
+(set-default 'cursor-type 'box)
 
 ;; カーソル位置のフェースを調べる関数
 (defun describe-face-at-point ()
@@ -168,10 +210,10 @@
 (set-scroll-bar-mode nil)
 
 ;; タブ, 全角スペース, 行末空白表示
-(defface my-face-b-1 '((t (:background "#ffe174" :underline t))) nil) ; 全角スペース
-(defface my-face-b-2 '((t (:background "#ffe174" :underline t))) nil) ; タブ
-(defface my-face-u-1 '((t (:background "#ffe174" :underline t))) nil) ; 行末空白
-(defface my-face-u-1 '((t (:background "#ffe174" :underline t))) nil) ; 行末空白
+(defface my-face-b-1 '((t (:underline (:style wave :color "#f2777a")))) nil) ; 全角スペース
+(defface my-face-b-2 '((t (:underline (:style wave :color "#f2777a")))) nil) ; タブ
+(defface my-face-u-1 '((t (:underline (:style wave :color "#f2777a")))) nil) ; 行末空白
+(defface my-face-u-1 '((t (:underline (:style wave :color "#f2777a")))) nil) ; 行末空白
 (defvar my-face-b-1 'my-face-b-1)
 (defvar my-face-b-2 'my-face-b-2)
 (defvar my-face-u-1 'my-face-u-1)
@@ -188,45 +230,10 @@
 (ad-activate 'font-lock-mode)
 
 ;; ウィンドウを透明化
-(add-to-list 'default-frame-alist '(alpha . (1.0 1.0)))
+(add-to-list 'default-frame-alist '(alpha . (0.95 0.95)))
 
 ;; キーワードのカラー表示を有効化
 (global-font-lock-mode t)
 
 ;; 選択範囲をハイライト
 (setq-default transient-mark-mode t)
-
-;;====================
-;; フォント
-;;====================
-
-;; 01234567890123456789
-;;  あいうえおかきくけこ
-;;   abcdefghijklmnopqrstuvwxyz
-;; 下の縦棒が揃うこと
-;; | 数字 | アルファベット | 日本語     |
-;; | 0123 | abcdefghijklmn | こんにちは |
-
-(when is_linux
-  (set-face-attribute 'default nil :family "Gen Shin Gothic Monospace" :height 120 :weight 'regular)
-  (set-fontset-font (frame-parameter nil 'font)
-                    'japanese-jisx0208
-                    (font-spec :family "Gen Shin Gothic Monospace"))
-  (add-to-list 'face-font-rescale-alist
-               '(".*Gen.*" . 1.1))
-  )
-
-(when is_win
-  (set-face-attribute 'default nil :family "M+ 1mn" :height 160 :weight 'light)
-  (set-fontset-font (frame-parameter nil 'font)
-                    'japanese-jisx0208
-                    "-outline-源暎ゴシックM SemiLight-light-normal-normal-mono-17-*-*-*-c-*-fontset-auto3")
-  )
-
-(when is_mac
-  (set-face-attribute 'default nil :family "M+ 1mn" :height 160 :weight 'light)
-  (set-fontset-font (frame-parameter nil 'font)
-                    'japanese-jisx0208
-                    (font-spec :family "M+ 1mn"))
-  (add-to-list 'face-font-rescale-alist
-               '(".*M+ 1mn.*" . 1.0)))

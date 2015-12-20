@@ -93,8 +93,10 @@
   ;; 自動ハイライトされるようになるまでの時間
   (setq highlight-symbol-idle-delay 0.3)
   ;; 自動ハイライトをしたいならば
-  (add-hook 'prog-mode-hook 'highlight-symbol-mode)
+  (add-hook 'markdown-mode-hook 'highlight-symbol-mode)
+  (add-hook 'find-file-hook 'highlight-symbol-mode)
   ;; ソースコードにおいてM-p/M-nでシンボル間を移動
-  (add-hook 'prog-mode-hook 'highlight-symbol-nav-mode)
+  (add-hook 'markdown-mode-hook 'highlight-symbol-nav-mode)
+  (add-hook 'find-file-hook 'highlight-symbol-nav-mode)
   ;; シンボル置換
   (global-set-key (kbd "M-s M-r") 'highlight-symbol-query-replace))
