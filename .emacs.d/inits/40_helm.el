@@ -3,7 +3,7 @@
   ;; :disabled t
   :defer t
   :ensure t
-  :bind (("C-;" . helm-my)
+  :bind (("C-;" . helm-multi-files)
          ("M-y" . helm-show-kill-ring)
          ("M-i" . helm-imenu-anywhere)
          ("M-x" . helm-M-x)
@@ -34,78 +34,6 @@
   (setq helm-buffer-max-length 80) ; バッファ名の最大長
   (setq enable-recursive-minibuffers t)
 
-  ;; (require 'helm-files)
-
-
-  ;; 絞り込みでバッファがバッファ名の文字数順で並ぶのを回避
-  (defadvice helm-buffers-sort-transformer (around ignore activate)
-    (setq ad-return-value (ad-get-arg 0)))
-
-  ;; action を buffer kill に入れ替えたものソース
-  (defun helm-c-buffers-list-R-persistent-action (candidate)
-    (if current-prefix-arg
-        (helm-c-switch-to-buffer candidate)
-      (helm-c-buffers-persistent-kill candidate)))
-
-  ;; (defvar helm-source-buffers-list-R
-  ;;   `((name . "Buffers")
-  ;;     (init . (lambda ()
-  ;;               ;; Issue #51 Create the list before `helm-buffer' creation.
-  ;;               (setq helm-buffers-list-cache (helm-buffer-list))
-  ;;               (let ((result (cl-loop for b in helm-buffers-list-cache
-  ;;                                      maximize (length b) into len-buf
-  ;;                                      maximize (length (with-current-buffer b
-  ;;                                                         (symbol-name major-mode)))
-  ;;                                      into len-mode
-  ;;                                      finally return (cons len-buf len-mode))))
-  ;;                 (unless helm-buffer-max-length
-  ;;                   (setq helm-buffer-max-length (car result)))
-  ;;                 (unless helm-buffer-max-len-mode
-  ;;                   ;; If a new buffer is longer that this value
-  ;;                   ;; this value will be updated
-  ;;                   (setq helm-buffer-max-len-mode (cdr result))))))
-  ;;     (candidates . helm-buffers-list-cache)
-  ;;     (no-matchplugin)
-  ;;     (type . buffer)
-  ;;     (match helm-buffer-match-major-mode)
-  ;;     (persistent-action . helm-c-buffers-list-R-persistent-action)
-  ;;     (keymap . ,helm-buffer-map)
-  ;;     (volatile)
-  ;;     (mode-line . helm-buffer-mode-line-string)
-  ;;     (persistent-help
-  ;;      . "Kill this buffer / C-u \\[helm-execute-persistent-action]: Show this buffer")))
-
-  (defclass helm-source-buffers-R (helm-source-sync helm-type-buffer)
-    ((init :initform (lambda ()
-                       ;; Issue #51 Create the list before `helm-buffer' creation.
-                       (setq helm-buffers-list-cache (helm-buffer-list))
-                       (let ((result (cl-loop for b in helm-buffers-list-cache
-                                              maximize (length b) into len-buf
-                                              maximize (length (with-current-buffer b
-                                                                 (symbol-name major-mode)))
-                                              into len-mode
-                                              finally return (cons len-buf len-mode))))
-                         (unless helm-buffer-max-length
-                           (setq helm-buffer-max-length (car result)))
-                         (unless helm-buffer-max-len-mode
-                           ;; If a new buffer is longer that this value
-                           ;; this value will be updated
-                           (setq helm-buffer-max-len-mode (cdr result))))))
-     (candidates :initform helm-buffers-list-cache)
-     (matchplugin :initform nil)
-     (match :initform 'helm-buffers-list--match-fn)
-     (persistent-action :initform 'helm-c-buffers-list-R-persistent-action)
-     (keymap :initform helm-buffer-map)
-     (volatile :initform t)
-     (mode-line :initform helm-buffer-mode-line-string)
-     (persistent-help
-      :initform
-      "Kill this buffer / C-u \\[helm-execute-persistent-action]: Show this buffer")))
-
-
-  (defvar helm-source-buffers-list-R (helm-make-source "Buffers" 'helm-source-buffers-R))
-
-
   ;; ディレクトリだけのソース
   (defvar helm-c-recentf-directory-source
     '((name . "Recentf Directry")
@@ -122,19 +50,6 @@
                             when (not (file-directory-p file))
                             collect file)))
       (type . file)))
-
-  ;; (defun helm-my ()
-  ;;   (interactive)
-  ;;   (helm-other-buffer '(
-  ;;                        ;; helm-c-source-elscreen
-  ;;                        helm-source-buffers-list-R
-  ;;                        ;; helm-source-buffers-list
-  ;;                        ;; helm-c-source-buffers-list
-  ;;                        ;; helm-c-recentf-file-source
-  ;;                        helm-source-recentf
-  ;;                        helm-c-recentf-directory-source
-  ;;                        helm-c-source-buffer-not-found)
-  ;;                      "*helm my*"))
 
   (defcustom helm-my-default-sources '(helm-source-buffers-list
                                        helm-c-recentf-file-source
