@@ -72,7 +72,7 @@
           ("*Backtrace*" :align right :select t :ratio 0.4)
           ("*Completions*" :align below :ratio 0.3)
           ("*Compile-Log*" :align below :ratio 0.3)
-          ("\*helm" :regexp t :ratio 0.375 :align right)
+          ("\*helm" :regexp t :ratio 0.375 :align below)
           ("\*magit" :regexp t :align right :ratio 0.4)
           ("*Moccur*" :align right :ratio 0.4 :same t)
           ("*ag" :regexp t :align right :ratio 0.4 :same t)
