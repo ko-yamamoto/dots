@@ -65,6 +65,10 @@
   (setq wgrep-enable-key "r")
   )
 
+(use-package helm-ag
+  :ensure t
+  :bind (("C-q a h" . helm-ag)))
+
 (use-package imenu
   :config
   (setq imenu-auto-rescan t)
