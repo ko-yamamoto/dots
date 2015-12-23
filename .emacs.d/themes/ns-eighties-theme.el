@@ -36,7 +36,6 @@
        (base03 "#747369")
        (base04 "#e8e6df")
        (base05 "#d3d0c8")
-
        (base06 "#e8e6df")
        (base07 "#f8f4e7")
 
@@ -59,8 +58,6 @@
        (*string*             base03)
        (*variable*           blue)
        (*visual-selection*   base05)
-
-
 
        )
 
@@ -173,7 +170,7 @@
    `(markdown-header-face-4 ((t (:foreground ,green :bold t))))
    `(markdown-header-face-5 ((t (:foreground ,purple :bold t))))
 
-   
+
    ;; show-paren
    `(show-paren-match-face ((t (:background ,orange :bold t))))
    `(show-paren-mismatch-face ((t (:background ,red :bold t))))
@@ -290,10 +287,15 @@
    `(vhl/default-face ((t (:background ,yellowL))))
 
    `(ag-match-face ((t (:background ,yellow))))
-   
-   
+
    `(highlight-symbol-face ((t (:background ,yellowL))))
-   
+
+   ;; powerline
+   `(powerline-active1 ((t (:background ,base00))))
+   `(powerline-active2 ((t (:background ,base01))))
+   `(powerline-inactive1 ((t (:background ,base02))))
+   `(powerline-inactive2 ((t (:background ,base03))))
+
    ))
 
 ;;;###autoload
