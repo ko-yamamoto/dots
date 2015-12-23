@@ -14,7 +14,7 @@
 ;; nishisasa-theme
 
 
-(unless (>= 24 emacs-major-version)
+(unless (<= 24 emacs-major-version)
   (error "requires Emacs 24 or later."))
 
 (deftheme ns-eighties)
