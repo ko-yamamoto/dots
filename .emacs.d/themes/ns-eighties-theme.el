@@ -143,13 +143,13 @@
    `(anzu-mode-line ((t (:foreground ,blue :bold t))))
 
    ;; skk
-   ;; `(skk-dcomp-face ((t (:foreground ,red))))
-   ;; `(skk-show-mode-inline-face ((t (:background ,*background*))))
-   ;; `(skk-henkan-face-default ((t (:background ,blue :foreground ,white))))
-   ;; `(skk-dcomp-multiple-face ((t (:background ,base06 :foreground ,red))))
-   ;; `(skk-dcomp-multiple-trailing-face ((t (:background ,base06 :foreground ,blue))))
-   ;; `(skk-dcomp-multiple-selected-face ((t (:background ,yellow))))
-   ;; `(skk-emacs-hiragana-face ((t (:background ,red))))
+   `(skk-dcomp-face ((t (:foreground ,red))))
+   `(skk-show-mode-inline-face ((t (:background ,*background*))))
+   `(skk-henkan-face-default ((t (:background ,yellow :foreground ,*normal*))))
+   `(skk-dcomp-multiple-face ((t (:background ,base06 :foreground ,red))))
+   `(skk-dcomp-multiple-trailing-face ((t (:background ,base06 :foreground ,blue))))
+   `(skk-dcomp-multiple-selected-face ((t (:background ,yellow))))
+   `(skk-emacs-hiragana-face ((t (:background ,red))))
 
    ;; org
    `(org-hide ((t (:foreground ,*background*))))
