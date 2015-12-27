@@ -43,7 +43,7 @@
        (*comments*           base03)
        (*constant*           aqua)
        (*current-line*       base06)
-       (*cursor-underscore*  red)
+       (*cursor-underscore*  yellow)
        (*keywords*           yellow)
        (*line-number*        base06)
        (*method-declaration* red)
@@ -54,7 +54,7 @@
        (*number*             blue)
        (*operators*          green)
        (*warning*            red)
-       (*regexp*             green)
+       (*regexp*             yellow)
        (*string*             base03)
        (*variable*           blue)
        (*visual-selection*   base05)
@@ -111,9 +111,9 @@
    `(show-paren-match ((t (:background, *keywords* :foreground, *normal* :weight bold))))
 
    ;; search
-   `(isearch ((t (:background ,green :bold t))))
+   `(isearch ((t (:background ,yellow :bold t))))
    `(isearch-fail ((t (:background, *warning*))))
-   `(lazy-highlight ((t (:background ,green))))
+   `(lazy-highlight ((t (:background ,yellow))))
 
    ;; rainbow-delimiters
    `(rainbow-delimiters-depth-1-face ((t (:foreground ,orange :bold t))))

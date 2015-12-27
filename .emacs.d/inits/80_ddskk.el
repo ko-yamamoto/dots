@@ -14,16 +14,6 @@
 
   (setq skk-cursor-latin-color "#6699cc")
 
-  ;; ;; 文章系のバッファを開いた時には自動的に英数モード(「SKK」モード)に入る
-  ;; (let ((function #'(lambda ()
-  ;;                     (require 'skk)
-  ;;                     (skk-latin-mode-on))))
-  ;;   (dolist (hook '(find-file-hooks
-  ;;                   mail-setup-hook
-  ;;                   message-setup-hook
-  ;;                   after-change-major-mode-hook))
-  ;;     (add-hook hook function)))
-
   (key-chord-define-global "jk" 'skk-mode) ;; SKK 手動開始
 
   ;; 動作
@@ -55,10 +45,10 @@
   (add-hook 'isearch-mode-end-hook 'skk-isearch-mode-cleanup) ; isearch で skk のクリーンアップ
   (setq skk-isearch-start-mode 'latin)						; isearch で skk の初期状態
 
-  (when (or is_mac is_winnt)
-    ;;skk-server AquaSKK
-    (setq skk-server-portnum 1178)
-    (setq skk-server-host "localhost"))
+  ;; (when (or is_mac is_winnt)
+  ;;   ;;skk-server AquaSKK
+  ;;   (setq skk-server-portnum 1178)
+  ;;   (setq skk-server-host "localhost"))
 
   )
 
