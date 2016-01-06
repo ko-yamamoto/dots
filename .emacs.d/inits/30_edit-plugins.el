@@ -178,4 +178,5 @@
 
 (use-package drag-stuff
   :ensure t
-  :config (drag-stuff-mode t))
+  :bind (("M-<up>" . drag-stuff-up)
+         ("M-<down>" . drag-stuff-down)))

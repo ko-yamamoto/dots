@@ -33,4 +33,6 @@
 
   (bind-keys :map markdown-mode-map
              ("M-n" . linum-mode) ;; デフォルトキーバインドを上書き
-             ("C-c C-c" . markdown-render-browser)))
+             ("C-c C-c" . markdown)
+             ("M-<up>" . drag-stuff-up)
+             ("M-<down>" . drag-stuff-down)))
