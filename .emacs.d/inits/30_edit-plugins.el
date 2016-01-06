@@ -175,3 +175,7 @@
   :ensure t
   :config
   (smart-mark-mode))
+
+(use-package drag-stuff
+  :ensure t
+  :config (drag-stuff-mode t))

@@ -78,8 +78,8 @@
         (exchange-point-and-mark))
     (error "Mark is not active. Region not duplicated.")))
 
-(global-set-key [M-up]    'duplicate-line-backward)
-(global-set-key [M-down]  'duplicate-line-forward)
+(global-set-key [S-M-up]    'duplicate-line-backward)
+(global-set-key [S-M-down]  'duplicate-line-forward)
 ;; (global-set-key [M-right] 'duplicate-region-forward)
 ;; (global-set-key [M-left]  'duplicate-region-backward)
 
