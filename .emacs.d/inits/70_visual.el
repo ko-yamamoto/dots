@@ -9,14 +9,13 @@
 ;; | 数字 | アルファベット | 日本語     |
 ;; | 0123 | abcdefghijklmn | こんにちは |
 
-;; (when is_linux
-;;   (set-face-attribute 'default nil :family "Gen Shin Gothic Monospace" :height 120 :weight 'regular)
-;;   (set-fontset-font (frame-parameter nil 'font)
-;;                     'japanese-jisx0208
-;;                     (font-spec :family "Gen Shin Gothic Monospace"))
-;;   (add-to-list 'face-font-rescale-alist
-;;                '(".*Gen.*" . 1.1))
-;;   )
+(when is_linux
+  (set-face-attribute 'default nil :family "M+ 1mn regular" :height 137 :weight 'regular)
+  (set-fontset-font (frame-parameter nil 'font)
+                    'japanese-jisx0208
+                    (font-spec :family "M+ 1mn"))
+  (add-to-list 'face-font-rescale-alist
+             '(".*Gen.*" . 1.1)))
 
 ;; (when is_win
   ;; (set-face-attribute 'default nil :family "M+ 1mn" :height 110 :weight 'regular)
@@ -208,6 +207,7 @@
 
 ;; スクロールバーを消す
 (set-scroll-bar-mode nil)
+(horizontal-scroll-bar-mode -1)
 
 ;; タブ, 全角スペース, 行末空白表示
 (defface my-face-b-1 '((t (:underline (:style wave :color "#f2777a")))) nil) ; 全角スペース

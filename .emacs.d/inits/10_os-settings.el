@@ -109,6 +109,6 @@
   (setq w32-ime-mode-line-state-indicator-list '("[--]" "[あ]" "[--]"))
   (w32-ime-initialize)
   ;; 日本語入力時にカーソルの色を変える設定
-  (add-hook 'w32-ime-on-hook '(lambda () (set-cursor-color "#d33682")))
-  (add-hook 'w32-ime-off-hook '(lambda () (set-cursor-color "#4271ae")))
+  ;; (add-hook 'w32-ime-on-hook '(lambda () (set-cursor-color "#d33682")))
+  ;; (add-hook 'w32-ime-off-hook '(lambda () (set-cursor-color "#4271ae")))
   )

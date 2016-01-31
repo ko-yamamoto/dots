@@ -13,23 +13,23 @@
   ;; 行末スペースは HTML に変換した際の改行に必要なので消さないように
   (remove-hook 'before-save-hook 'delete-trailing-whitespace)
 
-  (defun markdown-render-eww (n)
-    (interactive "p")
-    (message (buffer-file-name))
-    (call-process "/usr/local/bin/grip" nil nil nil
-                  "--gfm" "--export"
-                  (buffer-file-name)
-                  "/tmp/grip.html")
-    (eww-open-file "/tmp/grip.html"))
+  ;; (defun markdown-render-eww (n)
+  ;;   (interactive "p")
+  ;;   (message (buffer-file-name))
+  ;;   (call-process "/usr/local/bin/grip" nil nil nil
+  ;;                 "--gfm" "--export"
+  ;;                 (buffer-file-name)
+  ;;                 "/tmp/grip.html")
+  ;;   (eww-open-file "/tmp/grip.html"))
 
-  (defun markdown-render-browser (n)
-    (interactive "p")
-    (message (buffer-file-name))
-    (call-process "/usr/local/bin/grip" nil nil nil
-                  "--gfm" "--export"
-                  (buffer-file-name)
-                  "/tmp/grip.html")
-    (browse-url-of-file "/tmp/grip.html"))
+  ;; (defun markdown-render-browser (n)
+  ;;   (interactive "p")
+  ;;   (message (buffer-file-name))
+  ;;   (call-process md-command nil nil nil
+  ;;                 "--gfm" "--export"
+  ;;                 (buffer-file-name)
+  ;;                 "/tmp/grip.html")
+  ;;   (browse-url-of-file "/tmp/grip.html"))
 
   (bind-keys :map markdown-mode-map
              ("M-n" . linum-mode) ;; デフォルトキーバインドを上書き

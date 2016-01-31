@@ -149,12 +149,9 @@
 
 (use-package smart-newline
   :ensure t
-  :bind (("C-m" . smart-newline))
   :config
-  (add-hook 'emacs-lisp-mode-hook 'smart-newline-mode)
-  (add-hook 'org-mode-hook 'smart-newline-mode)
-  (add-hook 'gfm-mode-hook 'smart-newline-mode)
-  (add-hook 'markdown-mode-hook 'smart-newline-mode)
+  (smart-newline-mode 1)
+  (add-hook 'gfm-mode-hook ((smart-newline-mode nil)))
 
   (defadvice smart-newline (around C-u activate)
     "C-u を押したら元の C-m の挙動をするように"

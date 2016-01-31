@@ -63,3 +63,7 @@ elisp/*.elc
 .emacs.d/ido.last
 .emacs.d/smex-items
 /.emacs.d/games/
+/.config/lilyterm/default.conf.20150225
+/.emacs.d/.cache/layouts/persp-auto-save
+/.emacs.d/company-statistics-cache.el
+/.emacs.d/network-security.data
