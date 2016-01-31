@@ -14,7 +14,7 @@
 ;; nishisasa-theme
 
 
-(unless (>= 24 emacs-major-version)
+(unless (<= 24 emacs-major-version)
   (error "requires Emacs 24 or later."))
 
 (deftheme ns-eighties-dark)
@@ -23,10 +23,12 @@
        (red "#f2777a")
        (orange "#f99157")
        (yellow "#ffcc66")
+       (yellowL "#ffdd99")
        (green "#99cc99")
        (aqua "#66cccc")
        (blue "#6699cc")
        (purple "#cc99cc")
+       (white "#ffffff")
 
        (base00 "#2d2d2d")
        (base01 "#393939")
@@ -145,24 +147,41 @@
    ;; skk
    `(skk-dcomp-face ((t (:foreground ,red))))
    `(skk-show-mode-inline-face ((t (:background ,*background*))))
+   `(skk-henkan-face-default ((t (:background ,yellow :foreground ,*normal*))))
+   `(skk-dcomp-multiple-face ((t (:background ,base06 :foreground ,red))))
+   `(skk-dcomp-multiple-trailing-face ((t (:background ,base06 :foreground ,blue))))
+   `(skk-dcomp-multiple-selected-face ((t (:background ,yellow))))
+   `(skk-emacs-hiragana-face ((t (:background ,red))))
 
    ;; org
    `(org-hide ((t (:foreground ,*background*))))
    `(org-todo ((t (:foreground ,red :bold t))))
    `(org-done ((t (:foreground ,green :bold t))))
    `(org-date ((t (:foreground ,*comments* :bold t))))
-   `(org-level-1 ((t (:foreground ,*normal* :bold t))))
+   `(org-level-1 ((t (:foreground ,*normal* :bold t :underline t))))
    `(org-level-2 ((t (:foreground ,red :bold t))))
    `(org-level-3 ((t (:foreground ,blue :bold t))))
    `(org-level-4 ((t (:foreground ,green :bold t))))
    `(org-level-5 ((t (:foreground ,purple :bold t))))
    `(org-link ((t (:foreground ,blue :bold t))))
 
+   ;; markdown
+   `(markdown-header-face-1 ((t (:foreground ,*normal* :bold t))))
+   `(markdown-header-face-2 ((t (:foreground ,red :bold t))))
+   `(markdown-header-face-3 ((t (:foreground ,blue :bold t))))
+   `(markdown-header-face-4 ((t (:foreground ,green :bold t))))
+   `(markdown-header-face-5 ((t (:foreground ,purple :bold t))))
+
+
+   ;; show-paren
+   `(show-paren-match-face ((t (:background ,orange :bold t))))
+   `(show-paren-mismatch-face ((t (:background ,red :bold t))))
+
    ;; helm
    `(helm-header ((t (:background ,*mode-line-bg* :foreground ,*mode-line-fg*))))
    `(header-line ((t (:background ,*mode-line-bg* :foreground ,*mode-line-fg*))))
    `(helm-source-header ((t (:background ,*mode-line-bg* :foreground ,*mode-line-fg*))))
-   `(helm-selection ((t (:background ,*current-line* :bold t))))
+   `(helm-selection ((t (:background ,*current-line*))))
    `(helm-visible-mark ((t (:background ,red :foreground ,*normal*))))
    `(helm-ff-directory ((t (:background ,nil :foreground ,blue))))
    `(helm-buffer-directory ((t (:background ,nil :foreground ,blue))))
@@ -214,6 +233,12 @@
    `(diff-removed ((t (:foreground ,red :background ,*background*))))
    `(diff-changed ((t (:foreground ,yellow :inverse-video t))))
 
+      ;; ediff
+   `(ediff-odd-diff-A ((t (:background ,base01))))
+   `(ediff-odd-diff-B ((t (:background ,base01))))
+   `(ediff-even-diff-A ((t (:background ,base01))))
+   `(ediff-even-diff-B ((t (:background ,base01))))
+
    ;; magit
    `(magit-diff-add ((t (:foreground ,green :background ,*background*))))
    `(magit-diff-del ((t (:foreground ,red :background ,*background*))))
@@ -226,9 +251,18 @@
    ;; ac
    `(ac-selection-face ((t (:background ,base01 :foreground ,base05 :bold t))))
    `(ac-completion-face ((t (:foreground ,red :background ,*current-line*))))
-   `(popup-scroll-bar-foreground-face ((t (:background ,base02))))
-   `(popup-scroll-bar-background-face ((t (:background ,base01))))
-   `(popup-tip-face ((t (:background ,base02))))
+   `(popup-scroll-bar-foreground-face ((t (:background ,base05))))
+   `(popup-scroll-bar-background-face ((t (:background ,base06))))
+   `(popup-tip-face ((t (:background ,base05))))
+
+   ;; company
+   `(company-tooltip-common ((t (:foreground ,yellow :background ,base01))))
+   `(company-tooltip ((t (:background ,base01))))
+   `(company-tooltip-selection ((t (:background ,base02))))
+   `(company-tooltip-common-selection ((t (:foreground ,yellow :background nil :bold t))))
+   `(company-scrollbar-fg ((t (:background ,yellow))))
+   `(company-scrollbar-bg ((t (:background ,base01))))
+
 
    `(sh-heredoc ((t (:foreground ,yellow))))
 
@@ -260,6 +294,17 @@
 
    `(compilation-info ((t (:foreground ,green))))
 
+   `(vhl/default-face ((t (:background ,base01))))
+
+   `(ag-match-face ((t (:background ,yellow))))
+
+   `(highlight-symbol-face ((t (:background ,base01 :bold t))))
+
+   ;; powerline
+   `(powerline-active1 ((t (:background ,base00))))
+   `(powerline-active2 ((t (:background ,base01))))
+   `(powerline-inactive1 ((t (:background ,base00))))
+   `(powerline-inactive2 ((t (:background ,base00))))
 
    ))
 
