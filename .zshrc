@@ -748,6 +748,9 @@ __go_tool_complete() {
 compdef __go_tool_complete go
 
 
+# python
+alias pip-allupdate="pip list --outdated | awk '{print $1}' | xargs pip install -U"
+
 ## 以下 zsh vi モード
 
 
