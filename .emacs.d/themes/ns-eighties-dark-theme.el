@@ -262,6 +262,7 @@
    `(company-tooltip-common-selection ((t (:foreground ,yellow :background nil :bold t))))
    `(company-scrollbar-fg ((t (:background ,yellow))))
    `(company-scrollbar-bg ((t (:background ,base01))))
+   `(company-preview-common ((t (:background ,base01 :foreground ,yellow))))
 
 
    `(sh-heredoc ((t (:foreground ,yellow))))
