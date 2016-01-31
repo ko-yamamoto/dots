@@ -64,18 +64,18 @@ modkey = "Mod4"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts =
 {
-    awful.layout.suit.floating,
-    awful.layout.suit.tile,
-    awful.layout.suit.tile.left,
-    awful.layout.suit.tile.bottom,
-    awful.layout.suit.tile.top,
-    awful.layout.suit.fair,
-    awful.layout.suit.fair.horizontal,
-    awful.layout.suit.spiral,
-    -- awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max
-    -- awful.layout.suit.max.fullscreen,
-    -- awful.layout.suit.magnifier
+      awful.layout.suit.floating,
+      awful.layout.suit.fair.horizontal,
+      -- awful.layout.suit.fair,
+      -- awful.layout.suit.tile,
+      awful.layout.suit.tile.left,
+      awful.layout.suit.tile.bottom,
+      -- awful.layout.suit.tile.top,
+      -- awful.layout.suit.spiral,
+      -- awful.layout.suit.spiral.dwindle,
+      awful.layout.suit.max
+      -- awful.layout.suit.max.fullscreen,
+      -- awful.layout.suit.magnifier
 }
 -- }}}
 
@@ -366,12 +366,6 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
-    awful.key({ modkey,           }, "n",
-        function (c)
-            -- The client currently has the input focus, so it cannot be
-            -- minimized, since minimized clients can't have the focus.
-            c.minimized = true
-        end),
     awful.key({ modkey,           }, "m",
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
@@ -528,34 +522,6 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
-
-
-local gtk = [[
-gtk-font-name="Gen Shin Gothic Monospace Light 12"
-gtk-theme-name="Ultra-Flat"
-gtk-icon-theme-name="UltraFlatIcons"
-gtk-fallback-icon-theme="gnome"
-gtk-cursor-theme-name="oxy-cherry"
-gtk-cursor-theme-size=0
-gtk-toolbar-style=GTK_TOOLBAR_BOTH
-gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
-gtk-button-images=1
-gtk-menu-images=1
-gtk-xft-antialias=1
-gtk-xft-hinting=1
-gtk-xft-hintstyle="hintfull"
-gtk-xft-rgba="rgb"
-gtk-xft-dpi=120
-]]
-
-
--- GTK3 is the same, but no double quotes for strings
-os.execute("test -d ~/.config/gtk-3.0 || mkdir -p ~/.config/gtk-3.0")
-local gtk3 = io.open(os.getenv("HOME") .. "/.config/gtk-3.0/settings.ini", "w")
-gtk, _ = gtk:gsub('"', '')
-gtk3:write("[Settings]\n")
-gtk3:write(gtk)
-gtk3:close()
 
 -- Battery status timer
 batteryTimer = timer({timeout = 30})

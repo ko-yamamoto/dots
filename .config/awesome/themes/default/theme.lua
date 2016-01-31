@@ -4,7 +4,8 @@
 
 theme = {}
 
-theme.font          = "Gen Shin Gothic Monospace Light 12"
+-- theme.font          = "Gen Shin Gothic Monospace Light 12"
+theme.font          = "M+ 1mn 12"
 
 theme.bg_normal     = "#222222"
 -- theme.bg_focus      = "#515151"
