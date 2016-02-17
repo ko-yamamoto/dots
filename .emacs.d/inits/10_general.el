@@ -316,3 +316,20 @@ Otherwise, call `backward-kill-word'."
 (server-start)
 ;;クライアントを終了するとき終了するかどうかを聞かない
 (remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)
+
+
+(use-package zlc
+  :ensure t
+  :config
+  (zlc-mode t)
+  (let ((map minibuffer-local-map))
+  ;;; like menu select
+  (define-key map (kbd "<down>")  'zlc-select-next-vertical)
+  (define-key map (kbd "<up>")    'zlc-select-previous-vertical)
+  (define-key map (kbd "<right>") 'zlc-select-next)
+  (define-key map (kbd "<left>")  'zlc-select-previous)
+
+  ;;; reset selection
+  (define-key map (kbd "C-c") 'zlc-reset)
+  )
+  )
