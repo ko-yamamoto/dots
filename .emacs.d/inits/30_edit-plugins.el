@@ -59,13 +59,10 @@
          ("C-o" . er/expand-region)
          ("C-M-o" . er/contract-region)))
 
-(use-package multiple-cursors
-  :ensure t
-  :defer t)
+(use-package multiple-cursors :ensure t)
 
 (use-package point-undo
   :ensure t
-  :defer t
   :bind (("<f7>" . point-undo)
          ("S-<f7>" . point-redo)))
 
