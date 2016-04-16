@@ -30,6 +30,11 @@
     (with-editor-finish t)
     (elscreen-kill))
 
+
+  (when is_winnt
+    ;; msys2 から Git for Windows の git.exe を使うと commit 時の emacsclient のパスが壊れるため
+    (setq with-editor-emacsclient-executable "emacsclient"))
+
   (bind-keys :map git-commit-mode-map
              ("C-c C-c" . my/commit-finish)
              ("C-c C-k" . my/commit-cancel))
