@@ -36,3 +36,20 @@
   (setq init-loader-byte-compile t) ; 起動時にコンパイル
   (init-loader-load "~/.emacs.d/inits") ; 設定ファイルがあるディレクトリを指定
   )
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(flycheck-display-errors-function (function flycheck-pos-tip-error-messages))
+ '(org-trello-current-prefix-keybinding "C-c o" nil (org-trello))
+ '(org-trello-files (quote ("~/memo/trello-work.org")) nil (org-trello))
+ '(package-selected-packages
+   (quote
+    (twittering-mode org-trello ox-gfm helm-ag aggressive-indent zzz-to-char zlc yalinum wrap-region wgrep-ag web-mode volatile-highlights use-package undo-tree smartrep smart-newline smart-mark slime shackle scratch-log scala-mode2 recentf-ext powerline polymode point-undo multiple-cursors moccur-edit migemo markdown-mode magit key-chord js2-mode isearch-dabbrev init-loader imenu-anywhere hl-line+ highlight-symbol helm-descbinds goto-chg git-gutter-fringe+ fuzzy flycheck-pos-tip expand-region elscreen-persist drag-stuff ddskk company-try-hard company-statistics clojure-mode-extra-font-locking buffer-move anzu ag ac-cider))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
