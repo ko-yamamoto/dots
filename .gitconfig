@@ -11,8 +11,8 @@
 	filemode = false
     excludesfile = ~/.gitignore  # globalな.gitignoreの指定
     autocrlf = false                 # CRLFを自動変換するかどうか
-	editor = vim -c 'set fileencoding=utf-8'　
-    pager = LESS=-R less
+	editor = vim -c 'set fileencoding=utf-8'
+    pager = less -R
 	ignorecase = false
 
 [color]
@@ -66,19 +66,13 @@
   bn = branch --no-merged # mergeしてないbranchを表示
   bo = branch -r # remote branchを表示
   # log関連
-  edit-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; vim `f`"
-  wc = whatchanged # logに変更されたファイルも一緒に出す
-  ls = log --stat # logに変更されたファイルも一緒に出す
-  lp = log -p # diffも一緒に出す
+  ls = log --graph --all --color --stat
+  lp = log --graph --all --color --stat -p
   la = log --pretty=\"format:%ad %h (%an): %s\" --date=short # ざっくりログ出す
   lr = log origin # originのlog
-  ll = log --date=short --pretty=format:'%Cgreen%h %cd %Cblue%cn%x09%Creset%s' # onelineでlogを出す
-  oneline = log --pretty=oneline
-  ranking = shortlog -s -n --no-merges
-  # logをtree表示
-  log-graph = log --graph --date=short --pretty=format:'%Cgreen%h %cd %Cblue%cn %Creset%s'
+  ll = log --pretty='format:  %C(yellow)%<(15)%cr%Creset%C(blue)%h%Creset  %C(green)%<(15)%an%Creset %s %Cred%d%Creset'
   lg = log --graph --pretty='format:  %C(yellow)%<(15)%cr%Creset%C(blue)%h%Creset  %C(green)%<(15)%an%Creset %s %Cred%d%Creset'
-  log-all = log --graph --all --color --pretty='%x09%h %cn%x09%s %Cred%d%Creset'
+  lga = log --graph --all --color --pretty='format:  %C(yellow)%<(15)%cr%Creset%C(blue)%h%Creset  %C(green)%<(15)%an%Creset %s %Cred%d%Creset'
   # reset
   rhs = reset --soft HEAD
   rhs1 = reset --soft HEAD~
@@ -126,3 +120,8 @@
 	rebase = true
 [push]
 	default = current
+[pack]
+	windowMemory = 100m
+	SizeLimit = 100m
+	threads = 1
+	window = 0
