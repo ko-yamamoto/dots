@@ -124,7 +124,7 @@
                                        (powerline-raw " " face2 'l)
                                        (powerline-vc face2 'r)
                                        (funcall separator-left face2 mode-line)
-                                       (powerline-raw "%f" nil 'l)
+                                       (powerline-raw "%b" nil 'l)
                                        ))
                             (rhs (list (unless window-system
                                          (powerline-raw (char-to-string #xe0a1) nil 'l))
@@ -144,7 +144,7 @@
   )
 
 ;; タイトルバー
-(setq frame-title-format (format "%%b - Emacs@%s" (system-name)))
+(setq frame-title-format (format "%%f - Emacs@%s" (system-name)))
 
 ;; 対応するカッコをハイライト
 (show-paren-mode 1)
