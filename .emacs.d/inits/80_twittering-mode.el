@@ -13,7 +13,7 @@
   ;; つぶやき文字用の見た目
   (defface twittering-mode-text-face
     ;; '((t (:foreground "#444444"))) nil)
-    '((t (:foreground "#363836"))) nil)
+    '((t (:foreground "#d3d0c8"))) nil)
   ;;  '((t (:foreground "#ffffff"))) nil)
   ;; 日時用の見た目
   (defface twittering-mode-hide-face
