@@ -62,7 +62,7 @@
 ;; after emacs24
 (setq custom-theme-directory "~/.emacs.d/themes/")
 ;; (load-theme 'ns-milk t)
-(load-theme 'ns-eighties t)
+(load-theme 'ns-eighties-dark t)
 
 
 ;; モードライン (mode-line-format)での書式記号
@@ -230,7 +230,7 @@
 (ad-activate 'font-lock-mode)
 
 ;; ウィンドウを透明化
-(add-to-list 'default-frame-alist '(alpha . (0.95 0.95)))
+(set-frame-parameter nil 'alpha 75)
 
 ;; キーワードのカラー表示を有効化
 (global-font-lock-mode t)
