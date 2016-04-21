@@ -1,9 +1,9 @@
 -- icons -> gmmeyer/awesome-dangerzone - https://github.com/gmmeyer/awesome-dangerzone
--- Config { font = "xft:源真ゴシック等幅-13"
-Config { font = "xft:M+ 1mn-11"
+Config { font = "xft:源暎ゴシックM-10:SemiLight"
+-- Config { font = "xft:M+ 1mn-11"
        , bgColor = "black"
        , fgColor = "grey"
-       , position = TopSize C 300 20
+       , position = TopW L 100
        , border = NoBorder
        , borderColor = "#26a69a"
        , lowerOnStart = True

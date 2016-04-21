@@ -19,6 +19,10 @@ import XMonad.Actions.CycleWS
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.Grid
 import XMonad.Layout.StackTile
+import XMonad.Layout.Spacing
+import XMonad.Layout.MultiToggle
+import XMonad.Layout.MultiToggle.Instances
+import XMonad.Layout.SimpleFloat
 
 import XMonad.Util.EZConfig
 import XMonad.Util.NamedScratchpad
@@ -34,7 +38,7 @@ import XMonad.Actions.FloatKeys
 -- bar
 myBar = "xmobar"
 myPP = xmobarPP { ppCurrent = xmobarColor "#95D9FF" "" . wrap "[" "]"
-                , ppTitle   = xmobarColor "#ffe174" "" . wrap "> " "" . shorten 50
+                , ppTitle   = xmobarColor "#ffe174" "" . wrap "> " "" . shorten 200
                 }
 toggleStrutsKey XConfig { XMonad.modMask = modMask } = (modMask, xK_b)
 
@@ -131,6 +135,9 @@ myKeys = \conf -> mkKeymap conf $
     -- Swap the focused window with the previous window
     , ("M-S-k", windows W.swapUp    )
 
+    -- フルスクリーンをトグル(MultiToggle)
+    , ("M-f", sendMessage $ Toggle FULL)
+
     -- Shrink the master area
     , ("M--", sendMessage Shrink)
 
@@ -224,19 +231,15 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 -- myLayout = (ResizableTall 1 (3/100) (1/2) []) ||| tiled ||| Mirror tiled ||| Full
 -- myLayout = (ResizableTall 1 (3/100) (1/2) []) ||| Mirror tiled ||| Full
 -- myLayout = (ResizableTall 1 (3/100) (3/5) [])||| (ResizableTall 2 (3/100) (2/5) []) ||| Grid ||| (Mirror $ ResizableTall 1 (3/100) (1/2) []) ||| Full
-myLayout = (ResizableTall 1 (3/100) (3/5) [])||| (ResizableTall 2 (3/100) (2/5) []) ||| Grid ||| Full
+-- myLayout = mkToggle1 FULL $ (spacing spaceSize $ ResizableTall 1 delta ratio []) ||| (spacing spaceSize $ ResizableTall 2 delta ratio []) ||| (spacing spaceSize $ Grid) ||| simpleFloat
+myLayout = mkToggle1 FULL $ ( ResizableTall 1 delta ratio []) ||| ( ResizableTall 2 delta ratio []) ||| ( Grid ) ||| simpleFloat
   where
-     -- default tiling algorithm partitions the screen into two panes
-     tiled   = Tall nmaster delta ratio
-
-     -- The default number of windows in the master pane
-     nmaster = 1
-
      -- Default proportion of screen occupied by master pane
-     ratio   = 1/2
-
+     ratio   = 3/5
      -- Percent of screen to increment by when resizing panes
      delta   = 3/100
+     -- spacing size
+     spaceSize = 3
 
 
 ------------------------------------------------------------------------

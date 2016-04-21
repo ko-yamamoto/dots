@@ -1,13 +1,13 @@
 decorations none
 transparent false
 dockapp_mode none
-geometry 5x1-490+0
-max_geometry 5x1-0+0
-slot_size 24
+geometry 4x1-320+3
+max_geometry 4x1-0+0
+slot_size 16
 background "#000000"
 grow_gravity NE
 icon_gravity NE
-icon_size 24
+icon_size 16
 kludges force_icons_size
 sticky true
 #window_strut none
