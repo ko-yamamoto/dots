@@ -130,10 +130,10 @@ myKeys = \conf -> mkKeymap conf $
     , ("M-S-<Return>", windows W.swapMaster)
 
     -- Swap the focused window with the next window
-    , ("M-S-j", windows W.swapDown  )
+    , ("M-S-j", windows $ W.swapDown . W.focusDown)
 
     -- Swap the focused window with the previous window
-    , ("M-S-k", windows W.swapUp    )
+    , ("M-S-k", windows $ W.swapUp . W.focusUp)
 
     -- フルスクリーンをトグル(MultiToggle)
     , ("M-f", sendMessage $ Toggle FULL)
@@ -194,7 +194,7 @@ myKeys = \conf -> mkKeymap conf $
     [(c ++ m ++ k, withFocused $ f (d x))
          | (d, k) <- zip [\a->(a, 0), \a->(0, a), \a->(0-a, 0), \a->(0, 0-a)] ["<Right>", "<Down>", "<Left>", "<Up>"]
          , (f, m) <- zip [keysMoveWindow, \d -> keysResizeWindow d (0, 0)] ["M-", "M-S-"]
-         , (c, x) <- zip ["", "C-"] [60, 20]
+         , (c, x) <- zip ["", "C-"] [50, 5]
     ]
 
 
@@ -263,8 +263,8 @@ myManageHook = composeAll
     , className =? "Eog"           --> doCenterFloat
     , className =? "Qt4-ssh-askpass"           --> doCenterFloat
     , className =? "Nautilus"           --> doFloat
-    , className =? "Thunderbird" <&&> resource =? "Msgcompose" --> doRightFloat
-    -- , role =? "Msgcompose"           --> doF W.swapDown -- Thunderbird new message window
+    , className =? "Thunderbird" <&&> role =? "3pane" --> doFloat -- Thunderbird main window
+    , className =? "Thunderbird" <&&> role =? "Msgcompose" --> doRightFloat -- Thunderbird new message window
     , role =? "mikutter_image_preview"           --> doFloat
     , role =? "bubble"           --> doFloat
     , role =? "pop-up"           --> doFloat
