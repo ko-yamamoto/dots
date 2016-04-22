@@ -53,221 +53,40 @@ autoload colors && colors
 
 # プロンプト表示設定
 setopt prompt_subst
-# PROMPT='%F{green}%n%f/%m%B%(?.%F{blue}%(!.#. :))%f.%F{red}%(!.#. :()%f)%b '
-
-# PROMPT='%F{green}%n%f/%m  %F{blue}%(10~,%-4~/.../%6~,%~)%f
-# %B%(?.%F{blue}%(!.#.／^o^＼)%f.%F{red}%(!.#.＼^o^／)%f)%b '
-PROMPT='%B%F{yellow}%n%f%b/%m  %B%F{blue}%(10~,%-4~/.../%6~,%~)%f%b
-%B%(?.%F{blue}%(!.#.>)%f.%F{red}%(!.#.!)%f)%b '
-
-
-# バージョン管理情報表示
-# setopt prompt_subst
-# autoload -Uz vcs_info
-# zstyle ':vcs_info:*' actionformats \
-#     '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '
-# zstyle ':vcs_info:*' formats       \
-#     '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{5}]%f '
-# zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r'
-
-# zstyle ':vcs_info:*' enable git cvs svn
-
-# # or use pre_cmd, see man zshcontrib
-# vcs_info_wrapper() {
-#   vcs_info
-#   if [ -n "$vcs_info_msg_0_" ]; then
-#     echo "%{$fg[grey]%}${vcs_info_msg_0_}%{$reset_color%}$del"
-#   fi
-# }
-
-# # バージョン管理 短縮したカレントディレクトリ
-# RPROMPT=$'$(vcs_info_wrapper)%F{red}@%f%F{blue}%(5~,%-1~/.../%2~,%~)%f'
-
-
-
-# RPROMPT 設定
 if [ `echo $UNAME | grep 'CYGWIN'` ] ; then
-# CYGWIN は重いのでシンプル
-    # RPROMPT="%F{blue}%(5~,%-1~/.../%2~,%~)%f"
+    # CYGWIN は重いのでシンプル
+    # PROMPT='%F{green}%n%f/%m  %F{blue}%(10~,%-4~/.../%6~,%~)%f
+    # %B%(?.%F{blue}%(!.#.／^o^＼)%f.%F{red}%(!.#.＼^o^／)%f)%b '
+    # PROMPT='%B%F{yellow}%n%f%b/%m  %B%F{blue}%(10~,%-4~/.../%6~,%~)%f%b
+    # %B%(?.%F{blue}%(!.#.>)%f.%F{red}%(!.#.!)%f)%b '
+    PROMPT='@%B%F{yellow}%(10~,%-4~/.../%6~,%~)%f%b
+    %B%(?.%F{blue}%(!.#.>)%f.%F{red}%(!.#.!)%f)%b '
+
 else
-# CYGWIN 以外
-    # vcs_info 設定
-
-    RPROMPT=""
-
+    # CYGWIN 以外
     autoload -Uz vcs_info
-    autoload -Uz add-zsh-hook
-    autoload -Uz is-at-least
-    autoload -Uz colors
-
-    # 以下の3つのメッセージをエクスポートする
-    #   $vcs_info_msg_0_ : 通常メッセージ用 (緑)
-    #   $vcs_info_msg_1_ : 警告メッセージ用 (黄色)
-    #   $vcs_info_msg_2_ : エラーメッセージ用 (赤)
-    zstyle ':vcs_info:*' max-exports 3
-
-    zstyle ':vcs_info:*' enable git svn hg bzr
-    # 標準のフォーマット(git 以外で使用)
-    # misc(%m) は通常は空文字列に置き換えられる
-    zstyle ':vcs_info:*' formats '(%s)-[%b]'
-    zstyle ':vcs_info:*' actionformats '(%s)-[%b]' '%m' '<!%a>'
-    zstyle ':vcs_info:(svn|bzr):*' branchformat '%b:r%r'
-    zstyle ':vcs_info:bzr:*' use-simple true
-
-
-    if is-at-least 4.3.10; then
-        # git 用のフォーマット
-        # git のときはステージしているかどうかを表示
-        zstyle ':vcs_info:git:*' formats '(%s)-[%b]' '%c%u %m'
-        zstyle ':vcs_info:git:*' actionformats '(%s)-[%b]' '%c%u %m' '<!%a>'
-        zstyle ':vcs_info:git:*' check-for-changes true
-        zstyle ':vcs_info:git:*' stagedstr "+"    # %c で表示する文字列
-        zstyle ':vcs_info:git:*' unstagedstr "-"  # %u で表示する文字列
-    fi
-
-    # hooks 設定
-    if is-at-least 4.3.11; then
-        # git のときはフック関数を設定する
-
-        # formats '(%s)-[%b]' '%c%u %m' , actionformats '(%s)-[%b]' '%c%u %m' '<!%a>'
-        # のメッセージを設定する直前のフック関数
-        # 今回の設定の場合はformat の時は2つ, actionformats の時は3つメッセージがあるので
-        # 各関数が最大3回呼び出される。
-        zstyle ':vcs_info:git+set-message:*' hooks \
-            git-hook-begin \
-            git-untracked \
-            git-push-status \
-            git-nomerge-branch \
-            git-stash-count
-
-        # フックの最初の関数
-        # git の作業コピーのあるディレクトリのみフック関数を呼び出すようにする
-        # (.git ディレクトリ内にいるときは呼び出さない)
-        # .git ディレクトリ内では git status --porcelain などがエラーになるため
-        function +vi-git-hook-begin() {
-            if [[ $(command git rev-parse --is-inside-work-tree 2> /dev/null) != 'true' ]]; then
-                # 0以外を返すとそれ以降のフック関数は呼び出されない
-                return 1
-            fi
-
-            return 0
-        }
-
-        # untracked フィアル表示
-        #
-        # untracked ファイル(バージョン管理されていないファイル)がある場合は
-        # unstaged (%u) に ? を表示
-        function +vi-git-untracked() {
-            # zstyle formats, actionformats の2番目のメッセージのみ対象にする
-            if [[ "$1" != "1" ]]; then
-                return 0
-            fi
-
-            if command git status --porcelain 2> /dev/null \
-                | awk '{print $1}' \
-                | command grep -F '??' > /dev/null 2>&1 ; then
-
-                # unstaged (%u) に追加
-                hook_com[unstaged]+='?'
-            fi
-        }
-
-        # push していないコミットの件数表示
-        #
-        # リモートリポジトリに push していないコミットの件数を
-        # pN という形式で misc (%m) に表示する
-        function +vi-git-push-status() {
-            # zstyle formats, actionformats の2番目のメッセージのみ対象にする
-            if [[ "$1" != "1" ]]; then
-                return 0
-            fi
-
-            if [[ "${hook_com[branch]}" != "master" ]]; then
-                # master ブランチでない場合は何もしない
-                return 0
-            fi
-
-            # push していないコミット数を取得する
-            local ahead
-            ahead=$(command git rev-list origin/master..master 2>/dev/null \
-                | wc -l \
-                | tr -d ' ')
-
-            if [[ "$ahead" -gt 0 ]]; then
-                # misc (%m) に追加
-                hook_com[misc]+="(p${ahead})"
-            fi
-        }
-
-        # マージしていない件数表示
-        #
-        # master 以外のブランチにいる場合に、
-        # 現在のブランチ上でまだ master にマージしていないコミットの件数を
-        # (mN) という形式で misc (%m) に表示
-        function +vi-git-nomerge-branch() {
-            # zstyle formats, actionformats の2番目のメッセージのみ対象にする
-            if [[ "$1" != "1" ]]; then
-                return 0
-            fi
-
-            if [[ "${hook_com[branch]}" == "master" ]]; then
-                # master ブランチの場合は何もしない
-                return 0
-            fi
-
-            local nomerged
-            nomerged=$(command git rev-list master..${hook_com[branch]} 2>/dev/null | wc -l | tr -d ' ')
-
-            if [[ "$nomerged" -gt 0 ]] ; then
-                # misc (%m) に追加
-                hook_com[misc]+="(m${nomerged})"
-            fi
-        }
-
-
-        # stash 件数表示
-        #
-        # stash している場合は :SN という形式で misc (%m) に表示
-        function +vi-git-stash-count() {
-            # zstyle formats, actionformats の2番目のメッセージのみ対象にする
-            if [[ "$1" != "1" ]]; then
-                return 0
-            fi
-
-            local stash
-            stash=$(command git stash list 2>/dev/null | wc -l | tr -d ' ')
-            if [[ "${stash}" -gt 0 ]]; then
-                # misc (%m) に追加
-                hook_com[misc]+=":S${stash}"
-            fi
-        }
-
-    fi
-
-    function _update_vcs_info_msg() {
-        local -a messages
-        local prompt
-
-        LANG=en_US.UTF-8 vcs_info
-
-        if [[ -z ${vcs_info_msg_0_} ]]; then
-        # vcs_info で何も取得していない場合はプロンプトを表示しない
-            prompt=""
-        else
-        # vcs_info で情報を取得した場合
-        # $vcs_info_msg_0_ , $vcs_info_msg_1_ , $vcs_info_msg_2_ を
-        # それぞれ緑、黄色、赤で表示する
-            [[ -n "$vcs_info_msg_0_" ]] && messages+=( "%B%F{green}${vcs_info_msg_0_}%f%b" )
-            [[ -n "$vcs_info_msg_1_" ]] && messages+=( "%B%F{yellow}${vcs_info_msg_1_}%f%b" )
-            [[ -n "$vcs_info_msg_2_" ]] && messages+=( "%B%F{red}${vcs_info_msg_2_}%f%b" )
-
-        # 間にスペースを入れて連結する
-            prompt="${(j: :)messages}"
+    zstyle ':vcs_info:*' enable git svn
+    zstyle ':vcs_info:*' max-exports 6 # formatに入る変数の最大数
+    zstyle ':vcs_info:git:*' check-for-changes true
+    zstyle ':vcs_info:git:*' formats '%b@%r' '%c' '%u'
+    zstyle ':vcs_info:git:*' actionformats '%b@%r|%a' '%c' '%u'
+    setopt prompt_subst
+    function vcs_echo {
+        local st branch color
+        STY= LANG=en_US.UTF-8 vcs_info
+        st=`git status 2> /dev/null`
+        if [[ -z "$st" ]]; then return; fi
+        branch="$vcs_info_msg_0_"
+        if   [[ -n "$vcs_info_msg_1_" ]]; then color=${fg[blue]} #staged
+        elif [[ -n "$vcs_info_msg_2_" ]]; then color=${fg[red]} #unstaged
+        elif [[ -n `echo "$st" | grep "^Untracked"` ]]; then color=${fg[yellow]} # untracked
+        else color=${fg[green]}
         fi
-
-        RPROMPT="$prompt"
+        echo "%{$color%}%{$branch%}:%{$reset_color%} " | sed -e s/@/"%F{yellow}@%f"/
     }
-    add-zsh-hook precmd _update_vcs_info_msg
+    PROMPT='
+%B`vcs_echo`%b@%B%F{yellow}%(10~,%-4~/.../%6~,%d)%f%b
+%B%(?.%F{blue}%(!.#.>)%f.%F{red}%(!.#.!)%f)%b '
 
 fi
 
