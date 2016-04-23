@@ -35,11 +35,35 @@ import XMonad.Hooks.SetWMName
 import XMonad.Actions.CopyWindow
 import XMonad.Actions.FloatKeys
 
+
+-- Color Setting
+colorBlue      = "#6699cc"
+colorGreen     = "#99cc99"
+colorRed       = "#f2777a"
+colorYellow    = "#ffcc66"
+colorGray      = "#9e9e9e"
+colorWhite     = "#ffffff"
+colorGrayAlt   = "#eceff1"
+colorNormalbg  = "#1c1c1c"
+colorfg        = "#9fa8b1"
+-- Border color
+mynormalBorderColor  = colorNormalbg
+myfocusedBorderColor = colorfg
+
 -- bar
 myBar = "xmobar"
-myPP = xmobarPP { ppCurrent = xmobarColor "#95D9FF" "" . wrap "[" "]"
-                , ppTitle   = xmobarColor "#ffe174" "" . wrap "> " "" . shorten 200
+myPP = xmobarPP { ppOrder           = \(ws:l:t:_)  -> [ws,t]
+                , ppCurrent         = xmobarColor colorYellow colorNormalbg . \s -> "■"
+                , ppUrgent          = xmobarColor colorBlue   colorNormalbg . \s -> "●"
+                , ppVisible         = xmobarColor colorBlue   colorNormalbg . \s -> "●"
+                , ppHidden          = xmobarColor colorBlue   colorNormalbg . \s -> "●"
+                , ppHiddenNoWindows = xmobarColor colorfg     colorNormalbg . \s -> "◯"
+                , ppTitle           = xmobarColor colorYellow colorNormalbg . wrap "> " "" . shorten 250
+                , ppOutput          = putStrLn
+                , ppWsSep           = " "
+                , ppSep             = "  "
                 }
+
 toggleStrutsKey XConfig { XMonad.modMask = modMask } = (modMask, xK_b)
 
 -- gridselect
