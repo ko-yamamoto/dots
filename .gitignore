@@ -67,3 +67,4 @@ elisp/*.elc
 /.emacs.d/.cache/layouts/persp-auto-save
 /.emacs.d/company-statistics-cache.el
 /.emacs.d/network-security.data
+/.emacs.d/.trello/*
