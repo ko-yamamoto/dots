@@ -317,6 +317,10 @@ Otherwise, call `backward-kill-word'."
 ;;クライアントを終了するとき終了するかどうかを聞かない
 (remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)
 
+;; ブラウザを設定
+(setq browse-url-generic-program
+      (executable-find (getenv "BROWSER"))
+      browse-url-browser-function 'browse-url-generic)
 
 (use-package zlc
   :ensure t
