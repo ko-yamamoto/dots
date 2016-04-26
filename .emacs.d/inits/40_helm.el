@@ -34,22 +34,93 @@
   (setq helm-buffer-max-length 80) ; バッファ名の最大長
   (setq enable-recursive-minibuffers t)
 
-  ;; ディレクトリだけのソース
-  (defvar helm-c-recentf-directory-source
-    '((name . "Recentf Directry")
-      (candidates . (lambda ()
-                      (loop for file in recentf-list
-                            when (file-directory-p file)
-                            collect file)))
-      (type . file)))
   ;; ファイルだけのソース
   (defvar helm-c-recentf-file-source
-    '((name . "Recentf File")
+    '((name . "Recentf Files")
       (candidates . (lambda ()
                       (loop for file in recentf-list
                             when (not (file-directory-p file))
                             collect file)))
-      (type . file)))
+      (action
+       ("Find file" . helm-find-many-files)
+       ("Find file as root" . helm-find-file-as-root)
+       ("Find file other window" . helm-find-files-other-window)
+       ("Find file other frame" . find-file-other-frame)
+       ("Open dired in file's directory" . helm-open-dired)
+       ("Grep File(s) `C-u recurse'" . helm-find-files-grep)
+       ("Zgrep File(s) `C-u Recurse'" . helm-ff-zgrep)
+       ("Pdfgrep File(s)" . helm-ff-pdfgrep)
+       ("Insert as org link" . helm-files-insert-as-org-link)
+       ("Checksum File" . helm-ff-checksum)
+       ("Ediff File" . helm-find-files-ediff-files)
+       ("Ediff Merge File" . helm-find-files-ediff-merge-files)
+       ("Etags `M-., C-u reload tag file'" . helm-ff-etags-select)
+       ("View file" . view-file)
+       ("Insert file" . insert-file)
+       ("Add marked files to file-cache" . helm-ff-cache-add-file)
+       ("Delete file(s)" . helm-delete-marked-files)
+       ("Copy file(s) `M-C, C-u to follow'" . helm-find-files-copy)
+       ("Rename file(s) `M-R, C-u to follow'" . helm-find-files-rename)
+       ("Symlink files(s) `M-S, C-u to follow'" . helm-find-files-symlink)
+       ("Relsymlink file(s) `C-u to follow'" . helm-find-files-relsymlink)
+       ("Hardlink file(s) `M-H, C-u to follow'" . helm-find-files-hardlink)
+       ("Open file externally (C-u to choose)" . helm-open-file-externally)
+       ("Open file with default tool" . helm-open-file-with-default-tool)
+       ("Find file in hex dump" . hexl-find-file)
+       ("Delete file(s) from recentf" lambda
+        (_candidate)
+        (cl-loop for file in
+                 (helm-marked-candidates)
+                 do
+                 (setq recentf-list
+                       (delq file recentf-list)))))
+      (migemo)))
+
+  ;; ディレクトリだけのソース
+  (defvar helm-c-recentf-directory-source
+    '((name . "Recentf Directories")
+      (init lambda nil
+            (require 'recentf)
+            (when helm-turn-on-recentf
+              (recentf-mode 1)))
+      (candidates . (lambda ()
+                      (loop for file in recentf-list
+                            when (file-directory-p file)
+                            collect file)))
+      (action
+       ("Find file" . helm-find-many-files)
+       ("Find file as root" . helm-find-file-as-root)
+       ("Find file other window" . helm-find-files-other-window)
+       ("Find file other frame" . find-file-other-frame)
+       ("Open dired in file's directory" . helm-open-dired)
+       ("Grep File(s) `C-u recurse'" . helm-find-files-grep)
+       ("Zgrep File(s) `C-u Recurse'" . helm-ff-zgrep)
+       ("Pdfgrep File(s)" . helm-ff-pdfgrep)
+       ("Insert as org link" . helm-files-insert-as-org-link)
+       ("Checksum File" . helm-ff-checksum)
+       ("Ediff File" . helm-find-files-ediff-files)
+       ("Ediff Merge File" . helm-find-files-ediff-merge-files)
+       ("Etags `M-., C-u reload tag file'" . helm-ff-etags-select)
+       ("View file" . view-file)
+       ("Insert file" . insert-file)
+       ("Add marked files to file-cache" . helm-ff-cache-add-file)
+       ("Delete file(s)" . helm-delete-marked-files)
+       ("Copy file(s) `M-C, C-u to follow'" . helm-find-files-copy)
+       ("Rename file(s) `M-R, C-u to follow'" . helm-find-files-rename)
+       ("Symlink files(s) `M-S, C-u to follow'" . helm-find-files-symlink)
+       ("Relsymlink file(s) `C-u to follow'" . helm-find-files-relsymlink)
+       ("Hardlink file(s) `M-H, C-u to follow'" . helm-find-files-hardlink)
+       ("Open file externally (C-u to choose)" . helm-open-file-externally)
+       ("Open file with default tool" . helm-open-file-with-default-tool)
+       ("Find file in hex dump" . hexl-find-file)
+       ("Delete file(s) from recentf" lambda
+        (_candidate)
+        (cl-loop for file in
+                 (helm-marked-candidates)
+                 do
+                 (setq recentf-list
+                       (delq file recentf-list)))))
+      (migemo)))
 
   (defcustom helm-my-default-sources '(helm-source-buffers-list
                                        helm-c-recentf-file-source
