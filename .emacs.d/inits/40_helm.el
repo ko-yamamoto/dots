@@ -3,7 +3,7 @@
   ;; :disabled t
   :defer t
   :ensure t
-  :bind (("C-;" . helm-multi-files)
+  :bind (("C-;" . helm-my)
          ("M-y" . helm-show-kill-ring)
          ("M-i" . helm-imenu-anywhere)
          ("M-x" . helm-M-x)
@@ -54,6 +54,7 @@
   (defcustom helm-my-default-sources '(helm-source-buffers-list
                                        helm-c-recentf-file-source
                                        helm-c-recentf-directory-source
+                                       helm-source-files-in-current-dir
                                        helm-source-buffer-not-found)
     "Default sources list used in `helm-my'."
     :group 'helm-misc
