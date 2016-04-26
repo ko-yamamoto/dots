@@ -118,6 +118,17 @@ When using this mode the value of `dired-listing-switches' should not contain \"
 
   ;;   (use-package dired-filter :ensure)
 
+  ;; dired のバッファ名末尾に [Dired] を追加する
+  (defun dired-my-append-buffer-name-hint ()
+    "Append a auxiliary string to a name of dired buffer."
+    (when (eq major-mode 'dired-mode)
+      (let* ((dir (expand-file-name list-buffers-directory))
+             (drive (if (and (eq 'system-type 'windows-nt) ;; Windows の場合はドライブレターを追加
+                             (string-match "^\\([a-zA-Z]:\\)/" dir))
+                        (match-string 1 dir) "")))
+        (rename-buffer (concat (buffer-name) " [" drive "Dired]") t))))
+  (add-hook 'dired-mode-hook 'dired-my-append-buffer-name-hint)
+
   (bind-keys :map dired-mode-map
              ("a" . dired-list-all-mode)
              ("f" . find-dired)
