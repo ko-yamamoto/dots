@@ -46,9 +46,6 @@ colorWhite     = "#ffffff"
 colorGrayAlt   = "#eceff1"
 colorNormalbg  = "#1c1c1c"
 colorfg        = "#9fa8b1"
--- Border color
-mynormalBorderColor  = colorNormalbg
-myfocusedBorderColor = colorfg
 
 -- bar
 myBar = "xmobar"
@@ -103,9 +100,10 @@ myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
 --
 myBorderWidth   = 1
 -- Border colors for unfocused and focused windows, respectively.
---
-myNormalBorderColor  = "#dddddd"
-myFocusedBorderColor = "#cc6666"
+-- Border color
+myNormalBorderColor  = colorNormalbg
+myFocusedBorderColor = colorfg
+
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
 --
