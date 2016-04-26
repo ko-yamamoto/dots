@@ -11,7 +11,9 @@
          ("C-q C-c" . elscreen-clone)
          ("C-q x" . elscreen-kill)
          ("C-q X" . elscreen-kill-screen-and-buffers)
-         ("C-q C-x" . elscreen-kill-screen-and-buffers))
+         ("C-q C-x" . elscreen-kill-screen-and-buffers)
+         ("C-q t" . elscreen-toggle-display-tab)
+         ("C-q T" . elscreen-toggle-display-tab))
   :init
   (elscreen-start)
   :config
