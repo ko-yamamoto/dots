@@ -161,8 +161,11 @@
    `(org-level-1 ((t (:foreground ,*normal* :bold t :underline t))))
    `(org-level-2 ((t (:foreground ,red :bold t))))
    `(org-level-3 ((t (:foreground ,blue :bold t))))
-   `(org-level-4 ((t (:foreground ,green :bold t))))
-   `(org-level-5 ((t (:foreground ,purple :bold t))))
+   `(org-level-4 ((t (:foreground ,yellow :bold t))))
+   `(org-level-5 ((t (:foreground ,green :bold t))))
+   `(org-level-6 ((t (:foreground ,purple :bold t))))
+   `(org-level-7 ((t (:foreground ,*normal* :bold t))))
+   `(org-level-8 ((t (:foreground ,*normal* :bold t))))
    `(org-link ((t (:foreground ,blue :bold t))))
 
    ;; markdown
@@ -233,7 +236,7 @@
    `(diff-removed ((t (:foreground ,red :background ,*background*))))
    `(diff-changed ((t (:foreground ,yellow :inverse-video t))))
 
-      ;; ediff
+   ;; ediff
    `(ediff-odd-diff-A ((t (:background ,base01))))
    `(ediff-odd-diff-B ((t (:background ,base01))))
    `(ediff-even-diff-A ((t (:background ,base01))))

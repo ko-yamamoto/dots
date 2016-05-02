@@ -9,9 +9,6 @@
   ;; org-default-notes-fileのファイル名
   (setq org-default-notes-file "notes.org")
 
-  ;; TODO状態
-  (setq org-todo-keywords
-        '((sequence "TODO(t)" "WAIT(w)" "|" "DONE(d)" "SOMEDAY(s)")))
   ;; DONEの時刻を記録
   (setq org-log-done 'time)
 
@@ -22,6 +19,12 @@
   ;; (setq hl-line-face 'underline)
   ;; 標準の祝日を利用しない
   (setq calendar-holidays nil)
+
+  ;; 改行を維持する
+  (setq org-export-preserve-breaks t)
+
+  ;; 項目ごとの番号は出力しない
+  (setq org-export-with-section-numbers nil)
 
   ;; ブラウザで確認
   (defun org-render-browser (n)
@@ -52,16 +55,21 @@
   %a
   %T")
           ("n" "日報" entry (file+datetree+prompt "~/memo/nippo.org")
-           "**** %?%i
-     - [
-     - 00:00 - 00:00")
-
+           "**** 所感・連絡事項など\n**** 作業内容\n***** %?\n- 00:00 → 00:00")
           ))
 
 
   ;; TODO状態
   (setq org-todo-keywords
-        '((sequence "NEW(n)" "TODO(t)" "WAIT(w)" "SOMEDAY(s)" "|" "DONE(d)")))
+        '((sequence "TODO" "DOING" "BLOCKED" "REVIEW" "|" "DONE" "ARCHIVED")))
+
+  (setq org-todo-keyword-faces
+        '(("TODO" . "#ffffff") ;; white
+          ("DOING" . "#ffcc66") ;; yellow
+          ("BLOCKED" . "#f2777a") ;; red
+          ("REVIEW" . "#f99157") ;; orange
+          ("DONE" . "#6699cc") ;;blue
+          ("ARCHIVED" .  "#99cc99"))) ;; green
 
   ;; DONE の時刻を記録
   (setq org-log-done 'time)
