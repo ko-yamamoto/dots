@@ -11,7 +11,7 @@
   (setq markdown-command-needs-filename t)
 
   ;; 行末スペースは HTML に変換した際の改行に必要なので消さないように
-  (remove-hook 'before-save-hook 'delete-trailing-whitespace)
+  ;; (remove-hook 'before-save-hook 'delete-trailing-whitespace)
 
   ;; (defun markdown-render-eww (n)
   ;;   (interactive "p")
