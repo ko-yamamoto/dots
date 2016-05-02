@@ -68,8 +68,8 @@
 
 (recentf-mode 1)
 ;; 最近のファイル500個を保存する
-(setq recentf-max-saved-items 100)
-(setq recentf-max-menu-items 30)
+(setq recentf-max-saved-items 1000)
+(setq recentf-max-menu-items 300)
 (setq recentf-keep '(file-remote-p file-readable-p))
 (setq recentf-auto-cleanup 'never)
 ;; 最近使ったファイルに加えないファイルを正規表現で指定する
@@ -238,6 +238,7 @@ Otherwise, call `backward-kill-word'."
   (call-interactively
    (if (use-region-p) 'kill-region 'backward-delete-word)))
 (global-set-key (kbd "C-w") 'kill-region-or-backward-word)
+
 
 ;; Autosave every 500 typed characters
 (setq auto-save-interval 500)
