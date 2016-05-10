@@ -64,7 +64,7 @@
         '((sequence "TODO" "DOING" "BLOCKED" "REVIEW" "|" "DONE" "ARCHIVED")))
 
   (setq org-todo-keyword-faces
-        '(("TODO" . "#ffffff") ;; white
+        '(("TODO" . "#aaaaaa") ;; gray
           ("DOING" . "#ffcc66") ;; yellow
           ("BLOCKED" . "#f2777a") ;; red
           ("REVIEW" . "#f99157") ;; orange
@@ -96,5 +96,6 @@
              ("C-a" . my-toggle-beginning-of-line-and-sentence)
              ("C-c SPC" . ace-jump-mode) ; 上書き
              ("C-m" . org-return-indent)
-             ("C-c c" . org-render-browser))
+             ("C-c c" . org-render-browser)
+             ("C-c ." . org-time-stamp-inactive))
   )
