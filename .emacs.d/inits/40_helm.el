@@ -1,4 +1,3 @@
-;;; -*- lexical-binding: t -*-
 (use-package helm
   ;; :disabled t
   :defer t
@@ -20,6 +19,8 @@
   (setq helm-recentf-fuzzy-match t)
   (setq helm-buffers-fuzzy-matching t)
   (setq helm-imenu-fuzzy-match t)
+
+  (helm-migemo-mode t)
 
   ;; helm バッファは保存しないように
   (add-to-list 'desktop-modes-not-to-save 'helm-mode)
