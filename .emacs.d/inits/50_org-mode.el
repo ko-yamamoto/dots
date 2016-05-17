@@ -12,6 +12,12 @@
   ;; DONEの時刻を記録
   (setq org-log-done 'time)
 
+  ;; デフォルトで有効にする
+  (setq org-indent-mode t)
+
+  ;; agenda はいまのウィンドウに開く (別のウィンドウを潰さない)
+  (setq org-agenda-window-setup 'current-window)
+
   ;; アジェンダ表示の対象ファイル
   (setq org-agenda-files (list org-directory))
   ;; アジェンダ表示で下線を用いる
