@@ -58,10 +58,11 @@
   :config
   (use-package wgrep-ag
     :ensure t)
-
+  (setq ag-arguments '("--line-number" "--smart-case" "--nogroup" "--column" "--stats" "--vimgrep" "--"))
   (setq ag-highlight-search t)  ; 検索結果の中の検索語をハイライトする
   (autoload 'wgrep-ag-setup "wgrep-ag")
   (add-hook 'ag-mode-hook 'wgrep-ag-setup)
+  (setq wgrep-auto-save-buffer t) ;; 編集を保存したら全てのバッファを保存する
   (setq wgrep-enable-key "r")
   )
 
