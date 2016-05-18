@@ -53,14 +53,17 @@ autoload colors && colors
 
 # プロンプト表示設定
 setopt prompt_subst
-if [ `echo $UNAME | grep 'CYGWIN'` ] ; then
+if [ `echo $UNAME | grep 'MSYS_NT'` ] ; then
     # CYGWIN は重いのでシンプル
     # PROMPT='%F{green}%n%f/%m  %F{blue}%(10~,%-4~/.../%6~,%~)%f
     # %B%(?.%F{blue}%(!.#.／^o^＼)%f.%F{red}%(!.#.＼^o^／)%f)%b '
     # PROMPT='%B%F{yellow}%n%f%b/%m  %B%F{blue}%(10~,%-4~/.../%6~,%~)%f%b
     # %B%(?.%F{blue}%(!.#.>)%f.%F{red}%(!.#.!)%f)%b '
-    PROMPT='@%B%F{yellow}%(10~,%-4~/.../%6~,%~)%f%b
-    %B%(?.%F{blue}%(!.#.>)%f.%F{red}%(!.#.!)%f)%b '
+    # PROMPT='@%B%F{yellow}%(10~,%-4~/.../%6~,%~)%f%b
+    # %B%(?.%F{blue}%(!.#.>)%f.%F{red}%(!.#.!)%f)%b '
+    PROMPT='
+@%B%F{yellow}%(10~,%-4~/.../%6~,%d)%f%b
+%B%(?.%F{blue}%(!.#.>)%f.%F{red}%(!.#.!)%f)%b '
 
 else
     # CYGWIN 以外
@@ -98,9 +101,6 @@ fi
 case "${TERM}" in
 # for emacs tramp setting
 dumb | emacs)
-    PROMPT="%n@%~%(!.#.$)"
-    RPROMPT=""
-    PS1='%(?..[%?])%!:%~%# '
     # for tramp to not hang, need the following. cf:
     # http://www.emacswiki.org/emacs/TrampMode
     unsetopt zle
@@ -108,6 +108,11 @@ dumb | emacs)
     unsetopt prompt_subst
     unfunction precmd
     unfunction preexec
+    PROMPT="%n@%~%(!.#.$)"
+    RPROMPT=""
+    # PS1='%(?..[%?])%!:%~%# '
+    PS1='$ '
+
     ;;
 esac
 
@@ -210,10 +215,10 @@ alias diff='diff -u'
 
 # いろいろな拡張しを実行
 function multi-run() {
-  case $1 in
-    *.lisp|*.li) ccl --load $1 --eval '(quit)';; # ccl を使って lisp を ./hoge.lisp で起動する
-    *.hs) runghc $1;; # haskell の main 関数実行
-  esac
+    case $1 in
+        *.lisp|*.li) ccl --load $1 --eval '(quit)';; # ccl を使って lisp を ./hoge.lisp で起動する
+        *.hs) runghc $1;; # haskell の main 関数実行
+    esac
 }
 alias -s {lisp,li,hs}=multi-run
 
