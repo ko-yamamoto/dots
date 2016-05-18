@@ -1,40 +1,38 @@
 # zsh-completions
-fpath=(/usr/src/zsh-completions/src $fpath)
+fpath=(/usr/local/src/zsh-completions/src $fpath)
 
+# complete hard drives in msys2
+drives=$(mount | sed -rn 's#^[A-Z]: on /([a-z]).*#\1#p' | tr '\n' ' ')
+zstyle ':completion:*' fake-files /: "/:$drives"
+unset drives
 
-export PATH=/sbin:/usr/local/bin:~/bin:/cygdrive/c/Program\ Files/Hidemaru:${PATH}
+# for gnupack
+# export TMUX_TMPDIR=/var/run/tmux
 
 # PATH ############################################################################
-# maven
-# MVN_HOME=/c/mvn/mvn
-# export PATH=${MVN_HOME}:${PATH}
-
-# play
-# PLAY_HOME=/c/play/play-2.0
-# export PATH=${PLAY_HOME}:${PATH}
-
-# haskell
-# HASKELL_HOME="/C/Program Files (x86)/Haskell Platform/latest/bin"
-# export PATH=${HASKELL_HOME}:${PATH}
-
-# rbenv
-# export PATH=$HOME/.rbenv/bin:$PATH
-# eval "$(rbenv init -)"
-
-# golang
-# export PATH=/c/Go/bin:$PATH
-# export GOROOT=/c/Users/ko-yamamoto/go
-# export PATH=$PATH:$GOROOT/bin
 
 # java
-export JAVA_HOME=/cygdrive/c/lang/Java/jdk1.8.0_25
+export JAVA_HOME=/c/lang/Java/jre1.8.0_31
+export PATH=$JAVA_HOME/bin:$PATH
 
-# gvm
-# [[ -s "$HOME/.gvm/bin/gvm-init.sh" ]] && source "$HOME/.gvm/bin/gvm-init.sh"
+# git
+export GIT_HOME=/c/Git
+export PATH=$GIT_HOME/bin:$PATH
+export GIT_PAGER="/usr/bin/less"
 
-# gradle
-export GRADLE_HOME=/usr/local/gradle/gradle
-export PATH=$PATH:$GRADLE_HOME/bin
+# python
+export PYTHON_HOME=/c/lang/Python35
+export PATH=$PYTHON_HOME:$PATH
+export PYTHON_SCRIPT_HOME=/c/lang/Python35/Scripts
+export PATH=$PYTHON_SCRIPT_HOME:$PATH
+
+# nodejs
+export NODE_HOME=/c/lang/nodejs/
+export PATH=$NODE_HOME:$PATH
+
+# npm modules
+export NPM_MODULE_HOME=/c/Users/ko-yamamoto/AppData/Roaming/npm
+export PATH=$NPM_MODULE_HOME:$PATH
 
 
 # aliases ############################################################################
@@ -51,31 +49,22 @@ alias netstat='wincmd netstat'
 alias netsh='wincmd netsh'
 alias cscript='wincmd cscript'
 
-
-
 alias ls='ls --color=auto'
 alias ll='ls --color=auto -lh --time-style=+'%Y/%m/%d_%H:%M:%S''
 alias la='ls --color=auto -alh --time-style=+'%Y/%m/%d_%H:%M:%S''
 
-alias ec='~/my/programs/emacs-24.4-IME-patched/emacs-24.4/bin/emacsclient -n'
-alias runemacs='~/my/programs/emacs-24.4-IME-patched/emacs-24.4/bin/runemacs.exe'
+alias emacsclient='~/desktop/emacs-bin-w64-25.0.93-O2/emacs/bin/emacsclient.exe -n'
+alias ec='~/desktop/emacs-bin-w64-25.0.93-O2/emacs/bin/emacsclient.exe -n'
+alias runemacs='~/desktop/emacs-bin-w64-25.0.93-O2/emacs/bin/runemacs.exe'
+export PATH=~/desktop/emacs-bin-w64-25.0.93-O2/emacs/bin:$PATH
 
 alias -g U=' | nkf -u -S -w | dos2unix'
 
-# alias mosh='mosh --server="LANG=en_US.UTF-8 mosh-server" '
-
-alias open='cygstart'
+alias open='start' # msys
+# alias open='cygstart' # cygwin
 
 # 対話型コンソールを使えるようにする
 alias play='conin play'
-
-# rm が消しすぎるので、rm の替わりにゴミ箱に放り込むコマンドが欲しい． - ブックマクロ開発に - http://goo.gl/ZNpDL
-# alias tr='trash-put'
-# alias tl='trash-list'
-# alias te='trash-empty'
-# alias rt='restore-trash'
-
-
 
 # cdしたらls
 function chpwd(){ls --color=auto}
@@ -90,10 +79,21 @@ alias javac='javac -encoding utf-8'
 # mvn
 export MAVEN_OPTS="-Xmx512M -Duser.language=en"
 
-
 # git のログには emacs を
 # export GIT_EDITOR="/c/my/programs/emacs/emacs/bin/emacsclient"
-export GIT_EDITOR="emacsclient -n"
+# export GIT_EDITOR="emacsclient"
 
 # autojump
 # [[ -s ~/.autojump/etc/profile.d/autojump.zsh ]] && . ~/.autojump/etc/profile.d/autojump.zsh
+
+# Load zsh-syntax-highlighting.
+# source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# # Load zsh-autosuggestions.
+# source ~/.zsh/zsh-autosuggestions/autosuggestions.zsh
+#
+# # Enable autosuggestions automatically.
+# zle-line-init() {
+#   zle autosuggest-start
+# }
+# zle -N zle-line-init
