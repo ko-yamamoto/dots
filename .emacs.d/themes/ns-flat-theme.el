@@ -24,13 +24,13 @@
        (orange "#E67E22")
        (yellow "#F39C12")
        (yellowL "#F1C40F")
-       (green "#99cc99")
+       (green "#27AE60")
        (aqua "#3498DB")
        (blue "#2980B9")
        (purple "#9B59B6")
        (white "#ffffff")
 
-       (base00 "#2d2d2d")
+       (base00 "#2C3E50")
        (base01 "#393939")
        (base02 "#515151")
        (base03 "#747369")
@@ -43,7 +43,7 @@
        (*comments*           base03)
        (*constant*           aqua)
        (*current-line*       base06)
-       (*cursor-underscore*  base03)
+       (*cursor-underscore*  blue)
        (*keywords*           yellow)
        (*line-number*        base06)
        (*method-declaration* red)
@@ -54,7 +54,7 @@
        (*number*             blue)
        (*operators*          green)
        (*warning*            red)
-       (*regexp*             blue)
+       (*regexp*             aqua)
        (*string*             base04)
        (*variable*           blue)
        (*visual-selection*   base05)
@@ -113,9 +113,9 @@
    `(show-paren-match ((t (:background, yellow :foreground, base00 :weight bold))))
 
    ;; search
-   `(isearch ((t (:background ,blue :bold t))))
+   `(isearch ((t (:background ,aqua :foreground ,white :bold t))))
    `(isearch-fail ((t (:background, *warning*))))
-   `(lazy-highlight ((t (:background ,blue))))
+   `(lazy-highlight ((t (:background ,aqua :foreground ,white :bold nil))))
 
    ;; rainbow-delimiters
    `(rainbow-delimiters-depth-1-face ((t (:foreground ,orange :bold t))))
@@ -167,6 +167,13 @@
    `(org-level-7 ((t (:foreground ,*normal* :bold t))))
    `(org-level-8 ((t (:foreground ,*normal* :bold t))))
    `(org-link ((t (:foreground ,blue :bold t))))
+   `(org-agenda-structure ((t (:foreground ,blue))))
+   `(org-agenda-date ((t (:foreground ,*normal*))))
+   `(org-agenda-date-today ((t (:foreground ,blue :bold t))))
+   `(org-agenda-date-weekend ((t (:foreground ,*normal*))))
+   `(org-upcoming-deadline ((t (:foreground ,red :bold t))))
+   `(org-time-grid ((t (:foreground ,aqua))))
+
 
    ;; markdown
    `(markdown-header-face-1 ((t (:foreground ,*normal* :bold t))))
@@ -259,10 +266,10 @@
    `(popup-tip-face ((t (:background ,base01))))
 
    ;; company
-   `(company-tooltip-common ((t (:foreground ,yellow :background ,base06))))
+   `(company-tooltip-common ((t (:foreground ,yellow :background ,base06 :bold t))))
    `(company-tooltip ((t (:background ,base06))))
-   `(company-tooltip-selection ((t (:background ,yellow))))
-   `(company-tooltip-common-selection ((t (:foreground ,blue :background ,yellow :bold t))))
+   `(company-tooltip-selection ((t (:background ,yellowL))))
+   `(company-tooltip-common-selection ((t (:foreground ,red :background ,yellowL :bold t))))
    `(company-scrollbar-fg ((t (:background ,yellow))))
    `(company-scrollbar-bg ((t (:background ,base05))))
    `(company-preview-common ((t (:background ,base06 :foreground ,yellow))))
@@ -298,9 +305,10 @@
 
    `(compilation-info ((t (:foreground ,green))))
 
-   `(vhl/default-face ((t (:background ,yellowL))))
+   `(vhl/default-face ((t (:background ,base06))))
 
    `(ag-match-face ((t (:background ,yellow))))
+   `(ag-hit-face ((t (:foreground ,blue :bold t))))
 
    `(highlight-symbol-face ((t (:background ,base06 :bold t))))
 
