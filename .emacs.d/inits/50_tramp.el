@@ -1,12 +1,8 @@
 (use-package tramp
   :defer t
   :config
-  ;; (setq-default tramp-default-method "sshx")
-  ;; (setq-default tramp-default-method "scpc")
-
   ;; 再接続用ファイルは作らない -> Solaris でエラーが出るため
   ;; (setq-default tramp-persistency-file-name nil)
-
 
   ;; Tramp バッファにユーザ名とホスト名を追加する
   (defun tramp-my-append-buffer-name-hint ()
@@ -41,9 +37,11 @@ file is a remote file (include directory)."
 
   (when is_winnt
     ;; NTEmacs @ ウィキ - tramp を tramp-method “scp” で使うための設定 - http://www49.atwiki.jp/ntemacs/pages/17.html
-    (setq explicit-shell-file-name "bash")
+    ;; (setq explicit-shell-file-name "bash")
     (setq tramp-default-method "scpx")
-    (setq tramp-encoding-shell "f_sh")
+    (setq tramp-encoding-shell "C:/msys64/usr/bin/bash.exe")
+    (setq tramp-encoding-command-switch "-c")
+    (setq tramp-encoding-command-interactive "-i")
 
     ;; リモートサーバで shell を開いた時に日本語が文字化けしないよう、LC_ALL と LC_CTYPE の設定を無効にする
     ;; http://www.gnu.org/software/emacs/manual/html_node/tramp/Remote-processes.html#Running%20a%20debugger%20on%20a%20remote%20host
@@ -63,9 +61,7 @@ file is a remote file (include directory)."
                                                   (concat "cygpath -u "
                                                           (shell-quote-argument (nth pos args))))
                                                  0 -1)))))
-                          (apply orig-fun args)))
-
-    )
+                          (apply orig-fun args))))
 
   (defun my-tramp-closing ()
     "tramp のバッファを全て閉じ、全接続を終了する"
