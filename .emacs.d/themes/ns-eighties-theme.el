@@ -149,7 +149,7 @@
    `(skk-dcomp-multiple-face ((t (:background ,base06 :foreground ,red))))
    `(skk-dcomp-multiple-trailing-face ((t (:background ,base06 :foreground ,blue))))
    `(skk-dcomp-multiple-selected-face ((t (:background ,yellow))))
-   `(skk-emacs-hiragana-face ((t (:background ,red))))
+   ;; `(skk-emacs-hiragana-face ((t (:background ,red))))
 
    ;; org
    `(org-hide ((t (:foreground ,*background*))))

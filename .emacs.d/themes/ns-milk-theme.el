@@ -19,7 +19,7 @@
 
 (deftheme ns-milk)
 
-(let ((*background*         "#f9f9f8")
+(let* ((*background*         "#f9f9f8")
       (*comments*           "#919398")
       (*constant*           "#8abeb7")
       (*current-line*       "#e8eaed")

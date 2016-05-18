@@ -147,10 +147,10 @@
    ;; skk
    `(skk-dcomp-face ((t (:foreground ,red))))
    `(skk-show-mode-inline-face ((t (:background ,*background*))))
-   `(skk-henkan-face-default ((t (:background ,yellow :foreground ,*normal*))))
-   `(skk-dcomp-multiple-face ((t (:background ,base06 :foreground ,red))))
-   `(skk-dcomp-multiple-trailing-face ((t (:background ,base06 :foreground ,blue))))
-   `(skk-dcomp-multiple-selected-face ((t (:background ,yellow))))
+   `(skk-henkan-face-default ((t (:foreground ,yellow :background ,base01))))
+   `(skk-dcomp-multiple-face ((t (:background ,base01 :foreground ,red))))
+   `(skk-dcomp-multiple-trailing-face ((t (:background ,base01 :foreground ,blue))))
+   `(skk-dcomp-multiple-selected-face ((t (:foreground ,yellow))))
    `(skk-emacs-hiragana-face ((t (:background ,red))))
 
    ;; org
@@ -256,7 +256,7 @@
    `(ac-completion-face ((t (:foreground ,red :background ,*current-line*))))
    `(popup-scroll-bar-foreground-face ((t (:background ,base05))))
    `(popup-scroll-bar-background-face ((t (:background ,base06))))
-   `(popup-tip-face ((t (:background ,base05))))
+   `(popup-tip-face ((t (:background ,base01))))
 
    ;; company
    `(company-tooltip-common ((t (:foreground ,yellow :background ,base01))))
