@@ -8,6 +8,9 @@
   ;; 変換候補の関係を学習させる
   (require 'skk-study)
 
+  ;; 辞書ファイル
+  (setq skk-large-jisyo "~/.emacs.d/skk/SKK-JISYO.L")
+
   ;; カーソルの色
   (setq skk-use-color-cursor t)
   (setq skk-cursor-hiragana-color "#f2777a")
@@ -23,6 +26,7 @@
   (setq skk-show-annotation t)		          ; 注釈
   (setq skk-show-mode-show t)                 ; カーソル付近にモード切り替えを表示する
   (setq skk-show-mode-style 'tooltip)         ; デフォルトは 'inline
+  (setq skk-auto-start-henkan t)              ; モードで見出し語を入力しているときに「を」や「。」などの文字を打鍵する と、SPC を押したかのように変換を開始
 
   (setq skk-show-tooltip t)                   ; 変換候補の表示方法
   (setq skk-tooltip-function                  ; tooltip に popup を使う
@@ -45,10 +49,20 @@
   (add-hook 'isearch-mode-end-hook 'skk-isearch-mode-cleanup) ; isearch で skk のクリーンアップ
   (setq skk-isearch-start-mode 'latin)						; isearch で skk の初期状態
 
-  ;; (when (or is_mac is_winnt)
-  ;;   ;;skk-server AquaSKK
-  ;;   (setq skk-server-portnum 1178)
-  ;;   (setq skk-server-host "localhost"))
+  ;; 文章系のバッファを開いた時には自動的に英数モード(「SKK」モード)に入る
+  (let ((function #'(lambda ()
+                      (require 'skk)
+                      (skk-latin-mode-on))))
+    (dolist (hook '(find-file-hooks
+                    ;; ...
+                    mail-setup-hook
+                    message-setup-hook))
+      (add-hook hook function)))
+
+  (when (or is_mac is_winnt)
+    ;;skk-server AquaSKK
+    (setq skk-server-portnum 1178)
+    (setq skk-server-host "localhost"))
 
   )
 
