@@ -71,10 +71,10 @@
 
   (setq org-todo-keyword-faces
         '(("TODO" . "#aaaaaa") ;; gray
-          ("DOING" . "#ffcc66") ;; yellow
-          ("BLOCKED" . "#f2777a") ;; red
-          ("REVIEW" . "#f99157") ;; orange
-          ("DONE" . "#6699cc") ;;blue
+          ("DOING" . "#F39C12") ;; yellow
+          ("BLOCKED" . "#E74C3C") ;; red
+          ("REVIEW" . "#E67E22") ;; orange
+          ("DONE" . "#2980B9") ;;blue
           ("ARCHIVED" .  "#99cc99"))) ;; green
 
   ;; DONE の時刻を記録

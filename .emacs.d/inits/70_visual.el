@@ -62,7 +62,8 @@
 ;; after emacs24
 (setq custom-theme-directory "~/.emacs.d/themes/")
 ;; (load-theme 'ns-milk t)
-(load-theme 'ns-eighties-dark t)
+;; (load-theme 'ns-eighties-dark t)
+(load-theme 'ns-flat t)
 
 
 ;; モードライン (mode-line-format)での書式記号
@@ -98,7 +99,7 @@
 (use-package powerline
   :ensure t
   :config
-  (setq powerline-default-separator 'zigzag) ;; arrow, slant, chamfer, wave, brace, roundstub, zigzag, butt, rounded, contour, curve
+  (setq powerline-default-separator 'slant) ;; arrow, slant, chamfer, wave, brace, roundstub, zigzag, butt, rounded, contour, curve
   (defun powerline-my-theme ()
     (interactive)
     (setq-default mode-line-format
