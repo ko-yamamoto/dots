@@ -12,8 +12,11 @@
   ;; DONEの時刻を記録
   (setq org-log-done 'time)
 
-  ;; デフォルトで有効にする
+  ;; デフォルトで org のインデント有効にする
   (setq org-indent-mode t)
+
+  ;; ソースコードのシンタックスハイライトを有効化
+  (setq org-src-fontify-natively t)
 
   ;; agenda はいまのウィンドウに開く (別のウィンドウを潰さない)
   (setq org-agenda-window-setup 'current-window)
