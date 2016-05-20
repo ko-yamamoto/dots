@@ -14,13 +14,13 @@ RightClickAction=paste
 BackspaceSendsBS=yes
 Scrollbar=none
 ScrollMod=ctrl
-CursorColour=0,0,0
 FontIsBold=no
 ClicksTargetApp=no
 AllowBlinking=yes
 
 
 # theme 1 for emacs dark
+# CursorColour=0,0,0
 # ForegroundColour=211,208,200
 # BackgroundColour=45,45,45
 # Black=0,0,0
@@ -41,6 +41,7 @@ AllowBlinking=yes
 # BoldWhite=255,255,255
 
 # theme 2 for emacs flat
+CursorColour=39,174,96
 ForegroundColour=44,62,80
 BackgroundColour=242,240,236
 Black=0,0,0
