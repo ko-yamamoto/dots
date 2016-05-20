@@ -9,7 +9,8 @@
   (require 'skk-study)
 
   ;; 辞書ファイル
-  (setq skk-large-jisyo "~/.emacs.d/skk/SKK-JISYO.L")
+  (setq skk-jisyo-code 'utf-8)
+  (setq skk-large-jisyo "~/.emacs.d/skk/SKK-JISYO.L.utf8")
 
   ;; カーソルの色
   (setq skk-use-color-cursor t)
@@ -56,13 +57,15 @@
     (dolist (hook '(find-file-hooks
                     ;; ...
                     mail-setup-hook
-                    message-setup-hook))
+                    message-setup-hook
+                    org-mode-hook))
       (add-hook hook function)))
 
   (when (or is_mac is_winnt)
     ;;skk-server AquaSKK
     (setq skk-server-portnum 1178)
-    (setq skk-server-host "localhost"))
+    (setq skk-server-host "localhost")
+    (set-process-coding-system skkserv-process 'utf-8 'utf-8))
 
   )
 
