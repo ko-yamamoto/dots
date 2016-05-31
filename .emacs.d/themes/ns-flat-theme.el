@@ -149,7 +149,7 @@
    `(skk-show-mode-inline-face ((t (:background ,*background*))))
    `(skk-henkan-face-default ((t (:foreground ,yellow :background ,base06 :bold t))))
    `(skk-dcomp-multiple-face ((t (:background ,base06 :foreground ,red))))
-   `(skk-dcomp-multiple-trailing-face ((t (:background ,base06 :foreground ,blue))))
+   `(skk-dcomp-multiple-trailing-face ((t (:background ,*background* :foreground ,blue))))
    `(skk-dcomp-multiple-selected-face ((t (:foreground ,yellow))))
    `(skk-emacs-hiragana-face ((t (:background ,red))))
 
@@ -244,10 +244,10 @@
    `(diff-changed ((t (:foreground ,yellow :inverse-video t))))
 
    ;; ediff
-   `(ediff-odd-diff-A ((t (:background ,base01))))
-   `(ediff-odd-diff-B ((t (:background ,base01))))
-   `(ediff-even-diff-A ((t (:background ,base01))))
-   `(ediff-even-diff-B ((t (:background ,base01))))
+   `(ediff-odd-diff-A ((t (:background ,base06))))
+   `(ediff-odd-diff-B ((t (:background ,base06))))
+   `(ediff-even-diff-A ((t (:background ,base06))))
+   `(ediff-even-diff-B ((t (:background ,base06))))
 
    ;; magit
    `(magit-diff-add ((t (:foreground ,green :background ,*background*))))
@@ -263,7 +263,7 @@
    `(ac-completion-face ((t (:foreground ,red :background ,*current-line*))))
    `(popup-scroll-bar-foreground-face ((t (:background ,base05))))
    `(popup-scroll-bar-background-face ((t (:background ,base06))))
-   `(popup-tip-face ((t (:background ,base01))))
+   `(popup-tip-face ((t (:background ,base06))))
 
    ;; company
    `(company-tooltip-common ((t (:foreground ,yellow :background ,base06 :bold t))))
