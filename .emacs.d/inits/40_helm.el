@@ -126,7 +126,7 @@
   (defcustom helm-my-default-sources '(helm-source-buffers-list
                                        helm-c-recentf-file-source
                                        helm-c-recentf-directory-source
-                                       helm-source-files-in-current-dir
+                                       ;; helm-source-files-in-current-dir ;; tramp 中にとても重い
                                        helm-source-buffer-not-found)
     "Default sources list used in `helm-my'."
     :group 'helm-misc
