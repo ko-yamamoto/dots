@@ -35,6 +35,9 @@
   ;; 項目ごとの番号は出力しない
   (setq org-export-with-section-numbers nil)
 
+  ;; 期限日の設定も出力する場合は t
+  (setq org-export-with-planning t)
+
   ;; ブラウザで確認
   (defun org-render-browser (n)
     (interactive "p")
@@ -64,7 +67,7 @@
   %a
   %T")
           ("n" "日報" entry (file+datetree+prompt "~/memo/nippo.org")
-           "**** 所感・連絡事項など\n**** 作業内容\n***** %?\n- 00:00 → 00:00")
+           "**** 所感・連絡事項など\n\n**** 作業内容\n\n***** %?\n\n- 00:00 → 00:00")
           ))
 
 
