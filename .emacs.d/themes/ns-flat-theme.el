@@ -145,13 +145,15 @@
    `(anzu-mode-line ((t (:foreground ,red :bold t))))
 
    ;; skk
-   `(skk-dcomp-face ((t (:foreground ,red))))
    `(skk-show-mode-inline-face ((t (:background ,*background*))))
-   `(skk-henkan-face-default ((t (:foreground ,yellow :background ,base06 :bold t))))
-   `(skk-dcomp-multiple-face ((t (:background ,base06 :foreground ,red))))
-   `(skk-dcomp-multiple-trailing-face ((t (:background ,*background* :foreground ,blue))))
-   `(skk-dcomp-multiple-selected-face ((t (:foreground ,yellow))))
+   `(skk-henkan-face-default ((t (:foreground ,white :background ,aqua :bold t))))
+   `(skk-dcomp-face ((t (:foreground ,base04))))
+   `(skk-dcomp-multiple-face ((t (:background ,base06 :foreground ,aqua :bold t))))
+   `(skk-dcomp-multiple-trailing-face ((t (:background ,base06 :foreground ,yellow :bold t))))
+   `(skk-dcomp-multiple-selected-face ((t (:foreground ,yellow :background ,base06 :bold t))))
    `(skk-emacs-hiragana-face ((t (:background ,red))))
+   `(skk-henkan-show-candidates-keys-face ((t (:foreground ,yellow :bold t))))
+
 
    ;; org
    `(org-hide ((t (:foreground ,*background*))))
@@ -173,6 +175,7 @@
    `(org-agenda-date-weekend ((t (:foreground ,*normal*))))
    `(org-upcoming-deadline ((t (:foreground ,red :bold t))))
    `(org-time-grid ((t (:foreground ,aqua))))
+   `(org-special-keyword ((t (:foreground ,base04))))
 
 
    ;; markdown
