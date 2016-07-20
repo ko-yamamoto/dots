@@ -73,15 +73,15 @@
 
   ;; TODO状態
   (setq org-todo-keywords
-        '((sequence "TODO" "DOING" "BLOCKED" "REVIEW" "|" "DONE" "ARCHIVED")))
+        '((sequence "[TODO]" "[DOING]" "[BLOCKED]" "[REVIEW]" "|" "[DONE]" "[ARCHIVED]")))
 
   (setq org-todo-keyword-faces
-        '(("TODO" . "#aaaaaa") ;; gray
-          ("DOING" . "#F39C12") ;; yellow
-          ("BLOCKED" . "#E74C3C") ;; red
-          ("REVIEW" . "#E67E22") ;; orange
-          ("DONE" . "#2980B9") ;;blue
-          ("ARCHIVED" .  "#99cc99"))) ;; green
+        '(("[TODO]" . "#aaaaaa") ;; gray
+          ("[DOING]" . "#2980B9") ;; blue
+          ("[BLOCKED]" . "#E74C3C") ;; red
+          ("[REVIEW]" . "#E67E22") ;; orange
+          ("[DONE]" . "#99cc99") ;;green
+          ("[ARCHIVED]" .  "#99cc99"))) ;; green
 
   ;; DONE の時刻を記録
   (setq org-log-done 'time)
