@@ -105,3 +105,8 @@
   (add-hook 'find-file-hook 'highlight-symbol-nav-mode)
   ;; シンボル置換
   (global-set-key (kbd "M-s M-r") 'highlight-symbol-query-replace))
+
+
+(use-package dumb-jump
+  :ensure t
+  :bind (("M-." . dumb-jump-go)))
