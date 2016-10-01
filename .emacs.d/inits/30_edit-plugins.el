@@ -63,14 +63,18 @@
 
 (use-package point-undo
   :ensure t
-  :bind (("<f7>" . point-undo)
-         ("S-<f7>" . point-redo)))
+  :config
+  (define-key global-map (kbd "<f7>") 'point-undo)
+  (define-key global-map (kbd "M-<left>") 'point-undo)
+  (define-key global-map (kbd "S-<f7>") 'point-redo)
+  (define-key global-map (kbd "M-<right>") 'point-redo))
 
 (use-package goto-chg
   :ensure t
   :defer t
-  :bind (("<f8>" . goto-last-change)
-         ("S-<f8>" . goto-last-change-reverse)))
+  :config
+  (define-key global-map (kbd "<f8>") 'goto-last-change)
+  (define-key global-map (kbd "S-<f8>") 'goto-last-change-reverse))
 
 (use-package undo-tree
   :ensure t
