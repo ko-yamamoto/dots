@@ -43,11 +43,16 @@
 (use-package anzu
   :ensure t
   :defer t
-  :bind (("M-%" . anzu-query-replace)
-         ("C-M-%" . anzu-query-replace-regexp))
+  :bind (("M-%" . anzu-query-replace))
   :init
-  (global-anzu-mode)
-  )
+  (global-anzu-mode))
+
+(use-package visual-regexp
+  :ensure t
+  :defer t
+  ;; :init
+  ;; (use-package visual-regexp-steroids :ensure t)
+  :bind (("C-M-%" . vr/query-replace)))
 
 (use-package expand-region
   :ensure t
