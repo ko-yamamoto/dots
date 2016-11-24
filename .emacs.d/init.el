@@ -12,7 +12,7 @@
 ;; package の初期化 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'package)
 (setq package-enable-at-startup nil)
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+;; (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
@@ -25,6 +25,13 @@
 (unless (require 'use-package nil t)
   (message "Use-package is unavailable!")
   (defmacro use-package (&rest _args)))
+
+;; elscreen-persist で起動時にエラーの起きるのでワークアラウンド
+(let ((elscreen-persist-file "~/.emacs.d/elscreen"))
+  (when (file-writable-p elscreen-persist-file)
+    (with-temp-buffer (insert-file-contents-literally elscreen-persist-file)
+                      (replace-string "#<" "<")
+                      (write-region (point-min) (point-max) elscreen-persist-file))))
 
 
 ;; 起動処理
