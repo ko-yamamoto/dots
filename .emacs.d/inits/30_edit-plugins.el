@@ -179,10 +179,3 @@
   :ensure t
   :bind (("M-<up>" . drag-stuff-up)
          ("M-<down>" . drag-stuff-down)))
-
-(use-package aggressive-indent
-  :ensure t
-  :config
-  (global-aggressive-indent-mode 1)
-  ;; (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
-  )
