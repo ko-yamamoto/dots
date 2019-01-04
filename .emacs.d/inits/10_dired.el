@@ -1,3 +1,9 @@
+(use-package async
+  :ensure t
+  :config
+  (eval-after-load "dired-aux" '(require 'dired-async))
+  )
+
 (use-package dired
   ;; :defer t
   :bind (("C-x j" . dired-jump)
@@ -6,23 +12,23 @@
   (require 'dired-x)
   (require 'wdired)
 
-  ;; フォルダを開く時, 新しいバッファを作成しない
-  ;; バッファを作成したい時にはoやC-u ^を利用する
-  (defvar my-dired-before-buffer nil)
-  (defadvice dired-advertised-find-file
-      (before kill-dired-buffer activate)
-    (setq my-dired-before-buffer (current-buffer)))
-  (defadvice dired-advertised-find-file
-      (after kill-dired-buffer-after activate)
-    (if (eq major-mode 'dired-mode)
-        (kill-buffer my-dired-before-buffer)))
-  (defadvice dired-up-directory
-      (before kill-up-dired-buffer activate)
-    (setq my-dired-before-buffer (current-buffer)))
-  (defadvice dired-up-directory
-      (after kill-up-dired-buffer-after activate)
-    (if (eq major-mode 'dired-mode)
-        (kill-buffer my-dired-before-buffer)))
+  ;; ;; フォルダを開く時, 新しいバッファを作成しない
+  ;; ;; バッファを作成したい時にはoやC-u ^を利用する
+  ;; (defvar my-dired-before-buffer nil)
+  ;; (defadvice dired-advertised-find-file
+  ;;     (before kill-dired-buffer activate)
+  ;;   (setq my-dired-before-buffer (current-buffer)))
+  ;; (defadvice dired-advertised-find-file
+  ;;     (after kill-dired-buffer-after activate)
+  ;;   (if (eq major-mode 'dired-mode)
+  ;;       (kill-buffer my-dired-before-buffer)))
+  ;; (defadvice dired-up-directory
+  ;;     (before kill-up-dired-buffer activate)
+  ;;   (setq my-dired-before-buffer (current-buffer)))
+  ;; (defadvice dired-up-directory
+  ;;     (after kill-up-dired-buffer-after activate)
+  ;;   (if (eq major-mode 'dired-mode)
+  ;;       (kill-buffer my-dired-before-buffer)))
 
   ;; ファイルなら別バッファで、ディレクトリなら同じバッファで開く
   (defun dired-open-in-accordance-with-situation ()
@@ -32,8 +38,8 @@
           (dired-find-alternate-file)
         (dired-find-file))))
 
-  ;; dired-find-alternate-file の有効化
-  (put 'dired-find-alternate-file 'disabled nil)
+  ;; ;; dired-find-alternate-file の有効化
+  ;; (put 'dired-find-alternate-file 'disabled nil)
 
   ;; フルパスファイル名コピー(ファイル名だけは"w")
   (defun dired-get-fullpath-filename ()
@@ -80,57 +86,25 @@
     (dired-map-over-marks-check
      (function dired-convert-coding-system) arg 'convert-coding-system t))
 
-
-  ;; diredの隠しファイル表示をトグルするminor-mode
-  (defvar dired-list-all-switch "-A"
-    "Switch for listing dot files.
-Should be \"-a\" or \"-A\". Additional switch can be included.")
-
-  (define-minor-mode dired-list-all-mode
-    "Toggle whether list dot files in dired.
-When using this mode the value of `dired-listing-switches' should not contain \"-a\" or \"-A\" option."
-    :init-value nil
-    :global nil
-    :lighter " ALL"
-    (when (eq major-mode 'dired-mode)
-      (dired-list-all-set)
-      (revert-buffer)))
-
-  (defun dired-list-all-set ()
-    (if dired-list-all-mode
-        (or (string-match-p dired-list-all-switch
-                            dired-actual-switches)
-            (setq dired-actual-switches
-                  (concat dired-list-all-switch
-                          " "
-                          dired-actual-switches)))
-      (setq dired-actual-switches
-            (replace-regexp-in-string (concat dired-list-all-switch
-                                              " ")
-                                      ""
-                                      dired-actual-switches))))
-  (add-hook 'dired-mode-hook
-            'dired-list-all-set)
-  (provide 'dired-list-all-mode)
-  ;; a で dired の隠しファイル表示をトグル
-  (require 'dired-list-all-mode nil t)
-  (setq dired-listing-switches "-lhFG")
-
   ;;   (use-package dired-filter :ensure)
 
-  ;; dired のバッファ名末尾に [Dired] を追加する
-  (defun dired-my-append-buffer-name-hint ()
-    "Append a auxiliary string to a name of dired buffer."
-    (when (eq major-mode 'dired-mode)
-      (let* ((dir (expand-file-name list-buffers-directory))
-             (drive (if (and (eq 'system-type 'windows-nt) ;; Windows の場合はドライブレターを追加
-                             (string-match "^\\([a-zA-Z]:\\)/" dir))
-                        (match-string 1 dir) "")))
-        (rename-buffer (concat (buffer-name) " [" drive "Dired]") t))))
-  (add-hook 'dired-mode-hook 'dired-my-append-buffer-name-hint)
+  ;; ;; dired のバッファ名末尾に [Dired] を追加する
+  ;; (defun dired-my-append-buffer-name-hint ()
+  ;;   "Append a auxiliary string to a name of dired buffer."
+  ;;   (when (eq major-mode 'dired-mode)
+  ;;     (let* ((dir (expand-file-name list-buffers-directory))
+  ;;            (drive (if (and (eq 'system-type 'windows-nt) ;; Windows の場合はドライブレターを追加
+  ;;                            (string-match "^\\([a-zA-Z]:\\)/" dir))
+  ;;                       (match-string 1 dir) "")))
+  ;;       (rename-buffer (concat (buffer-name) " [" drive "Dired]") t))))
+  ;; (add-hook 'dired-mode-hook 'dired-my-append-buffer-name-hint)
+
+  ;; ;; ドットファイルなど優先度の低いファイルはデフォルトで非表示とする → アイコンが表示されなくなる
+  ;; (add-hook 'dired-mode-hook
+  ;;           'dired-omit-mode)
 
   (bind-keys :map dired-mode-map
-             ("a" . dired-list-all-mode)
+             ("." . dired-omit-mode)
              ("f" . find-dired)
              ("o" . dired-find-file-other-exist-window)
              ("r" . wdired-change-to-wdired-mode)
