@@ -30,7 +30,8 @@
        (purple "#9B59B6")
        (white "#ffffff")
 
-       (base00 "#2d2d2d")
+       ;; (base00 "#2d2d2d")
+       (base00 "#111111")
        (base01 "#393939")
        (base02 "#515151")
        (base03 "#747369")
@@ -43,7 +44,7 @@
        (*comments*           base03)
        (*constant*           aqua)
        (*current-line*       base01)
-       (*cursor-underscore*  base03)
+       (*cursor-underscore*  yellow)
        (*keywords*           yellow)
        (*line-number*        base06)
        (*method-declaration* red)
@@ -57,7 +58,7 @@
        (*regexp*             blue)
        (*string*             base04)
        (*variable*           blue)
-       (*visual-selection*   base02)
+       (*visual-selection*   base03)
 
 
 
@@ -169,9 +170,9 @@
    `(org-link ((t (:foreground ,blue :bold t))))
 
    ;; markdown
-   `(markdown-header-face-1 ((t (:foreground ,*normal* :bold t))))
-   `(markdown-header-face-2 ((t (:foreground ,red :bold t))))
-   `(markdown-header-face-3 ((t (:foreground ,blue :bold t))))
+   `(markdown-header-face-1 ((t (:foreground ,red :bold t))))
+   `(markdown-header-face-2 ((t (:foreground ,blue :bold t))))
+   `(markdown-header-face-3 ((t (:foreground ,yellow :bold t))))
    `(markdown-header-face-4 ((t (:foreground ,green :bold t))))
    `(markdown-header-face-5 ((t (:foreground ,purple :bold t))))
 
@@ -248,6 +249,8 @@
    `(magit-diff-none ((t (:background ,*background*))))
    `(magit-header ((t (:foreground ,green :box (:line-width 1)))))
    `(magit-item-highlight ((t (:foreground nil :background ,*visual-selection*))))
+   `(magit-diff-added-highlight ((t (:background ,green :foreground ,*background*))))
+   `(magit-diff-removed-highlight ((t (:background ,red :foreground ,*background*))))
 
    ;; auto-complete
    `(ac-candidate-face ((t (:background ,base02 :foreground ,*background*))))

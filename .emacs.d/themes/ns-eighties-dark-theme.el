@@ -248,6 +248,8 @@
    `(magit-diff-none ((t (:background ,*background*))))
    `(magit-header ((t (:foreground ,green :box (:line-width 1)))))
    `(magit-item-highlight ((t (:foreground nil :background ,*visual-selection*))))
+   `(magit-diff-added-highlight ((t (:background ,green :foreground ,*background*))))
+   `(magit-diff-removed-highlight ((t (:background ,red :foreground ,*background*))))
 
    ;; auto-complete
    `(ac-candidate-face ((t (:background ,base02 :foreground ,*background*))))
