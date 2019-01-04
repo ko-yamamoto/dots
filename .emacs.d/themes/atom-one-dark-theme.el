@@ -543,7 +543,7 @@
    ;; elscreen
    `(elscreen-tab-background-face ((t (:background ,atom-one-dark-bg))))
    `(elscreen-tab-control-face ((t (:background ,atom-one-dark-bg :foreground ,atom-one-dark-fg))))
-   `(elscreen-tab-current-screen-face ((t (:background ,atom-one-dark-bg :foreground ,atom-one-dark-red-1 :bold t))))
+   `(elscreen-tab-current-screen-face ((t (:background ,atom-one-dark-bg :foreground ,atom-one-dark-purple :bold t))))
    `(elscreen-tab-other-screen-face ((t (:background ,atom-one-dark-bg :foreground ,atom-one-dark-mono-3 :bold t))))
 
    ;; mozc
