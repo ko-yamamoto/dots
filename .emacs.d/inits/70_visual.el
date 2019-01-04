@@ -191,12 +191,8 @@
 (global-set-key (kbd "C-c l") 'toggle-truncate-lines) ; 折り返し表示ON/OFF
 
 ;; 行数表示
-;; (global-set-key "\M-n" 'linum-mode)
-
-(use-package yalinum
-  :ensure t
-  :bind (("M-n" . yalinum-mode)))
-
+(if (version<= "26.0.50" emacs-version)
+      (global-display-line-numbers-mode))
 
 ;; ツールバーを消す
 (cond
