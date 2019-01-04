@@ -1,4 +1,6 @@
 (use-package org
+  :ensure org-plus-contrib
+  :disabled
   :defer t
   :bind (("C-c o c" . org-capture)
          ("C-c g f" . magit-file-log)

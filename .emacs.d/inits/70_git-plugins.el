@@ -48,21 +48,21 @@
          ("C-c g n" . git-gutter+-next-hunk)
          ("C-c g p" . git-gutter+-previous-hunk))
   :config
-  ;; (global-git-gutter+-mode t)
+  (global-git-gutter+-mode t)
   ;; 指定したモードで有効に
   ;; (let ((mode-hooks
-         ;; '(org-mode-hook
-           ;; rst-mode-hook
-           ;; java-mode-hook
-           ;; lisp-mode-hook
-           ;; clojure-mode-hook
-           ;; scala-mode-hook
-           ;; haskell-mode-hook
-           ;; sh-mode-hook
-           ;; go-mode-hook
-           ;; python-mode-hook
-           ;; ruby-mode-hook)))
-    ;; (mapc (lambda (mode-hook) (add-hook mode-hook 'git-gutter+-mode)) mode-hooks))
+  ;; '(org-mode-hook
+  ;; rst-mode-hook
+  ;; java-mode-hook
+  ;; lisp-mode-hook
+  ;; clojure-mode-hook
+  ;; scala-mode-hook
+  ;; haskell-mode-hook
+  ;; sh-mode-hook
+  ;; go-mode-hook
+  ;; python-mode-hook
+  ;; ruby-mode-hook)))
+  ;; (mapc (lambda (mode-hook) (add-hook mode-hook 'git-gutter+-mode)) mode-hooks))
 
   ;; 表示変更
   (setq git-gutter+-window-width 1)
@@ -80,7 +80,7 @@
 
   )
 
-(use-package fringe-helper :ensure t)
+(use-package fringe-helper :ensure t :defer t)
 
 (use-package git-gutter-fringe+
   :ensure t

@@ -57,8 +57,8 @@
 (use-package expand-region
   :ensure t
   :defer t
-  :bind (("C-o" . er/expand-region)
-         ("C-M-o" . er/contract-region)))
+  :bind (("C-@" . er/expand-region)
+         ("C-M-@" . er/contract-region)))
 
 (use-package multiple-cursors :ensure t)
 
@@ -153,7 +153,7 @@
   :ensure t
   :config
   (smart-newline-mode 1)
-  (add-hook 'gfm-mode-hook ((smart-newline-mode nil)))
+  ; (add-hook 'gfm-mode-hook ((smart-newline-mode nil)))
 
   (defadvice smart-newline (around C-u activate)
     "C-u を押したら元の C-m の挙動をするように"
