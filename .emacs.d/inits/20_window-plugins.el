@@ -55,16 +55,15 @@
       (elscreen-create)
       (dired current-dir)))
 
-  ;; (defun temp-display-tab ()
-  ;;   ;; 一定時間タブを表示
-  ;;   (setq elscreen-display-tab t)
-  ;;   (run-at-time "1.5 sec" nil
-  ;;                #'(lambda ()
-  ;;                    (setq elscreen-display-tab nil)
-  ;;                    (elscreen-notify-screen-modification 'force))))
-
-  ;; (advice-add 'elscreen-next :after #'temp-display-tab)
-  ;; (advice-add 'elscreen-previous :after #'temp-display-tab)
+  (defun temp-display-tab ()
+    ;; 一定時間タブを表示
+    (setq elscreen-display-tab t)
+    (run-at-time "1.5 sec" nil
+                 #'(lambda ()
+                     (setq elscreen-display-tab nil)
+                     (elscreen-notify-screen-modification 'force))))
+  (advice-add 'elscreen-next :after #'temp-display-tab)
+  (advice-add 'elscreen-previous :after #'temp-display-tab)
 
   )
 
