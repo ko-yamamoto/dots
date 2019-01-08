@@ -46,7 +46,7 @@ module.exports = {
     selectionColor: 'rgba(192,202,0,0.3)',
 
     // border color (window, tabs)
-    borderColor: '#333',
+    borderColor: '#1D1F21',
 
     // custom CSS to embed in the main window
     css: `
@@ -89,7 +89,7 @@ module.exports = {
         padding: 0px 24px 0 8px;
       }
       .splitpane_divider {
-        background-color: rgba(0, 0, 0, 0.2) !important;
+        background-color: rgba(0, 0, 0, 0.8) !important;
       }
     `,
 
