@@ -22,21 +22,43 @@ function fish_user_key_bindings
 
 
 # ssh-agent
-set agentPID (ps gxww | grep "ssh-agent]*\$" | awk '{print $1}') | head -1
-set agentSOCK (/bin/ls -t /tmp/ssh*/agent*|head -1)
-if test "$agentPID" = "" -o "$agentSOCK" = ""
-    set -e SSH_AUTH_SOCK
-    set -e SSH_AGENT_PID
-    eval (ssh-agent)
+setenv SSH_ENV $HOME/.ssh/environment
+function start_agent
+    echo "Initializing new SSH agent ..."
+    ssh-agent -c | sed 's/^echo/#echo/' > $SSH_ENV
+    echo "succeeded"
+    chmod 600 $SSH_ENV
+    . $SSH_ENV > /dev/null
     ssh-add
+end
+function test_identities
+    ssh-add -l | grep "The agent has no identities" > /dev/null
+    if [ $status -eq 0 ]
+        ssh-add
+        if [ $status -eq 2 ]
+            start_agent
+        end
+    end
+end
+if [ -n "$SSH_AGENT_PID" ]
+    ps -ef | grep $SSH_AGENT_PID | grep ssh-agent > /dev/null
+    if [ $status -eq 0 ]
+        test_identities
+    end
 else
-    set --export SSH_AGENT_PID $agentPID
-    set --export SSH_AUTH_SOCK $agentSOCK
-    # if [ `ssh-add -l` = "" ]; then    #     ssh-add < /dev/null
-    # fi
+    if [ -f $SSH_ENV ]
+        . $SSH_ENV > /dev/null
+    end
+    ps -ef | grep $SSH_AGENT_PID | grep -v grep | grep ssh-agent > /dev/null
+    if [ $status -eq 0 ]
+        test_identities
+    else
+        start_agent
+    end
 end
 
 
+# overwrite functions
 function cd
     if test (count $argv) -eq 0
         cd $HOME
