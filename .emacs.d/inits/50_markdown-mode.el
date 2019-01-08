@@ -5,8 +5,6 @@
   (add-to-list 'auto-mode-alist '("\\.markdown\\'" . gfm-mode))
   (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
 
-  ;; grip コマンドラッパーでの HTML プレビュー用
-  ;; EmacsでGithub flavorなMarkdownをプレビューできるようにする - cloverrose's blog - http://cloverrose.hateblo.jp/entry/2014/11/03/220452
   (setq markdown-command "markdown")
   (setq markdown-command-needs-filename t)
 
@@ -19,20 +17,17 @@
   ;;   (call-process "/usr/local/bin/grip" nil nil nil
   ;;                 "--gfm" "--export"
   ;;                 (buffer-file-name)
-  ;;                 "/tmp/grip.html")
-  ;;   (eww-open-file "/tmp/grip.html"))
+  ;;                 "/mnt/c/my/tmp/grip.html")
+  ;;   (eww-open-file "/mnt/c/my/tmp/grip.html"))
 
-  ;; (defun markdown-render-browser (n)
-  ;;   (interactive "p")
-  ;;   (message (buffer-file-name))
-  ;;   (call-process md-command nil nil nil
-  ;;                 "--gfm" "--export"
-  ;;                 (buffer-file-name)
-  ;;                 "/tmp/grip.html")
-  ;;   (browse-url-of-file "/tmp/grip.html"))
+  (use-package markdown-preview-mode
+    :ensure t
+    :defer t
+    :config
+    (setq markdown-preview-stylesheets
+          (list "https://rawgit.com/andyferra/2554919/raw/10ce87fe71b23216e3075d5648b8b9e56f7758e1/github.css")))
 
   (bind-keys :map markdown-mode-map
-             ("M-n" . linum-mode) ;; デフォルトキーバインドを上書き
-             ("C-c C-c" . markdown)
+             ("C-c C-c" . markdown-preview-mode)
              ("M-<up>" . drag-stuff-up)
              ("M-<down>" . drag-stuff-down)))
