@@ -61,9 +61,7 @@
 
 ;; after emacs24
 (setq custom-theme-directory "~/.emacs.d/themes/")
-;; (load-theme 'ns-milk t)
-;; (load-theme 'ns-eighties-dark t)
-(load-theme 'ns-flat t)
+(load-theme 'atom-one-dark t)
 
 
 ;; モードライン (mode-line-format)での書式記号
