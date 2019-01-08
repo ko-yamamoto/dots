@@ -167,7 +167,7 @@
 
 
 ;;;;;;;;;;;;;;;;;; C-d に delete-selection-mod が効かないので無理やり
-(global-set-key (kbd "C-d") 'delete-forward-char)
+;; (global-set-key (kbd "C-d") 'delete-forward-char)
 
 
 ;;;;;;;;;;;;;;;;;; tramp
