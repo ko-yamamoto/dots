@@ -166,7 +166,7 @@
   (hl-line-when-idle-interval 10))
 
 ;; カーソルの形
-(set-default 'cursor-type 'box)
+(set-default 'cursor-type '(hbar . 5))
 
 ;; カーソル位置のフェースを調べる関数
 (defun describe-face-at-point ()
