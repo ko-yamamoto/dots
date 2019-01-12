@@ -1,5 +1,4 @@
 (use-package org
-  :ensure org-plus-contrib
   :disabled
   :defer t
   :bind (("C-c o c" . org-capture)
@@ -98,7 +97,7 @@
   ;; ソースハイライトを有効化
   (setq org-src-fontify-natively t)
 
-  (use-package ox-gfm :ensure t)
+  (use-package ox-gfm)
 
   (bind-keys :map org-mode-map
              ("<C-tab>" . elscreen-next)

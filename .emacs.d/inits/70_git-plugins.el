@@ -8,7 +8,6 @@
 
 (use-package magit
   :defer t
-  :ensure t
   :bind (("C-c g g" . magit-status)
          ("C-c g d" . magit-diff-working-tree)
          ("C-c g f" . magit-file-log))
@@ -42,7 +41,6 @@
   )
 
 (use-package git-gutter+
-  :ensure t
   :defer t
   :bind (("C-c g c" . global-git-gutter+-mode)
          ("C-c g n" . git-gutter+-next-hunk)
@@ -80,10 +78,9 @@
 
   )
 
-(use-package fringe-helper :ensure t :defer t)
+(use-package fringe-helper :defer t)
 
 (use-package git-gutter-fringe+
-  :ensure t
   :defer t
   :config
   (setq-default left-fringe-width  10)

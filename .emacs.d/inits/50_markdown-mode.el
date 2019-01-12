@@ -1,5 +1,4 @@
 (use-package markdown-mode
-  :ensure t
   :defer t
   :config
   (add-to-list 'auto-mode-alist '("\\.markdown\\'" . gfm-mode))
@@ -21,7 +20,6 @@
   ;;   (eww-open-file "/mnt/c/my/tmp/grip.html"))
 
   (use-package markdown-preview-mode
-    :ensure t
     :defer t
     :config
     (setq markdown-preview-stylesheets

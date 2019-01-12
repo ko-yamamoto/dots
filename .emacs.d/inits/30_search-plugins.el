@@ -1,5 +1,4 @@
 (use-package migemo
-  :ensure t
   :config
   (setq migemo-command "cmigemo")
   (setq migemo-options '("-q" "--emacs"))
@@ -14,7 +13,6 @@
 
 (use-package color-moccur
   :defer t
-  :ensure t
   :bind (("C-q o o" . occur-by-moccur)
          ("C-q o m" . moccur-grep-find))
   :config
@@ -37,7 +35,6 @@
                (local-set-key (kbd "O") 'dired-do-moccur)))
 
   (use-package moccur-edit
-    :ensure t
     :config
     ;; moccur-edit-finish-editと同時にファイルを保存する
     (defadvice moccur-edit-change-file
@@ -48,7 +45,6 @@
 
 (use-package ag
   :defer t
-  :ensure t
   :init
   (bind-key "C-q a" nil) ;; remove elscreen-toggle key
   :bind (("C-q a g" . ag)
@@ -56,8 +52,7 @@
          ("C-q a f" . ag-dired)
          ("C-q a F" . ag-dired-regexp))
   :config
-  (use-package wgrep-ag
-    :ensure t)
+  (use-package wgrep-ag)
   (setq ag-arguments '("--line-number" "--smart-case" "--nogroup" "--column" "--stats" "--vimgrep" "--"))
   (setq ag-highlight-search t)  ; 検索結果の中の検索語をハイライトする
   (autoload 'wgrep-ag-setup "wgrep-ag")
@@ -67,7 +62,6 @@
   )
 
 (use-package helm-ag
-  :ensure t
   :bind (("C-q a h" . helm-ag)))
 
 (use-package imenu
@@ -78,14 +72,12 @@
 
 (use-package imenu-anywhere
   ;; imenu を同一メジャーモードのマルチバッファ化
-  :ensure t
   :defer t
   ;; :bind (("M-i" . ido-imenu-anywhere)))
   :bind (("M-i" . helm-imenu-anywhere)))
 
 
 (use-package isearch-dabbrev
-  :ensure t
   :config
   (bind-keys :map isearch-mode-map
              ("<tab>" . isearch-dabbrev-expand)))
@@ -93,7 +85,6 @@
 
 
 (use-package highlight-symbol
-  :ensure t
   :config
   ;; 自動ハイライトされるようになるまでの時間
   (setq highlight-symbol-idle-delay 0.3)
@@ -108,5 +99,4 @@
 
 
 (use-package dumb-jump
-  :ensure t
   :bind (("M-." . dumb-jump-go)))

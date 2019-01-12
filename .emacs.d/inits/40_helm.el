@@ -1,7 +1,6 @@
 (use-package helm
   ;; :disabled t
   :defer t
-  :ensure t
   :bind (("C-;" . helm-mini)
          ("M-y" . helm-show-kill-ring)
          ("M-i" . helm-imenu-anywhere)
@@ -23,7 +22,7 @@
   (helm-migemo-mode t)
 
   ;; helm バッファは保存しないように
-  (add-to-list 'desktop-modes-not-to-save 'helm-mode)
+  ;; (add-to-list 'desktop-modes-not-to-save 'helm-mode)
 
   ;; find-file では邪魔なので helm を使わない
   ;; (add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
@@ -176,7 +175,6 @@
         (helm-other-buffer sources "*helm git project*"))))
 
   (use-package helm-descbinds
-    :ensure t
     :bind (("C-^ b" . helm-descbinds))
     :config (helm-descbinds-install))
 

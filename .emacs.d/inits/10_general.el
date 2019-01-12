@@ -1,6 +1,4 @@
 (use-package key-chord
-  :ensure t
-  ;; :defer t
   :config
   (key-chord-mode 1)
   (setq key-chord-one-keys-delay 0.04)
@@ -35,12 +33,6 @@
 ;; 共通ロードパスを通す OSごと設定は下の方で
 (setq load-path (cons "~/.emacs.d/elisp" load-path))
 
-;; package.elでインストールしたelispをload-pathへ追加
-(let ((default-directory (expand-file-name "~/.emacs.d/elpa")))
-  (add-to-list 'load-path default-directory)
-  (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
-      (normal-top-level-add-subdirs-to-load-path)))
-
 ;; language & code
 (set-language-environment 'Japanese)
 (prefer-coding-system 'utf-8)
@@ -64,9 +56,10 @@
 (setq-default tab-width 4 indent-tabs-mode nil)
 
 ;; ディレクトリも履歴に残るように
-(use-package recentf-ext :ensure t)
+(use-package recentf-ext
+  :config
+  (recentf-mode 1))
 
-(recentf-mode 1)
 ;; 最近のファイル500個を保存する
 (setq recentf-max-saved-items 1000)
 (setq recentf-max-menu-items 300)
@@ -324,7 +317,6 @@ Otherwise, call `backward-kill-word'."
 ;; browse-url-browser-function 'browse-url-generic)
 
 (use-package zlc
-  :ensure t
   :config
   (zlc-mode t)
   (let ((map minibuffer-local-map))

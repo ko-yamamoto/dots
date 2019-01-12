@@ -1,5 +1,4 @@
 (use-package js2-mode
-  :ensure t
   :defer t
   :config
   (add-to-list 'auto-mode-alist (cons (rx ".js" eos) 'js2-mode))

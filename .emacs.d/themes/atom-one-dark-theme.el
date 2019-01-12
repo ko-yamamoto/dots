@@ -563,6 +563,9 @@
    `(moccur-edit-face ((t (:background ,atom-one-dark-orange-1 :foreground ,atom-one-dark-red-1))))
    `(moccur-edit-done-face ((t (:foreground ,atom-one-dark-blue))))
 
+   ;; all-the-icons-dired
+   `(all-the-icons-dired-dir-face ((t (:foreground ,atom-one-dark-purple))))
+
    ))
 
 (atom-one-dark-with-color-variables

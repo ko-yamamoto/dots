@@ -1,5 +1,4 @@
 (use-package twittering-mode
-  :ensure t
   :defer t
   :bind (("C-c t t" . twit)
          ("C-c t p" . twittering-update-status-interactive))
@@ -18,6 +17,9 @@
   ;; 日時用の見た目
   (defface twittering-mode-hide-face
     '((t (:foreground "#f0c674"))) nil)
+  ;; クライアント用の見た目
+  (defface twittering-mode-from-face
+    '((t (:foreground "#424242"))) nil)
   ;; in reply to用の見た目
   (defface twittering-mode-reply-face
     '((t (:foreground "#b5bd68"))) nil)
@@ -33,7 +35,7 @@
   (twittering-icon-mode)
 
   ;; 表示方法
-  (setq twittering-status-format "%i%FACE[twittering-mode-name-face]{%s(%S) %p }%FACE[twittering-mode-reply-face]{%r%R}\n%FACE[twittering-mode-text-face]{%FILL[ ]{%t}}\n%FACE[twittering-mode-hide-face]{%C{%m/%d %H:%M:%S}(%@)}%FACE[twittering-mode-hide-face]{  from %f%L}%FACE[twittering-mode-sepa-face]{\n\n------------------------------------------------------------------------------\n}")
+  (setq twittering-status-format "%i%FACE[twittering-mode-name-face]{%s (%S) %p }%FACE[twittering-mode-reply-face]{%r%R}\n%FACE[twittering-mode-text-face]{%FILL[ ]{%t}}\n%FACE[twittering-mode-hide-face]{%C{%m/%d %H:%M:%S}(%@)}%FACE[twittering-mode-from-face]{  from %f%L}%FACE[twittering-mode-sepa-face]{\n\n------------------------------------------------------------------------------\n}")
 
   ;; RT 形式
   (setq twittering-retweet-format " RT @%s: %t")

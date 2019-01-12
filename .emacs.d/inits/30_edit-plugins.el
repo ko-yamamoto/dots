@@ -1,9 +1,7 @@
-(use-package fuzzy :ensure t)
+(use-package fuzzy)
 
 (use-package company
-  :ensure t
   ;; :bind (("M-c" . company-complete-common2))
-
   :config
   (global-company-mode) ; 全バッファで有効にする
   (setq company-idle-delay 0) ; デフォルトは0.5
@@ -13,13 +11,11 @@
 
   ;; 補完の使用頻度でソート
   (use-package company-statistics
-    :ensure t
     :config
     (company-statistics-mode)
     (setq company-transformers '(company-sort-by-statistics company-sort-by-backend-importance)))
 
   (use-package company-try-hard
-    :ensure t
     :config
     (global-set-key (kbd "M-c") #'company-try-hard)
     (define-key company-active-map (kbd "M-c") #'company-try-hard))
@@ -41,29 +37,25 @@
 
 
 (use-package anzu
-  :ensure t
   :defer t
   :bind (("M-%" . anzu-query-replace))
   :init
   (global-anzu-mode))
 
-(use-package visual-regexp
-  :ensure t
-  :defer t
-  ;; :init
-  ;; (use-package visual-regexp-steroids :ensure t)
-  :bind (("C-M-%" . vr/query-replace)))
+;; (use-package visual-regexp
+;;   :defer t
+;;   ;; :init
+;;   ;; (use-package visual-regexp-steroids)
+;;   :bind (("C-M-%" . vr/query-replace)))
 
 (use-package expand-region
-  :ensure t
   :defer t
   :bind (("C-@" . er/expand-region)
          ("C-M-@" . er/contract-region)))
 
-(use-package multiple-cursors :ensure t)
+(use-package multiple-cursors)
 
 (use-package point-undo
-  :ensure t
   :bind
   ("<f7>" . point-undo)
   ("M-<left>" . point-undo)
@@ -71,13 +63,11 @@
   ("M-<right>" . point-redo))
 
 (use-package goto-chg
-  :ensure t
   :defer t
   :bind (("<f8>" . goto-last-change)
          ("S-<f8>" . goto-last-change-reverse)))
 
 (use-package undo-tree
-  :ensure t
   :defer t
   :bind (("C-/" . undo-tree-undo)
          ("M-/" . undo-tree-redo))
@@ -88,13 +78,11 @@
   )
 
 (use-package wrap-region
-  :ensure t
   :config
   (wrap-region-global-mode t)
   )
 
 (use-package smartrep
-  :ensure t
   :config
   (setq smartrep-mode-line-active-bg "#f2777a")
 
@@ -149,7 +137,6 @@
   )
 
 (use-package smart-newline
-  :ensure t
   :config
   (smart-newline-mode 1)
   ; (add-hook 'gfm-mode-hook ((smart-newline-mode nil)))
@@ -163,18 +150,15 @@
           (call-interactively (key-binding (kbd "C-m"))))))))
 
 (use-package zzz-to-char
-  :ensure t
   :bind (("M-z" . zzz-up-to-char))
   :config
   (setq zzz-to-char-reach 480))
 
 
 (use-package smart-mark
-  :ensure t
   :config
   (smart-mark-mode))
 
 (use-package drag-stuff
-  :ensure t
   :bind (("M-<up>" . drag-stuff-up)
          ("M-<down>" . drag-stuff-down)))

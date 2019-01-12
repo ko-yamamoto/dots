@@ -34,30 +34,19 @@
 
 
 (use-package volatile-highlights
-  :ensure t
   :config
   (volatile-highlights-mode t))
 
 (use-package polymode
-  :ensure t
   :config
-  (require 'poly-markdown)
-  (add-to-list 'auto-mode-alist '("\\.md" . poly-markdown-mode)))
+  (use-package poly-markdown
+    :config
+    (add-to-list 'auto-mode-alist '("\\.md" . poly-markdown-mode))))
 
 ;; color-themeの設定
-;; (require 'color-theme)
-;; (color-theme-initialize)
-;; (color-theme-andreas)
-;; (color-theme-ns-w2)
-;; (color-theme-ns)
-;; (color-theme-tangotango)
-;; (color-theme-tomorrow-night-bright)
-;; (color-theme-tomorrow-night)
-;; (color-theme-tomorrow-night-eighties)
-;; (color-theme-tomorrow)
-;; (color-theme-solarized-light)
-;; (color-theme-hybrid)
-;; (color-theme-mccarthy)
+(require 'color-theme)
+(color-theme-initialize)
+;; (color-theme-sanityinc-tomorrow-day)
 
 ;; after emacs24
 (setq custom-theme-directory "~/.emacs.d/themes/")
@@ -198,15 +187,14 @@
 (blink-cursor-mode t)
 
 ;; カーソル行ハイライト
-;; (global-hl-line-mode)
-(use-package hl-line+
-  :ensure t
-  ;; :defer t
-  :config
-  ;; 一定時間後に現在行ハイライト
-  (toggle-hl-line-when-idle)
-  ;; n 秒後に変更
-  (hl-line-when-idle-interval 10))
+(global-hl-line-mode)
+;; (use-package hl-line+
+;;   ;; :defer t
+;;   :config
+;;   ;; 一定時間後に現在行ハイライト
+;;   (toggle-hl-line-when-idle)
+;;   ;; n 秒後に変更
+;;   (hl-line-when-idle-interval 10))
 
 ;; カーソルの形
 (set-default 'cursor-type '(hbar . 5))
@@ -236,12 +224,8 @@
       (global-display-line-numbers-mode))
 
 ;; ツールバーを消す
-(cond
- (is_emacs23
-  (menu-bar-mode nil))
- (is_emacs24
-  (tool-bar-mode 0)
-  (menu-bar-mode -1)))
+(tool-bar-mode 0)
+(menu-bar-mode -1)
 
 ;; スクロールバーを消す
 (set-scroll-bar-mode nil)

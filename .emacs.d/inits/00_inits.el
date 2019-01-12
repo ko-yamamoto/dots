@@ -1,3 +1,6 @@
+;; C-q -> pre-fix key
+(define-key global-map "\C-q" (make-sparse-keymap))
+;
 ;; 環境切り分け用の定義作成 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; (defvar is_emacs22 (equal emacs-major-version 22))

@@ -3,6 +3,9 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; mozc
+(require 'mozc)
+(straight-use-package '(mozc-im-only :type git :host github :repo "d5884/mozc-im" :files ("mozc-im.el")))
+(straight-use-package '(mozc-popup-only :type git :host github :repo "d5884/mozc-popup" :files ("mozc-popup.el")))
 (require 'mozc-im)
 (require 'mozc-popup)
 (require 'mozc-cursor-color)
@@ -33,7 +36,7 @@
 (add-hook 'mozc-im-deactivate-hook (lambda () (setq mozc-im-mode nil)))
 (advice-add 'mozc-cursor-color-update
             :around (lambda (orig-fun &rest args)
-                      (let ((mozc-mode mozc-im-mode))
+			          (let ((mozc-mode mozc-im-mode))
                         (apply orig-fun args))))
 
 ;; isearch を利用する前後で IME の状態を維持するための対策
@@ -41,7 +44,7 @@
 (add-hook 'isearch-mode-end-hook
           (lambda ()
             (unless (eq im-state mozc-im-mode)
-              (if im-state
+		      (if im-state
                   (activate-input-method default-input-method)
                 (deactivate-input-method)))))
 
@@ -65,7 +68,7 @@
                 (lambda () (interactive)
                   (mozc-mode 1)
                   (when (null current-input-method) (toggle-input-method))))
-;; 無変換キーでon
+;; 無変換キーでoff
 (global-set-key [muhenkan]
                 (lambda () (interactive)
                   (mozc-mode nil)
@@ -105,15 +108,15 @@ properly disable mozc-mode."
 (advice-add 'mozc-candidate-dispatch
             :before (lambda (&rest args)
                       (when helm-alive-p
-                          (cl-case (nth 0 args)
-                            ('update
-                             (unless helm-suspend-update-flag
-                               (helm-kill-async-processes)
-                               (setq helm-pattern "")
-                               (setq helm-suspend-update-flag t)))
-                            ('clean-up
-                             (when helm-suspend-update-flag
-                               (setq helm-suspend-update-flag nil)))))))
+                        (cl-case (nth 0 args)
+                          ('update
+                           (unless helm-suspend-update-flag
+                             (helm-kill-async-processes)
+                             (setq helm-pattern "")
+                             (setq helm-suspend-update-flag t)))
+                          ('clean-up
+                           (when helm-suspend-update-flag
+                             (setq helm-suspend-update-flag nil)))))))
 
 ;; helm で候補のアクションを表示する際に IME を OFF にする
 (advice-add 'helm-select-action

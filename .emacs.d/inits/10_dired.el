@@ -1,34 +1,28 @@
-(use-package async
-  :ensure t
-  :config
-  (eval-after-load "dired-aux" '(require 'dired-async))
-  )
-
 (use-package dired
-  ;; :defer t
+  :straight nil
   :bind (("C-x j" . dired-jump)
          ("C-x C-j" . dired-with-new-elscreen))
   :config
   (require 'dired-x)
   (require 'wdired)
 
-  ;; ;; フォルダを開く時, 新しいバッファを作成しない
-  ;; ;; バッファを作成したい時にはoやC-u ^を利用する
-  ;; (defvar my-dired-before-buffer nil)
-  ;; (defadvice dired-advertised-find-file
-  ;;     (before kill-dired-buffer activate)
-  ;;   (setq my-dired-before-buffer (current-buffer)))
-  ;; (defadvice dired-advertised-find-file
-  ;;     (after kill-dired-buffer-after activate)
-  ;;   (if (eq major-mode 'dired-mode)
-  ;;       (kill-buffer my-dired-before-buffer)))
-  ;; (defadvice dired-up-directory
-  ;;     (before kill-up-dired-buffer activate)
-  ;;   (setq my-dired-before-buffer (current-buffer)))
-  ;; (defadvice dired-up-directory
-  ;;     (after kill-up-dired-buffer-after activate)
-  ;;   (if (eq major-mode 'dired-mode)
-  ;;       (kill-buffer my-dired-before-buffer)))
+  ;; フォルダを開く時, 新しいバッファを作成しない
+  ;; バッファを作成したい時にはoやC-u ^を利用する
+  (defvar my-dired-before-buffer nil)
+  (defadvice dired-advertised-find-file
+      (before kill-dired-buffer activate)
+    (setq my-dired-before-buffer (current-buffer)))
+  (defadvice dired-advertised-find-file
+      (after kill-dired-buffer-after activate)
+    (if (eq major-mode 'dired-mode)
+        (kill-buffer my-dired-before-buffer)))
+  (defadvice dired-up-directory
+      (before kill-up-dired-buffer activate)
+    (setq my-dired-before-buffer (current-buffer)))
+  (defadvice dired-up-directory
+      (after kill-up-dired-buffer-after activate)
+    (if (eq major-mode 'dired-mode)
+        (kill-buffer my-dired-before-buffer)))
 
   ;; ファイルなら別バッファで、ディレクトリなら同じバッファで開く
   (defun dired-open-in-accordance-with-situation ()
@@ -86,7 +80,7 @@
     (dired-map-over-marks-check
      (function dired-convert-coding-system) arg 'convert-coding-system t))
 
-  ;;   (use-package dired-filter :ensure)
+  ;;   (use-package dired-filter)
 
   ;; ;; dired のバッファ名末尾に [Dired] を追加する
   ;; (defun dired-my-append-buffer-name-hint ()
@@ -103,6 +97,11 @@
   ;; (add-hook 'dired-mode-hook
   ;;           'dired-omit-mode)
 
+  (defun dired-find-file-other-exist-window ()
+    "ウィンドウを再利用してもう片方のウィンドウで開く"
+    (interactive)
+    (find-file-other-exist-window (dired-get-file-for-visit)))
+
   (bind-keys :map dired-mode-map
              ("." . dired-omit-mode)
              ("f" . find-dired)
@@ -111,8 +110,27 @@
              ("T" . dired-do-convert-coding-system)
              ("W" . dired-get-fullpath-filename)
              ;; ディレクトリの移動キーを追加(wdired 中は無効)
-             ;; ("<left>" . dired-up-directory)
-             ;; ("<right>" . dired-open-in-accordance-with-situation)
-             ;; ("RET" . dired-open-in-accordance-with-situation)
+             ("<left>" . dired-up-directory)
+             ("<right>" . dired-open-in-accordance-with-situation)
+             ("RET" . dired-open-in-accordance-with-situation)
              ("C-t" . other-window-or-split))
   )
+
+;;;dired-sidebar
+(use-package dired-sidebar
+  :bind
+  ("C-S-e" . dired-sidebar-toggle-sidebar)
+  :commands (dired-sidebar-toggle-sidebar)
+  :init
+  (add-hook 'dired-sidebar-mode-hook
+            (lambda ()
+              (unless (file-remote-p default-directory)
+                (auto-revert-mode))))
+  :config
+  ;; (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
+  ;; (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
+  (setq dired-sidebar-face '(:height 90))
+  (setq dired-sidebar-subtree-line-prefix " ")
+  (setq dired-sidebar-theme 'icons)
+  (setq dired-sidebar-use-term-integration t)
+  (setq dired-sidebar-use-custom-font t))
