@@ -6,23 +6,23 @@
   (require 'dired-x)
   (require 'wdired)
 
-  ;; フォルダを開く時, 新しいバッファを作成しない
-  ;; バッファを作成したい時にはoやC-u ^を利用する
-  (defvar my-dired-before-buffer nil)
-  (defadvice dired-advertised-find-file
-      (before kill-dired-buffer activate)
-    (setq my-dired-before-buffer (current-buffer)))
-  (defadvice dired-advertised-find-file
-      (after kill-dired-buffer-after activate)
-    (if (eq major-mode 'dired-mode)
-        (kill-buffer my-dired-before-buffer)))
-  (defadvice dired-up-directory
-      (before kill-up-dired-buffer activate)
-    (setq my-dired-before-buffer (current-buffer)))
-  (defadvice dired-up-directory
-      (after kill-up-dired-buffer-after activate)
-    (if (eq major-mode 'dired-mode)
-        (kill-buffer my-dired-before-buffer)))
+  ;; ;; フォルダを開く時, 新しいバッファを作成しない
+  ;; ;; バッファを作成したい時にはoやC-u ^を利用する
+  ;; (defvar my-dired-before-buffer nil)
+  ;; (defadvice dired-advertised-find-file
+  ;;     (before kill-dired-buffer activate)
+  ;;   (setq my-dired-before-buffer (current-buffer)))
+  ;; (defadvice dired-advertised-find-file
+  ;;     (after kill-dired-buffer-after activate)
+  ;;   (if (eq major-mode 'dired-mode)
+  ;;       (kill-buffer my-dired-before-buffer)))
+  ;; (defadvice dired-up-directory
+  ;;     (before kill-up-dired-buffer activate)
+  ;;   (setq my-dired-before-buffer (current-buffer)))
+  ;; (defadvice dired-up-directory
+  ;;     (after kill-up-dired-buffer-after activate)
+  ;;   (if (eq major-mode 'dired-mode)
+  ;;       (kill-buffer my-dired-before-buffer)))
 
   ;; ファイルなら別バッファで、ディレクトリなら同じバッファで開く
   (defun dired-open-in-accordance-with-situation ()
@@ -129,8 +129,17 @@
   :config
   ;; (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
   ;; (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
+
+  ;; 右端に表示する
+  (setq dired-sidebar-display-alist '((side . right) (slot . -1)))
+  ;; フォントサイズ
+  (setq dired-sidebar-use-custom-font t)
   (setq dired-sidebar-face '(:height 90))
-  (setq dired-sidebar-subtree-line-prefix " ")
+  ;; 横幅
+  (setq dired-sidebar-width 45)
+  ;; 左端からインデントを示す文字
+  (setq dired-sidebar-subtree-line-prefix "  ")
+  ;; 表示しているファイルに合わせてディレクトリを更新
+  (setq dired-sidebar-should-follow-file t)
   (setq dired-sidebar-theme 'icons)
-  (setq dired-sidebar-use-term-integration t)
-  (setq dired-sidebar-use-custom-font t))
+  (setq dired-sidebar-use-term-integration t))
