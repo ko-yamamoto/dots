@@ -122,6 +122,10 @@
                        (delq file recentf-list)))))
       (migemo)))
 
+  ;; helmのバッファリストに表示しないパターン
+  (setq helm-boring-buffer-regexp-list
+        (list "\\` " "\\`\\*helm" "\\`\\*Echo Area" "\\`\\*Minibuf" "magit-" "magit:" ":"))
+
   (defcustom helm-my-default-sources '(helm-source-buffers-list
                                        helm-elscreen-source-list
                                        helm-c-recentf-file-source
