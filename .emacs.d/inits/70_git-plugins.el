@@ -69,20 +69,19 @@
   (setq git-gutter+-deleted-sign "|")
 
   ;; 色変更
-  (set-face-foreground 'git-gutter+-modified "#eab700")
-  (set-face-foreground 'git-gutter+-added "#95D9FF")
-  (set-face-foreground 'git-gutter+-deleted "#c82829")
+  (set-face-foreground 'git-gutter+-modified "#D19A66")
+  (set-face-foreground 'git-gutter+-added "#61AFEF")
+  (set-face-foreground 'git-gutter+-deleted "#E06C75")
 
   ;; Ignore all spaces
   ;; (setq git-gutter+-diff-options '("-w"))
 
   )
 
-(use-package fringe-helper :defer t)
-
 (use-package git-gutter-fringe+
-  :defer t
+  ;; :defer t
   :config
+  (use-package fringe-helper)
   (setq-default left-fringe-width  10)
   (setq-default right-fringe-width 10)
   ;; 形変更 (上下くっつけるため目一杯長く)
