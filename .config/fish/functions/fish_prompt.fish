@@ -43,5 +43,5 @@ function fish_prompt
     set_color normal
 
     # Main
-    echo -n \n(set_color red)'❯'(set_color yellow)'❯'(set_color green)'❯ '
+    echo -n \n(set_color red)'❯'(set_color yellow)'❯'(set_color green)'❯ '(set_color normal)
 end
