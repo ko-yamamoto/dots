@@ -15,12 +15,14 @@
   (setq elscreen-prefix-key "\C-q")
   (elscreen-start)
   :config
+  (use-package helm-elscreen)
+
   ;; タブコントロールを左端に表示しない
   (setq elscreen-tab-display-control nil)
   ;; タブを閉じる [X] を表示しない
   (setq elscreen-tab-display-kill-screen nil)
   ;; タブの幅
-  (setq elscreen-display-tab 22)
+  (setq elscreen-display-tab 30)
 
   ;; タブが1つの時にタブ移動をすると自動でスクリーンを生成する
   (defmacro elscreen-create-automatically (ad-do-it)
@@ -61,58 +63,6 @@
   ;;                    (elscreen-notify-screen-modification 'force))))
   ;; (advice-add 'elscreen-next :after #'temp-display-tab)
   ;; (advice-add 'elscreen-previous :after #'temp-display-tab)
-  (setq elscreen-display-tab nil)
-
-  ;; elscreenのタブをフレームタイトルに入れる - Qiita
-  ;; https://qiita.com/kaz-yos/items/9dffd94694adf59449b7
-  ;;;  Use frame-title for tabs
-  ;; How to display the list of screens on the frame-title of my Emacs?
-  ;; This is broken. get-alist should be changed to alist-get
-  ;; https://www.emacswiki.org/emacs/EmacsLispScreen#toc8
-  ;;
-  (defvar *elscreen-tab-truncate-length*
-    35 "Number of characters to truncate tab names in frame title")
-
-  (defun elscreen-tabs-as-string ()
-    "Return a string representation of elscreen tab names
-
-Set name truncation length in ELSCREEN-TRUNCATE-LENGTH"
-    (let* ((screen-list (sort (elscreen-get-screen-list) '<))
-           (screen-to-name-alist (elscreen-get-screen-to-name-alist)))
-      ;; mapconcat: mapping and then concate name elements together with separator
-      (mapconcat
-       (lambda (screen)
-         (format (if (string-equal "+" (elscreen-status-label screen))
-                     ;; Current screen format
-                     "< %d > %s"
-                   ;; Others
-                   "   %d    %s")
-                 ;; screen number: replaces %d (integer)
-                 screen
-                 ;; screen name: replaces %s (string)
-                 (elscreen-truncate-screen-name
-                  ;; Return the value associated with KEY in ALIST
-                  (alist-get screen screen-to-name-alist)
-                  *elscreen-tab-truncate-length* t)))
-       ;; Screen numbers (keys for alist)
-       screen-list
-       ;; Separator
-       "   |   ")))
-  ;;
-  (defvar *elscreen-tabs-as-string*
-    "" "Variable to hold curent elscreen tab names as a string")
-  ;;
-  (defun update-elscreen-tabs-as-string ()
-    "Update *elscreen-tabs-as-string* variable"
-    (interactive)
-    (setq *elscreen-tabs-as-string* (elscreen-tabs-as-string)))
-  ;;
-  ;; Update *elscreen-tabs-as-string* whenever elscreen status updates
-  (add-hook 'elscreen-screen-update-hook 'update-elscreen-tabs-as-string)
-  ;;
-  ;; Set frame title format as combination of current elscreen tabs and buffer/path
-  (setq frame-title-format '(:eval (concat *elscreen-tabs-as-string*)))
-
 
   )
 
