@@ -123,7 +123,7 @@
 (do-not-exit-view-mode-unless-writable-advice view-mode-disable)
 
 ;; C-q -> pre-fix key
-(define-key global-map "\C-q" (make-sparse-keymap))
+;; (define-key global-map "\C-q" (make-sparse-keymap))
 ;; quoted-insert -> C-q C-q
 (global-set-key "\C-q\C-q" 'quoted-insert)
 
