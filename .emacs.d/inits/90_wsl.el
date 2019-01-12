@@ -74,6 +74,20 @@
                   ;; (mozc-session-delete)
                   ))
 
+;; mozcオンでも無変換キーはEmacsにわたすようにキーイベントを横取りする
+(defadvice mozc-handle-event (around intercept-keys (event))
+  "Intercept keys muhenkan and zenkaku-hankaku, before passing keys
+to mozc-server (which the function mozc-handle-event does), to
+properly disable mozc-mode."
+  (if (member event (list 'zenkaku-hankaku 'muhenkan))
+      (progn
+	    (mozc-clean-up-session)
+	    ;; (toggle-input-method)
+        (mozc-mode nil)
+        (deactivate-input-method))
+    (progn ;(message "%s" event) ;debug
+      ad-do-it)))
+(ad-activate 'mozc-handle-event)
 
 ;; for helm ;;;;;;;;;;;;;;;;;;;;
 (require 'cl-lib)
