@@ -1,8 +1,13 @@
+;; Run `sbt ensimeConfig`
 (use-package ensime
   :ensure t
   :config
   (setq ensime-startup-notification nil)
-  (setq ensime-search-interface 'helm))
+  (setq ensime-search-interface 'helm)
+  (bind-keys :map ensime-mode-map
+             ("M-n" . nil) ;; use highlight-symbol-nav
+             ("M-p" . nil)) ;; use highlight-symbol-nav
+  )
 
 (use-package scala-mode
   :interpreter
