@@ -1,7 +1,6 @@
 (use-package helm
   ;; :disabled t
-  :defer t
-  :bind (("C-;" . helm-mini)
+  :bind (("C-;" . helm-my)
          ("M-y" . helm-show-kill-ring)
          ("M-i" . helm-imenu-anywhere)
          ("M-x" . helm-M-x)
@@ -81,8 +80,9 @@
     '((name . "Recentf Directories")
       (init lambda nil
             (require 'recentf)
-            (when helm-turn-on-recentf
-              (recentf-mode 1)))
+            ;; (when helm-turn-on-recentf
+              ;; (recentf-mode 1))
+            )
       (candidates . (lambda ()
                       (loop for file in recentf-list
                             when (file-directory-p file)
@@ -123,6 +123,7 @@
       (migemo)))
 
   (defcustom helm-my-default-sources '(helm-source-buffers-list
+                                       helm-elscreen-source-list
                                        helm-c-recentf-file-source
                                        helm-c-recentf-directory-source
                                        ;; helm-source-files-in-current-dir ;; tramp 中にとても重い
