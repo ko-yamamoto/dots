@@ -71,11 +71,7 @@
 ;; 無変換キーでoff
 (global-set-key [muhenkan]
                 (lambda () (interactive)
-                  (mozc-mode nil)
-                  (deactivate-input-method)
-                  ;; (mozc-session-sendkey '(muhenkan))
-                  ;; (mozc-session-delete)
-                  ))
+                  (deactivate-input-method)))
 
 ;; mozcオンでも無変換キーはEmacsにわたすようにキーイベントを横取りする
 (defadvice mozc-handle-event (around intercept-keys (event))
