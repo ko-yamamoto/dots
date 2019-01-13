@@ -40,13 +40,13 @@
 
   )
 
-(use-package git-gutter+
-  :defer t
-  :bind (("C-c g c" . global-git-gutter+-mode)
-         ("C-c g n" . git-gutter+-next-hunk)
-         ("C-c g p" . git-gutter+-previous-hunk))
+(use-package git-gutter
+  :bind (("C-c g c" . git-gutter:update-all-windows)
+         ("C-c g n" . git-gutter:next-hunk)
+         ("C-c g p" . git-gutter:previous-hunk)
+         ("C-c g e" . git-gutter:end-of-hunk))
   :config
-  (global-git-gutter+-mode t)
+  (global-git-gutter-mode t)
   ;; 指定したモードで有効に
   ;; (let ((mode-hooks
   ;; '(org-mode-hook
@@ -60,32 +60,34 @@
   ;; go-mode-hook
   ;; python-mode-hook
   ;; ruby-mode-hook)))
-  ;; (mapc (lambda (mode-hook) (add-hook mode-hook 'git-gutter+-mode)) mode-hooks))
+  ;; (mapc (lambda (mode-hook) (add-hook mode-hook 'git-gutter-mode)) mode-hooks))
 
   ;; 表示変更
-  (setq git-gutter+-window-width 1)
-  (setq git-gutter+-modified-sign "|")
-  (setq git-gutter+-added-sign "|")
-  (setq git-gutter+-deleted-sign "|")
+  (setq git-gutter-window-width 1)
+  (setq git-gutter-modified-sign "|")
+  (setq git-gutter-added-sign "|")
+  (setq git-gutter-deleted-sign "|")
 
   ;; 色変更
-  (set-face-foreground 'git-gutter+-modified "#D19A66")
-  (set-face-foreground 'git-gutter+-added "#61AFEF")
-  (set-face-foreground 'git-gutter+-deleted "#E06C75")
+  (set-face-foreground 'git-gutter:modified "#D19A66")
+  (set-face-foreground 'git-gutter:added "#61AFEF")
+  (set-face-foreground 'git-gutter:deleted "#E06C75")
 
   ;; Ignore all spaces
-  ;; (setq git-gutter+-diff-options '("-w"))
+  ;; (setq git-gutter-diff-options '("-w"))
+
+  ;; magitのステータス更新時にあわせてgit-gutterも更新する
+  (add-hook 'magit-post-refresh-hook 'git-gutter:update-all-windows)
 
   )
 
-(use-package git-gutter-fringe+
-  ;; :defer t
+(use-package git-gutter-fringe
   :config
   (use-package fringe-helper)
   (setq-default left-fringe-width  10)
   (setq-default right-fringe-width 10)
   ;; 形変更 (上下くっつけるため目一杯長く)
-  (fringe-helper-define 'git-gutter-fr+-added nil
+  (fringe-helper-define 'git-gutter-fr:added nil
     "XXXXXXXXX"
     "XXXXXXXXX"
     "XXXXXXXXX"
@@ -114,7 +116,7 @@
     "XXXXXXXXX"
     "XXXXXXXXX"
     "XXXXXXXXX")
-  (fringe-helper-define 'git-gutter-fr+-deleted nil
+  (fringe-helper-define 'git-gutter-fr:deleted nil
     "XXXXXXXXX"
     "XXXXXXXXX"
     "XXXXXXXXX"
@@ -143,7 +145,7 @@
     "XXXXXXXXX"
     "XXXXXXXXX"
     "XXXXXXXXX")
-  (fringe-helper-define 'git-gutter-fr+-modified nil
+  (fringe-helper-define 'git-gutter-fr:modified nil
     "XXXXXXXXX"
     "XXXXXXXXX"
     "XXXXXXXXX"
