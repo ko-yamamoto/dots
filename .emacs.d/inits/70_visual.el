@@ -67,12 +67,12 @@
 (defun my-coding-system-name-mnemonic (coding-system)
   (let* ((base (coding-system-base coding-system))
          (name (symbol-name base)))
-    (cond ((string-prefix-p "utf-8" name) "utf8")
-          ((string-prefix-p "utf-16" name) "utf16")
-          ((string-prefix-p "utf-7" name) "utf7")
-          ((string-prefix-p "japanese-shift-jis" name) "sjis")
+    (cond ((string-prefix-p "utf-8" name) "UTF8")
+          ((string-prefix-p "utf-16" name) "UTF16")
+          ((string-prefix-p "utf-7" name) "UTF7")
+          ((string-prefix-p "japanese-shift-jis" name) "SJIS")
           ((string-match "cp\\([0-9]+\\)" name) (match-string 1 name))
-          ((string-match "japanese-iso-8bit" name) "euc")
+          ((string-match "japanese-iso-8bit" name) "EUC")
           (t "???")
           )))
 
@@ -123,13 +123,12 @@
 ;; %- -- print infinitely many dashes.
 
 ;; モードライン
-;; (setq-default mode-line-format
-;; (list "%*[" 'mode-line-mule-info "] L%l:C%c %P [" `(vc-mode vc-mode) "]   %f   (%m" 'minor-mode-alist ")"))
+(setq-default mode-line-format
+              (list "%*[" 'mode-line-mule-info "] L%l:C%c %P [" `(vc-mode vc-mode) "]   %f   (%m" 'minor-mode-alist ")"))
 
 (use-package powerline
-  :ensure t
   :config
-  (setq powerline-default-separator 'slant) ;; arrow, slant, chamfer, wave, brace, roundstub, zigzag, butt, rounded, contour, curve
+  (setq powerline-default-separator 'wave) ;; arrow, slant, chamfer, wave, brace, roundstub, zigzag, butt, rounded, contour, curve
   (defun powerline-my-theme ()
     (interactive)
     (setq-default mode-line-format
