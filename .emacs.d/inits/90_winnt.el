@@ -31,4 +31,10 @@
   ;; 日本語入力時にカーソルの色を変える設定
   ;; (add-hook 'w32-ime-on-hook '(lambda () (set-cursor-color "#d33682")))
   ;; (add-hook 'w32-ime-off-hook '(lambda () (set-cursor-color "#4271ae")))
+
+  ;; (setq cygwin-mount-cygwin-bin-directory "c:/cygwin/bin")
+  (require 'cygwin-mount)
+  (cygwin-mount-activate)
+  (eval-after-load "gnutls" '(setq gnutls-trustfiles (mapcar 'expand-file-name gnutls-trustfiles)))
+
   )
