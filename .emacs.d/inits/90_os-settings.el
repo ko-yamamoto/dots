@@ -1,7 +1,3 @@
-;;====================
-;; For Mac
-;;====================
-
 (when is_mac
 
   ;; exec-pathとPATHに設定したいパスのリストを設定
@@ -24,23 +20,17 @@
       (setenv "PATH" (concat dir ":" (getenv "PATH")))
       (setq exec-path (append (list dir) exec-path))))
 
-
-
-
   ;; Command-Key and Option-Key
   ;; コマンドキーをMetaに、Optionキーをsuperに
   (setq ns-command-modifier (quote meta))
   (setq ns-alternate-modifier (quote super))
 
-
   ;; CmdキーをSuperに、OptionキーをMetaに
   ;; (setq mac-option-modifier 'meta)
   ;; (setq mac-command-modifier 'super)
 
-
   ;; (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
   ;; (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-
 
   ;; \の代わりにバックスラッシュを入力する
   (define-key global-map [165] [92])
