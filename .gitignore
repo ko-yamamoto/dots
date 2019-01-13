@@ -21,6 +21,7 @@ ac-comphist.dat
 /.emacs.d/el-get/.status.el
 /.emacs.d/elpa/archives/tromey/archive-contents
 /.emacs.d/elpa
+/.emacs.d/straight
 /.screen/copybuffer
 /.screen/copybuffer.txt
 /.emacs.d/elpa/archives/gnu/archive-contents
