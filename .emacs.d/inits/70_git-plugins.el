@@ -1,8 +1,6 @@
 (use-package magit
   :defer t
-  :bind (("C-c g g" . magit-status)
-         ("C-c g d" . magit-diff-working-tree)
-         ("C-c g f" . magit-file-log))
+  :bind (("C-x g" . magit-status))
   :config
   ;; 色変更
   ;; (set-face-foreground 'magit-diff-add "#b9ca4a")
