@@ -1,5 +1,5 @@
 (use-package clojure-mode
-  :ensure t
+  :disabled
   :defer t
   :config
 

@@ -1,5 +1,5 @@
 (use-package ddskk
-  :ensure t
+  :disabled
   ;; :bind (("C-q s s" . skk-mode))
   :init
   (require 'ccc)

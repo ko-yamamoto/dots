@@ -1,5 +1,5 @@
 (use-package slime
-  :ensure t
+  :disabled
   :defer t
   :config
   ;; Clozure CLをデフォルトのCommon Lisp処理系に設定
