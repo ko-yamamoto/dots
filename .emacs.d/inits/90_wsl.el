@@ -189,4 +189,5 @@ properly disable mozc-mode."
   (setq tramp-default-method "scpx")
   ;; Emacs: Windowsでやっていく2017 | 葉月夜堂 https://yo.eki.do/notes/emacs-windows-2017
   (custom-set-variables '(tramp-chunksize 1024))
-  )
+
+)
