@@ -114,6 +114,30 @@
              ("<right>" . dired-open-in-accordance-with-situation)
              ("RET" . dired-open-in-accordance-with-situation)
              ("C-t" . other-window-or-split))
+
+  ;; バージョン管理されたファイルの状態でファイル名の色を変える
+  (defface edited-face
+    '((t :foreground "#98C379"))
+    "変更のあったファイル名の色")
+  (defun dired-fontify-vc ()
+    (while (not (eobp))
+      (let* ((inhibit-read-only t)
+             (file (ignore-errors (file-name-nondirectory
+                                   (dired-get-filename))))
+             (state (ignore-errors (vc-state file))))
+        (when (and file
+                   state)
+                                        ; (message "%s>%s" file state)
+          (let ((beg (dired-move-to-filename))
+                (end (dired-move-to-end-of-filename)))
+            (cond
+             ((eq state 'edited)
+              (add-text-properties beg end '(font-lock-face edited-face)))
+             ))
+          ))
+      (dired-next-line 1)))
+  (add-hook 'dired-after-readin-hook 'dired-fontify-vc)
+
   )
 
 ;;;dired-sidebar

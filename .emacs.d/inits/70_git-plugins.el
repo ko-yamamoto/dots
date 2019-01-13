@@ -60,10 +60,10 @@
   (setq git-gutter-added-sign "|")
   (setq git-gutter-deleted-sign "|")
 
-  ;; 色変更
-  (set-face-foreground 'git-gutter:modified "#D19A66")
-  (set-face-foreground 'git-gutter:added "#61AFEF")
-  (set-face-foreground 'git-gutter:deleted "#E06C75")
+  ;; ;; 色変更 → カラーテーマで設定
+  ;; (set-face-foreground 'git-gutter:modified "#D19A66") ; orange
+  ;; (set-face-foreground 'git-gutter:added "#61AFEF") ; blue
+  ;; (set-face-foreground 'git-gutter:deleted "#E06C75") ; red
 
   ;; Ignore all spaces
   ;; (setq git-gutter-diff-options '("-w"))
@@ -78,6 +78,7 @@
   (use-package fringe-helper)
   (setq-default left-fringe-width  10)
   (setq-default right-fringe-width 10)
+
   ;; 形変更 (上下くっつけるため目一杯長く)
   (fringe-helper-define 'git-gutter-fr:added nil
     "XXXXXXXXX"

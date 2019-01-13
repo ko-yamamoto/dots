@@ -240,7 +240,7 @@
    `(git-commit-comment-heading ((t (:foreground ,atom-one-dark-orange-2 :weight bold))))
 
    ;; git-gutter
-   `(git-gutter:added ((t (:foreground ,atom-one-dark-green :weight bold))))
+   `(git-gutter:added ((t (:foreground ,atom-one-dark-blue :weight bold))))
    `(git-gutter:deleted ((t (:foreground ,atom-one-dark-red-1 :weight bold))))
    `(git-gutter:modified ((t (:foreground ,atom-one-dark-orange-1 :weight bold))))
 
@@ -565,6 +565,9 @@
 
    ;; all-the-icons-dired
    `(all-the-icons-dired-dir-face ((t (:foreground ,atom-one-dark-purple))))
+
+   ;; dired plus
+   `(dired-marked ((t (:foreground ,atom-one-dark-green))))
 
    ))
 
