@@ -52,6 +52,8 @@
 (setq custom-theme-directory "~/.emacs.d/themes/")
 (load-theme 'atom-one-dark t)
 
+;; バッファの終端をtなら明示するnilならしない
+(setq-default indicate-empty-lines nil)
 
 
 ;; 改行文字の文字列表現

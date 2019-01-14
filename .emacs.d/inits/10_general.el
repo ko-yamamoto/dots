@@ -257,9 +257,6 @@ Otherwise, call `backward-kill-word'."
 ;; ロケールは C で統一しておく
 (setq system-time-locale "C")
 
-;; バッファの終端を明示する
-(setq-default indicate-empty-lines t)
-
 ;; forward-word は単語頭に移動する
 ;; my-forward-word.el - https://gist.github.com/mori-dev/409070
 (defun my-forward-word (arg)
