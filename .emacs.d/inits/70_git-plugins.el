@@ -34,6 +34,7 @@
   :bind (("C-c g c" . git-gutter:update-all-windows)
          ("C-c g n" . git-gutter:next-hunk)
          ("C-c g p" . git-gutter:previous-hunk)
+         ("C-c g d" . git-gutter:popup-hunk)
          ("C-c g e" . git-gutter:end-of-hunk))
   :config
   (global-git-gutter-mode t)
