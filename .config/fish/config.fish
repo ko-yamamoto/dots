@@ -1,7 +1,7 @@
 # set -x LANG "ja_JP.UTF-8"
 set -x LANG "en_US.utf8"
 
-set PATH $HOME/bin $PATH
+set PATH $HOME/bin /home/linuxbrew/.linuxbrew/bin $PATH
 
 set -x DISPLAY localhost:0.0
 
@@ -122,7 +122,7 @@ make_completion g 'git'
 
 
 function runemacs
-    nohup emacs26 &
+    emacs26 &
 end
 function ec
     emacsclient26 -n $argv
