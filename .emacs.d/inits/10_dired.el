@@ -111,8 +111,9 @@
              ("W" . dired-get-fullpath-filename)
              ;; ディレクトリの移動キーを追加(wdired 中は無効)
              ("<left>" . dired-up-directory)
-             ("<right>" . dired-open-in-accordance-with-situation)
-             ("RET" . dired-open-in-accordance-with-situation)
+             ;; ("<right>" . dired-open-in-accordance-with-situation)
+             ;; ("RET" . dired-open-in-accordance-with-situation)
+             ("<right>" . dired-find-file)
              ("C-t" . other-window-or-split))
 
   ;; バージョン管理されたファイルの状態でファイル名の色を変える
@@ -163,7 +164,7 @@
   (setq dired-sidebar-width 45)
   ;; 左端からインデントを示す文字
   (setq dired-sidebar-subtree-line-prefix "  ")
-  ;; 表示しているファイルに合わせてディレクトリを更新
-  (setq dired-sidebar-should-follow-file t)
+  ;; 表示しているファイルに合わせてディレクトリを更新するか
+  (setq dired-sidebar-should-follow-file nil)
   (setq dired-sidebar-theme 'icons)
   (setq dired-sidebar-use-term-integration t))

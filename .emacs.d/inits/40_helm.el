@@ -1,6 +1,7 @@
 (use-package helm
   ;; :disabled t
-  :bind (("C-;" . helm-my)
+  ;; :bind (("C-;" . helm-my)
+  :bind (("C-;" . helm-mini)
          ("M-y" . helm-show-kill-ring)
          ("M-i" . helm-imenu-anywhere)
          ("M-x" . helm-M-x)
