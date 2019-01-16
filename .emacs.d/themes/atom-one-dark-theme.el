@@ -569,6 +569,13 @@
    ;; dired plus
    `(dired-marked ((t (:foreground ,atom-one-dark-green))))
 
+   ;; neotree
+   `(neo-dir-link-face ((t (:foreground ,atom-one-dark-purple))))
+   `(neo-root-dir-face ((t (:foreground ,atom-one-dark-orange-1))))
+   `(neo-vc-edited-face ((t (:foreground ,atom-one-dark-blue))))
+   `(neo-vc-missing-face ((t (:foreground ,atom-one-dark-orange-1))))
+   `(neo-vc-conflict-face ((t (:foreground ,atom-one-dark-orange-1))))
+
    ))
 
 (atom-one-dark-with-color-variables

@@ -6,23 +6,23 @@
   (require 'dired-x)
   (require 'wdired)
 
-  ;; ;; フォルダを開く時, 新しいバッファを作成しない
-  ;; ;; バッファを作成したい時にはoやC-u ^を利用する
-  ;; (defvar my-dired-before-buffer nil)
-  ;; (defadvice dired-advertised-find-file
-  ;;     (before kill-dired-buffer activate)
-  ;;   (setq my-dired-before-buffer (current-buffer)))
-  ;; (defadvice dired-advertised-find-file
-  ;;     (after kill-dired-buffer-after activate)
-  ;;   (if (eq major-mode 'dired-mode)
-  ;;       (kill-buffer my-dired-before-buffer)))
-  ;; (defadvice dired-up-directory
-  ;;     (before kill-up-dired-buffer activate)
-  ;;   (setq my-dired-before-buffer (current-buffer)))
-  ;; (defadvice dired-up-directory
-  ;;     (after kill-up-dired-buffer-after activate)
-  ;;   (if (eq major-mode 'dired-mode)
-  ;;       (kill-buffer my-dired-before-buffer)))
+  ;; フォルダを開く時, 新しいバッファを作成しない
+  ;; バッファを作成したい時にはoやC-u ^を利用する
+  (defvar my-dired-before-buffer nil)
+  (defadvice dired-advertised-find-file
+      (before kill-dired-buffer activate)
+    (setq my-dired-before-buffer (current-buffer)))
+  (defadvice dired-advertised-find-file
+      (after kill-dired-buffer-after activate)
+    (if (eq major-mode 'dired-mode)
+        (kill-buffer my-dired-before-buffer)))
+  (defadvice dired-up-directory
+      (before kill-up-dired-buffer activate)
+    (setq my-dired-before-buffer (current-buffer)))
+  (defadvice dired-up-directory
+      (after kill-up-dired-buffer-after activate)
+    (if (eq major-mode 'dired-mode)
+        (kill-buffer my-dired-before-buffer)))
 
   ;; ファイルなら別バッファで、ディレクトリなら同じバッファで開く
   (defun dired-open-in-accordance-with-situation ()
@@ -93,7 +93,7 @@
         (rename-buffer (concat (buffer-name) " [" drive "Dired]") t))))
   (add-hook 'dired-mode-hook 'dired-my-append-buffer-name-hint)
 
-  ;; ドットファイルなど優先度の低いファイルはデフォルトで非表示とする → アイコンが表示されなくなる
+  ;; ドットファイルなど優先度の低いファイルはデフォルトで非表示とする
   (add-hook 'dired-mode-hook
             'dired-omit-mode)
 
@@ -111,60 +111,37 @@
              ("W" . dired-get-fullpath-filename)
              ;; ディレクトリの移動キーを追加(wdired 中は無効)
              ("<left>" . dired-up-directory)
-             ;; ("<right>" . dired-open-in-accordance-with-situation)
-             ;; ("RET" . dired-open-in-accordance-with-situation)
-             ("<right>" . dired-find-file)
+             ;; ("<right>" . dired-find-file)
+             ("<right>" . dired-open-in-accordance-with-situation)
+             ("RET" . dired-open-in-accordance-with-situation)
              ("C-t" . other-window-or-split))
-
-  ;; バージョン管理されたファイルの状態でファイル名の色を変える
-  (defface edited-face
-    '((t :foreground "#98C379"))
-    "変更のあったファイル名の色")
-  (defun dired-fontify-vc ()
-    (while (not (eobp))
-      (let* ((inhibit-read-only t)
-             (file (ignore-errors (file-name-nondirectory
-                                   (dired-get-filename))))
-             (state (ignore-errors (vc-state file))))
-        (when (and file
-                   state)
-                                        ; (message "%s>%s" file state)
-          (let ((beg (dired-move-to-filename))
-                (end (dired-move-to-end-of-filename)))
-            (cond
-             ((eq state 'edited)
-              (add-text-properties beg end '(font-lock-face edited-face)))
-             ))
-          ))
-      (dired-next-line 1)))
-  (add-hook 'dired-after-readin-hook 'dired-fontify-vc)
 
   )
 
-;;;dired-sidebar
-(use-package dired-sidebar
-  :bind
-  ("C-S-e" . dired-sidebar-toggle-sidebar)
-  :commands (dired-sidebar-toggle-sidebar)
-  :init
-  (add-hook 'dired-sidebar-mode-hook
-            (lambda ()
-              (unless (file-remote-p default-directory)
-                (auto-revert-mode))))
-  :config
-  ;; (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
-  ;; (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
+;; ;;dired-sidebar
+;; (use-package dired-sidebar
+;;   :bind
+;;   ("C-S-e" . dired-sidebar-toggle-sidebar)
+;;   :commands (dired-sidebar-toggle-sidebar)
+;;   :init
+;;   (add-hook 'dired-sidebar-mode-hook
+;;             (lambda ()
+;;               (unless (file-remote-p default-directory)
+;;                 (auto-revert-mode))))
+;;   :config
+;;   ;; (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
+;;   ;; (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
 
-  ;; 右端に表示する
-  (setq dired-sidebar-display-alist '((side . right) (slot . -1)))
-  ;; フォントサイズ
-  (setq dired-sidebar-use-custom-font t)
-  (setq dired-sidebar-face '(:height 90))
-  ;; 横幅
-  (setq dired-sidebar-width 45)
-  ;; 左端からインデントを示す文字
-  (setq dired-sidebar-subtree-line-prefix "  ")
-  ;; 表示しているファイルに合わせてディレクトリを更新するか
-  (setq dired-sidebar-should-follow-file nil)
-  (setq dired-sidebar-theme 'icons)
-  (setq dired-sidebar-use-term-integration t))
+;;   ;; 右端に表示する
+;;   (setq dired-sidebar-display-alist '((side . right) (slot . -1)))
+;;   ;; フォントサイズ
+;;   (setq dired-sidebar-use-custom-font t)
+;;   (setq dired-sidebar-face '(:height 90))
+;;   ;; 横幅
+;;   (setq dired-sidebar-width 45)
+;;   ;; 左端からインデントを示す文字
+;;   (setq dired-sidebar-subtree-line-prefix "  ")
+;;   ;; 表示しているファイルに合わせてディレクトリを更新するか
+;;   (setq dired-sidebar-should-follow-file nil)
+;;   (setq dired-sidebar-theme 'icons)
+;;   (setq dired-sidebar-use-term-integration t))
