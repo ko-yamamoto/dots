@@ -183,6 +183,8 @@
     :bind (("C-^ b" . helm-descbinds))
     :config (helm-descbinds-install))
 
+  (use-package helm-flycheck
+    :bind (("C-q f h" . helm-flycheck)))
 
   (bind-keys :map helm-find-files-map
              ("TAB" . helm-execute-persistent-action)
