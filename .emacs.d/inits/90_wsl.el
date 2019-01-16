@@ -128,50 +128,50 @@ properly disable mozc-mode."
                ("M-x" . helm-M-x)))
 
 
-;;;;;;;;;;; Windowsパス と UNCパス を使えるようにするための設定
-  (defun set-drvfs-alist ()
-    (mapcar (lambda (x) (split-string x "|"))
-            (delete "" (split-string
-                        (shell-command-to-string
-                         "mount | grep 'type drvfs' | sed -r 's/(.*) on (.*) type drvfs .*/\\2\\|\\1/' | sed 's!\\\\!/!g'")
-                        "\n"))))
-
-  (defvar drvfs-alist (set-drvfs-alist))
-  (defconst windows-path-style-regexp "\\`\\(.*/\\)?\\([a-zA-Z]:\\\\.*\\|[a-zA-Z]:/.*\\|\\\\\\\\.*\\|//.*\\)")
-
-  (defun windows-path-convert-file-name (name)
-    (setq name (replace-regexp-in-string windows-path-style-regexp "\\2" name t nil))
-    (setq name (replace-regexp-in-string "\\\\" "/" name))
-    (mapc (lambda (x)
-            (setq name (replace-regexp-in-string
-                        (concat "^" (regexp-quote (nth 1 x))) (nth 0 x) name t)))
-          drvfs-alist)
-    name)
-
-  (defun windows-path-run-real-handler (operation args)
-    "Run OPERATION with ARGS."
-    (let ((inhibit-file-name-handlers
-           (append '(windows-path-map-drive-hook-function)
-                   (and (eq inhibit-file-name-operation operation)
-                        inhibit-file-name-handlers)))
-          (inhibit-file-name-operation operation))
-      (apply operation args)))
-
-  (defun windows-path-map-drive-hook-function (operation name &rest args)
-    "Run OPERATION on cygwin NAME with ARGS."
-    (windows-path-run-real-handler
-     operation
-     (cons (windows-path-convert-file-name name)
-           (if (stringp (car args))
-               (cons (windows-path-convert-file-name (car args))
-                     (cdr args))
-             args))))
-
-  (add-to-list 'file-name-handler-alist
-               (cons windows-path-style-regexp
-                     'windows-path-map-drive-hook-function))
-
-
+;; ;;;;;;;;;;; Windowsパス と UNCパス を使えるようにするための設定
+;;   (defun set-drvfs-alist ()
+;;     (mapcar (lambda (x) (split-string x "|"))
+;;             (delete "" (split-string
+;;                         (shell-command-to-string
+;;                          "mount | grep 'type drvfs' | sed -r 's/(.*) on (.*) type drvfs .*/\\2\\|\\1/' | sed 's!\\\\!/!g'")
+;;                         "\n"))))
+;; 
+;;   (defvar drvfs-alist (set-drvfs-alist))
+;;   (defconst windows-path-style-regexp "\\`\\(.*/\\)?\\([a-zA-Z]:\\\\.*\\|[a-zA-Z]:/.*\\|\\\\\\\\.*\\|//.*\\)")
+;; 
+;;   (defun windows-path-convert-file-name (name)
+;;     (setq name (replace-regexp-in-string windows-path-style-regexp "\\2" name t nil))
+;;     (setq name (replace-regexp-in-string "\\\\" "/" name))
+;;     (mapc (lambda (x)
+;;             (setq name (replace-regexp-in-string
+;;                         (concat "^" (regexp-quote (nth 1 x))) (nth 0 x) name t)))
+;;           drvfs-alist)
+;;     name)
+;; 
+;;   (defun windows-path-run-real-handler (operation args)
+;;     "Run OPERATION with ARGS."
+;;     (let ((inhibit-file-name-handlers
+;;            (append '(windows-path-map-drive-hook-function)
+;;                    (and (eq inhibit-file-name-operation operation)
+;;                         inhibit-file-name-handlers)))
+;;           (inhibit-file-name-operation operation))
+;;       (apply operation args)))
+;; 
+;;   (defun windows-path-map-drive-hook-function (operation name &rest args)
+;;     "Run OPERATION on cygwin NAME with ARGS."
+;;     (windows-path-run-real-handler
+;;      operation
+;;      (cons (windows-path-convert-file-name name)
+;;            (if (stringp (car args))
+;;                (cons (windows-path-convert-file-name (car args))
+;;                      (cdr args))
+;;              args))))
+;; 
+;;   (add-to-list 'file-name-handler-alist
+;;                (cons windows-path-style-regexp
+;;                      'windows-path-map-drive-hook-function))
+;; 
+;; 
 
 ;;;;;;;;;;;;;;;;;; ブラウザは Windows 側の Chrome を起動する
   ;; make ~/bin/open-chrome
