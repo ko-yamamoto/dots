@@ -1,4 +1,5 @@
 (use-package flycheck
+  :bind(("C-q f l" . flycheck-list-errors))
   ;; :init (global-flycheck-mode)
   :config
 
