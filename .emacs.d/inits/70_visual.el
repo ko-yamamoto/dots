@@ -206,8 +206,8 @@
   (interactive)
   (message "%s" (get-char-property (point) 'face)))
 
-;; 折り返しあり
-(setq truncate-lines nil)
+;; tで折り返さないnilなら折り返す
+(setq truncate-lines t)
 ;; 画面分割してもデフォルトで折り返す
 (setq truncate-partial-width-windows nil)
 
