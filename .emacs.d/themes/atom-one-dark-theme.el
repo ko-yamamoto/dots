@@ -45,6 +45,12 @@
                    ("atom-one-dark-mono-3"   . (if ,256color "color-240" "#5C6370"))
                    ("atom-one-dark-cyan"     . "#56B6C2")
                    ("atom-one-dark-blue"     . "#61AFEF")
+                   ("atom-one-dark-blue-1"   . "#61AFEF")
+                   ("atom-one-dark-blue-2"   . "#80bff2")
+                   ("atom-one-dark-blue-3"   . "#a0cff5")
+                   ("atom-one-dark-blue-4"   . "#bfdff8")
+                   ("atom-one-dark-blue-5"   . "#dfeffb")
+                   ("atom-one-dark-blue-6"   . "#eff7fd")
                    ("atom-one-dark-purple"   . "#C678DD")
                    ("atom-one-dark-green"    . "#98C379")
                    ("atom-one-dark-red-1"    . "#E06C75")
@@ -189,7 +195,8 @@
    `(helm-bookmark-man ((t (:foreground ,atom-one-dark-orange-2))))
    `(helm-bookmark-w3m ((t (:foreground ,atom-one-dark-purple))))
    `(helm-match ((t (:foreground ,atom-one-dark-orange-2))))
-   `(helm-ff-directory ((t (:foreground ,atom-one-dark-cyan :background ,atom-one-dark-bg :weight bold))))
+   ;; `(helm-ff-directory ((t (:foreground ,atom-one-dark-cyan :background ,atom-one-dark-bg :weight bold))))
+   `(helm-ff-directory ((t (:foreground ,atom-one-dark-purple :background ,atom-one-dark-bg :weight bold))))
    `(helm-ff-file ((t (:foreground ,atom-one-dark-fg :background ,atom-one-dark-bg :weight normal))))
    `(helm-ff-executable ((t (:foreground ,atom-one-dark-green :background ,atom-one-dark-bg :weight normal))))
    `(helm-ff-invalid-symlink ((t (:foreground ,atom-one-dark-red-1 :background ,atom-one-dark-bg :weight bold))))
@@ -575,6 +582,22 @@
    `(neo-vc-edited-face ((t (:foreground ,atom-one-dark-blue))))
    `(neo-vc-missing-face ((t (:foreground ,atom-one-dark-orange-1))))
    `(neo-vc-conflict-face ((t (:foreground ,atom-one-dark-orange-1))))
+
+   ;; markdown
+   `(markdown-header-face-1 ((t (:foreground ,atom-one-dark-blue-1))))
+   `(markdown-header-face-2 ((t (:foreground ,atom-one-dark-blue-2))))
+   `(markdown-header-face-3 ((t (:foreground ,atom-one-dark-blue-3))))
+   `(markdown-header-face-4 ((t (:foreground ,atom-one-dark-blue-4))))
+   `(markdown-header-face-5 ((t (:foreground ,atom-one-dark-blue-5))))
+   `(markdown-header-face-6 ((t (:foreground ,atom-one-dark-blue-6))))
+
+   ;; ediff
+   `(ediff-odd-diff-A ((t (:background ,atom-one-dark-bg-hl))))
+   `(ediff-even-diff-A ((t (:background ,atom-one-dark-bg-hl))))
+   `(ediff-odd-diff-B ((t (:background ,atom-one-dark-bg-hl))))
+   `(ediff-even-diff-B ((t (:background ,atom-one-dark-bg-hl))))
+   `(ediff-odd-diff-C ((t (:background ,atom-one-dark-bg-hl))))
+   `(ediff-even-diff-C ((t (:background ,atom-one-dark-bg-hl))))
 
    ))
 
