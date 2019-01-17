@@ -1,3 +1,24 @@
+(use-package ediff
+  :straight nil
+  :config
+  ;; ediffの分割は縦にウィンドウを並べる
+  (setq ediff-split-window-function 'split-window-horizontally)
+  (setq ediff-merge-split-window-function 'split-window-horizontally)
+
+  ;; ediff開始前にelscreenのタブを非表示
+  (add-hook 'ediff-mode-hook
+            (lambda ()
+              (setq elscreen-display-tab nil)
+              (elscreen-notify-screen-modification 'force-immediately)
+              ))
+  ;; ediff終了後にelscreenのタブを表示
+  (add-hook 'ediff-quit-hook
+            (lambda ()
+              (setq elscreen-display-tab 30)
+              (elscreen-notify-screen-modification 'force-immediately)))
+
+  )
+
 (use-package fuzzy)
 
 (use-package company
