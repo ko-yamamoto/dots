@@ -8,7 +8,10 @@
   (setq markdown-command-needs-filename t)
 
   ;; 行末スペースは HTML に変換した際の改行に必要なので消さないように
-  ;; (remove-hook 'before-save-hook 'delete-trailing-whitespace)
+  (remove-hook 'before-save-hook 'delete-trailing-whitespace)
+
+  ;; ヘッダは左にだけ#をつける
+  (setq markdown-asymmetric-header t)
 
   ;; (defun markdown-render-eww (n)
   ;;   (interactive "p")
