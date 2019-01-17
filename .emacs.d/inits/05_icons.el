@@ -30,6 +30,7 @@
              ("." . neotree-hidden-file-toggle)
              ("^" . neotree-select-up-node)
              ("w" . neotree-copy-filepath-to-yank-ring)
+             ("C" . neotree-copy-node)
              ("R" . neotree-rename-node)
              ("D" . neotree-delete-node)
              ("+" . neotree-create-node)))
