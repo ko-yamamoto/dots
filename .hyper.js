@@ -89,7 +89,7 @@ module.exports = {
         padding: 0px 24px 0 8px;
       }
       .splitpane_divider {
-        background-color: rgba(0, 0, 0, 0.8) !important;
+        background-color: rgba(255, 255, 255, 0.15) !important;
       }
     `,
 
@@ -237,6 +237,9 @@ module.exports = {
       }
     ],
 
+    // hypercwd: {
+    //   initialWorkingDirectory: ''
+    // }
 
   },
 
@@ -250,6 +253,7 @@ module.exports = {
     'hyper-broadcast',
     'hyper-search',
     'hyper-tab-icons-plus',
+    // 'hypercwd'
     // 'hyper-init',
     // "hyper-solarized-light",
     // "hyper-material-theme",
