@@ -177,7 +177,8 @@
             (goto-char point))
         (fset 'ask-user-about-supersession-threat
               old-supersession-threat)))))
-(global-set-key (kbd "C-x C-r") 'reopen-file)
+;; (global-set-key (kbd "C-x C-r") 'reopen-file)
+(global-set-key (kbd "C-x C-r") 'revert-buffer)
 
 ;; ウィンドウ移動を楽に
 (defun other-window-or-split ()

@@ -74,7 +74,9 @@
   :bind (("C-@" . er/expand-region)
          ("C-M-@" . er/contract-region)))
 
-(use-package multiple-cursors)
+(use-package multiple-cursors
+  :config
+  (setq mc/insert-numbers-default 1))
 
 (use-package point-undo
   :bind
