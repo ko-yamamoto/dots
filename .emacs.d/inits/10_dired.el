@@ -102,9 +102,15 @@
     (interactive)
     (find-file-other-exist-window (dired-get-file-for-visit)))
 
+
+  (use-package dired-narrow
+    :config
+    (bind-keys :map dired-mode-map
+              ("f". dired-narrow-fuzzy)))
+
   (bind-keys :map dired-mode-map
              ("." . dired-omit-mode)
-             ("f" . find-dired)
+             ("F" . find-dired)
              ("o" . dired-find-file-other-exist-window)
              ("r" . wdired-change-to-wdired-mode)
              ("T" . dired-do-convert-coding-system)
