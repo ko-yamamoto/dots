@@ -90,6 +90,12 @@ properly disable mozc-mode."
         ad-do-it)))
   (ad-activate 'mozc-handle-event)
 
+  ;; for multiple-cursors
+  (add-hook 'multiple-cursors-mode-hook
+            (lambda ()
+              (mozc-mode nil)
+              (deactivate-input-method)))
+
   ;; for helm ;;;;;;;;;;;;;;;;;;;;
   (require 'cl-lib)
 
