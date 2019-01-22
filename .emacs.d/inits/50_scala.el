@@ -1,5 +1,7 @@
 ;; Run `sbt ensimeConfig`
 (use-package ensime
+  :straight (:host github :repo "ensime/ensime-emacs"
+             :branch "2.0")
   :config
   (setq ensime-startup-notification nil)
   (setq ensime-search-interface 'helm)
