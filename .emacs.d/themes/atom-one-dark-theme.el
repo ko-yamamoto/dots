@@ -203,6 +203,7 @@
    `(helm-ff-symlink ((t (:foreground ,atom-one-dark-orange-2 :background ,atom-one-dark-bg :weight bold))))
    `(helm-ff-prefix ((t (:foreground ,atom-one-dark-bg :background ,atom-one-dark-orange-2 :weight normal))))
    `(helm-buffer-not-saved ((t (:foreground ,atom-one-dark-red-1))))
+   `(helm-buffer-modified ((t (:foreground ,atom-one-dark-red-1))))
    `(helm-buffer-process ((t (:foreground ,atom-one-dark-mono-2))))
    `(helm-buffer-saved-out ((t (:foreground ,atom-one-dark-fg))))
    `(helm-buffer-size ((t (:foreground ,atom-one-dark-mono-2))))
