@@ -65,6 +65,7 @@
   :bind (("C-q a h" . helm-ag)))
 
 (use-package imenu
+  :bind (("M-i" . helm-imenu))
   :config
   (setq imenu-auto-rescan t)
   ;; imenu で表示する階層の深さ
@@ -73,8 +74,7 @@
 (use-package imenu-anywhere
   ;; imenu を同一メジャーモードのマルチバッファ化
   :defer t
-  ;; :bind (("M-i" . ido-imenu-anywhere)))
-  :bind (("M-i" . helm-imenu-anywhere)))
+  :bind (("M-I" . helm-imenu-anywhere)))
 
 
 (use-package isearch-dabbrev
