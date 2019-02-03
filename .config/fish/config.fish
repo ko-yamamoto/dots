@@ -123,6 +123,7 @@ make_completion g 'git'
 
 function runemacs
     emacs26 &
+    disown (ps --no-headers -C emacs26 -o pid)
 end
 function ec
     emacsclient26 -n $argv
