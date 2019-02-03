@@ -9,19 +9,25 @@
 ;; | 数字 | アルファベット | 日本語     |
 ;; | 0123 | abcdefghijklmn | こんにちは |
 
-(when is_linux
-  (set-face-attribute 'default nil :family "M+ 1mn regular" :height 137 :weight 'regular)
+(when is_wsl
+  (set-face-attribute 'default nil :family "Noto Sans Mono CJK JP" :height 110 :weight 'regular)
   (set-fontset-font (frame-parameter nil 'font)
                     'japanese-jisx0208
-                    (font-spec :family "M+ 1mn"))
-  (add-to-list 'face-font-rescale-alist
-             '(".*Gen.*" . 1.1)))
+                    (font-spec :family "Noto Sans Mono CJK JP")))
+
+;; (when is_linux
+;; (set-face-attribute 'default nil :family "M+ 1mn regular" :height 137 :weight 'regular)
+;; (set-fontset-font (frame-parameter nil 'font)
+;; 'japanese-jisx0208
+;; (font-spec :family "M+ 1mn"))
+;; (add-to-list 'face-font-rescale-alist
+;; '(".*Gen.*" . 1.1)))
 
 ;; (when is_win
-  ;; (set-face-attribute 'default nil :family "M+ 1mn" :height 110 :weight 'regular)
-  ;; (set-fontset-font (frame-parameter nil 'font)
-                    ;; 'japanese-jisx0208
-                    ;; "-outline-源暎ゴシックM SemiLight-light-normal-normal-mono-12-*-*-*-c-*-fontset-auto3")
+;; (set-face-attribute 'default nil :family "M+ 1mn" :height 110 :weight 'regular)
+;; (set-fontset-font (frame-parameter nil 'font)
+;; 'japanese-jisx0208
+;; "-outline-源暎ゴシックM SemiLight-light-normal-normal-mono-12-*-*-*-c-*-fontset-auto3")
 ;;   )
 
 ;; (when is_mac
