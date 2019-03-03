@@ -131,3 +131,10 @@
 (use-package drag-stuff
   :bind (("M-<up>" . drag-stuff-up)
          ("M-<down>" . drag-stuff-down)))
+
+(use-package volatile-highlights
+  :diminish
+  :hook
+  (after-init . volatile-highlights-mode))
+
+
