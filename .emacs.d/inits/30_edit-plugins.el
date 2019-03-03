@@ -54,8 +54,15 @@
              ("<S-iso-lefttab>" . company-select-previous)
              )
 
-  )
+  ;; show icons in company
+  (use-package company-box
+    :hook (company-mode . company-box-mode))
 
+  (use-package company-quickhelp
+    :config
+    (company-quickhelp-mode))
+
+  )
 
 (use-package anzu
   :defer t
