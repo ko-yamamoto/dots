@@ -146,3 +146,11 @@
 
 ;; 選択範囲をハイライト
 (setq-default transient-mark-mode t)
+
+
+(use-package dimmer
+  :config
+  (setq dimmer-fraction 0.4)
+  (setq dimmer-exclusion-regexp "^\\*helm\\|^ \\*Minibuf\\|^\\*Calendar")
+  (dimmer-mode))
+
