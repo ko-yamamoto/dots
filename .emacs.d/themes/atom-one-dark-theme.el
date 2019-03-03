@@ -34,7 +34,8 @@
 (defvar atom-one-dark-colors-alist
   (let* ((256color  (eq (display-color-cells (selected-frame)) 256))
          (colors `(("atom-one-dark-accent"   . "#528BFF")
-                   ("atom-one-dark-fg"       . (if ,256color "color-248" "#ABB2BF"))
+                   ;; ("atom-one-dark-fg"       . (if ,256color "color-248" "#ABB2BF"))
+                   ("atom-one-dark-fg"       . "#F6F7F8")
                    ;; ("atom-one-dark-bg"       . (if ,256color "color-235" "#282C34"))
                    ("atom-one-dark-bg"       . "#1D1F21")
                    ("atom-one-dark-bg-1"     . (if ,256color "color-234" "#121417"))
@@ -599,6 +600,22 @@
    `(ediff-even-diff-B ((t (:background ,atom-one-dark-bg-hl))))
    `(ediff-odd-diff-C ((t (:background ,atom-one-dark-bg-hl))))
    `(ediff-even-diff-C ((t (:background ,atom-one-dark-bg-hl))))
+
+   ;; skk
+   `(skk-show-mode-inline-face ((t (:background ,atom-one-dark-bg-1))))
+   `(skk-henkan-face-default ((t (:foreground ,atom-one-dark-orange-1 :background ,atom-one-dark-bg-1))))
+   `(skk-dcomp-face ((t (:foreground ,atom-one-dark-mono-2))))
+   `(skk-dcomp-multiple-face ((t (:background ,atom-one-dark-bg-1 :foreground ,atom-one-dark-purple))))
+   `(skk-dcomp-multiple-trailing-face ((t (:background ,atom-one-dark-bg-1 :foreground ,atom-one-dark-mono-2))))
+   `(skk-dcomp-multiple-selected-face ((t (:foreground ,atom-one-dark-orange-1))))
+   `(skk-emacs-hiragana-face ((t (:background ,atom-one-dark-purple :foreground ,atom-one-dark-fg))))
+   `(skk-henkan-rest-indicator-face ((t (:foreground ,atom-one-dark-silver))))
+   `(popup-scroll-bar-foreground-face ((t (:background ,atom-one-dark-orange-1))))
+   `(popup-scroll-bar-background-face ((t (:background ,atom-one-dark-blue))))
+   `(popup-tip-face ((t (:background ,atom-one-dark-black :foreground ,atom-one-dark-fg))))
+
+   ;; volatile-highlights
+   `(vhl/default-face ((t (:background ,atom-one-dark-purple :foreground ,atom-one-dark-fg))))
 
    ))
 
