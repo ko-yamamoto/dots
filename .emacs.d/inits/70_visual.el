@@ -157,3 +157,9 @@
   (setq dimmer-exclusion-regexp "^\\*helm\\|^ \\*Minibuf\\|^\\*Calendar")
   (dimmer-mode))
 
+(use-package beacon
+  :config
+  (beacon-mode 1)
+  (setq beacon-color "#C678DD")
+  (setq beacon-blink-when-focused t))
+
