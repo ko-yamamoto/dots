@@ -60,6 +60,9 @@
 
 ;; バッファの終端をtなら明示するnilならしない
 (setq-default indicate-empty-lines nil)
+;; バッファの終端をフリンジ右下に表示する
+(setq-default indicate-buffer-boundaries
+              '((top . nil) (bottom . right) (down . right)))
 
 ;; タイトルバー
 (setq frame-title-format (format "%%f - Emacs@%s" (system-name)))
