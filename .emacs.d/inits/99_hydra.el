@@ -50,6 +50,7 @@
      ("a" elscreen-toggle)
      ("k" elscreen-kill)
      ("x" elscreen-kill)
+     ("C-x" elscreen-kill)
      ;; historyf
      ("[" historyf-back)
      ("]" historyf-forward)
