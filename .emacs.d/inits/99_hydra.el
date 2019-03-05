@@ -36,12 +36,12 @@
      "
  ^elscreen^       ^histryf^      ^window^                      ^window-move^   ^buffer^          ^buf-move^     ^moccur^                  ^ag
 ------------------------------------------------------------------------------------------------------------------------------------------------------
- [_c_] Create     [_[_] Back     [_v_] Split ー                [_l_] Right     [_n_] Next        [_L_] Right    [_o_] occur-by-moccur     [_g g_] ag
- [_n_] Next       [_]_] Next     [_s_] Split |                 [_h_] Left      [_p_] Previous    [_H_] Left     [_m_] moccur-grep-find    [_g G_] ag-regex
- [_p_] Previous   ^   ^          [_0_] Delete window           [_j_] Down      ^   ^             [_J_] Down     ^   ^                     [_g f_] ag-dired
- [_a_] Toggle     ^   ^          [_1_] Delete other windows    [_k_] Up        ^   ^             [_K_] Up       ^   ^                     [_g F_] ag-dired-regex
- [_k_] Kill       ^   ^          [_SPC_] Toggle window         ^   ^           ^   ^             ^   ^          ^   ^                     [_g h_] helm-ag
- [_x_] Kill
+ [_c_] Create     [_[_] Back     [_C-r_] Resize                [_l_] Right     [_n_] Next        [_L_] Right    [_o_] occur-by-moccur     [_g g_] ag
+ [_n_] Next       [_]_] Next     [_v_] Split ー                [_h_] Left      [_p_] Previous    [_H_] Left     [_m_] moccur-grep-find    [_g G_] ag-regex
+ [_p_] Previous   ^   ^          [_s_] Split |                 [_j_] Down      ^   ^             [_J_] Down     ^   ^                     [_g f_] ag-dired
+ [_a_] Toggle     ^   ^          [_0_] Delete window           [_k_] Up        ^   ^             [_K_] Up       ^   ^                     [_g F_] ag-dired-regex
+ [_k_] Kill       ^   ^          [_1_] Delete other windows    ^   ^           ^   ^             ^   ^          ^   ^                     [_g h_] helm-ag
+ [_x_] Kill       ^   ^          [_SPC_] Toggle window
 "
      ;; elscreen
      ("c" elscreen-create :exit t)
@@ -54,6 +54,7 @@
      ("[" historyf-back)
      ("]" historyf-forward)
      ;; window
+     ("C-r" my-window-resizer :exit t)
      ("v" split-window-vertically)
      ("s" split-window-horizontally)
      ("0" delete-window)
