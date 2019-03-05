@@ -1,4 +1,5 @@
 (use-package smartrep
+  :disabled
   :config
   (setq smartrep-mode-line-active-bg "#C678DD")
 

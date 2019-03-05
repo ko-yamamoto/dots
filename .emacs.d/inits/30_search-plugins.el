@@ -13,8 +13,9 @@
 
 (use-package color-moccur
   :defer t
-  :bind (("C-q o o" . occur-by-moccur)
-         ("C-q o m" . moccur-grep-find))
+  ;; → hydra
+  ;; :bind (("C-q o o" . occur-by-moccur)
+  ;;        ("C-q o m" . moccur-grep-find))
   :config
   ;; スペース区切りの複数語での検索を行う場合は t
   (setq moccur-split-word t)
@@ -47,10 +48,11 @@
   :defer t
   :init
   (bind-key "C-q a" nil) ;; remove elscreen-toggle key
-  :bind (("C-q a g" . ag)
-         ("C-q a G" . ag-regexp)
-         ("C-q a f" . ag-dired)
-         ("C-q a F" . ag-dired-regexp))
+  ;; → hydra
+  ;; :bind (("C-q a g" . ag)
+  ;;        ("C-q a G" . ag-regexp)
+  ;;        ("C-q a f" . ag-dired)
+  ;;        ("C-q a F" . ag-dired-regexp))
   :config
   (use-package wgrep-ag)
   (setq ag-arguments '("--line-number" "--smart-case" "--nogroup" "--column" "--stats" "--vimgrep" "--"))
@@ -62,7 +64,9 @@
   )
 
 (use-package helm-ag
-  :bind (("C-q a h" . helm-ag)))
+  ;; → hydra
+  ;; :bind (("C-q a h" . helm-ag))
+  )
 
 (use-package imenu
   :bind (("M-i" . helm-imenu))
