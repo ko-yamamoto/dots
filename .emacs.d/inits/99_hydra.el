@@ -5,14 +5,15 @@
    (kbd "C-c m")
    (defhydra hydra-multiple-cursors (:hint nil)
      "
- Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cursor%s(if (> (mc/num-cursors) 1) \"s\" \"\")
+ ^multiple-cursors
+ ^Up^             ^Down^           ^Miscellaneous           % 2(mc/num-cursors) cursor%s(if (> (mc/num-cursors) 1) \"s\" \"\")
 ------------------------------------------------------------------
  [_p_]   Next     [_n_]   Next     [_l_] Edit lines  [_i_] Insert numbers
  [_P_]   Skip     [_N_]   Skip     [_a_] Mark all    [_b_] Insert letters
  [_M-p_] Unmark   [_M-n_] Unmark   [_s_] Search
  [Click] Cursor at point       [_q_] Quit"
      ("l" mc/edit-lines :exit t)
-     ("a" mc/mark-all-like-this :exit )
+     ("a" mc/mark-all-like-this :exit t)
      ("n" mc/mark-next-like-this)
      ("N" mc/skip-to-next-like-this)
      ("M-n" mc/unmark-next-like-this)
@@ -33,13 +34,13 @@
    (kbd "C-q")
    (defhydra hydra-c-q (:hint nil)
      "
- elscreen^^       histryf^^      window^^                      window-move^^   buffer^^          buf-move^^     moccur^^                  ag
+ ^elscreen^       ^histryf^      ^window^                      ^window-move^   ^buffer^          ^buf-move^     ^moccur^                  ^ag
 ------------------------------------------------------------------------------------------------------------------------------------------------------
  [_c_] Create     [_[_] Back     [_v_] Split ー                [_l_] Right     [_n_] Next        [_L_] Right    [_o_] occur-by-moccur     [_g g_] ag
  [_n_] Next       [_]_] Next     [_s_] Split |                 [_h_] Left      [_p_] Previous    [_H_] Left     [_m_] moccur-grep-find    [_g G_] ag-regex
- [_p_] Previous                [_0_] Delete window           [_j_] Down                      [_J_] Down                             [_g f_] ag-dired
- [_a_] Toggle                  [_1_] Delete other windows    [_k_] Up                        [_K_] Up                               [_g F_] ag-dired-regex
- [_k_] Kill                    [_SPC_] Toggle window                                                                            [_g h_] helm-ag
+ [_p_] Previous   ^   ^          [_0_] Delete window           [_j_] Down      ^   ^             [_J_] Down     ^   ^                     [_g f_] ag-dired
+ [_a_] Toggle     ^   ^          [_1_] Delete other windows    [_k_] Up        ^   ^             [_K_] Up       ^   ^                     [_g F_] ag-dired-regex
+ [_k_] Kill       ^   ^          [_SPC_] Toggle window         ^   ^           ^   ^             ^   ^          ^   ^                     [_g h_] helm-ag
  [_x_] Kill
 "
      ;; elscreen
@@ -84,9 +85,9 @@
    (kbd "C-c g")
    (defhydra hydra-git (:hint nil)
      "
-git-gutter^^           Magit
+ ^git-gutter^           ^Magit
 ------------------------------------------------------------------
- [_n_] Next Hunk       [_g_] status
+ [_n_] Next Hunk        [_g_] status
  [_p_] Previous Hunk
 "
      ;; git gutter
