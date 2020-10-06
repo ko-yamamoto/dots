@@ -1,7 +1,7 @@
 set fish_color_search_match --background=blue
 set fish_color_command green
 set fish_color_error red
-set fish_color_autosuggestion brblack
+set fish_color_autosuggestion blue
 set fish_color_param white
 
 # Fish git prompt
