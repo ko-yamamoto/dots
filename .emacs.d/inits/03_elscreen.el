@@ -3,7 +3,6 @@
   :bind (("<C-tab>" . elscreen-next)
          ("<C-S-tab>" . elscreen-previous)
          ("<C-S-iso-lefttab>" . elscreen-previous)
-         ("C-:" . helm-with-new-elscreen)
          ;; ("C-x j" . dired-with-new-elscreen)
          ("C-q c" . elscreen-create)
          ("C-q C-c" . elscreen-clone)
@@ -16,7 +15,6 @@
   (setq elscreen-prefix-key "\C-q")
   (elscreen-start)
   :config
-  (use-package helm-elscreen)
 
   ;; タブコントロールを左端に表示しない
   (setq elscreen-tab-display-control nil)
@@ -41,12 +39,6 @@
 
   ;; emacsclient からは別のタブで開く
   (require 'elscreen-server nil t)
-
-  (defun helm-with-new-elscreen ()
-    "新しい elscreen で helm"
-    (interactive)
-    (elscreen-create)
-    (helm-my))
 
   (defun dired-with-new-elscreen ()
     "新しい elscreen で dired"

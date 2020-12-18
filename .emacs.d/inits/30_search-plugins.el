@@ -63,22 +63,12 @@
   (setq wgrep-enable-key "r")
   )
 
-(use-package helm-ag
-  ;; → hydra
-  ;; :bind (("C-q a h" . helm-ag))
-  )
-
 (use-package imenu
-  :bind (("M-i" . helm-imenu))
+  :bind (("M-i" . counsel-imenu))
   :config
   (setq imenu-auto-rescan t)
   ;; imenu で表示する階層の深さ
   (setq org-imenu-depth 3))
-
-(use-package imenu-anywhere
-  ;; imenu を同一メジャーモードのマルチバッファ化
-  :defer t
-  :bind (("M-I" . helm-imenu-anywhere)))
 
 
 (use-package isearch-dabbrev
@@ -103,4 +93,8 @@
 
 
 (use-package dumb-jump
-  :bind (("M-." . dumb-jump-go)))
+  :bind (("M-." . dumb-jump-go))
+  :config
+  (setq dumb-jump-mode t)
+  (setq dumb-jump-selector 'ivy) ;; 候補選択をivyに任せます
+  (setq dumb-jump-use-visible-window nil))

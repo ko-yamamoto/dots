@@ -36,11 +36,11 @@
      "
  ^elscreen^       ^histryf^      ^window^                      ^window-move^   ^buffer^          ^buf-move^     ^moccur^                  ^ag
 ------------------------------------------------------------------------------------------------------------------------------------------------------
- [_c_] Create     [_[_] Back     [_C-r_] Resize                [_l_] Right     [_n_] Next        [_L_] Right    [_o_] occur-by-moccur     [_g g_] ag
- [_n_] Next       [_]_] Next     [_v_] Split ー                [_h_] Left      [_p_] Previous    [_H_] Left     [_m_] moccur-grep-find    [_g G_] ag-regex
- [_p_] Previous   ^   ^          [_s_] Split |                 [_j_] Down      ^   ^             [_J_] Down     ^   ^                     [_g f_] ag-dired
- [_a_] Toggle     ^   ^          [_0_] Delete window           [_k_] Up        ^   ^             [_K_] Up       ^   ^                     [_g F_] ag-dired-regex
- [_k_] Kill       ^   ^          [_1_] Delete other windows    ^   ^           ^   ^             ^   ^          ^   ^                     [_g h_] helm-ag
+ [_c_] Create     [_[_] Back     [_C-r_] Resize                [_l_] Right     [_n_] Next        [_L_] Right    [_o_] swiper              [_g g_] counsel-ag
+ [_n_] Next       [_]_] Next     [_v_] Split ー                [_h_] Left      [_p_] Previous    [_H_] Left     [_m_] moccur-grep-find    ^     ^
+ [_p_] Previous   ^   ^          [_s_] Split |                 [_j_] Down      ^   ^             [_J_] Down     ^   ^                     ^     ^
+ [_a_] Toggle     ^   ^          [_0_] Delete window           [_k_] Up        ^   ^             [_K_] Up       ^   ^                     ^     ^
+ [_k_] Kill       ^   ^          [_1_] Delete other windows    ^   ^           ^   ^             ^   ^          ^   ^                     ^     ^
  [_x_] Kill       ^   ^          [_SPC_] Toggle window
 "
      ;; elscreen
@@ -72,14 +72,12 @@
      ("J" buf-move-down)
      ("K" buf-move-up)
      ;; moccur
-     ("o" occur-by-moccur)
+     ;; ("o" occur-by-moccur)
      ("m" moccur-grep-find)
+     ;; swiper
+     ("o" swiper)
      ;; ag
-     ("g g" ag)
-     ("g G" ag-regexp)
-     ("g f" ag-dired)
-     ("g F" ag-dired-regexp)
-     ("g h" helm-ag)
+     ("g g" counsel-ag)
      ))
 
   ;; git
