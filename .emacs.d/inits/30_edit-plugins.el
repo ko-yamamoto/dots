@@ -102,8 +102,8 @@
 
 (use-package expand-region
   :defer t
-  :bind (("C-@" . er/expand-region)
-         ("C-M-@" . er/contract-region)))
+  :bind (("C-=" . er/expand-region)
+         ("C-M-=" . er/contract-region)))
 
 (use-package multiple-cursors
   :config
