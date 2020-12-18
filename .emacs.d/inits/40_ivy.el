@@ -17,6 +17,15 @@
            extra-ag-args ag-prompt caller))
   (advice-add 'counsel-ag :around #'ad:counsel-ag)
 
+  ;; directory を指定して ag やり直し．クエリは再利用する
+  (defun my-counsel-ag-in-dir (_arg)
+    "Search again with new root directory."
+    (let ((current-prefix-arg '(4)))
+      (counsel-ag ivy-text nil ""))) ;; also disable extra-ag-args
+  (ivy-add-actions
+   'counsel-ag
+   '(("r" my-counsel-ag-in-dir "search in directory")))
+
   (use-package swiper
     :bind (("C-s" . swiper-thing-at-point))
     :config
