@@ -21,6 +21,27 @@
 
 (use-package fuzzy)
 
+
+(use-package lsp-mode
+  ;; Optional - enable lsp-mode automatically in scala files
+  :hook  (scala-mode . lsp)
+         (lsp-mode . lsp-lens-mode)
+  :config (setq lsp-prefer-flymake nil))
+
+;; Enable nice rendering of documentation on hover
+(use-package lsp-ui)
+
+;; Use the Debug Adapter Protocol for running tests and debugging
+(use-package posframe
+  ;; Posframe is a pop-up tool that must be manually installed for dap-mode
+  )
+(use-package dap-mode
+  :hook
+  (lsp-mode . dap-mode)
+  (lsp-mode . dap-ui-mode)
+  )
+
+
 (use-package company
   ;; :bind (("M-c" . company-complete-common2))
   :config
@@ -63,6 +84,9 @@
     (company-quickhelp-mode))
 
   )
+
+; Add company-lsp backend for metals
+(use-package company-lsp)
 
 (use-package anzu
   :defer t
