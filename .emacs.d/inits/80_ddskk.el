@@ -1,5 +1,5 @@
 (use-package ddskk
-  :disabled
+  ;; :disabled
   ;; :bind (("C-q s s" . skk-mode))
   :init
   (require 'ccc)
@@ -61,11 +61,12 @@
                     org-mode-hook))
       (add-hook hook function)))
 
-  (when (or is_mac is_winnt)
-    ;;skk-server AquaSKK
+  (when (or is_mac is_winnt is_wsl)
     (setq skk-server-portnum 1178)
-    (setq skk-server-host "localhost")
-    (set-process-coding-system skkserv-process 'utf-8 'utf-8))
+    ;; (setq skk-server-host "localhost")
+    (setq skk-server-host (getenv "WIN_IP"))
+    (set-process-coding-system skkserv-process 'utf-8 'utf-8)
+    )
 
   )
 
