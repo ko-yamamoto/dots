@@ -328,3 +328,7 @@ Otherwise, call `backward-kill-word'."
     (define-key map (kbd "C-c") 'zlc-reset)
     )
   )
+
+;; 誤爆するので外す
+(global-unset-key (kbd "C-z"))
+

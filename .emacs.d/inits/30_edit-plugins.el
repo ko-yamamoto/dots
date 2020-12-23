@@ -106,6 +106,11 @@
          ("C-M-=" . er/contract-region)))
 
 (use-package multiple-cursors
+  :bind
+  (("C-M-<down>" . mc/mark-next-like-this)
+   ("C-M-<up>" . mc/mark-previous-like-this)
+   ("C-c C->" . mc/mark-all-like-this)
+   )
   :config
   (setq mc/insert-numbers-default 1))
 
