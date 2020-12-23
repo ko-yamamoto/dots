@@ -106,6 +106,15 @@
    `(text-cursor ((t (:background, *cursor-underscore*))))
    `(vertical-border ((t (:foreground, *visual-selection*)))) ;; between splits
 
+   ;; doom-modeline
+   `(doom-modeline-project-dir ((t (:foreground ,yellow))))
+   `(doom-modeline-project-root-dir ((t (:foreground ,yellow))))
+   `(doom-modeline-project-parent-dir ((t (:foreground ,yellow))))
+   `(doom-modeline-buffer-modified ((t (:foreground ,red))))
+   `(doom-modeline-buffer-path ((t (:foreground ,blue))))
+   `(doom-modeline-buffer-file ((t (:foreground ,blue))))
+   `(doom-modeline-info ((t (:foreground ,blue))))
+
    ;; show-paren
    `(show-paren-mismatch ((t (:background, *warning* :foreground, *normal* :weight bold))))
    `(show-paren-match ((t (:background, *keywords* :foreground, *normal* :weight bold))))
@@ -194,6 +203,11 @@
    `(helm-buffer-not-saved ((t (:foreground ,red :bold t))))
    `(helm-visible-mark ((t (:background ,green :bold t))))
 
+   ;; ivy
+   `(ivy-current-match ((t (:background ,*regexp*))))
+   `(my-ivy-arrow-visible ((t (:foreground ,*regexp*))))
+   `(my-ivy-arrow-invisible ((t (:foreground ,*background*))))
+
    ;; elscreen
    `(elscreen-tab-background-face ((t (:background ,*mode-inactive-bg*))))
    `(elscreen-tab-control-face ((t (:background ,*background* :foreground ,*normal*))))
@@ -229,6 +243,11 @@
    `(diff-add ((t (:foreground ,green :background ,*background*))))
    `(diff-removed ((t (:foreground ,red :background ,*background*))))
    `(diff-changed ((t (:foreground ,yellow :inverse-video t))))
+
+   ;; git-gutter
+   `(git-gutter:added ((t (:foreground ,green :weight bold))))
+   `(git-gutter:deleted ((t (:foreground ,red :weight bold))))
+   `(git-gutter:modified ((t (:foreground ,yellow :weight bold))))
 
    ;; magit
    `(magit-diff-add ((t (:foreground ,green :background ,*background*))))
