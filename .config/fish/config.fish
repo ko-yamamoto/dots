@@ -1,7 +1,7 @@
 # set -x LANG "ja_JP.UTF-8"
 set -x LANG "en_US.utf8"
 
-set PATH $HOME/bin /home/linuxbrew/.linuxbrew/bin $PATH
+set PATH $HOME/bin $HOME/.cargo/bin /home/linuxbrew/.linuxbrew/bin $PATH
 
 set -x DISPLAY localhost:0.0
 
