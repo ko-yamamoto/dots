@@ -8,14 +8,16 @@ call plug#begin()
 "   - e.g. `call plug#begin('~/.vim/plugged')`
 "   - Avoid using standard Vim directory names like 'plugin'
 
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-let g:deoplete#enable_at_startup = 1
+Plug 'Shougo/ddc.vim'
+Plug 'vim-denops/denops.vim'
+" Install your sources
+Plug 'Shougo/ddc-around'
+" Install your filters
+Plug 'Shougo/ddc-matcher_head'
+Plug 'Shougo/ddc-sorter_rank'
+Plug 'neovim/nvim-lspconfig'
+Plug 'Shougo/ddc-nvim-lsp'
+
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
@@ -130,6 +132,35 @@ endif
 
 
 " プラグインの設定 """"""""""""""""""""""""""""""""""""""""""""""""""""
+
+call ddc#custom#patch_global('sourceParams', {
+      \ 'around': {'maxSize': 500},
+      \ })
+call ddc#custom#patch_global('sources', ['nvim-lsp'])
+call ddc#custom#patch_global('sourceOptions', {
+      \ '_': {
+      \	  'matchers': ['matcher_head'],
+      \   'sorters': ['sorter_rank'],
+      \   'around': {'mark': 'A'},
+      \   'nvim-lsp': {
+      \     'mark': 'lsp',
+      \     'forceCompletionPattern': '\.\w*|:\w*|->\w*'
+      \   },
+      \  }
+      \ })
+
+" Mappings
+" <TAB>: completion.
+inoremap <silent><expr> <TAB>
+\ ddc#map#pum_visible() ? '<C-n>' :
+\ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+\ '<TAB>' : ddc#map#manual_complete()
+" <S-TAB>: completion back.
+inoremap <expr><S-TAB>  ddc#map#pum_visible() ? '<C-p>' : '<C-h>'
+
+" Use ddc.
+call ddc#enable()
+
 
 " im_control.vim
 " 「日本語入力固定モード」の動作設定
