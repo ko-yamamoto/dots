@@ -189,17 +189,20 @@ set timeout timeoutlen=3000 ttimeoutlen=100
 
 
 " fzf
-let $FZF_PREVIEW_PREVIEW_BAT_THEME  = 'base16-256'
+let $FZF_PREVIEW_PREVIEW_BAT_THEME  = 'ansi'
+let $FZF_DEFAULT_OPTS="--layout=reverse"
+let $FZF_DEFAULT_COMMAND="rg --files --hidden --glob '!.git/**'"
+let g:fzf_layout = {'up':'~90%', 'window': { 'width': 0.8, 'height': 0.8,'yoffset':0.5,'xoffset': 0.5, 'border': 'sharp' } }
+
 nnoremap fb :FzfPreviewBuffersRpc<CR>
 nnoremap fB :FzfPreviewAllBuffersRpc<CR>
-nnoremap ff :FzfPreviewDirectoryFilesRpc<CR>
+" nnoremap ff :FzfPreviewDirectoryFilesRpc<CR>
 nnoremap fh :FzfPreviewMruFilesRpc<CR>
 nnoremap fl :FzfPreviewLinesRpc<CR>
 nnoremap fq :FzfPreviewQuickFixRpc<CR>
 nnoremap fs :FzfPreviewProjectGrepRpc 
 
 nnoremap fga :FzfPreviewGitActionsRpc<CR>
-nnoremap fgf :FzfPreviewGitFilesRpc<CR>
 nnoremap fgs :FzfPreviewGitStatusRpc<CR>
 nnoremap fgl :FzfPreviewGitLogsRpc<CR>
 
@@ -215,6 +218,15 @@ nnoremap fg :Rg<CR>
 nnoremap fr vawy:Rg <C-R>"<CR>
 " frで選択した単語をファイル検索する
 xnoremap fr y:Rg <C-R>"<CR>
+
+command! -bang -nargs=* GGrep
+  \ call fzf#vim#grep(
+  \   'git grep --line-number -- '.shellescape(<q-args>), 0,
+  \   fzf#vim#with_preview({'options': '--reverse --exact --delimiter : --nth 3..', 'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
+" ファイル内容を git grep する
+nnoremap fgg :GGrep<CR>
+" ファイル名で git ls-files する
+nnoremap fgf :GFiles<CR>
 
 
 " lightline
