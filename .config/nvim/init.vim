@@ -17,7 +17,10 @@ Plug 'Shougo/ddc-matcher_head'
 Plug 'Shougo/ddc-sorter_rank'
 Plug 'neovim/nvim-lspconfig'
 Plug 'Shougo/ddc-nvim-lsp'
-
+Plug 'matsui54/denops-signature_help'
+Plug 'matsui54/denops-popup-preview.vim'
+Plug 'LumaKernel/ddc-file'
+Plug 'ippachi/ddc-yank'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
@@ -134,13 +137,23 @@ endif
 " プラグインの設定 """"""""""""""""""""""""""""""""""""""""""""""""""""
 
 " ddc.vim
-call ddc#custom#patch_global('sources', ['nvim-lsp'])
+call ddc#custom#patch_global('sources', ['nvim-lsp', 'yank', 'file', 'around'])
 call ddc#custom#patch_global('sourceOptions', {
       \   '_': {
       \     'matchers': ['matcher_head'],
       \     'sorters': ['sorter_rank']
       \   },
-      \   'around': {'mark': 'A'},
+      \   'around': {
+      \     'mark': 'around',
+      \   },
+      \   'file': {
+      \     'mark': 'file',
+      \     'isVolatile': v:true,
+      \     'forceCompletionPattern': '\S/\S*',
+      \   },
+      \   'yank': {
+      \     'mark': 'yank',
+      \   },
       \   'nvim-lsp': {
       \     'mark': 'lsp',
       \     'forceCompletionPattern': '\.\w*|:\w*|->\w*'
@@ -149,6 +162,7 @@ call ddc#custom#patch_global('sourceOptions', {
 call ddc#custom#patch_global('sourceParams', {
       \ 'around': {'maxSize': 500},
       \ })
+
 " <TAB>: completion.
 inoremap <silent><expr> <TAB>
 \ ddc#map#pum_visible() ? '<C-n>' :
@@ -159,6 +173,9 @@ inoremap <expr><S-TAB>  ddc#map#pum_visible() ? '<C-p>' : '<C-h>'
 
 " Use ddc.
 call ddc#enable()
+
+call popup_preview#enable()
+call signature_help#enable()
 
 
 " im_control.vim
