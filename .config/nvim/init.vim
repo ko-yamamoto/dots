@@ -252,21 +252,6 @@ let g:lightline = {
       \ 'separator': { 'left': '', 'right': '' },
       \ 'subseparator': { 'left': '|', 'right': '|' }
       \ }
-" let g:lightline = {
-"   \ 'colorscheme': 'wombat',
-"   \ 'active': {
-"   \     'left': [['mode', 'paste'],
-"   \              ['gitbranch', 'readonly', 'filename', 'modified']],
-"   \     'right': [['lineinfo'], ['percent'], ['fileformat', 'fileencoding', 'filetype'],
-"   \              ['cocstatus', 'currentfunction']]
-"   \ },
-"   \ 'component_function': {
-"   \     'gitbranch': 'gina#component#repo#branch',
-"   \     'mode': 'LightlineMode',
-"   \     'cocstatus': 'coc#status',
-"   \     'currentfunction': 'CocCurrentFunction'
-"   \ }
-"   \ }
 let g:lightline.tabline = {
       \ 'left': [ [ 'tabs' ] ],
       \ 'right': [ [ 'close' ] ] }
