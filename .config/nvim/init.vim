@@ -52,6 +52,7 @@ Plug 'scalameta/nvim-metals'
 
 Plug 'fuenor/im_control.vim'
 
+Plug 'glidenote/memolist.vim'
 
 " Initialize plugin system
 call plug#end()
@@ -189,14 +190,15 @@ set timeout timeoutlen=3000 ttimeoutlen=100
 
 " fzf
 let $FZF_PREVIEW_PREVIEW_BAT_THEME  = 'base16-256'
-" nnoremap fb :Buffers<CR>
 nnoremap fb :FzfPreviewBuffersRpc<CR>
 nnoremap fB :FzfPreviewAllBuffersRpc<CR>
 nnoremap ff :FzfPreviewDirectoryFilesRpc<CR>
 nnoremap fh :FzfPreviewMruFilesRpc<CR>
 nnoremap fl :FzfPreviewLinesRpc<CR>
+nnoremap fq :FzfPreviewQuickFixRpc<CR>
 nnoremap fs :FzfPreviewProjectGrepRpc 
 
+nnoremap fga :FzfPreviewGitActionsRpc<CR>
 nnoremap fgf :FzfPreviewGitFilesRpc<CR>
 nnoremap fgs :FzfPreviewGitStatusRpc<CR>
 nnoremap fgl :FzfPreviewGitLogsRpc<CR>
@@ -325,4 +327,15 @@ if has('nvim-0.5')
 endif
 
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+
+
+" memolist
+let g:memolist_path = "~/memo"
+let g:memolist_memo_suffix = "md"
+" use fzf (default 0)
+let g:memolist_fzf = 1
+noremap ml  :FzfPreviewMemoListRpc<CR>
+noremap mm  :FzfPreviewMemoListRpc<CR>
+noremap mg  :FzfPreviewMemoListGrepRpc 
+noremap mn  :MemoNew<CR>
 
