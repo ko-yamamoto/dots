@@ -1,3 +1,13 @@
+call plug#begin()
+" The default plugin directory will be as follows:
+"   - Vim (Linux/macOS): '~/.vim/plugged'
+"   - Vim (Windows): '~/vimfiles/plugged'
+"   - Neovim (Linux/macOS/Windows): stdpath('data') . '/plugged'
+" You can specify a custom plugin directory by passing it as the argument
+"   - e.g. `call plug#begin('~/.vim/plugged')`
+"   - Avoid using standard Vim directory names like 'plugin'
+Plug 'kana/vim-operator-user'
+
 " Note: Skip initialization for vim-tiny or vim-small.
 if 0 | endif
 
@@ -65,19 +75,19 @@ NeoBundle "fuenor/im_control.vim"
 NeoBundle "haya14busa/incsearch.vim"
 
 " clojure
-NeoBundle "guns/vim-clojure-static"
-NeoBundle "tpope/vim-fireplace"
-NeoBundle "tpope/vim-classpath"
+" NeoBundle "guns/vim-clojure-static"
+" NeoBundle "tpope/vim-fireplace"
+" NeoBundle "tpope/vim-classpath"
 
 " lisp
-NeoBundle "kovisoft/slimv"
+" NeoBundle "kovisoft/slimv"
 
 " haskell
-NeoBundle "dag/vim2hs"
-NeoBundle "eagletmt/neco-ghc"
+" NeoBundle "dag/vim2hs"
+" NeoBundle "eagletmt/neco-ghc"
 
 " scala
-NeoBundle "derekwyatt/vim-scala"
+" NeoBundle "derekwyatt/vim-scala"
 
 " theme
 NeoBundle "chriskempson/vim-tomorrow-theme"
@@ -184,9 +194,9 @@ set ambiwidth=double
 " キーバインドの設定 """"""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = "\<Space>"
 
-"  ; と : を入れ替え
-nnoremap ; :
-nnoremap : ;
+" "  ; と : を入れ替え
+" nnoremap ; :
+" nnoremap : ;
 
 " 貼り付けたテキストの末尾へ自動的に移動する
 vnoremap <silent> y y`]

@@ -1,40 +1,17 @@
+# path ##################################################
 fpath=(/usr/local/share/zsh-completions $fpath)
 
-# 環境変数
-export PATH=/usr/local/bin:/bin:/Users/nishikawasasaki/bin:$PATH
-alias updatedb='/usr/libexec/locate.updatedb'
-alias top='top -R -F -u'
+# env vars ##############################################
 
-export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-
+# alias #################################################
 # alias ls='ls -fgh'
-alias ll='ls -lh'
-alias la='ls -alfh'
+alias ll='ls -lh --color'
+alias la='ls -alfh --color'
 
-alias emacsclient='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -n'
-alias ec='/usr/local/bin/emacsclient -n'
+# functions #############################################
+# cdしたらls
+function chpwd(){ls -G --color}
 
-# Android SDK
-export ANDROID_SDK_HOME=/Users/nishikawasasaki/android/android-sdk-macosx
-export PATH=$ANDROID_SDK_HOME:$PATH
-export ANDROID_SWT=/Users/nishikawasasaki/android/android-sdk-macosx/tools/lib/x86_64
+# alias emacsclient='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -n'
+# alias ec='/usr/local/bin/emacsclient -n'
 
-# JAVA は UTF-8
-export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8
-
-# sbt
-export SBT_OPTS="-Dfile.encoding=UTF8 -Xmx1024M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256m"
-
-CABAL_BIN=/Users/nishikawasasaki/Library/Haskell/bin
-export PATH=${CABAL_BIN}:${PATH}
-
-# golang
-export GOPATH=$HOME/go
-export PATH=$GOPATH/bin:$PATH
-
-# node
-export PATH=$HOME/.nodebrew/current/bin:$PATH
-
-# git のログには emacs を
-export GIT_EDITOR="/usr/local/Cellar/emacs/24.4/bin/emacsclient"

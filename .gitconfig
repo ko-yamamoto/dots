@@ -1,19 +1,15 @@
-[user]
-	name = nishikawasasaki
-	email = kawaisosu.sosu@gmail.com
-
 [http]
-    sslVerify = false
-	postBuffer = 524288000
+  sslVerify = false
+  postBuffer = 524288000
 
 [core]
-	quotepath = false
-	filemode = false
-    excludesfile = ~/.gitignore  # globalな.gitignoreの指定
-    autocrlf = false                 # CRLFを自動変換するかどうか
-	editor = vim -c 'set fileencoding=utf-8'
-    pager = less -R
-	ignorecase = false
+  quotepath = false
+  filemode = false
+  excludesfile = ~/.gitignore  # globalな.gitignoreの指定
+  autocrlf = false                 # CRLFを自動変換するかどうか
+  editor = vim -c 'set fileencoding=utf-8'
+  pager = less -R
+  ignorecase = false
 
 [color]
   # colorの設定(以下のコマンドは自動で色つける)
@@ -73,6 +69,7 @@
   ll = log --pretty='format:  %C(yellow)%<(15)%cr%Creset%C(blue)%h%Creset  %C(green)%<(15)%an%Creset %s %Cred%d%Creset'
   lg = log --graph --pretty='format:  %C(yellow)%<(15)%cr%Creset%C(blue)%h%Creset  %C(green)%<(15)%an%Creset %s %Cred%d%Creset'
   lga = log --graph --all --color --pretty='format:  %C(yellow)%<(15)%cr%Creset%C(blue)%h%Creset  %C(green)%<(15)%an%Creset %s %Cred%d%Creset'
+  lgn = log --graph --decorate --abbrev-commit --format=format:'%C(blue)%h%C(reset) - %C(green)(%ar)%C(reset)%C(yellow)%d%C(reset)\n  %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
   # reset
   rhs = reset --soft HEAD
   rhs1 = reset --soft HEAD~
@@ -114,14 +111,19 @@
   # stash
   st = stash
   stp = stash pop
+  merged-branch = !sh -c 'git branch -vv | grep \"origin/.*: gone]\" | awk \"{print \\$1}\"'
+  delete-merged-branch = !sh -c 'git merged-branch | xargs git branch -d'
+  delete-merged-branch-force = !sh -c 'git merged-branch | xargs git branch -D'
+
 [merge]
-	ff = false
+  ff = false
 [pull]
-	rebase = true
+  rebase = true
 [push]
-	default = current
+  default = current
 [pack]
-	windowMemory = 100m
-	SizeLimit = 100m
-	threads = 1
-	window = 0
+  windowMemory = 100m
+  SizeLimit = 100m
+  threads = 1
+  window = 0
+

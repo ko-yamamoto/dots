@@ -31,7 +31,7 @@ export NODE_HOME=/c/lang/nodejs/
 export PATH=$NODE_HOME:$PATH
 
 # npm modules
-export NPM_MODULE_HOME=/c/Users/ko-yamamoto/AppData/Roaming/npm
+export NPM_MODULE_HOME=$HOME/AppData/Roaming/npm
 export PATH=$NPM_MODULE_HOME:$PATH
 
 
