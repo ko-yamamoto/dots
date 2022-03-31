@@ -28,13 +28,7 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 
-# インクリメンタルな履歴検索
-bindkey '^R' history-incremental-pattern-search-backward
-bindkey '^S' history-incremental-pattern-search-forward
-
-
 zstyle :compinstall filename '/Users/nishikawasasaki/.zshrc'
-
 
 # 共通のPATH
 export PATH=$HOME/bin:$PATH
@@ -43,58 +37,51 @@ export PATH=$HOME/bin:$PATH
 # export LANG=ja_JP.utf8
 export LANG=ja_JP.UTF-8
 
-# JAVA
-JAVA_OPTS="-Dfile.encoding=UTF-8"
-export JAVA_OPTS
-
-
 # プロンプトをカラー表示
 autoload colors && colors
 
-# プロンプト表示設定
-setopt prompt_subst
-if [ `echo $UNAME | grep 'MSYS_NT'` ] ; then
-    # CYGWIN は重いのでシンプル
-    # PROMPT='%F{green}%n%f/%m  %F{blue}%(10~,%-4~/.../%6~,%~)%f
-    # %B%(?.%F{blue}%(!.#.／^o^＼)%f.%F{red}%(!.#.＼^o^／)%f)%b '
-    # PROMPT='%B%F{yellow}%n%f%b/%m  %B%F{blue}%(10~,%-4~/.../%6~,%~)%f%b
-    # %B%(?.%F{blue}%(!.#.>)%f.%F{red}%(!.#.!)%f)%b '
-    # PROMPT='@%B%F{yellow}%(10~,%-4~/.../%6~,%~)%f%b
-    # %B%(?.%F{blue}%(!.#.>)%f.%F{red}%(!.#.!)%f)%b '
-    PROMPT='
-@%B%F{yellow}%(10~,%-4~/.../%6~,%d)%f%b
-%B%(?.%F{blue}%(!.#.>)%f.%F{red}%(!.#.!)%f)%b '
-
-else
-    # CYGWIN 以外
-    autoload -Uz vcs_info
-    zstyle ':vcs_info:*' enable git svn
-    zstyle ':vcs_info:*' max-exports 6 # formatに入る変数の最大数
-    zstyle ':vcs_info:git:*' check-for-changes true
-    zstyle ':vcs_info:git:*' formats '%b@%r' '%c' '%u'
-    zstyle ':vcs_info:git:*' actionformats '%b@%r|%a' '%c' '%u'
-    setopt prompt_subst
-    function vcs_echo {
-        local st branch color
-        STY= LANG=en_US.UTF-8 vcs_info
-        st=`git status 2> /dev/null`
-        if [[ -z "$st" ]]; then return; fi
-        branch="$vcs_info_msg_0_"
-        if   [[ -n "$vcs_info_msg_1_" ]]; then color=${fg[blue]} #staged
-        elif [[ -n "$vcs_info_msg_2_" ]]; then color=${fg[red]} #unstaged
-        elif [[ -n `echo "$st" | grep "^Untracked"` ]]; then color=${fg[yellow]} # untracked
-        else color=${fg[green]}
-        fi
-        echo "%{$color%}%{$branch%}:%{$reset_color%} " | sed -e s/@/"%F{yellow}@%f"/
-    }
-    PROMPT='
-%B`vcs_echo`%b@%B%F{yellow}%(10~,%-4~/.../%6~,%d)%f%b
-%B%(?.%F{blue}%(!.#.>)%f.%F{red}%(!.#.!)%f)%b '
-
-fi
-
-
-
+# -> use starship.rs
+# # プロンプト表示設定
+# setopt prompt_subst
+# if [ `echo $UNAME | grep 'MSYS_NT'` ] ; then
+#     # CYGWIN は重いのでシンプル
+#     # PROMPT='%F{green}%n%f/%m  %F{blue}%(10~,%-4~/.../%6~,%~)%f
+#     # %B%(?.%F{blue}%(!.#.／^o^＼)%f.%F{red}%(!.#.＼^o^／)%f)%b '
+#     # PROMPT='%B%F{yellow}%n%f%b/%m  %B%F{blue}%(10~,%-4~/.../%6~,%~)%f%b
+#     # %B%(?.%F{blue}%(!.#.>)%f.%F{red}%(!.#.!)%f)%b '
+#     # PROMPT='@%B%F{yellow}%(10~,%-4~/.../%6~,%~)%f%b
+#     # %B%(?.%F{blue}%(!.#.>)%f.%F{red}%(!.#.!)%f)%b '
+#     PROMPT='
+# @%B%F{yellow}%(10~,%-4~/.../%6~,%d)%f%b
+# %B%(?.%F{blue}%(!.#.>)%f.%F{red}%(!.#.!)%f)%b '
+# 
+# else
+#     # CYGWIN 以外
+#     autoload -Uz vcs_info
+#     zstyle ':vcs_info:*' enable git svn
+#     zstyle ':vcs_info:*' max-exports 6 # formatに入る変数の最大数
+#     zstyle ':vcs_info:git:*' check-for-changes true
+#     zstyle ':vcs_info:git:*' formats '%b@%r' '%c' '%u'
+#     zstyle ':vcs_info:git:*' actionformats '%b@%r|%a' '%c' '%u'
+#     setopt prompt_subst
+#     function vcs_echo {
+#         local st branch color
+#         STY= LANG=en_US.UTF-8 vcs_info
+#         st=`git status 2> /dev/null`
+#         if [[ -z "$st" ]]; then return; fi
+#         branch="$vcs_info_msg_0_"
+#         if   [[ -n "$vcs_info_msg_1_" ]]; then color=${fg[blue]} #staged
+#         elif [[ -n "$vcs_info_msg_2_" ]]; then color=${fg[red]} #unstaged
+#         elif [[ -n `echo "$st" | grep "^Untracked"` ]]; then color=${fg[yellow]} # untracked
+#         else color=${fg[green]}
+#         fi
+#         echo "%{$color%}%{$branch%}:%{$reset_color%} " | sed -e s/@/"%F{yellow}@%f"/
+#     }
+#     PROMPT='
+# %B`vcs_echo`%b@%B%F{yellow}%(10~,%-4~/.../%6~,%d)%f%b
+# %B%(?.%F{blue}%(!.#.>)%f.%F{red}%(!.#.!)%f)%b '
+# 
+# fi
 
 # Emacs Tramp 用プロンプト
 # set terminal title including current directory
@@ -123,10 +110,6 @@ export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30
 # 補完をカラーに
 zstyle ':completion:*' list-colors 'di=;34;1' 'ln=;35;1' 'so=;32;1' 'ex=31;1' 'bd=46;34' 'cd=43;34'
 alias ls="ls -G"
-
-
-
-
 
 
 # 補完パターン 大文字小文字区別なしなど
@@ -255,34 +238,29 @@ function timer() {
 }
 
 
+# # ssh-agent 用
+# agentPID=`ps gxww|grep "ssh-agent]*$"|awk '{print $1}'`
+# agentSOCK=`/bin/ls -t /tmp/ssh*/agent*|head -1`
+# if [ "$agentPID" = "" -o "$agentSOCK" = "" ]; then
+#     unset SSH_AUTH_SOCK SSH_AGENT_PID
+#     eval `ssh-agent`
+#     # ssh-add < /dev/null
+# else
+#     export SSH_AGENT_PID=$agentPID
+#     export SSH_AUTH_SOCK=$agentSOCK
+#     # if [ `ssh-add -l` = "" ]; then
+#     #     ssh-add < /dev/null
+#     # fi
+# fi
 
-# ssh-agent 用
-agentPID=`ps gxww|grep "ssh-agent]*$"|awk '{print $1}'`
-agentSOCK=`/bin/ls -t /tmp/ssh*/agent*|head -1`
-if [ "$agentPID" = "" -o "$agentSOCK" = "" ]; then
-    unset SSH_AUTH_SOCK SSH_AGENT_PID
-    eval `ssh-agent`
-    # ssh-add < /dev/null
-else
-    export SSH_AGENT_PID=$agentPID
-    export SSH_AUTH_SOCK=$agentSOCK
-    # if [ `ssh-add -l` = "" ]; then
-    #     ssh-add < /dev/null
-    # fi
-fi
-
+# Mineファイル読み込み
+# オレオレ設定はこっちに
+[ -f ~/.zshrc.mac ] && source ~/.zshrc.mac
+[ -f ~/.zshrc.cyg ] && source ~/.zshrc.cyg
+[ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
 
 
 # plugins######################################################
-
-# zaw
-if [ -f ~/bin/zaw/zaw.zsh ]; then
-    source ~/bin/zaw/zaw.zsh
-    bindkey '^Q;' zaw
-    bindkey '^R' zaw-history
-    zstyle ':filter-select' max-lines $(($LINES / 3))
-fi
-
 
 # zsh-completions
 # cd ~/bin
@@ -292,291 +270,100 @@ if [ -d ~/bin/zsh-completions ]; then
     rm -f ~/.zcompdump; autoload -U compinit; compinit
 fi
 
-# Mineファイル読み込み
-# オレオレ設定はこっちに
-[ -f ~/.zshrc.mac ] && source ~/.zshrc.mac
-[ -f ~/.zshrc.cyg ] && source ~/.zshrc.cyg
-[ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
+# zsh-abbr
+# brew install olets/tap/zsh-abbr
+source /usr/local/share/zsh-abbr/zsh-abbr.zsh
+# abbr b="brew"
+# abbr d="docker"
+# abbr dc="docker compose"
+# abbr di="git diff"
+# abbr e="exit"
+# abbr g="git"
+# abbr gd="git diff --cached"
+# abbr ggrep="git grep"
+# abbr gl="git log"
+# abbr gr="git restore"
+# abbr gs="git switch"
+# abbr l="git log"
+# abbr p="git pull"
+# abbr pick="git cherry-pick"
+# abbr pop="git stash pop"
+# abbr s="git status -sb"
+# abbr st="git stash"
 
+# fzf
+# brew install fzf
+# /usr/local/opt/fzf/install
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+bindkey '^[t' fzf-file-widget
 
-function ppgrep() {
-    if [[ $1 == "" ]]; then
-        PERCOL=percol
-    else
-        PERCOL="percol --query $1"
+# cdrの履歴からディレクトリを移動する
+fzf-cdr(){
+    local dir=$(cdr -l | fzf --preview 'f(){ zsh -c "exa -h --long --icons --classify --git --no-permissions --no-user --no-filesize --git-ignore --sort modified --reverse --tree --level 2 $1" }; f {2}')
+    if [ -n "$dir" ]; then
+        dir=$(echo $dir | awk '{ print $1 }')
+        BUFFER="cdr ${dir}"
+        zle accept-line
     fi
-    ps aux | eval $PERCOL | awk '{ print $2 }'
+    zle clear-screen
 }
+zle -N fzf-cdr
+bindkey '^[r' fzf-cdr
 
-function ppkill() {
-    if [[ $1 =~ "^-" ]]; then
-        QUERY=""            # options only
-    else
-        QUERY=$1            # with a query
-        [[ $# > 0 ]] && shift
+# require unbuffer
+# brew install expect
+fzf-add() {
+    local selected
+    selected=$(unbuffer git status -s | fzf -m --ansi --preview="echo {} | awk '{print \$2}' | xargs git diff --color" | awk '{print $2}')
+    if [[ -n "$selected" ]]; then
+        selected=$(tr '\n' ' ' <<< "$selected")
+        selected="${selected%"${selected##*[![:space:]]}"}" # 行末のスペースを削除する
+        git add $selected
+        echo "Completed: git add $selected"
     fi
-    ppgrep $QUERY | xargs kill $*
 }
+zle -N fzf-add
+bindkey '^[a' fzf-add
 
-function exists { which $1 &> /dev/null }
-
-if exists percol; then
-    function percol_select_history() {
-        local tac
-        exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
-        BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
-        CURSOR=$#BUFFER         # move cursor
-        zle -R -c               # refresh
-    }
-
-    zle -N percol_select_history
-    bindkey '^R' percol_select_history
-fi
-
-
-# cd 履歴を記録
-typeset -U chpwd_functions
-CD_HISTORY_FILE=${HOME}/.cd_history_file # cd 履歴の記録先ファイル
-function chpwd_record_history() {
-    echo $PWD >> ${CD_HISTORY_FILE}
-}
-chpwd_functions=($chpwd_functions chpwd_record_history)
-
-# percol を使って cd 履歴の中からディレクトリを選択
-# 過去の訪問回数が多いほど選択候補の上に来る
-function percol_get_destination_from_history() {
-    sort ${CD_HISTORY_FILE} | uniq -c | sort -r | \
-        sed -e 's/^[ ]*[0-9]*[ ]*//' | \
-        sed -e s"/^${HOME//\//\\/}/~/" | \
-        percol | xargs echo
-}
-
-# percol を使って cd 履歴の中からディレクトリを選択し cd するウィジェット
-function percol_cd_history() {
-    local destination=$(percol_get_destination_from_history)
-    [ -n $destination ] && cd ${destination/#\~/${HOME}}
-    zle reset-prompt
-}
-zle -N percol_cd_history
-
-# percol を使って cd 履歴の中からディレクトリを選択し，現在のカーソル位置に挿入するウィジェット
-function percol_insert_history() {
-    local destination=$(percol_get_destination_from_history)
-    if [ $? -eq 0 ]; then
-        # local new_left="${LBUFFER} ${destination} "
-        local new_left="${LBUFFER}cd ${destination}"
-        BUFFER=${new_left}${RBUFFER}
-        CURSOR=${#new_left}
-    fi
-    zle reset-prompt
-}
-zle -N percol_insert_history
-
-# bindkey '^x' percol_cd_history
-bindkey '^x' percol_insert_history
-
-
-
-# 補完用 #####################################################
-# mosh
-# Thx! "zsh+MoshでHostnameを補完出来るようにした - Glide Note - グライドノート"
-# http://blog.glidenote.com/blog/2012/04/14/mosh-hostname-completion/
-function _mosh_hosts {
-  local -a config_hosts
-  local config
-  integer ind
-
-  # If users-hosts matches, we shouldn't complete anything else.
-  if [[ "$IPREFIX" == *@ ]]; then
-    _combination -s '[:@]' my-accounts users-hosts "users=${IPREFIX/@}" hosts "$@" && return
-  else
-    _combination -s '[:@]' my-accounts users-hosts \
-      ${opt_args[-l]:+"users=${opt_args[-l]:q}"} hosts "$@" && return
-  fi
-  if (( ind = ${words[(I)-F]} )); then
-    config=${~words[ind+1]}
-  else
-    config="$HOME/.ssh/config"
-  fi
-  if [[ -r $config ]]; then
-    local IFS=$'\t ' key hosts host
-    while read key hosts; do
-      if [[ "$key" == (#i)host ]]; then
-	 for host in ${(z)hosts}; do
-	    case $host in
-	    (*[*?]*) ;;
-	    (*) config_hosts+=("$host") ;;
-	    esac
-	 done
-      fi
-    done < "$config"
-    if (( ${#config_hosts} )); then
-      _wanted hosts expl 'remote host name' \
-	compadd -M 'm:{a-zA-Z}={A-Za-z} r:|.=* r:|=*' "$@" $config_hosts
-    fi
-  fi
-}
-compdef _mosh_hosts mosh
-
-
-# golang
-# gc
-prefixes=(5 6 8)
-for p in $prefixes; do
-    compctl -g "*.${p}" ${p}l
-    compctl -g "*.go" ${p}g
-done
-
-# standard go tools
-compctl -g "*.go" gofmt
-
-# gccgo
-compctl -g "*.go" gccgo
-
-# go tool
-__go_tool_complete() {
-  typeset -a commands build_flags
-  commands+=(
-    'build[compile packages and dependencies]'
-    'clean[remove object files]'
-    'doc[run godoc on package sources]'
-    'fix[run go tool fix on packages]'
-    'fmt[run gofmt on package sources]'
-    'get[download and install packages and dependencies]'
-    'help[display help]'
-    'install[compile and install packages and dependencies]'
-    'list[list packages]'
-    'run[compile and run Go program]'
-    'test[test packages]'
-    'tool[run specified go tool]'
-    'version[print Go version]'
-    'vet[run go tool vet on packages]'
+# ブランチを選択して switch する
+fzf-branch() {
+  target_br=$(
+    git branch -a |
+      fzf --exit-0 --info=hidden --no-multi --preview-window="right,65%" --prompt="CHECKOUT BRANCH > " --preview="echo {} | tr -d ' *' | xargs git lgn --color=always" |
+      head -n 1 |
+      perl -pe "s/\s//g; s/\*//g; s/remotes\/origin\///g"
   )
-  if (( CURRENT == 2 )); then
-    # explain go commands
-    _values 'go tool commands' ${commands[@]}
-    return
+  if [ -n "$target_br" ]; then
+    BUFFER="git switch $target_br"
+    zle accept-line
   fi
-  build_flags=(
-    '-a[force reinstallation of packages that are already up-to-date]'
-    '-n[print the commands but do not run them]'
-    "-p[number of parallel builds]:number"
-    '-x[print the commands]'
-    "-work[print temporary directory name and keep it]"
-    "-gcflags[flags for 5g/6g/8g]:flags"
-    "-ldflags[flags for 5l/6l/8l]:flags"
-    "-gccgoflags[flags for gccgo]:flags"
-  )
-  __go_list() {
-      local expl importpaths
-      declare -a importpaths
-      importpaths=($(go list ${words[$CURRENT]}... 2>/dev/null))
-      _wanted importpaths expl 'import paths' compadd "$@" - "${importpaths[@]}"
-  }
-  case ${words[2]} in
-  clean|doc)
-      _arguments -s -w : '*:importpaths:__go_list'
-      ;;
-  fix|fmt|list|vet)
-      _alternative ':importpaths:__go_list' ':files:_path_files -g "*.go"'
-      ;;
-  install)
-      _arguments -s -w : ${build_flags[@]} \
-        "-v[show package names]" \
-    '*:importpaths:__go_list'
-      ;;
-  get)
-      _arguments -s -w : \
-        ${build_flags[@]}
-      ;;
-  build)
-      _arguments -s -w : \
-        ${build_flags[@]} \
-        "-v[show package names]" \
-        "-o[output file]:file:_files" \
-        "*:args:{ _alternative ':importpaths:__go_list' ':files:_path_files -g \"*.go\"' }"
-      ;;
-  test)
-      _arguments -s -w : \
-        ${build_flags[@]} \
-        "-c[do not run, compile the test binary]" \
-        "-i[do not run, install dependencies]" \
-        "-v[print test output]" \
-        "-x[print the commands]" \
-        "-short[use short mode]" \
-        "-parallel[number of parallel tests]:number" \
-        "-cpu[values of GOMAXPROCS to use]:number list" \
-        "-run[run tests and examples matching regexp]:regexp" \
-        "-bench[run benchmarks matching regexp]:regexp" \
-        "-benchtime[run each benchmark during n seconds]:duration" \
-        "-timeout[kill test after that duration]:duration" \
-        "-cpuprofile[write CPU profile to file]:file:_files" \
-        "-memprofile[write heap profile to file]:file:_files" \
-        "-memprofilerate[set heap profiling rate]:number" \
-        "*:args:{ _alternative ':importpaths:__go_list' ':files:_path_files -g \"*.go\"' }"
-      ;;
-  help)
-      _values "${commands[@]}" \
-        'gopath[GOPATH environment variable]' \
-        'importpath[description of import paths]' \
-        'remote[remote import path syntax]' \
-        'testflag[description of testing flags]' \
-        'testfunc[description of testing functions]'
-      ;;
-  run)
-      _arguments -s -w : \
-          ${build_flags[@]} \
-          '*:file:_path_files -g "*.go"'
-      ;;
-  tool)
-      if (( CURRENT == 3 )); then
-          _values "go tool" $(go tool)
-          return
-      fi
-      case ${words[3]} in
-      [568]g)
-          _arguments -s -w : \
-              '-I[search for packages in DIR]:includes:_path_files -/' \
-              '-L[show full path in file:line prints]' \
-              '-S[print the assembly language]' \
-              '-V[print the compiler version]' \
-              '-e[no limit on number of errors printed]' \
-              '-h[panic on an error]' \
-              '-l[disable inlining]' \
-              '-m[print optimization decisions]' \
-              '-o[file specify output file]:file' \
-              '-p[assumed import path for this code]:importpath' \
-              '-u[disable package unsafe]' \
-              "*:file:_files -g '*.go'"
-          ;;
-      [568]l)
-          local O=${words[3]%l}
-          _arguments -s -w : \
-              '-o[file specify output file]:file' \
-              '-L[search for packages in DIR]:includes:_path_files -/' \
-              "*:file:_files -g '*.[ao$O]'"
-          ;;
-      dist)
-          _values "dist tool" banner bootstrap clean env install version
-          ;;
-      *)
-          # use files by default
-          _files
-          ;;
-      esac
-      ;;
-  esac
 }
+zle -N fzf-branch
+bindkey '^[b' fzf-branch
 
-compdef __go_tool_complete go
+# PR 選択して switch する
+# brew install gh
+fzf-pullreq() {
+  local pullreq=$(CLICOLOR_FORCE=1 GH_FORCE_TTY=100% gh pr list | tail -n+4 | fzf --ansi --bind "change:reload:CLICOLOR_FORCE=1 GH_FORCE_TTY=100% gh pr list -S {q} | tail -n+4 || true" --disabled --preview "CLICOLOR_FORCE=1 GH_FORCE_TTY=100% gh pr view {1} | bat --color=always --style=grid --file-name a.md")
+  if [ -n "$pullreq" ]; then
+    pullreq=$(echo $pullreq | awk '{ print $1 }')
+    BUFFER="gh pr checkout \"${pullreq}\""
+    zle accept-line
+  fi
+  zle clear-screen
+}
+zle -N fzf-pullreq
+bindkey '^[p' fzf-pullreq
+
+# brew install zsh-autosuggestions
+source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#999999"
 
 
-# python
-alias pip-allupdate="pip list --outdated | awk '{print $1}' | xargs pip install -U"
 
-## 以下 zsh vi モード
 
+# 以下 zsh vi モード用設定 #################################################
 
 # #zshプロンプトにモード表示####################################
 # function zle-line-init zle-keymap-select {
@@ -1116,7 +903,16 @@ alias pip-allupdate="pip list --outdated | awk '{print $1}' | xargs pip install 
 # }
 
 
+
+
+
 # 戦闘力
 function scouter() {
     sed -e '/^\s*$/d' -e '/^\s*#/d' ${ZDOTDIR:-$HOME}/.zshrc | wc -l
 }
+
+
+
+# starship.rs ###############################################
+eval "$(starship init zsh)"
+
