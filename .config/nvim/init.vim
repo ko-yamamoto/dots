@@ -30,9 +30,11 @@ Plug 'junegunn/fzf.vim'
 Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/rpc' }
 Plug 'thinca/vim-qfreplace'
 
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-line'
+Plug 'terryma/vim-expand-region'
 
 Plug 'lambdalisue/gina.vim'
-
 Plug 'airblade/vim-gitgutter'
 
 Plug 'lambdalisue/fern.vim'
@@ -338,4 +340,9 @@ noremap ml  :FzfPreviewMemoListRpc<CR>
 noremap mm  :FzfPreviewMemoListRpc<CR>
 noremap mg  :FzfPreviewMemoListGrepRpc 
 noremap mn  :MemoNew<CR>
+
+" expand_region
+" require 'kana/vim-textobj-user' and 'kana/vim-textobj-line'
+map K <Plug>(expand_region_expand)
+map J <Plug>(expand_region_shrink)
 
