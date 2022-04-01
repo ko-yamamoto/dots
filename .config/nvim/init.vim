@@ -26,7 +26,6 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-" brew install ripgrep
 Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/rpc' }
 Plug 'thinca/vim-qfreplace'
 
@@ -48,8 +47,6 @@ Plug 'itchyny/lightline.vim'
 Plug 'chriskempson/base16-vim'
 
 Plug 'nvim-lua/plenary.nvim'
-" brew install coursier/formulas/coursier
-" run "cs setup"
 Plug 'scalameta/nvim-metals'
 
 Plug 'fuenor/im_control.vim'
@@ -191,6 +188,7 @@ set timeout timeoutlen=3000 ttimeoutlen=100
 
 
 " fzf
+" require: brew install ripgrep
 let $FZF_PREVIEW_PREVIEW_BAT_THEME  = 'ansi'
 let $FZF_DEFAULT_OPTS="--layout=reverse"
 let $FZF_DEFAULT_COMMAND="rg --files --hidden --glob '!.git/**'"
@@ -297,6 +295,8 @@ set updatetime=250
 
 
 " nvim-metals
+" brew install coursier/formulas/coursier
+" run "cs setup"
 set shortmess-=F
 :lua << EOF
   metals_config = require'metals'.bare_config()
