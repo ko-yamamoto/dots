@@ -10,9 +10,7 @@ call plug#begin()
 
 Plug 'Shougo/ddc.vim'
 Plug 'vim-denops/denops.vim'
-" Install your sources
 Plug 'Shougo/ddc-around'
-" Install your filters
 Plug 'Shougo/ddc-matcher_head'
 Plug 'Shougo/ddc-sorter_rank'
 Plug 'neovim/nvim-lspconfig'
@@ -48,6 +46,7 @@ Plug 'chriskempson/base16-vim'
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'scalameta/nvim-metals'
+Plug 'GEverding/vim-hocon'
 
 Plug 'fuenor/im_control.vim'
 
@@ -196,7 +195,7 @@ let g:fzf_layout = {'up':'~90%', 'window': { 'width': 0.8, 'height': 0.8,'yoffse
 
 nnoremap fb :FzfPreviewBuffersRpc<CR>
 nnoremap fB :FzfPreviewAllBuffersRpc<CR>
-" nnoremap ff :FzfPreviewDirectoryFilesRpc<CR>
+nnoremap ff :FzfPreviewDirectoryFilesRpc<CR>
 nnoremap fh :FzfPreviewMruFilesRpc<CR>
 nnoremap fl :FzfPreviewLinesRpc<CR>
 nnoremap fq :FzfPreviewQuickFixRpc<CR>
