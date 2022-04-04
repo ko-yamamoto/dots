@@ -346,8 +346,9 @@ noremap mm  :FzfPreviewMemoListRpc<CR>
 noremap mg  :FzfPreviewMemoListGrepRpc 
 noremap mn  :MemoNew<CR>
 
+
 " expand_region
 " require 'kana/vim-textobj-user' and 'kana/vim-textobj-line'
 map K <Plug>(expand_region_expand)
-map J <Plug>(expand_region_shrink)
+map <C-k> <Plug>(expand_region_shrink)
 
