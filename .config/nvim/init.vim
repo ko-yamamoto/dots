@@ -285,11 +285,16 @@ augroup my-glyph-palette
   autocmd FileType nerdtree,startify call glyph_palette#apply()
 augroup END
 
+
 " vim-gitgutter
-" 記号の色を変更する
-highlight GitGutterAdd ctermfg=green
-highlight GitGutterChange ctermfg=yellow
-highlight GitGutterDelete ctermfg=red
+highlight GitGutterAdd    guifg=#81a2be ctermfg=4
+highlight GitGutterChange guifg=#f0c674 ctermfg=3
+highlight GitGutterDelete guifg=#cc6666 ctermfg=1
+let g:gitgutter_sign_added='┃'
+let g:gitgutter_sign_modified='┃'
+let g:gitgutter_sign_removed='◢'
+let g:gitgutter_sign_removed_first_line='◥'
+let g:gitgutter_sign_modified_removed='◢'
 " 反映時間を短くする(デフォルトは4000ms)
 set updatetime=250
 
