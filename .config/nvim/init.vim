@@ -233,20 +233,19 @@ let g:lightline = {
       \ 'colorscheme': 'wombat',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'fugitive', 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \             [ 'fugitive', 'gitbranch1'],
+      \             [ 'readonly', 'modified', 'filename' ]]
       \ },
       \ 'component': {
       \   'readonly': '%{&readonly?"x":""}',
       \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
-      \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
+      \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}',
+      \   'gitbranch1': ' %{gina#component#repo#branch()}'
       \ },
       \ 'component_visible_condition': {
       \   'readonly': '(&filetype!="help"&& &readonly)',
       \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
       \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'gina#component#repo#branch'
       \ },
       \ 'separator': { 'left': '', 'right': '' },
       \ 'subseparator': { 'left': '|', 'right': '|' }
