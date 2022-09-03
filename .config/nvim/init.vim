@@ -13,12 +13,15 @@ Plug 'vim-denops/denops.vim'
 Plug 'Shougo/ddc-around'
 Plug 'Shougo/ddc-matcher_head'
 Plug 'Shougo/ddc-sorter_rank'
-Plug 'neovim/nvim-lspconfig'
-Plug 'Shougo/ddc-nvim-lsp'
 Plug 'matsui54/denops-signature_help'
 Plug 'matsui54/denops-popup-preview.vim'
 Plug 'LumaKernel/ddc-file'
 Plug 'ippachi/ddc-yank'
+
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'neovim/nvim-lspconfig'
+Plug 'Shougo/ddc-nvim-lsp'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
@@ -30,6 +33,8 @@ Plug 'thinca/vim-qfreplace'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-line'
 Plug 'terryma/vim-expand-region'
+
+Plug 'tomtom/tcomment_vim'
 
 Plug 'lambdalisue/gina.vim'
 Plug 'airblade/vim-gitgutter'
@@ -48,9 +53,19 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'scalameta/nvim-metals'
 Plug 'GEverding/vim-hocon'
 
+Plug 'phpactor/phpactor', {'for': 'php', 'tag': '*', 'do': 'composer install --no-dev -o'}
+
 Plug 'fuenor/im_control.vim'
 
+Plug 'tyru/open-browser.vim'
+
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+Plug 'previm/previm'
+
 Plug 'glidenote/memolist.vim'
+
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 
 " Initialize plugin system
 call plug#end()
@@ -96,8 +111,18 @@ set incsearch "インクリメンタルサーチを行う
 set ignorecase "大文字と小文字を区別しない
 set smartcase "大文字と小文字が混在した言葉で検索を行った場合に限り、大文字と小文字を区別する
 
+set cmdheight=0 " コマンドライン領域非表示
+
+" インデント
+set autoindent          "改行時に前の行のインデントを計測
+set smartindent         "改行時に入力された行の末尾に合わせて次の行のインデントを増減する 
+set smarttab            "新しい行を作った時に高度な自動インデントを行う
+set shiftwidth=2        "自動インデントで入る空白数
+
 
 " キーバインドの設定 """"""""""""""""""""""""""""""""""""""""""""""""""""
+let mapleader = ","
+
 " Escの2回押しでハイライト消去
 nnoremap <ESC><ESC> :nohlsearch<CR>
 " タブ操作
@@ -124,16 +149,58 @@ function! s:Repl()
 endfunction
 vmap <silent> <expr> p <sid>Repl()
 
+" json を jq でフォーマットする
+function! JsonFormat()
+  set filetype=json
+  :%!jq '.'
+endfunction
+command JsonFormat :call JsonFormat()
+
 
 " vimr """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:python3_host_prog = "~/.asdf/shims/python3"
 if has("gui_vimr")
   " Here goes some VimR specific settings like
   color base16-tomorrow-night
+  " let g:tokyonight_style = "night"
+  " colorscheme tokyonight
 endif
 
 
 " プラグインの設定 """"""""""""""""""""""""""""""""""""""""""""""""""""
+
+" mason.nvim -- Portable package manager for Neovim that runs everywhere Neovim runs.
+lua <<EOF
+require("mason").setup()
+require("mason-lspconfig").setup({
+    ensure_installed = { "phpactor" }
+})
+require'lspconfig'.phpactor.setup{
+  on_attach = on_attach,
+  init_options = {
+      ["language_server_phpstan.enabled"] = true,
+      ["language_server_psalm.enabled"] = false,
+  }
+}
+-- keyboard shortcut
+vim.keymap.set('n', 'gk',  '<cmd>lua vim.lsp.buf.hover()<CR>')
+vim.keymap.set('n', 'gf', '<cmd>lua vim.lsp.buf.formatting()<CR>')
+vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
+vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
+vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
+vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
+vim.keymap.set('n', 'gt', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
+vim.keymap.set('n', 'gn', '<cmd>lua vim.lsp.buf.rename()<CR>')
+vim.keymap.set('n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>')
+vim.keymap.set('n', 'ge', '<cmd>lua vim.diagnostic.open_float()<CR>')
+vim.keymap.set('n', 'g]', '<cmd>lua vim.diagnostic.goto_next()<CR>')
+vim.keymap.set('n', 'g[', '<cmd>lua vim.diagnostic.goto_prev()<CR>')
+EOF
+
+
+" Phpactor -- for PHP
+autocmd FileType php set iskeyword+=$
+
 
 " ddc.vim
 call ddc#custom#patch_global('sources', ['nvim-lsp', 'yank', 'file', 'around'])
@@ -191,7 +258,9 @@ set timeout timeoutlen=3000 ttimeoutlen=100
 let $FZF_PREVIEW_PREVIEW_BAT_THEME  = 'ansi'
 let $FZF_DEFAULT_OPTS="--layout=reverse"
 let $FZF_DEFAULT_COMMAND="rg --files --hidden --glob '!.git/**'"
-let g:fzf_layout = {'up':'~90%', 'window': { 'width': 0.8, 'height': 0.8,'yoffset':0.5,'xoffset': 0.5, 'border': 'sharp' } }
+let g:fzf_preview_window = ['down:66%', 'ctrl-/']
+let g:fzf_preview_default_fzf_options = { '--preview-window': 'down:66%' }
+let g:fzf_layout = {'down':'66%', 'window': { 'width': 0.8, 'height': 0.8,'yoffset':0.5,'xoffset': 0.5, 'border': 'sharp' } }
 
 nnoremap fb :FzfPreviewBuffersRpc<CR>
 nnoremap fB :FzfPreviewAllBuffersRpc<CR>
@@ -208,8 +277,8 @@ nnoremap fgl :FzfPreviewGitLogsRpc<CR>
 command! -bang -nargs=* Rg
 \ call fzf#vim#grep(
 \ 'rg --column --line-number --hidden --ignore-case --no-heading --color=always -g "!.git/*" '.shellescape(<q-args>), 1,
-\ <bang>0 ? fzf#vim#with_preview({'options': '--reverse --delimiter : --nth 3..'}, 'up:60%')
-\ : fzf#vim#with_preview({'options': '--reverse --exact --delimiter : --nth 3..'}, 'right:50%', '?'),
+\ <bang>0 ? fzf#vim#with_preview({'options': '--reverse --delimiter : --nth 3..'}, 'down:66%')
+\ : fzf#vim#with_preview({'options': '--reverse --exact --delimiter : --nth 3..'}, 'down:66%', '?'),
 \ <bang>0)
 " 文字列検索を開く
 nnoremap fg :Rg<CR>
@@ -221,7 +290,7 @@ xnoremap fr y:Rg <C-R>"<CR>
 command! -bang -nargs=* GGrep
   \ call fzf#vim#grep(
   \   'git grep --line-number -- '.shellescape(<q-args>), 0,
-  \   fzf#vim#with_preview({'options': '--reverse --exact --delimiter : --nth 3..', 'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
+  \   fzf#vim#with_preview({'options': '--reverse --exact --delimiter : --nth 3..', 'dir': systemlist('git rev-parse --show-toplevel')[0]}, 'down:66%'), <bang>0)
 " ファイル内容を git grep する
 nnoremap fgg :GGrep<CR>
 " ファイル名で git ls-files する
@@ -230,7 +299,7 @@ nnoremap fgf :GFiles<CR>
 
 " lightline
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
+      \ 'colorscheme': 'Tomorrow_Night',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'fugitive', 'gitbranch1'],
@@ -349,4 +418,23 @@ noremap mn  :MemoNew<CR>
 " require 'kana/vim-textobj-user' and 'kana/vim-textobj-line'
 map K <Plug>(expand_region_expand)
 map <C-k> <Plug>(expand_region_shrink)
+
+
+" vim-markdown
+let g:vim_markdown_folding_disabled = 1 " 折りたたまない
+let g:vim_markdown_new_list_item_indent = 2 " インデントは 2 スペース
+
+function! ToggleCheckbox()
+  let l:line = getline('.')
+  if l:line =~ '^\-\s\[\s\]'
+    let l:result = substitute(l:line, '^-\s\[\s\]', '- [x]', '')
+    call setline('.', l:result)
+  elseif l:line =~ '^\-\s\[x\]'
+    let l:result = substitute(l:line, '^-\s\[x\]', '- [ ]', '')
+    call setline('.', l:result)
+  end
+endfunction
+command ToggleCheckbox :call ToggleCheckbox()
+nnoremap <Leader><Leader> :call ToggleCheckbox()<CR>
+nnoremap mx :call ToggleCheckbox()<CR>
 
