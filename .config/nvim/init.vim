@@ -28,6 +28,8 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/rpc' }
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
 Plug 'thinca/vim-qfreplace'
 
 Plug 'kana/vim-textobj-user'
@@ -38,6 +40,7 @@ Plug 'tomtom/tcomment_vim'
 
 Plug 'lambdalisue/gina.vim'
 Plug 'airblade/vim-gitgutter'
+Plug 'tveskag/nvim-blame-line'
 
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-git-status.vim'
@@ -66,6 +69,8 @@ Plug 'previm/previm'
 Plug 'glidenote/memolist.vim'
 
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'ayu-theme/ayu-vim'
+
 
 " Initialize plugin system
 call plug#end()
@@ -79,6 +84,9 @@ colorscheme base16-tomorrow-night
 
 " 行数表示
 set number
+
+" カーソル行ハイライト
+set cursorline
 
 " 検索個数表示
 set shortmess-=S
@@ -111,7 +119,7 @@ set incsearch "インクリメンタルサーチを行う
 set ignorecase "大文字と小文字を区別しない
 set smartcase "大文字と小文字が混在した言葉で検索を行った場合に限り、大文字と小文字を区別する
 
-set cmdheight=0 " コマンドライン領域非表示
+set cmdheight=1 " コマンドライン領域非表示
 
 " インデント
 set autoindent          "改行時に前の行のインデントを計測
@@ -119,9 +127,15 @@ set smartindent         "改行時に入力された行の末尾に合わせて�
 set smarttab            "新しい行を作った時に高度な自動インデントを行う
 set shiftwidth=2        "自動インデントで入る空白数
 
+" コピー箇所をハイライト
+augroup highlight_yank
+    autocmd!
+    au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
+augroup END
+
 
 " キーバインドの設定 """"""""""""""""""""""""""""""""""""""""""""""""""""
-let mapleader = ","
+let mapleader = "\<Space>"
 
 " Escの2回押しでハイライト消去
 nnoremap <ESC><ESC> :nohlsearch<CR>
@@ -164,6 +178,9 @@ if has("gui_vimr")
   color base16-tomorrow-night
   " let g:tokyonight_style = "night"
   " colorscheme tokyonight
+  " set background=light
+  " let ayucolor="light"  " for light version of theme
+  " colorscheme ayu
 endif
 
 
@@ -297,6 +314,37 @@ nnoremap fgg :GGrep<CR>
 nnoremap fgf :GFiles<CR>
 
 
+" telescope.nvim
+lua <<EOF
+require('telescope').setup({
+  defaults = {
+    sorting_strategy = "ascending", -- 結果を上から下に並べる
+    layout_strategy = 'vertical',   -- 上下に分割して結果とプレビューを表示する
+    layout_config = {
+      prompt_position = 'top',      -- 入力は上に表示する
+      mirror = true,                -- 結果を上に表示する・プレビューを下に表示する
+      vertical = { width = 0.9 }
+    },
+  },
+})
+EOF
+" Find files using Telescope command-line sugar.
+nnoremap <leader>fh <cmd>Telescope oldfiles<cr>
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+
+nnoremap <leader>fl <cmd>Telescope live_grep<cr>
+nnoremap <leader>fr <cmd>Telescope grep_string<cr>
+nnoremap <leader>fq <cmd>Telescope quickfix<cr>
+
+nnoremap <leader>fgf <cmd>Telescope git_files<cr>
+nnoremap <leader>fgl <cmd>Telescope git_commits<cr>
+
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fc <cmd>Telescope command_history<cr>
+" nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+
+
 " lightline
 let g:lightline = {
       \ 'colorscheme': 'Tomorrow_Night',
@@ -365,6 +413,10 @@ let g:gitgutter_sign_modified_removed='◢'
 " 反映時間を短くする(デフォルトは4000ms)
 set updatetime=250
 
+
+" nvim-blame-line
+autocmd BufEnter * EnableBlameLine " 自動で有効にする
+nnoremap <silent> <leader>gb :ToggleBlameLine<CR>
 
 " nvim-metals
 " brew install coursier/formulas/coursier
