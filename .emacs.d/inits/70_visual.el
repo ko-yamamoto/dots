@@ -9,12 +9,11 @@
 ;; | 数字 | アルファベット | 日本語     |
 ;; | 0123 | abcdefghijklmn | こんにちは |
 
-(when is_wsl
-  (set-face-attribute 'default nil :family "Noto Sans Mono CJK JP" :height 110 :weight 'regular)
-  (set-fontset-font (frame-parameter nil 'font)
-                    'japanese-jisx0208
-                    (font-spec :family "Noto Sans Mono CJK JP")))
-
+;; (when is_wsl
+;;   (set-face-attribute 'default nil :family "Noto Sans Mono CJK JP" :height 110 :weight 'regular)
+;;   (set-fontset-font (frame-parameter nil 'font)
+;;                     'japanese-jisx0208
+;;                     (font-spec :family "Noto Sans Mono CJK JP")))
 ;; (when is_linux
 ;; (set-face-attribute 'default nil :family "M+ 1mn regular" :height 137 :weight 'regular)
 ;; (set-fontset-font (frame-parameter nil 'font)
@@ -142,7 +141,7 @@
 (ad-activate 'font-lock-mode)
 
 ;; ウィンドウを透明化
-(set-frame-parameter nil 'alpha 75)
+(set-frame-parameter nil 'alpha 100)
 
 ;; キーワードのカラー表示を有効化
 (global-font-lock-mode t)
@@ -153,7 +152,7 @@
 
 (use-package dimmer
   :config
-  (setq dimmer-fraction 0.4)
+  (setq dimmer-fraction 0.2)
   (setq dimmer-exclusion-regexp "^\\*helm\\|^ \\*Minibuf\\|^\\*Calendar")
   (dimmer-mode))
 

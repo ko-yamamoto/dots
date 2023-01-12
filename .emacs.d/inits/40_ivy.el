@@ -27,7 +27,7 @@
    '(("r" my-counsel-ag-in-dir "search in directory")))
 
   (use-package swiper
-    :bind (("C-s" . swiper-thing-at-point))
+    ;; :bind (("C-s" . swiper-thing-at-point))
     :config
     ;; 行数でも検索できるようにする
     (setq swiper-include-line-number-in-search t))
