@@ -179,7 +179,7 @@ setopt print_eight_bit
 zstyle ':completion:*:default' menu select=1
 
 # C-w は一つ上のパスまでを消す
-WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+export WORDCHARS='*?_.[]~&;!#$%^(){}<>'
 
 # エイリアス
 setopt complete_aliases
@@ -290,6 +290,8 @@ source /usr/local/share/zsh-abbr/zsh-abbr.zsh
 # abbr pop="git stash pop"
 # abbr s="git status -sb"
 # abbr st="git stash"
+# abbr kx="kubectx"
+
 
 # fzf
 # brew install fzf
