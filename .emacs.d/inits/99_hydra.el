@@ -60,7 +60,7 @@
      ("s" split-window-horizontally)
      ("0" delete-window)
      ("1" delete-other-windows)
-     ("SPC" window-toggle-division)
+     ("SPC" window-split-toggle)
      ;; window move
      ("l" windmove-right)
      ("h" windmove-left)
