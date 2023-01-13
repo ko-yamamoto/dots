@@ -37,6 +37,7 @@
 ;;   (add-to-list 'face-font-rescale-alist
 ;;                '(".*M+ 1mn.*" . 1.0)))
 
+(setq-default line-spacing 2)
 
 (use-package volatile-highlights
   :config
