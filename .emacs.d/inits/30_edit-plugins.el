@@ -25,8 +25,17 @@
 (use-package lsp-mode
   ;; Optional - enable lsp-mode automatically in scala files
   :hook  (scala-mode . lsp)
-         (lsp-mode . lsp-lens-mode)
-  :config (setq lsp-prefer-flymake nil))
+  (lsp-mode . lsp-lens-mode)
+  :config
+  (setq lsp-prefer-flymake nil)
+  (lsp-headerline-breadcrumb-mode t)
+  (setf lsp-prefer-capf t)
+  (setq lsp-ui-doc-enable t)
+  (setq lsp-ui-doc-header t)
+  (setq lsp-ui-doc-include-signature t)
+  (setq lsp-ui-doc-position 'top)
+  (setq lsp-ui-imenu-enable t))
+
 
 ;; Enable nice rendering of documentation on hover
 (use-package lsp-ui)
@@ -112,7 +121,20 @@
    ("C-c C->" . mc/mark-all-like-this)
    )
   :config
-  (setq mc/insert-numbers-default 1))
+  (setq mc/insert-numbers-default 1)
+  (setq mc/cmds-to-run-for-all
+        '(
+          markdown-outdent-or-delete
+          my-forward-word
+          my-toggle-beginning-of-line-and-sentence
+          ))
+  (setq mc/cmds-to-run-once
+        '(
+          elscreen-next
+          hydra-multiple-cursors/mc/insert-numbers-and-exit
+          hydra-multiple-cursors/mc/mark-all-like-this-and-exit
+          hydra-multiple-cursors/mc/mark-next-like-this
+          )))
 
 (use-package point-undo
   :bind
