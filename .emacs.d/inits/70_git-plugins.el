@@ -168,3 +168,20 @@
     "XXXXXXXXX")
 
   )
+
+(use-package blamer
+  :ensure t
+  :custom
+  (blamer-idle-time 0.3)
+  (blamer-min-offset 70)
+  (blamer-pretty-time-p t)
+  (blamer-author-formatter "✎ %s ")
+  (blamer-datetime-formatter "[%s] ")
+  (blamer-commit-formatter "● %s")
+  (blamer-type 'visual)
+  :config
+  (global-blamer-mode 1))
+
+(use-package github-browse-file
+  :ensure t)
+
