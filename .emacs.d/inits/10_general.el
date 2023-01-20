@@ -328,3 +328,20 @@ Otherwise, call `backward-kill-word'."
 ;; 誤爆するので外す
 (global-unset-key (kbd "C-z"))
 
+;; タブ表示する
+(use-package tab-bar
+  :straight (:type built-in)
+  :custom
+  (tab-bar-close-button-show nil)
+  (tab-bar-new-button-show nil)
+  (tab-bar-history-limit 25)
+  (tab-bar-new-tab-choice "*scratch*")
+  (tab-bar-show t)
+  (tab-bar-tab-hints t)
+  :config
+  (tab-bar-mode 1)
+  (global-set-key (kbd "<C-tab>") 'tab-bar-switch-to-next-tab)
+  (global-set-key (kbd "<C-S-tab>") 'tab-bar-switch-to-prev-tab)
+  (global-set-key (kbd "<C-S-iso-lefttab>") 'tab-bar-switch-to-prev-tab)
+)
+
