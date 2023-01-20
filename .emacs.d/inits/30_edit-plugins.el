@@ -196,3 +196,15 @@
   (after-init . volatile-highlights-mode))
 
 
+(use-package yasnippet
+  :straight t
+  :bind (nil
+         :map yas-keymap
+         ("<tab>" . nil)
+         ("TAB" . nil)
+         ("<backtab>" . nil)
+         ("S-TAB" . nil)
+         ("C-o" . yas-next-field-or-maybe-expand))
+  :init
+  (yas-global-mode +1))
+
