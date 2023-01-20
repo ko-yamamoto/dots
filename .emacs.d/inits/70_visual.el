@@ -104,7 +104,7 @@
 ;;   (hl-line-when-idle-interval 10))
 
 ;; カーソルの形
-(set-default 'cursor-type '(hbar . 5))
+(set-default 'cursor-type '(hbar . 4))
 
 ;; カーソル位置のフェースを調べる関数
 (defun describe-face-at-point ()
@@ -174,9 +174,18 @@
   (setq dimmer-exclusion-regexp "^\\*helm\\|^ \\*Minibuf\\|^\\*Calendar")
   (dimmer-mode))
 
+;; カーソル行を強調
 (use-package beacon
   :config
   (beacon-mode 1)
   (setq beacon-color "#C678DD")
   (setq beacon-blink-when-focused t))
+
+;; 括弧を色づけ
+(use-package rainbow-delimiters
+  :straight t
+  :hook
+  (emacs-lisp-mode . rainbow-delimiters-mode)
+  (scala-mode . rainbow-delimiters-mode)
+  (php-mode . rainbow-delimiters-mode))
 

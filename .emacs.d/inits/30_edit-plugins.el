@@ -23,9 +23,8 @@
 
 
 (use-package lsp-mode
-  ;; Optional - enable lsp-mode automatically in scala files
-  :hook  (scala-mode . lsp)
-  (lsp-mode . lsp-lens-mode)
+  :bind
+  ("<f12>" . lsp-find-references)
   :config
   (setq lsp-prefer-flymake nil)
   (lsp-headerline-breadcrumb-mode t)
@@ -34,7 +33,22 @@
   (setq lsp-ui-doc-header t)
   (setq lsp-ui-doc-include-signature t)
   (setq lsp-ui-doc-position 'top)
-  (setq lsp-ui-imenu-enable t))
+  (setq lsp-ui-imenu-enable t)
+  ;; (setq lsp-completion-provider :none) ;; use corfu.el
+
+  ;; (defun my/lsp-mode-setup-completion ()
+  ;;   (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+  ;;         '(orderless))) ;; Configure orderless
+  ;; (add-hook 'lsp-completion-mode-hook #'my/lsp-mode-setup-completion)
+
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+
+  :hook
+  (scala-mode . lsp)
+  (lsp-mode . lsp-lens-mode)
+  (php-mode . lsp-deferred)
+  )
 
 
 ;; Enable nice rendering of documentation on hover
@@ -94,9 +108,6 @@
 
   )
 
-; Add company-lsp backend for metals
-(use-package company-lsp)
-
 (use-package anzu
   :defer t
   :bind (("M-%" . anzu-query-replace))
@@ -154,6 +165,8 @@
          ("M-/" . undo-tree-redo))
   :config
   (global-undo-tree-mode)
+  ;; 履歴ファイルを作らない
+  (setq undo-tree-auto-save-history nil)
   ;; デフォルトで時間を表示
   (setq undo-tree-visualizer-timestamps t)
   )

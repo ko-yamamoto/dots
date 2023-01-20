@@ -16,8 +16,8 @@
   (add-hook 'flycheck-error-list-mode-hook
             (lambda ()
               (setq tabulated-list-format '[("Line" 5 flycheck-error-list-entry-< :right-align t)
-                                            ("Col" 3 nil :right-align t)
-                                            ("Level" 8 flycheck-error-list-entry-level-<)
+                                            ("Col" 20 nil :right-align t)
+                                            ("Level" 10 flycheck-error-list-entry-level-<)
                                             ("ID" 20 t)
                                             (#("Message (Checker)" 0 9
                                                (face default)

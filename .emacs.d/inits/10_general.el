@@ -299,8 +299,8 @@ Otherwise, call `backward-kill-word'."
 (when (and (>= emacs-major-version 23)
            (equal window-system 'w32))
   (defun server-ensure-safe-dir (dir) "Noop" t)) ; Suppress error "directory
-                                                 ; ~/.emacs.d/server is unsafe"
-                                                 ; on windows.
+                                        ; ~/.emacs.d/server is unsafe"
+                                        ; on windows.
 (server-start)
 ;;クライアントを終了するとき終了するかどうかを聞かない
 (remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)
@@ -344,4 +344,10 @@ Otherwise, call `backward-kill-word'."
   (global-set-key (kbd "<C-S-tab>") 'tab-bar-switch-to-prev-tab)
   (global-set-key (kbd "<C-S-iso-lefttab>") 'tab-bar-switch-to-prev-tab)
 )
+
+;; 次に入力するキーとコマンドを教えてくれる
+(use-package which-key
+  :straight t
+  :init
+  (which-key-mode))
 

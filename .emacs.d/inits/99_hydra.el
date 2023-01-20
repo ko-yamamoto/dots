@@ -34,23 +34,29 @@
    (kbd "C-q")
    (defhydra hydra-c-q (:hint nil)
      "
- ^elscreen^       ^histryf^      ^window^                      ^window-move^   ^buffer^          ^buf-move^     ^moccur^                    ^ag git^
+ ^tab-bar^        ^histryf^      ^window^                      ^window-move^   ^buffer^          ^buf-move^     ^moccur^                    ^ag git^
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
  [_c_] Create     [_[_] Back     [_C-r_] Resize                [_l_] Right     [_n_] Next        [_L_] Right    [_o_] swiper                [_g g_] counsel-ag
  [_n_] Next       [_]_] Next     [_v_] Split ー                [_h_] Left      [_p_] Previous    [_H_] Left     [_m g_] moccur-grep-find    [_g s_] magit-status
  [_p_] Previous   ^   ^          [_s_] Split |                 [_j_] Down      ^   ^             [_J_] Down     [_m o_] occur-by-moccur     ^     ^
- [_a_] Toggle     ^   ^          [_0_] Delete window           [_k_] Up        ^   ^             [_K_] Up       ^   ^                       ^     ^
- [_k_] Kill       ^   ^          [_1_] Delete other windows    ^   ^           ^   ^             ^   ^          ^   ^                       ^     ^
- [_x_] Kill       ^   ^          [_SPC_] Toggle window
+ [_k_] Kill       [_0_] Delete window           [_k_] Up        ^   ^             [_K_] Up       ^   ^                       ^     ^
+ [_x_] Kill       ^   ^          [_1_] Delete other windows    ^   ^           ^   ^             ^   ^          ^   ^                       ^     ^
+ ^   ^            ^   ^          [_SPC_] Toggle window
 "
      ;; elscreen
-     ("c" elscreen-create :exit t)
-     ("n" elscreen-next)
-     ("p" elscreen-previous)
-     ("a" elscreen-toggle)
-     ("k" elscreen-kill)
-     ("x" elscreen-kill)
-     ("C-x" elscreen-kill)
+     ;; ("c" elscreen-create :exit t)
+     ;; ("n" elscreen-next)
+     ;; ("p" elscreen-previous)
+     ;; ("a" elscreen-toggle)
+     ;; ("k" elscreen-kill)
+     ;; ("x" elscreen-kill)
+     ;; ("C-x" elscreen-kill)
+     ;; tab-bar
+     ("c" tab-new :exit t)
+     ("n" tab-bar-switch-to-next-tab)
+     ("p" tab-bar-switch-to-prev-tab)
+     ("k" tab-close)
+     ("x" tab-close)
      ;; historyf
      ("[" historyf-back)
      ("]" historyf-forward)
@@ -106,8 +112,8 @@
      "
  ^Flycheck^                    ^Errors^            ^helm
 ------------------------------------------------------------------
- [_f_] global-flycheck-mode    [_l_] List          [_h_] helm-flycheck
- [_g_] flycheck-mode           [_n_] Next
+ [_g_] global-flycheck-mode    [_l_] List          [_h_] helm-flycheck
+ [_f_] flycheck-mode           [_n_] Next
  ^   ^                         [_p_] Previous
  ^   ^                         [_h_]
 "

@@ -10,6 +10,7 @@
           ("\*magit" :regexp t :align right :ratio 0.4)
           ("*Moccur*" :align right :ratio 0.4 :same t)
           ("*ag" :regexp t :align right :ratio 0.4 :same t)
+          ("*xref*" :align below :ratio 0.20)
           ;; 上部に表示
           ;; ("foo" :align above)
           ;; 別フレームで表示

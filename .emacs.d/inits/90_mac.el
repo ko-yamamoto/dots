@@ -12,6 +12,7 @@
                 "/usr/local/ccl"
                 "/usr/local/go/bin"
                 "~/go/bin"
+                "~/.asdf/shims"
                 (expand-file-name "~/bin")
                 (expand-file-name "~/.emacs.d/bin")
                 ))
