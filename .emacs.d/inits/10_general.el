@@ -351,3 +351,6 @@ Otherwise, call `backward-kill-word'."
   :init
   (which-key-mode))
 
+
+(setq native-comp-async-report-warnings-errors 'silent)
+

@@ -12,20 +12,17 @@
                  (reusable-frames . visible)
                  (window-height   . 0.20)))
 
-  ;; エラーリストのカラム幅を無理矢理変更する
-  (add-hook 'flycheck-error-list-mode-hook
-            (lambda ()
-              (setq tabulated-list-format '[("Line" 5 flycheck-error-list-entry-< :right-align t)
-                                            ("Col" 20 nil :right-align t)
-                                            ("Level" 10 flycheck-error-list-entry-level-<)
-                                            ("ID" 20 t)
-                                            (#("Message (Checker)" 0 9
-                                               (face default)
-                                               9 16
-                                               (face flycheck-error-list-checker-name)
-                                               16 17
-                                               (face default))
-                                             0 t)])))
+  ;; エラーリストのカラム幅を変更
+  (defconst flycheck-error-list-format [("File" 25)
+                                        ("Line" 5 flycheck-error-list-entry-< :right-align t)
+                                        ("Col" 4 nil :right-align t)
+                                        ("Level" 30 flycheck-error-list-entry-level-<)
+                                        ("ID" 6 t)
+                                        (#("Message (Checker)" 0 7
+                                           (face flycheck-error-list-error-message)
+                                           9 16
+                                           (face flycheck-error-list-checker-name))
+                                         0 t)])
 
   (add-hook 'flycheck-mode-hook #'flycheck-set-indication-mode)
 
@@ -40,3 +37,4 @@
                        (zero-or-more "\n" (any " ") (one-or-more not-newline)))
               line-end))
     :modes (text-mode markdown-mode gfm-mode org-mode)))
+

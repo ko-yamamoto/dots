@@ -172,7 +172,7 @@
 (use-package blamer
   :ensure t
   :custom
-  (blamer-idle-time 0.3)
+  (blamer-idle-time 0.5)
   (blamer-min-offset 70)
   (blamer-pretty-time-p t)
   (blamer-author-formatter "✎ %s ")

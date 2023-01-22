@@ -64,7 +64,7 @@
   )
 
 (use-package imenu
-  :bind (("M-i" . counsel-imenu))
+  ;; :bind (("M-i" . counsel-imenu))
   :config
   (setq imenu-auto-rescan t)
   ;; imenu で表示する階層の深さ

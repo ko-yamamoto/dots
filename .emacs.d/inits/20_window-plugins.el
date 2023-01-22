@@ -6,8 +6,8 @@
           ("*Backtrace*" :align right :select t :ratio 0.4)
           ("*Completions*" :align below :ratio 0.3)
           ("*Compile-Log*" :align below :ratio 0.3)
-          ("\*helm" :regexp t :ratio 0.375 :align below)
-          ("\*magit" :regexp t :align right :ratio 0.4)
+          ("magit" :regexp t :align below :ratio 0.4)
+          ("\*magit" :regexp t :align below :ratio 0.4)
           ("*Moccur*" :align right :ratio 0.4 :same t)
           ("*ag" :regexp t :align right :ratio 0.4 :same t)
           ("*xref*" :align below :ratio 0.20)
@@ -47,3 +47,4 @@
          ("C-q H" . buf-move-left)
          ("C-q J" . buf-move-down)
          ("C-q K" . buf-move-up)))
+
