@@ -33,6 +33,7 @@
    (setq sbt:program-options '("-Dsbt.supershell=false"))
    )
 
-;; Add metals backend for lsp-mode
-(use-package lsp-metals
-  :config (setq lsp-metals-treeview-show-when-views-received t))
+;; ;; Add metals backend for lsp-mode
+;; (use-package lsp-metals
+;;   :config (setq lsp-metals-treeview-show-when-views-received t))
+

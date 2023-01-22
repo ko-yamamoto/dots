@@ -110,19 +110,20 @@
    (kbd "C-c f")
    (defhydra hydra-flycheck (:hint nil)
      "
- ^Flycheck^                    ^Errors^            ^helm
+ ^mode^                        ^Errors^            ^Check
 ------------------------------------------------------------------
- [_g_] global-flycheck-mode    [_l_] List          [_h_] helm-flycheck
+ [_g_] global-flycheck-mode    [_l_] List          [_._] Why
  [_f_] flycheck-mode           [_n_] Next
  ^   ^                         [_p_] Previous
- ^   ^                         [_h_]
+ ^   ^
 "
      ("f" flycheck-mode :exit t)
      ("g" global-flycheck-mode :exit t)
      ("l" flycheck-list-errors :exit t)
      ("n" flycheck-next-error)
      ("p" flycheck-previous-error)
-     ("h" helm-flycheck :exit t)
+     ("." flycheck-explain-error-at-point)
      ))
 
   )
+
