@@ -26,6 +26,9 @@
 
   (add-hook 'flycheck-mode-hook #'flycheck-set-indication-mode)
 
+  ;; php
+  (use-package flycheck-phpstan :ensure t)
+
   ;; textlint
   (flycheck-define-checker textlint
     "A linter for Markdown."

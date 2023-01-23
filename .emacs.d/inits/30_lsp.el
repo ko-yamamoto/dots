@@ -2,12 +2,16 @@
   :commands (lsp lsp-deferred)
   :hook
   (lsp-mode . lsp-lens-mode)
-  (scala-mode . lsp)
-  (php-mode . lsp-deferred)
+  (scala-mode . lsp-deferred)
+  (php-mode . (lambda ()
+                (lsp-deferred)
+                (flycheck-add-next-checker 'lsp 'phpstan)))
   :bind
   ("<f12>" . lsp-find-references)
   :init
   (setq lsp-keymap-prefix "C-c l")
+  :custom
+  (lsp-file-watch-threshold 10000)
   :config
   (setq lsp-prefer-flymake nil)
   (lsp-headerline-breadcrumb-mode t)
@@ -57,6 +61,6 @@
 ;;            ;; '(php-mode . ("phpactor" "language-server" "-vvv")))
 ;;            '(php-mode . ("intelephense" "--stdio")))
 
-  )
+;; )
 
 
