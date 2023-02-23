@@ -3,8 +3,8 @@
 ;;====================
 
 ;; 01234567890123456789
-;;  あいうえおかきくけこ
-;;   abcdefghijklmnopqrstuvwxyz
+;; あいうえおかきくけこ
+;; abcdefghijklmnopqrstuvwxyz
 ;; 下の縦棒が揃うこと
 ;; | 数字 | アルファベット | 日本語     |
 ;; | 0123 | abcdefghijklmn | こんにちは |
@@ -37,7 +37,14 @@
 ;;   (add-to-list 'face-font-rescale-alist
 ;;                '(".*M+ 1mn.*" . 1.0)))
 
-(setq-default line-spacing 2)
+(set-face-attribute 'default nil :family "UDEV Gothic NF" :height 171 :weight 'light)
+(set-fontset-font (frame-parameter nil 'font)
+                  'japanese-jisx0208
+                  (font-spec :family "01FLOPDESIGN"))
+(add-to-list 'face-font-rescale-alist
+             '(".*01FLOPDESIGN.*" . 1.1))
+
+(setq-default line-spacing 4)
 
 (use-package volatile-highlights
   :config
@@ -169,6 +176,7 @@
 
 
 (use-package dimmer
+  :disabled t
   :config
   (setq dimmer-fraction 0.2)
   (setq dimmer-exclusion-regexp "^\\*helm\\|^ \\*Minibuf\\|^\\*Calendar")
