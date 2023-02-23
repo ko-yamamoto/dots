@@ -197,3 +197,26 @@
   (scala-mode . rainbow-delimiters-mode)
   (php-mode . rainbow-delimiters-mode))
 
+
+(use-package centaur-tabs
+  :demand
+  :bind
+  ("C-<tab>" . centaur-tabs-forward)
+  ("C-S-<tab>" . centaur-tabs-backward)
+  :config
+  ;; (tab-bar-mode -1)
+  (centaur-tabs-mode t)
+
+  ;; tabだけを切り替えるかグループも切り替えるか
+  ;; (setq centaur-tabs-cycle-scope 'tabs)
+
+  (setq centaur-tabs-set-icons t)
+
+  (setq centaur-tabs-style "bar")
+  (setq centaur-tabs-height 32)
+  (setq centaur-tabs-set-bar 'under)
+  (setq x-underline-at-descent-line t)
+
+  (setq centaur-tabs-set-modified-marker t)
+  )
+

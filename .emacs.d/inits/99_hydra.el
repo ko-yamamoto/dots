@@ -34,7 +34,7 @@
    (kbd "C-q")
    (defhydra hydra-c-q (:hint nil)
      "
- ^tab-bar^        ^histryf^      ^window^                      ^window-move^   ^buffer^          ^buf-move^     ^moccur^                    ^ag git^
+ ^tab    ^        ^histryf^      ^window^                      ^window-move^   ^buffer^          ^buf-move^     ^moccur^                    ^ag git^
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
  [_c_] Create     [_[_] Back     [_C-r_] Resize                [_l_] Right     [_n_] Next        [_L_] Right    [_o_] swiper                [_g g_] counsel-ag
  [_n_] Next       [_]_] Next     [_v_] Split ー                [_h_] Left      [_p_] Previous    [_H_] Left     [_m g_] moccur-grep-find    [_g s_] magit-status
@@ -52,11 +52,18 @@
      ;; ("x" elscreen-kill)
      ;; ("C-x" elscreen-kill)
      ;; tab-bar
-     ("c" tab-new :exit t)
-     ("n" tab-bar-switch-to-next-tab)
-     ("p" tab-bar-switch-to-prev-tab)
-     ("k" tab-close)
-     ("x" tab-close)
+     ;; ("c" tab-new :exit t)
+     ;; ("n" tab-bar-switch-to-next-tab)
+     ;; ("p" tab-bar-switch-to-prev-tab)
+     ;; ("k" tab-close)
+     ;; ("x" tab-close)
+     ;; centaur-tabs
+     ("c" centaur-tabs--create-new-tab :exit t)
+     ("n" centaur-tabs-forward)
+     ("p" centaur-tabs-backward)
+     ("k" kill-buffer)
+     ("x" kill-buffer)
+
      ;; historyf
      ("[" historyf-back)
      ("]" historyf-forward)
