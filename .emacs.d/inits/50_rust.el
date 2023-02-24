@@ -4,6 +4,7 @@
 (use-package rustic
   :config
   (setq-default rustic-format-trigger 'on-save)
+  (setq rustic-lsp-client 'eglot)
   (setq rustic-lsp-server 'rust-analyzer))
 
 

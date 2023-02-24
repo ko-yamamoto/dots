@@ -7,6 +7,9 @@
   ;; php
   (add-to-list 'eglot-server-programs '(php-mode "intelephense" "--stdio"))
   (add-hook 'php-mode-hook 'eglot-ensure)
+
+  ;; rust
+  (add-hook 'rustic-mode-hook 'eglot-ensure)
 )
 
 
