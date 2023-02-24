@@ -205,7 +205,6 @@
   ("C-S-<tab>" . centaur-tabs-backward)
   :config
   ;; (tab-bar-mode -1)
-  (centaur-tabs-mode t)
 
   ;; tabだけを切り替えるかグループも切り替えるか
   ;; (setq centaur-tabs-cycle-scope 'tabs)
@@ -218,5 +217,7 @@
   (setq x-underline-at-descent-line t)
 
   (setq centaur-tabs-set-modified-marker t)
+
+  (centaur-tabs-mode t)
   )
 
