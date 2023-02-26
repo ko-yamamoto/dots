@@ -285,11 +285,11 @@ Otherwise, call `backward-kill-word'."
 
 ;; コマンド履歴を永続的に残す
 (setq history-length 250)
-(setq desktop-globals-to-save '(extended-command-history
-                                desktop-missing-file-warning
-                                search-ring
-                                regexp-search-ring
-                                file-name-history))
+;; (setq desktop-globals-to-save '(extended-command-history
+;;                                 desktop-missing-file-warning
+;;                                 search-ring
+;;                                 regexp-search-ring
+;;                                 file-name-history))
 ;; (setq desktop-files-not-to-save "")
 (desktop-save-mode 1)
 
