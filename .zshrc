@@ -272,7 +272,8 @@ fi
 
 # zsh-abbr
 # brew install olets/tap/zsh-abbr
-source /usr/local/share/zsh-abbr/zsh-abbr.zsh
+# source /usr/local/share/zsh-abbr/zsh-abbr.zsh
+source /opt/homebrew/share/zsh-abbr/zsh-abbr.zsh
 # abbr b="brew"
 # abbr d="docker"
 # abbr dc="docker compose"
@@ -317,7 +318,7 @@ bindkey '^[r' fzf-cdr
 # brew install expect
 fzf-add() {
     local selected
-    selected=$(unbuffer git status -s | fzf -m --ansi --preview="echo {} | awk '{print \$2}' | xargs git diff --color" | awk '{print $2}')
+    selected=$(unbuffer git status -s | fzf -m --ansi --preview-window="bottom,75%" --preview="echo {} | awk '{print \$2}' | xargs git diff --color" | awk '{print $2}')
     if [[ -n "$selected" ]]; then
         selected=$(tr '\n' ' ' <<< "$selected")
         selected="${selected%"${selected##*[![:space:]]}"}" # 行末のスペースを削除する
@@ -332,7 +333,7 @@ bindkey '^[a' fzf-add
 fzf-branch() {
   target_br=$(
     git branch -a |
-      fzf --exit-0 --info=hidden --no-multi --preview-window="right,65%" --prompt="CHECKOUT BRANCH > " --preview="echo {} | tr -d ' *' | xargs git lgn --color=always" |
+      fzf --exit-0 --info=hidden --no-multi --preview-window="bottom,65%" --prompt="CHECKOUT BRANCH > " --preview="echo {} | tr -d ' *' | xargs git lgn --color=always" |
       head -n 1 |
       perl -pe "s/\s//g; s/\*//g; s/remotes\/origin\///g"
   )
@@ -347,7 +348,7 @@ bindkey '^[b' fzf-branch
 # PR 選択して switch する
 # brew install gh
 fzf-pullreq() {
-  local pullreq=$(CLICOLOR_FORCE=1 GH_FORCE_TTY=100% gh pr list | tail -n+4 | fzf --ansi --bind "change:reload:CLICOLOR_FORCE=1 GH_FORCE_TTY=100% gh pr list -S {q} | tail -n+4 || true" --disabled --preview "CLICOLOR_FORCE=1 GH_FORCE_TTY=100% gh pr view {1} | bat --color=always --style=grid --file-name a.md")
+  local pullreq=$(CLICOLOR_FORCE=1 GH_FORCE_TTY=100% gh pr list | tail -n+4 | fzf --preview-window="bottom,85%" --ansi --bind "change:reload:CLICOLOR_FORCE=1 GH_FORCE_TTY=100% gh pr list -S {q} | tail -n+4 || true" --disabled --preview "CLICOLOR_FORCE=1 GH_FORCE_TTY=100% gh pr view {1} | bat --color=always --style=grid --file-name a.md")
   if [ -n "$pullreq" ]; then
     pullreq=$(echo $pullreq | awk '{ print $1 }')
     BUFFER="gh pr checkout \"${pullreq}\""
@@ -359,7 +360,8 @@ zle -N fzf-pullreq
 bindkey '^[p' fzf-pullreq
 
 # brew install zsh-autosuggestions
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+# source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#999999"
 
 
