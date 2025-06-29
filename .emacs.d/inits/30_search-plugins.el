@@ -39,9 +39,9 @@
   (use-package moccur-edit
     :config
     ;; moccur-edit-finish-editと同時にファイルを保存する
-    (defadvice moccur-edit-change-file
-        (after save-after-moccur-edit-buffer activate)
-      (save-buffer)))
+    (advice-add 'moccur-edit-change-file :after
+                (lambda (&rest _args)
+                  (save-buffer))))
 
   )
 

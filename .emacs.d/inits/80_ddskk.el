@@ -41,9 +41,12 @@
   (setq skk-dcomp-multiple-activate t)        ; 動的補完の複数候補表示
   (setq skk-dcomp-multiple-rows 5)	          ; 動的補完の候補表示件数
   ;; 動的補完の選択に C-n C-p を使う
-  (defadvice skk-j-mode-on (after skk-settings-for-dcomp activate)
+  (defun my-skk-j-mode-on-after (&rest _)
+    "Configure keys for dynamic completion."
     (define-key skk-j-mode-map "\C-n" 'skk-comp-wrapper)
     (define-key skk-j-mode-map "\C-p" 'skk-previous-comp-maybe))
+  
+  (advice-add 'skk-j-mode-on :after #'my-skk-j-mode-on-after)
 
   ;; isearch
   (add-hook 'isearch-mode-hook 'skk-isearch-mode-setup) ; isearch で skk のセットアップ

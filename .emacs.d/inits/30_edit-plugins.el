@@ -138,13 +138,15 @@
   (smart-newline-mode 1)
   ; (add-hook 'gfm-mode-hook ((smart-newline-mode nil)))
 
-  (defadvice smart-newline (around C-u activate)
+  (defun my-smart-newline-advice (orig-fun &rest args)
     "C-u を押したら元の C-m の挙動をするように"
     (if (not current-prefix-arg)
-        ad-do-it
+        (apply orig-fun args)
       (let (current-prefix-arg)
         (let (smart-newline-mode)
-          (call-interactively (key-binding (kbd "C-m"))))))))
+          (call-interactively (key-binding (kbd "C-m")))))))
+  
+  (advice-add 'smart-newline :around #'my-smart-newline-advice))
 
 (use-package zzz-to-char
   :bind (("M-z" . zzz-up-to-char))

@@ -9,20 +9,20 @@
   ;; フォルダを開く時, 新しいバッファを作成しない
   ;; バッファを作成したい時にはoやC-u ^を利用する
   (defvar my-dired-before-buffer nil)
-  (defadvice dired-advertised-find-file
-      (before kill-dired-buffer activate)
+  
+  (defun my-dired-store-buffer-before (&rest _)
+    "Store current buffer before operation."
     (setq my-dired-before-buffer (current-buffer)))
-  (defadvice dired-advertised-find-file
-      (after kill-dired-buffer-after activate)
+  
+  (defun my-dired-kill-buffer-after (&rest _)
+    "Kill the stored buffer if still in dired mode."
     (if (eq major-mode 'dired-mode)
         (kill-buffer my-dired-before-buffer)))
-  (defadvice dired-up-directory
-      (before kill-up-dired-buffer activate)
-    (setq my-dired-before-buffer (current-buffer)))
-  (defadvice dired-up-directory
-      (after kill-up-dired-buffer-after activate)
-    (if (eq major-mode 'dired-mode)
-        (kill-buffer my-dired-before-buffer)))
+  
+  (advice-add 'dired-advertised-find-file :before #'my-dired-store-buffer-before)
+  (advice-add 'dired-advertised-find-file :after #'my-dired-kill-buffer-after)
+  (advice-add 'dired-up-directory :before #'my-dired-store-buffer-before)
+  (advice-add 'dired-up-directory :after #'my-dired-kill-buffer-after)
 
   ;; ファイルなら別バッファで、ディレクトリなら同じバッファで開く
   (defun dired-open-in-accordance-with-situation ()

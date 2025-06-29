@@ -4,10 +4,11 @@
   (setq key-chord-one-keys-delay 0.04)
 
   ;; don't hijack input method!
-  (defadvice toggle-input-method (around toggle-input-method-around activate)
-    (let ((input-method-function-save input-method-function))
-      ad-do-it
-      (setq input-method-function input-method-function-save)))
+  (advice-add 'toggle-input-method :around
+              (lambda (orig-fun &rest args)
+                (let ((input-method-function-save input-method-function))
+                  (apply orig-fun args)
+                  (setq input-method-function input-method-function-save))))
   (key-chord-define-global "mk" 'kill-buffer)
   (key-chord-define-global "MK" 'my/buffer-kill-and-delete-window)
 
@@ -89,38 +90,38 @@
 (setq inhibit-startup-message t)
 
 ;; リージョン選択した状態でisearchすると選択後を検索
-(defadvice isearch-mode (around isearch-mode-default-string (forward &optional regexp op-fun recursive-edit word-p) activate)
-  (if (and transient-mark-mode mark-active (not (eq (mark) (point))))
-      (progn
-        (isearch-update-ring (buffer-substring-no-properties (mark) (point)))
-        (deactivate-mark)
-        ad-do-it
-        (if (not forward)
-            (isearch-repeat-backward)
-          (goto-char (mark))
-          (isearch-repeat-forward)))
-    ad-do-it))
+(advice-add 'isearch-mode :around
+            (lambda (orig-fun forward &optional regexp op-fun recursive-edit word-p)
+              (if (and transient-mark-mode mark-active (not (eq (mark) (point))))
+                  (progn
+                    (isearch-update-ring (buffer-substring-no-properties (mark) (point)))
+                    (deactivate-mark)
+                    (funcall orig-fun forward regexp op-fun recursive-edit word-p)
+                    (if (not forward)
+                        (isearch-repeat-backward)
+                      (goto-char (mark))
+                      (isearch-repeat-forward)))
+                (funcall orig-fun forward regexp op-fun recursive-edit word-p))))
 
 ;; 書き込み不能なファイルはview-modeで開くように
-(defadvice find-file
-    (around find-file-switch-to-view-file (file &optional wild) activate)
-  (if (and (not (file-writable-p file))
-           (not (file-directory-p file)))
-      (view-file file)
-    ad-do-it))
+(advice-add 'find-file :around
+            (lambda (orig-fun file &optional wild)
+              (if (and (not (file-writable-p file))
+                       (not (file-directory-p file)))
+                  (view-file file)
+                (funcall orig-fun file wild))))
 
 ;; 書き込み不能な場合はview-modeを抜けないように
 (defvar view-mode-force-exit nil)
-(defmacro do-not-exit-view-mode-unless-writable-advice (f)
-  `(defadvice ,f (around do-not-exit-view-mode-unless-writable activate)
-     (if (and (buffer-file-name)
-              (not view-mode-force-exit)
-              (not (file-writable-p (buffer-file-name))))
-         (message "File is unwritable, so stay in view-mode.")
-       ad-do-it)))
+(defun do-not-exit-view-mode-unless-writable-advice (orig-fun &rest args)
+  (if (and (buffer-file-name)
+           (not view-mode-force-exit)
+           (not (file-writable-p (buffer-file-name))))
+      (message "File is unwritable, so stay in view-mode.")
+    (apply orig-fun args)))
 
-(do-not-exit-view-mode-unless-writable-advice view-mode-exit)
-(do-not-exit-view-mode-unless-writable-advice view-mode-disable)
+(advice-add 'view-mode-exit :around #'do-not-exit-view-mode-unless-writable-advice)
+(advice-add 'view-mode-disable :around #'do-not-exit-view-mode-unless-writable-advice)
 
 ;; C-q -> pre-fix key
 ;; (define-key global-map "\C-q" (make-sparse-keymap))
@@ -198,10 +199,11 @@
 (add-hook 'after-save-hook 'make-file-executable)
 
 ;; Emacs 終了時にプロセスを自動で殺す
-(defadvice save-buffers-kill-terminal (before my-save-buffers-kill-terminal activate)
-  (when (process-list)
-    (dolist (p (process-list))
-      (set-process-query-on-exit-flag p nil))))
+(advice-add 'save-buffers-kill-terminal :before
+            (lambda (&rest _args)
+              (when (process-list)
+                (dolist (p (process-list))
+                  (set-process-query-on-exit-flag p nil)))))
 
 ;; 大文字変換を使用する
 (put 'upcase-region 'disabled nil)
@@ -271,11 +273,12 @@ Otherwise, call `backward-kill-word'."
 (global-set-key (kbd "M-f") 'my-forward-word)
 
 ;; kill-lineで行が連結したときにインデントを減らす
-(defadvice kill-line (before kill-line-and-fixup activate)
-  (when (and (not (bolp)) (eolp))
-    (forward-char)
-    (fixup-whitespace)
-    (backward-char)))
+(advice-add 'kill-line :before
+            (lambda (&rest _args)
+              (when (and (not (bolp)) (eolp))
+                (forward-char)
+                (fixup-whitespace)
+                (backward-char))))
 
 ;; 同名の .el と .elc があれば新しい方を読み込む
 (setq load-prefer-newer t)
@@ -328,22 +331,22 @@ Otherwise, call `backward-kill-word'."
 ;; 誤爆するので外す
 (global-unset-key (kbd "C-z"))
 
-;; ;; タブ表示する
-;; (use-package tab-bar
-;;   :straight (:type built-in)
-;;   :custom
-;;   (tab-bar-close-button-show nil)
-;;   (tab-bar-new-button-show nil)
-;;   (tab-bar-history-limit 25)
-;;   (tab-bar-new-tab-choice "*scratch*")
-;;   (tab-bar-show t)
-;;   (tab-bar-tab-hints t)
-;;   :config
-;;   (tab-bar-mode 1)
-;;   (global-set-key (kbd "<C-tab>") 'tab-bar-switch-to-next-tab)
-;;   (global-set-key (kbd "<C-S-tab>") 'tab-bar-switch-to-prev-tab)
-;;   (global-set-key (kbd "<C-S-iso-lefttab>") 'tab-bar-switch-to-prev-tab)
-;; )
+;; タブ表示する
+(use-package tab-bar
+  :straight (:type built-in)
+  :custom
+  (tab-bar-close-button-show nil)
+  (tab-bar-new-button-show nil)
+  (tab-bar-history-limit 25)
+  (tab-bar-new-tab-choice "*scratch*")
+  (tab-bar-show t)
+  (tab-bar-tab-hints t)
+  :config
+  (tab-bar-mode 1)
+  (global-set-key (kbd "<C-tab>") 'tab-bar-switch-to-next-tab)
+  (global-set-key (kbd "<C-S-tab>") 'tab-bar-switch-to-prev-tab)
+  (global-set-key (kbd "<C-S-iso-lefttab>") 'tab-bar-switch-to-prev-tab)
+)
 
 ;; 次に入力するキーとコマンドを教えてくれる
 (use-package which-key
