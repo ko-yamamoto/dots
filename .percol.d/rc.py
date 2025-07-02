@@ -1,4 +1,9 @@
-import sys, commands
+import sys
+try:
+    from commands import getoutput
+except ImportError:  # Python 3
+    from subprocess import getoutput
+
 from percol.command import SelectorCommand
 from percol.key import SPECIAL_KEYS
 from percol.finder import FinderMultiQueryMigemo, FinderMultiQueryRegex
@@ -6,7 +11,7 @@ from percol.finder import FinderMultiQueryMigemo, FinderMultiQueryRegex
 ## prompt
 # Case Insensitive / Match Method に応じてプロンプトに表示
 def dynamic_prompt():
-    prompt = ur""
+    prompt = u""
     if percol.model.finder.__class__ == FinderMultiQueryMigemo:
         prompt += "[Migemo]"
     elif percol.model.finder.__class__ == FinderMultiQueryRegex:
@@ -33,11 +38,11 @@ else:
 # Mac の場合は kill（yank）をクリップボードと共有する
 if sys.platform == "darwin":
     def copy_end_of_line_as_kill(self):
-        commands.getoutput("echo " + self.model.query[self.model.caret:] + " | pbcopy")
+        getoutput("echo " + self.model.query[self.model.caret:] + " | pbcopy")
         self.model.query  = self.model.query[:self.model.caret]
 
     def paste_as_yank(self):
-        self.model.insert_string(commands.getoutput("pbpaste"))
+        self.model.insert_string(getoutput("pbpaste"))
 
     SelectorCommand.kill_end_of_line = copy_end_of_line_as_kill
     SelectorCommand.yank = paste_as_yank
