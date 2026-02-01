@@ -52,7 +52,7 @@ return {
     { key = "p", mods = "SUPER", action = act.ActivateCommandPalette },
 
     -- byobu風 Fキー操作（tmux互換）
-    { key = "F2", mods = "NONE", action = act.SpawnTab("CurrentPaneDomain") },
+    { key = "F2", mods = "NONE", action = act.SpawnCommandInNewTab({ cwd = wezterm.home_dir }) },
     { key = "F3", mods = "NONE", action = act.ActivateTabRelative(-1) },
     { key = "F4", mods = "NONE", action = act.ActivateTabRelative(1) },
 
@@ -61,8 +61,8 @@ return {
     { key = "Tab", mods = "SHIFT|CTRL", action = act.ActivateTabRelative(-1) },
     -- Tab入れ替え
     { key = "{", mods = "LEADER", action = act({ MoveTabRelative = -1 }) },
-    -- Tab新規作成
-    { key = "t", mods = "SUPER", action = act({ SpawnTab = "CurrentPaneDomain" }) },
+    -- Tab新規作成（ホームディレクトリからスタート）
+    { key = "t", mods = "SUPER", action = act.SpawnCommandInNewTab({ cwd = wezterm.home_dir }) },
     -- Tabを閉じる
     { key = "w", mods = "SUPER", action = act({ CloseCurrentTab = { confirm = true } }) },
     { key = "}", mods = "LEADER", action = act({ MoveTabRelative = 1 }) },
@@ -86,8 +86,8 @@ return {
     -- tmux Emacs風分割 (bind 2/3)
     { key = "2", mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
     { key = "3", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
-    -- tmux互換 新規タブ (bind c)
-    { key = "c", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
+    -- tmux互換 新規タブ (bind c)（ホームディレクトリからスタート）
+    { key = "c", mods = "LEADER", action = act.SpawnCommandInNewTab({ cwd = wezterm.home_dir }) },
     -- Paneを閉じる leader + x
     { key = "x", mods = "LEADER", action = act({ CloseCurrentPane = { confirm = true } }) },
     -- Pane移動 leader + hlkj
@@ -253,7 +253,14 @@ return {
       { key = "v", mods = "CTRL", action = act.CopyMode({ SetSelectionMode = "Block" }) },
       { key = "V", mods = "NONE", action = act.CopyMode({ SetSelectionMode = "Line" }) },
       -- コピー
-      { key = "y", mods = "NONE", action = act.CopyTo("Clipboard") },
+      {
+        key = "y",
+        mods = "NONE",
+        action = act.Multiple({
+          { CopyTo = "Clipboard" },
+          { CopyMode = "ClearSelectionMode" },
+        }),
+      },
 
       -- コピーモードを終了
       {

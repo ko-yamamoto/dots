@@ -76,11 +76,20 @@ config.window_background_gradient = {
   colors = { "#000000" },
 }
 
+-- タブタイトルにパディングを追加
+wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_width)
+  local title = tab.active_pane.title
+  -- タブ番号を表示する場合
+  local index = tab.tab_index + 1
+  -- 前後にスペースを追加（数を増やすと隙間が広がる）
+  return '  ' .. index .. ': ' .. title .. '  '
+end)
+
 config.window_frame = {
   inactive_titlebar_bg = "none",
   active_titlebar_bg = "none",
   font = wezterm.font("Guguru Sans Code Console NF", { weight = "Regular" }),
-  font_size = 14.0,
+  font_size = 12.0,
 }
 
 config.window_background_opacity = 0.85
