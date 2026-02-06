@@ -95,6 +95,11 @@ config.window_frame = {
 config.window_background_opacity = 0.85
 config.macos_window_background_blur = 20
 
+-- インアクティブなペインの彩度や輝度を調整する
+config.inactive_pane_hsb = {
+  saturation = 0.9,  -- 彩度（デフォルトは 0.9）
+  brightness = 0.6,  -- 輝度（デフォルトは 0.8）
+}
 
 
 
@@ -129,7 +134,9 @@ end)
 config.disable_default_key_bindings = true
 config.keys = require("keybinds").keys
 config.key_tables = require("keybinds").key_tables
-config.leader = { key = "q", mods = "CTRL", timeout_milliseconds = 2000 }
+-- [tmux一本化] 2026-02 Ctrl+qをtmux prefixに統一するため無効化
+-- 復元時はここを有効化し、keybinds.luaのLeader付きバインドも復元すること
+-- config.leader = { key = "q", mods = "CTRL", timeout_milliseconds = 2000 }
 
 
 -- Returns our config to be evaluated. We must always do this at the bottom of this file

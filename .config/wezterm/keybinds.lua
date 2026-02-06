@@ -12,134 +12,145 @@ end)
 
 return {
   keys = {
-    {
-      -- workspaceの切り替え
-      key = "w",
-      mods = "LEADER",
-      action = act.ShowLauncherArgs({ flags = "WORKSPACES", title = "Select workspace" }),
-    },
-    {
-      --workspaceの名前変更
-      key = "$",
-      mods = "LEADER",
-      action = act.PromptInputLine({
-        description = "(wezterm) Set workspace title:",
-        action = wezterm.action_callback(function(win, pane, line)
-          if line then
-            wezterm.mux.rename_workspace(wezterm.mux.get_active_workspace(), line)
-          end
-        end),
-      }),
-    },
-    {
-      key = "W",
-      mods = "LEADER|SHIFT",
-      action = act.PromptInputLine({
-        description = "(wezterm) Create new workspace:",
-        action = wezterm.action_callback(function(window, pane, line)
-          if line then
-            window:perform_action(
-              act.SwitchToWorkspace({
-                name = line,
-              }),
-              pane
-            )
-          end
-        end),
-      }),
-    },
+    -- Ctrl+qをtmuxに透過送信（macos_forward_to_ime_modifier_maskによるIME横取りを回避）
+    { key = "q", mods = "CTRL", action = act.SendKey({ key = "q", mods = "CTRL" }) },
+
+    -- [tmux一本化] 2026-02 Ctrl+qをtmux prefixに統一するため、Leader付きバインドと
+    -- tmux重複キーを無効化。復元時はwezterm.luaのconfig.leaderも有効化すること
+    -- [tmux一本化] ワークスペース操作はtmuxのセッション管理に一本化
+    -- {
+    --   -- workspaceの切り替え
+    --   key = "w",
+    --   mods = "LEADER",
+    --   action = act.ShowLauncherArgs({ flags = "WORKSPACES", title = "Select workspace" }),
+    -- },
+    -- {
+    --   --workspaceの名前変更
+    --   key = "$",
+    --   mods = "LEADER",
+    --   action = act.PromptInputLine({
+    --     description = "(wezterm) Set workspace title:",
+    --     action = wezterm.action_callback(function(win, pane, line)
+    --       if line then
+    --         wezterm.mux.rename_workspace(wezterm.mux.get_active_workspace(), line)
+    --       end
+    --     end),
+    --   }),
+    -- },
+    -- {
+    --   key = "W",
+    --   mods = "LEADER|SHIFT",
+    --   action = act.PromptInputLine({
+    --     description = "(wezterm) Create new workspace:",
+    --     action = wezterm.action_callback(function(window, pane, line)
+    --       if line then
+    --         window:perform_action(
+    --           act.SwitchToWorkspace({
+    --             name = line,
+    --           }),
+    --           pane
+    --         )
+    --       end
+    --     end),
+    --   }),
+    -- },
     -- コマンドパレット表示
     { key = "p", mods = "SUPER", action = act.ActivateCommandPalette },
 
-    -- byobu風 Fキー操作（tmux互換）
-    { key = "F2", mods = "NONE", action = act.SpawnCommandInNewTab({ cwd = wezterm.home_dir }) },
-    { key = "F3", mods = "NONE", action = act.ActivateTabRelative(-1) },
-    { key = "F4", mods = "NONE", action = act.ActivateTabRelative(1) },
+    -- [tmux一本化] byobu風FキーはtmuxのFキーバインドに一本化
+    -- { key = "F2", mods = "NONE", action = act.SpawnCommandInNewTab({ cwd = wezterm.home_dir }) },
+    -- { key = "F3", mods = "NONE", action = act.ActivateTabRelative(-1) },
+    -- { key = "F4", mods = "NONE", action = act.ActivateTabRelative(1) },
 
     -- Tab移動
     { key = "Tab", mods = "CTRL", action = act.ActivateTabRelative(1) },
     { key = "Tab", mods = "SHIFT|CTRL", action = act.ActivateTabRelative(-1) },
-    -- Tab入れ替え
-    { key = "{", mods = "LEADER", action = act({ MoveTabRelative = -1 }) },
+    -- [tmux一本化] Tab入れ替えはtmuxのウィンドウ操作に一本化
+    -- { key = "{", mods = "LEADER", action = act({ MoveTabRelative = -1 }) },
     -- Tab新規作成（ホームディレクトリからスタート）
     { key = "t", mods = "SUPER", action = act.SpawnCommandInNewTab({ cwd = wezterm.home_dir }) },
     -- Tabを閉じる
     { key = "w", mods = "SUPER", action = act({ CloseCurrentTab = { confirm = true } }) },
-    { key = "}", mods = "LEADER", action = act({ MoveTabRelative = 1 }) },
+    -- [tmux一本化] Tab入れ替えはtmuxのウィンドウ操作に一本化
+    -- { key = "}", mods = "LEADER", action = act({ MoveTabRelative = 1 }) },
 
     -- 画面フルスクリーン切り替え
     { key = "Enter", mods = "ALT", action = act.ToggleFullScreen },
 
-    -- コピーモード
+    -- Shift+Enterで改行（Claude Code等で使用）
+    { key = "Enter", mods = "SHIFT", action = act.SendString("\n") },
+
+    -- [tmux一本化] コピーモード・ペーストはtmuxのコピーモードに一本化
     -- { key = 'X', mods = 'LEADER', action = act.ActivateKeyTable{ name = 'copy_mode', one_shot =false }, },
-    { key = "[", mods = "LEADER", action = act.ActivateCopyMode },
+    -- { key = "[", mods = "LEADER", action = act.ActivateCopyMode },
     -- tmux互換 ペースト (bind -r ^])
-    { key = "]", mods = "LEADER", action = act.PasteFrom("Clipboard") },
+    -- { key = "]", mods = "LEADER", action = act.PasteFrom("Clipboard") },
     -- コピー
     { key = "c", mods = "SUPER", action = act.CopyTo("Clipboard") },
     -- 貼り付け
     { key = "v", mods = "SUPER", action = act.PasteFrom("Clipboard") },
 
-    -- Pane作成 leader + r or d
-    { key = "d", mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
-    { key = "r", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
-    -- tmux Emacs風分割 (bind 2/3)
-    { key = "2", mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
-    { key = "3", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
-    -- tmux互換 新規タブ (bind c)（ホームディレクトリからスタート）
-    { key = "c", mods = "LEADER", action = act.SpawnCommandInNewTab({ cwd = wezterm.home_dir }) },
-    -- Paneを閉じる leader + x
-    { key = "x", mods = "LEADER", action = act({ CloseCurrentPane = { confirm = true } }) },
-    -- Pane移動 leader + hlkj
-    { key = "h", mods = "LEADER", action = act.ActivatePaneDirection("Left") },
-    { key = "l", mods = "LEADER", action = act.ActivatePaneDirection("Right") },
-    { key = "k", mods = "LEADER", action = act.ActivatePaneDirection("Up") },
-    { key = "j", mods = "LEADER", action = act.ActivatePaneDirection("Down") },
-    -- Pane選択
-    { key = "[", mods = "CTRL|SHIFT", action = act.PaneSelect },
-    -- 選択中のPaneのみ表示
-    { key = "z", mods = "LEADER", action = act.TogglePaneZoomState },
+    -- [tmux一本化] ペイン分割・タブ作成・ペイン閉じはtmuxのペイン操作に一本化
+    -- -- Pane作成 leader + r or d
+    -- { key = "d", mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
+    -- { key = "r", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+    -- -- tmux Emacs風分割 (bind 2/3)
+    -- { key = "2", mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
+    -- { key = "3", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+    -- -- tmux互換 新規タブ (bind c)（ホームディレクトリからスタート）
+    -- { key = "c", mods = "LEADER", action = act.SpawnCommandInNewTab({ cwd = wezterm.home_dir }) },
+    -- -- Paneを閉じる leader + x
+    -- { key = "x", mods = "LEADER", action = act({ CloseCurrentPane = { confirm = true } }) },
+    -- [tmux一本化] ペイン移動はtmuxのペイン移動に一本化
+    -- { key = "h", mods = "LEADER", action = act.ActivatePaneDirection("Left") },
+    -- { key = "l", mods = "LEADER", action = act.ActivatePaneDirection("Right") },
+    -- { key = "k", mods = "LEADER", action = act.ActivatePaneDirection("Up") },
+    -- { key = "j", mods = "LEADER", action = act.ActivatePaneDirection("Down") },
+    -- [tmux一本化] ペイン選択はtmuxのペイン選択に一本化
+    -- { key = "[", mods = "CTRL|SHIFT", action = act.PaneSelect },
+    -- [tmux一本化] ペインズームはtmuxのzoom-paneに一本化
+    -- { key = "z", mods = "LEADER", action = act.TogglePaneZoomState },
 
-    -- tmux互換 ペインリサイズ (bind -r C-h/j/k/l) - 連打可能
-    {
-      key = "h",
-      mods = "LEADER|CTRL",
-      action = act.Multiple({
-        act.AdjustPaneSize({ "Left", 1 }),
-        act.ActivateKeyTable({ name = "resize_pane_repeat", timeout_milliseconds = 500 }),
-      }),
-    },
-    {
-      key = "j",
-      mods = "LEADER|CTRL",
-      action = act.Multiple({
-        act.AdjustPaneSize({ "Down", 1 }),
-        act.ActivateKeyTable({ name = "resize_pane_repeat", timeout_milliseconds = 500 }),
-      }),
-    },
-    {
-      key = "k",
-      mods = "LEADER|CTRL",
-      action = act.Multiple({
-        act.AdjustPaneSize({ "Up", 1 }),
-        act.ActivateKeyTable({ name = "resize_pane_repeat", timeout_milliseconds = 500 }),
-      }),
-    },
-    {
-      key = "l",
-      mods = "LEADER|CTRL",
-      action = act.Multiple({
-        act.AdjustPaneSize({ "Right", 1 }),
-        act.ActivateKeyTable({ name = "resize_pane_repeat", timeout_milliseconds = 500 }),
-      }),
-    },
+    -- [tmux一本化] ペインリサイズはtmuxのresize-paneに一本化
+    -- {
+    --   key = "h",
+    --   mods = "LEADER|CTRL",
+    --   action = act.Multiple({
+    --     act.AdjustPaneSize({ "Left", 1 }),
+    --     act.ActivateKeyTable({ name = "resize_pane_repeat", timeout_milliseconds = 500 }),
+    --   }),
+    -- },
+    -- {
+    --   key = "j",
+    --   mods = "LEADER|CTRL",
+    --   action = act.Multiple({
+    --     act.AdjustPaneSize({ "Down", 1 }),
+    --     act.ActivateKeyTable({ name = "resize_pane_repeat", timeout_milliseconds = 500 }),
+    --   }),
+    -- },
+    -- {
+    --   key = "k",
+    --   mods = "LEADER|CTRL",
+    --   action = act.Multiple({
+    --     act.AdjustPaneSize({ "Up", 1 }),
+    --     act.ActivateKeyTable({ name = "resize_pane_repeat", timeout_milliseconds = 500 }),
+    --   }),
+    -- },
+    -- {
+    --   key = "l",
+    --   mods = "LEADER|CTRL",
+    --   action = act.Multiple({
+    --     act.AdjustPaneSize({ "Right", 1 }),
+    --     act.ActivateKeyTable({ name = "resize_pane_repeat", timeout_milliseconds = 500 }),
+    --   }),
+    -- },
 
-    -- tmux互換 C-s/C-t ナビゲーション
-    { key = "s", mods = "CTRL", action = act.ActivateTabRelative(1) },
-    { key = "t", mods = "CTRL", action = act.ActivatePaneDirection("Next") },
+    -- [tmux一本化] Ctrl+s/Ctrl+tはtmuxのナビゲーションに一本化
+    -- { key = "s", mods = "CTRL", action = act.ActivateTabRelative(1) },
+    -- { key = "t", mods = "CTRL", action = act.ActivatePaneDirection("Next") },
 
-    -- tmux resize-pane -Z 代替（ペインズームトグル）
-    { key = "1", mods = "LEADER", action = act.TogglePaneZoomState },
+    -- [tmux一本化] ペインズームはtmuxのzoom-paneに一本化
+    -- { key = "1", mods = "LEADER", action = act.TogglePaneZoomState },
 
     -- フォントサイズ切替
     { key = "+", mods = "CTRL", action = act.IncreaseFontSize },
@@ -158,120 +169,121 @@ return {
     { key = "8", mods = "SUPER", action = act.ActivateTab(7) },
     { key = "9", mods = "SUPER", action = act.ActivateTab(-1) },
 
-    -- タブ切替 Alt + 数字（tmux/xmonad風）
-    { key = "1", mods = "ALT", action = act.ActivateTab(0) },
-    { key = "2", mods = "ALT", action = act.ActivateTab(1) },
-    { key = "3", mods = "ALT", action = act.ActivateTab(2) },
-    { key = "4", mods = "ALT", action = act.ActivateTab(3) },
-    { key = "5", mods = "ALT", action = act.ActivateTab(4) },
-    { key = "6", mods = "ALT", action = act.ActivateTab(5) },
-    { key = "7", mods = "ALT", action = act.ActivateTab(6) },
-    { key = "8", mods = "ALT", action = act.ActivateTab(7) },
-    { key = "9", mods = "ALT", action = act.ActivateTab(-1) },
+    -- [tmux一本化] Alt+数字のタブ切替はtmuxのウィンドウ切替に一本化
+    -- { key = "1", mods = "ALT", action = act.ActivateTab(0) },
+    -- { key = "2", mods = "ALT", action = act.ActivateTab(1) },
+    -- { key = "3", mods = "ALT", action = act.ActivateTab(2) },
+    -- { key = "4", mods = "ALT", action = act.ActivateTab(3) },
+    -- { key = "5", mods = "ALT", action = act.ActivateTab(4) },
+    -- { key = "6", mods = "ALT", action = act.ActivateTab(5) },
+    -- { key = "7", mods = "ALT", action = act.ActivateTab(6) },
+    -- { key = "8", mods = "ALT", action = act.ActivateTab(7) },
+    -- { key = "9", mods = "ALT", action = act.ActivateTab(-1) },
 
     -- コマンドパレット
     { key = "p", mods = "SHIFT|CTRL", action = act.ActivateCommandPalette },
     -- 設定再読み込み
     { key = "r", mods = "SHIFT|CTRL", action = act.ReloadConfiguration },
-    -- tmux互換 設定再読み込み (bind C-r)
-    { key = "r", mods = "LEADER|CTRL", action = act.ReloadConfiguration },
-    -- キーテーブル用
-    { key = "s", mods = "LEADER", action = act.ActivateKeyTable({ name = "resize_pane", one_shot = false }) },
-    {
-      key = "a",
-      mods = "LEADER",
-      action = act.ActivateKeyTable({ name = "activate_pane", timeout_milliseconds = 1000 }),
-    },
+    -- [tmux一本化] Leader付き設定再読み込みはtmuxに一本化
+    -- { key = "r", mods = "LEADER|CTRL", action = act.ReloadConfiguration },
+    -- [tmux一本化] Leader依存のキーテーブル起動はtmuxに一本化
+    -- { key = "s", mods = "LEADER", action = act.ActivateKeyTable({ name = "resize_pane", one_shot = false }) },
+    -- {
+    --   key = "a",
+    --   mods = "LEADER",
+    --   action = act.ActivateKeyTable({ name = "activate_pane", timeout_milliseconds = 1000 }),
+    -- },
   },
+  -- [tmux一本化] Leader keyが無効のためkey_tables全体を無効化
   -- キーテーブル
   -- https://wezfurlong.org/wezterm/config/key-tables.html
-  key_tables = {
-    -- Paneサイズ調整 leader + s
-    resize_pane = {
-      { key = "h", action = act.AdjustPaneSize({ "Left", 1 }) },
-      { key = "l", action = act.AdjustPaneSize({ "Right", 1 }) },
-      { key = "k", action = act.AdjustPaneSize({ "Up", 1 }) },
-      { key = "j", action = act.AdjustPaneSize({ "Down", 1 }) },
-
-      -- Cancel the mode by pressing escape
-      { key = "Enter", action = "PopKeyTable" },
-    },
-    -- tmux互換 ペインリサイズ連打用 (C-h/j/k/l)
-    resize_pane_repeat = {
-      { key = "h", mods = "CTRL", action = act.AdjustPaneSize({ "Left", 1 }) },
-      { key = "l", mods = "CTRL", action = act.AdjustPaneSize({ "Right", 1 }) },
-      { key = "k", mods = "CTRL", action = act.AdjustPaneSize({ "Up", 1 }) },
-      { key = "j", mods = "CTRL", action = act.AdjustPaneSize({ "Down", 1 }) },
-      { key = "Escape", action = "PopKeyTable" },
-    },
-    activate_pane = {
-      { key = "h", action = act.ActivatePaneDirection("Left") },
-      { key = "l", action = act.ActivatePaneDirection("Right") },
-      { key = "k", action = act.ActivatePaneDirection("Up") },
-      { key = "j", action = act.ActivatePaneDirection("Down") },
-    },
-    -- copyモード leader + [
-    copy_mode = {
-      -- 移動
-      { key = "h", mods = "NONE", action = act.CopyMode("MoveLeft") },
-      { key = "j", mods = "NONE", action = act.CopyMode("MoveDown") },
-      { key = "k", mods = "NONE", action = act.CopyMode("MoveUp") },
-      { key = "l", mods = "NONE", action = act.CopyMode("MoveRight") },
-      -- 最初と最後に移動
-      { key = "^", mods = "NONE", action = act.CopyMode("MoveToStartOfLineContent") },
-      { key = "$", mods = "NONE", action = act.CopyMode("MoveToEndOfLineContent") },
-      -- 左端に移動
-      { key = "0", mods = "NONE", action = act.CopyMode("MoveToStartOfLine") },
-      { key = "o", mods = "NONE", action = act.CopyMode("MoveToSelectionOtherEnd") },
-      { key = "O", mods = "NONE", action = act.CopyMode("MoveToSelectionOtherEndHoriz") },
-      --
-      { key = ";", mods = "NONE", action = act.CopyMode("JumpAgain") },
-      -- 単語ごと移動
-      { key = "w", mods = "NONE", action = act.CopyMode("MoveForwardWord") },
-      { key = "b", mods = "NONE", action = act.CopyMode("MoveBackwardWord") },
-      { key = "e", mods = "NONE", action = act.CopyMode("MoveForwardWordEnd") },
-      -- ジャンプ機能 t f
-      { key = "t", mods = "NONE", action = act.CopyMode({ JumpForward = { prev_char = true } }) },
-      { key = "f", mods = "NONE", action = act.CopyMode({ JumpForward = { prev_char = false } }) },
-      { key = "T", mods = "NONE", action = act.CopyMode({ JumpBackward = { prev_char = true } }) },
-      { key = "F", mods = "NONE", action = act.CopyMode({ JumpBackward = { prev_char = false } }) },
-      -- 一番下へ
-      { key = "G", mods = "NONE", action = act.CopyMode("MoveToScrollbackBottom") },
-      -- 一番上へ
-      { key = "g", mods = "NONE", action = act.CopyMode("MoveToScrollbackTop") },
-      -- viweport
-      { key = "H", mods = "NONE", action = act.CopyMode("MoveToViewportTop") },
-      { key = "L", mods = "NONE", action = act.CopyMode("MoveToViewportBottom") },
-      { key = "M", mods = "NONE", action = act.CopyMode("MoveToViewportMiddle") },
-      -- スクロール
-      { key = "b", mods = "CTRL", action = act.CopyMode("PageUp") },
-      { key = "f", mods = "CTRL", action = act.CopyMode("PageDown") },
-      { key = "d", mods = "CTRL", action = act.CopyMode({ MoveByPage = 0.5 }) },
-      { key = "u", mods = "CTRL", action = act.CopyMode({ MoveByPage = -0.5 }) },
-      -- 範囲選択モード
-      { key = "v", mods = "NONE", action = act.CopyMode({ SetSelectionMode = "Cell" }) },
-      { key = "v", mods = "CTRL", action = act.CopyMode({ SetSelectionMode = "Block" }) },
-      { key = "V", mods = "NONE", action = act.CopyMode({ SetSelectionMode = "Line" }) },
-      -- コピー
-      {
-        key = "y",
-        mods = "NONE",
-        action = act.Multiple({
-          { CopyTo = "Clipboard" },
-          { CopyMode = "ClearSelectionMode" },
-        }),
-      },
-
-      -- コピーモードを終了
-      {
-        key = "Enter",
-        mods = "NONE",
-        action = act.Multiple({ { CopyTo = "ClipboardAndPrimarySelection" }, { CopyMode = "Close" } }),
-      },
-      { key = "Escape", mods = "NONE", action = act.CopyMode("Close") },
-      { key = "c", mods = "CTRL", action = act.CopyMode("Close") },
-      { key = "q", mods = "NONE", action = act.CopyMode("Close") },
-    },
-  },
+  -- key_tables = {
+  --   -- Paneサイズ調整 leader + s
+  --   resize_pane = {
+  --     { key = "h", action = act.AdjustPaneSize({ "Left", 1 }) },
+  --     { key = "l", action = act.AdjustPaneSize({ "Right", 1 }) },
+  --     { key = "k", action = act.AdjustPaneSize({ "Up", 1 }) },
+  --     { key = "j", action = act.AdjustPaneSize({ "Down", 1 }) },
+  --
+  --     -- Cancel the mode by pressing escape
+  --     { key = "Enter", action = "PopKeyTable" },
+  --   },
+  --   -- tmux互換 ペインリサイズ連打用 (C-h/j/k/l)
+  --   resize_pane_repeat = {
+  --     { key = "h", mods = "CTRL", action = act.AdjustPaneSize({ "Left", 1 }) },
+  --     { key = "l", mods = "CTRL", action = act.AdjustPaneSize({ "Right", 1 }) },
+  --     { key = "k", mods = "CTRL", action = act.AdjustPaneSize({ "Up", 1 }) },
+  --     { key = "j", mods = "CTRL", action = act.AdjustPaneSize({ "Down", 1 }) },
+  --     { key = "Escape", action = "PopKeyTable" },
+  --   },
+  --   activate_pane = {
+  --     { key = "h", action = act.ActivatePaneDirection("Left") },
+  --     { key = "l", action = act.ActivatePaneDirection("Right") },
+  --     { key = "k", action = act.ActivatePaneDirection("Up") },
+  --     { key = "j", action = act.ActivatePaneDirection("Down") },
+  --   },
+  --   -- copyモード leader + [
+  --   copy_mode = {
+  --     -- 移動
+  --     { key = "h", mods = "NONE", action = act.CopyMode("MoveLeft") },
+  --     { key = "j", mods = "NONE", action = act.CopyMode("MoveDown") },
+  --     { key = "k", mods = "NONE", action = act.CopyMode("MoveUp") },
+  --     { key = "l", mods = "NONE", action = act.CopyMode("MoveRight") },
+  --     -- 最初と最後に移動
+  --     { key = "^", mods = "NONE", action = act.CopyMode("MoveToStartOfLineContent") },
+  --     { key = "$", mods = "NONE", action = act.CopyMode("MoveToEndOfLineContent") },
+  --     -- 左端に移動
+  --     { key = "0", mods = "NONE", action = act.CopyMode("MoveToStartOfLine") },
+  --     { key = "o", mods = "NONE", action = act.CopyMode("MoveToSelectionOtherEnd") },
+  --     { key = "O", mods = "NONE", action = act.CopyMode("MoveToSelectionOtherEndHoriz") },
+  --     --
+  --     { key = ";", mods = "NONE", action = act.CopyMode("JumpAgain") },
+  --     -- 単語ごと移動
+  --     { key = "w", mods = "NONE", action = act.CopyMode("MoveForwardWord") },
+  --     { key = "b", mods = "NONE", action = act.CopyMode("MoveBackwardWord") },
+  --     { key = "e", mods = "NONE", action = act.CopyMode("MoveForwardWordEnd") },
+  --     -- ジャンプ機能 t f
+  --     { key = "t", mods = "NONE", action = act.CopyMode({ JumpForward = { prev_char = true } }) },
+  --     { key = "f", mods = "NONE", action = act.CopyMode({ JumpForward = { prev_char = false } }) },
+  --     { key = "T", mods = "NONE", action = act.CopyMode({ JumpBackward = { prev_char = true } }) },
+  --     { key = "F", mods = "NONE", action = act.CopyMode({ JumpBackward = { prev_char = false } }) },
+  --     -- 一番下へ
+  --     { key = "G", mods = "NONE", action = act.CopyMode("MoveToScrollbackBottom") },
+  --     -- 一番上へ
+  --     { key = "g", mods = "NONE", action = act.CopyMode("MoveToScrollbackTop") },
+  --     -- viweport
+  --     { key = "H", mods = "NONE", action = act.CopyMode("MoveToViewportTop") },
+  --     { key = "L", mods = "NONE", action = act.CopyMode("MoveToViewportBottom") },
+  --     { key = "M", mods = "NONE", action = act.CopyMode("MoveToViewportMiddle") },
+  --     -- スクロール
+  --     { key = "b", mods = "CTRL", action = act.CopyMode("PageUp") },
+  --     { key = "f", mods = "CTRL", action = act.CopyMode("PageDown") },
+  --     { key = "d", mods = "CTRL", action = act.CopyMode({ MoveByPage = 0.5 }) },
+  --     { key = "u", mods = "CTRL", action = act.CopyMode({ MoveByPage = -0.5 }) },
+  --     -- 範囲選択モード
+  --     { key = "v", mods = "NONE", action = act.CopyMode({ SetSelectionMode = "Cell" }) },
+  --     { key = "v", mods = "CTRL", action = act.CopyMode({ SetSelectionMode = "Block" }) },
+  --     { key = "V", mods = "NONE", action = act.CopyMode({ SetSelectionMode = "Line" }) },
+  --     -- コピー
+  --     {
+  --       key = "y",
+  --       mods = "NONE",
+  --       action = act.Multiple({
+  --         { CopyTo = "Clipboard" },
+  --         { CopyMode = "ClearSelectionMode" },
+  --       }),
+  --     },
+  --
+  --     -- コピーモードを終了
+  --     {
+  --       key = "Enter",
+  --       mods = "NONE",
+  --       action = act.Multiple({ { CopyTo = "ClipboardAndPrimarySelection" }, { CopyMode = "Close" } }),
+  --     },
+  --     { key = "Escape", mods = "NONE", action = act.CopyMode("Close") },
+  --     { key = "c", mods = "CTRL", action = act.CopyMode("Close") },
+  --     { key = "q", mods = "NONE", action = act.CopyMode("Close") },
+  --   },
+  -- },
+  key_tables = {},
 }
-
