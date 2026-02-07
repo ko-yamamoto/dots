@@ -20,17 +20,12 @@ bindkey -e
 TERM=xterm-256color
 [[ $TERM = "eterm-color" ]] && TERM=xterm-256color
 
-# Emacs
-# export EDITOR=emacsclient
-
 # 履歴検索のショートカット
 autoload history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
 bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
-
-zstyle :compinstall filename '/Users/nishikawasasaki/.zshrc'
 
 # 共通のPATH
 export PATH=$HOME/bin:$PATH
@@ -161,23 +156,10 @@ function multi-run() {
 }
 alias -s {lisp,li,hs}=multi-run
 
-# vi
-# export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
-# alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
-# alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
-# alias gvim='env LANG=ja_JP.UTF-8 open -a /Applications/MacVim.app "$@"'
 alias gvim='gvim --remote-silent'
 alias gv='gvim --remote-silent'
 
-# emacs
-# alias emacsclient='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -n'
-# alias emacs='/Applications/Emacs.app/Contents/MacOS/emacs'
-# alias ec='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -n'
-# alias em='/Applications/Emacs.app/Contents/MacOS/emacs'
 alias ec='emacsclient -n'
-
-# ctags
-# alias ctags='/usr/local/Cellar/ctags/5.8/bin/ctags'
 
 alias g='git'
 
