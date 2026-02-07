@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# tmux の status-left から呼ばれるため、cut -c が文字単位で動作するよう locale を明示
+export LC_ALL=en_US.UTF-8
+
+current_session=$(tmux display-message -p '#{session_name}')
+bg="#1e2126"
+
+output="#[bg=$bg]"
+
+# セッション一覧を整形してソート
+sessions=$(tmux list-sessions -F '#{session_name}' 2>/dev/null | while read -r s; do
+  if [ "$(echo "$s" | cut -c2)" = " " ]; then
+    echo "$(echo "$s" | cut -c3-)|$s"
+  else
+    echo "$s|$s"
+  fi
+done | sort | cut -d'|' -f2)
+
+while IFS= read -r session; do
+  second_char=$(echo "$session" | cut -c2)
+  if [ "$second_char" = " " ]; then
+    icon=$(echo "$session" | cut -c1)
+    session_name=$(echo "$session" | cut -c3-)
+  else
+    icon=""
+    session_name="$session"
+  fi
+
+  if [ "$session" = "$current_session" ]; then
+    output+="#[fg=yellow,bold]$icon $session_name#[nobold,fg=colour250] "
+  else
+    output+="#[fg=colour250]$icon "
+  fi
+done <<< "$sessions"
+
+echo -n " $output "
