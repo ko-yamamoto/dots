@@ -212,10 +212,13 @@ autoload -zU compinit && compinit
 
 compdef _git g='git' # g でも git として補完
 
+# zsh-defer: プラグインの遅延ロード
+# git clone https://github.com/romkatv/zsh-defer.git ~/.local/share/zsh-defer
+source "$HOME/.local/share/zsh-defer/zsh-defer.plugin.zsh"
+
 # zsh-abbr
 # brew install olets/tap/zsh-abbr
-# source /usr/local/share/zsh-abbr/zsh-abbr.zsh
-source /opt/homebrew/share/zsh-abbr/zsh-abbr.zsh
+zsh-defer source /opt/homebrew/share/zsh-abbr/zsh-abbr.zsh
 # abbr b="brew"
 # abbr d="docker"
 # abbr dc="docker compose"
@@ -238,10 +241,9 @@ source /opt/homebrew/share/zsh-abbr/zsh-abbr.zsh
 
 # fzf
 # brew install fzf
-# /usr/local/opt/fzf/install
-source <(fzf --zsh)
+zsh-defer -c 'source <(fzf --zsh)'
 
-bindkey '^[t' fzf-file-widget
+zsh-defer -c "bindkey '^[t' fzf-file-widget"
 
 # cdrの履歴からディレクトリを移動する
 fzf-cdr(){
@@ -302,9 +304,7 @@ zle -N fzf-pullreq
 bindkey '^[gp' fzf-pullreq
 
 # brew install zsh-autosuggestions
-# source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#999999"
+zsh-defer -c 'source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh && ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#999999"'
 
 # 戦闘力
 function scouter() {
@@ -313,8 +313,14 @@ function scouter() {
 
 
 
-# starship.rs ###############################################
-eval "$(starship init zsh)"
+# starship.rs: キャッシュによる高速初期化
+_starship_cache="${XDG_CACHE_HOME:-$HOME/.cache}/starship-init.zsh"
+if [[ ! -f "$_starship_cache" ]] || [[ "$(command -v starship)" -nt "$_starship_cache" ]]; then
+  mkdir -p "${_starship_cache:h}"
+  starship init zsh > "$_starship_cache"
+fi
+source "$_starship_cache"
+unset _starship_cache
 
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
