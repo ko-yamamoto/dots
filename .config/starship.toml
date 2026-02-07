@@ -1,0 +1,109 @@
+command_timeout = 1000
+
+format = """$java$scala$nodejs$python$ruby$rust$terraform$aws$docker_context$helm$kubernetes$package$custom
+$time$directory$git_branch$git_status$git_commit$git_state$git_metrics
+$character
+"""
+right_format = """$cmd_duration"""
+
+[cmd_duration]
+min_time = 500
+format = "[$duration]($style) "
+style = "bold yellow"
+
+
+# # 右表示版
+# format = """$time$directory$git_branch$git_status$git_commit$git_state$git_metrics
+# $character"""
+# right_format = """$java$scala$nodejs$python$ruby$rust$terraform$aws$docker_context$helm$kubernetes$package$custom $cmd_duration"""
+
+
+
+# format = """$character$time$directory$git_branch$git_status$git_commit$git_state$git_metrics $java$scala$nodejs$python$ruby$rust$package$terraform$aws$docker_context$helm$kubernetes$custom $cmd_duration"""
+
+[character]
+success_symbol = "[✔](bold green)"
+error_symbol = "[✖](bold red)"
+
+[directory]
+truncation_length = 5
+truncate_to_repo = true
+home_symbol = "~"
+style = "bold cyan"
+
+[time]
+disabled = false
+format = '[$time](bold yellow) '
+time_format = "%T"
+
+[aws]
+# disabled = true
+format = 'AWS/[($profile )]($style)'
+
+# [env_var.AWS_PROFILE]
+# format = "AWS_PROFILE/[$env_value](yellow) "
+
+[docker_context]
+format = "[$symbol$context]($style) "
+
+[kubernetes]
+disabled = false
+# format = 'k8s [$context \($namespace\)](green) '
+format = 'k8s/[$context](blue) '
+
+[[kubernetes.contexts]]
+context_pattern = "arn:.*/(?P<cluster>[\\w-]+)"
+context_alias = "$cluster"
+
+[helm]
+format = "helm/[$version](bold white) "
+
+[terraform]
+format = 'tf/[$version\($workspace\)]($style) '
+
+[package]
+format = "[🎁 $version]($style) "
+
+[java]
+disabled = true
+format = 'java/[${symbol}(${version} )]($style)'
+
+[scala]
+disabled = true
+format = 'scala/[${symbol}(${version} )]($style) '
+
+[rust]
+format ="[$symbol($version )]($style)"
+
+
+[custom.variantenv]
+command = "variant env 2>/dev/null || echo ''"
+detect_files = [".varenv"]
+when = "command -v variant >/dev/null 2>&1"
+format = "variant/[$output]($style) "
+
+[git_branch]
+format = '- [$symbol$branch(:$remote_branch)]($style) '
+
+[git_status]
+conflicted = '[󰞇 $count](red)'
+ahead = '[⇡$count](blue)'
+behind = '[⇣$count](red)'
+diverged = '[⇕$count](purple)'
+up_to_date = ''
+untracked = '[󰞋 $count](dimmed white)'
+stashed = '[󰆓 $count](white)'
+modified = '[󰏫 $count](yellow)'
+staged = '[󰄬 $count](green)'
+renamed = '[󰑕 $count](blue)'
+deleted = '[󰆴 $count](red)'
+
+[git_metrics]
+disabled = false
+only_nonzero_diffs = true
+format = '([+$added]($added_style) )([-$deleted]($deleted_style) )'
+
+
+[git_commit]
+commit_hash_length = 4
+tag_symbol = '🔖 '
