@@ -162,6 +162,9 @@ alias gv='gvim --remote-silent'
 alias ec='emacsclient -n'
 
 alias g='git'
+alias c='claude'
+alias cc='claude --continue'
+alias cr='claude --resume'
 
 
 # 指定したコマンドを指定した時間ごとに実行
