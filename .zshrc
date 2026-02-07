@@ -40,48 +40,6 @@ export LANG=ja_JP.UTF-8
 # プロンプトをカラー表示
 autoload colors && colors
 
-# -> use starship.rs
-# # プロンプト表示設定
-# setopt prompt_subst
-# if [ `echo $UNAME | grep 'MSYS_NT'` ] ; then
-#     # CYGWIN は重いのでシンプル
-#     # PROMPT='%F{green}%n%f/%m  %F{blue}%(10~,%-4~/.../%6~,%~)%f
-#     # %B%(?.%F{blue}%(!.#.／^o^＼)%f.%F{red}%(!.#.＼^o^／)%f)%b '
-#     # PROMPT='%B%F{yellow}%n%f%b/%m  %B%F{blue}%(10~,%-4~/.../%6~,%~)%f%b
-#     # %B%(?.%F{blue}%(!.#.>)%f.%F{red}%(!.#.!)%f)%b '
-#     # PROMPT='@%B%F{yellow}%(10~,%-4~/.../%6~,%~)%f%b
-#     # %B%(?.%F{blue}%(!.#.>)%f.%F{red}%(!.#.!)%f)%b '
-#     PROMPT='
-# @%B%F{yellow}%(10~,%-4~/.../%6~,%d)%f%b
-# %B%(?.%F{blue}%(!.#.>)%f.%F{red}%(!.#.!)%f)%b '
-# 
-# else
-#     # CYGWIN 以外
-#     autoload -Uz vcs_info
-#     zstyle ':vcs_info:*' enable git svn
-#     zstyle ':vcs_info:*' max-exports 6 # formatに入る変数の最大数
-#     zstyle ':vcs_info:git:*' check-for-changes true
-#     zstyle ':vcs_info:git:*' formats '%b@%r' '%c' '%u'
-#     zstyle ':vcs_info:git:*' actionformats '%b@%r|%a' '%c' '%u'
-#     setopt prompt_subst
-#     function vcs_echo {
-#         local st branch color
-#         STY= LANG=en_US.UTF-8 vcs_info
-#         st=`git status 2> /dev/null`
-#         if [[ -z "$st" ]]; then return; fi
-#         branch="$vcs_info_msg_0_"
-#         if   [[ -n "$vcs_info_msg_1_" ]]; then color=${fg[blue]} #staged
-#         elif [[ -n "$vcs_info_msg_2_" ]]; then color=${fg[red]} #unstaged
-#         elif [[ -n `echo "$st" | grep "^Untracked"` ]]; then color=${fg[yellow]} # untracked
-#         else color=${fg[green]}
-#         fi
-#         echo "%{$color%}%{$branch%}:%{$reset_color%} " | sed -e s/@/"%F{yellow}@%f"/
-#     }
-#     PROMPT='
-# %B`vcs_echo`%b@%B%F{yellow}%(10~,%-4~/.../%6~,%d)%f%b
-# %B%(?.%F{blue}%(!.#.>)%f.%F{red}%(!.#.!)%f)%b '
-# 
-# fi
 
 # Emacs Tramp 用プロンプト
 # set terminal title including current directory
@@ -142,10 +100,6 @@ alias zmv='noglob zmv -W'
 
 # 補完用ファイル置き場追加
 fpath=(~/.zsh/functions(N-/) ${fpath})
-
-# 補完設定
-autoload -zU compinit
-compinit
 
 # 最後の"/"を削除しない
 setopt noautoremoveslash
@@ -223,7 +177,6 @@ alias ec='emacsclient -n'
 # ctags
 # alias ctags='/usr/local/Cellar/ctags/5.8/bin/ctags'
 
-compdef _git g='git' # g でも git として補完
 alias g='git'
 
 
@@ -237,21 +190,6 @@ function timer() {
     fi
 }
 
-
-# # ssh-agent 用
-# agentPID=`ps gxww|grep "ssh-agent]*$"|awk '{print $1}'`
-# agentSOCK=`/bin/ls -t /tmp/ssh*/agent*|head -1`
-# if [ "$agentPID" = "" -o "$agentSOCK" = "" ]; then
-#     unset SSH_AUTH_SOCK SSH_AGENT_PID
-#     eval `ssh-agent`
-#     # ssh-add < /dev/null
-# else
-#     export SSH_AGENT_PID=$agentPID
-#     export SSH_AUTH_SOCK=$agentSOCK
-#     # if [ `ssh-add -l` = "" ]; then
-#     #     ssh-add < /dev/null
-#     # fi
-# fi
 
 # Mineファイル読み込み
 # オレオレ設定はこっちに
@@ -267,8 +205,10 @@ function timer() {
 # git clone https://github.com/zsh-users/zsh-completions.git
 if [ -d ~/bin/zsh-completions ]; then
     fpath=($HOME/bin/zsh-completions/src $fpath)
-    rm -f ~/.zcompdump; autoload -U compinit; compinit
 fi
+autoload -zU compinit && compinit
+
+compdef _git g='git' # g でも git として補完
 
 # zsh-abbr
 # brew install olets/tap/zsh-abbr
@@ -298,7 +238,6 @@ source /opt/homebrew/share/zsh-abbr/zsh-abbr.zsh
 # brew install fzf
 # /usr/local/opt/fzf/install
 source <(fzf --zsh)
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 bindkey '^[t' fzf-file-widget
 
@@ -365,552 +304,6 @@ bindkey '^[gp' fzf-pullreq
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#999999"
 
-
-
-
-# 以下 zsh vi モード用設定 #################################################
-
-# #zshプロンプトにモード表示####################################
-# function zle-line-init zle-keymap-select {
-#   case $KEYMAP in
-#     vicmd)
-#     PROMPT="%{$fg[red]%}[%{$reset_color%}%n/%{$fg_bold[red]%}NOR%{$reset_color%}%{$fg[red]%}]%#%{$reset_color%} "
-#     # ssh接続時はホスト名表示
-#     [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
-#         PROMPT="%{$fg[red]%}[%{$reset_color%}%n/%{$fg_bold[red]%}NOR%{$reset_color%}%{$fg[red]%}]:${HOST%%.*}%#%{$reset_color%} "
-#     ;;
-
-#     main|viins)
-#     PROMPT="%{$fg[red]%}[%{$reset_color%}%n/%{$fg_bold[cyan]%}INS%{$reset_color%}%{$fg[red]%}]%#%{$reset_color%} "
-
-#     # ssh接続時はホスト名表示
-#     [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
-#         PROMPT="%{$fg[red]%}[%{$reset_color%}%n/%{$fg_bold[cyan]%}INS%{$reset_color%}%{$fg[red]%}]:${HOST%%.*}%#%{$reset_color%} "
-#     ;;
-
-#   esac
-#   zle reset-prompt
-# }
-# zle -N zle-line-init
-# zle -N zle-keymap-select
-
-
-
-# #zshでvisual mode####################################
-# bindkey -a 'v' vi-v
-# zle -N vi-v
-# function vi-v() {
-# 	VI_VIS_MODE=0
-# 	bindkey -a 'v' vi-vis-reset
-# 	bindkey -a '' vi-c-v
-# 	bindkey -a 'V' vi-V
-# 	MARK=$CURSOR
-# 	zle vi-vis-mode
-# }
-# #
-# bindkey -a '' vi-c-v
-# zle -N vi-c-v
-# function vi-c-v() {
-# 	VI_VIS_MODE=1
-# 	bindkey -a 'v' vi-v
-# 	bindkey -a '' vi-vis-reset
-# 	bindkey -a 'V' vi-V
-# 	MARK=$CURSOR
-# 	zle vi-vis-mode
-# }
-# #
-# bindkey -a 'V' vi-V
-# zle -N vi-V
-# function vi-V() {
-# 	VI_VIS_MODE=2
-# 	bindkey -a 'v' vi-v
-# 	bindkey -a '' vi-c-v
-# 	bindkey -a 'V' vi-vis-reset
-# 	CURSOR_V_START=$CURSOR
-# 	zle vi-end-of-line
-# 	MARK=$(($CURSOR - 1))
-# 	zle vi-digit-or-beginning-of-line
-# 	zle vi-vis-mode
-# }
-# #
-# ##########################################################
-# #
-# zle -N vi-vis-mode
-# function vi-vis-mode() {
-# 	zle exchange-point-and-mark
-# 	VI_VIS_CURSOR_MARK=1
-# #移動系コマンド
-# 	bindkey -a 'f' vi-vis-find
-# 	bindkey -a 'F' vi-vis-Find
-# 	bindkey -a 't' vi-vis-tskip
-# 	bindkey -a 'T' vi-vis-Tskip
-# 	bindkey -a ';' vi-vis-repeatfind
-# 	bindkey -a ',' vi-vis-repeatfindrev
-# 	bindkey -a 'w' vi-vis-word
-# 	bindkey -a 'W' vi-vis-Word
-# 	bindkey -a 'e' vi-vis-end
-# 	bindkey -a 'E' vi-vis-End
-# 	bindkey -a 'b' vi-vis-back
-# 	bindkey -a 'B' vi-vis-Back
-# 	bindkey -a 'h' vi-vis-hidari
-# 	bindkey -a 'l' vi-vis-leftdenai
-# 	bindkey -a '%' vi-vis-percent
-# 	bindkey -a '^' vi-vis-hat
-# 	bindkey -a '0' vi-vis-zero
-# 	bindkey -a '$' vi-vis-doller
-# #削除、コピーetc
-# 	bindkey -a 'd' vi-vis-delete
-# 	bindkey -a 'D' vi-vis-Delete
-# 	bindkey -a 'x' vi-vis-delete
-# 	bindkey -a 'X' vi-vis-Delete
-# 	bindkey -a 'y' vi-vis-yank
-# 	bindkey -a 'Y' vi-vis-Yank
-# 	bindkey -a 'c' vi-vis-change
-# 	bindkey -a 'C' vi-vis-Change
-# 	bindkey -a 'r' vi-vis-change
-# 	bindkey -a 'R' vi-vis-Change
-# 	bindkey -a 'p' vi-vis-paste
-# 	bindkey -a 'P' vi-vis-Paste
-# 	bindkey -a 'o' vi-vis-open
-# 	bindkey -a 'O' vi-vis-open
-# #インサートへ移行
-# 	bindkey -a 'a' vi-vis-add
-# 	bindkey -a 'A' vi-vis-Add
-# 	bindkey -a 'i' vi-vis-insert
-# 	bindkey -a 'I' vi-vis-Insert
-# #その他
-# 	bindkey -a 'u' vi-vis-undo
-# 	bindkey -a '.' vi-vis-repeat
-# 	bindkey -a '' vi-vis-reset
-# 	bindkey -a 's' vi-vis-reset
-# 	bindkey -a 'S' vi-vis-reset
-# }
-# zle -N vi-vis-key-reset
-# function vi-vis-key-reset() {
-# 	bindkey -M vicmd 'f' vi-find-next-char
-# 	bindkey -M vicmd 'F' vi-find-prev-char
-# 	bindkey -M vicmd 't' vi-find-next-char-skip
-# 	bindkey -M vicmd 'T' vi-find-prev-char-skip
-# 	bindkey -M vicmd ';' vi-repeat-find
-# 	bindkey -M vicmd ',' vi-rev-repeat-find
-# 	bindkey -M vicmd 'w' vi-forward-word
-# 	bindkey -M vicmd 'W' vi-forward-blank-word
-# 	bindkey -M vicmd 'e' vi-forward-word-end
-# 	bindkey -M vicmd 'E' vi-forward-blank-word-end
-# 	bindkey -M vicmd 'b' vi-backward-word
-# 	bindkey -M vicmd 'B' vi-backward-blank-word
-# 	bindkey -M vicmd 'h' vi-h-moto
-# 	bindkey -M vicmd 'l' vi-l-moto
-# 	bindkey -M vicmd '%' vi-match-bracket
-# 	bindkey -M vicmd '^' vi-first-non-blank
-# 	bindkey -M vicmd '0' vi-digit-or-beginning-of-line
-# 	bindkey -M vicmd '$' vi-end-of-line
-# 	bindkey -M vicmd 'd' vi-delete
-# 	bindkey -M vicmd 'D' vi-kill-eol
-# 	bindkey -M vicmd 'x' vi-delete-char
-# 	bindkey -M vicmd 'X' vi-backward-delete-char
-# 	bindkey -M vicmd 'y' vi-yank
-# 	bindkey -M vicmd 'Y' vi-yank-whole-line
-# 	bindkey -M vicmd 'c' vi-change
-# 	bindkey -M vicmd 'C' vi-change-eol
-# 	bindkey -M vicmd 'r' vi-replace-chars
-# 	bindkey -M vicmd 'R' vi-replace
-# 	bindkey -M vicmd 'p' vi-put-after
-# 	bindkey -M vicmd 'P' vi-put-before
-# 	bindkey -M vicmd 'o' vi-open-line-below
-# 	bindkey -M vicmd 'O' vi-open-line-above
-# 	bindkey -M vicmd 'a' vi-add-next
-# 	bindkey -M vicmd 'A' vi-add-eol
-# 	bindkey -M vicmd 'i' vi-insert
-# 	bindkey -M vicmd 'I' vi-insert-bol
-# 	bindkey -M vicmd 'u' vi-undo-change
-# 	bindkey -M vicmd '.' vi-repeat-change
-# 	bindkey -M vicmd 'v' vi-v
-# 	bindkey -M vicmd '' vi-c-v
-# 	bindkey -M vicmd 'V' vi-V
-# 	bindkey -M vicmd 's' vi-substitute
-# 	bindkey -M vicmd 'S' vi-change-whole-line
-# }
-# #
-# ##########################################################
-# #
-# zle -N vi-vis-cursor-shori_before
-# function vi-vis-cursor-shori_before() {
-# 	if [ $MARK -lt $(( $CURSOR + 1 )) ] ;then
-# 		VI_VIS_CURSOR_MARK=1
-# 	elif [ $MARK -eq $(( $CURSOR + 1 )) ] ;then
-# 		VI_VIS_CURSOR_MARK=0
-# 	else
-# 		VI_VIS_CURSOR_MARK=-1
-# 	fi
-# }
-# #
-# zle -N vi-vis-cursor-shori_after
-# function vi-vis-cursor-shori_after() {
-# 	if [ $MARK -lt $(( $CURSOR + 1 )) ] ;then
-# 		if [ ${VI_VIS_CURSOR_MARK} -eq 1 ] ;then
-# 			MARK=$MARK
-# 			CURSOR=$CURSOR
-# 			VI_VIS_CURSOR_MARK=1
-# 		elif [ ${VI_VIS_CURSOR_MARK} -eq 0 ] ;then
-# 			MARK=$(( $MARK - 1 ))
-# 			VI_VIS_CURSOR_MARK=1
-# 		else
-# 			MARK=$(( $MARK - 1 ))
-# 			CURSOR=$CURSOR
-# 			VI_VIS_CURSOR_MARK=1
-# 		fi
-# 	elif [ $MARK -eq $(( $CURSOR + 1 )) ] ;then
-# 		if [ ${VI_VIS_CURSOR_MARK} -eq 1 ] ;then
-# 			MARK=$(( $MARK + 1 ))
-# 			CURSOR=$CURSOR
-# 			VI_VIS_CURSOR_MARK=-1
-# 		elif [ ${VI_VIS_CURSOR_MARK} -eq 0 ] ;then
-# 			MARK=$MARK
-# 			CURSOR=$CURSOR
-# 			VI_VIS_CURSOR_MARK=-1
-# 		else
-# 			MARK=$(( $MARK - 1 ))
-# 			VI_VIS_CURSOR_MARK=+1
-# 		fi
-# 	else
-# 		if [ ${VI_VIS_CURSOR_MARK} -eq 1 ] ;then
-# 			MARK=$(( $MARK + 1 ))
-# 			CURSOR=$CURSOR
-# 			VI_VIS_CURSOR_MARK=-1
-# 		elif [ ${VI_VIS_CURSOR_MARK} -eq 0 ] ;then
-# 			MARK=$MARK
-# 			CURSOR=$CURSOR
-# 			VI_VIS_CURSOR_MARK=-1
-
-# 		else
-# 			MARK=$MARK
-# 			CURSOR=$CURSOR
-# 			VI_VIS_CURSOR_MARK=-1
-# 		fi
-# 	fi
-# }
-# #
-# zle -N vi-h-moto
-# function vi-h-moto() {
-# 	CURSOR=$(( $CURSOR - 1 ))
-# }
-# #
-# zle -N vi-l-moto
-# function vi-l-moto() {
-# 	CURSOR=$(( $CURSOR + 1 ))
-# }
-# #
-# ##########################################################
-# #
-# zle -N vi-vis-find
-# function vi-vis-find() {
-# 	zle vi-vis-cursor-shori_before
-# 	zle vi-find-next-char
-# 	zle vi-vis-cursor-shori_after
-# }
-# #
-# zle -N vi-vis-Find
-# function vi-vis-Find() {
-# 	zle vi-vis-cursor-shori_before
-# 	zle vi-find-prev-char
-# 	zle vi-vis-cursor-shori_after
-# }
-# #
-# zle -N vi-vis-tskip
-# function vi-vis-tskip() {
-# 	zle vi-vis-cursor-shori_before
-# 	zle vi-find-next-char-skip
-# 	zle vi-vis-cursor-shori_after
-# }
-# #
-# zle -N vi-vis-Tskip
-# function vi-vis-Tskip() {
-# 	zle vi-vis-cursor-shori_before
-# 	zle vi-find-prev-char-skip
-# 	zle vi-vis-cursor-shori_after
-# }
-# #
-# zle -N vi-vis-repeatfind
-# function vi-vis-repeatfind() {
-# 	zle vi-vis-cursor-shori_before
-# 	zle vi-repeat-find
-# 	zle vi-vis-cursor-shori_after
-# }
-# #
-# zle -N vi-vis-repeatfindrev
-# function vi-vis-repeatfindrev() {
-# 	zle vi-vis-cursor-shori_before
-# 	zle vi-rev-repeat-find
-# 	zle vi-vis-cursor-shori_after
-# }
-# #
-# zle -N vi-vis-word
-# function vi-vis-word() {
-# 	zle vi-vis-cursor-shori_before
-# 	zle vi-forward-word
-# 	zle vi-vis-cursor-shori_after
-# }
-# #
-# zle -N vi-vis-Word
-# function vi-vis-Word() {
-# 	zle vi-vis-cursor-shori_before
-# 	zle vi-forward-blank-word
-# 	zle vi-vis-cursor-shori_after
-# }
-# #
-# zle -N vi-vis-end
-# function vi-vis-end() {
-# 	zle vi-vis-cursor-shori_before
-# 	zle vi-forward-word-end
-# 	zle vi-vis-cursor-shori_after
-# }
-# #
-# zle -N vi-vis-End
-# function vi-vis-End() {
-# 	zle vi-vis-cursor-shori_before
-# 	zle vi-forward-blank-word-end
-# 	zle vi-vis-cursor-shori_after
-# }
-# #
-# zle -N vi-vis-back
-# function vi-vis-back() {
-# 	zle vi-vis-cursor-shori_before
-# 	zle vi-backward-word
-# 	zle vi-vis-cursor-shori_after
-# }
-# #
-# zle -N vi-vis-Back
-# function vi-vis-Back() {
-# 	zle vi-vis-cursor-shori_before
-# 	zle vi-backward-blank-word
-# 	zle vi-vis-cursor-shori_after
-# }
-# #
-# zle -N vi-vis-hidari
-# function vi-vis-hidari() {
-# 	zle vi-vis-cursor-shori_before
-# 	CURSOR=$(( $CURSOR - 1 ))
-# 	zle vi-vis-cursor-shori_after
-# }
-# #
-# zle -N vi-vis-leftdenai
-# function vi-vis-leftdenai() {
-# 	zle vi-vis-cursor-shori_before
-# 	CURSOR=$(( $CURSOR + 1 ))
-# 	zle vi-vis-cursor-shori_after
-# }
-# #
-# zle -N vi-vis-percent
-# function vi-vis-percent() {
-# 	zle vi-vis-cursor-shori_before
-# 	zle vi-match-bracket
-# 	zle vi-vis-cursor-shori_after
-# }
-# #
-# zle -N vi-vis-hat
-# function vi-vis-hat() {
-# 	zle vi-vis-cursor-shori_before
-# 	zle vi-first-non-blank
-# 	zle vi-vis-cursor-shori_after
-# }
-# #
-# zle -N vi-vis-zero
-# function vi-vis-zero() {
-# 	zle vi-vis-cursor-shori_before
-# 	zle vi-digit-or-beginning-of-line
-# 	zle vi-vis-cursor-shori_after
-# }
-# #
-# zle -N vi-vis-doller
-# function vi-vis-doller() {
-# 	zle vi-vis-cursor-shori_before
-# 	zle vi-end-of-line
-# 	zle vi-vis-cursor-shori_after
-# }
-# #
-# ##########################################################
-# #
-# zle -N vi-vis-delete
-# function vi-vis-delete() {
-# 	if [ $MARK -gt $(( $CURSOR + 1 )) ] ;then
-# 		CURSOR=$(( $CURSOR - 1 ))
-# 	fi
-# 	zle vi-vis-key-reset
-# 	CURSOR=$(($CURSOR + 1))
-# 	zle kill-region
-# }
-# #
-# zle -N vi-vis-Delete
-# function vi-vis-Delete() {
-# 	if [ $MARK -gt $(( $CURSOR + 1 )) ] ;then
-# 		CURSOR=$(( $CURSOR - 1 ))
-# 	fi
-# 	zle vi-vis-key-reset
-# 	CURSOR=$(($CURSOR + 1))
-# 	zle kill-buffer
-# }
-# #
-# zle -N vi-vis-yank
-# function vi-vis-yank() {
-# 	if [ $MARK -gt $(( $CURSOR + 1 )) ] ;then
-# 		CURSOR=$(( $CURSOR - 1 ))
-# 	fi
-# 	zle vi-vis-key-reset
-# 	CURSOR=$(($CURSOR + 1))
-# 	zle kill-region
-# 	zle vi-put-before
-# }
-# #
-# zle -N vi-vis-Yank
-# function vi-vis-Yank() {
-# 	if [ $MARK -gt $(( $CURSOR + 1 )) ] ;then
-# 		CURSOR=$(( $CURSOR - 1 ))
-# 	fi
-# 	zle vi-vis-key-reset
-# 	zle vi-yank-whole-line
-# }
-# #
-# zle -N vi-vis-change
-# function vi-vis-change() {
-# 	if [ $MARK -gt $(( $CURSOR + 1 )) ] ;then
-# 		CURSOR=$(( $CURSOR - 1 ))
-# 	fi
-# 	zle vi-vis-key-reset
-# 	CURSOR=$(($CURSOR + 1))
-# 	zle kill-region
-# 	zle vi-insert
-# }
-# #
-# zle -N vi-vis-Change
-# function vi-vis-Change() {
-# 	if [ $MARK -gt $(( $CURSOR + 1 )) ] ;then
-# 		CURSOR=$(( $CURSOR - 1 ))
-# 	fi
-# 	zle vi-vis-key-reset
-# 	zle kill-buffer
-# 	zle vi-insert
-# }
-# #
-# zle -N vi-vis-paste
-# function vi-vis-paste() {
-# 	if [ $MARK -gt $(( $CURSOR + 1 )) ] ;then
-# 		CURSOR=$(( $CURSOR - 1 ))
-# 	fi
-# 	zle vi-vis-key-reset
-# 	zle vi-put-after
-# }
-# #
-# zle -N vi-vis-Paste
-# function vi-vis-Paste() {
-# 	if [ $MARK -gt $(( $CURSOR + 1 )) ] ;then
-# 		CURSOR=$(( $CURSOR - 1 ))
-# 	fi
-# 	zle vi-vis-key-reset
-# 	zle vi-put-before
-# }
-# #
-# zle -N vi-vis-open
-# function vi-vis-open() {
-# 	CURSOR_MARK_TMP=$MARK
-# 	MARK=$(($CURSOR + 1))
-# 	CURSOR=$(( ${CURSOR_MARK_TMP} - 1))
-# 	if [ $MARK -lt $(( $CURSOR + 1 )) ] ;then
-# 		MARK=$(( $MARK - 1 ))
-# 	fi
-# 	if [ $MARK -gt $(( $CURSOR + 1 )) ] ;then
-# 		CURSOR=$(( $CURSOR + 1 ))
-# 	fi
-# }
-# #
-# ##########################################################
-# #
-# zle -N vi-vis-add
-# function vi-vis-add() {
-# 	if [ $MARK -gt $(( $CURSOR + 1 )) ] ;then
-# 		CURSOR=$(( $CURSOR - 1 ))
-# 	fi
-# 	zle vi-vis-key-reset
-# 	if [ $CURSOR -lt $MARK ] ;then
-# 		CURSOR=$(($CURSOR + 1))
-# 	fi
-# 	MARK=$(($CURSOR + 1))
-# 	zle vi-vis-key-reset
-# 	zle vi-add-next
-# }
-# #
-# zle -N vi-vis-Add
-# function vi-vis-Add() {
-# 	if [ $MARK -gt $(( $CURSOR + 1 )) ] ;then
-# 		CURSOR=$(( $CURSOR - 1 ))
-# 	fi
-# 	zle vi-vis-key-reset
-# 	zle vi-end-of-line
-# 	MARK=$(($CURSOR + 1))
-# 	zle vi-add-eol
-# }
-# #
-# zle -N vi-vis-insert
-# function vi-vis-insert() {
-# 	if [ $MARK -gt $(( $CURSOR + 1 )) ] ;then
-# 		CURSOR=$(( $CURSOR - 1 ))
-# 	fi
-# 	zle vi-vis-key-reset
-# 	if [ $CURSOR -lt $MARK ] ;then
-# 		CURSOR=$(($CURSOR + 1))
-# 	fi
-# 	MARK=$(($CURSOR + 1))
-# 	zle vi-vis-key-reset
-# 	zle vi-insert
-# }
-# #
-# zle -N vi-vis-Insert
-# function vi-vis-Insert() {
-# 	if [ $MARK -gt $(( $CURSOR + 1 )) ] ;then
-# 		CURSOR=$(( $CURSOR - 1 ))
-# 	fi
-# 	zle vi-vis-key-reset
-# 	zle vi-digit-or-beginning-of-line
-# 	MARK=$CURSOR
-# 	zle vi-insert-bol
-# }
-# #
-# ##########################################################
-# #
-# zle -N vi-vis-undo
-# function vi-vis-undo() {
-# 	if [ $MARK -gt $(( $CURSOR + 1 )) ] ;then
-# 		CURSOR=$(( $CURSOR - 1 ))
-# 	fi
-# 	zle vi-vis-key-reset
-# 	zle vi-undo-change
-# }
-# #
-# zle -N vi-vis-repeat
-# function vi-vis-repeat() {
-# 	if [ $MARK -gt $(( $CURSOR + 1 )) ] ;then
-# 		CURSOR=$(( $CURSOR - 1 ))
-# 	fi
-# 	zle vi-vis-key-reset
-# 	zle vi-repeat-change
-# }
-# #
-# zle -N vi-vis-reset
-# function vi-vis-reset() {
-# 	if [ $MARK -gt $(( $CURSOR + 1 )) ] ;then
-# 		CURSOR=$(( $CURSOR - 1 ))
-# 	fi
-# 	if [ ${VI_VIS_MODE} -eq 2 ] ;then
-# 		CURSOR=$CURSOR_V_START
-# 	fi
-# 	zle vi-vis-key-reset
-# 	zle vi-cmd-mode
-# }
-
-
-
-
-
 # 戦闘力
 function scouter() {
     sed -e '/^\s*$/d' -e '/^\s*#/d' ${ZDOTDIR:-$HOME}/.zshrc | wc -l
@@ -921,3 +314,16 @@ function scouter() {
 # starship.rs ###############################################
 eval "$(starship init zsh)"
 
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/kosei.yamamoto/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
+# bun completions
+[ -s "/Users/kosei.yamamoto/.bun/_bun" ] && source "/Users/kosei.yamamoto/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+alias claude-mem='/Users/kosei.yamamoto/.bun/bin/bun "/Users/kosei.yamamoto/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs"'
