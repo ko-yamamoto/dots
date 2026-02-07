@@ -54,6 +54,8 @@ return {
     --     end),
     --   }),
     -- },
+    -- 新しいウィンドウを開く
+    { key = "n", mods = "SUPER", action = act.SpawnWindow },
     -- コマンドパレット表示
     { key = "p", mods = "SUPER", action = act.ActivateCommandPalette },
 
