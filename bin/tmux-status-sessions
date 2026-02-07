@@ -27,7 +27,7 @@ while IFS= read -r session; do
   fi
 
   if [ "$session" = "$current_session" ]; then
-    output+="#[fg=yellow,bold]$icon $session_name#[nobold,fg=colour250] "
+    output+="#[fg=colour75,bold]$icon $session_name#[nobold,fg=colour250] "
   else
     output+="#[fg=colour250]$icon "
   fi
