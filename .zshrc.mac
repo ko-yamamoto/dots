@@ -1,6 +1,6 @@
 # alias #################################################
 alias ll='ls -lhG'
-alias la='ls -afhG'
+alias la='ls -alhG'
 
 # functions #############################################
 # cdしたらls
