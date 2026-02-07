@@ -1,6 +1,6 @@
 # path ##################################################
 # fpath=(/usr/local/share/zsh-completions $fpath)
-fpath=(/opt/homebrew/share/zsh-completions $fpath)
+# fpath=(/opt/homebrew/share/zsh-completions $fpath)
 # if type brew &>/dev/null
 # then
 #   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
@@ -13,12 +13,12 @@ fpath=(/opt/homebrew/share/zsh-completions $fpath)
 
 # alias #################################################
 # alias ls='ls -fgh'
-alias ll='ls -lh --color'
-alias la='ls -alfh --color'
+alias ll='ls -lhG'
+alias la='ls -afhG'
 
 # functions #############################################
 # cdしたらls
-function chpwd(){ls -G --color}
+function chpwd(){ls -G}
 
 # alias emacsclient='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -n'
 # alias ec='/usr/local/bin/emacsclient -n'

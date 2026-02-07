@@ -1,5 +1,7 @@
 UNAME=`uname`
 
+# PATH の重複を防ぐ
+typeset -U path PATH
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
