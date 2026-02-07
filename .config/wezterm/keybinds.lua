@@ -64,9 +64,9 @@ return {
     -- { key = "F3", mods = "NONE", action = act.ActivateTabRelative(-1) },
     -- { key = "F4", mods = "NONE", action = act.ActivateTabRelative(1) },
 
-    -- Tab移動
-    { key = "Tab", mods = "CTRL", action = act.ActivateTabRelative(1) },
-    { key = "Tab", mods = "SHIFT|CTRL", action = act.ActivateTabRelative(-1) },
+    -- [tmux一本化] Ctrl+TabをtmuxのウィンドウHに透過送信
+    { key = "Tab", mods = "CTRL", action = act.SendKey({ key = "Tab", mods = "CTRL" }) },
+    { key = "Tab", mods = "SHIFT|CTRL", action = act.SendKey({ key = "Tab", mods = "SHIFT|CTRL" }) },
     -- [tmux一本化] Tab入れ替えはtmuxのウィンドウ操作に一本化
     -- { key = "{", mods = "LEADER", action = act({ MoveTabRelative = -1 }) },
     -- Tab新規作成（ホームディレクトリからスタート）
