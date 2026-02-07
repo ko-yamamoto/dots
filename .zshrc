@@ -297,6 +297,7 @@ source /opt/homebrew/share/zsh-abbr/zsh-abbr.zsh
 # fzf
 # brew install fzf
 # /usr/local/opt/fzf/install
+source <(fzf --zsh)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 bindkey '^[t' fzf-file-widget
@@ -343,7 +344,7 @@ fzf-branch() {
   fi
 }
 zle -N fzf-branch
-bindkey '^[b' fzf-branch
+bindkey '^[gb' fzf-branch
 
 # PR 選択して switch する
 # brew install gh
@@ -357,7 +358,7 @@ fzf-pullreq() {
   zle clear-screen
 }
 zle -N fzf-pullreq
-bindkey '^[p' fzf-pullreq
+bindkey '^[gp' fzf-pullreq
 
 # brew install zsh-autosuggestions
 # source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
