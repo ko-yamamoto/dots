@@ -70,6 +70,22 @@ select_icon() {
 󰌾 : lock
 󱐋 : lightning
 󰭹 : chat
+󰘚 : chip
+󰍹 : monitor
+󰐥 : power
+󰓅 : speedometer
+ : brain
+󰍉 : search
+ : flask
+ : bulb
+ : book
+󰓾 : target
+ : flag
+ : bell
+ : trophy
+ : hammer
+ : wrench
+ : pencil
 EOF
 )
   if [ -n "$selected" ]; then
