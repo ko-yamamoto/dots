@@ -296,7 +296,8 @@ function scouter() {
     sed -e '/^\s*$/d' -e '/^\s*#/d' ${ZDOTDIR:-$HOME}/.zshrc | wc -l
 }
 
-
+# tmux
+alias tmux='tmux new-session -A -s "󰋜 Home"'
 
 # starship.rs: キャッシュによる高速初期化
 _starship_cache="${XDG_CACHE_HOME:-$HOME/.cache}/starship-init.zsh"
