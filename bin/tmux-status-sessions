@@ -3,9 +3,7 @@
 export LC_ALL=en_US.UTF-8
 
 current_session=$(tmux display-message -p '#{session_name}')
-bg="#1e2126"
-
-output="#[bg=$bg]"
+output=""
 
 # セッション一覧を整形してソート
 sessions=$(tmux list-sessions -F '#{session_name}' 2>/dev/null | while read -r s; do
