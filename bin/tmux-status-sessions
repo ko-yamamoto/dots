@@ -2,7 +2,7 @@
 # tmux の status-left から呼ばれるため、cut -c が文字単位で動作するよう locale を明示
 export LC_ALL=en_US.UTF-8
 
-current_session=$(tmux display-message -p '#{session_name}')
+current_session="$1"
 output=""
 
 # セッション一覧を整形してソート
